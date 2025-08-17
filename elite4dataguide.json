@@ -1,0 +1,16 @@
+{
+  type: "main",
+  player:" ",
+  variations: [
+    {
+      type:"step",
+      name: " ",
+      steps: [
+        {
+          type: "main",
+          player: " ",
+        },
+      ],
+    },
+  ],
+},
