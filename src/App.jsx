@@ -15,7 +15,7 @@ import { pokemonData } from "./data/pokemonData";
 
 function App() {
   const teamLinks = {
-    "Team 1": "https://pokepast.es/a3bee7499d07b81e",
+    "Team 1": "https://pokepast.es/c463b3ad2c4e4d41",
     "Team 2": "https://pokepast.es/581535bd31234626",
     "Team 3": "https://pokepast.es/a55cff69c1e1019d",
     "Team 4": "https://pokepast.es/0a1b6cd8b30b98d7",
