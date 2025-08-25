@@ -335,7 +335,11 @@ function App() {
                   onClick={() => handleTeamClick(teamName)}
                 >
                   {teamLinks[teamName] ? (
-                    <a href={teamLinks[teamName]}>
+                    <a
+                      href={teamLinks[teamName]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <p>{teamName}</p>
                     </a>
                   ) : (
