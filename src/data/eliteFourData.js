@@ -8,7 +8,9 @@ import blueImage from "../assets/elite4/BluLGPE.png";
 // Importa le immagini dei membri degli Superquattro di Johto dalla cartella assets
 import willImage from "../assets/elite4/WillHGSS.png";
 import kogaImage from "../assets/elite4/KogaLGPE.png";
+// Riutilizza lo stesso di Kanto per Bruno di Johto
 import karenImage from "../assets/elite4/KarenHGSS.png";
+// Riutilizza lo stesso di Kanto per Lance di Johto
 
 // Importa le immagini dei membri degli Superquattro di Hoenn dalla cartella assets
 import sidneyImage from "../assets/elite4/SidneyROZA.png";
@@ -67,7 +69,7 @@ export const eliteFourMembers = [
             {
               type: "main", // Modificato il tipo per la strategia principale
               player:
-                "🪨 Use Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 give X Speed",
+                "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
               variations: [
                 {
                   type: "step",
@@ -75,9 +77,9 @@ export const eliteFourMembers = [
                   steps: [
                     // Le variazioni ora contengono un array di step
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🔄 switch to 🥚 Blissey 🔁 use Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 give X Speed",
+                        "🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                     },
                   ],
                 },
@@ -94,27 +96,28 @@ export const eliteFourMembers = [
                   name: "💥 Earthquake", // Nome della variazione
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🔄 switch to ⛏️ Excadrill 🪨 use Stealth Rock 💪 use 3x Swords Dance 🧪 give X Speed",
+                        "🔄 switch to 🐹 Excadrill 📌 Stealth Rock ⚔️ use 3x Swords Dance 🧪 X Speed",
                     },
                   ],
                 },
                 {
+                  type: "step",
                   name: "💥 Gyro Ball", // Nome della variazione
                   steps: [
                     {
                       type: "main",
-                      player: "🔄 switch to 🥊 Poliwrath",
+                      player: "🔄 switch to 🐸 Poliwrath",
                       variations: [
                         {
                           type: "step",
                           name: "🔄 Bronzong switches to Lapras",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "💪 use Belly Drum 🛡️ tank Golduck ☠️ Toxic 💥 Ice Punch Vileplume",
+                                "🥁 Belly Drum 🛡️ tank Golduck ☠️ Toxic 💥 Ice Punch Vileplume",
                             },
                           ],
                         },
@@ -123,7 +126,7 @@ export const eliteFourMembers = [
                           steps: [
                             {
                               type: "main",
-                              player: "🔄 switch to 🥚 Blissey 🔁 use Trick",
+                              player: "🔄 switch to 🥚 Blissey 🔁 Trick",
                               variations: [
                                 {
                                   type: "step",
@@ -132,7 +135,7 @@ export const eliteFourMembers = [
                                     {
                                       type: "main",
                                       player: [
-                                        "🔄 switch to ⛏️ Excadrill 💪 use 2x Sword Dance",
+                                        "🔄 switch to 🐹 Excadrill ⚔️ use 2x Swords Dance",
                                       ],
                                       variations: [
                                         {
@@ -140,9 +143,9 @@ export const eliteFourMembers = [
                                           name: "🔄 Vileplume switches to Dewgong",
                                           steps: [
                                             {
-                                              type: "step",
+                                              type: "main",
                                               player:
-                                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum (❓ if Golduck switches in 🛡️ tank ☠️ Toxic) 💥 use Drain Punch 💥 Ice Punch Vileplume",
+                                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum (❓ if Golduck switches in 🛡️ tank ☠️ Toxic) 💥 use Drain Punch 💥 Ice Punch Vileplume",
                                             },
                                           ],
                                         },
@@ -151,9 +154,9 @@ export const eliteFourMembers = [
                                           name: "🔄 Vileplume switches to Lapras",
                                           steps: [
                                             {
-                                              type: "step",
+                                              type: "main",
                                               player:
-                                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum (❓ if Golduck switches in 🛡️ tank ☠️ Toxic) 💥 use Drain Punch 💥 Ice Punch Vileplume",
+                                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum (❓ if Golduck switches in 🛡️ tank ☠️ Toxic) 💥 use Drain Punch 💥 Ice Punch Vileplume",
                                             },
                                           ],
                                         },
@@ -165,9 +168,9 @@ export const eliteFourMembers = [
                                   name: "🔄 Vileplume switches to Dewgong",
                                   steps: [
                                     {
-                                      type: "step",
+                                      type: "main",
                                       player:
-                                        "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum (❓ if Golduck switches in 🛡️ tank ☠️ Toxic) 💥 use Drain Punch 💥 Ice Punch Vileplume",
+                                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum (❓ if Golduck switches in 🛡️ tank ☠️ Toxic) 💥 use Drain Punch 💥 Ice Punch Vileplume",
                                     },
                                   ],
                                 },
@@ -180,21 +183,22 @@ export const eliteFourMembers = [
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Chansey", // Nome della variazione
                   steps: [
                     {
                       type: "main",
                       player:
-                        "🔄 Switch to 🕯️ Chandelure 🧠 use 5x Calm Mind 🧪 give X Speed",
+                        "🔄 Switch to 🕯️ Chandelure 🧠 use 5x Calm Mind 🧪 X Speed",
                       variations: [
                         {
                           type: "step",
                           name: "🔄 Chansey switches to Mantine",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🤖 Metagross 🔁 use Trick 🔄 switch to ⛏️ Excadrill 🪨 use Stealth Rock 💪 use 3x Swords Dance 🧪 give X Speed",
+                                "🔄 switch to 🤖 Metagross 🔁 Trick 🔄 switch to 🐹 Excadrill 📌 Stealth Rock ⚔️ use 3x Swords Dance 🧪 X Speed",
                             },
                           ],
                         },
@@ -203,36 +207,40 @@ export const eliteFourMembers = [
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Dragonite", // Nome della variazione
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🪨 use Stealth Rock 🔄 switch to 🥚 Blissey 🔁 use Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 give X Speed",
+                        "📌 Stealth Rock 🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                     },
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Golduck", // Nome della variazione
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                     },
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Hariyama", // Nome della variazione
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 give X Speed",
+                        "🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
                     },
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Lapras", // Nome della variazione
                   steps: [
                     {
@@ -244,16 +252,16 @@ export const eliteFourMembers = [
                             {
                               type: "main",
                               player:
-                                "🔄 switch to ⛏️ Excadrill 💪 use 2x Swords Dance",
+                                "🔄 switch to 🐹 Excadrill ⚔️ use 2x Swords Dance",
                               variations: [
                                 {
                                   type: "step",
                                   name: "Lapras uses 💥 Waterfall",
                                   steps: [
                                     {
-                                      type: "step",
+                                      type: "main",
                                       player:
-                                        "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                                     },
                                   ],
                                 },
@@ -268,16 +276,16 @@ export const eliteFourMembers = [
                             {
                               type: "main",
                               player:
-                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                               variations: [
                                 {
                                   type: "step",
                                   name: "🔄 Lapras switches to Hariyama",
                                   steps: [
                                     {
-                                      type: "step",
+                                      type: "main",
                                       player:
-                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to the 2nd 🤖 Metagross 🔁 use Trick 🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 give X Speed",
+                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to the 2nd 🤖 Metagross 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
                                     },
                                   ],
                                 },
@@ -290,21 +298,22 @@ export const eliteFourMembers = [
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Nidoking", // Nome della variazione
                   steps: [
                     {
                       type: "main",
                       player:
-                        "🔄 switch to ⛏️ Excadrill 💪 use 2x Swords Dance 🧪 give X Speed",
+                        "🔄 switch to 🐹 Excadrill ⚔️ use 2x Swords Dance 🧪 X Speed",
                       variations: [
                         {
                           type: "step",
                           name: "🔄 Nidoking switches to Lapras",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                             },
                           ],
                         },
@@ -313,19 +322,20 @@ export const eliteFourMembers = [
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Slowbro", // Nome della variazione
                   steps: [
                     {
                       type: "main",
-                      player: "🪨 use Stealth Rock 🔄 switch to 🕯️ Chandelure",
+                      player: "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure",
                       variations: [
                         {
                           type: "step",
                           name: "✔️ Slowbro stays",
                           steps: [
                             {
-                              type: "step",
-                              player: "🧠 use 3x Calm Mind 🧪 give X Speed",
+                              type: "main",
+                              player: "🧠 use 3x Calm Mind 🧪 X Speed",
                             },
                           ],
                         },
@@ -334,9 +344,9 @@ export const eliteFourMembers = [
                           name: "🔄 Slowbro switches to Dragonite",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🤖 Metagross 🔁 use Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 give X Speed",
+                                "🔄 switch to 🤖 Metagross 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                             },
                           ],
                         },
@@ -345,12 +355,13 @@ export const eliteFourMembers = [
                   ],
                 },
                 {
+                  type: "step",
                   name: "🔄 Vileplume", // Nome della variazione
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🔄 switch to 🕯️ Chandelure 🧠 6x Calm Mind 🧪 give X Speed",
+                        "🔄 switch to 🕯️ Chandelure 🧠 use 6x Calm Mind 🧪 X Speed",
                     },
                   ],
                 },
@@ -359,16 +370,16 @@ export const eliteFourMembers = [
           ],
           Chansey: [
             {
-              type: "step",
+              type: "main",
               player:
-                "🔁 Trick 🪨 use Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 4x Calm Mind 🧪 give X Speed",
+                "🔁 Trick 📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
             },
           ],
           Claydol: [
             {
-              type: "step",
+              type: "main",
               player:
-                "🪨 Use Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
             },
           ],
           Dragonite: [
@@ -387,9 +398,9 @@ export const eliteFourMembers = [
                           name: "💥 Flamethrower",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                             },
                           ],
                         },
@@ -398,9 +409,9 @@ export const eliteFourMembers = [
                           name: "💥 Fire Punch",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🪨 use Stealth Rock 🔄 switch to 🥚 Blissey use 🔁 Trick 🔄 Switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                                "📌 Stealth Rock 🔄 switch to 🥚 Blissey use 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                             },
                           ],
                         },
@@ -413,9 +424,9 @@ export const eliteFourMembers = [
                   name: "you get 🍽️ Leftovers",
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🪨 use Stealth Rock 🔄 switch to 🥚 Blissey use 🔁 Trick 🔄 Switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                        "📌 Stealth Rock 🔄 switch to 🥚 Blissey use 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                     },
                   ],
                 },
@@ -424,9 +435,9 @@ export const eliteFourMembers = [
           ],
           Exeggutor: [
             {
-              type: "step",
+              type: "main",
               player:
-                "🔁 Trick 🪨 use Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                "🔁 Trick 📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
             },
           ],
           Golduck: [
@@ -440,16 +451,16 @@ export const eliteFourMembers = [
                   steps: [
                     {
                       type: "main",
-                      player: "🔁 switch to 🥚 Blissey 🪨 use Stealth Rock",
+                      player: "🔁 switch to 🥚 Blissey 📌 Stealth Rock",
                       variations: [
                         {
                           type: "step",
                           name: "🔄 Golduck switches to Exeggutor",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🕯️ Chandelure 🔄 switch to 2nd 🤖 Metagross 🔁 use Trick 🔄 go back to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                                "🔄 switch to 🕯️ Chandelure 🔄 switch to 2nd 🤖 Metagross 🔁 Trick 🔄 go back to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                             },
                           ],
                         },
@@ -458,9 +469,9 @@ export const eliteFourMembers = [
                           name: "🔄 Golduck switches to Lapras",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                             },
                           ],
                         },
@@ -473,9 +484,9 @@ export const eliteFourMembers = [
                   name: "🔄 Exeggutor",
                   steps: [
                     {
-                      type: "step",
+                      type: "main",
                       player:
-                        "🪨 use Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                        "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                     },
                   ],
                 },
@@ -485,16 +496,16 @@ export const eliteFourMembers = [
                   steps: [
                     {
                       type: "main",
-                      player: "🪨 use Stealth Rock",
+                      player: "📌 Stealth Rock",
                       variations: [
                         {
                           type: "step",
                           name: "💥 Aqua Tail",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                             },
                           ],
                         },
@@ -503,9 +514,9 @@ export const eliteFourMembers = [
                           name: "💥 Drill Run",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                                "🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                             },
                           ],
                         },
@@ -518,16 +529,16 @@ export const eliteFourMembers = [
           ],
           Hariyama: [
             {
-              type: "step",
+              type: "main",
               player:
-                "🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 4x Calm Mind 🧪 give X Speed",
+                "🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
             },
           ],
           Jynx: [
             {
-              type: "step",
+              type: "main",
               player:
-                "🔄 Switch to 🕯️ Chandelure 🧠 4x Calm Mind 🧪 give X Speed",
+                "🔄 Switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
             },
           ],
           Lapras: [
@@ -542,7 +553,7 @@ export const eliteFourMembers = [
                     {
                       type: "main",
                       player:
-                        "🔄 switch to ⛏️ Excadrill 🪨 use Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                        "🔄 switch to 🐹 Excadrill 📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                       variations: [
                         {
                           type: "step",
@@ -557,9 +568,9 @@ export const eliteFourMembers = [
                                   name: "🔄 Mantine switches to Exeggutor",
                                   steps: [
                                     {
-                                      type: "step",
+                                      type: "main",
                                       player:
-                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to 🤖 Metagross 🔁 use Trick 🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to 🤖 Metagross 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                                     },
                                   ],
                                 },
@@ -570,16 +581,16 @@ export const eliteFourMembers = [
                                     {
                                       type: "main",
                                       player:
-                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to 🥚 Blissey 🔁 use Trick 🔄 switch to 🕯️ Chandelure 🧠 3x Calm Mind 🧪 give X Speed",
+                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
                                       variations: [
                                         {
                                           type: "step",
                                           name: "🔄 Golduck switches to Lapras",
                                           steps: [
                                             {
-                                              type: "step",
+                                              type: "main",
                                               player:
-                                                "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                                             },
                                           ],
                                         },
@@ -592,9 +603,9 @@ export const eliteFourMembers = [
                                   name: "🔄 Mantine switches to Lapras",
                                   steps: [
                                     {
-                                      type: "step",
+                                      type: "main",
                                       player:
-                                        "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                                     },
                                   ],
                                 },
@@ -617,9 +628,22 @@ export const eliteFourMembers = [
                           name: "you get 👓 Choice Specs",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 2nd 🤖 Metagross 🔁 use Trick 🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "📌 Stealth Rock 🔄 switch to 🐸 Poliwrath 🧪 X Speed 🥁 Belly Drum",
+                              variations: [
+                                {
+                                  type: "step",
+                                  name: "🔄 Lapras switches to Dragonite",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 2nd 🤖 Metagross 🔁 Trick 🔄 switch to 🐸 Poliwrath 🧪 X Speed 🥁 Belly Drum",
+                                    },
+                                  ],
+                                },
+                              ],
                             },
                           ],
                         },
@@ -628,9 +652,9 @@ export const eliteFourMembers = [
                           name: "you get 🔮 Life Orb",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 2nd 🤖 Metagross 🔁 use Trick 🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 5x Calm Mind 🧪 X Speed",
                             },
                           ],
                         },
@@ -645,16 +669,16 @@ export const eliteFourMembers = [
                     {
                       type: "main",
                       player:
-                        "🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                       variations: [
                         {
                           type: "step",
                           name: "🔄 Lapras switches to Dragonite",
                           steps: [
                             {
-                              type: "step",
+                              type: "main",
                               player:
-                                "🔄 switch to 2nd 🤖 Metagross 🔁 use Trick 🔄 switch to 🥊 Poliwrath 💪 use Belly Drum 🧪 give X Speed",
+                                "🔄 switch to 2nd 🤖 Metagross 🔁 Trick 🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
                             },
                           ],
                         },
@@ -665,38 +689,317 @@ export const eliteFourMembers = [
                 {
                   type: "step",
                   name: "🔄 Chansey",
-                  steps: [{ type: "main", player: "" }],
+                  steps: [
+                    {
+                      type: "main",
+                      player: "📌 Stealth Rock",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "✔️ Chansey stays",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
+                              variations: [
+                                {
+                                  type: "step",
+                                  name: "🔄 Chansey switches to Mantine",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 🥚 Blissey 🔄 switch to 2nd 🤖 Metagross 🔁 Trick",
+                                      variations: [
+                                        {
+                                          type: "step",
+                                          name: "💥 Earthquake",
+                                          steps: [
+                                            {
+                                              type: "main",
+                                              player:
+                                                "🔄 switch to 🐹 Excadrill ⚔️ use 3x Swords Dance 🧪 X Speed",
+                                            },
+                                          ],
+                                        },
+                                        {
+                                          type: "step",
+                                          name: "🔄 Mantine switches to Chansey",
+                                          steps: [
+                                            {
+                                              type: "main",
+                                              player:
+                                                "🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
+                                            },
+                                          ],
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "🔄 Chansey switches to Vileplume",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to 🕯️ Chandelure 🔄 switch to 2nd 🤖 Metagross 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 6x Calm Mind 🧪 X Speed",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
                 },
                 {
                   type: "step",
                   name: "🔄 Claydol",
-                  steps: [{ type: "main", player: "" }],
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                    },
+                  ],
                 },
                 {
                   type: "step",
                   name: "🔄 Dragonite",
-                  steps: [{ type: "main", player: "" }],
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to 🐸 Poliwrath 🧪 X Speed 🥁 Belly Drum",
+                    },
+                  ],
                 },
                 {
                   type: "step",
                   name: "🔄 Exegutor",
-                  steps: [{ type: "main", player: "" }],
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                    },
+                  ],
                 },
                 {
                   type: "step",
                   name: "🔄 Hariyama",
-                  steps: [{ type: "main", player: "" }],
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "🔄 Hariyama switches to Lapras",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed ",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
                 },
                 {
                   type: "step",
                   name: "🔄 Togekiss",
-                  steps: [{ type: "main", player: "" }],
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 4x Calm Mind 🧪 X Speed",
+                    },
+                  ],
                 },
               ],
             },
           ],
-          Lucario: [],
-          Magnezone: [],
+          Lucario: [
+            {
+              type: "main",
+              player: "🔁 Trick",
+              variations: [
+                {
+                  type: "step",
+                  name: "you get 🩹 Focus Sash",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to 🕯️ Chandelure 🧠 use 5x Calm Mind 🧪 X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "you get 🔮 Life Orb",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Lucario switches to Claydol",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Lucario switches to Dragonite",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "📌 Stealth Rock 🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                    },
+                    {
+                      type: "main",
+                      player:
+                        "⚠️🔥 Burning Risk 🔥⚠️ : switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          Magnezone: [
+            {
+              type: "main",
+              player: "🔄 Switch to 🥚 Blissey 🔄 switch to 🤖 Metagross",
+              variations: [
+                {
+                  type: "step",
+                  name: "🔄 Magnezone switches to Golduck",
+                  steps: [
+                    {
+                      type: "main",
+                      player: "🔁 Trick",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "✔️ Magnezone stays",
+                          steps: [
+                            {
+                              type: "main",
+                              player: "🔄 switch to 🥚 Blissey 📌 Stealth Rock",
+                              variations: [
+                                {
+                                  type: "step",
+                                  name: "🔄 Magnezone switches to Exeggutor",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to the 2nd 🤖 Metagross 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: "step",
+                                  name: "🔄 Magnezone switches to Lapras",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "🔄 Golduck switches to Exeggutor",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "🔄 Golduck switches to Lapras",
+                          steps: [
+                            {
+                              type: "main",
+                              player: "📌 Stealth Rock",
+                              variations: [
+                                {
+                                  type: "step",
+                                  name: "💥 Drill Run",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: "step",
+                                  name: "💥 Waterfall",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: "step",
+                                  name: "🔄 Lapras switches to Exeggutor",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to 🕯️ Chandelure 🔄 switch to 🤖 Metagross 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "main",
+              player:
+                "⚠️ Experimental ⚠️ : 🔁 Trick 🔄 switch to 🐹 Excadrill ⚔️ use 3x Swords Dance 🧪 X Speed",
+            },
+          ],
           Mantine: [],
           Nidoking: [],
           Nidoqueen: [],
@@ -708,22 +1011,195 @@ export const eliteFourMembers = [
       },
       "Team 2": {
         // Placeholder per il Team 2
-        pokemonNames: [],
-        pokemonStrategies: {},
+        pokemonNames: [
+          "Articuno",
+          "Bronzong",
+          "Chansey",
+          "Claydol",
+          "Dragonite",
+          "Exeggutor",
+          "Golduck",
+          "Hariyama",
+          "Lapras",
+          "Lucario",
+          "Magnezone",
+          "Mantine",
+          "Nidoking",
+          "Nidoqueen",
+          "Raichu",
+          "Slowbro",
+          "Togekiss",
+          "Vileplume",
+          "Weavile",
+        ].sort(),
+        pokemonStrategies: {
+          Articuno: [
+            {
+              type: "main",
+              player: "🔁 Trick",
+              variations: [
+                {
+                  type: "step",
+                  name: "🔄 Magnezone",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 💥 Earthquake 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoking",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 🔄 swap to 🐚 Cloyster 🦀 Shell Smash",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          Bronzong: [],
+          Chansey: [],
+          Claydol: [],
+          Dragonite: [],
+          Exeggutor: [],
+          Golduck: [
+            {
+              type: "main",
+              player: "🔁 Trick",
+              variations: [
+                {
+                  type: "step",
+                  name: "🔄 Magnezone",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 💥 Earthquake 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoking",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 🔄 swap to 🐚 Cloyster 🦀 Shell Smash",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          Hariyama: [],
+          Lapras: [],
+          Lucario: [],
+          Magnezone: [
+            {
+              type: "main",
+              player:
+                "📌 Stealth Rock 🔄 swap to 🐹 Excadrill 💥 Earthquake 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+            },
+          ],
+          Mantine: [
+            {
+              type: "main",
+              player: "💥 Thunder Punch until Mantine dies or switches",
+              variations: [
+                {
+                  type: "step",
+                  name: "🔄 Chansey",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 swap to 🦎 Scrafty 🐉 Dragon Dance 💊 give Energy Root 🐉 Dragon Dance 💥 Beat Up Vileplume and Bronzong",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "Nidoking",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 swap to 🐹 Excadrill 🔄 swap to 🕯️ Chandelure 🔁 Trick 🔄 swap to 🐹 Excadrill 📌 Stealth Rock ⚔️ use 3x Swords Dance",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Magnezone",
+                  steps: [
+                    {
+                      type: "main",
+                      player: "🔄 swap to 🐹 Excadrill 💥 Earthquake",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "🔄 Lapras",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "📌 Stealth Rock 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 give 2x X Speed",
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "🔄 Mantine",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 swap to 🕯️ Chandelure 🔁 Trick 🔄 swap to 🦎 Scrafty 🧪 give 2x Sp Def 🐉 use 2x Dragon Dance",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoking",
+                },
+              ],
+            },
+          ],
+          Nidoking: [],
+          Nidoqueen: [],
+          Raichu: [],
+          Slowbro: [],
+          Togekiss: [],
+          Vileplume: [],
+          Weavile: [],
+        },
       },
       "Team 3": {
         // Placeholder per il Team 3
-        pokemonNames: [],
+        pokemonNames: [].sort(),
         pokemonStrategies: {},
       },
       "Team 4": {
         // Placeholder per il Team 4
-        pokemonNames: [],
+        pokemonNames: [].sort(),
         pokemonStrategies: {},
       },
       "Team 5": {
         // Placeholder per il Team 5
-        pokemonNames: [],
+        pokemonNames: [].sort(),
         pokemonStrategies: {},
       },
     },
@@ -764,10 +1240,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -803,10 +1279,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -843,16 +1319,16 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
     name: "Blue",
     region: "Kanto",
-    type: "Astrale",
+    type: "Vario",
     image: blueImage,
     pokemonCardCount: 29,
     teams: {
@@ -890,10 +1366,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
 
@@ -937,10 +1413,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -990,10 +1466,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1035,10 +1511,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1082,10 +1558,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1124,10 +1600,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
 
@@ -1172,10 +1648,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1211,10 +1687,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1247,10 +1723,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1286,10 +1762,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1326,10 +1802,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
 
@@ -1372,10 +1848,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1417,10 +1893,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1462,10 +1938,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1502,16 +1978,16 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
     name: "Cynthia",
     region: "Sinnoh",
-    type: "Astrale",
+    type: "Vario",
     image: cynthiaImage,
     pokemonCardCount: 29,
     teams: {
@@ -1550,10 +2026,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
 
@@ -1593,10 +2069,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1635,10 +2111,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1682,10 +2158,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
@@ -1726,16 +2202,16 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
   {
     name: "Alder",
     region: "Unova",
-    type: "Astrale",
+    type: "Vario",
     image: alderImage,
     pokemonCardCount: 24,
     teams: {
@@ -1768,10 +2244,10 @@ export const eliteFourMembers = [
         ].sort(),
         pokemonStrategies: {},
       },
-      "Team 2": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 3": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 4": { pokemonNames: [], pokemonStrategies: {} },
-      "Team 5": { pokemonNames: [], pokemonStrategies: {} },
+      "Team 2": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 3": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 4": { pokemonNames: [].sort(), pokemonStrategies: {} },
+      "Team 5": { pokemonNames: [].sort(), pokemonStrategies: {} },
     },
   },
 ];

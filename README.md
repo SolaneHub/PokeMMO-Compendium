@@ -30,11 +30,13 @@ Walk step-by-step with tips, strategies, and suggested teams for each Pokémon L
 ### 🐾 Pokémon Icons
 | Emoji | Meaning |
 |-------|---------|
-| 🤖 | Metagross (Steel/Psychic) |
-| 🥚 | Blissey (egg-shaped) |
-| 🕯️ | Chandelure (candle chandelier ghost) |
-| 🥊 | Poliwrath (fighting stance) |
-| ⛏️ | Excadrill (drill mole) |
+| 🥚 | Blissey |
+| 🕯️ | Chandelure |
+| 🐚 | Cloyster |
+| 🐹 | Excadrill |
+| 🤖 | Metagross |
+| 🐸 | Poliwrath |
+| 🦎 | Scrafty |
 
 ### 📜 Move Categories
 
@@ -53,14 +55,16 @@ Walk step-by-step with tips, strategies, and suggested teams for each Pokémon L
 #### 🔹 Field / Hazards
 | Emoji | Meaning |
 |-------|---------|
-| 🪨 | Hazards & Traps (Stealth Rock, Spikes, Sticky Web) |
-| 🌪️ | Weather / Field Conditions (Rain, Sun, Sandstorm) |
+| 📌 | Stealth Rock |
 
 #### 🔹 Buffs & Setup
 | Emoji | Meaning |
 |-------|---------|
-| 💪 | Physical Boost (Swords Dance, Bulk Up) |
-| 🧠 | Special/Mixed Boost (Calm Mind, Nasty Plot) |
+| 🥁 | Belly Drum |
+| 🧠 | Calm Mind |
+| 🐉 | Dragon Dance |
+| 🦀 | Shell Smash |
+| ⚔️ | Swords Dance |
 
 #### 🔹 Utility
 | Emoji | Meaning |
@@ -71,6 +75,7 @@ Walk step-by-step with tips, strategies, and suggested teams for each Pokémon L
 | Emoji | Meaning |
 |-------|---------|
 | 👓 | Choice Specs |
+| 🩹 | Focus Sash |
 | 🍽️ | Leftovers |
 | 🔮 | Life Orb |
 | 🥋 | Expert Belt |

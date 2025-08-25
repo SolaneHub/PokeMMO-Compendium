@@ -17,7 +17,7 @@ export const typeBackgrounds = {
   Drago: "linear-gradient(to right, #909CFF, #5060E1)",
   Buio: "linear-gradient(to right, #747474, #50413F)",
   Folletto: "linear-gradient(to right, #FFCDFF, #EF70EF)",
-  Astrale:
+  Vario:
     "linear-gradient(to right, #FF0000, #FF7F00, #F9CB00, #00CE00, #0000FF, #4B0082, #9400D3)",
 
   "": "linear-gradient(to right, #cccccc, #999999)",
@@ -71,11 +71,11 @@ export const generateDualTypeGradient = (type1, type2) => {
     );
   }
 
-  if (type1 === "Astrale") {
-    return typeBackgrounds["Astrale"];
+  if (type1 === "Vario") {
+    return typeBackgrounds["Vario"];
   }
-  if (type2 === "Astrale") {
-    return typeBackgrounds["Astrale"];
+  if (type2 === "Vario") {
+    return typeBackgrounds["Vario"];
   }
 
   if (colors1.length >= 2 && colors2.length >= 2) {
