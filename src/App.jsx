@@ -13,26 +13,125 @@ import {
 } from "./data/pokemonColors";
 import { pokemonData } from "./data/pokemonData";
 
+// Image caching utility optimized for pokemonImages.js structure
+const imageCache = {
+  memoryCache: new Map(),
+  STORAGE_KEY: "pokedex_image_cache",
+
+  init() {
+    try {
+      const cachedData = localStorage.getItem(this.STORAGE_KEY);
+      if (cachedData) {
+        const parsedData = JSON.parse(cachedData);
+        parsedData.cachedUrls.forEach((url) => {
+          this.memoryCache.set(url, true);
+        });
+        console.log(
+          `🔄 Loaded ${this.memoryCache.size} cached image references`
+        );
+      }
+    } catch (error) {
+      console.warn("Failed to load image cache from storage:", error);
+    }
+  },
+
+  persist() {
+    try {
+      const dataToStore = {
+        cachedUrls: Array.from(this.memoryCache.keys()),
+        timestamp: Date.now(),
+      };
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToStore));
+    } catch (error) {
+      console.warn("Failed to persist image cache:", error);
+    }
+  },
+
+  async preloadImage(src) {
+    if (this.memoryCache.has(src)) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        this.memoryCache.set(src, true);
+        this.persist();
+        resolve();
+      };
+      img.onerror = () => {
+        console.warn(`Failed to load image: ${src}`);
+        reject();
+      };
+      img.src = src;
+    });
+  },
+
+  isCached(src) {
+    return this.memoryCache.has(src);
+  },
+
+  // Preload images for specific Pokémon names
+  async preloadPokemonByName(pokemonNames) {
+    const urlsToPreload = pokemonNames
+      .map((name) => pokemonImages[name])
+      .filter((url) => url && !this.isCached(url));
+
+    if (urlsToPreload.length === 0) return;
+
+    await Promise.allSettled(
+      urlsToPreload.map((url) => this.preloadImage(url))
+    );
+  },
+};
+
+// Initialize the cache
+imageCache.init();
+
+// Function to analyze which Pokémon are actually most common in your data
+const getMostCommonPokemon = (count = 20) => {
+  const pokemonFrequency = {};
+
+  // Count frequency across all teams and all members
+  eliteFourMembers.forEach((member) => {
+    Object.values(member.teams).forEach((team) => {
+      if (team.pokemonNames) {
+        team.pokemonNames.forEach((pokemonName) => {
+          pokemonFrequency[pokemonName] =
+            (pokemonFrequency[pokemonName] || 0) + 1;
+        });
+      }
+    });
+  });
+
+  // Sort by frequency (most common first) and return top N
+  return Object.entries(pokemonFrequency)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, count)
+    .map(([name]) => name);
+};
+
 function App() {
   const teamLinks = {
-    "Team 1": "https://pokepast.es/c463b3ad2c4e4d41",
-    "Team 2": "https://pokepast.es/581535bd31234626",
-    "Team 3": "https://pokepast.es/a55cff69c1e1019d",
-    "Team 4": "https://pokepast.es/0a1b6cd8b30b98d7",
-    "Team 5": "https://pokepast.es/236623c9e2da289f",
+    Reckless: "https://pokepast.es/c463b3ad2c4e4d41",
+    "Wild Taste": "https://pokepast.es/581535bd31234626",
+    "Zanpaku v2": "https://pokepast.es/a55cff69c1e1019d",
+    "Double Star": "https://pokepast.es/0a1b6cd8b30b98d7",
+    Dragonstar: "https://pokepast.es/236623c9e2da289f",
   };
 
   // Navigation state
   const [currentSection, setCurrentSection] = useState("elitefour");
 
   // State management for Elite4 section
-  const [selectedTeam, setSelectedTeam] = useState("Team 1");
+  const [selectedTeam, setSelectedTeam] = useState("Reckless");
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
+  const [loadingImages, setLoadingImages] = useState(new Set());
 
   // Memoized filtered elite four members based on selected region
   const filteredEliteFour = useMemo(() => {
@@ -55,15 +154,85 @@ function App() {
     [currentTeamData]
   );
 
-  // Preload images
+  // Preload images for the current team
   useEffect(() => {
-    if (currentSection === "elitefour") {
-      pokemonNamesForSelectedTeam.forEach((name) => {
-        const img = new Image();
-        img.src = pokemonImages[name];
-      });
+    if (
+      currentSection === "elitefour" &&
+      pokemonNamesForSelectedTeam.length > 0
+    ) {
+      const loadTeamImages = async () => {
+        const newLoadingImages = new Set();
+
+        // Identify images that need loading
+        pokemonNamesForSelectedTeam.forEach((name) => {
+          const imgSrc = pokemonImages[name];
+          if (imgSrc && !imageCache.isCached(imgSrc)) {
+            newLoadingImages.add(imgSrc);
+          }
+        });
+
+        setLoadingImages(newLoadingImages);
+
+        if (newLoadingImages.size === 0) return;
+
+        // Preload uncached images
+        await imageCache.preloadPokemonByName(pokemonNamesForSelectedTeam);
+
+        setLoadingImages(new Set());
+      };
+
+      loadTeamImages();
     }
   }, [pokemonNamesForSelectedTeam, currentSection]);
+
+  // Preload ACTUAL most common Pokémon from your data on app startup
+  useEffect(() => {
+    const preloadCommonImages = async () => {
+      try {
+        // Get the actual most common Pokémon from YOUR data
+        const commonPokemon = getMostCommonPokemon(25);
+        console.log(
+          "🔍 Preloading most common Pokémon from your data:",
+          commonPokemon
+        );
+
+        await imageCache.preloadPokemonByName(commonPokemon);
+      } catch (error) {
+        console.warn("Failed to preload common images:", error);
+      }
+    };
+
+    preloadCommonImages();
+  }, []);
+
+  // Preload region and elite four images
+  useEffect(() => {
+    const preloadStaticImages = async () => {
+      try {
+        const regionImageUrls = pokemonRegions.map((region) => region.image);
+        const eliteFourImageUrls = eliteFourMembers.map(
+          (member) => member.image
+        );
+
+        const allUrls = [
+          ...new Set([...regionImageUrls, ...eliteFourImageUrls]),
+        ];
+        const urlsToPreload = allUrls.filter(
+          (url) => url && !imageCache.isCached(url)
+        );
+
+        if (urlsToPreload.length === 0) return;
+
+        await Promise.allSettled(
+          urlsToPreload.map((url) => imageCache.preloadImage(url))
+        );
+      } catch (error) {
+        console.warn("Failed to preload static images:", error);
+      }
+    };
+
+    preloadStaticImages();
+  }, []);
 
   // Memoized selected pokemon data
   const selectedPokemonData = useMemo(
@@ -179,7 +348,6 @@ function App() {
   }, [selectedRegion, resetStrategyStates, currentSection]);
 
   // Improved strategy rendering
-  // Improved strategy rendering
   const renderStrategyContent = useCallback(
     (content) => {
       if (!content || content.length === 0) {
@@ -287,13 +455,19 @@ function App() {
           typeBackgrounds[pokemonTypes[0]] || typeBackgrounds[""];
       }
 
+      const imgSrc = pokemonImages[pokemonName];
+      const isImageLoaded = imgSrc ? imageCache.isCached(imgSrc) : false;
+      const isLoading = imgSrc ? loadingImages.has(imgSrc) : false;
+
       return (
         <PokemonCard
           key={index}
           pokemonName={pokemon.name}
-          pokemonImageSrc={pokemonImages[pokemon.name]}
+          pokemonImageSrc={imgSrc}
           onClick={() => handlePokemonCardClick(pokemon)}
           nameBackground={nameBackground}
+          isLoaded={isImageLoaded}
+          isLoading={isLoading}
         />
       );
     });
@@ -302,6 +476,7 @@ function App() {
     selectedMember,
     selectedTeam,
     handlePokemonCardClick,
+    loadingImages,
   ]);
 
   // Navigation handler
@@ -309,7 +484,7 @@ function App() {
     setCurrentSection(section);
     // Reset all Elite4 states when navigating away
     if (section !== "elitefour") {
-      setSelectedTeam("Team 1");
+      setSelectedTeam("Reckless");
       setSelectedMember(null);
       setSelectedRegion(null);
       setSelectedPokemon(null);
