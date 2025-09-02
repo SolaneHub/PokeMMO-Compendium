@@ -19,7 +19,6 @@ export const typeBackgrounds = {
   Folletto: "linear-gradient(to right, #FFCDFF, #EF70EF)",
   Vario:
     "linear-gradient(to right, #FF0000, #FF7F00, #F9CB00, #00CE00, #0000FF, #4B0082, #9400D3)",
-
   "": "linear-gradient(to right, #cccccc, #999999)",
 };
 

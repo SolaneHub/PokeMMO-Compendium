@@ -240,7 +240,7 @@ p {
 
 .strategy-step-main {
   background-color: #2a2b30;
-  border-radius: 4px;
+  border-radius: 8px;
   display: flex;
   padding-left: 10px;
   padding-right: 10px;
@@ -249,7 +249,25 @@ p {
 }
 
 .strategy-step-main p {
-  color: #eaeaea;
+  color: white;
+}
+
+.strategy-warning-row {
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.strategy-warning {
+  background: linear-gradient(135deg, #ff6b6b, #ff4757);
+  color: #5a0b0b;
+  padding: 12px 12px 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  border: 1px solid #ff3838;
+  width: 100%;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.3);
   text-align: center;
 }
 

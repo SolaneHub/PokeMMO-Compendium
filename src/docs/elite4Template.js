@@ -4,6 +4,7 @@
  * ! Main fields:
  * @param {string|undefined} type    Block type: "main" | undefined
  * @param {string} player            Action the player must perform
+ * @param {string} warning           Information about warning
  * @param {array}  variations        List of possible variations
  *
  * ! Inside variations:
@@ -15,6 +16,7 @@
  * {
  *   type: "main" | undefined,                   // ! can be undefined
  *   player: "player action",                    // ! what the player must do
+ *   warning: "warning message"                  // ? possible warning message
  *   variations: [                               // ? possible outcomes
  *     {
  *       type: "step" | undefined,               // ! can be undefined
@@ -23,6 +25,7 @@
  *         {
  *           type: "main" | undefined,           // ! can be undefined
  *           player: "next player action",       // ! what the player must do
+ *           warning: "warning message"          // ? possible warning message
  *           variations: [                       // ? optional sub-scenarios
  *             // more variations here
  *           ],

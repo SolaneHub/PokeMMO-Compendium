@@ -6,6 +6,7 @@ import { pokemonRegions } from "./data/regionData";
 import RegionCard from "./components/RegionCard";
 import PokemonCard from "./components/PokemonCard";
 import { pokemonImages } from "./data/pokemonImages";
+import MoveColoredText from "./components/MoveColoredText";
 import {
   typeBackgrounds,
   generateDualTypeGradient,
@@ -111,6 +112,13 @@ const getMostCommonPokemon = (count = 20) => {
     .map(([name]) => name);
 };
 
+// Local storage keys
+const STORAGE_KEYS = {
+  TEAM: "pokedex_selected_team",
+  REGION: "pokedex_selected_region",
+  MEMBER: "pokedex_selected_member",
+};
+
 function App() {
   const teamLinks = {
     Reckless: "https://pokepast.es/c463b3ad2c4e4d41",
@@ -123,29 +131,46 @@ function App() {
   // Navigation state
   const [currentSection, setCurrentSection] = useState("elitefour");
 
-  // State management for Elite4 section
-  const [selectedTeam, setSelectedTeam] = useState("Reckless");
-  const [selectedMember, setSelectedMember] = useState(null);
-  const [selectedRegion, setSelectedRegion] = useState(null);
+  // Load initial state from localStorage or use defaults
+  const [selectedTeam, setSelectedTeam] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.TEAM);
+    return saved || "Wild Taste";
+  });
+
+  const [selectedRegion, setSelectedRegion] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.REGION);
+    return saved || "Kanto";
+  });
+
+  const [selectedMember, setSelectedMember] = useState(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.MEMBER);
+    return saved || "Lorelei";
+  });
+
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
   const [loadingImages, setLoadingImages] = useState(new Set());
 
+  // Get the full member object from the selected member name
+  const currentMemberObject = useMemo(() => {
+    return selectedMember
+      ? eliteFourMembers.find((m) => m.name === selectedMember)
+      : null;
+  }, [selectedMember]);
+
   // Memoized filtered elite four members based on selected region
   const filteredEliteFour = useMemo(() => {
     return selectedRegion
-      ? eliteFourMembers.filter(
-          (member) => member.region === selectedRegion.name
-        )
+      ? eliteFourMembers.filter((member) => member.region === selectedRegion)
       : [];
   }, [selectedRegion]);
 
-  // Memoized current team data
+  // Memoized current team data - now uses currentMemberObject
   const currentTeamData = useMemo(
-    () => selectedMember?.teams?.[selectedTeam],
-    [selectedMember, selectedTeam]
+    () => currentMemberObject?.teams?.[selectedTeam],
+    [currentMemberObject, selectedTeam]
   );
 
   // Memoized pokemon names for selected team
@@ -153,6 +178,19 @@ function App() {
     () => currentTeamData?.pokemonNames || [],
     [currentTeamData]
   );
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.TEAM, selectedTeam);
+  }, [selectedTeam]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.REGION, selectedRegion);
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.MEMBER, selectedMember);
+  }, [selectedMember]);
 
   // Preload images for the current team
   useEffect(() => {
@@ -234,22 +272,23 @@ function App() {
     preloadStaticImages();
   }, []);
 
-  // Memoized selected pokemon data
-  const selectedPokemonData = useMemo(
-    () => pokemonData.find((p) => p.name === selectedPokemon?.name),
-    [selectedPokemon]
-  );
+  // Get the full pokemon object from the selected pokemon name
+  const currentPokemonObject = useMemo(() => {
+    return selectedPokemon
+      ? pokemonData.find((p) => p.name === selectedPokemon)
+      : null;
+  }, [selectedPokemon]);
 
   // Memoized selected pokemon types
   const selectedPokemonTypes = useMemo(
-    () => selectedPokemonData?.types || [],
-    [selectedPokemonData]
+    () => currentPokemonObject?.types || [],
+    [currentPokemonObject]
   );
 
   // Memoized background for details title
   const detailsTitleBackground = useMemo(() => {
-    if (typeBackgrounds[selectedPokemon?.name]) {
-      return typeBackgrounds[selectedPokemon.name];
+    if (typeBackgrounds[selectedPokemon]) {
+      return typeBackgrounds[selectedPokemon];
     }
 
     if (selectedPokemonTypes.length >= 2) {
@@ -275,7 +314,9 @@ function App() {
   // Event handlers
   const handleMemberClick = useCallback(
     (member) => {
-      setSelectedMember((prev) => (prev === member ? null : member));
+      // If member is an object, use its name, otherwise use the string
+      const memberName = typeof member === "object" ? member.name : member;
+      setSelectedMember((prev) => (prev === memberName ? null : memberName));
       setSelectedPokemon(null);
       setIsPokemonDetailsVisible(false);
       resetStrategyStates();
@@ -284,7 +325,9 @@ function App() {
   );
 
   const handleRegionClick = useCallback((region) => {
-    setSelectedRegion((prev) => (prev === region ? null : region));
+    // If region is an object, extract the name, otherwise use the string
+    const regionName = typeof region === "object" ? region.name : region;
+    setSelectedRegion((prev) => (prev === regionName ? null : regionName));
   }, []);
 
   const handleTeamClick = useCallback(
@@ -301,17 +344,19 @@ function App() {
 
   const handlePokemonCardClick = useCallback(
     (pokemon) => {
-      setSelectedPokemon(pokemon);
+      // If pokemon is an object, use its name, otherwise use the string
+      const pokemonName = typeof pokemon === "object" ? pokemon.name : pokemon;
+      setSelectedPokemon(pokemonName);
       setIsPokemonDetailsVisible(true);
 
       const pokemonStrategy =
-        selectedMember?.teams?.[selectedTeam]?.pokemonStrategies?.[
-          pokemon?.name
+        currentMemberObject?.teams?.[selectedTeam]?.pokemonStrategies?.[
+          pokemonName
         ] || [];
       setCurrentStrategyView(pokemonStrategy);
       setStrategyHistory([]);
     },
-    [selectedMember, selectedTeam]
+    [currentMemberObject, selectedTeam]
   );
 
   const closePokemonDetails = useCallback(() => {
@@ -355,6 +400,16 @@ function App() {
       }
 
       return content.map((item, index) => {
+        // Render warning if it exists - as a separate row outside the main container
+        const renderWarning = (warningText) => {
+          if (!warningText) return null;
+          return (
+            <div className="strategy-warning-row">
+              <div className="strategy-warning">{warningText}</div>
+            </div>
+          );
+        };
+
         // Pure variation container (like Lapras case)
         if (!item.type && item.variations) {
           return (
@@ -366,6 +421,7 @@ function App() {
                   onClick={() => handleStepClick(variation)}
                 >
                   <p>{variation.name}</p>
+                  {renderWarning(variation.warning)}
                 </div>
               ))}
             </div>
@@ -377,9 +433,14 @@ function App() {
           return (
             <React.Fragment key={index}>
               {item.player && (
-                <div className="strategy-step-main">
-                  <p>{item.player}</p>
-                </div>
+                <>
+                  <div className="strategy-step-main">
+                    <p>
+                      <MoveColoredText text={item.player} />
+                    </p>
+                  </div>
+                  {renderWarning(item.warning)}
+                </>
               )}
               {item.variations && (
                 <div className="variation-group">
@@ -390,6 +451,7 @@ function App() {
                       onClick={() => handleStepClick(variation)}
                     >
                       <p>{variation.name}</p>
+                      {renderWarning(variation.warning)}
                     </div>
                   ))}
                 </div>
@@ -402,7 +464,12 @@ function App() {
         if (item.type === "step") {
           return (
             <div key={index} className="strategy-step">
-              {item.player && <p>{item.player}</p>}
+              {item.player && (
+                <>
+                  <p>{item.player}</p>
+                  {renderWarning(item.warning)}
+                </>
+              )}
               {item.variations && (
                 <div className="variation-group">
                   {item.variations.map((variation, varIndex) => (
@@ -412,6 +479,7 @@ function App() {
                       onClick={() => handleStepClick(variation)}
                     >
                       <p>{variation.name}</p>
+                      {renderWarning(variation.warning)}
                     </div>
                   ))}
                 </div>
@@ -431,7 +499,7 @@ function App() {
     if (!pokemonNamesForSelectedTeam.length) {
       return (
         <p>
-          No pokemon defined for {selectedTeam} of {selectedMember?.name}.
+          No pokemon defined for {selectedTeam} of {selectedMember}.
         </p>
       );
     }
@@ -464,10 +532,11 @@ function App() {
           key={index}
           pokemonName={pokemon.name}
           pokemonImageSrc={imgSrc}
-          onClick={() => handlePokemonCardClick(pokemon)}
+          onClick={() => handlePokemonCardClick(pokemon.name)}
           nameBackground={nameBackground}
           isLoaded={isImageLoaded}
           isLoading={isLoading}
+          isSelected={selectedPokemon === pokemon.name}
         />
       );
     });
@@ -477,6 +546,7 @@ function App() {
     selectedTeam,
     handlePokemonCardClick,
     loadingImages,
+    selectedPokemon,
   ]);
 
   // Navigation handler
@@ -530,8 +600,8 @@ function App() {
                 <RegionCard
                   key={region.id}
                   region={region}
-                  onRegionClick={handleRegionClick}
-                  isSelected={selectedRegion === region}
+                  onRegionClick={() => handleRegionClick(region.name)}
+                  isSelected={selectedRegion === region.name}
                 />
               ))}
             </div>
@@ -548,8 +618,8 @@ function App() {
                     <EliteMemberCard
                       key={i}
                       member={member}
-                      onMemberClick={handleMemberClick}
-                      isSelected={selectedMember === member}
+                      onMemberClick={() => handleMemberClick(member.name)}
+                      isSelected={selectedMember === member.name}
                       background={memberBackground}
                       shadowColor={memberShadowColor}
                     />
@@ -564,7 +634,7 @@ function App() {
             )}
 
             {/* Pokemon Details Modal */}
-            {isPokemonDetailsVisible && selectedPokemon && (
+            {isPokemonDetailsVisible && currentPokemonObject && (
               <div className="overlay" onClick={closePokemonDetails}>
                 <div
                   className="pokemon-details-card"
@@ -574,7 +644,7 @@ function App() {
                     className="pokemon-details-title-wrapper"
                     style={{ background: detailsTitleBackground }}
                   >
-                    <h2>{selectedPokemon.name}</h2>
+                    <h2>{currentPokemonObject.name}</h2>
                   </div>
 
                   <div className="menu-content">

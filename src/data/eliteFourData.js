@@ -68,17 +68,17 @@ export const eliteFourMembers = [
             {
               type: "main", // Modificato il tipo per la strategia principale
               player:
-                "📌 Stealth Rock 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                "Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
               variations: [
                 {
                   type: "step",
-                  name: "🔄 Articuno switches to Claydol ", // Aggiunto il nome della variazione
+                  name: "🔄 Claydol ", // Aggiunto il nome della variazione
                   steps: [
                     // Le variazioni ora contengono un array di step
                     {
                       type: "main",
                       player:
-                        "🔄 switch to 🥚 Blissey 🔁 Trick 🔄 switch to 🕯️ Chandelure 🧠 use 3x Calm Mind 🧪 X Speed",
+                        "🔄 switch to Blissey, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, X Speed",
                     },
                   ],
                 },
@@ -88,39 +88,40 @@ export const eliteFourMembers = [
           Bronzong: [
             {
               type: "main", // Modificato il tipo per la strategia principale
-              player: "🔁 Trick",
+              player: "Trick",
               variations: [
                 {
                   type: "step",
-                  name: "💥 Earthquake", // Nome della variazione
+                  name: "Earthquake", // Nome della variazione
                   steps: [
                     {
                       type: "main",
                       player:
-                        "🔄 switch to 🐹 Excadrill 📌 Stealth Rock ⚔️ use 3x Swords Dance 🧪 X Speed",
+                        "🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance, give X Speed",
                     },
                   ],
                 },
                 {
                   type: "step",
-                  name: "💥 Gyro Ball", // Nome della variazione
+                  name: "Gyro Ball", // Nome della variazione
                   steps: [
                     {
                       type: "main",
-                      player: "🔄 switch to 🐸 Poliwrath",
+                      player: "🔄 switch to Poliwrath",
                       variations: [
                         {
                           type: "step",
-                          name: "🔄 Bronzong switches to Lapras",
+                          name: "🔄 Lapras",
                           steps: [
                             {
                               type: "main",
                               player:
-                                "🥁 Belly Drum 🛡️ tank Golduck ☠️ Toxic 💥 Ice Punch Vileplume",
+                                "use Belly Drum, tank Golduck Toxic, Ice Punch Vileplume",
                             },
                           ],
                         },
                         {
+                          type: "step",
                           name: "🔄 Bronzong switches to Vileplume",
                           steps: [
                             {
@@ -133,9 +134,8 @@ export const eliteFourMembers = [
                                   steps: [
                                     {
                                       type: "main",
-                                      player: [
+                                      player:
                                         "🔄 switch to 🐹 Excadrill ⚔️ use 2x Swords Dance",
-                                      ],
                                       variations: [
                                         {
                                           type: "step",
@@ -560,7 +560,7 @@ export const eliteFourMembers = [
                           steps: [
                             {
                               type: "main",
-                              player: "🔄 switch to Blissey ✨ use Softboiled",
+                              player: "🔄 switch to Blissey ✨ use Soft-Boiled",
                               variations: [
                                 {
                                   type: "step",
@@ -1033,45 +1033,15 @@ export const eliteFourMembers = [
           "Chansey",
         ].sort(),
         pokemonStrategies: {
-          Articuno: [
-            {
-              type: "main",
-              player: "🔁 Trick",
-              variations: [
-                {
-                  type: "step",
-                  name: "🔄 Magnezone",
-                  steps: [
-                    {
-                      type: "main",
-                      player:
-                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 💥 Earthquake 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
-                    },
-                  ],
-                },
-                {
-                  type: "step",
-                  name: "🔄 Nidoking",
-                  steps: [
-                    {
-                      type: "main",
-                      player:
-                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 🔄 swap to 🐚 Cloyster 🦀 Shell Smash",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+          Articuno: [],
           Bronzong: [],
           Chansey: [],
           Claydol: [],
           Dragonite: [],
-          Exeggutor: [],
-          Golduck: [
+          Exeggutor: [
             {
               type: "main",
-              player: "🔁 Trick",
+              player: "Trick",
               variations: [
                 {
                   type: "step",
@@ -1080,7 +1050,8 @@ export const eliteFourMembers = [
                     {
                       type: "main",
                       player:
-                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 💥 Earthquake 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
+                        "🔄 switch to Excadrill, use Stealth Rock, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                      warning: "Ice Punch: No",
                     },
                   ],
                 },
@@ -1091,45 +1062,118 @@ export const eliteFourMembers = [
                     {
                       type: "main",
                       player:
-                        "🔄 swap to 🐹 Excadrill 📌 Stealth Rock 🔄 swap to 🐚 Cloyster 🦀 Shell Smash",
+                        "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash",
                     },
                   ],
                 },
               ],
             },
           ],
-          Hariyama: [],
-          Lapras: [],
-          Lucario: [],
-          Magnezone: [
+          Golduck: [
             {
               type: "main",
-              player:
-                "📌 Stealth Rock 🔄 swap to 🐹 Excadrill 💥 Earthquake 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 X Speed",
-            },
-          ],
-          Mantine: [
-            {
-              type: "main",
-              player: "💥 Thunder Punch until Mantine dies or switches",
+              player: "Trick",
               variations: [
                 {
                   type: "step",
-                  name: "🔄 Chansey",
+                  name: "🔄 Magnezone",
                   steps: [
                     {
                       type: "main",
                       player:
-                        "🔄 swap to 🦎 Scrafty 🐉 Dragon Dance 💊 give Energy Root 🐉 Dragon Dance 💥 Beat Up Vileplume and Bronzong",
+                        "🔄 switch to Excadrill, use Stealth Rock, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                      warning: "Ice Punch: No",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoking",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          Hariyama: [
+            {
+              type: "main",
+              player: "🔄 switch to Chandelure",
+              variations: [
+                {
+                  type: "step",
+                  name: "⬇️ Staying",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "use Trick, 🔒 locking Stone Edge, 🔄 switch to Scrafty, use 3x Dragon Dance (Close Combat: Hariyama - Togekiss, Drain Punch: Lapras)",
+                      warning: "Nidoqueen switches in before Scrafty can Dragon Dance: 🔄 switch to Excadrill, 🔄 switch to Chandelure, use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoqueen",
+                  steps:[
+                    {
+                      type:"main",
+                      player:"use Trick, locking Earth Power, switch to Excadrill, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+              ],
+            },
+          ],
+          Jynx: [
+            {
+              type: "main",
+              player: "🔄 switch to Scrafty, use 2x Dragon Dance",
+              warning:
+                "Close Combat: Hariyama, Beat Up: Togekiss, Drain Punch: Lapras",
+            },
+          ],
+          Lapras: [
+            {
+              type: "main",
+              player: "Trick",
+              variations: [
+                {
+                  type: "step",
+                  name: "💥 Drill Run",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Excadrill, use Stealth Rock; facing Mantine, 🔄 switch to Chandelure, use Trick, 🔒 locking Scald, 🔄 switch to Scrafty, use 2x Dragon Dance",
+                      warning: "2x Beat Up on Mantine",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "💥 Hydro Pump",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "use Stealth Rock, 🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: No)",
+                      warning:
+                        "Stealth Rock fails, 🔄 switch to Poliwrath, give X Defense, use Belly Drum, give X Speed (Ice Punch: Mantine)",
                       variations: [
                         {
                           type: "step",
-                          name: "Nidoking",
+                          name: "Lucario K.O. Poliwrath",
                           steps: [
                             {
                               type: "main",
                               player:
-                                "🔄 swap to 🐹 Excadrill 🔄 swap to 🕯️ Chandelure 🔁 Trick 🔄 swap to 🐹 Excadrill 📌 Stealth Rock ⚔️ use 3x Swords Dance",
+                                "🔄 switch to Chandelure, use Trick, 🔒 locking Crunch / Stone Edge, 🔄 switch to Scrafty, use 2x Dragon Dance",
                             },
                           ],
                         },
@@ -1139,11 +1183,196 @@ export const eliteFourMembers = [
                 },
                 {
                   type: "step",
+                  name: "💥 Surf",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: Dragonite)",
+                      warning:
+                        "Facing Slowbro, 🔄 switch to Chandelure, use Trick, 🔒 locking Scald, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "💥 Thunderbolt",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed",
+                      warning:
+                        "Facing Slowbro, 🔄 switch to Poliwrath, 🔄 switch to Chandelure, use Trick, 🔒 locking Scald, 🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: Dragonite)",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Bronzong",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed, use Stealth Rock",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Chansey",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Chandelure; facing Nidoking, use Trick, locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
                   name: "🔄 Magnezone",
                   steps: [
                     {
                       type: "main",
-                      player: "🔄 swap to 🐹 Excadrill 💥 Earthquake",
+                      player:
+                        "🔄 switch to Excadrill, use Stealth Rock, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                      warning: "Ice Punch: No",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoking",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoqueen",
+                  steps: [
+                    {
+                      variations: [
+                        {
+                          type: "step",
+                          name: "Life Orb",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed",
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "Rocky Helmet",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to Excadrill, use 2x Swords Dance, give X speed, use Stealth Rock",
+                              warning:
+                                "Earthquake: Nidoqueen, Iron Head: others",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Slowbro",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Chandelure; facing Dragonite, use Hidden Power Ice until Dragonite K.O. or switches to Lapras, 🔄 switch to Excadrill",
+                      warning:
+                        "While using Hidden Power, Lapras switches in, 🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: Dragonite)",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "🔄 Bronzong",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to Scrafty, use 2x Dragon Dance",
+                              warning: "Drain Punch: Bronzong",
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "🔄 Lapras / Slowbro",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                              warning: "Ice Punch: No",
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "🔄 Lucario",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "🔄 switch to Chandelure, use Trick, locking Stone Edge / Crunch, 🔄 switch to Scrafty, use 2x Dragon Dance",
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          Lucario: [],
+          Magnezone: [
+            {
+              type: "main",
+              player:
+                "Stealth Rock, 🔄 switch to Excadrill, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+              warning: "Ice Punch: No",
+            },
+          ],
+          Mantine: [
+            {
+              type: "main",
+              player: "Thunder Punch until Mantine K.O. or switches",
+              variations: [
+                {
+                  type: "step",
+                  name: "🔄 Chansey",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "🔄 switch to Scrafty, use Dragon Dance, give Energy Root, use Dragon Dance, use Beat Up on Vileplume and Bronzong",
+                      warning:
+                        "Nidoking switches in before Scrafty can Dragon Dance: 🔄 switch to Excadrill, 🔄 switch to Chandelure, use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Magnezone",
+                  steps: [
+                    {
+                      type: "main",
+                      player: "🔄 switch to Excadrill, use Earthquake",
                       variations: [
                         {
                           type: "step",
@@ -1152,7 +1381,8 @@ export const eliteFourMembers = [
                             {
                               type: "main",
                               player:
-                                "📌 Stealth Rock 🔄 swap to 🐸 Poliwrath 🥁 Belly Drum 🧪 give 2x X Speed",
+                                "Stealth Rock, 🔄 switch to Poliwrath, use Belly Drum, give X Speed ",
+                              warning: "Ice Punch: No",
                             },
                           ],
                         },
@@ -1163,7 +1393,8 @@ export const eliteFourMembers = [
                             {
                               type: "main",
                               player:
-                                "🔄 swap to 🕯️ Chandelure 🔁 Trick 🔄 swap to 🦎 Scrafty 🧪 give 2x Sp Def 🐉 use 2x Dragon Dance",
+                                "🔄 switch to Chandelure, use Trick, 🔄 switch to Scrafty, give 2x X Special Def, use 2x Dragon Dance",
+                              warning: "Beat Up: 2x Mantine",
                             },
                           ],
                         },
@@ -1174,15 +1405,176 @@ export const eliteFourMembers = [
                 {
                   type: "step",
                   name: "🔄 Nidoking",
+                  steps: [
+                    {
+                      type: "main",
+                      player: "🔄 switch to Excadrill, 🔄 switch to Chandelure",
+                      variations: [
+                        {
+                          type: "step",
+                          name: "💥 Fire Blast",
+                          steps: [
+                            {
+                              type: "main",
+                              player: "use Trick, check Mantine HP",
+                              variations: [
+                                {
+                                  type: "step",
+                                  name: "Full HP",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance",
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: "step",
+                                  name: "Not Full HP",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to Excadrill, use 2x Swords Dance",
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "💥 Ice Beam",
+                          steps: [
+                            {
+                              type: "main",
+                              player:
+                                "use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash",
+                            },
+                          ],
+                        },
+                        {
+                          type: "step",
+                          name: "💥 Stone Edge",
+                          steps: [
+                            {
+                              type: "main",
+                              player: "use Trick",
+                              variations: [
+                                {
+                                  type: "step",
+                                  name: "💥 Earth Power",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player: "check Mantine HP",
+                                      variations: [
+                                        {
+                                          type: "step",
+                                          name: "Full HP",
+                                          steps: [
+                                            {
+                                              type: "main",
+                                              player:
+                                                "🔄 switch to Excadrill, use Stealth Rock, switch to Cloyster, 3x Shell Smash",
+                                            },
+                                          ],
+                                        },
+                                        {
+                                          type: "step",
+                                          name: "Not Full HP",
+                                          steps: [
+                                            {
+                                              type: "main",
+                                              player:
+                                                "🔄 switch to Excadrill, use 3x Swords Dance",
+                                            },
+                                          ],
+                                        },
+                                      ],
+                                    },
+                                  ],
+                                },
+                                {
+                                  type: "step",
+                                  name: "💥 Thunderbolt",
+                                  steps: [
+                                    {
+                                      type: "main",
+                                      player:
+                                        "🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance",
+                                      warning:
+                                        "Skip Stealth Rock if Mantine not full HP",
+                                    },
+                                  ],
+                                },
+                              ],
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
                 },
               ],
             },
           ],
-          Nidoking: [],
+          Nidoking: [
+            {
+              type: "main",
+              player:
+                "Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash ",
+            },
+          ],
           Nidoqueen: [],
           Raichu: [],
           Slowbro: [],
-          Togekiss: [],
+          Togekiss: [
+            {
+              type: "main",
+              player: "🔄 switch to Chandelure",
+              variations: [
+                {
+                  type: "step",
+                  name: "⬇️ Staying",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "use Flamethrower, 🔄 switch to Scrafty; facing Hariyama, 🔄 switch to Chandelure, use Trick, 🔒 locking Stone Edge, 🔄 switch to Scrafty, use 3x Dragon Dance",
+                      warning: "Close Combat: Hariyama, Drain Punch: Lapras",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Hariyama",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "use Trick, 🔒 locking Stone Edge, 🔄 switch to Scrafty, use 3x Dragon Dance",
+                      warning:
+                        "Close Combat: Hariyama, Drain Punch: Scrafty, Beat Up: Togekiss",
+                    },
+                  ],
+                },
+                {
+                  type: "step",
+                  name: "🔄 Nidoqueen",
+                  steps: [
+                    {
+                      type: "main",
+                      player:
+                        "use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
           Vileplume: [],
           Weavile: [],
         },
