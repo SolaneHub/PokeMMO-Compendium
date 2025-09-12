@@ -1,17 +1,11 @@
-// src/data/pokemonMoveColors.js
-import {
-  typeBackgrounds,
-  generateDualTypeGradient,
-  getPrimaryColor,
-} from "./pokemonColors";
+import { typeBackgrounds, generateDualTypeGradient } from "./pokemonColors";
 import { pokemonData } from "./pokemonData";
 
-// Map moves to their corresponding types
 export const moveTypeMap = {
   Explosion: "Normale",
   Protect: "Normale",
   "Shell Smash": "Normale",
-  "Soft-Boiled": "Normale",
+  Softboiled: "Normale",
   "Swords Dance": "Normale",
 
   Flamethrower: "Fuoco",
@@ -37,7 +31,10 @@ export const moveTypeMap = {
   "Belly Drum": "Lotta",
   "Close Combat": "Lotta",
   "Drain Punch": "Lotta",
+  "Dynamic Punch": "Lotta",
   "Hidden Power Fighting": "Lotta",
+
+  Toxic: "Veleno",
 
   Earthquake: "Terra",
   "Earth Power": "Terra",
@@ -61,6 +58,8 @@ export const moveTypeMap = {
   "Hone Claws": "Buio",
 
   "Iron Head": "Acciaio",
+
+  "X Speed": "Ghiaccio",
 };
 
 // Create a map of Pokémon names to their text color style

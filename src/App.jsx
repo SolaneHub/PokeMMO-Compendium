@@ -1,3 +1,4 @@
+// App.jsx - Reorganized version
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./App.css";
 import { eliteFourMembers } from "./data/eliteFourData";
@@ -13,6 +14,7 @@ import {
   getPrimaryColor,
 } from "./data/pokemonColors";
 import { pokemonData } from "./data/pokemonData";
+import EditorPage from "./pages/EditorPage";
 
 // Image caching utility optimized for pokemonImages.js structure
 const imageCache = {
@@ -89,6 +91,13 @@ const imageCache = {
 // Initialize the cache
 imageCache.init();
 
+// Local storage keys
+const STORAGE_KEYS = {
+  TEAM: "pokedex_selected_team",
+  REGION: "pokedex_selected_region",
+  MEMBER: "pokedex_selected_member",
+};
+
 // Function to analyze which Pokémon are actually most common in your data
 const getMostCommonPokemon = (count = 20) => {
   const pokemonFrequency = {};
@@ -112,39 +121,24 @@ const getMostCommonPokemon = (count = 20) => {
     .map(([name]) => name);
 };
 
-// Local storage keys
-const STORAGE_KEYS = {
-  TEAM: "pokedex_selected_team",
-  REGION: "pokedex_selected_region",
-  MEMBER: "pokedex_selected_member",
-};
-
 function App() {
-  const teamLinks = {
-    Reckless: "https://pokepast.es/c463b3ad2c4e4d41",
-    "Wild Taste": "https://pokepast.es/581535bd31234626",
-    "Zanpaku v2": "https://pokepast.es/a55cff69c1e1019d",
-    "Double Star": "https://pokepast.es/0a1b6cd8b30b98d7",
-    Dragonstar: "https://pokepast.es/236623c9e2da289f",
-  };
-
   // Navigation state
   const [currentSection, setCurrentSection] = useState("elitefour");
 
   // Load initial state from localStorage or use defaults
   const [selectedTeam, setSelectedTeam] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.TEAM);
-    return saved || "Wild Taste";
+    return saved;
   });
 
   const [selectedRegion, setSelectedRegion] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.REGION);
-    return saved || "Kanto";
+    return saved;
   });
 
   const [selectedMember, setSelectedMember] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.MEMBER);
-    return saved || "Lorelei";
+    return saved;
   });
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -152,6 +146,15 @@ function App() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
   const [loadingImages, setLoadingImages] = useState(new Set());
+
+  // Team links
+  const teamLinks = {
+    Reckless: "https://pokepast.es/c463b3ad2c4e4d41",
+    "Wild Taste": "https://pokepast.es/581535bd31234626",
+    "Zanpaku v2": "https://pokepast.es/a55cff69c1e1019d",
+    "Double Star": "https://pokepast.es/0a1b6cd8b30b98d7",
+    Dragonstar: "https://pokepast.es/236623c9e2da289f",
+  };
 
   // Get the full member object from the selected member name
   const currentMemberObject = useMemo(() => {
@@ -178,99 +181,6 @@ function App() {
     () => currentTeamData?.pokemonNames || [],
     [currentTeamData]
   );
-
-  // Save state to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.TEAM, selectedTeam);
-  }, [selectedTeam]);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.REGION, selectedRegion);
-  }, [selectedRegion]);
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEYS.MEMBER, selectedMember);
-  }, [selectedMember]);
-
-  // Preload images for the current team
-  useEffect(() => {
-    if (
-      currentSection === "elitefour" &&
-      pokemonNamesForSelectedTeam.length > 0
-    ) {
-      const loadTeamImages = async () => {
-        const newLoadingImages = new Set();
-
-        // Identify images that need loading
-        pokemonNamesForSelectedTeam.forEach((name) => {
-          const imgSrc = pokemonImages[name];
-          if (imgSrc && !imageCache.isCached(imgSrc)) {
-            newLoadingImages.add(imgSrc);
-          }
-        });
-
-        setLoadingImages(newLoadingImages);
-
-        if (newLoadingImages.size === 0) return;
-
-        // Preload uncached images
-        await imageCache.preloadPokemonByName(pokemonNamesForSelectedTeam);
-
-        setLoadingImages(new Set());
-      };
-
-      loadTeamImages();
-    }
-  }, [pokemonNamesForSelectedTeam, currentSection]);
-
-  // Preload ACTUAL most common Pokémon from your data on app startup
-  useEffect(() => {
-    const preloadCommonImages = async () => {
-      try {
-        // Get the actual most common Pokémon from YOUR data
-        const commonPokemon = getMostCommonPokemon(25);
-        console.log(
-          "🔍 Preloading most common Pokémon from your data:",
-          commonPokemon
-        );
-
-        await imageCache.preloadPokemonByName(commonPokemon);
-      } catch (error) {
-        console.warn("Failed to preload common images:", error);
-      }
-    };
-
-    preloadCommonImages();
-  }, []);
-
-  // Preload region and elite four images
-  useEffect(() => {
-    const preloadStaticImages = async () => {
-      try {
-        const regionImageUrls = pokemonRegions.map((region) => region.image);
-        const eliteFourImageUrls = eliteFourMembers.map(
-          (member) => member.image
-        );
-
-        const allUrls = [
-          ...new Set([...regionImageUrls, ...eliteFourImageUrls]),
-        ];
-        const urlsToPreload = allUrls.filter(
-          (url) => url && !imageCache.isCached(url)
-        );
-
-        if (urlsToPreload.length === 0) return;
-
-        await Promise.allSettled(
-          urlsToPreload.map((url) => imageCache.preloadImage(url))
-        );
-      } catch (error) {
-        console.warn("Failed to preload static images:", error);
-      }
-    };
-
-    preloadStaticImages();
-  }, []);
 
   // Get the full pokemon object from the selected pokemon name
   const currentPokemonObject = useMemo(() => {
@@ -382,15 +292,19 @@ function App() {
     }
   }, [strategyHistory]);
 
-  // Effect to reset states when region changes
-  useEffect(() => {
-    if (currentSection === "elitefour") {
+  // Navigation handler
+  const handleNavigation = (section) => {
+    setCurrentSection(section);
+    // Reset all Elite4 states when navigating away
+    if (section !== "elitefour") {
+      setSelectedTeam("Reckless");
       setSelectedMember(null);
+      setSelectedRegion(null);
       setSelectedPokemon(null);
       setIsPokemonDetailsVisible(false);
       resetStrategyStates();
     }
-  }, [selectedRegion, resetStrategyStates, currentSection]);
+  };
 
   // Improved strategy rendering
   const renderStrategyContent = useCallback(
@@ -548,20 +462,6 @@ function App() {
     loadingImages,
     selectedPokemon,
   ]);
-
-  // Navigation handler
-  const handleNavigation = (section) => {
-    setCurrentSection(section);
-    // Reset all Elite4 states when navigating away
-    if (section !== "elitefour") {
-      setSelectedTeam("Reckless");
-      setSelectedMember(null);
-      setSelectedRegion(null);
-      setSelectedPokemon(null);
-      setIsPokemonDetailsVisible(false);
-      resetStrategyStates();
-    }
-  };
 
   // Render content based on current section
   const renderContent = () => {
@@ -734,6 +634,13 @@ function App() {
           </div>
         );
 
+      case "editor":
+        return (
+          <div className="container">
+            <EditorPage />
+          </div>
+        );
+
       default:
         return (
           <div className="container">
@@ -743,6 +650,109 @@ function App() {
         );
     }
   };
+
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.TEAM, selectedTeam);
+  }, [selectedTeam]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.REGION, selectedRegion);
+  }, [selectedRegion]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.MEMBER, selectedMember);
+  }, [selectedMember]);
+
+  // Preload images for the current team
+  useEffect(() => {
+    if (
+      currentSection === "elitefour" &&
+      pokemonNamesForSelectedTeam.length > 0
+    ) {
+      const loadTeamImages = async () => {
+        const newLoadingImages = new Set();
+
+        // Identify images that need loading
+        pokemonNamesForSelectedTeam.forEach((name) => {
+          const imgSrc = pokemonImages[name];
+          if (imgSrc && !imageCache.isCached(imgSrc)) {
+            newLoadingImages.add(imgSrc);
+          }
+        });
+
+        setLoadingImages(newLoadingImages);
+
+        if (newLoadingImages.size === 0) return;
+
+        // Preload uncached images
+        await imageCache.preloadPokemonByName(pokemonNamesForSelectedTeam);
+
+        setLoadingImages(new Set());
+      };
+
+      loadTeamImages();
+    }
+  }, [pokemonNamesForSelectedTeam, currentSection]);
+
+  // Preload ACTUAL most common Pokémon from your data on app startup
+  useEffect(() => {
+    const preloadCommonImages = async () => {
+      try {
+        // Get the actual most common Pokémon from YOUR data
+        const commonPokemon = getMostCommonPokemon(25);
+        console.log(
+          "🔍 Preloading most common Pokémon from your data:",
+          commonPokemon
+        );
+
+        await imageCache.preloadPokemonByName(commonPokemon);
+      } catch (error) {
+        console.warn("Failed to preload common images:", error);
+      }
+    };
+
+    preloadCommonImages();
+  }, []);
+
+  // Preload region and elite four images
+  useEffect(() => {
+    const preloadStaticImages = async () => {
+      try {
+        const regionImageUrls = pokemonRegions.map((region) => region.image);
+        const eliteFourImageUrls = eliteFourMembers.map(
+          (member) => member.image
+        );
+
+        const allUrls = [
+          ...new Set([...regionImageUrls, ...eliteFourImageUrls]),
+        ];
+        const urlsToPreload = allUrls.filter(
+          (url) => url && !imageCache.isCached(url)
+        );
+
+        if (urlsToPreload.length === 0) return;
+
+        await Promise.allSettled(
+          urlsToPreload.map((url) => imageCache.preloadImage(url))
+        );
+      } catch (error) {
+        console.warn("Failed to preload static images:", error);
+      }
+    };
+
+    preloadStaticImages();
+  }, []);
+
+  // Effect to reset states when region changes
+  useEffect(() => {
+    if (currentSection === "elitefour") {
+      setSelectedMember(null);
+      setSelectedPokemon(null);
+      setIsPokemonDetailsVisible(false);
+      resetStrategyStates();
+    }
+  }, [selectedRegion, resetStrategyStates, currentSection]);
 
   return (
     <div className="App">
@@ -795,6 +805,18 @@ function App() {
               }}
             >
               Credits
+            </a>
+          </li>
+          <li>
+            <a
+              href="#editor"
+              className={currentSection === "editor" ? "active" : ""}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavigation("editor");
+              }}
+            >
+              Editor
             </a>
           </li>
         </ul>
