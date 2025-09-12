@@ -1,0 +1,4596 @@
+[
+  {
+    "name": "Lorelei",
+    "region": "Kanto",
+    "type": "Ghiaccio",
+    "image": "LoreleiLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Articuno",
+          "Bronzong",
+          "Chansey",
+          "Claydol",
+          "Dragonite",
+          "Exeggutor",
+          "Golduck",
+          "Hariyama",
+          "Jynx",
+          "Lapras",
+          "Lucario",
+          "Magnezone",
+          "Mantine",
+          "Nidoking",
+          "Nidoqueen",
+          "Raichu",
+          "Slowbro",
+          "Togekiss",
+          "Vileplume"
+        ],
+        "pokemonStrategies": {
+          "Articuno": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock; facing Claydol, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Lapras ",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, 🎣 baiting Lucario, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Bronzong": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Earthquake",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Gyro Ball",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Poliwrath",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Belly Drum, tank Golduck Toxic, use Ice Punch on Vileplume"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Vileplume",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Blissey, use Trick",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "⬇️ Staying",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Excadrill, use 2x Swords Dance",
+                                      "variations": [
+                                        {
+                                          "type": "step",
+                                          "name": "🔄 Dewgong",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Poliwrath, use Belly Drum; if Golduck switches in tank Toxic; use Drain Punch on Golduck and Ice Punch on Vileplume"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "step",
+                                          "name": "🔄 Lapras",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Poliwrath, use Belly Drum; if Golduck switches in tank Toxic; use Drain Punch on Golduck and Ice Punch on Vileplume"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "🔄 Dewgong",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Poliwrath, use Belly Drum; if Golduck switches in tank Toxic; use Drain Punch on Golduck and Ice Punch on Vileplume"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Chansey",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 5x Calm Mind, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Mantine",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Metagross, use Trick, switch to Excadrill, use Stealth Rock, use 3x Swords Dance, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Dragonite",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Blissey, use Trick, switch to Chandelure, use 3x Calm Mind, give X Speed",
+                      "warning": "Experimental: Fire Punch does less than 47%, use Thunder Punch, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed "
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Golduck",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Hariyama",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Lapras",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Expert Belt",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use 2x Swords Dance",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "💥 Waterfall",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": " Rocky Helmet",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Hariyama",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔄 go back to Chandelure, use 4x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoking",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Slowbro",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "⬇️ Staying",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Dragonite",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Metagross, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Vileplume",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 6x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Chansey": [
+            {
+              "type": "main",
+              "player": "Use Trick, use Stealth Rock, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+            }
+          ],
+          "Claydol": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+            }
+          ],
+          "Dragonite": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "Expert Belt",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Flamethrower",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Fire Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Blissey, use Trick, facing Lucario; 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "Leftovers",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Blissey, use Trick, facing Lucario; 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Exeggutor": [
+            {
+              "type": "main",
+              "player": "Use Trick, use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+            }
+          ],
+          "Golduck": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Exeggutor",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔄 go back to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Exeggutor",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Lapras",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Aqua Tail",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Drill Run",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Hariyama": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+            }
+          ],
+          "Jynx": [
+            {
+              "type": "main",
+              "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+            }
+          ],
+          "Lapras": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Drill Run",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Mantine",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Blissey, use Softboiled",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Exeggutor",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to Metagross, use Trick 🔄, switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Golduck",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to Blissey, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
+                                      "variations": [
+                                        {
+                                          "type": "step",
+                                          "name": "🔄 Lapras",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Lapras",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Hydro Pump",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Choice Specs",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock 🔄 switch to Poliwrath, give X Speed, use Belly Drum",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Dragonite",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Poliwrath, give X Speed, use Belly Drum"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "Life Orb",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Chandelure, use 5x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Surf",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Poliwrath, give X Speed, use Belly Drum",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Dragonite",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Poliwrath, give X Speed, use Belly Drum"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Chansey",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "⬇️ Staying",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Mantine",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Blissey, 🔄 switch to 2nd Metagross, use Trick",
+                                      "variations": [
+                                        {
+                                          "type": "step",
+                                          "name": "💥 Earthquake",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "step",
+                                          "name": "🔄 Chansey",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Vileplume",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Chandelure, use 6x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Claydol",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Dragonite",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Poliwrath, give X Speed, use Belly Drum"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Exegutor",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Hariyama",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Togekiss",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Lucario": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "Focus Sash",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 5x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "Life Orb",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Claydol",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Dragonite",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Blissey, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
+                      "warning": "Burning Risk: 🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Magnezone": [
+            {
+              "type": "main",
+              "player": "🔄 switch to Blissey, 🔄 switch to Metagross",
+              "warning": "Experimental: Use Trick, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Golduck",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "Use Trick",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "⬇️ Staying",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Blissey, use Stealth Rock",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Exeggutor",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Lapras",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Exeggutor",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "💥 Drill Run",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "💥 Waterfall",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Exeggutor",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to Metagross, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Mantine": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Hydro Pump",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Chandelure, use 5x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Scald",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Exeggutor",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Golduck",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, 🔄 go back to Blissey, use Trick, 🔄 go back to Chandelure, use 3x Calm Mind, give X Speed",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Exeggutor",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Metagross, use Trick, 🔄 go back to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Lapras",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Chansey",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Claydol",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Nidoking": [
+            {
+              "type": "main",
+              "player": "🔄 switch to Blissey, 🔄 switch to Metagross, use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Chansey",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 6x Calm Mind, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Mantine",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 go back to Blissey, 🔄 switch to 2nd Metagross, use Stealth Rock, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Claydol",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Exeggutor",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Golduck",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Exeggutor",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔄 go back to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Lapras",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Drill Run",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use 2x Swords Dance, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Waterfall",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Lucario",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 5x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Nidoqueen": [
+            {
+              "type": "main",
+              "player": "🔄 Switch to Blissey, use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
+              "warning": "Use Shadow Ball"
+            }
+          ],
+          "Raichu": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed"
+            }
+          ],
+          "Slowbro": [
+            {
+              "type": "main",
+              "player": "Use Trick, use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+            }
+          ],
+          "Togekiss": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
+              "warning": "Shadow Ball: Hariyama",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Hariyama",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
+                      "warning": "Use Shadow Ball",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Vileplume": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
+              "warning": "If you get Black Sludge, use 6x Calm Mind, give X Speed"
+            }
+          ]
+        }
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Exeggutor",
+          "Magnezone",
+          "Golduck",
+          "Mantine",
+          "Nidoking",
+          "Lapras",
+          "Togekiss",
+          "Jynx",
+          "Hariyama",
+          "Nidoqueen",
+          "Bronzong",
+          "Weavile",
+          "Dragonite",
+          "Lucario",
+          "Articuno",
+          "Claydol",
+          "Slowbro",
+          "Raichu",
+          "Vileplume",
+          "Chansey"
+        ],
+        "pokemonStrategies": {
+          "Articuno": [],
+          "Bronzong": [],
+          "Chansey": [],
+          "Claydol": [],
+          "Dragonite": [],
+          "Exeggutor": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Magnezone",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                      "warning": "Ice Punch: No"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoking",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Golduck": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Magnezone",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                      "warning": "Ice Punch: No"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoking",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Hariyama": [
+            {
+              "type": "main",
+              "player": "🔄 switch to Chandelure",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick, 🔒 locking Stone Edge, 🔄 switch to Scrafty, use 3x Dragon Dance (Close Combat: Hariyama - Togekiss, Drain Punch: Lapras)",
+                      "warning": "Nidoqueen switches in before Scrafty can Dragon Dance: 🔄 switch to Excadrill, 🔄 switch to Chandelure, use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoqueen",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick, locking Earth Power, switch to Excadrill, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Jynx": [
+            {
+              "type": "main",
+              "player": "🔄 switch to Scrafty, use 2x Dragon Dance",
+              "warning": "Close Combat: Hariyama, Beat Up: Togekiss, Drain Punch: Lapras"
+            }
+          ],
+          "Lapras": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Drill Run",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock; facing Mantine, 🔄 switch to Chandelure, use Trick, 🔒 locking Scald, 🔄 switch to Scrafty, use 2x Dragon Dance",
+                      "warning": "2x Beat Up on Mantine"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Hydro Pump",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: No)",
+                      "warning": "If Stealth Rock fails, 🔄 switch to Poliwrath, give X Defense, use Belly Drum, give X Speed (Ice Punch: Mantine)",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Lucario K.O. Poliwrath",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use Trick, 🔒 locking Crunch / Stone Edge, 🔄 switch to Scrafty, use 2x Dragon Dance"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Surf",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: Dragonite)",
+                      "warning": "Facing Slowbro, 🔄 switch to Chandelure, use Trick, 🔒 locking Scald, 🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Thunderbolt",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed",
+                      "warning": "Facing Slowbro, 🔄 switch to Poliwrath, 🔄 switch to Chandelure, use Trick, 🔒 locking Scald, 🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: Dragonite)"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Bronzong",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed, use Stealth Rock"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Chansey",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure; facing Nidoking, use Trick, locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Magnezone",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                      "warning": "Ice Punch: No"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoking",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoqueen",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Life Orb",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use 3x Swords Dance, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "Rocky Helmet",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use 2x Swords Dance, give X speed, use Stealth Rock",
+                              "warning": "Earthquake: Nidoqueen, Iron Head: others"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Slowbro",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure; facing Dragonite, use Hidden Power Ice until Dragonite K.O. or switches to Lapras, 🔄 switch to Excadrill",
+                      "warning": "While using Hidden Power, Lapras switches in, 🔄 switch to Poliwrath, use Belly Drum, give X Speed (Ice Punch: Dragonite)",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Bronzong",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Scrafty, use 2x Dragon Dance",
+                              "warning": "Drain Punch: Bronzong"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras / Slowbro",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+                              "warning": "Ice Punch: No"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Lucario",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use Trick, locking Stone Edge / Crunch, 🔄 switch to Scrafty, use 2x Dragon Dance"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Lucario": [],
+          "Magnezone": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock, 🔄 switch to Excadrill, use Earthquake; facing Lapras, 🔄 switch to Poliwrath, use Belly Drum, give X Speed",
+              "warning": "Ice Punch: No"
+            }
+          ],
+          "Mantine": [
+            {
+              "type": "main",
+              "player": "Thunder Punch until Mantine K.O. or switches",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Chansey",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Scrafty, use Dragon Dance, give Energy Root, use Dragon Dance, use Beat Up on Vileplume and Bronzong",
+                      "warning": "Nidoking switches in before Scrafty can Dragon Dance: 🔄 switch to Excadrill, 🔄 switch to Chandelure, use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Magnezone",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Earthquake",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Lapras",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Poliwrath, use Belly Drum, give X Speed ",
+                              "warning": "Ice Punch: No"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Mantine",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use Trick, 🔄 switch to Scrafty, give 2x X Special Def, use 2x Dragon Dance",
+                              "warning": "Beat Up: 2x Mantine"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoking",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, 🔄 switch to Chandelure",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Fire Blast",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Trick, check Mantine HP",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "Full HP",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "Not Full HP",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Excadrill, use 2x Swords Dance"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Ice Beam",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Stone Edge",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Trick",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "💥 Earth Power",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "check Mantine HP",
+                                      "variations": [
+                                        {
+                                          "type": "step",
+                                          "name": "Full HP",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Excadrill, use Stealth Rock, switch to Cloyster, 3x Shell Smash"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "step",
+                                          "name": "Not Full HP",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Excadrill, use 3x Swords Dance"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "💥 Thunderbolt",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Excadrill, use Stealth Rock, use 3x Swords Dance",
+                                      "warning": "Skip Stealth Rock if Mantine not full HP"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Nidoking": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use Stealth Rock, 🔄 switch to Cloyster, use 3x Shell Smash "
+            }
+          ],
+          "Nidoqueen": [],
+          "Raichu": [],
+          "Slowbro": [],
+          "Togekiss": [
+            {
+              "type": "main",
+              "player": "🔄 switch to Chandelure",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Flamethrower, 🔄 switch to Scrafty; facing Hariyama, 🔄 switch to Chandelure, use Trick, 🔒 locking Stone Edge, 🔄 switch to Scrafty, use 3x Dragon Dance",
+                      "warning": "Close Combat: Hariyama, Drain Punch: Lapras"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Hariyama",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick, 🔒 locking Stone Edge, 🔄 switch to Scrafty, use 3x Dragon Dance",
+                      "warning": "Close Combat: Hariyama, Drain Punch: Scrafty, Beat Up: Togekiss"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Nidoqueen",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick, 🔒 locking Earth Power, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Vileplume": [],
+          "Weavile": []
+        }
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Bruno",
+    "region": "Kanto",
+    "type": "Lotta",
+    "image": "BrunoLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aggron",
+          "Blastoise",
+          "Darmanitan",
+          "Eelektross",
+          "Electivire",
+          "Gliscor",
+          "Heracross",
+          "Hitmonchan",
+          "Hitmonlee",
+          "Hitmontop",
+          "Infernape",
+          "Krookodile",
+          "Lucario",
+          "Machamp",
+          "Metagross",
+          "Muk",
+          "Rhyperior",
+          "Salamence",
+          "Seismitoad",
+          "Slowbro",
+          "Staraptor",
+          "Steelix",
+          "Torterra",
+          "Ursaring"
+        ],
+        "pokemonStrategies": {
+          "Aggron": [
+            {
+              "type": "main",
+              "player": "🔄 Switch to Chandelure, use 3x Calm Mind, give X Speed"
+            }
+          ],
+          "Blastoise": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Water Spout",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, 🔄 switch to Metagross, use Trick",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Gliscor",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Blastoise",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 go back to Blissey, use Trick, 🔒 locking Hitmonlee, 🔄 switch to Excadrill, use 2x Swords Dance, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Machamp",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, locking Dynamic Punch, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Machamp",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Hitmonlee",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use 2x Swords Dance, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Torterra",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Machamp",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Earthquake, 🔄 switch to Chandelure as it switches to Darmanitan",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "💥 Flare Blitz",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "use 2x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "💥 Superpower",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "use 4x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Darmanitan": [
+            {
+              "type": "main",
+              "player": "🔄 Switch to Chandelure, use 2x Calm Mind, give X Speed"
+            }
+          ],
+          "Eelektross": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Fire Punch",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Flamethrower",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Electivire": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "Metagross HP more than 50%",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "Metagross HP less than 50%",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Excadrill, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Gliscor": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Blastoise",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Excadrill, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Machamp",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, 🔒 locking Dynamic Punch, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Heracross": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Excadrill, use Swords Dance, give X Speed"
+            }
+          ],
+          "Hitmonchan": [
+            {
+              "type": "main",
+              "player": "🔄 Switch to Chandelure, use 4x Calm Mind, give X Speed",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Machamp",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Hitmonlee": [
+            {
+              "type": "main",
+              "player": "Use Trick as it switches to Gliscor, 🔄 switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄 Blastoise",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Excadrill, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Machamp",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, locking Dynamic Punch, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Hitmontop": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock, 🔄 switch to Chandelure, 🔄 switch to Blissey, use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Slowbro",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Metagross, use Trick, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Staraptor",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Metagross, use Trick, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Staraptor",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Infernape": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+            }
+          ],
+          "Krookodile": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Salamence",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Lucario": [
+            {
+              "type": "main",
+              "player": "Use Trick, use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+            }
+          ],
+          "Machamp": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "Chesto Berry",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Drain Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Dynamic Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "Flame Orb",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Drain Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Payback",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "Leftovers",
+                  "steps": [
+                    {
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Drain Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Dynamic Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock until success or Metagross K.O.",
+                              "warning": "Pay attention to confusion",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "Success",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "Metagross K.O.",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to 2nd Metagross, use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Eelektross",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Rhyperior",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Salamence",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "Check Ability",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Intimidate",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "Moxie",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Slowbro",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Steelix",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 4x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Metagross": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Earthquake",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Hammer Arm",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Salamence",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Blissey, use Trick",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "⬇️ Staying",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "use Softboiled; facing Metagross, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Metagross",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Meteor Mash",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄 switch to Chandelure, use Flamethrower, 🔄 switch to Excadrill, 🔄 switch to 2nd Metagross, use Trick, 🔄 switch back to Excadrill, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Eelektross",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Gliscor",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Blastoise",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Blissey, use Trick, 🔄 switch to Excadrill, use 2x Swords Dance, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Machamp",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Chandelure, 🔄 switch to 2nd Metagross, use Trick, locking Dynamic Punch, 🔄 switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Rhyperior",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Salamence",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "Check Ability",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Intimidate",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Stealth Rock, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "Moxie",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Torterra",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄 Machamp",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Earthquake, Darmanitan switches in, 🔄 switch to Chandelure",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "💥 Flare Blitz",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "use 2x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "💥 Superpower",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "use 2x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄 Seismitoad",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Muk": [
+            {
+              "type": "main",
+              "player": "Use Trick, use Stealth Rock, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+            }
+          ],
+          "Rhyperior": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+            }
+          ],
+          "Salamence": [
+            {
+              "type": "main",
+              "player": "Check Ability",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "Moxie",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "Life Orb",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "Lum Berry",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 switch to Excadrill, use Swords Dance, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "Intimidate",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄 switch to Blissey, 🔄 switch to Metagross",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "⬇️ Staying",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄 go back to Blissey, use Stealth Rock",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "⬇️ Staying",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 go back to Metagross, use Trick, 🔄 switch to Chandelure, use 2x Calm Mind, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Krookodile",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Excadrill, 🔄 switch to Metagross, use Trick, 🔄 go back to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Machamp",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to Metagross, use Trick",
+                                      "variations": [
+                                        {
+                                          "type": "step",
+                                          "name": "💥 Drain Punch",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 go back to Chandelure, use 3x Calm Mind, give X Speed"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "step",
+                                          "name": "💥 Payback",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 switch to Poliwrath, use Belly Drum, give X Speed"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "step",
+                                          "name": "🔄 Salamence",
+                                          "steps": [
+                                            {
+                                              "type": "main",
+                                              "player": "🔄 go back to Chandelure, use 2x Calm Mind, give X Speed"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Metagross",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄 switch to Chandelure, 🔄 switch to Metagross, use Trick, 🔄 go back to Chandelure, use 3x Calm Mind, give X Speed",
+                                      "variations": [
+                                        {
+                                          "type": "step"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄 Slowbro"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Aggron"
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Hitmonchan"
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Krookodile"
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Machamp"
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Metagross"
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄 Slowbro"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Seismitoad": [
+            {
+              "type": "main",
+              "player": "Use Trick, switch to Chandelure, use 3x Calm Mind, give X Speed",
+              "warning": "Experimental: Use Trick, switch to Excadrill, use Swords Dance, give X Speed",
+              "variations": []
+            }
+          ],
+          "Slowbro": [],
+          "Staraptor": [],
+          "Steelix": [],
+          "Torterra": [],
+          "Ursaring": []
+        }
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Aggron",
+          "Blastoise",
+          "Darmanitan",
+          "Eelektross",
+          "Electivire",
+          "Gliscor",
+          "Heracross",
+          "Hitmonchan",
+          "Hitmonlee",
+          "Hitmontop",
+          "Infernape",
+          "Krookodile",
+          "Lucario",
+          "Machamp",
+          "Metagross",
+          "Muk",
+          "Rhyperior",
+          "Salamence",
+          "Seismitoad",
+          "Slowbro",
+          "Staraptor",
+          "Steelix",
+          "Torterra",
+          "Ursaring"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Agatha",
+    "region": "Kanto",
+    "type": "Spettro",
+    "image": "AgathaLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Alakazam",
+          "Arbok",
+          "Crobat",
+          "Fan Rotom",
+          "Frost Rotom",
+          "Gengar",
+          "Golduck",
+          "Gyarados",
+          "Heat Rotom",
+          "Houndoom",
+          "Hydreigon",
+          "Krookodile",
+          "Lucario",
+          "Mandibuzz",
+          "Marowak",
+          "Muk",
+          "Seismitoad",
+          "Shiftry",
+          "Toxicroak",
+          "Umbreon",
+          "Wash Rotom"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Alakazam",
+          "Arbok",
+          "Crobat",
+          "Fan Rotom",
+          "Frost Rotom",
+          "Gengar",
+          "Golduck",
+          "Gyarados",
+          "Heat Rotom",
+          "Houndoom",
+          "Hydreigon",
+          "Krookodile",
+          "Lucario",
+          "Mandibuzz",
+          "Marowak",
+          "Muk",
+          "Seismitoad",
+          "Shiftry",
+          "Toxicroak",
+          "Umbreon",
+          "Wash Rotom"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Lance",
+    "region": "Kanto",
+    "type": "Drago",
+    "image": "LanceLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aerodactyl",
+          "Ampharos",
+          "Arbok",
+          "Arcanine",
+          "Charizard",
+          "Dragonite",
+          "Eelektross",
+          "Electivire",
+          "Feraligatr",
+          "Garchomp",
+          "Gyarados",
+          "Haxorus",
+          "Hydreigon",
+          "Infernape",
+          "Kingdra",
+          "Lapras",
+          "Lucario",
+          "Metagross",
+          "Scizor",
+          "Scrafty",
+          "Steelix",
+          "Tyranitar"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Lapras",
+          "Dragonite",
+          "Lucario",
+          "Steelix",
+          "Eelektross",
+          "Metagross",
+          "Electivire",
+          "Infernape",
+          "Gyarados",
+          "Hydreigon",
+          "Arbok",
+          "Charizard",
+          "Scrafty",
+          "Feraligatr",
+          "Kingdra",
+          "Scizor",
+          "Tyranitar",
+          "Ampharos",
+          "Arcanine",
+          "Aerodactyl",
+          "Garchomp",
+          "Haxorus"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Blue",
+    "region": "Kanto",
+    "type": "Vario",
+    "image": "BluLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aerodactyl",
+          "Alakazam",
+          "Arcanine",
+          "Blastoise",
+          "Charizard",
+          "Electivire",
+          "Espeon",
+          "Exeggutor",
+          "Flareon",
+          "Golem",
+          "Gyarados",
+          "Jolteon",
+          "Kingdra",
+          "Leafeon",
+          "Machamp",
+          "Magnezone",
+          "Nidoking",
+          "Ninetales",
+          "Pidgeot",
+          "Politoed",
+          "Poliwrath",
+          "Rhyperior",
+          "Sandslash",
+          "Scizor",
+          "Skarmory",
+          "Tyranitar",
+          "Umbreon",
+          "Vaporeon",
+          "Venusaur"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Exeggutor",
+          "Magnezone",
+          "Nidoking",
+          "Machamp",
+          "Blastoise",
+          "Electivire",
+          "Rhyperior",
+          "Gyarados",
+          "Alakazam",
+          "Umbreon",
+          "Charizard",
+          "Kingdra",
+          "Scizor",
+          "Tyranitar",
+          "Arcanine",
+          "Aerodactyl",
+          "Pidgeot",
+          "Espeon",
+          "Jolteon",
+          "Sandslash",
+          "Venusaur",
+          "Skarmory",
+          "Leafeon",
+          "Flareon",
+          "Poliwrath",
+          "Politoed",
+          "Vaporeon",
+          "Golem",
+          "Ninetales"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Will",
+    "region": "Johto",
+    "type": "Psico",
+    "image": "WillHGSS.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Altaria",
+          "Bronzong",
+          "Chansey",
+          "Claydol",
+          "Clefable",
+          "Electivire",
+          "Empoleon",
+          "Espeon",
+          "Exeggutor",
+          "Flareon",
+          "Gardevoir",
+          "Girafarig",
+          "Golduck",
+          "Golurk",
+          "Grumpig",
+          "Hypno",
+          "Jolteon",
+          "Jynx",
+          "Liepard",
+          "Lucario",
+          "Magnezone",
+          "Mantine",
+          "Slowbro",
+          "Typhlosion",
+          "Umbreon",
+          "Xatu"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Exeggutor",
+          "Magnezone",
+          "Golduck",
+          "Mantine",
+          "Jynx",
+          "Bronzong",
+          "Lucario",
+          "Claydol",
+          "Slowbro",
+          "Chansey",
+          "Electivire",
+          "Umbreon",
+          "Espeon",
+          "Jolteon",
+          "Flareon",
+          "Absol",
+          "Golurk",
+          "Empoleon",
+          "Altaria",
+          "Gardevoir",
+          "Liepard",
+          "Typhlosion",
+          "Girafarig",
+          "Clefable",
+          "Xatu",
+          "Hypno",
+          "Grumpig"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Koga",
+    "region": "Johto",
+    "type": "Veleno",
+    "image": "KogaLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Ariados",
+          "Bisharp",
+          "Crobat",
+          "Ditto",
+          "Electrode",
+          "Ferrothorn",
+          "Floatzel",
+          "Flygon",
+          "Forretress",
+          "Gengar",
+          "Gliscor",
+          "Hypno",
+          "Lapras",
+          "Lanturn",
+          "Lucario",
+          "Magmortar",
+          "Muk",
+          "Nidoking",
+          "Nidoqueen",
+          "Ninetales",
+          "Parasect",
+          "Rhyperior",
+          "Samurott",
+          "Scizor",
+          "Sharpedo",
+          "Skarmory",
+          "Skuntank",
+          "Starmie",
+          "Stunfisk",
+          "Swalot",
+          "Tangrowth",
+          "Tentacruel",
+          "Toxicroak",
+          "Venomoth",
+          "Weezing"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Nidoking",
+          "Lapras",
+          "Nidoqueen",
+          "Lucario",
+          "Muk",
+          "Gliscor",
+          "Rhyperior",
+          "Gengar",
+          "Crobat",
+          "Scizor",
+          "Skarmory",
+          "Ninetales",
+          "Tentacruel",
+          "Sharpedo",
+          "Lanturn",
+          "Floatzel",
+          "Starmie",
+          "Bisharp",
+          "Samurott",
+          "Forretress",
+          "Skuntank",
+          "Ferrothorn",
+          "Tangrowth",
+          "Parasect",
+          "Magmortar",
+          "Hypno",
+          "Ariados",
+          "Ditto",
+          "Venomoth",
+          "Stunfisk",
+          "Swalot",
+          "Weezing",
+          "Electrode"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Bruno",
+    "region": "Johto",
+    "type": "Lotta",
+    "image": "BrunoLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aggron",
+          "Blastoise",
+          "Blaziken",
+          "Darmanitan",
+          "Drapion",
+          "Eelektross",
+          "Electivire",
+          "Gliscor",
+          "Golem",
+          "Heracross",
+          "Hitmonchan",
+          "Hitmonlee",
+          "Hitmontop",
+          "Kangaskhan",
+          "Krookodile",
+          "Lucario",
+          "Luxray",
+          "Machamp",
+          "Metagross",
+          "Muk",
+          "Poliwrath",
+          "Salamence",
+          "Seismitoad",
+          "Slowbro",
+          "Staraptor",
+          "Steelix",
+          "Torterra"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Lucario",
+          "Slowbro",
+          "Muk",
+          "Steelix",
+          "Staraptor",
+          "Machamp",
+          "Darmanitan",
+          "Torterra",
+          "Blastoise",
+          "Eelektross",
+          "Metagross",
+          "Hitmonlee",
+          "Gliscor",
+          "Electivire",
+          "Aggron",
+          "Hitmonchan",
+          "Salamence",
+          "Seismitoad",
+          "Krookodile",
+          "Hitmontop",
+          "Poliwrath",
+          "Golem",
+          "Luxray",
+          "Blaziken",
+          "Heracross",
+          "Kangaskhan"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Karen",
+    "region": "Johto",
+    "type": "Buio",
+    "image": "KarenHGSS.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Blastoise",
+          "Electrode",
+          "Excadrill",
+          "Feraligatr",
+          "Flareon",
+          "Gallade",
+          "Garchomp",
+          "Gengar",
+          "Gyarados",
+          "Honchkrow",
+          "Houndoom",
+          "Hydreigon",
+          "Leafeon",
+          "Lucario",
+          "Luxray",
+          "Mismagius",
+          "Primeape",
+          "Quagsire",
+          "Rapidash",
+          "Rhyperior",
+          "Sableye",
+          "Salamence",
+          "Slowbro",
+          "Tyranitar",
+          "Umbreon",
+          "Victreebel",
+          "Vileplume",
+          "Weavile"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Weavile",
+          "Lucario",
+          "Slowbro",
+          "Vileplume",
+          "Blastoise",
+          "Salamence",
+          "Rhyperior",
+          "Gyarados",
+          "Gengar",
+          "Hydreigon",
+          "Umbreon",
+          "Mismagius",
+          "Houndoom",
+          "Feraligatr",
+          "Tyranitar",
+          "Garchomp",
+          "Leafeon",
+          "Flareon",
+          "Sableye",
+          "Absol",
+          "Luxray",
+          "Excadrill",
+          "Honchkrow",
+          "Gallade",
+          "Quagsire",
+          "Electrode",
+          "Primeape",
+          "Victreebel"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Lance",
+    "region": "Johto",
+    "type": "Drago",
+    "image": "BluLGPE.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aerodactyl",
+          "Ampharos",
+          "Arbok",
+          "Arcanine",
+          "Charizard",
+          "Dragonite",
+          "Eelektross",
+          "Electivire",
+          "Feraligatr",
+          "Flygon",
+          "Garchomp",
+          "Gyarados",
+          "Haxorus",
+          "Hydreigon",
+          "Infernape",
+          "Kangaskhan",
+          "Kingdra",
+          "Lapras",
+          "Lucario",
+          "Metagross",
+          "Scizor",
+          "Scrafty",
+          "Steelix",
+          "Tyranitar"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Lapras",
+          "Dragonite",
+          "Lucario",
+          "Steelix",
+          "Eelektross",
+          "Metagross",
+          "Electivire",
+          "Infernape",
+          "Gyarados",
+          "Hydreigon",
+          "Arbok",
+          "Charizard",
+          "Scrafty",
+          "Feraligatr",
+          "Kingdra",
+          "Scizor",
+          "Tyranitar",
+          "Ampharos",
+          "Arcanine",
+          "Aerodactyl",
+          "Garchomp",
+          "Haxorus",
+          "Flygon",
+          "Kangaskhan"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Sidney",
+    "region": "Hoenn",
+    "type": "Buio",
+    "image": "SidneyROZA.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Aggron",
+          "Cacturne",
+          "Crawdaunt",
+          "Darmanitan",
+          "Electivire",
+          "Excadrill",
+          "Garchomp",
+          "Golurk",
+          "Gyarados",
+          "Hariyama",
+          "Huntail",
+          "Luxray",
+          "Magnezone",
+          "Mandibuzz",
+          "Metagross",
+          "Mienshao",
+          "Mightyena",
+          "Sableye",
+          "Salamence",
+          "Scizor",
+          "Scolipede",
+          "Scrafty",
+          "Sharpedo",
+          "Shiftry",
+          "Spiritomb",
+          "Tentacruel",
+          "Toxicroak"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Magnezone",
+          "Hariyama",
+          "Darmanitan",
+          "Metagross",
+          "Electivire",
+          "Aggron",
+          "Salamence",
+          "Gyarados",
+          "Shiftry",
+          "Toxicroak",
+          "Mandibuzz",
+          "Scrafty",
+          "Scizor",
+          "Garchomp",
+          "Sableye",
+          "Absol",
+          "Tentacruel",
+          "Luxray",
+          "Cacturne",
+          "Golurk",
+          "Mightyena",
+          "Spiritomb",
+          "Mienshao",
+          "Huntail",
+          "Excadrill",
+          "Crawdaunt",
+          "Scolipede",
+          "Sharpedo"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Phoebe",
+    "region": "Hoenn",
+    "type": "Spettro",
+    "image": "PhoebeROZA.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Arcanine",
+          "Banette",
+          "Chandelure",
+          "Dusknoir",
+          "Froslass",
+          "Honchkrow",
+          "Houndoom",
+          "Hydreigon",
+          "Lucario",
+          "Luxray",
+          "Mandibuzz",
+          "Mawile",
+          "Meganium",
+          "Mismagius",
+          "Ninetales",
+          "Raichu",
+          "Regice",
+          "Sableye",
+          "Umbreon",
+          "Wash Rotom",
+          "Zoroark"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Banette",
+          "Lucario",
+          "Raichu",
+          "Hydreigon",
+          "Wash Rotom",
+          "Umbreon",
+          "Mismagius",
+          "Mandibuzz",
+          "Houndoom",
+          "Arcanine",
+          "Ninetales",
+          "Sableye",
+          "Luxray",
+          "Mawile",
+          "Froslass",
+          "Dusknoir",
+          "Regice",
+          "Chandelure",
+          "Meganium",
+          "Honchkrow"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Glacia",
+    "region": "Hoenn",
+    "type": "Ghiaccio",
+    "image": "GlaciaROZA.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Abomasnow",
+          "Altaria",
+          "Beartic",
+          "Blissey",
+          "Froslass",
+          "Gallade",
+          "Glalie",
+          "Hariyama",
+          "Lanturn",
+          "Metagross",
+          "Mienshao",
+          "Mismagius",
+          "Nidoqueen",
+          "Serperior",
+          "Skarmory",
+          "Togekiss",
+          "Vanilluxe",
+          "Walrein"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Togekiss",
+          "Hariyama",
+          "Nidoqueen",
+          "Metagross",
+          "Mismagius",
+          "Skarmory",
+          "Mienshao",
+          "Froslass",
+          "Abomasnow",
+          "Walrein",
+          "Lanturn",
+          "Serperior",
+          "Vanilluxe",
+          "Gallade",
+          "Altaria",
+          "Glalie",
+          "Blissey",
+          "Beartic"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Drake",
+    "region": "Hoenn",
+    "type": "Drago",
+    "image": "DrakeROZA.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aggron",
+          "Altaria",
+          "Ampharos",
+          "Eelektross",
+          "Empoleon",
+          "Feraligatr",
+          "Floatzel",
+          "Flygon",
+          "Gallade",
+          "Haxorus",
+          "Kingdra",
+          "Krookodile",
+          "Lapras",
+          "Lucario",
+          "Metagross",
+          "Nidoking",
+          "Regirock",
+          "Salamence",
+          "Sceptile",
+          "Seviper",
+          "Torkoal"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Nidoking",
+          "Lapras",
+          "Lucario",
+          "Eelektross",
+          "Metagross",
+          "Aggron",
+          "Salamence",
+          "Krookodile",
+          "Feraligatr",
+          "Kingdra",
+          "Ampharos",
+          "Haxorus",
+          "Empoleon",
+          "Gallade",
+          "Altaria",
+          "Regirock",
+          "Torkoal",
+          "Seviper",
+          "Floatzel",
+          "Sceptile",
+          "Flygon"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Wallace",
+    "region": "Hoenn",
+    "type": "Acqua",
+    "image": "WallaceROZA.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Altaria",
+          "Dragonite",
+          "Eelektross",
+          "Empoleon",
+          "Gardevoir",
+          "Gyarados",
+          "Lanturn",
+          "Ludicolo",
+          "Metagross",
+          "Mienshao",
+          "Milotic",
+          "Registeel",
+          "Roserade",
+          "Seaking",
+          "Serperior",
+          "Starmie",
+          "Swampert",
+          "Tentacruel",
+          "Togekiss",
+          "Wailord",
+          "Walrein",
+          "Whiscash"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Togekiss",
+          "Dragonite",
+          "Eelektross",
+          "Metagross",
+          "Gyarados",
+          "Tentacruel",
+          "Mienshao",
+          "Empoleon",
+          "Walrein",
+          "Lanturn",
+          "Serperior",
+          "Altaria",
+          "Swampert",
+          "Registeel",
+          "Milotic",
+          "Seaking",
+          "Roserade",
+          "Wailord",
+          "Starmie",
+          "Ludicolo",
+          "Whiscash",
+          "Gardevoir"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Aaron",
+    "region": "Sinnoh",
+    "type": "Coleottero",
+    "image": "AaronDP.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Beautifly",
+          "Crawdaunt",
+          "Crustle",
+          "Drapion",
+          "Durant",
+          "Dustox",
+          "Escavalier",
+          "Ferrothorn",
+          "Flygon",
+          "Forretress",
+          "Gastrodon",
+          "Gliscor",
+          "Heracross",
+          "Kabutops",
+          "Kingler",
+          "Octillery",
+          "Omastar",
+          "Sceptile",
+          "Scizor",
+          "Scyther",
+          "Skuntank",
+          "Steelix",
+          "Tyranitar",
+          "Vespiquen",
+          "Volcarona",
+          "Yanmega"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Steelix",
+          "Gliscor",
+          "Heracross",
+          "Drapion",
+          "Scizor",
+          "Tyranitar",
+          "Kingler",
+          "Crawdaunt",
+          "Sceptile",
+          "Flygon",
+          "Volcarona",
+          "Escavalier",
+          "Vespiquen",
+          "Omastar",
+          "Durant",
+          "Kabutops",
+          "Forretress",
+          "Skuntank",
+          "Crustle",
+          "Octillery",
+          "Scyther",
+          "Gastrodon",
+          "Ferrothorn",
+          "Beautifly",
+          "Yanmega",
+          "Dustox"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Bertha",
+    "region": "Sinnoh",
+    "type": "Terra",
+    "image": "BerthaDP.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Amoonguss",
+          "Blastoise",
+          "Bronzong",
+          "Camerupt",
+          "Cloyster",
+          "Donphan",
+          "Druddigon",
+          "Durant",
+          "Emboar",
+          "Forretress",
+          "Gengar",
+          "Gliscor",
+          "Golem",
+          "Hippowdon",
+          "Nidoking",
+          "Parasect",
+          "Quagsire",
+          "Rhyperior",
+          "Sableye",
+          "Seismitoad",
+          "Skarmory",
+          "Steelix",
+          "Sudowoodo",
+          "Tangrowth",
+          "Walrein",
+          "Whiscash"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Nidoking",
+          "Bronzong",
+          "Cloyster",
+          "Steelix",
+          "Blastoise",
+          "Gliscor",
+          "Seismitoad",
+          "Rhyperior",
+          "Gengar",
+          "Skarmory",
+          "Golem",
+          "Sableye",
+          "Absol",
+          "Walrein",
+          "Whiscash",
+          "Druddigon",
+          "Durant",
+          "Forretress",
+          "Tangrowth",
+          "Camerupt",
+          "Quagsire",
+          "Emboar",
+          "Sudowoodo",
+          "Parasect",
+          "Hippowdon",
+          "Amoonguss",
+          "Donphan"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Flint",
+    "region": "Sinnoh",
+    "type": "Fuoco",
+    "image": "FlintDP.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Arcanine",
+          "Blaziken",
+          "Bouffalant",
+          "Bronzong",
+          "Cacturne",
+          "Camerupt",
+          "Charizard",
+          "Conkeldurr",
+          "Dragonite",
+          "Drifblim",
+          "Entei",
+          "Flareon",
+          "Haxorus",
+          "Houndoom",
+          "Infernape",
+          "Lopunny",
+          "Lucario",
+          "Ludicolo",
+          "Magmortar",
+          "Maractus",
+          "Medicham",
+          "Ninetales",
+          "Rapidash",
+          "Heat Rotom",
+          "Salamence",
+          "Steelix",
+          "Typhlosion"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Bronzong",
+          "Dragonite",
+          "Lucario",
+          "Steelix",
+          "Salamence",
+          "Infernape",
+          "Heat Rotom",
+          "Houndoom",
+          "Charizard",
+          "Arcanine",
+          "Haxorus",
+          "Flareon",
+          "Ninetales",
+          "Cacturne",
+          "Ludicolo",
+          "Drifblim",
+          "Entei",
+          "Conkeldurr",
+          "Medicham",
+          "Bouffalant",
+          "Camerupt",
+          "Magmortar",
+          "Rapidash",
+          "Maractus",
+          "Lopunny",
+          "Typhlosion",
+          "Blaziken"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Lucian",
+    "region": "Sinnoh",
+    "type": "Psico",
+    "image": "LucianDP.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Alakazam",
+          "Bronzong",
+          "Dragonite",
+          "Empoleon",
+          "Espeon",
+          "Gallade",
+          "Gardevoir",
+          "Girafarig",
+          "Golduck",
+          "Hydreigon",
+          "Kecleon",
+          "Lucario",
+          "Medicham",
+          "Metagross",
+          "Mismagius",
+          "Ninetales",
+          "Noctowl",
+          "Raichu",
+          "Roserade",
+          "Sigilyph",
+          "Stantler"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Golduck",
+          "Bronzong",
+          "Dragonite",
+          "Lucario",
+          "Raichu",
+          "Metagross",
+          "Alakazam",
+          "Hydreigon",
+          "Mismagius",
+          "Espeon",
+          "Ninetales",
+          "Absol",
+          "Empoleon",
+          "Gallade",
+          "Gardevoir",
+          "Sigilyph",
+          "Medicham",
+          "Noctowl",
+          "Girafarig",
+          "Kecleon",
+          "Stantler"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Cynthia",
+    "region": "Sinnoh",
+    "type": "Vario",
+    "image": "CynthiaDP.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aerodactyl",
+          "Altaria",
+          "Arcanine",
+          "Bastiodon",
+          "Braviary",
+          "Bronzong",
+          "Chandelure",
+          "Clefable",
+          "Eelektross",
+          "Excadrill",
+          "Garchomp",
+          "Gastrodon",
+          "Glaceon",
+          "Heracross",
+          "Jellicent",
+          "Lapras",
+          "Lickilicky",
+          "Lucario",
+          "Metagross",
+          "Milotic",
+          "Mismagius",
+          "Nidoqueen",
+          "Rayquaza",
+          "Roserade",
+          "Serperior",
+          "Spiritomb",
+          "Togekiss",
+          "Tyranitar",
+          "Umbreon",
+          "Vaporeon"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Lapras",
+          "Togekiss",
+          "Nidoqueen",
+          "Bronzong",
+          "Lucario",
+          "Eelektross",
+          "Metagross",
+          "Heracross",
+          "Umbreon",
+          "Mismagius",
+          "Tyranitar",
+          "Arcanine",
+          "Aerodactyl",
+          "Garchomp",
+          "Glaceon",
+          "Spiritomb",
+          "Excadrill",
+          "Chandelure",
+          "Serperior",
+          "Altaria",
+          "Milotic",
+          "Roserade",
+          "Jellicent",
+          "Braviary",
+          "Gastrodon",
+          "Lickilicky",
+          "Bastiodon",
+          "Clefable",
+          "Rayquaza"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Shauntal",
+    "region": "Unova",
+    "type": "Spettro",
+    "image": "ShauntalNB.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Banette",
+          "Bisharp",
+          "Bronzong",
+          "Chandelure",
+          "Dragonite",
+          "Drifblim",
+          "Eelektross",
+          "Froslass",
+          "Gengar",
+          "Golurk",
+          "Hydreigon",
+          "Jolteon",
+          "Liepard",
+          "Lucario",
+          "Luxray",
+          "Milotic",
+          "Mismagius",
+          "Purugly",
+          "Toxicroak",
+          "Umbreon",
+          "Wash Rotom",
+          "Zoroark"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Bronzong",
+          "Banette",
+          "Dragonite",
+          "Lucario",
+          "Eelektross",
+          "Gengar",
+          "Hydreigon",
+          "Wash Rotom",
+          "Umbreon",
+          "Mismagius",
+          "Toxicroak",
+          "Jolteon",
+          "Absol",
+          "Luxray",
+          "Golurk",
+          "Froslass",
+          "Chandelure",
+          "Milotic",
+          "Purugly",
+          "Bisharp",
+          "Drifblim",
+          "Liepard"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Grimsley",
+    "region": "Unova",
+    "type": "Buio",
+    "image": "GrimsleyNB.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Bisharp",
+          "Chandelure",
+          "Crobat",
+          "Espeon",
+          "Garchomp",
+          "Gyarados",
+          "Haxorus",
+          "Honchkrow",
+          "Houndoom",
+          "Kingdra",
+          "Krookodile",
+          "Liepard",
+          "Luxray",
+          "Mismagius",
+          "Roserade",
+          "Salamence",
+          "Samurott",
+          "Scrafty",
+          "Serperior",
+          "Sharpedo",
+          "Spiritomb",
+          "Staraptor",
+          "Tyranitar"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Staraptor",
+          "Salamence",
+          "Krookodile",
+          "Gyarados",
+          "Mismagius",
+          "Houndoom",
+          "Crobat",
+          "Scrafty",
+          "Kingdra",
+          "Tyranitar",
+          "Garchomp",
+          "Haxorus",
+          "Espeon",
+          "Absol",
+          "Luxray",
+          "Spiritomb",
+          "Sharpedo",
+          "Chandelure",
+          "Honchkrow",
+          "Serperior",
+          "Roserade",
+          "Bisharp",
+          "Liepard",
+          "Samurott"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Caitlin",
+    "region": "Unova",
+    "type": "Psico",
+    "image": "CaitlinNB.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Absol",
+          "Alakazam",
+          "Altaria",
+          "Blissey",
+          "Bronzong",
+          "Cinccino",
+          "Emolga",
+          "Empoleon",
+          "Entei",
+          "Gallade",
+          "Gothitelle",
+          "Houndoom",
+          "Jolteon",
+          "Leafeon",
+          "Metagross",
+          "Mienshao",
+          "Milotic",
+          "Musharna",
+          "Nidoqueen",
+          "Raichu",
+          "Reuniclus",
+          "Serperior",
+          "Sigilyph",
+          "Slowking",
+          "Snorlax",
+          "Staraptor",
+          "Togekiss",
+          "Umbreon",
+          "Vaporeon"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Togekiss",
+          "Nidoqueen",
+          "Bronzong",
+          "Raichu",
+          "Staraptor",
+          "Metagross",
+          "Alakazam",
+          "Umbreon",
+          "Houndoom",
+          "Jolteon",
+          "Leafeon",
+          "Vaporeon",
+          "Absol",
+          "Mienshao",
+          "Empoleon",
+          "Serperior",
+          "Altaria",
+          "Blissey",
+          "Milotic",
+          "Slowking",
+          "Snorlax",
+          "Cinccino",
+          "Sigilyph",
+          "Reuniclus",
+          "Emolga",
+          "Entei",
+          "Gothitelle",
+          "Musharna"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Marshal",
+    "region": "Unova",
+    "type": "Lotta",
+    "image": "MarshalNB.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Aggron",
+          "Breloom",
+          "Carracosta",
+          "Conkeldurr",
+          "Crawdaunt",
+          "Dusknoir",
+          "Electivire",
+          "Gliscor",
+          "Golurk",
+          "Gyarados",
+          "Haxorus",
+          "Krookodile",
+          "Lucario",
+          "Luxray",
+          "Machamp",
+          "Magnezone",
+          "Medicham",
+          "Mienshao",
+          "Salamence",
+          "Sawk",
+          "Seismitoad",
+          "Skarmory",
+          "Throh",
+          "Toxicroak",
+          "Tyranitar",
+          "Metagross"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Magnezone",
+          "Lucario",
+          "Machamp",
+          "Metagross",
+          "Gliscor",
+          "Electivire",
+          "Aggron",
+          "Salamence",
+          "Seismitoad",
+          "Krookodile",
+          "Gyarados",
+          "Toxicroak",
+          "Tyranitar",
+          "Haxorus",
+          "Skarmory",
+          "Luxray",
+          "Golurk",
+          "Mienshao",
+          "Crawdaunt",
+          "Dusknoir",
+          "Carracosta",
+          "Conkeldurr",
+          "Sawk",
+          "Throh",
+          "Breloom",
+          "Medicham"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  },
+  {
+    "name": "Alder",
+    "region": "Unova",
+    "type": "Vario",
+    "image": "AlderNB.png",
+    "teams": {
+      "Reckless": {
+        "pokemonNames": [
+          "Archeops",
+          "Bouffalant",
+          "Braviary",
+          "Chandelure",
+          "Conkeldurr",
+          "Dragonite",
+          "Druddigon",
+          "Escavalier",
+          "Excadrill",
+          "Feraligatr",
+          "Floatzel",
+          "Gigalith",
+          "Krookodile",
+          "Latias",
+          "Latios",
+          "Lucario",
+          "Manectric",
+          "Reuniclus",
+          "Samurott",
+          "Sandslash",
+          "Seismitoad",
+          "Vanilluxe",
+          "Vaporeon",
+          "Volcarona"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Wild Taste": {
+        "pokemonNames": [
+          "Dragonite",
+          "Lucario",
+          "Seismitoad",
+          "Krookodile",
+          "Feraligatr",
+          "Sandslash",
+          "Vaporeon",
+          "Excadrill",
+          "Chandelure",
+          "Vanilluxe",
+          "Floatzel",
+          "Samurott",
+          "Reuniclus",
+          "Conkeldurr",
+          "Druddigon",
+          "Archeops",
+          "Volcarona",
+          "Manectric",
+          "Bouffalant",
+          "Latias",
+          "Escavalier",
+          "Latios",
+          "Accelgor",
+          "Gigalith",
+          "Braviary"
+        ],
+        "pokemonStrategies": {}
+      },
+      "Zanpaku v2": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Double Star": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      },
+      "Dragonstar": {
+        "pokemonNames": [],
+        "pokemonStrategies": {}
+      }
+    }
+  }
+]
