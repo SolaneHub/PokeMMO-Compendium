@@ -56,16 +56,24 @@ const EditorPage = () => {
         .pokemonStrategies[selectedPokemon];
   }
 
+  let previewData = eliteFourData;
+
+  if (selectedMemberIndex !== null) {
+    previewData = eliteFourData[selectedMemberIndex];
+
+    if (selectedTeamKey) {
+      previewData = previewData.teams[selectedTeamKey];
+
+      if (selectedPokemon) {
+        previewData = previewData.pokemonStrategies[selectedPokemon];
+      }
+    }
+  }
+
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <div className="editor-container">
       {/* Sidebar Navigatore */}
-      <div
-        style={{
-          width: "250px",
-          borderRight: "1px solid #ccc",
-          padding: "10px",
-        }}
-      >
+      <div className="editor-sidebar">
         <h3>Navigatore</h3>
 
         {/* Superquattro */}
@@ -108,8 +116,9 @@ const EditorPage = () => {
                 )
               )}
             </select>
-            <div style={{ marginTop: "5px" }}>
+            <div>
               <button
+                className="btn btn-success"
                 onClick={() => {
                   const newTeamName = prompt("Nome del nuovo Team:");
                   if (!newTeamName) return;
@@ -127,6 +136,7 @@ const EditorPage = () => {
 
               {selectedTeamKey && (
                 <button
+                  className="btn btn-danger"
                   onClick={() => {
                     if (
                       window.confirm(
@@ -168,9 +178,10 @@ const EditorPage = () => {
                 </option>
               ))}
             </select>
-            <div style={{ marginTop: "5px" }}>
+            <div>
               {selectedTeamKey && (
                 <button
+                  className="btn btn-success"
                   onClick={() => {
                     const newPokemon = prompt("Nome del nuovo Pokémon:");
                     if (!newPokemon) return;
@@ -192,6 +203,7 @@ const EditorPage = () => {
 
               {selectedPokemon && (
                 <button
+                  className="btn btn-danger"
                   onClick={() => {
                     if (window.confirm(`Vuoi eliminare ${selectedPokemon}?`)) {
                       const newData = [...eliteFourData];
@@ -217,13 +229,15 @@ const EditorPage = () => {
         )}
 
         {/* Salva */}
-        <div style={{ marginTop: "20px" }}>
-          <button onClick={handleSave}>💾 Salva su File</button>
+        <div>
+          <button className="btn btn-primary" onClick={handleSave}>
+            💾 Salva su File
+          </button>
         </div>
       </div>
 
       {/* Editor degli Step */}
-      <div style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
+      <div className="editor-main">
         {selectedMemberIndex !== null && selectedTeamKey && selectedPokemon ? (
           <>
             <h3>
@@ -231,7 +245,7 @@ const EditorPage = () => {
               {selectedTeamKey} → {selectedPokemon}
             </h3>
             {steps.map((step, i) => (
-              <div key={i} style={{ marginBottom: "15px" }}>
+              <div key={i} className="step-card">
                 <StepForm
                   step={step}
                   onChange={(updated) => {
@@ -243,6 +257,7 @@ const EditorPage = () => {
                   }}
                 />
                 <button
+                  className="btn btn-danger"
                   onClick={() => {
                     const newData = [...eliteFourData];
                     newData[selectedMemberIndex].teams[
@@ -261,6 +276,7 @@ const EditorPage = () => {
             ))}
 
             <button
+              className="btn btn-success"
               onClick={() => {
                 const newData = [...eliteFourData];
                 newData[selectedMemberIndex].teams[
@@ -269,7 +285,6 @@ const EditorPage = () => {
                   type: "",
                   player: "",
                   warning: "",
-                  variations: [],
                 });
                 setEliteFourData(newData);
               }}
@@ -286,24 +301,9 @@ const EditorPage = () => {
       </div>
 
       {/* Preview JSON */}
-      <div
-        style={{
-          width: "40%",
-          borderLeft: "1px solid #ccc",
-          padding: "10px",
-          overflowY: "auto",
-        }}
-      >
+      <div className="editor-preview">
         <h3>Preview JSON</h3>
-        <pre
-          style={{
-            background: "#000000ff",
-            padding: "10px",
-            borderRadius: "5px",
-          }}
-        >
-          {JSON.stringify(eliteFourData, null, 2)}
-        </pre>
+        <pre>{JSON.stringify(previewData, null, 2)}</pre>
       </div>
     </div>
   );

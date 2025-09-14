@@ -16,7 +16,10 @@ const VariationForm = ({ variation, onChange }) => {
 
   // aggiunge un nuovo step vuoto
   const addStep = () => {
-    const newSteps = [...(variation.steps || []), { type: "", player: "", warning: "", variations: [] }];
+    const newSteps = [
+      ...(variation.steps || []),
+      { type: "", player: "", warning: "" },
+    ];
     onChange({ ...variation, steps: newSteps });
   };
 
@@ -27,7 +30,9 @@ const VariationForm = ({ variation, onChange }) => {
   };
 
   return (
-    <div style={{ border: "1px dashed #aaa", margin: "10px 0", padding: "10px" }}>
+    <div
+      style={{ border: "1px dashed #aaa", margin: "10px 0", padding: "10px" }}
+    >
       <h4>Variation</h4>
       <label>
         Type:{" "}
@@ -55,10 +60,14 @@ const VariationForm = ({ variation, onChange }) => {
               step={step}
               onChange={(updated) => handleStepChange(i, updated)}
             />
-            <button onClick={() => removeStep(i)}>❌ Rimuovi Step</button>
+            <button className="btn btn-danger" onClick={() => removeStep(i)}>
+              ❌ Rimuovi Step
+            </button>
           </div>
         ))}
-        <button onClick={addStep}>➕ Aggiungi Step</button>
+        <button className="btn btn-success" onClick={addStep}>
+          ➕ Aggiungi Step
+        </button>
       </div>
     </div>
   );

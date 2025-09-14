@@ -15,7 +15,7 @@ const StepForm = ({ step, onChange }) => {
   const addVariation = () => {
     const newVariations = [
       ...(step.variations || []),
-      { type: "", name: "", steps: [] }
+      { type: "", name: "", steps: [] },
     ];
     onChange({ ...step, variations: newVariations });
   };
@@ -26,7 +26,13 @@ const StepForm = ({ step, onChange }) => {
   };
 
   return (
-    <div style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
+    <div
+      style={{
+        border: "1px solid #ccc",
+        padding: "10px",
+        marginBottom: "10px",
+      }}
+    >
       <label>
         Type:{" "}
         <input
@@ -64,10 +70,17 @@ const StepForm = ({ step, onChange }) => {
               variation={variation}
               onChange={(updated) => handleVariationChange(i, updated)}
             />
-            <button onClick={() => removeVariation(i)}>❌ Rimuovi Variation</button>
+            <button
+              className="btn btn-danger"
+              onClick={() => removeVariation(i)}
+            >
+              ❌ Rimuovi Variation
+            </button>
           </div>
         ))}
-        <button onClick={addVariation}>➕ Aggiungi Variation</button>
+        <button className="btn btn-success" onClick={addVariation}>
+          ➕ Aggiungi Variation
+        </button>
       </div>
     </div>
   );
