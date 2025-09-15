@@ -172,11 +172,13 @@ const EditorPage = () => {
               {Object.keys(
                 eliteFourData[selectedMemberIndex].teams[selectedTeamKey]
                   .pokemonStrategies
-              ).map((poke) => (
-                <option key={poke} value={poke}>
-                  {poke}
-                </option>
-              ))}
+              )
+                .sort((a, b) => a.localeCompare(b))
+                .map((poke) => (
+                  <option key={poke} value={poke}>
+                    {poke}
+                  </option>
+                ))}
             </select>
             <div>
               {selectedTeamKey && (
@@ -184,14 +186,22 @@ const EditorPage = () => {
                   className="btn btn-success"
                   onClick={() => {
                     const newPokemon = prompt("Nome del nuovo Pokémon:");
-                    if (!newPokemon) return;
+
+                    if (!newPokemon) return; // esci se non viene inserito nulla
+
                     const newData = [...eliteFourData];
                     const team =
                       newData[selectedMemberIndex].teams[selectedTeamKey];
 
-                    // aggiungi al team
-                    team.pokemonNames.push(newPokemon);
-                    team.pokemonStrategies[newPokemon] = [];
+                    // Se il Pokémon non è già presente, aggiungilo a pokemonNames
+                    if (!team.pokemonNames.includes(newPokemon)) {
+                      team.pokemonNames.push(newPokemon);
+                    }
+
+                    // Assicurati che esista la strategia per il Pokémon
+                    if (!team.pokemonStrategies[newPokemon]) {
+                      team.pokemonStrategies[newPokemon] = [];
+                    }
 
                     setEliteFourData(newData);
                     setSelectedPokemon(newPokemon);

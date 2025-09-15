@@ -16,10 +16,7 @@ const VariationForm = ({ variation, onChange }) => {
 
   // aggiunge un nuovo step vuoto
   const addStep = () => {
-    const newSteps = [
-      ...(variation.steps || []),
-      { type: "", player: "", warning: "" },
-    ];
+    const newSteps = [...(variation.steps || []), { type: "", player: "" }];
     onChange({ ...variation, steps: newSteps });
   };
 

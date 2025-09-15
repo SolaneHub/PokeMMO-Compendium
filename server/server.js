@@ -31,13 +31,6 @@ app.post("/api/elite-four", (req, res) => {
   try {
     const newData = req.body;
 
-    // Backup prima di sovrascrivere
-    const backupPath = path.join(
-      process.cwd(),
-      `eliteFourData.bak.${Date.now()}.json`
-    );
-    fs.copyFileSync(dataPath, backupPath);
-
     // Scrivi i nuovi dati
     fs.writeFileSync(dataPath, JSON.stringify(newData, null, 2), "utf-8");
     res.json({ success: true, message: "Dati salvati con successo" });
