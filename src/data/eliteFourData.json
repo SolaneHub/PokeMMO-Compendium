@@ -1126,7 +1126,7 @@
             {
               "type": "main",
               "player": "🔄 Switch to Blissey, use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
-              "warning": "Use Shadow Ball"
+              "warning": "Shadow Ball: Nidoqueen"
             }
           ],
           "Raichu": [
@@ -1154,7 +1154,7 @@
                     {
                       "type": "main",
                       "player": "🔄 switch to 2nd Metagross, use Trick, 🔄 switch to Chandelure, use 4x Calm Mind, give X Speed",
-                      "warning": "Use Shadow Ball",
+                      "warning": "Shadow Ball: Hariyama",
                       "variations": [
                         {
                           "type": "step",
@@ -2202,7 +2202,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "use Stealth Rock until success or Metagross K.O.",
+                              "player": "use Stealth Rock until success or Metagross self K.O.",
                               "warning": "Pay attention to confusion",
                               "variations": [
                                 {
@@ -2629,8 +2629,7 @@
                                           "steps": [
                                             {
                                               "type": "main",
-                                              "player": "🔄️ switch to 2nd Metagross, use Trick, 🔄️ go back to Chandelure, use 2x Calm Mind, give X Speed",
-                                              "warning": ""
+                                              "player": "🔄️ switch to 2nd Metagross, use Trick, 🔄️ go back to Chandelure, use 2x Calm Mind, give X Speed"
                                             }
                                           ]
                                         }
@@ -2644,8 +2643,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                                     }
                                   ]
                                 }
@@ -2659,8 +2657,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                             }
                           ]
                         },
@@ -2671,7 +2668,6 @@
                             {
                               "type": "main",
                               "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
-                              "warning": "",
                               "variations": [
                                 {
                                   "type": "step",
@@ -2679,8 +2675,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "🔄️ switch to Chandelure, 🔄️ go back to Metagross, use Trick, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "🔄️ switch to Chandelure, 🔄️ go back to Metagross, use Trick, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                                     }
                                   ]
                                 }
@@ -2695,7 +2690,6 @@
                             {
                               "type": "main",
                               "player": "use Trick",
-                              "warning": "",
                               "variations": [
                                 {
                                   "type": "step",
@@ -2703,8 +2697,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed",
-                                      "warning": ""
+                                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed"
                                     }
                                   ]
                                 },
@@ -2714,8 +2707,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                                     }
                                   ]
                                 }
@@ -2730,7 +2722,6 @@
                             {
                               "type": "main",
                               "player": "use Trick, check Damage Move",
-                              "warning": "",
                               "variations": [
                                 {
                                   "type": "step",
@@ -2738,8 +2729,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                                     }
                                   ]
                                 },
@@ -2749,8 +2739,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "use Stealth Rock, 🔄️ switch to Poliwrath, use Belly Drum, give X Speed",
-                                      "warning": ""
+                                      "player": "use Stealth Rock, 🔄️ switch to Poliwrath, use Belly Drum, give X Speed"
                                     }
                                   ]
                                 }
@@ -2765,7 +2754,6 @@
                             {
                               "type": "main",
                               "player": "use Trick",
-                              "warning": "",
                               "variations": [
                                 {
                                   "type": "step",
@@ -2774,7 +2762,6 @@
                                     {
                                       "type": "main",
                                       "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                                      "warning": "",
                                       "variations": [
                                         {
                                           "type": "step",
@@ -2782,8 +2769,7 @@
                                           "steps": [
                                             {
                                               "type": "main",
-                                              "player": "🔄️ switch to Blissey, use Trick, use 2x Softboiled, Metagross switches out, 🔄️ go back to Chandelure, use 2x Calm Mind, give X Speed",
-                                              "warning": ""
+                                              "player": "🔄️ switch to Blissey, use Trick, use 2x Softboiled, Metagross switches out, 🔄️ go back to Chandelure, use 2x Calm Mind, give X Speed"
                                             }
                                           ]
                                         }
@@ -2797,8 +2783,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                                     }
                                   ]
                                 }
@@ -2813,7 +2798,6 @@
                             {
                               "type": "main",
                               "player": "use Trick, use Stealth Rock, 🔄️ go back to Blissey, use Trick,🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                              "warning": "",
                               "variations": []
                             }
                           ]
@@ -2861,14 +2845,13 @@
             {
               "type": "main",
               "player": "Use Trick, switch to Chandelure, use 3x Calm Mind, give X Speed",
-              "warning": "Experimental: Use Trick, switch to Excadrill, use Swords Dance, give X Speed"
+              "warning": "Experimental: Use Trick, 🔄️ switch to Excadrill, use Swords Dance, give X Speed"
             }
           ],
           "Slowbro": [
             {
               "type": "main",
               "player": "Use Trick",
-              "warning": "",
               "variations": [
                 {
                   "type": "step",
@@ -2877,7 +2860,6 @@
                     {
                       "type": "main",
                       "player": "use Stealth Rock",
-                      "warning": "",
                       "variations": [
                         {
                           "type": "step",
@@ -2885,8 +2867,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                             }
                           ]
                         },
@@ -2896,8 +2877,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Chandelure, 🔄️ switch to 2nd Metagross, use Trick, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Chandelure, 🔄️ switch to 2nd Metagross, use Trick, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                             }
                           ]
                         }
@@ -2911,8 +2891,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -2922,8 +2901,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -2933,8 +2911,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -2944,8 +2921,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "🔄️ switch to Excadrill, use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 }
@@ -2956,7 +2932,6 @@
             {
               "type": "main",
               "player": "Use Trick",
-              "warning": "",
               "variations": [
                 {
                   "type": "step",
@@ -2964,8 +2939,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -2975,8 +2949,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "🔄️ switch to Metagross, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "🔄️ switch to Metagross, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -2986,8 +2959,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -2997,8 +2969,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -3009,7 +2980,6 @@
                     {
                       "type": "main",
                       "player": "check Held Item",
-                      "warning": "",
                       "variations": [
                         {
                           "type": "step",
@@ -3017,8 +2987,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed"
                             }
                           ]
                         },
@@ -3028,8 +2997,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                             }
                           ]
                         }
@@ -3044,7 +3012,6 @@
             {
               "type": "main",
               "player": "Use Trick, check Held Item",
-              "warning": "",
               "variations": [
                 {
                   "type": "step",
@@ -3052,8 +3019,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "🔄️ switch to Excadrill, use 3x Swords Dance, give X Speed",
-                      "warning": ""
+                      "player": "🔄️ switch to Excadrill, use 3x Swords Dance, give X Speed"
                     }
                   ]
                 },
@@ -3063,8 +3029,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 }
@@ -3084,7 +3049,6 @@
                     {
                       "type": "main",
                       "player": "check Damage Move",
-                      "warning": "",
                       "variations": [
                         {
                           "type": "step",
@@ -3092,8 +3056,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "use 2x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "use 2x Calm Mind, give X Speed"
                             }
                           ]
                         },
@@ -3103,8 +3066,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "use 4x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "use 4x Calm Mind, give X Speed"
                             }
                           ]
                         }
@@ -3119,7 +3081,6 @@
             {
               "type": "main",
               "player": "Use Trick",
-              "warning": "",
               "variations": [
                 {
                   "type": "step",
@@ -3127,8 +3088,7 @@
                   "steps": [
                     {
                       "type": "main",
-                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                      "warning": ""
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                     }
                   ]
                 },
@@ -3139,7 +3099,6 @@
                     {
                       "type": "main",
                       "player": "🔄️ switch to Chandelure, give X Speed",
-                      "warning": "",
                       "variations": [
                         {
                           "type": "step",
@@ -3147,8 +3106,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Chandelure, 🔄️ switch to 2nd Metagross, use Trick, 🔄️ go back to Chandelure, use 3x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Chandelure, 🔄️ switch to 2nd Metagross, use Trick, 🔄️ go back to Chandelure, use 3x Calm Mind, give X Speed"
                             }
                           ]
                         }
@@ -3163,7 +3121,6 @@
                     {
                       "type": "main",
                       "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                      "warning": "",
                       "variations": [
                         {
                           "type": "step",
@@ -3172,7 +3129,6 @@
                             {
                               "type": "main",
                               "player": "🔄️ switch to Chandelure, switch to 2nd Metagross, use Trick",
-                              "warning": "",
                               "variations": [
                                 {
                                   "type": "step",
@@ -3180,8 +3136,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "🔄️ switch to Chandelure, use 2x Calm Mind, give X Speed"
                                     }
                                   ]
                                 },
@@ -3191,8 +3146,7 @@
                                   "steps": [
                                     {
                                       "type": "main",
-                                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
-                                      "warning": ""
+                                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
                                     }
                                   ]
                                 }
@@ -3206,8 +3160,7 @@
                           "steps": [
                             {
                               "type": "main",
-                              "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
-                              "warning": ""
+                              "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed"
                             }
                           ]
                         }
@@ -3293,7 +3246,787 @@
           "Umbreon",
           "Wash Rotom"
         ],
-        "pokemonStrategies": {}
+        "pokemonStrategies": {
+          "Arbok": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🎒 Expert Belt",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🎒 Life Orb",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Hydreigon",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey, 🔄️ switch to 2nd Metagross, use Stealth Rock, 🔄️ switch to Chandelure, use Calm Mind, give X Speed",
+                      "warning": "Shadow Ball: Gengar"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Alakazam": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock, 🔄️ switch to Chandelure, use Calm Mind, give X Speed",
+              "warning": "Shadow Ball: Gengar"
+            }
+          ],
+          "Crobat": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄️ Krookodile",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
+                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Seismitoad",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Wash Rotom",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey, use Softboiled, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Gengar": [
+            {
+              "type": "main",
+              "player": "Switch to Blissey",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Flamethrower",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick, 🔄️ switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed",
+                      "warning": "Iron Head: Gengar"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Shadow Ball",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Focus Blast",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Metagross, use Trick",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄️ Marowak",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+                                      "warning": "Iron Head: Gengar"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄️ Muk",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
+                                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "step",
+                                  "name": "🔄️ Lucario or Toxicroak",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄️ switch to Chandelure, use 5x Calm Mind, give 2x Calm Mind",
+                                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Alakazam",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Metagross, use Stealth Rock, 🔄️ switch to Chandelure, use Calm Mind, give 2x X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Krookodile",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Excadrill, use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Lucario",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Chandelure, use 5x Calm Mind, give 2x X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Marowak",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "switch to Excadrill, use 2x Swords Dance, give X Speed",
+                              "warning": "Iron Head: Gengar; If Iron Head is disabled against Frost Rotom, 🔄️ switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Muk",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Excadrill, use Stealth Rock, use 3x Swords Dance, give X Speed",
+                              "warning": "Iron Head: Gengar; If Iron Head is disabled against Gyarados, 🔄️ switch to Poliwrath, use Belly Drum, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Toxicroak",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Hydreigon",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Metagross, use Stealth Rock, 🔄️ switch to Chandelure, use Calm Mind, give X Speed",
+                      "warning": "Shadow Ball: Gengar"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Fan Rotom": [
+            {
+              "type": "main",
+              "player": "🔄️ Switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 5x Calm Mind, use X Speed",
+              "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+            }
+          ],
+          "Frost Rotom": [
+            {
+              "type": "main",
+              "player": "🔄️ Switch to Excadrill, use 2x Swords Dance, give X Speed",
+              "warning": "Iron Head: Gengar"
+            }
+          ],
+          "Golduck": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Excadrill, check Damage Move",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Bonemerang",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use 2x Swords Dance, give X Speed",
+                              "warning": "Iron Head: Gengar"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Double Edge",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Marowak or Any Rotom",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "warning": "Iron Head: Gengar"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Umbreon",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "warning": "Iron Head: Gengar"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Gyarados": [
+            {
+              "type": "main",
+              "player": "Use Thunder Punch, 🔄️ switch to Excadrill",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "Gyarados Alive",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Seismitoad",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Heat Rotom": [
+            {
+              "type": "main",
+              "player": "🔄️ Switch to Blissey, use Trick, 🔄️ switch to Excadrill, use Stealth Rock, use 3x Swords Dance, give X Speed",
+              "warning": "Iron Head: Gengar; If Iron Head is disabled against Gyarados, 🔄️ switch to Poliwrath, use Belly Drum, give X Speed"
+            }
+          ],
+          "Houndoom": [
+            {
+              "type": "main",
+              "player": "🔄️ Switch to Blissey, use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄️ Crobat",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Krookodile",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Lucario or Toxicroak",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Hydreigon": [
+            {
+              "type": "main",
+              "player": "🔄️ Switch to Blissey, 🔄️ switch to Metagross, use Stealth Rock, 🔄️ switch to Chandelure, use Calm Mind, give X Speed"
+            }
+          ],
+          "Krookodile": [
+            {
+              "type": "main",
+              "player": "Check Ability",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "👁️ Intimidate",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Trick, 🔄️ switch to Excadrill, use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
+                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄️ Mandibuzz",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
+                              "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "👁️ Moxie",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed",
+                      "warning": "Earthquake: Gengar"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Lucario": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Aura Sphere",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Close Combat",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+                      "warning": "Shadow Ball: Gengar"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Hydreigon",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, switch to Chandelure, use Calm Mind, give X Speed",
+                      "warning": "Shadow Ball: Gengar"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Mandibuzz": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "⬇️ Staying",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Krookodile",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "⬇️ Staying",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use 3x Swords Dance, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Switching",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Seismitoad",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, 🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄️ Mandibuzz",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Marowak": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Bonemerang",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "warning": "Iron Head: Gengar"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Earthquake",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use Swords Dance, give X Speed",
+                      "warning": "Iron Head: Gengar"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Muk": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
+              "warning": "Flamethrower: Gengar",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄️ Gyarados",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Gyarados, 🔄️ switch to Poliwrath, 🔄️ switch to Blissey, use Stealth Rock, 🔄️ switch to Excadrill, use 3x Swords Dance, give X Speed",
+                      "warning": "Iron Head: Gengar; If Iron Head is disabled against Gyarados, 🔄️ switch to Poliwrath, use Belly Drum, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Seismitoad": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "💥 Earth Power",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "💥 Earthquake",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "check Held Item",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🎒 Leftovers",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Excadrill, use 3x Swords Dance, use Stealth Rock, give X Speed",
+                              "variations": [
+                                {
+                                  "type": "step",
+                                  "name": "🔄️ Mandibuzz",
+                                  "steps": [
+                                    {
+                                      "type": "main",
+                                      "player": "🔄️ switch to Blissey, use Trick, switching to Lucario, 🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+                                      "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🎒 Rocky Helmet",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Shiftry": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed",
+              "warning": "Flamethrower: Gengar"
+            }
+          ],
+          "Toxicroak": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+              "warning": "Gengar before Houndoom: Flamethrower, otherwise Shadow Ball; Houndoom : Shadow Ball"
+            }
+          ],
+          "Umbreon": [
+            {
+              "type": "main",
+              "player": "🔄️ Switch to Blissey, use Trick, 🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+              "warning": "If Iron Head is disabled, 🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄️ Arbok",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Metagross, use Trick, 🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+                      "warning": "If Iron Head is disabled, 🔄️ switch to Chandelure, use 5x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Wash Rotom": [
+            {
+              "type": "main",
+              "player": "Use Stealth Rock",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄️ Hydro Pump",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Poliwrath, give X Speed, use Belly Drum",
+                      "warning": "Earthquake: Gengar",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄️ Mandibuzz",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Thunderbolt",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use 3x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Will-O-Wisp",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Blissey",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "⬇️ Staying",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Houndoom",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Krookodile",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "use Trick, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed",
+                              "warning": "Flamethrower: Gengar"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       },
       "Wild Taste": {
         "pokemonNames": [
