@@ -1,0 +1,64 @@
+[
+  {
+    "name": "Red",
+    "region": "Johto",
+    "type": "Vario",
+    "image": "RedLGPE.png",
+    "teams": {
+      "Skunkrow": {
+        "pokemonNames": [
+          "Blastoise",
+          "Charizard",
+          "Espeon",
+          "Pikachu",
+          "Snorlax",
+          "Venusaur"
+        ],
+        "pokemonStrategies": {
+          "Blastoise": [
+            {
+              "type": "main",
+              "player": "Use Sucker Punch. If you crit, do nothing because we don’t want to faint Blastoise. If you don’t crit and Blastoise does not crit you, use Sucker Punch again and faint out. Bring in Honchkrow to Sucker Punch",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🔄️ 2nd Pokemon or Moxie +1",
+                  "steps": [
+                    {
+                      "type": "",
+                      "player": "",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "🔄️ Charizard",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "Use Protect, use Sucker Punch"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Espeon",
+                          "steps": []
+                        },
+                        {
+                          "type": "step",
+                          "name": "🔄️ Venusaur",
+                          "steps": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Metaoyster": {},
+      "Blilligon": {}
+    }
+  }
+]

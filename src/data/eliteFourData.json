@@ -4099,7 +4099,131 @@
           "Steelix",
           "Tyranitar"
         ],
-        "pokemonStrategies": {}
+        "pokemonStrategies": {
+          "Aerodactyl": [
+            {
+              "type": "main",
+              "player": "Use Trick, 🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed",
+              "warning": ""
+            }
+          ],
+          "Ampharos": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "warning": "",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🎒 Choice Scarf",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🎒 Life Orb",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Dragonite",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, check Damage Move",
+                      "variations": [
+                        {
+                          "type": "step",
+                          "name": "💥 Fire Blast",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Chandelure, use 2x Swords Dance, give X Speed"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "step",
+                          "name": "💥 Fire Punch",
+                          "steps": [
+                            {
+                              "type": "main",
+                              "player": "🔄️ switch to Poliwrath, use Belly Drum, give X Speed",
+                              "warning": "Use Burn Heal if Poliwrath is burned"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "Arbok": [
+            {
+              "type": "main",
+              "player": "Use Trick",
+              "warning": "",
+              "variations": [
+                {
+                  "type": "step",
+                  "name": "🎒 Black Sludge",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Stealth Rock, use 2x Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🎒 Rocky Helmet",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "🔄️ switch to Excadrill, use Swords Dance, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Dragonite",
+                  "steps": []
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Eelektross",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄️ switch to Chandelure, use 3x Calm Mind, give X Speed"
+                    }
+                  ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ Hydreigon",
+                  "steps": [
+                    {
+                      "type": "main",
+                      "player": "use Stealth Rock, 🔄️ switch to Blissey, use Trick, 🔄️ switch to Chandelure, use 4x Calm Mind, give X Speed"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       },
       "Wild Taste": {
         "pokemonNames": [

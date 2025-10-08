@@ -1,5 +1,3 @@
-import "../App.css";
-
 const EliteMemberCard = ({
   member,
   onMemberClick,
@@ -11,7 +9,7 @@ const EliteMemberCard = ({
     <div
       className={`card ${isSelected ? "selected" : ""}`}
       onClick={() => onMemberClick(member)}
-      style={isSelected ? { boxShadow: `0 4px 10px ${shadowColor}aa` } : {}}
+      style={isSelected ? { boxShadow: shadowColor } : {}}
     >
       <p className="elite4-name" style={{ background: background }}>
         {member.name}
