@@ -47,6 +47,25 @@ export const getPrimaryColor = (backgroundStyle) => {
   }
 };
 
+export const getDualShadow = (backgroundStyle) => {
+  if (!backgroundStyle) {
+    return `0 4px 10px #999999aa`;
+  }
+
+  if (backgroundStyle.startsWith("linear-gradient")) {
+    const colors = extractGradientColors(backgroundStyle);
+    if (colors.length >= 2) {
+      return `0 4px 10px ${colors[0]}aa, 0 2px 5px ${colors[1]}aa`;
+    } else if (colors.length === 1) {
+      return `0 4px 10px ${colors[0]}aa`;
+    }
+  } else {
+    return `0 4px 10px ${backgroundStyle}aa`;
+  }
+  
+  return `0 4px 10px #999999aa`;
+};
+
 export const generateDualTypeGradient = (type1, type2) => {
   const gradient1 = typeBackgrounds[type1];
   const gradient2 = typeBackgrounds[type2];
