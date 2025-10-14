@@ -2,7 +2,7 @@
   {
     "name": "Lorelei",
     "region": "Kanto",
-    "type": "Ghiaccio",
+    "type": "Ice",
     "image": "LoreleiLGPE.png",
     "teams": {
       "Reckless": {
@@ -1726,7 +1726,7 @@
   {
     "name": "Bruno",
     "region": "Kanto",
-    "type": "Lotta",
+    "type": "Fighting",
     "image": "BrunoLGPE.png",
     "teams": {
       "Reckless": {
@@ -3219,7 +3219,7 @@
   {
     "name": "Agatha",
     "region": "Kanto",
-    "type": "Spettro",
+    "type": "Ghost",
     "image": "AgathaLGPE.png",
     "teams": {
       "Reckless": {
@@ -4071,7 +4071,7 @@
   {
     "name": "Lance",
     "region": "Kanto",
-    "type": "Drago",
+    "type": "Dragon",
     "image": "LanceLGPE.png",
     "teams": {
       "Reckless": {
@@ -4269,7 +4269,7 @@
   {
     "name": "Blue",
     "region": "Kanto",
-    "type": "Vario",
+    "type": "Various",
     "image": "BluLGPE.png",
     "teams": {
       "Reckless": {
@@ -4357,7 +4357,7 @@
   {
     "name": "Will",
     "region": "Johto",
-    "type": "Psico",
+    "type": "Psychic",
     "image": "WillHGSS.png",
     "teams": {
       "Reckless": {
@@ -4441,7 +4441,7 @@
   {
     "name": "Koga",
     "region": "Johto",
-    "type": "Veleno",
+    "type": "Poison",
     "image": "KogaLGPE.png",
     "teams": {
       "Reckless": {
@@ -4540,7 +4540,7 @@
   {
     "name": "Bruno",
     "region": "Johto",
-    "type": "Lotta",
+    "type": "Fighting",
     "image": "BrunoLGPE.png",
     "teams": {
       "Reckless": {
@@ -4623,7 +4623,7 @@
   {
     "name": "Karen",
     "region": "Johto",
-    "type": "Buio",
+    "type": "Dark",
     "image": "KarenHGSS.png",
     "teams": {
       "Reckless": {
@@ -4711,7 +4711,7 @@
   {
     "name": "Lance",
     "region": "Johto",
-    "type": "Drago",
+    "type": "Dragon",
     "image": "BluLGPE.png",
     "teams": {
       "Reckless": {
@@ -4789,7 +4789,7 @@
   {
     "name": "Sidney",
     "region": "Hoenn",
-    "type": "Buio",
+    "type": "Dark",
     "image": "SidneyROZA.png",
     "teams": {
       "Reckless": {
@@ -4875,7 +4875,7 @@
   {
     "name": "Phoebe",
     "region": "Hoenn",
-    "type": "Spettro",
+    "type": "Ghost",
     "image": "PhoebeROZA.png",
     "teams": {
       "Reckless": {
@@ -4946,7 +4946,7 @@
   {
     "name": "Glacia",
     "region": "Hoenn",
-    "type": "Ghiaccio",
+    "type": "Ice",
     "image": "GlaciaROZA.png",
     "teams": {
       "Reckless": {
@@ -5012,7 +5012,7 @@
   {
     "name": "Drake",
     "region": "Hoenn",
-    "type": "Drago",
+    "type": "Dragon",
     "image": "DrakeROZA.png",
     "teams": {
       "Reckless": {
@@ -5084,7 +5084,7 @@
   {
     "name": "Wallace",
     "region": "Hoenn",
-    "type": "Acqua",
+    "type": "Water",
     "image": "WallaceROZA.png",
     "teams": {
       "Reckless": {
@@ -5158,7 +5158,7 @@
   {
     "name": "Aaron",
     "region": "Sinnoh",
-    "type": "Coleottero",
+    "type": "Bug",
     "image": "AaronDP.png",
     "teams": {
       "Reckless": {
@@ -5240,7 +5240,7 @@
   {
     "name": "Bertha",
     "region": "Sinnoh",
-    "type": "Terra",
+    "type": "Ground",
     "image": "BerthaDP.png",
     "teams": {
       "Reckless": {
@@ -5324,7 +5324,7 @@
   {
     "name": "Flint",
     "region": "Sinnoh",
-    "type": "Fuoco",
+    "type": "Fire",
     "image": "FlintDP.png",
     "teams": {
       "Reckless": {
@@ -5408,7 +5408,7 @@
   {
     "name": "Lucian",
     "region": "Sinnoh",
-    "type": "Psico",
+    "type": "Psychic",
     "image": "LucianDP.png",
     "teams": {
       "Reckless": {
@@ -5481,7 +5481,7 @@
   {
     "name": "Cynthia",
     "region": "Sinnoh",
-    "type": "Vario",
+    "type": "Various",
     "image": "CynthiaDP.png",
     "teams": {
       "Reckless": {
@@ -5571,7 +5571,7 @@
   {
     "name": "Shauntal",
     "region": "Unova",
-    "type": "Spettro",
+    "type": "Ghost",
     "image": "ShauntalNB.png",
     "teams": {
       "Reckless": {
@@ -5646,7 +5646,7 @@
   {
     "name": "Grimsley",
     "region": "Unova",
-    "type": "Buio",
+    "type": "Dark",
     "image": "GrimsleyNB.png",
     "teams": {
       "Reckless": {
@@ -5724,7 +5724,7 @@
   {
     "name": "Caitlin",
     "region": "Unova",
-    "type": "Psico",
+    "type": "Psychic",
     "image": "CaitlinNB.png",
     "teams": {
       "Reckless": {
@@ -5812,7 +5812,7 @@
   {
     "name": "Marshal",
     "region": "Unova",
-    "type": "Lotta",
+    "type": "Fighting",
     "image": "MarshalNB.png",
     "teams": {
       "Reckless": {
@@ -5894,7 +5894,7 @@
   {
     "name": "Alder",
     "region": "Unova",
-    "type": "Vario",
+    "type": "Various",
     "image": "AlderNB.png",
     "teams": {
       "Reckless": {
