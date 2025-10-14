@@ -2,7 +2,7 @@
   {
     "name": "Red",
     "region": "Johto",
-    "type": "Vario",
+    "type": "Various",
     "image": "RedLGPE.png",
     "teams": {
       "Skunkrow": {
@@ -18,11 +18,11 @@
           "Blastoise": [
             {
               "type": "main",
-              "player": "Use Sucker Punch. If you crit, do nothing because we don’t want to faint Blastoise. If you don’t crit and Blastoise does not crit you, use Sucker Punch again and faint out. Bring in Honchkrow to Sucker Punch",
+              "player": "Use Sucker Punch. If Skuntank and Blastoise don’t crit, use Sucker Punch and faint out; 🔄️ switch to Honchkrow and use Sucker Punch",
               "variations": [
                 {
                   "type": "step",
-                  "name": "🔄️ 2nd Pokemon or Moxie +1",
+                  "name": "🔄️ 2nd Pokémon",
                   "steps": [
                     {
                       "type": "",
@@ -51,8 +51,20 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "type": "step",
+                  "name": "🔄️ 3rd Pokémon +",
+                  "steps": []
                 }
               ]
+            }
+          ],
+          "Charizard": [
+            {
+              "type": "main",
+              "player": "Use Sucker Punch and faint out, 🔄️ switch to Honchkrow and use Sucker Punch",
+              "warning": ""
             }
           ]
         }

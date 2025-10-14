@@ -2,64 +2,65 @@ import { typeBackgrounds, generateDualTypeGradient } from "./pokemonColors";
 import { pokemonData } from "./pokemonData";
 
 export const moveTypeMap = {
-  Explosion: "Normale",
-  Protect: "Normale",
-  "Shell Smash": "Normale",
-  Softboiled: "Normale",
-  "Swords Dance": "Normale",
+  Explosion: "Normal",
+  Protect: "Normal",
+  "Shell Smash": "Normal",
+  Softboiled: "Normal",
+  "Swords Dance": "Normal",
 
-  Flamethrower: "Fuoco",
-  "Sunny Day": "Fuoco",
+  Flamethrower: "Fire",
+  "Sunny Day": "Fire",
 
-  "Energy Ball": "Erba",
-  "Energy Root": "Erba",
-  "Hidden Power Grass": "Erba",
+  "Energy Ball": "Grass",
+  "Energy Root": "Grass",
+  "Hidden Power Grass": "Grass",
 
-  Scald: "Acqua",
-  Surf: "Acqua",
+  Scald: "Water",
+  Surf: "Water",
 
-  Thunder: "Elettro",
-  "Thunder Punch": "Elettro",
-  Thunderbolt: "Elettro",
-  "Shock Wave": "Elettro",
+  Thunder: "Electric",
+  "Thunder Punch": "Electric",
+  Thunderbolt: "Electric",
+  "Shock Wave": "Electric",
 
-  "Hidden Power Ice": "Ghiaccio",
-  "Ice Beam": "Ghiaccio",
-  "Ice Punch": "Ghiaccio",
-  "Icicle Spear": "Ghiaccio",
+  "Hidden Power Ice": "Ice",
+  "Ice Beam": "Ice",
+  "Ice Punch": "Ice",
+  "Icicle Spear": "Ice",
 
-  "Belly Drum": "Lotta",
-  "Close Combat": "Lotta",
-  "Drain Punch": "Lotta",
-  "Dynamic Punch": "Lotta",
-  "Hidden Power Fighting": "Lotta",
+  "Belly Drum": "Fighting",
+  "Close Combat": "Fighting",
+  "Drain Punch": "Fighting",
+  "Dynamic Punch": "Fighting",
+  "Hidden Power Fighting": "Fighting",
 
-  Toxic: "Veleno",
+  Toxic: "Poison",
 
-  Earthquake: "Terra",
-  "Earth Power": "Terra",
+  Earthquake: "Ground",
+  "Earth Power": "Ground",
 
-  "Calm Mind": "Psico",
-  "Nasty Plot": "Psico",
-  Trick: "Psico",
+  "Calm Mind": "Psychic",
+  "Nasty Plot": "Psychic",
+  Trick: "Psychic",
 
-  "Stealth Rock": "Roccia",
-  "Stone Edge": "Roccia",
+  "Stealth Rock": "Rock",
+  "Stone Edge": "Rock",
 
-  "Shadow Ball": "Spettro",
+  "Shadow Ball": "Ghost",
 
-  "Dragon Dance": "Drago",
-  "Dragon Pulse": "Drago",
-  "Dual Chop": "Drago",
+  "Dragon Dance": "Dragon",
+  "Dragon Pulse": "Dragon",
+  "Dual Chop": "Dragon",
 
-  Crunch: "Buio",
-  "Beat Up": "Buio",
-  "Dark Pulse": "Buio",
-  "Hone Claws": "Buio",
+  Crunch: "Dark",
+  "Beat Up": "Dark",
+  "Dark Pulse": "Dark",
+  "Hone Claws": "Dark",
+  "Sucker Punch": "Dark",
 
-  "Iron Head": "Acciaio",
+  "Iron Head": "Steel",
 
-  "X Speed": "Ghiaccio",
+  "X Speed": "Ice",
 };
 
 // Create a map of Pokémon names to their text color style
