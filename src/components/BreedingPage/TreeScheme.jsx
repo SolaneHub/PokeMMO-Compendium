@@ -198,9 +198,6 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
                 ]);
                 break;
             }
-
-            default:
-                break;
         }
 
         return treeDataByRow;
@@ -208,12 +205,11 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
 
     const dataByRow = generateTree(selectedIvCount, selectedIvStats);
 
-    // Dati per la legenda: un cerchio (StatCircle) per ogni IV selezionato
     const legendData = selectedIvStats
         .slice(0, selectedIvCount)
         .map((statName) => ({
             name: statName,
-            colors: [STAT_COLOR_MAP[statName]], // StatCircle accetta un array di colori
+            colors: [STAT_COLOR_MAP[statName]],
         }));
 
     return (
@@ -233,7 +229,6 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
                     ))}
                 </div>
             </div>
-            {/* Fine Sezione Legenda Colori */}
 
             <div className="tree-container">
                 {dataByRow.map((rowItems, rowIndex) => {

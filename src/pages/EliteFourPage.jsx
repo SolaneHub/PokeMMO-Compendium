@@ -1,17 +1,17 @@
+import EliteMemberCard from "@/components/EliteFourPage/EliteMemberCard";
+import MoveColoredText from "@/components/MoveColoredText";
+import PokemonCard from "@/components/PokemonCard";
+import RegionCard from "@/components/RegionCard";
 import React, { useCallback, useMemo, useState } from "react";
-import EliteMemberCard from "../components/EliteFourPage/EliteMemberCard";
-import MoveColoredText from "../components/MoveColoredText";
-import PokemonCard from "../components/PokemonCard";
-import RegionCard from "../components/RegionCard";
 
-import { eliteFourMembers } from "../data/eliteFourData";
+import { eliteFourMembers } from "@/data/eliteFourData";
 import {
   generateDualTypeGradient, getDualShadow,
   typeBackgrounds
-} from "../data/pokemonColors";
-import { pokemonData } from "../data/pokemonData";
-import { pokemonImages } from "../data/pokemonImages";
-import { pokemonRegions } from "../data/regionData";
+} from "@/data/pokemonColors";
+import { pokemonData } from "@/data/pokemonData";
+import { pokemonImages } from "@/data/pokemonImages";
+import { pokemonRegions } from "@/data/regionData";
 
 function EliteFourPage() {
   // ─────────────────────────────

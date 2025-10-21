@@ -1,5 +1,3 @@
-import "../App.css";
-
 const RegionCard = ({ region, onRegionClick, isSelected }) => {
   return (
     <div

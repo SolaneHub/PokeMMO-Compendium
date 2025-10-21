@@ -1,4 +1,4 @@
-import { colorTextElements } from "../data/pokemonMoveColors";
+import { colorTextElements } from "@/data/pokemonMoveColors";
 
 const MoveColoredText = ({ text }) => {
   const coloredText = colorTextElements(text || "");
