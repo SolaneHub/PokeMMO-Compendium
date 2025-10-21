@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import StepForm from "../components/StepForm";
+import StepForm from "../components/EditorPage/StepForm";
 
 const EditorPage = () => {
   const [eliteFourData, setEliteFourData] = useState(null);

@@ -1,4 +1,3 @@
-
 function Navbar({ onLinkClick, currentActive }) {
     const links = [
         "Elite Four",
@@ -8,7 +7,7 @@ function Navbar({ onLinkClick, currentActive }) {
         "Pokédex",
         "Pickup",
         "Breeding",
-        "Editor"
+        "Editor",
     ];
 
     const handleLinkClick = (e, linkName) => {

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import PokemonCard from "../components/PokemonCard";
 import RegionCard from "../components/RegionCard";
-import EliteMemberCard from "../components/EliteMemberCard";
+import EliteMemberCard from "../components/EliteFourPage/EliteMemberCard";
 import MoveColoredText from "../components/MoveColoredText";
 
 import { eliteFourMembers } from "../data/eliteFourData";
@@ -11,7 +11,8 @@ import { pokemonImages } from "../data/pokemonImages";
 import {
   typeBackgrounds,
   generateDualTypeGradient,
-  getPrimaryColor,getDualShadow,
+  getPrimaryColor,
+  getDualShadow,
 } from "../data/pokemonColors";
 
 function EliteFourPage() {
@@ -125,7 +126,7 @@ function EliteFourPage() {
 
       const pokemonStrategy =
         currentMemberObject?.teams?.[selectedTeam]?.pokemonStrategies?.[
-          pokemonName
+        pokemonName
         ] || [];
       setCurrentStrategyView(pokemonStrategy);
       setStrategyHistory([]);
@@ -168,9 +169,8 @@ function EliteFourPage() {
           .map((teamName) => (
             <div
               key={teamName}
-              className={`card team-card ${
-                selectedTeam === teamName ? "selected" : ""
-              }`}
+              className={`card team-card ${selectedTeam === teamName ? "selected" : ""
+                }`}
               onClick={() => handleTeamClick(teamName)}
             >
               <p>{teamName}</p>
@@ -198,7 +198,7 @@ function EliteFourPage() {
           {filteredEliteFour.map((member, i) => {
             const memberBackground =
               typeBackgrounds[member.type] || typeBackgrounds[""];
-              const shadowStyle = getDualShadow(memberBackground);
+            const shadowStyle = getDualShadow(memberBackground);
             return (
               <EliteMemberCard
                 key={i}
