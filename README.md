@@ -27,41 +27,45 @@ Welcome to the PokéMMO Compendium — your comprehensive, step-by-step companio
 
 ## 📸 Screenshots
 
-### 🌐 Frontend
+### 🌐 Frontend Overview
 
-#### 🏠 Homepage
+#### 🏠 Landing Page
 
 ![Homepage Screenshot](./screenshots/homepage.png)
 
-#### 🔍 Breeding
+#### 🧬 Breeding
 
 ![Breeding Section Screenshot](./screenshots/breeding-section.png)
 
-#### 🔍 Editor
+#### ✏️ Strategy Editor
 
 ![Editor Section Screenshot](./screenshots/editor-section.png)
 
-#### 🔍 Elite Four
+#### 🏆 Elite Four Challenges
 
 ![Elite Four Section Screenshot](./screenshots/elite-four-section.png)
 
-#### 🔍 Ho-Oh
+- **🗺️ Strategy Decision Tree**
+
+![Elite Four Section Strategy Tree Screenshot](./screenshots/elite-four-strategy-tree-section.png)
+
+#### 🔥 Legendary Encounters - Ho-Oh
 
 ![Ho-Oh Section Screenshot](./screenshots/ho-oh-section.png)
 
-#### 🔍 Pickup
+#### 🎯 Pickup Farming
 
 ![Pickup Section Screenshot](./screenshots/pickup-section.png)
 
-#### 🔍 Pokédex
+#### 📚 Pokédex Database
 
 ![Pokédex Section Screenshot](./screenshots/pokédex-section.png)
 
-#### 🔍 Raids
+#### ⚔️ Raid Battles
 
 ![Raids Section Screenshot](./screenshots/raids-section.png)
 
-#### 🔍 Red
+#### 🎮 Red Battle
 
 ![Red Section Screenshot](./screenshots/red-section.png)
 
