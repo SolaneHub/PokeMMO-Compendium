@@ -1,13 +1,11 @@
-// StatCircle.jsx
-
 // Funzione helper per convertire coordinate polari in cartesiane
 const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
-    const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+    const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
     return {
-        x: centerX + (radius * Math.cos(angleInRadians)),
-        y: centerY + (radius * Math.sin(angleInRadians))
+        x: centerX + radius * Math.cos(angleInRadians),
+        y: centerY + radius * Math.sin(angleInRadians),
     };
-}
+};
 
 // Funzione per disegnare un arco (settore) di un cerchio in SVG
 const describeArc = (x, y, radius, startAngle, endAngle) => {
@@ -16,7 +14,8 @@ const describeArc = (x, y, radius, startAngle, endAngle) => {
 
     // Se l'angolo è 360 (un cerchio completo) o quasi, usa una logica semplificata per evitare errori di rendering
     if (Math.abs(endAngle - startAngle) >= 359.99) {
-        return `M ${x} ${y} m -${radius}, 0 a ${radius},${radius} 0 1,0 ${radius * 2},0 a ${radius},${radius} 0 1,0 -${radius * 2},0`;
+        return `M ${x} ${y} m -${radius}, 0 a ${radius},${radius} 0 1,0 ${radius * 2
+            },0 a ${radius},${radius} 0 1,0 -${radius * 2},0`;
     }
 
     const largeArcFlag = endAngle - startAngle <= 180 ? 0 : 1;
@@ -26,11 +25,11 @@ const describeArc = (x, y, radius, startAngle, endAngle) => {
         `M ${x} ${y}`, // Sposta al centro
         `L ${start.x} ${start.y}`, // Linea dal centro al punto di inizio
         `A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`, // Arco
-        'Z', // Chiudi il percorso (torna al centro)
-    ].join(' ');
+        "Z", // Chiudi il percorso (torna al centro)
+    ].join(" ");
 
     return d;
-}
+};
 
 const StatCircle = ({ ivColors, index }) => {
     const centerX = 25;
@@ -51,9 +50,15 @@ const StatCircle = ({ ivColors, index }) => {
             {ivColors.map((color, idx) => {
                 const startAngle = currentAngle;
                 const endAngle = currentAngle + sectorAngle;
-                currentAngle = endAngle; 
+                currentAngle = endAngle;
 
-                const pathData = describeArc(centerX, centerY, radius, startAngle, endAngle);
+                const pathData = describeArc(
+                    centerX,
+                    centerY,
+                    radius,
+                    startAngle,
+                    endAngle
+                );
 
                 return (
                     <path
@@ -65,15 +70,15 @@ const StatCircle = ({ ivColors, index }) => {
                     />
                 );
             })}
-            
+
             {/* Cerchio di contorno esterno per evidenziare il nodo */}
-            <circle 
-                cx={centerX} 
-                cy={centerY} 
-                r={radius} 
-                fill="none" 
-                stroke="#e4e6eb" 
-                strokeWidth="2" 
+            <circle
+                cx={centerX}
+                cy={centerY}
+                r={radius}
+                fill="none"
+                stroke="#e4e6eb"
+                strokeWidth="2"
             />
         </svg>
     );

@@ -1,19 +1,17 @@
-import React, { useState, useMemo, useCallback } from "react";
-import PokemonCard from "../components/PokemonCard";
-import RegionCard from "../components/RegionCard";
+import React, { useCallback, useMemo, useState } from "react";
 import EliteMemberCard from "../components/EliteFourPage/EliteMemberCard";
 import MoveColoredText from "../components/MoveColoredText";
+import PokemonCard from "../components/PokemonCard";
+import RegionCard from "../components/RegionCard";
 
 import { eliteFourMembers } from "../data/eliteFourData";
-import { pokemonRegions } from "../data/regionData";
+import {
+  generateDualTypeGradient, getDualShadow,
+  typeBackgrounds
+} from "../data/pokemonColors";
 import { pokemonData } from "../data/pokemonData";
 import { pokemonImages } from "../data/pokemonImages";
-import {
-  typeBackgrounds,
-  generateDualTypeGradient,
-  getPrimaryColor,
-  getDualShadow,
-} from "../data/pokemonColors";
+import { pokemonRegions } from "../data/regionData";
 
 function EliteFourPage() {
   // ─────────────────────────────

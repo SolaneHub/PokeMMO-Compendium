@@ -1,18 +1,18 @@
-import { redTeams } from "../data/redData";
-import React, { useState, useMemo, useCallback } from "react";
-import PokemonCard from "../components/PokemonCard";
-import RegionCard from "../components/RegionCard";
+import React, { useCallback, useMemo, useState } from "react";
 import EliteMemberCard from "../components/EliteFourPage/EliteMemberCard";
 import MoveColoredText from "../components/MoveColoredText";
+import PokemonCard from "../components/PokemonCard";
+import RegionCard from "../components/RegionCard";
+import { redTeams } from "../data/redData";
 
-import { pokemonRegions } from "../data/regionData";
-import { pokemonData } from "../data/pokemonData";
-import { pokemonImages } from "../data/pokemonImages";
 import {
-  typeBackgrounds,
   generateDualTypeGradient,
   getPrimaryColor,
+  typeBackgrounds,
 } from "../data/pokemonColors";
+import { pokemonData } from "../data/pokemonData";
+import { pokemonImages } from "../data/pokemonImages";
+import { pokemonRegions } from "../data/regionData";
 
 function RedPage() {
   // ─────────────────────────────
