@@ -1,7 +1,7 @@
-import BreedingPage from "../pages/BreedingPage";
-import EditorPage from "../pages/EditorPage";
-import EliteFourPage from "../pages/EliteFourPage";
-import RedPage from "../pages/RedPage";
+import BreedingPage from "@/pages/BreedingPage";
+import EditorPage from "@/pages/EditorPage";
+import EliteFourPage from "@/pages/EliteFourPage";
+import RedPage from "@/pages/RedPage";
 
 function Content({ linkName }) {
     const componentsMap = {
