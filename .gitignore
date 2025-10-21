@@ -45,3 +45,6 @@ gh-pages/
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Documentation
+src/docs/
