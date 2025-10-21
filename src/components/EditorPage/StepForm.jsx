@@ -1,4 +1,3 @@
-import React from "react";
 import VariationForm from "./VariationForm";
 
 const StepForm = ({ step, onChange }) => {

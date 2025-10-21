@@ -2,7 +2,7 @@ import { redTeams } from "../data/redData";
 import React, { useState, useMemo, useCallback } from "react";
 import PokemonCard from "../components/PokemonCard";
 import RegionCard from "../components/RegionCard";
-import EliteMemberCard from "../components/EliteMemberCard";
+import EliteMemberCard from "../components/EliteFourPage/EliteMemberCard";
 import MoveColoredText from "../components/MoveColoredText";
 
 import { pokemonRegions } from "../data/regionData";
