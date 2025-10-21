@@ -1,25 +1,47 @@
-# Node modules
-/node_modules/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Vite cache
-/.vite/
+# Dependency directories
+node_modules/
 
 # Build output
-/dist/
+dist/
+build/
 
-# Log files
-npm-debug.log*
-
-# VS Code settings
-.vscode/
-
-# Environment variables
+# Local env files
 .env
 .env.local
-.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# macOS
+# Vite cache
+.vite/
+vite.config.ts.timestamp-*
+
+# ESLint cache
+.eslintcache
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 .DS_Store
-
-# Windows
 Thumbs.db
+
+# Optional: GitHub Pages temporary folder (gh-pages)
+gh-pages/
+
+# Optional: lock files if you use multiple package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
