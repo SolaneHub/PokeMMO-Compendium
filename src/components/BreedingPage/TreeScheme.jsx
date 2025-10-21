@@ -209,10 +209,12 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
     const dataByRow = generateTree(selectedIvCount, selectedIvStats);
 
     // Dati per la legenda: un cerchio (StatCircle) per ogni IV selezionato
-    const legendData = selectedIvStats.slice(0, selectedIvCount).map(statName => ({
-        name: statName,
-        colors: [STAT_COLOR_MAP[statName]], // StatCircle accetta un array di colori
-    }));
+    const legendData = selectedIvStats
+        .slice(0, selectedIvCount)
+        .map((statName) => ({
+            name: statName,
+            colors: [STAT_COLOR_MAP[statName]], // StatCircle accetta un array di colori
+        }));
 
     return (
         <div className="tree-scheme-container">
@@ -222,8 +224,11 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
                     {legendData.map((item, index) => (
                         <div key={index} className="legend-item">
                             <span className="legend-stat-name">{item.name}</span>
-                            <StatCircle ivColors={item.colors} index={`legend-${index}`} isLegend={true} />
-                            
+                            <StatCircle
+                                ivColors={item.colors}
+                                index={`legend-${index}`}
+                                isLegend={true}
+                            />
                         </div>
                     ))}
                 </div>
@@ -240,7 +245,10 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
                     }
 
                     return (
-                        <div key={`row-${dataByRow.length - rowIndex}`} className="tree-row">
+                        <div
+                            key={`row-${dataByRow.length - rowIndex}`}
+                            className="tree-row"
+                        >
                             {pairsToDisplay.map((pair, pairIndex) => (
                                 <div key={pairIndex} className="tree-branch-group">
                                     <StatCircle

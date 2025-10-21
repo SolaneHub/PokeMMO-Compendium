@@ -346,6 +346,10 @@ p {
   text-align: center;
 }
 
+.credits-content p {
+  color: #e4e6eb;
+}
+
 .credit-link {
   margin: 20px 0;
 }
@@ -367,35 +371,45 @@ p {
 }
 
 .additional-credits {
-  background-color: #f8f9fa;
+  background-color: #24252a;
+  border: 1px solid #3a3b3d;
   border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
   margin-top: 30px;
   padding: 20px;
 }
 
 .additional-credits h3 {
-  color: #333;
+  color: #646cff;
   margin-bottom: 15px;
 }
 
 .additional-credits ul {
+  color: #e4e6eb;
   list-style: none;
   padding: 0;
+  text-align: left;
 }
 
 .additional-credits li {
+  color: #e4e6eb;
+  line-height: 1.5;
   margin: 10px 0;
 }
 
 .additional-credits a {
-  color: #6e45e2;
+  color: #88d3ce;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .additional-credits a:hover {
-  color: #88d3ce;
+  color: #6e45e2;
   text-decoration: underline;
+}
+
+.additional-credits li strong {
+  color: #fff;
 }
 
 .editor-container {
@@ -691,78 +705,83 @@ p {
   display: block;
 }
 
-/* Stile per il contenitore dell'albero (opzionale, per centrare) */
 .tree-container {
-  display: flex;
-  flex-direction: column-reverse; /* <--- ESSENZIALE per invertire l'ordine delle righe (R4 prima, R1 ultima) */
   align-items: center;
+  display: flex;
+  flex-direction: column-reverse;
   padding: 20px;
 }
 
-/* Stile per ogni riga dell'albero */
 .tree-row {
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 40px; /* Spazio tra le righe verticali */
+  margin-bottom: 40px;
   width: 100%;
 }
 
-/* Stile per il gruppo di due cerchi (nodo + ramo) */
 .tree-branch-group {
-  display: flex;
   align-items: center;
+  display: flex;
+  margin: 0 10px;
   position: relative;
-  margin: 0 10px; /* Spazio orizzontale tra i gruppi di rami */
 }
 
-/* Stile per il cerchio SVG */
 .tree-stat-circle {
-  width: 50px; /* Imposta la dimensione fisica del cerchio */
+  border-radius: 50%;
   height: 50px;
-  border-radius: 50%; /* Rende l'area cliccabile circolare */
-  /* Lo stroke è definito in StatCircle.jsx, ma puoi mettere un overflow nascosto se necessario */
-
+  width: 50px;
 }
 
-/* Linea orizzontale che collega due StatCircle all'interno di un gruppo */
 .tree-horizontal-line {
+  background-color: #e4e6eb;
   height: 2px;
-  background-color: #e4e6eb; /* Colore della linea (bianco/grigio chiaro) */
-  width: 40px; /* Lunghezza della linea orizzontale */
-  margin: 0 -5px; /* Sovrappone leggermente i cerchi */
-
+  margin: 0 -5px;
+  width: 40px;
 }
-
-/* Aggiungi questi stili in un file CSS appropriato (es. TreeScheme.css) */
 
 .legend-container {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 5px;
+  border-radius: 5px;
   justify-items: center;
-  }
+  margin-bottom: 20px;
+  padding: 10px;
+}
 
 .legend-container p {
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .legend-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .legend-item {
-    display: flex;
-    align-items: center;
+  align-items: center;
+  display: flex;
 }
 
 .legend-color-box {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%; /* Per rendere i box dei colori simili ai StatCircle */
-    margin-right: 5px;
-    border: 1px solid #333; /* Rendi il colore visibile anche su sfondi chiari */
+  border: 1px solid #333;
+  border-radius: 50%;
+  height: 12px;
+  margin-right: 5px;
+  width: 12px;
+}
+
+.credits-content p {
+  color: #d1d1d1;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.credits-content strong {
+  color: #fff;
+}
+
+.additional-credits ul li {
+  line-height: 1.6;
+  margin: 12px 0;
 }

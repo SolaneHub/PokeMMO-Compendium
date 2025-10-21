@@ -18,8 +18,6 @@ function IVsDropdown({
             newSelectedIvStats[index] = newStat;
         }
 
-    
-
         setSelectedIvStats(newSelectedIvStats);
     };
 

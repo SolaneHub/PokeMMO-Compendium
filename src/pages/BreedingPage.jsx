@@ -1,6 +1,6 @@
 import { useState } from "react";
-import IVsSelector from "../components/BreedingPage/IVsSelector";
 import IVsDropdown from "../components/BreedingPage/IVsDropdown";
+import IVsSelector from "../components/BreedingPage/IVsSelector";
 import TreeScheme from "../components/BreedingPage/TreeScheme";
 
 const IV_OPTIONS = [2, 3, 4, 5, 6];
