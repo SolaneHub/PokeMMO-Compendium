@@ -634,6 +634,7 @@ p {
   gap: 15px;
   justify-content: center;
   margin: 0 auto;
+  margin-bottom: 30px;
   text-align: center;
 }
 
@@ -709,7 +710,6 @@ p {
   align-items: center;
   display: flex;
   flex-direction: column-reverse;
-  padding: 20px;
 }
 
 .tree-stat-circle {
@@ -719,21 +719,35 @@ p {
 }
 
 .legend-container {
-  border-radius: 5px;
-  justify-items: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 20px;
-  padding: 10px;
 }
 
 .legend-items {
+  align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 30px;
+  justify-content: center;
 }
 
 .legend-item {
   align-items: center;
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: flex-start;
+  min-width: 90px;
+  text-align: center;
+}
+
+.legend-stat-name {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .credits-content p {
