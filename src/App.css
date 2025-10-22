@@ -712,32 +712,10 @@ p {
   padding: 20px;
 }
 
-.tree-row {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
-  width: 100%;
-}
-
-.tree-branch-group {
-  align-items: center;
-  display: flex;
-  margin: 0 10px;
-  position: relative;
-}
-
 .tree-stat-circle {
   border-radius: 50%;
   height: 50px;
   width: 50px;
-}
-
-.tree-horizontal-line {
-  background-color: #e4e6eb;
-  height: 2px;
-  margin: 0 -5px;
-  width: 40px;
 }
 
 .legend-container {
@@ -745,11 +723,6 @@ p {
   justify-items: center;
   margin-bottom: 20px;
   padding: 10px;
-}
-
-.legend-container p {
-  font-weight: bold;
-  margin-bottom: 5px;
 }
 
 .legend-items {
@@ -761,14 +734,6 @@ p {
 .legend-item {
   align-items: center;
   display: flex;
-}
-
-.legend-color-box {
-  border: 1px solid #333;
-  border-radius: 50%;
-  height: 12px;
-  margin-right: 5px;
-  width: 12px;
 }
 
 .credits-content p {
@@ -784,4 +749,80 @@ p {
 .additional-credits ul li {
   line-height: 1.6;
   margin: 12px 0;
+}
+
+.tree-wrapper {
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.tree-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: calc(30px * var(--scale));
+  margin-top: 40px;
+  transform: scale(var(--scale));
+  transform-origin: top center;
+  transition: transform 0.3s ease;
+}
+
+.tree-row {
+  align-items: flex-start;
+  display: flex;
+  gap: var(--gap, 60px);
+  justify-content: center;
+  position: relative;
+}
+
+.tree-pair {
+  align-items: center;
+  display: flex;
+  gap: var(--gap, 60px);
+  justify-content: center;
+  position: relative;
+}
+
+.tree-node {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.tree-pair::before {
+  background: rgba(255, 255, 255, 0.3);
+  content: "";
+  height: 2px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--gap, 60px);
+  z-index: 1;
+}
+
+.tree-pair::after {
+  background: rgba(255, 255, 255, 0.3);
+  content: "";
+  height: 80px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, 0);
+  width: 2px;
+  z-index: 0;
+}
+
+.tree-row:last-child .tree-pair::before,
+.tree-row:last-child .tree-pair::after {
+  display: none;
+}
+
+.tree-node:hover .tree-stat-circle {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
 }

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import StatCircle from "./StatCircle";
 
 const STAT_COLOR_MAP = {
@@ -9,10 +10,22 @@ const STAT_COLOR_MAP = {
     Speed: "#25e2f7",
 };
 
+const GAP_VALUES = [60, 170, 390, 830, 1710, 1920]; // valori reali osservati
+
 const getColors = (stats) => stats.map((stat) => STAT_COLOR_MAP[stat]);
 
-function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
-    const generateTree = (selectedIvCount, selectedIvStats) => {
+function TreeScheme({ selectedIvCount, selectedIvStats }) {
+    const scaleValues = {
+        2: 1,
+        3: 1,
+        4: 1,
+        5: 1,
+        6: 0.6,
+    };
+
+    const scale = scaleValues[selectedIvCount] || 1;
+
+    const generateTree = useCallback((selectedIvCount, selectedIvStats) => {
         const treeDataByRow = [];
 
         const [iv1, iv2, iv3, iv4, iv5, iv6] = selectedIvStats;
@@ -200,8 +213,8 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
             }
         }
 
-        return treeDataByRow;
-    };
+        return treeDataByRow.reverse();
+    });
 
     const dataByRow = generateTree(selectedIvCount, selectedIvStats);
 
@@ -214,7 +227,7 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
 
     return (
         <div className="tree-scheme-container">
-            {/* Sezione Legenda Colori */}
+            {/* Legenda */}
             <div className="legend-container">
                 <div className="legend-items">
                     {legendData.map((item, index) => (
@@ -223,47 +236,57 @@ function TreeScheme({ selectedIvCount, nature, selectedIvStats }) {
                             <StatCircle
                                 ivColors={item.colors}
                                 index={`legend-${index}`}
-                                isLegend={true}
+                                isLegend
                             />
                         </div>
                     ))}
                 </div>
             </div>
 
-            <div className="tree-container">
-                {dataByRow.map((rowItems, rowIndex) => {
-                    const circlesToDisplay = rowItems;
-                    const pairsToDisplay = [];
+            {/* Albero a righe (verticale) */}
 
-                    for (let i = 0; i < circlesToDisplay.length; i += 2) {
-                        pairsToDisplay.push([circlesToDisplay[i], circlesToDisplay[i + 1]]);
-                    }
-
-                    return (
-                        <div
-                            key={`row-${dataByRow.length - rowIndex}`}
-                            className="tree-row"
-                        >
-                            {pairsToDisplay.map((pair, pairIndex) => (
-                                <div key={pairIndex} className="tree-branch-group">
-                                    <StatCircle
-                                        ivColors={pair[0]}
-                                        index={`${rowIndex}-${pairIndex}-0`}
-                                    />
-
-                                    {pair[1] && <div className="tree-horizontal-line"></div>}
-
-                                    {pair[1] && (
-                                        <StatCircle
-                                            ivColors={pair[1]}
-                                            index={`${rowIndex}-${pairIndex}-1`}
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    );
-                })}
+            <div className="tree-wrapper">
+                <div className="tree-container" style={{ "--scale": scale }}>
+                    {dataByRow.map((rowItems, rowIndex) => {
+                        const rowGap =
+                            GAP_VALUES[rowIndex] || GAP_VALUES[GAP_VALUES.length - 1];
+                        return (
+                            <div
+                                key={`row-${rowIndex}`}
+                                className="tree-row"
+                                style={{ "--gap": `${rowGap}px` }}
+                            >
+                                {rowItems.reduce((pairs, colors, i) => {
+                                    if (i % 2 === 0) {
+                                        const next = rowItems[i + 1];
+                                        pairs.push(
+                                            <div
+                                                className="tree-pair"
+                                                key={`${rowIndex}-pair-${i / 2}`}
+                                            >
+                                                <div className="tree-node">
+                                                    <StatCircle
+                                                        ivColors={colors}
+                                                        index={`${rowIndex}-${i}`}
+                                                    />
+                                                </div>
+                                                {next && (
+                                                    <div className="tree-node">
+                                                        <StatCircle
+                                                            ivColors={next}
+                                                            index={`${rowIndex}-${i + 1}`}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    }
+                                    return pairs;
+                                }, [])}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
