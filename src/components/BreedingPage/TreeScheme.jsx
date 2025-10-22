@@ -20,7 +20,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats }) {
         3: 1,
         4: 1,
         5: 1,
-        6: 0.6,
+        6: 0.55,
     };
 
     const scale = scaleValues[selectedIvCount] || 1;
