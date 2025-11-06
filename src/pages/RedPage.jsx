@@ -1,9 +1,11 @@
 import EliteMemberCard from "@/components/EliteFourPage/EliteMemberCard";
-import MoveColoredText from "@/components/MoveColoredText";
-import PokemonCard from "@/components/PokemonCard";
-import RegionCard from "@/components/RegionCard";
+import MoveColoredText from "@/components/EliteFourPage/MoveColoredText";
+import PokemonCard from "@/components/EliteFourPage/PokemonCard";
+import RegionCard from "@/components/EliteFourPage/RegionCard";
 import { redTeams } from "@/data/redData";
 import React, { useCallback, useMemo, useState } from "react";
+
+import '@/pages/EliteFourPage.css'
 
 import {
   generateDualTypeGradient,

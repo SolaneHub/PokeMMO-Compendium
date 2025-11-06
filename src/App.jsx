@@ -1,6 +1,6 @@
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Content from "./components/Content";
+import Navbar from "@/components/AppPage/Navbar";
+import Content from "@/components/ContentPage/Content";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="App">
-      <header>PokéMMO Compendium</header>
+      <header className="app-header">PokéMMO Compendium</header>
       <Navbar onLinkClick={handleNavigation} currentActive={currentSection} />
       <Content linkName={currentSection} />
     </div>

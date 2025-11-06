@@ -1,3 +1,5 @@
+import './Navbar.css'
+
 function Navbar({ onLinkClick, currentActive }) {
     const links = [
         "Elite Four",

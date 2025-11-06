@@ -3,6 +3,8 @@ import EditorPage from "@/pages/EditorPage";
 import EliteFourPage from "@/pages/EliteFourPage";
 import RedPage from "@/pages/RedPage";
 
+import './Content.css'
+
 function Content({ linkName }) {
     const componentsMap = {
         EliteFour: EliteFourPage,
