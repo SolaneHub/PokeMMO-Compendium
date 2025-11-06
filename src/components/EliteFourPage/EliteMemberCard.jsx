@@ -1,3 +1,5 @@
+import './EliteMemberCard.css'
+
 const EliteMemberCard = ({
   member,
   onMemberClick,

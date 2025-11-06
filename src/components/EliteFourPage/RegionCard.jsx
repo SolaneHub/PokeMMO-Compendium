@@ -1,3 +1,5 @@
+import './RegionCard.css'
+
 const RegionCard = ({ region, onRegionClick, isSelected }) => {
   return (
     <div

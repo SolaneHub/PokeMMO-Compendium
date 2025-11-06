@@ -1,3 +1,6 @@
+import './IVsSelector.css'
+
+
 function IVsSelector({
     ivOptions,
     selectedIvCount,

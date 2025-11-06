@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import StatCircle from "./StatCircle";
+import './TreeScheme.css'
 
 const STAT_COLOR_MAP = {
     HP: "#55b651",
@@ -10,213 +11,541 @@ const STAT_COLOR_MAP = {
     Speed: "#25e2f7",
 };
 
-const GAP_VALUES = [60, 170, 390, 830, 1710, 1920]; // valori reali osservati
+const GAP_VALUES = [60, 170, 390, 830, 1710, 3470]; // valori reali osservati
 
-const getColors = (stats) => stats.map((stat) => STAT_COLOR_MAP[stat]);
+const getColors = (stats) =>
+    stats.map((stat) => STAT_COLOR_MAP[stat] || "#ffffff");
 
-function TreeScheme({ selectedIvCount, selectedIvStats }) {
+function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
     const scaleValues = {
         2: 1,
         3: 1,
         4: 1,
-        5: 1,
+        5: 0.8,
         6: 0.55,
     };
 
-    const scale = scaleValues[selectedIvCount] || 1;
+    const scaleValuesNature = {
+        2: 1,
+        3: 1,
+        4: 0.75,
+        5: 0.55,
+        6: 0.27,
+    };
 
-    const generateTree = useCallback((selectedIvCount, selectedIvStats) => {
-        const treeDataByRow = [];
+    const scale = !nature
+        ? scaleValues[selectedIvCount]
+        : 1 || nature
+            ? scaleValuesNature[selectedIvCount]
+            : 1;
 
-        const [iv1, iv2, iv3, iv4, iv5, iv6] = selectedIvStats;
+    const generateTree = useCallback(
+        (selectedIvCount, selectedIvStats, nature) => {
+            const treeDataByRow = [];
 
-        switch (selectedIvCount) {
-            case 2: {
-                treeDataByRow.push([getColors([iv1, iv2])]);
+            const [iv1, iv2, iv3, iv4, iv5, iv6] = selectedIvStats;
 
-                treeDataByRow.push([getColors([iv1]), getColors([iv2])]);
-                break;
+            if (!nature) {
+                switch (selectedIvCount) {
+                    case 2: {
+                        treeDataByRow.push([getColors([iv2, iv1])]);
+
+                        treeDataByRow.push([getColors([iv1]), getColors([iv2])]);
+                        break;
+                    }
+
+                    case 3: {
+                        treeDataByRow.push([getColors([iv2, iv3, iv1])]);
+
+                        treeDataByRow.push([getColors([iv2, iv1]), getColors([iv3, iv2])]);
+
+                        treeDataByRow.push([
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                        ]);
+                        break;
+                    }
+
+                    case 4: {
+                        treeDataByRow.push([getColors([iv2, iv3, iv4, iv1])]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                        ]);
+                        break;
+                    }
+
+                    case 5: {
+                        treeDataByRow.push([getColors([iv2, iv3, iv4, iv5, iv1])]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv4, iv1]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                        ]);
+                        break;
+                    }
+
+                    case 6: {
+                        treeDataByRow.push([getColors([iv2, iv3, iv4, iv5, iv6, iv1])]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv4, iv5, iv1]),
+                            getColors([iv3, iv4, iv5, iv6, iv2]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv4, iv1]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                            getColors([iv4, iv5, iv6, iv3]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv5, iv6, iv4]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv5, iv4]),
+                            getColors([iv6, iv5]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv5]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv5]),
+                            getColors([iv6]),
+                        ]);
+                        break;
+                    }
+                }
+            } else {
+                switch (selectedIvCount) {
+                    case 2:
+                        treeDataByRow.push([getColors([iv1, iv2, nature])]);
+                        treeDataByRow.push([
+                            getColors([iv1, nature]),
+                            getColors([iv2, iv1]),
+                        ]);
+                        treeDataByRow.push([
+                            getColors([nature]),
+                            getColors([iv1]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                        ]);
+
+                        break;
+
+                    case 3:
+                        treeDataByRow.push([getColors([iv1, iv2, iv3, nature])]);
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, nature]),
+                            getColors([iv2, iv3, iv1]),
+                        ]);
+                        treeDataByRow.push([
+                            getColors([iv1, nature]),
+                            getColors([iv2, iv1]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                        ]);
+                        treeDataByRow.push([
+                            getColors([nature]),
+                            getColors([iv1]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                        ]);
+                        break;
+
+                    case 4:
+                        treeDataByRow.push([getColors([iv1, iv2, iv3, iv4, nature])]);
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, iv3, nature]),
+                            getColors([iv2, iv3, iv4, iv1]),
+                        ]);
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, nature]),
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                        ]);
+                        treeDataByRow.push([
+                            getColors([iv1, nature]),
+                            getColors([iv2, iv1]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([nature]),
+                            getColors([iv1]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                        ]);
+                        break;
+
+                    case 5: {
+                        treeDataByRow.push([getColors([iv1, iv2, iv3, iv4, iv5, nature])]);
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, iv3, iv4, nature]),
+                            getColors([iv2, iv3, iv4, iv5, iv1]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, iv3, nature]),
+                            getColors([iv2, iv3, iv4, iv1]),
+                            getColors([iv2, iv3, iv4, iv1]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, nature]),
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv1, nature]),
+                            getColors([iv2, iv1]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([nature]),
+                            getColors([iv1]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                        ]);
+                        break;
+                    }
+                    case 6: {
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, iv3, iv4, iv5, iv6, nature]),
+                        ]);
+                        treeDataByRow.push([
+                            getColors([iv1, iv2, iv3, iv4, iv5, nature]),
+                            getColors([iv2, iv3, iv4, iv5, iv6, iv1]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv4, iv5, iv1]),
+                            getColors([iv3, iv4, iv5, iv6, iv2]),
+                            getColors([iv2, iv3, iv4, iv5, iv1]),
+                            getColors([iv3, iv4, iv5, iv6, iv2]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv4, iv1]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                            getColors([iv4, iv5, iv6, iv3]),
+                            getColors([iv2, iv3, iv4, iv1]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                            getColors([iv3, iv4, iv5, iv2]),
+                            getColors([iv4, iv5, iv6, iv3]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv5, iv6, iv4]),
+                            getColors([iv2, iv3, iv1]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv3, iv4, iv2]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv4, iv5, iv3]),
+                            getColors([iv5, iv6, iv4]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv5, iv4]),
+                            getColors([iv6, iv5]),
+                            getColors([iv2, iv1]),
+                            getColors([iv3, iv2]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv3, iv2]),
+                            getColors([iv4, iv3]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv4, iv3]),
+                            getColors([iv5, iv4]),
+                            getColors([iv5, iv4]),
+                            getColors([iv6, iv5]),
+                        ]);
+
+                        treeDataByRow.push([
+                            getColors([nature]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv5]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv5]),
+                            getColors([iv6]),
+                            getColors([iv1]),
+                            getColors([iv2]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv5]),
+                            getColors([iv2]),
+                            getColors([iv3]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv3]),
+                            getColors([iv4]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv4]),
+                            getColors([iv5]),
+                            getColors([iv5]),
+                            getColors([iv6]),
+                        ]);
+                        break;
+                    }
+                }
             }
 
-            case 3: {
-                treeDataByRow.push([getColors([iv1, iv2, iv3])]);
-
-                treeDataByRow.push([getColors([iv1, iv2]), getColors([iv1, iv3])]);
-
-                treeDataByRow.push([
-                    getColors([iv1]),
-                    getColors([iv2]),
-                    getColors([iv1]),
-                    getColors([iv3]),
-                ]);
-                break;
-            }
-
-            case 4: {
-                treeDataByRow.push([getColors([iv1, iv2, iv3, iv4])]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2, iv3]),
-                    getColors([iv2, iv3, iv4]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2]),
-                    getColors([iv1, iv3]),
-                    getColors([iv2, iv3]),
-                    getColors([iv2, iv4]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1]),
-                    getColors([iv2]),
-                    getColors([iv1]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv4]),
-                ]);
-                break;
-            }
-
-            case 5: {
-                treeDataByRow.push([getColors([iv1, iv2, iv3, iv4, iv5])]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2, iv3, iv4]),
-                    getColors([iv2, iv3, iv4, iv5]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2, iv3]),
-                    getColors([iv2, iv3, iv4]),
-                    getColors([iv2, iv3, iv4]),
-                    getColors([iv3, iv4, iv5]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2]),
-                    getColors([iv1, iv3]),
-
-                    getColors([iv2, iv3]),
-                    getColors([iv2, iv4]),
-
-                    getColors([iv2, iv3]),
-                    getColors([iv2, iv4]),
-
-                    getColors([iv3, iv4]),
-                    getColors([iv3, iv5]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1]),
-                    getColors([iv2]),
-                    getColors([iv1]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv4]),
-                    getColors([iv2]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv5]),
-                ]);
-                break;
-            }
-
-            case 6: {
-                treeDataByRow.push([getColors([iv1, iv2, iv3, iv4, iv5, iv6])]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2, iv3, iv4, iv5]),
-                    getColors([iv2, iv3, iv4, iv5, iv6]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2, iv3, iv4]),
-                    getColors([iv2, iv3, iv4, iv5]),
-                    getColors([iv2, iv3, iv4, iv5]),
-                    getColors([iv3, iv4, iv5, iv6]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2, iv3]),
-                    getColors([iv2, iv3, iv4]),
-                    getColors([iv2, iv3, iv4]),
-                    getColors([iv3, iv4, iv5]),
-                    getColors([iv2, iv3, iv4]),
-                    getColors([iv3, iv4, iv5]),
-                    getColors([iv3, iv4, iv5]),
-                    getColors([iv4, iv5, iv6]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1, iv2]),
-                    getColors([iv1, iv3]),
-                    getColors([iv2, iv3]),
-                    getColors([iv2, iv4]),
-                    getColors([iv2, iv3]),
-                    getColors([iv2, iv4]),
-                    getColors([iv3, iv4]),
-                    getColors([iv3, iv5]),
-                    getColors([iv2, iv3]),
-                    getColors([iv2, iv4]),
-                    getColors([iv3, iv4]),
-                    getColors([iv3, iv5]),
-                    getColors([iv3, iv4]),
-                    getColors([iv3, iv5]),
-                    getColors([iv4, iv5]),
-                    getColors([iv4, iv6]),
-                ]);
-
-                treeDataByRow.push([
-                    getColors([iv1]),
-                    getColors([iv2]),
-                    getColors([iv1]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv4]),
-                    getColors([iv2]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv5]),
-                    getColors([iv2]),
-                    getColors([iv3]),
-                    getColors([iv2]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv5]),
-                    getColors([iv3]),
-                    getColors([iv4]),
-                    getColors([iv3]),
-                    getColors([iv5]),
-                    getColors([iv4]),
-                    getColors([iv5]),
-                    getColors([iv4]),
-                    getColors([iv6]),
-                ]);
-                break;
-            }
+            return treeDataByRow.reverse();
         }
+    );
 
-        return treeDataByRow.reverse();
-    });
-
-    const dataByRow = generateTree(selectedIvCount, selectedIvStats);
+    const dataByRow = generateTree(selectedIvCount, selectedIvStats, nature);
 
     const legendData = selectedIvStats
         .slice(0, selectedIvCount)

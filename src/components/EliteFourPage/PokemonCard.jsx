@@ -1,3 +1,5 @@
+import './PokemonCard.css'
+
 const PokemonCard = ({
   pokemonName,
   pokemonImageSrc,

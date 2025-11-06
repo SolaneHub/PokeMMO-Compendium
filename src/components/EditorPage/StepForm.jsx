@@ -1,5 +1,7 @@
 import VariationForm from "./VariationForm";
 
+import './StepForm.css';
+
 const StepForm = ({ step, onChange }) => {
   const handleFieldChange = (field, value) => {
     onChange({ ...step, [field]: value });

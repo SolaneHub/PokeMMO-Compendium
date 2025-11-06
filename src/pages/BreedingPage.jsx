@@ -3,6 +3,11 @@ import IVsSelector from "@/components/BreedingPage/IVsSelector";
 import TreeScheme from "@/components/BreedingPage/TreeScheme";
 import { useState } from "react";
 
+import "../components/BreedingPage/IVsDropdown.css";
+import "../components/BreedingPage/IVsSelector.css";
+import "../components/BreedingPage/StatCircle.css";
+import "../components/BreedingPage/TreeScheme.css";
+
 const IV_OPTIONS = [2, 3, 4, 5, 6];
 const IV_STATS = [
     "HP",
