@@ -1,20 +1,20 @@
-import EliteMemberCard from "@/components/EliteFourPage/EliteMemberCard";
-import MoveColoredText from "@/components/EliteFourPage/MoveColoredText";
-import PokemonCard from "@/components/EliteFourPage/PokemonCard";
-import RegionCard from "@/components/EliteFourPage/RegionCard";
-import { redTeams } from "@/data/redData";
+import EliteMemberCard from "@/shared/components/EliteMemberCard";
+import MoveColoredText from "@/shared/components/MoveColoredText";
+import PokemonCard from "@/shared/components/PokemonCard";
+import RegionCard from "@/shared/components/RegionCard";
+import { redTeams } from "@/pages/red/data/redData";
 import React, { useCallback, useMemo, useState } from "react";
 
-import '@/pages/EliteFourPage.css'
+import '@/pages/elite-four/EliteFourPage.css';
 
 import {
   generateDualTypeGradient,
   getPrimaryColor,
   typeBackgrounds,
-} from "@/data/pokemonColors";
-import { pokemonData } from "@/data/pokemonData";
-import { pokemonImages } from "@/data/pokemonImages";
-import { pokemonRegions } from "@/data/regionData";
+} from "@/shared/utils/pokemonColors";
+import { pokemonData } from "@/shared/utils/pokemonData";
+import { pokemonImages } from "@/shared/utils/pokemonImages";
+import { pokemonRegions } from "@/shared/utils/regionData";
 
 function RedPage() {
   // ─────────────────────────────

@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 // Percorso assoluto al file JSON
-const dataPath = path.join(process.cwd(), "src/data/redData.json");
+const dataPath = path.join(process.cwd(), "src/pages/red/data/redData.json");
 
 // GET → Leggere i dati
 app.get("/api/elite-four", (req, res) => {

@@ -1,6 +1,6 @@
-import StepForm from "@/components/EditorPage/StepForm";
+import StepForm from "@/pages/editor/components/StepForm.jsx";
 import { useEffect, useState } from "react";
-import "./EditorPage.css"; // Add this import
+import "./EditorPage.css";
 
 const EditorPage = () => {
   const [eliteFourData, setEliteFourData] = useState(null);

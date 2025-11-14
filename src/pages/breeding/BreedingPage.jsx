@@ -1,12 +1,12 @@
-import IVsDropdown from "@/components/BreedingPage/IVsDropdown";
-import IVsSelector from "@/components/BreedingPage/IVsSelector";
-import TreeScheme from "@/components/BreedingPage/TreeScheme";
+import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
+import IVsSelector from "@/pages/breeding/components/IVsSelector";
+import TreeScheme from "@/pages/breeding/components/TreeScheme";
 import { useState } from "react";
 
-import "../components/BreedingPage/IVsDropdown.css";
-import "../components/BreedingPage/IVsSelector.css";
-import "../components/BreedingPage/StatCircle.css";
-import "../components/BreedingPage/TreeScheme.css";
+import "@/pages/breeding/components/IVsDropdown.css";
+import "@/pages/breeding/components/IVsSelector.css";
+import "@/pages/breeding/components/StatCircle.css";
+import "@/pages/breeding/components/TreeScheme.css";
 
 const IV_OPTIONS = [2, 3, 4, 5, 6];
 const IV_STATS = [
