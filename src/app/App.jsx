@@ -1,6 +1,6 @@
 import "./App.css";
-import Navbar from "@/components/AppPage/Navbar";
-import Content from "@/components/ContentPage/Content";
+import Navbar from "@/app/layout/Navbar";
+import Content from "@/app/layout/Content";
 import { useEffect, useState } from "react";
 
 function App() {

@@ -1,19 +1,22 @@
-import BreedingPage from "@/pages/BreedingPage";
-import EditorPage from "@/pages/EditorPage";
-import EliteFourPage from "@/pages/EliteFourPage";
-import RedPage from "@/pages/RedPage";
-
-import './Content.css'
+import BreedingPage from "@/pages/breeding/BreedingPage";
+import EditorPage from "@/pages/editor/EditorPage";
+import EliteFourPage from "@/pages/elite-four/EliteFourPage";
+import HoOhPage from "@/pages/ho-oh/HoOhPage";
+import PickupPage from "@/pages/pickup/PickupPage";
+import PokedexPage from "@/pages/pokedex/PokedexPage";
+import RaidsPage from "@/pages/raids/RaidsPage";
+import RedPage from "@/pages/red/RedPage";
+import './Content.css';
 
 function Content({ linkName }) {
     const componentsMap = {
         EliteFour: EliteFourPage,
         Editor: EditorPage,
         Breeding: BreedingPage,
-        "Ho-Oh": null,
-        Pickup: null,
-        Pokédex: null,
-        Raids: null,
+        "Ho-Oh": HoOhPage,
+        Pickup: PickupPage,
+        Pokédex: PokedexPage,
+        Raids: RaidsPage,
         Red: RedPage,
     };
 
