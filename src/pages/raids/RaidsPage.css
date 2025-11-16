@@ -178,7 +178,7 @@
 
 .raids-threshold-hp {
   font-weight: 700;
-  color: #ffce4b;
+  color: #646cff;
 }
 
 .raids-threshold-effect {
@@ -332,7 +332,7 @@
 }
 
 .raids-role-move--active .raids-role-move-turn {
-  color: #ffce4b;
+  color: #646cff;
 }
 
 /* ============ RESPONSIVE ============ */
