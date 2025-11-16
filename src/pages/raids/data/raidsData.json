@@ -2,957 +2,482 @@
   {
     "name": "Galvantula",
     "stars": 3,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Viridian Forest",
-      "Johto": "Victory Road (Need Strength)",
-      "Hoenn": "Route 119",
-      "Sinnoh": "Route 221 (Need Surf)",
-      "Unova": "Route 2 (Need Cut)"
+      "kanto": { "area": "Viridian Forest" },
+      "johto": { "area": "Victory Road (Need Strength)" },
+      "hoenn": { "area": "Route 119" },
+      "sinnoh": { "area": "Route 221 (Need Surf)" },
+      "unova": { "area": "Route 2 (Need Cut)" }
     },
     "mechanics": {
-      "held_item": null,
+      "heldItem": "Wise Glasses",
       "thresholds": {
-        "100%": "Protective barrier placed on adds making them not take any damage",
-        "75%": "Light Screen",
-        "50%": "Thunder Wave",
-        "20%": "Charge"
+        "100": { "effect": "Full Para" },
+        "75": { "effect": "Light Screen" },
+        "50": { "effect": "Sticky Web" },
+        "20": { "effect": "Special Defense" }
       }
     },
     "moves": ["Discharge", "Bug Buzz", "Giga Drain", "Thunder"],
-    "strategy": "Can mostly ignore mechanics. Bring any super-effective attackers. Fire is best (someone can set Sun). Gym-run Typhlosions work great.",
-    "recommended": [
-      "Ninetales (Flamethrower)",
-      "Typhlosion (Flamethrower)",
-      "Houndour/Houndoom (Flamethrower)",
-      "Growlithe → Arcanine (Flare Blitz; Fire Stone to evolve)",
-      "Ponyta (Flare Blitz)"
-    ],
-    "links": {
-      "guide": "Galvantula Raid Guide | Halloween 2024 [PokeMMO]",
-      "video": "https://youtu.be/DIQuqKtCEgc"
+    "roles": {
+      "player1": ["Sun", "Phys Fire", "Fire", "Fire", "Tailwind", "Fire"],
+      "player2": ["Tailwind", "Phys Fire", "Fire", "Fire", "Fire", "Fire"],
+      "player3": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"],
+      "player4": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"]
     }
   },
   {
     "name": "Banette",
     "stars": 3,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Route 7",
-      "Johto": "Dark Cave (Need Surf and Flash)",
-      "Hoenn": "Route 123, Mt. Pyre side (Need Surf)",
-      "Sinnoh": "Route 225 (Need Surf)",
-      "Unova": "Giant Chasm"
+      "kanto": { "area": "Route 7" },
+      "johto": { "area": "Dark Cave (Need Surf and Flash)" },
+      "hoenn": { "area": "Route 123, Mt. Pyre side (Need Surf)" },
+      "sinnoh": { "area": "Route 225 (Need Surf)" },
+      "unova": { "area": "Giant Chasm" }
     },
     "mechanics": {
-      "held_item": "Sitrus Berry",
+      "ability": "Curse Body",
+      "heldItem": "Sitrus Berry",
       "thresholds": {
-        "100%": "Cotton Guard",
-        "75%": "Imprison (?)",
-        "50%": "Calm Mind",
-        "20%": "Flurry of attacks (?)"
+        "100": { "effect": "Stat Drop Barrier" },
+        "75": { "effect": "Cotton Guard" },
+        "50": { "effect": "Calm Mind" },
+        "20": { "effect": "Powder Jar" }
       }
     },
-    "moves": ["Shadow Ball", "Dark Pulse", "Thunderbolt", "Shadow Claw"],
-    "strategy": "Lead with Haze to remove Cotton Guard. Bring Thief user with no held item to steal Sitrus (or remove with Knock Off/Trick). 'Flurry of attacks' grants Banette priority next turn. Haze after Calm Mind if needed.",
-    "links": {
-      "video": "https://youtu.be/rhcjHcUmezQ"
+    "moves": ["Ice Punch", "Dark Pulse", "Thunderbolt", "Shadow Claw"],
+    "roles": {
+      "player1": [
+        "Sun & Incinerate",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower"
+      ],
+      "player2": [
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower"
+      ],
+      "player3": [
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower"
+      ],
+      "player4": [
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower",
+        "Flamethrower"
+      ]
     }
   },
   {
     "name": "Hypno",
     "stars": 3,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Berry Forest",
-      "Johto": "Route 39",
-      "Hoenn": "Route 117 (Cut)",
-      "Sinnoh": "Fuego Ironworks (Need Surf)",
-      "Unova": "Dreamyard"
+      "kanto": { "area": "Berry Forest" },
+      "johto": { "area": "Route 39" },
+      "hoenn": { "area": "Route 117" },
+      "sinnoh": { "area": "Fuego Ironworks (Need Surf)" },
+      "unova": { "area": "Dreamyard" }
     },
     "mechanics": {
-      "held_item": "Expert Belt",
+      "heldItem": null,
       "thresholds": {
-        "100%": "Reflect",
-        "75%": "Hypnosis",
-        "50%": "Trick Room",
-        "20%": "Type Inversion"
+        "100": { "effect": "Reflect" },
+        "75": { "effect": "Hypnosis" },
+        "60": { "effect": "Trick Room" },
+        "33": { "effect": "Inverted Space (Type Inversion)" }
       }
     },
-    "moves": ["Focus Blast", "Psychic", "Foul Play", "Grass Knot"],
-    "strategy": "Open with Defog (or similar) to remove Reflect. Safeguard early to block Hypnosis. Try to set Trick Room near 50% to cancel it if already active. Spiritomb is great for this. Bring a Fighting type for the inverted-typing phase (e.g., Heracross).",
-    "links": {
-      "video": "https://youtu.be/qpXH580fL3Y"
+    "moves": ["Psychic", "Foul Play", "Focus Blast", "Grass Knot"],
+    "roles": {
+      "player1": [
+        "Sun & Safeguard",
+        "Sucker Punch",
+        "Sucker Punch",
+        "Flare Blitz",
+        "Fighting",
+        "Fighting"
+      ],
+      "player2": [
+        "Defog",
+        "Sucker Punch",
+        "Sucker Punch",
+        "Flare Blitz",
+        "Fighting",
+        "Fighting"
+      ],
+      "player3": [
+        "Flare Blitz",
+        "Sucker Punch",
+        "Sucker Punch",
+        "Flare Blitz",
+        "Fighting",
+        "Fighting"
+      ],
+      "player4": [
+        "Flare Blitz",
+        "Trick Room",
+        "Sucker Punch",
+        "Flare Blitz",
+        "Fighting",
+        "Fighting"
+      ]
     }
   },
   {
     "name": "Golurk",
     "stars": 3,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Victory Road",
-      "Johto": "Ruins of Alph",
-      "Hoenn": "Granite Cave",
-      "Sinnoh": "Iron Island",
-      "Unova": "Twist Mountain"
+      "kanto": { "area": "Victory Road" },
+      "johto": { "area": "Ruins of Alph" },
+      "hoenn": { "area": "Granite Cave" },
+      "sinnoh": { "area": "Iron Island" },
+      "unova": { "area": "Twist Mountain" }
     },
     "mechanics": {
-      "held_item": null,
+      "heldItem": "?",
       "thresholds": {
-        "100%": "Safeguard",
-        "75%": "Stealth Rock",
-        "60%": "Omniboost",
-        "20%": "Rock Polish"
+        "100": { "effect": "Stealth Rock" },
+        "75": { "effect": "Rock Polish" },
+        "60": { "effect": "Omniboost" },
+        "30": { "effect": "Gravity" }
       }
     },
-    "moves": ["Shadow Punch", "Drain Punch", "Ice Punch", "Earthquake"],
-    "strategy": "Straightforward. Rain comps perform very well. Dark offense is viable but beware Drain Punch healing. Haze the Omniboost; avoid Defog if you rely on the evasion debuff."
+    "moves": ["Drain Punch", "Earthquake", "Ice Punch", "Shadow Punch"],
+    "roles": {
+      "player1": [
+        "Drizzle & Tailwind",
+        "Water",
+        "Water",
+        "Water",
+        "Water",
+        "Water"
+      ],
+      "player2": ["Defog", "Water", "Water", "Water", "Water", "Water"],
+      "player3": ["Water", "Water", "Water", "Water", "Tailwind", "Water"],
+      "player4": ["Water", "Water", "Water", "Water", "Water", "Water"]
+    }
   },
   {
     "name": "Scolipede",
     "stars": 4,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Island 6 — Water Path",
-      "Johto": "Ilex Forest",
-      "Hoenn": "Petalburg",
-      "Sinnoh": "Eterna Forest",
-      "Unova": "Lostlorn Forest"
+      "kanto": { "area": "Island 6" },
+      "johto": { "area": "Ilex Forest" },
+      "hoenn": { "area": "Petalburg" },
+      "sinnoh": { "area": "Eterna Forest" },
+      "unova": { "area": "Lostorn Forest" }
     },
     "mechanics": {
-      "held_item": "Sitrus Berry",
+      "ability": "Speed Boost",
+      "heldItem": "Sitrus Berry",
       "thresholds": {
-        "100%": "Toxic Spikes",
-        "75%": "Spikes",
-        "40%": "Swords Dance",
-        "20%": "Omniboost"
+        "100": { "effect": "Spikes" },
+        "75": { "effect": "+2 Defense" },
+        "40": { "effect": "+2 Attack" },
+        "20": { "effect": "Omniboost" }
       }
     },
-    "moves": ["Aqua Tail", "Rock Slide", "Megahorn", "Earthquake"],
-    "strategy": "Early strat: Sun offense, set Tailwind, Haze every other turn for Speed Boost. Each player should bring Prankster Murkrow with Haze. Damage must consistently hit ~6% per action; very tight window.",
-    "turn_plan": [
-      {
-        "turn": 1,
-        "actions": "Incinerate, Tailwind, Sun (3× damage incl. sun) → ~18%"
-      },
-      {
-        "turn": 2,
-        "actions": "All damage → ~42%"
-      },
-      {
-        "turn": 3,
-        "actions": "Haze (3× damage) → ~60%"
-      },
-      {
-        "turn": 4,
-        "actions": "All damage → ~84%"
-      },
-      {
-        "turn": 5,
-        "actions": "Haze + Tailwind (2× damage) → ~96%"
-      },
-      {
-        "turn": 6,
-        "actions": "All damage (+extra Haze if needed) → 100%"
-      }
-    ],
-    "solo_queue_notes": {
-      "summary": "Prefer a premade group. For solo queue, Trick Room comp to enable outspeeding; Haze after TR fades.",
-      "team_suggestion": [
-        "Bronzong (bulky Trick Room setter)",
-        "Ninetales (Incinerate, Choice Specs)",
-        "Fire attacker",
-        "Fire attacker",
-        "Murkrow (Haze)",
-        "Fire attacker"
-      ]
-    },
-    "links": {
-      "video": "https://youtu.be/aspnXt6ATmM",
-      "channel": "https://www.youtube.com/@dannywith6ys"
+    "moves": ["Rock Slide", "Earthquake", "Megahorn", "Aqua Tail"],
+    "roles": {
+      "player1": [
+        "Sun & Incinerate",
+        "Special Fire",
+        "Haze",
+        "Fire",
+        "Fire",
+        "Fire"
+      ],
+      "player2": ["Tailwind", "Special Fire", "Fire", "Fire", "Fire", "Fire"],
+      "player3": ["Fire", "Special Fire", "Fire", "Fire", "Tailwind", "Fire"],
+      "player4": ["Fire", "Special Fire", "Fire", "Fire", "Haze", "Fire"]
     }
   },
   {
     "name": "Mandibuzz",
     "stars": 4,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Sevault Canyon (Island 7)",
-      "Johto": "Route 46 (Rock Climb)",
-      "Hoenn": "Mt. Chimney",
-      "Sinnoh": "Route 207",
-      "Unova": "Desert Resort"
+      "kanto": { "area": "Sevault Canyon Island 7" },
+      "johto": { "area": "Route 46 (Rock Climb)" },
+      "hoenn": { "area": "Mt. Chimney" },
+      "sinnoh": { "area": "Route 207" },
+      "unova": { "area": "Desert Resort" }
     },
     "mechanics": {
-      "held_item": null,
-      "notes": "Swaps every Pokémon at end of turn, dealing % of current HP",
+      "notes": "Swaps every Pokémon at end of turn, dealing a percentage of current HP.",
       "thresholds": {
-        "75%": "Nasty Plot",
-        "50%": "Permanent Tailwind",
-        "20%": "Nasty Plot"
+        "100": { "effect": "High Winds" },
+        "75": { "effect": "Nasty Plot" },
+        "50": { "effect": "Tailwind" },
+        "25": { "effect": "Nasty Plot" }
       }
     },
-    "moves": ["Dark Pulse", "Air Cutter", "Snarl", "Heat Wave"],
-    "strategy": "Rain Electric spam (Thunder) is best; Ice also works. Rock is weak due to extra Defense. Lead Tailwind; bring at least one (ideally two) Prankster Tailwind users. A non-Prankster Hazer helps keep Electric-types alive.",
-    "links": {
-      "video": "https://youtu.be/fZc0aNn4yKY"
+    "moves": ["Air Cutter", "Dark Pulse", "Heat Wave", "Snarl"],
+    "roles": {
+      "player1": [
+        "Rain & Tailwind",
+        "Thunder",
+        "Thunder",
+        "Thunder",
+        "Thunder",
+        "Thunder"
+      ],
+      "player2": [
+        "Thunder",
+        "Thunder",
+        "Non-Prankster Haze",
+        "Thunder",
+        "Thunder",
+        "Thunder"
+      ],
+      "player3": [
+        "Thunder",
+        "Thunder",
+        "Thunder",
+        "Thunder",
+        "Tailwind",
+        "Thunder"
+      ],
+      "player4": [
+        "Thunder",
+        "Thunder",
+        "Thunder",
+        "Thunder",
+        "Non-Prankster Haze",
+        "Thunder"
+      ]
     }
   },
   {
     "name": "Absol",
     "stars": 4,
-    "category": "Raid Boss",
     "locations": {
-      "Kanto": "Route 10",
-      "Johto": "Route 45",
-      "Hoenn": "Route 120",
-      "Sinnoh": "Route 217",
-      "Unova": "Guidance Chamber"
+      "kanto": { "area": "Route 10" },
+      "johto": { "area": "Route 45" },
+      "hoenn": { "area": "Route 120" },
+      "sinnoh": { "area": "Route 217" },
+      "unova": { "area": "Guidance Chamber" }
     },
     "mechanics": {
-      "held_item": null,
       "thresholds": {
-        "100%": "Bad Luck",
-        "75%": "Perish Song (2 turns)",
-        "~50%": "Swords Dance",
-        "~40%": "Wish"
-      },
-      "bad_luck_details": [
-        "May forget first two or second two moves (?)",
-        "Ball malfunctions (reduces to 1 HP)",
-        "A Pokémon goes berserk and attacks teammates"
-      ]
+        "100": { "effect": "Bad Luck" },
+        "75": { "effect": "Thunder Wave" },
+        "50": { "effect": "Swords Dance" },
+        "40": { "effect": "Wish" }
+      }
     },
     "moves": ["Psycho Cut", "Close Combat", "Night Slash", "Rock Slide"],
-    "strategy": "Sun + Heal Block around ~40% to stop Wish. Absol is frail; non-STAB super-effective moves can still hit damage cap (e.g., Darmanitan Superpower, Volcarona Bug Buzz).",
-    "links": {
-      "video": "https://youtu.be/7KGERZQhK_c"
+    "roles": {
+      "player1": [
+        "Tailwind",
+        "Fighting",
+        "Fighting",
+        "Heal Block",
+        "Fighting",
+        "Fighting"
+      ],
+      "player2": [
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Tailwind",
+        "Fighting"
+      ],
+      "player3": [
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting"
+      ],
+      "player4": [
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting",
+        "Fighting"
+      ]
     }
   },
   {
     "name": "Darkrai",
     "stars": 4,
-    "category": "Raid Boss",
     "locations": {
-      "Special": "Newmoon Island (accessible after completing previous raids via the Dream Orb)"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Dark Void",
-        "~70%": "Nasty Plot",
-        "~40%": "Dark Void",
-        "~25%": "Invert Typing"
+      "sinnoh": {
+        "area": "Newmoon Island (accessible after completing all previous raids via the Dream Orb)"
       }
     },
-    "moves": ["Focus Blast", "Dark Pulse", "Psyshock", "Snarl"],
-    "strategy": "Lead all Chesto + Tailwind, ignore Nasty Plot. Tailwind again on turn 5 when it drops. Bring super-effective attackers.",
-    "links": {
-      "video": "https://www.youtube.com/watch?v=ERr3ld5vkfc"
+    "mechanics": {
+      "thresholds": {
+        "100": { "effect": "Dark Void" },
+        "70": { "effect": "Nasty Plot" },
+        "40": { "effect": "Dark Void" },
+        "25": { "effect": "Invert typing" }
+      }
+    },
+    "moves": [],
+    "roles": {
+      "player1": [
+        "Chesto/Vital + CC / SS / HJK",
+        "CC",
+        "CC / SS",
+        "CC",
+        "Tailwind",
+        "Psycho Cut"
+      ],
+      "player2": [
+        "Chesto/Vital + CC / SS / HJK",
+        "CC",
+        "CC / SS",
+        "CC",
+        "Fast CC / SS",
+        "Psycho Cut"
+      ],
+      "player3": [
+        "Chesto/Vital + CC / SS / HJK",
+        "CC",
+        "CC",
+        "CC",
+        "Fast CC / SS",
+        "Psycho Cut"
+      ],
+      "player4": ["Tailwind", "CC", "CC", "CC", "Slow Psycho Cut", "Psycho Cut"]
     }
   },
   {
-    "name": "Darkrai (Hard)",
+    "name": "Darkrai",
     "stars": 5,
-    "repeatable_cooldown_hours": 6,
-    "category": "Raid Boss",
     "locations": {
-      "Special": "Newmoon Island (post all raids via Dream Orb)"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Dark Void",
-        "~70%": "Nasty Plot",
-        "~51%": "Invert Typing",
-        "~35%": "Dark Void",
-        "~25%": "Physical/Special Switch",
-        "20%": "Physical moves become special and vice versa"
+      "sinnoh": {
+        "area": "Newmoon Island (accessible after completing all previous raids via the Dream Orb)"
       }
     },
-    "moves": ["Focus Blast", "Dark Pulse", "Psyshock", "Snarl"],
-    "recommended_pokemon": {
-      "regular_typing": [
-        "Primeape (Vital Spirit lead)",
-        "Medicham (Close Combat/Psychic)",
-        "Gallade (Sacred Sword/Psycho Cut)",
-        "Mienshao (Close Combat)",
-        "Blaziken (Close Combat)",
-        "Breloom (Close Combat)"
+    "mechanics": {
+      "notes": "Repeatable on a 6 hour cooldown. Typing inversion alternates every turn once HP is around 51%.",
+      "thresholds": {
+        "100": { "effect": "Dark Void" },
+        "70": { "effect": "Nasty Plot" },
+        "51": { "effect": "Alternating turn type inversion" },
+        "33": { "effect": "Dark Void" },
+        "25": { "effect": "Physical/Special switch" }
+      }
+    },
+    "moves": [],
+    "roles": {
+      "player1": [
+        "Chesto/Vital + CC / SS / HJK",
+        "CC / SS",
+        "CC / SS",
+        "Shiftry Sucker",
+        "Tailwind",
+        "Medicham Psychic"
       ],
-      "inverse_typing": [
-        "Shiftry (Assurance in inversion)",
-        "Gallade (Psycho Cut)",
-        "Chandelure (Shadow Ball in inversion)",
-        "Tyranitar (Assurance in inversion)",
-        "Hydreigon (Crunch/Assurance with phys/spec inversion)",
-        "Zoroark (Assurance)"
+      "player2": [
+        "Chesto/Vital + CC / SS / HJK",
+        "CC / SS",
+        "CC / SS",
+        "Shiftry Assurance",
+        "Fast CC / SS",
+        "Medicham Psychic"
+      ],
+      "player3": [
+        "Chesto/Vital + CC / SS / HJK",
+        "CC / SS",
+        "CC / SS",
+        "Shiftry Assurance",
+        "Fast CC / SS",
+        "Medicham Psychic"
+      ],
+      "player4": [
+        "Tailwind",
+        "CC / SS",
+        "CC / SS",
+        "Slow Shiftry Lum Assurance",
+        "Close Combat Special",
+        "Medicham Psychic"
       ]
+    }
+  },
+  {
+    "name": "Heatran",
+    "stars": 6,
+    "locations": {
+      "sinnoh": {
+        "area": "Stark Mountain (Heatran's Room)"
+      }
     },
-    "my_recommendation": {
-      "team_comp": [
-        "Primeape",
-        "Breloom",
+    "mechanics": {
+      "thresholds": {
+        "100": { "effect": "Magmapool" },
+        "80": { "effect": "Stealth Rock" },
+        "67": { "effect": "Roar" },
+        "50": { "effect": "Iron Defense" },
+        "40": { "effect": "Adaptation" },
+        "25": { "effect": "Barrier" }
+      }
+    },
+    "moves": ["Solarbeam", "Earth Power", "Magma Storm", "Power Gem"],
+    "roles": {
+      "player1": [
+        "Flygon Defog",
+        "Flygon Earth Power",
+        "Nidoking Earth Power",
+        "Dig",
+        "Dig",
         "Gallade",
-        "Tyranitar",
-        "Chandelure",
-        "Medicham"
+        "Kingdra",
+        "Kingrdra",
+        "Kingdra / Pelliper"
       ],
-      "notes": "Three Close Combat users for turns 1–3; Chandelure + Tyranitar on turns 4–5; Medicham Psychic on turn 6 (becomes physical)."
-    },
-    "turn_plan": [
-      {
-        "turn": 1,
-        "P1": "Chesto/Vital + CC/SS/HJK",
-        "P2": "Chesto/Vital + CC/SS/HJK",
-        "P3": "Chesto/Vital + CC/SS/HJK",
-        "P4": "Tailwind"
-      },
-      {
-        "turn": 2,
-        "all_players": "CC/SS"
-      },
-      {
-        "turn": 3,
-        "all_players": "CC/SS"
-      },
-      {
-        "turn": 4,
-        "actions": "Chandelure Shadow Ball ×2; Tyranitar Assurance ×2 (Lum optional). Sleep usually occurs end of turn."
-      },
-      {
-        "turn": 5,
-        "actions": "Tailwind. Chandelure Shadow Ball ×2; Slow Tyranitar/slow Hydreigon Assurance for extra damage."
-      },
-      {
-        "turn": 6,
-        "preferred": "Medicham (Psychic Gem) → Psychic (now physical) across all 4 players for guaranteed 20%",
-        "alt": "4× Hydreigon: fastest uses Crunch, others use Assurance (requires coordination)"
-      }
-    ],
-    "links": {
-      "video": "https://www.youtube.com/watch?v=izem1c2UIM0"
+      "player2": [
+        "Flygon Defog",
+        "Flygon Earth Power",
+        "Hydreigon Earth Power",
+        "Hydreigon Earth Power",
+        "Hydreigon Earth Power",
+        "Gallade",
+        "Toed/Pelipper",
+        "Toed/Pelipper/Kingdra",
+        "Kingdra"
+      ],
+      "player3": [
+        "Light Screen",
+        "Hydreigon Earth Power",
+        "Hydreigon Earth Power",
+        "Dig",
+        "Dig",
+        "Gallade",
+        "Fake Tears",
+        "Kingdra",
+        "Kingdra"
+      ],
+      "player4": [
+        "Knock Off",
+        "Hydreigon Earth Power",
+        "Hydreigon Earth Power",
+        "Dig",
+        "Dig",
+        "Gallade",
+        "Kingdra",
+        "Kingdra",
+        "Kingdra/Pelliper"
+      ]
     }
-  },
-  {
-    "name": "Glaceon",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": null,
-      "Johto": null,
-      "Hoenn": "Route 116 (Cut)",
-      "Sinnoh": "Route 210 (Rock Climb)",
-      "Unova": "Route 1"
-    },
-    "mechanics": {
-      "ability": "Ice Body",
-      "weather": "Snow (reapplies; overrides start of battle)",
-      "held_item": null,
-      "thresholds": {
-        "100%": "Snow",
-        "65%": "Reflect",
-        "50%": "Adaptation (resists most-hit type)",
-        "30%": "Sing"
-      }
-    },
-    "moves": ["Blizzard", "Shadow Ball", "Water Pulse", "Ice Beam"],
-    "strategy": "Set Sun on turn 1 with one Ninetales swapping in; bring Brick Break to clear Reflect and Fighting-types for second half. Coordinated teams can largely ignore mechanics; solo queue is tough due to Ice Body and randoms.",
-    "links": {
-      "video": "https://youtu.be/sJEwKGg_6og"
-    }
-  },
-  {
-    "name": "Raichu",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Route 10",
-      "Johto": null,
-      "Hoenn": null,
-      "Sinnoh": null,
-      "Unova": "Route 2"
-    },
-    "mechanics": {
-      "ability": "Lightning Rod",
-      "held_item": "Expert Belt",
-      "thresholds": {
-        "100%": "Protects adds (can't kill adds)",
-        "75%": "Magnet Rise (?)",
-        "50%": "Reflect",
-        "20%": "Agility"
-      }
-    },
-    "moves": ["Thunderbolt", "Signal Beam", "Grass Knot", "Discharge"],
-    "strategy": "Tailwind lead. Use Gravity to counter Levitate (e.g., Sableye). Defog/Brick Break for Reflect. Haze counters Agility. Ground comps are easiest; Sun may work with premade but Ground is safer."
-  },
-  {
-    "name": "Stantler",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Route 11",
-      "Johto": "Route 39",
-      "Hoenn": "Route 117",
-      "Sinnoh": "Route 124",
-      "Unova": "Route 4 (Rock Smash)"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Reflect",
-        "75%": "Roar",
-        "50%": "Physical/Special Inversion",
-        "30%": "Confuse Ray"
-      }
-    },
-    "moves": ["Earthquake", "Thunderbolt", "Psychic"],
-    "strategy": "Defog/Brick Break Reflect on lead. You can largely ignore the inversion and burn boss down. Fighting spam recommended."
-  },
-  {
-    "name": "Chimecho",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Mt. Ember (Surf, Strength, Rock Smash)",
-      "Johto": "Route 47",
-      "Hoenn": "Route 120 (Cut)",
-      "Sinnoh": "Route 222",
-      "Unova": "Abundant Shrine"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Omniboost",
-        "75%": "Wish",
-        "50%": "Cosmic Power",
-        "33%": "Trick Room"
-      }
-    },
-    "moves": ["Psyshock", "Signal Beam"],
-    "strategy": "Lead Haze for Omniboost. Dark spam. Heal Block just before/after Wish. Haze Cosmic Power or push with Crunch drops. Consider Trick Room to counter the boss Trick Room; save Sucker Punch users for late."
-  },
-  {
-    "name": "Sawsbuck",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Route 16",
-      "Johto": "Route 35",
-      "Hoenn": null,
-      "Sinnoh": null,
-      "Unova": "Route 18"
-    },
-    "mechanics": {
-      "ability": "Chlorophyll",
-      "held_item": "Sitrus Berry",
-      "thresholds": {
-        "100%": "Swords Dance",
-        "65%": "Agility",
-        "50%": "Swords Dance",
-        "20%": "Flurry"
-      }
-    },
-    "moves": ["Horn Leech", "Wild Charge", "Low Kick", "Body Slam"],
-    "strategy": "2× Tailwind + 1× Haze; Incinerate to remove Berry. Need TW for Chlorophyll. Lead TW, save Haze for after Agility. Don't hit adds to avoid Snow overriding Sun. Extra Ninetales and Murkrow as backups; avoid bringing Grass-weak mons."
-  },
-  {
-    "name": "Beartic",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Unova": "Twist Mountain"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Snow",
-        "65%": "Roar",
-        "40%": "Omniboost",
-        "25%": "Snow"
-      }
-    },
-    "moves": ["Earthquake"],
-    "strategy": "Bring Ninetales and switch it in on turn 1 to set Sun; keep backup Ninetales. Backup Murkrow for Haze on the Omni (often ignorable).",
-    "links": {
-      "guide": "Beartic Raid Guide | Holiday Event 2024 [PokeMMO]"
-    }
-  },
-  {
-    "name": "Clefable",
-    "stars": 3,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Mt. Moon",
-      "Unova": "Challenger Cave"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Substitute / Belly Drum / Rest"
-      }
-    },
-    "moves": [],
-    "strategy": "Spam Fighting; do not Haze, do not set Reflect—just push damage.",
-    "links": {
-      "guide": "Clefable Raid Guide | Holiday Event 2024 [PokeMMO]"
-    }
-  },
-  {
-    "name": "Tangrowth",
-    "stars": 4,
-    "category": "Raid Boss (Xmas 2024)",
-    "unlock": "Requires all previous 3★ raids completed",
-    "locations": {
-      "Unova": "Lostlorn Forest"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Sun",
-        "75%": "Growth",
-        "50%": "Ingrain",
-        "~30%": "Adaptation"
-      }
-    },
-    "moves": ["Ancient Power", "Brick Break", "Solar Beam", "Earthquake"],
-    "strategy": "See turn-plan; DO NOT KILL ADDS IF YOU DO NOT HAVE A CHERRIM. Heal Block on turn 4. Save Haze for after +2 Sp. Def from Ancient Power. Avoid Flying-types to bait more Earthquakes.",
-    "turn_plan": [
-      {
-        "turn": 1,
-        "actions": "Tailwind + 3× Fire"
-      },
-      {
-        "turn": 2,
-        "actions": "4× Fire"
-      },
-      {
-        "turn": 3,
-        "actions": "4× Fire"
-      },
-      {
-        "turn": 4,
-        "actions": "Heal Block, Fast Fire, Bug/Ice, Bug/Ice"
-      },
-      {
-        "turn": 5,
-        "actions": "Bug/Ice, Tailwind, Haze, Bug/Ice"
-      },
-      {
-        "turn": 6,
-        "actions": "4× Bug/Ice"
-      }
-    ],
-    "notes": [
-      "Use Scarf on the Heal Blocker (Goth/Smeargle).",
-      "Fire types hit damage cap through +1 SpD; save Specs/Orb/Gems for Bug/Ice users.",
-      "Volcarona Bug Buzz; Jynx/Vanilluxe Ice Beam."
-    ],
-    "links": {
-      "guide": "Tangrowth Raid Guide | Holiday Event 2024 [PokeMMO]"
-    }
-  },
-  {
-    "name": "Vanilluxe",
-    "stars": 4,
-    "category": "Raid Boss (Xmas 2024)",
-    "mechanics": {
-      "held_item": "Petaya Berry",
-      "thresholds": {
-        "100%": "Light Screen (?)",
-        "65%": "Acid Armor (+2 Def)",
-        "50%": "Autotomize (+2 Spe)",
-        "25%": "Reverse Type Chart"
-      }
-    },
-    "moves": [],
-    "strategy": "Lead Defog and Tailwind; backup Haze after ~40% and refresh Tailwind when it drops; lead Ninetales for Sun. First 5 slots: Fire attackers; last slot: Ice attacker.",
-    "links": {
-      "video": "https://youtu.be/qcVyyP7z7as"
-    }
-  },
-  {
-    "name": "Togekiss",
-    "stars": 4,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Route 21",
-      "Johto": "Route 46",
-      "Sinnoh": "Route 207",
-      "Unova": "Route 14"
-    },
-    "mechanics": {
-      "held_item": "Starf Berry",
-      "thresholds": {
-        "100%": "Rainbow",
-        "75%": "Tailwind (permanent)",
-        "50%": "Wish",
-        "25%": "Nasty Plot"
-      }
-    },
-    "moves": ["Flamethrower", "Air Slash", "Water Pulse", "Tri Attack"],
-    "strategy": "Turn 1: Tailwind ×1 + 3× Cloyster. Turn 2: Politoad (Rain) + 3× Thunder, then Thunder spam. Heal Block when it uses Wish. Refresh Tailwind as needed. Cloyster can hit damage cap."
-  },
-  {
-    "name": "Gardevoir",
-    "stars": 4,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Berry Forest",
-      "Johto": "Ruins of Alph",
-      "Hoenn": "Route 123 (Surf)",
-      "Sinnoh": "Route 221 (Surf)",
-      "Unova": "Dreamyard"
-    },
-    "mechanics": {
-      "ability": "Synchronize",
-      "held_item": "Expert Belt",
-      "thresholds": {
-        "100%": "Protective Shield (Alternating Types)",
-        "80%": "Reflect",
-        "60%": "Trick Room",
-        "30%": "Trick Room"
-      }
-    },
-    "moves": ["Aura Sphere", "Psyshock", "Shadow Ball", "Grass Knot"],
-    "strategy": "Coordination check — communicate. Put speed stats in nicknames. Use fast mons (Krookodile, Hydreigon, Sucker Punch users, Volcarona, Chandelure) and slow closers (Tyranitar, Scizor, Skuntank, Honchkrow).",
-    "notes": ["Credit to Hagitabi and Raucey for examples/charts."]
-  },
-  {
-    "name": "Salamence",
-    "stars": 4,
-    "category": "Raid Boss (Xmas 2024)",
-    "locations": {
-      "Kanto": "Island 7",
-      "Unova": "Desert Resort"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Roar",
-        "66%": "Wish",
-        "50%": "Taunt (permanent)",
-        "20%": "Tailwind (permanent)"
-      }
-    },
-    "moves": ["Dragon Claw", "Earthquake", "Fire Fang"],
-    "strategy": "Two lead options: (1) Magic Bounce Xatu Tailwind; (2) reset until Murkrow comes in on Roar. Bring Heal Block for Wish; Mental Herb Murkrows for 2nd Tailwind. Finish with Ice types, or Dragons with Band/Specs (Garchomp/Hydreigon)."
-  },
-  {
-    "name": "Jirachi",
-    "stars": 4,
-    "category": "Raid Boss (Xmas 2024)",
-    "mechanics": {
-      "speed": 228,
-      "ability": "Serene Grace",
-      "held_item": "Room Service",
-      "thresholds": {
-        "100%": "Doom Desire",
-        "75%": "Doom Desire",
-        "50%": "Power Up Shield",
-        "25%": "Trick Room"
-      }
-    },
-    "moves": ["Drain Punch", "Ancient Power", "Psychic"],
-    "strategy": "Doom Desire lands end of the next turn. Power Up Shield requires reducing boss defenses or boosting your offenses. See turn plan progression to break shield then finish under Trick Room.",
-    "turn_plan": [
-      {
-        "turn": 1,
-        "actions": "Eruption Clefairy with a weak Typhlosion to get it KO'd; Overheat with Specs Vulpix; set Light Screen after Typhlosion faints; set Tailwind."
-      },
-      {
-        "turn": 2,
-        "actions": "Max damage with mons that can take DD; Reckless Emboar is good and self-KOs with recoil + Life Orb."
-      },
-      {
-        "turn": 3,
-        "actions": "Repeat and apply Fake Tears; allow one boss boost if needed."
-      },
-      {
-        "turn": 4,
-        "actions": "Special attackers break the shield due to FTears."
-      },
-      {
-        "turn": 5,
-        "actions": "Trick Room is up; finish with slower mons. Consider Room Service. Bring Murkrow to Haze if necessary; using your own Trick Room can also end it."
-      }
-    ]
-  },
-  {
-    "name": "Jirachi (Hard)",
-    "stars": 5,
-    "category": "Raid Boss (Xmas 2024)",
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "30%": "Trick Room"
-      }
-    },
-    "moves": [],
-    "notes": ["Template referenced; details TBD. Guide by Jej."]
-  },
-  {
-    "name": "Lopunny",
-    "stars": 3,
-    "category": "Raid Boss (LNY 2025)",
-    "ot_required": 1,
-    "locations": {
-      "Kanto": "Berry Forest",
-      "Johto": "Route 35",
-      "Hoenn": "Route 123",
-      "Sinnoh": "Route 217",
-      "Unova": "Dreamyard"
-    },
-    "mechanics": {
-      "held_item": null,
-      "thresholds": {
-        "100%": "Adds use Follow Me",
-        "65%": "Gives Klutz to a player",
-        "45%": "Thunder Wave",
-        "30%": "Teeter Dance"
-      }
-    },
-    "moves": ["Acrobatics", "Thunder Punch", "Double-Edge", "Drain Punch"],
-    "strategy": "Evita debolezze a Lotta. Porta due Tailwind. P1 e P2 full AoE/Spread (Earthquake molto consigliato) e un Typhlosion per danni in Sun."
-  },
-  {
-    "name": "Purugly",
-    "stars": 3,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Route 7",
-      "Johto": "Route 47 (cascata a sinistra)",
-      "Hoenn": "Route 115 (Surf)",
-      "Sinnoh": "Route 222",
-      "Unova": "Route 1 (Surf)"
-    },
-    "mechanics": {
-      "ability": "Defiant",
-      "held_item": "Type Policy",
-      "thresholds": {
-        "100%": "Il primo che muove viene flinchato ogni turno",
-        "75%": "Hone Claws",
-        "50%": "Charm",
-        "20%": "Dormono tutti"
-      }
-    },
-    "moves": ["Body Slam", "Shadow Claw", "Bulldoze"],
-    "strategy": "Evita Intimidate. Lead Crobat (Inner Focus, Rocky Helmet) o Murkrow (HA, Covert Cloak). Tailwind T1, Haze T2; usa priority su un add addormentato per baitare il flinch."
-  },
-  {
-    "name": "Grumpig",
-    "stars": 3,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Mt. Ember (Strength/Surf)",
-      "Johto": "Ruins of Alph",
-      "Hoenn": "Mt. Chimney",
-      "Sinnoh": "Route 225 (Surf)",
-      "Unova": "Giant Chasm"
-    },
-    "mechanics": {
-      "held_item": "Light Clay",
-      "thresholds": {
-        "100%": "Light Screen",
-        "80%": "Reflect",
-        "50%": "Scambia Attacco/Difesa",
-        "33%": "Trick Room"
-      }
-    },
-    "moves": ["Earth Power", "Shadow Ball", "Energy Ball", "Psyshock"],
-    "strategy": "Porta Defog e Trick Room; rimuovi gli schermi e gestisci TR."
-  },
-  {
-    "name": "Zebstrika",
-    "stars": 3,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Route 16",
-      "Johto": "Route 44",
-      "Hoenn": "Route 117",
-      "Sinnoh": "Fuego Ironworks",
-      "Unova": "Route 2 (Cut)"
-    },
-    "mechanics": {
-      "speed": 196,
-      "held_item": "White Herb",
-      "thresholds": {
-        "100%": "Substitute",
-        "75%": "Charge",
-        "50%": "Magnet Rise",
-        "30%": "Enrage (Omniboost)"
-      }
-    },
-    "moves": ["Overheat", "Wild Charge", "Low Kick", "Discharge"],
-    "strategy": "Composizioni Terra lo trivializzano. Gravity utile per aggirare Magnet Rise; Haze opzionale."
-  },
-  {
-    "name": "Stoutland",
-    "stars": 3,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Water Path",
-      "Johto": "Route 32",
-      "Hoenn": "Route 111 North",
-      "Sinnoh": "Route 221",
-      "Unova": "Route 4 (Rock Smash)"
-    },
-    "mechanics": {
-      "ability": "Sand Rush",
-      "held_item": "Silk Scarf",
-      "thresholds": {
-        "100%": "Sandstorm",
-        "65%": "Howl",
-        "50%": "Taunt permanente",
-        "35%": "Sandstorm"
-      }
-    },
-    "moves": ["Superpower", "Wild Charge", "Return", "Crunch"],
-    "strategy": "Raid facile. Tailwind lead e Mental Herb per TW al turno 5. Spam Lotta."
-  },
-  {
-    "name": "Ampharos",
-    "stars": 3,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Route 10",
-      "Johto": "Route 45",
-      "Hoenn": "Route 120",
-      "Sinnoh": "Route 210",
-      "Unova": "Route 18"
-    },
-    "mechanics": {
-      "held_item": "Petaya Berry",
-      "thresholds": {
-        "100%": "Barriera contro riduzioni di stat",
-        "75%": "Cotton Guard",
-        "50%": "Light Screen",
-        "20%": "Agility"
-      }
-    },
-    "moves": ["Dragon Pulse", "Signal Beam", "Discharge", "Thunderbolt"],
-    "strategy": "Non si possono rimuovere i boost (Haze visivo). Migliori: attaccanti Terra speciali (Nidoking/Nidoqueen, Flygon). Alternativa ibrida Sun/Ground con Defog per Light Screen."
-  },
-  {
-    "name": "Steelix",
-    "stars": 4,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Mt. Moon",
-      "Johto": "Dark Cave (Surf)",
-      "Hoenn": "Granite Cave",
-      "Sinnoh": "Iron Island",
-      "Unova": "Guidance Chamber"
-    },
-    "mechanics": {
-      "held_item": "Rocky Helmet",
-      "thresholds": {
-        "100%": "Metal Spikes",
-        "80%": "Stealth Rock",
-        "70%": "Roar",
-        "33%": "Roar"
-      }
-    },
-    "moves": ["Earthquake", "Head Smash", "Iron Head", "Dragon Tail"],
-    "strategy": "Sun è ottimo. Doppio Defog per rimuovere Stealth Rock; non serve togliere completamente Metal Spikes. Preferisci attaccanti speciali (Darmanitan Band fa comunque cap)."
-  },
-  {
-    "name": "Slaking",
-    "stars": 4,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Viridian Forest",
-      "Johto": "Ilex Forest",
-      "Hoenn": "Petalburg Woods",
-      "Sinnoh": "Eterna Forest",
-      "Unova": "Lostlorn Forest"
-    },
-    "mechanics": {
-      "ability": "Truant",
-      "held_item": "Expert Belt",
-      "thresholds": {
-        "100%": "Amnesia",
-        "76%": "Slack Off",
-        "50%": "Thunder Wave",
-        "25%": "Ability Suppression"
-      }
-    },
-    "moves": ["Giga Impact", "Ice Punch", "Zen Headbutt", "Hammer Arm"],
-    "strategy": "Haze su Amnesia, Heal Block su Slack Off. Focus Blast preferibile (bassa SpD). Sequenza consigliata: TW → Fake Tears → Focus Blast spam; gestisci pledge degli adds T1."
-  },
-  {
-    "name": "Tauros",
-    "stars": 4,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Route 11",
-      "Johto": "Route 39",
-      "Hoenn": "Route 116 (Cut)",
-      "Sinnoh": "Route 214",
-      "Unova": "Abundant Shrine (Fly)"
-    },
-    "mechanics": {
-      "speed": 244,
-      "ability": "Sheer Force",
-      "held_item": "Life Orb (?)",
-      "thresholds": {
-        "100%": "Scary Face",
-        "75%": "Work Up",
-        "40%": "Work Up",
-        "33%": "Flurry of attacks"
-      }
-    },
-    "moves": ["Body Slam", "Rock Slide", "Zen Headbutt", "Iron Head"],
-    "strategy": "Lead Xatu (Magic Bounce) per riflettere Scary Face e settare TW. Sweet Scent aiuta con Focus Blast. Turno 5 usa Rocky Helmet. Turno 6 chiudi con attaccanti veloci (≥245)."
-  },
-  {
-    "name": "Braviary",
-    "stars": 4,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Sevault Canyon",
-      "Johto": "Route 46",
-      "Hoenn": "Route 111 (sopra il deserto)",
-      "Sinnoh": "Route 207",
-      "Unova": "Desert Resort"
-    },
-    "mechanics": {
-      "speed": 196,
-      "ability": "Defiant",
-      "held_item": "Sitrus Berry",
-      "thresholds": {
-        "100%": "Strong Winds",
-        "66%": "Bulk Up",
-        "50%": "Berry proc",
-        "30%": "Tailwind"
-      }
-    },
-    "moves": ["Brave Bird", "Close Combat", "Rock Slide", "Assurance"],
-    "strategy": "Sweet Scent per proccare Defiant e stabilizzare il fight. Ruba/consuma la bacca; TWave al turno 5. Spam danni (Thunder/Head Smash ecc.)."
-  },
-  {
-    "name": "Excadrill",
-    "stars": 4,
-    "category": "Raid Boss (LNY 2025)",
-    "locations": {
-      "Kanto": "Victory Road",
-      "Johto": "Victory Road (dall’ingresso)",
-      "Hoenn": "Victory Road",
-      "Sinnoh": "Route 204 (Ravaged Path)",
-      "Unova": "Twist Mountain"
-    },
-    "mechanics": {
-      "speed": 209,
-      "ability": "Sand Rush",
-      "held_item": "White Herb",
-      "thresholds": {
-        "100%": "Sandstorm permanente",
-        "75%": "Swords Dance",
-        "50%": "Protezione contro drop di stat",
-        "20%": "Swords Dance"
-      }
-    },
-    "moves": ["Iron Head", "Drill Run", "Rock Slide", "Earthquake"],
-    "strategy": "Doppio Defog T1 per l’Herb e l’evasion drop; barriera cade a fine T3. T4 usa Fake Tears/Screech e salva 4 attaccanti dello stesso tipo (fisico o speciale) per romperla; TW T5 e chiudi T6."
   }
 ]
