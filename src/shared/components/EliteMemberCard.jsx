@@ -1,4 +1,4 @@
-import './EliteMemberCard.css'
+import "./EliteMemberCard.css";
 
 const EliteMemberCard = ({
   member,

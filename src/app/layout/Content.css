@@ -1,78 +1,80 @@
 .credits-content {
-    margin: 0 auto;
-    max-width: 800px;
-    padding: 20px;
-    text-align: center;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+  text-align: center;
 }
 
 .credits-content p {
-    color: #d1d1d1;
-    font-weight: 400;
-    margin-bottom: 15px;
+  color: #d1d1d1;
+  font-weight: 400;
+  margin-bottom: 15px;
 }
 
 .credits-content strong {
-    color: #fff;
+  color: #fff;
 }
 
 .credit-link {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .credit-link a {
-    background: linear-gradient(135deg, #6e45e2, #88d3ce);
-    border-radius: 8px;
-    color: white;
-    display: inline-block;
-    font-weight: bold;
-    padding: 12px 24px;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(135deg, #6e45e2, #88d3ce);
+  border-radius: 8px;
+  color: white;
+  display: inline-block;
+  font-weight: bold;
+  padding: 12px 24px;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .credit-link a:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
 .additional-credits {
-    background-color: #24252a;
-    border: 1px solid #3a3b3d;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
-    margin-top: 30px;
-    padding: 20px;
+  background-color: #24252a;
+  border: 1px solid #3a3b3d;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  margin-top: 30px;
+  padding: 20px;
 }
 
 .additional-credits h3 {
-    color: #646cff;
-    margin-bottom: 15px;
+  color: #646cff;
+  margin-bottom: 15px;
 }
 
 .additional-credits ul {
-    color: #e4e6eb;
-    list-style: none;
-    padding: 0;
-    text-align: left;
+  color: #e4e6eb;
+  list-style: none;
+  padding: 0;
+  text-align: left;
 }
 
 .additional-credits li {
-    color: #e4e6eb;
-    line-height: 1.6;
-    margin: 12px 0;
+  color: #e4e6eb;
+  line-height: 1.6;
+  margin: 12px 0;
 }
 
 .additional-credits a {
-    color: #88d3ce;
-    text-decoration: none;
-    transition: color 0.2s ease;
+  color: #88d3ce;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .additional-credits a:hover {
-    color: #6e45e2;
-    text-decoration: underline;
+  color: #6e45e2;
+  text-decoration: underline;
 }
 
 .additional-credits li strong {
-    color: #fff;
+  color: #fff;
 }

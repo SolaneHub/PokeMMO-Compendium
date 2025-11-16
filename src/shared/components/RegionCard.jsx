@@ -1,4 +1,4 @@
-import './RegionCard.css'
+import "./RegionCard.css";
 
 const RegionCard = ({ region, onRegionClick, isSelected }) => {
   return (
