@@ -1,14 +1,10 @@
 import js from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
 
 export default defineConfig([
-  // ignora dist
   globalIgnores(["dist/**"]),
-
-  // Regole JS di base
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
     plugins: { js },
@@ -20,8 +16,6 @@ export default defineConfig([
       },
     },
   },
-
-  // Regole React
   {
     ...pluginReact.configs.flat.recommended,
     settings: {
@@ -36,7 +30,4 @@ export default defineConfig([
       "react/prop-types": "off",
     },
   },
-
-  // 🔚 Prettier per ultimo (disattiva regole in conflitto e aggiunge prettier/prettier)
-  eslintPluginPrettierRecommended,
 ]);
