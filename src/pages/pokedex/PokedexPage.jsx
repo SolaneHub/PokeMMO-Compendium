@@ -1,5 +1,3 @@
-function PokedexPage() {
-    
-}
+function PokedexPage() {}
 
-export default PokedexPage
+export default PokedexPage;

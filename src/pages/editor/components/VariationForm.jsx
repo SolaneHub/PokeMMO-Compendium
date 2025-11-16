@@ -1,5 +1,5 @@
 import StepForm from "./StepForm";
-import './VariationForm.css'
+import "./VariationForm.css";
 
 const VariationForm = ({ variation, onChange }) => {
   // aggiorna i campi base (type, name)

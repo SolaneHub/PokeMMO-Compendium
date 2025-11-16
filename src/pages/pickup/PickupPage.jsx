@@ -1,5 +1,3 @@
-function PickupPage() {
-    
-}
+function PickupPage() {}
 
-export default PickupPage
+export default PickupPage;

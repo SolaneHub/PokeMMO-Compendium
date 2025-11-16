@@ -1,10 +1,5 @@
 function HoOhPage() {
-    
-
-    return(
-        <>
-        </>
-    )
+  return <></>;
 }
 
-export default HoOhPage
+export default HoOhPage;

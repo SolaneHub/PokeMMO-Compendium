@@ -5,8 +5,6 @@ import "./EditorPage.css";
 const EditorPage = () => {
   const [eliteFourData, setEliteFourData] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // selezioni del navigatore
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(null);
   const [selectedTeamKey, setSelectedTeamKey] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);

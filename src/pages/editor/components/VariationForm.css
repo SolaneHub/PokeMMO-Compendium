@@ -1,38 +1,38 @@
 .variation-form-container {
-    border: 1px dashed #aaa;
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #2a2b30;
-    border-radius: 6px;
+  border: 1px dashed #aaa;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #2a2b30;
+  border-radius: 6px;
 }
 
 .variation-form-container h4 {
-    color: #fff;
-    margin-top: 0;
+  color: #fff;
+  margin-top: 0;
 }
 
 .variation-form-container label {
-    color: #e4e6eb;
-    display: block;
-    margin: 5px 0;
+  color: #e4e6eb;
+  display: block;
+  margin: 5px 0;
 }
 
 .variation-form-container input {
-    background-color: #1a1a1a;
-    border: 1px solid #3a3b3d;
-    border-radius: 4px;
-    color: #e4e6eb;
-    margin: 5px;
-    padding: 5px;
-    width: 200px;
+  background-color: #1a1a1a;
+  border: 1px solid #3a3b3d;
+  border-radius: 4px;
+  color: #e4e6eb;
+  margin: 5px;
+  padding: 5px;
+  width: 200px;
 }
 
 .variation-form-container input:focus {
-    border-color: #007bff;
-    outline: none;
+  border-color: #007bff;
+  outline: none;
 }
 
 .variation-form-container h5 {
-    color: #fff;
-    margin: 15px 0 10px;
+  color: #fff;
+  margin: 15px 0 10px;
 }

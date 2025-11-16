@@ -4,8 +4,9 @@ import MoveColoredText from "@/shared/components/MoveColoredText";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
 import {
-  generateDualTypeGradient, getDualShadow,
-  typeBackgrounds
+  generateDualTypeGradient,
+  getDualShadow,
+  typeBackgrounds,
 } from "@/shared/utils/pokemonColors";
 import { pokemonData } from "@/shared/utils/pokemonData";
 import { pokemonImages } from "@/shared/utils/pokemonImages";
@@ -123,7 +124,7 @@ function EliteFourPage() {
 
       const pokemonStrategy =
         currentMemberObject?.teams?.[selectedTeam]?.pokemonStrategies?.[
-        pokemonName
+          pokemonName
         ] || [];
       setCurrentStrategyView(pokemonStrategy);
       setStrategyHistory([]);
@@ -166,8 +167,9 @@ function EliteFourPage() {
           .map((teamName) => (
             <div
               key={teamName}
-              className={`card team-card ${selectedTeam === teamName ? "selected" : ""
-                }`}
+              className={`card team-card ${
+                selectedTeam === teamName ? "selected" : ""
+              }`}
               onClick={() => handleTeamClick(teamName)}
             >
               <p>{teamName}</p>

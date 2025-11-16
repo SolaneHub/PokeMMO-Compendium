@@ -1,50 +1,49 @@
 import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
-import IVsSelector from "@/pages/breeding/components/IVsSelector";
-import TreeScheme from "@/pages/breeding/components/TreeScheme";
-import { useState } from "react";
-
 import "@/pages/breeding/components/IVsDropdown.css";
+import IVsSelector from "@/pages/breeding/components/IVsSelector";
 import "@/pages/breeding/components/IVsSelector.css";
 import "@/pages/breeding/components/StatCircle.css";
+import TreeScheme from "@/pages/breeding/components/TreeScheme";
 import "@/pages/breeding/components/TreeScheme.css";
+import { useState } from "react";
 
 const IV_OPTIONS = [2, 3, 4, 5, 6];
 const IV_STATS = [
-    "HP",
-    "Attack",
-    "Defense",
-    "Sp. Attack",
-    "Sp. Defense",
-    "Speed",
+  "HP",
+  "Attack",
+  "Defense",
+  "Sp. Attack",
+  "Sp. Defense",
+  "Speed",
 ];
 
 function BreedingPage() {
-    const [selectedIvCount, setSelectedIvCount] = useState(IV_OPTIONS[0]);
-    const [nature, setNature] = useState(false);
-    const [selectedIvStats, setSelectedIvStats] = useState(IV_STATS);
+  const [selectedIvCount, setSelectedIvCount] = useState(IV_OPTIONS[0]);
+  const [nature, setNature] = useState(false);
+  const [selectedIvStats, setSelectedIvStats] = useState(IV_STATS);
 
-    return (
-        <div className="container">
-            <IVsSelector
-                ivOptions={IV_OPTIONS}
-                selectedIvCount={selectedIvCount}
-                setSelectedIvCount={setSelectedIvCount}
-                nature={nature}
-                setNature={setNature}
-            />
-            <IVsDropdown
-                ivStats={IV_STATS}
-                selectedIvCount={selectedIvCount}
-                selectedIvStats={selectedIvStats}
-                setSelectedIvStats={setSelectedIvStats}
-            />
-            <TreeScheme
-                selectedIvCount={selectedIvCount}
-                nature={nature}
-                selectedIvStats={selectedIvStats}
-            />
-        </div>
-    );
+  return (
+    <div className="container">
+      <IVsSelector
+        ivOptions={IV_OPTIONS}
+        selectedIvCount={selectedIvCount}
+        setSelectedIvCount={setSelectedIvCount}
+        nature={nature}
+        setNature={setNature}
+      />
+      <IVsDropdown
+        ivStats={IV_STATS}
+        selectedIvCount={selectedIvCount}
+        selectedIvStats={selectedIvStats}
+        setSelectedIvStats={setSelectedIvStats}
+      />
+      <TreeScheme
+        selectedIvCount={selectedIvCount}
+        nature={nature}
+        selectedIvStats={selectedIvStats}
+      />
+    </div>
+  );
 }
 
 export default BreedingPage;

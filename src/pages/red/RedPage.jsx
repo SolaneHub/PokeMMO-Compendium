@@ -1,12 +1,9 @@
+import "@/pages/elite-four/EliteFourPage.css";
+import { redTeams } from "@/pages/red/data/redData";
 import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
-import { redTeams } from "@/pages/red/data/redData";
-import React, { useCallback, useMemo, useState } from "react";
-
-import '@/pages/elite-four/EliteFourPage.css';
-
 import {
   generateDualTypeGradient,
   getPrimaryColor,
@@ -15,6 +12,7 @@ import {
 import { pokemonData } from "@/shared/utils/pokemonData";
 import { pokemonImages } from "@/shared/utils/pokemonImages";
 import { pokemonRegions } from "@/shared/utils/regionData";
+import React, { useCallback, useMemo, useState } from "react";
 
 function RedPage() {
   // ─────────────────────────────
@@ -48,8 +46,8 @@ function RedPage() {
   const currentRedObject = useMemo(() => {
     return selectedRed
       ? redTeams.find(
-        (r) => r.name === selectedRed && r.region === selectedRegion
-      )
+          (r) => r.name === selectedRed && r.region === selectedRegion
+        )
       : null;
   }, [selectedRed, selectedRegion]);
 
@@ -139,7 +137,7 @@ function RedPage() {
 
       const pokemonStrategy =
         currentRedObject?.teams?.[selectedTeam]?.pokemonStrategies?.[
-        pokemonName
+          pokemonName
         ] || [];
       setCurrentStrategyView(pokemonStrategy);
       setStrategyHistory([]);
@@ -182,8 +180,9 @@ function RedPage() {
           .map((teamName) => (
             <div
               key={teamName}
-              className={`card team-card ${selectedTeam === teamName ? "selected" : ""
-                }`}
+              className={`card team-card ${
+                selectedTeam === teamName ? "selected" : ""
+              }`}
               onClick={() => handleTeamClick(teamName)}
             >
               <p>{teamName}</p>

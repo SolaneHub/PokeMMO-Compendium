@@ -7,7 +7,7 @@ export const typeBackgrounds = {
   Rock: "linear-gradient(to right, #DBD8C8, #AFA981)",
   Bug: "linear-gradient(to right, #C5D260, #91A119)",
   Ghost: "linear-gradient(to right, #9C809C, #704170)",
-  Steeo: "linear-gradient(to right, #A2D0E0, #60A1B8)",
+  Steel: "linear-gradient(to right, #A2D0E0, #60A1B8)",
   Fire: "linear-gradient(to right, #FF7172, #E62829)",
   Water: "linear-gradient(to right, #83B9FF, #2980EF)",
   Grass: "linear-gradient(to right, #81D36E, #3FA129)",
@@ -62,7 +62,7 @@ export const getDualShadow = (backgroundStyle) => {
   } else {
     return `0 4px 10px ${backgroundStyle}aa`;
   }
-  
+
   return `0 4px 10px #999999aa`;
 };
 
