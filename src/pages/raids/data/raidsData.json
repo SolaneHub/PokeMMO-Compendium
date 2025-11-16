@@ -19,12 +19,7 @@
         "20%": "Charge"
       }
     },
-    "moves": [
-      "Discharge",
-      "Bug Buzz",
-      "Giga Drain",
-      "Thunder"
-    ],
+    "moves": ["Discharge", "Bug Buzz", "Giga Drain", "Thunder"],
     "strategy": "Can mostly ignore mechanics. Bring any super-effective attackers. Fire is best (someone can set Sun). Gym-run Typhlosions work great.",
     "recommended": [
       "Ninetales (Flamethrower)",
@@ -58,12 +53,7 @@
         "20%": "Flurry of attacks (?)"
       }
     },
-    "moves": [
-      "Shadow Ball",
-      "Dark Pulse",
-      "Thunderbolt",
-      "Shadow Claw"
-    ],
+    "moves": ["Shadow Ball", "Dark Pulse", "Thunderbolt", "Shadow Claw"],
     "strategy": "Lead with Haze to remove Cotton Guard. Bring Thief user with no held item to steal Sitrus (or remove with Knock Off/Trick). 'Flurry of attacks' grants Banette priority next turn. Haze after Calm Mind if needed.",
     "links": {
       "video": "https://youtu.be/rhcjHcUmezQ"
@@ -89,12 +79,7 @@
         "20%": "Type Inversion"
       }
     },
-    "moves": [
-      "Focus Blast",
-      "Psychic",
-      "Foul Play",
-      "Grass Knot"
-    ],
+    "moves": ["Focus Blast", "Psychic", "Foul Play", "Grass Knot"],
     "strategy": "Open with Defog (or similar) to remove Reflect. Safeguard early to block Hypnosis. Try to set Trick Room near 50% to cancel it if already active. Spiritomb is great for this. Bring a Fighting type for the inverted-typing phase (e.g., Heracross).",
     "links": {
       "video": "https://youtu.be/qpXH580fL3Y"
@@ -120,12 +105,7 @@
         "20%": "Rock Polish"
       }
     },
-    "moves": [
-      "Shadow Punch",
-      "Drain Punch",
-      "Ice Punch",
-      "Earthquake"
-    ],
+    "moves": ["Shadow Punch", "Drain Punch", "Ice Punch", "Earthquake"],
     "strategy": "Straightforward. Rain comps perform very well. Dark offense is viable but beware Drain Punch healing. Haze the Omniboost; avoid Defog if you rely on the evasion debuff."
   },
   {
@@ -148,12 +128,7 @@
         "20%": "Omniboost"
       }
     },
-    "moves": [
-      "Aqua Tail",
-      "Rock Slide",
-      "Megahorn",
-      "Earthquake"
-    ],
+    "moves": ["Aqua Tail", "Rock Slide", "Megahorn", "Earthquake"],
     "strategy": "Early strat: Sun offense, set Tailwind, Haze every other turn for Speed Boost. Each player should bring Prankster Murkrow with Haze. Damage must consistently hit ~6% per action; very tight window.",
     "turn_plan": [
       {
@@ -217,12 +192,7 @@
         "20%": "Nasty Plot"
       }
     },
-    "moves": [
-      "Dark Pulse",
-      "Air Cutter",
-      "Snarl",
-      "Heat Wave"
-    ],
+    "moves": ["Dark Pulse", "Air Cutter", "Snarl", "Heat Wave"],
     "strategy": "Rain Electric spam (Thunder) is best; Ice also works. Rock is weak due to extra Defense. Lead Tailwind; bring at least one (ideally two) Prankster Tailwind users. A non-Prankster Hazer helps keep Electric-types alive.",
     "links": {
       "video": "https://youtu.be/fZc0aNn4yKY"
@@ -253,12 +223,7 @@
         "A Pokémon goes berserk and attacks teammates"
       ]
     },
-    "moves": [
-      "Psycho Cut",
-      "Close Combat",
-      "Night Slash",
-      "Rock Slide"
-    ],
+    "moves": ["Psycho Cut", "Close Combat", "Night Slash", "Rock Slide"],
     "strategy": "Sun + Heal Block around ~40% to stop Wish. Absol is frail; non-STAB super-effective moves can still hit damage cap (e.g., Darmanitan Superpower, Volcarona Bug Buzz).",
     "links": {
       "video": "https://youtu.be/7KGERZQhK_c"
@@ -280,12 +245,7 @@
         "~25%": "Invert Typing"
       }
     },
-    "moves": [
-      "Focus Blast",
-      "Dark Pulse",
-      "Psyshock",
-      "Snarl"
-    ],
+    "moves": ["Focus Blast", "Dark Pulse", "Psyshock", "Snarl"],
     "strategy": "Lead all Chesto + Tailwind, ignore Nasty Plot. Tailwind again on turn 5 when it drops. Bring super-effective attackers.",
     "links": {
       "video": "https://www.youtube.com/watch?v=ERr3ld5vkfc"
@@ -310,12 +270,7 @@
         "20%": "Physical moves become special and vice versa"
       }
     },
-    "moves": [
-      "Focus Blast",
-      "Dark Pulse",
-      "Psyshock",
-      "Snarl"
-    ],
+    "moves": ["Focus Blast", "Dark Pulse", "Psyshock", "Snarl"],
     "recommended_pokemon": {
       "regular_typing": [
         "Primeape (Vital Spirit lead)",
@@ -401,12 +356,7 @@
         "30%": "Sing"
       }
     },
-    "moves": [
-      "Blizzard",
-      "Shadow Ball",
-      "Water Pulse",
-      "Ice Beam"
-    ],
+    "moves": ["Blizzard", "Shadow Ball", "Water Pulse", "Ice Beam"],
     "strategy": "Set Sun on turn 1 with one Ninetales swapping in; bring Brick Break to clear Reflect and Fighting-types for second half. Coordinated teams can largely ignore mechanics; solo queue is tough due to Ice Body and randoms.",
     "links": {
       "video": "https://youtu.be/sJEwKGg_6og"
@@ -433,12 +383,7 @@
         "20%": "Agility"
       }
     },
-    "moves": [
-      "Thunderbolt",
-      "Signal Beam",
-      "Grass Knot",
-      "Discharge"
-    ],
+    "moves": ["Thunderbolt", "Signal Beam", "Grass Knot", "Discharge"],
     "strategy": "Tailwind lead. Use Gravity to counter Levitate (e.g., Sableye). Defog/Brick Break for Reflect. Haze counters Agility. Ground comps are easiest; Sun may work with premade but Ground is safer."
   },
   {
@@ -461,11 +406,7 @@
         "30%": "Confuse Ray"
       }
     },
-    "moves": [
-      "Earthquake",
-      "Thunderbolt",
-      "Psychic"
-    ],
+    "moves": ["Earthquake", "Thunderbolt", "Psychic"],
     "strategy": "Defog/Brick Break Reflect on lead. You can largely ignore the inversion and burn boss down. Fighting spam recommended."
   },
   {
@@ -488,10 +429,7 @@
         "33%": "Trick Room"
       }
     },
-    "moves": [
-      "Psyshock",
-      "Signal Beam"
-    ],
+    "moves": ["Psyshock", "Signal Beam"],
     "strategy": "Lead Haze for Omniboost. Dark spam. Heal Block just before/after Wish. Haze Cosmic Power or push with Crunch drops. Consider Trick Room to counter the boss Trick Room; save Sucker Punch users for late."
   },
   {
@@ -515,12 +453,7 @@
         "20%": "Flurry"
       }
     },
-    "moves": [
-      "Horn Leech",
-      "Wild Charge",
-      "Low Kick",
-      "Body Slam"
-    ],
+    "moves": ["Horn Leech", "Wild Charge", "Low Kick", "Body Slam"],
     "strategy": "2× Tailwind + 1× Haze; Incinerate to remove Berry. Need TW for Chlorophyll. Lead TW, save Haze for after Agility. Don't hit adds to avoid Snow overriding Sun. Extra Ninetales and Murkrow as backups; avoid bringing Grass-weak mons."
   },
   {
@@ -539,9 +472,7 @@
         "25%": "Snow"
       }
     },
-    "moves": [
-      "Earthquake"
-    ],
+    "moves": ["Earthquake"],
     "strategy": "Bring Ninetales and switch it in on turn 1 to set Sun; keep backup Ninetales. Backup Murkrow for Haze on the Omni (often ignorable).",
     "links": {
       "guide": "Beartic Raid Guide | Holiday Event 2024 [PokeMMO]"
@@ -584,12 +515,7 @@
         "~30%": "Adaptation"
       }
     },
-    "moves": [
-      "Ancient Power",
-      "Brick Break",
-      "Solar Beam",
-      "Earthquake"
-    ],
+    "moves": ["Ancient Power", "Brick Break", "Solar Beam", "Earthquake"],
     "strategy": "See turn-plan; DO NOT KILL ADDS IF YOU DO NOT HAVE A CHERRIM. Heal Block on turn 4. Save Haze for after +2 Sp. Def from Ancient Power. Avoid Flying-types to bait more Earthquakes.",
     "turn_plan": [
       {
@@ -664,12 +590,7 @@
         "25%": "Nasty Plot"
       }
     },
-    "moves": [
-      "Flamethrower",
-      "Air Slash",
-      "Water Pulse",
-      "Tri Attack"
-    ],
+    "moves": ["Flamethrower", "Air Slash", "Water Pulse", "Tri Attack"],
     "strategy": "Turn 1: Tailwind ×1 + 3× Cloyster. Turn 2: Politoad (Rain) + 3× Thunder, then Thunder spam. Heal Block when it uses Wish. Refresh Tailwind as needed. Cloyster can hit damage cap."
   },
   {
@@ -693,16 +614,9 @@
         "30%": "Trick Room"
       }
     },
-    "moves": [
-      "Aura Sphere",
-      "Psyshock",
-      "Shadow Ball",
-      "Grass Knot"
-    ],
+    "moves": ["Aura Sphere", "Psyshock", "Shadow Ball", "Grass Knot"],
     "strategy": "Coordination check — communicate. Put speed stats in nicknames. Use fast mons (Krookodile, Hydreigon, Sucker Punch users, Volcarona, Chandelure) and slow closers (Tyranitar, Scizor, Skuntank, Honchkrow).",
-    "notes": [
-      "Credit to Hagitabi and Raucey for examples/charts."
-    ]
+    "notes": ["Credit to Hagitabi and Raucey for examples/charts."]
   },
   {
     "name": "Salamence",
@@ -721,11 +635,7 @@
         "20%": "Tailwind (permanent)"
       }
     },
-    "moves": [
-      "Dragon Claw",
-      "Earthquake",
-      "Fire Fang"
-    ],
+    "moves": ["Dragon Claw", "Earthquake", "Fire Fang"],
     "strategy": "Two lead options: (1) Magic Bounce Xatu Tailwind; (2) reset until Murkrow comes in on Roar. Bring Heal Block for Wish; Mental Herb Murkrows for 2nd Tailwind. Finish with Ice types, or Dragons with Band/Specs (Garchomp/Hydreigon)."
   },
   {
@@ -743,11 +653,7 @@
         "25%": "Trick Room"
       }
     },
-    "moves": [
-      "Drain Punch",
-      "Ancient Power",
-      "Psychic"
-    ],
+    "moves": ["Drain Punch", "Ancient Power", "Psychic"],
     "strategy": "Doom Desire lands end of the next turn. Power Up Shield requires reducing boss defenses or boosting your offenses. See turn plan progression to break shield then finish under Trick Room.",
     "turn_plan": [
       {
@@ -783,9 +689,7 @@
       }
     },
     "moves": [],
-    "notes": [
-      "Template referenced; details TBD. Guide by Jej."
-    ]
+    "notes": ["Template referenced; details TBD. Guide by Jej."]
   },
   {
     "name": "Lopunny",
@@ -808,12 +712,7 @@
         "30%": "Teeter Dance"
       }
     },
-    "moves": [
-      "Acrobatics",
-      "Thunder Punch",
-      "Double-Edge",
-      "Drain Punch"
-    ],
+    "moves": ["Acrobatics", "Thunder Punch", "Double-Edge", "Drain Punch"],
     "strategy": "Evita debolezze a Lotta. Porta due Tailwind. P1 e P2 full AoE/Spread (Earthquake molto consigliato) e un Typhlosion per danni in Sun."
   },
   {
@@ -837,11 +736,7 @@
         "20%": "Dormono tutti"
       }
     },
-    "moves": [
-      "Body Slam",
-      "Shadow Claw",
-      "Bulldoze"
-    ],
+    "moves": ["Body Slam", "Shadow Claw", "Bulldoze"],
     "strategy": "Evita Intimidate. Lead Crobat (Inner Focus, Rocky Helmet) o Murkrow (HA, Covert Cloak). Tailwind T1, Haze T2; usa priority su un add addormentato per baitare il flinch."
   },
   {
@@ -864,12 +759,7 @@
         "33%": "Trick Room"
       }
     },
-    "moves": [
-      "Earth Power",
-      "Shadow Ball",
-      "Energy Ball",
-      "Psyshock"
-    ],
+    "moves": ["Earth Power", "Shadow Ball", "Energy Ball", "Psyshock"],
     "strategy": "Porta Defog e Trick Room; rimuovi gli schermi e gestisci TR."
   },
   {
@@ -893,12 +783,7 @@
         "30%": "Enrage (Omniboost)"
       }
     },
-    "moves": [
-      "Overheat",
-      "Wild Charge",
-      "Low Kick",
-      "Discharge"
-    ],
+    "moves": ["Overheat", "Wild Charge", "Low Kick", "Discharge"],
     "strategy": "Composizioni Terra lo trivializzano. Gravity utile per aggirare Magnet Rise; Haze opzionale."
   },
   {
@@ -922,12 +807,7 @@
         "35%": "Sandstorm"
       }
     },
-    "moves": [
-      "Superpower",
-      "Wild Charge",
-      "Return",
-      "Crunch"
-    ],
+    "moves": ["Superpower", "Wild Charge", "Return", "Crunch"],
     "strategy": "Raid facile. Tailwind lead e Mental Herb per TW al turno 5. Spam Lotta."
   },
   {
@@ -950,12 +830,7 @@
         "20%": "Agility"
       }
     },
-    "moves": [
-      "Dragon Pulse",
-      "Signal Beam",
-      "Discharge",
-      "Thunderbolt"
-    ],
+    "moves": ["Dragon Pulse", "Signal Beam", "Discharge", "Thunderbolt"],
     "strategy": "Non si possono rimuovere i boost (Haze visivo). Migliori: attaccanti Terra speciali (Nidoking/Nidoqueen, Flygon). Alternativa ibrida Sun/Ground con Defog per Light Screen."
   },
   {
@@ -978,12 +853,7 @@
         "33%": "Roar"
       }
     },
-    "moves": [
-      "Earthquake",
-      "Head Smash",
-      "Iron Head",
-      "Dragon Tail"
-    ],
+    "moves": ["Earthquake", "Head Smash", "Iron Head", "Dragon Tail"],
     "strategy": "Sun è ottimo. Doppio Defog per rimuovere Stealth Rock; non serve togliere completamente Metal Spikes. Preferisci attaccanti speciali (Darmanitan Band fa comunque cap)."
   },
   {
@@ -1007,12 +877,7 @@
         "25%": "Ability Suppression"
       }
     },
-    "moves": [
-      "Giga Impact",
-      "Ice Punch",
-      "Zen Headbutt",
-      "Hammer Arm"
-    ],
+    "moves": ["Giga Impact", "Ice Punch", "Zen Headbutt", "Hammer Arm"],
     "strategy": "Haze su Amnesia, Heal Block su Slack Off. Focus Blast preferibile (bassa SpD). Sequenza consigliata: TW → Fake Tears → Focus Blast spam; gestisci pledge degli adds T1."
   },
   {
@@ -1037,12 +902,7 @@
         "33%": "Flurry of attacks"
       }
     },
-    "moves": [
-      "Body Slam",
-      "Rock Slide",
-      "Zen Headbutt",
-      "Iron Head"
-    ],
+    "moves": ["Body Slam", "Rock Slide", "Zen Headbutt", "Iron Head"],
     "strategy": "Lead Xatu (Magic Bounce) per riflettere Scary Face e settare TW. Sweet Scent aiuta con Focus Blast. Turno 5 usa Rocky Helmet. Turno 6 chiudi con attaccanti veloci (≥245)."
   },
   {
@@ -1067,12 +927,7 @@
         "30%": "Tailwind"
       }
     },
-    "moves": [
-      "Brave Bird",
-      "Close Combat",
-      "Rock Slide",
-      "Assurance"
-    ],
+    "moves": ["Brave Bird", "Close Combat", "Rock Slide", "Assurance"],
     "strategy": "Sweet Scent per proccare Defiant e stabilizzare il fight. Ruba/consuma la bacca; TWave al turno 5. Spam danni (Thunder/Head Smash ecc.)."
   },
   {
@@ -1097,12 +952,7 @@
         "20%": "Swords Dance"
       }
     },
-    "moves": [
-      "Iron Head",
-      "Drill Run",
-      "Rock Slide",
-      "Earthquake"
-    ],
+    "moves": ["Iron Head", "Drill Run", "Rock Slide", "Earthquake"],
     "strategy": "Doppio Defog T1 per l’Herb e l’evasion drop; barriera cade a fine T3. T4 usa Fake Tears/Screech e salva 4 attaccanti dello stesso tipo (fisico o speciale) per romperla; TW T5 e chiudi T6."
   }
 ]
