@@ -1,3 +1,15 @@
+# Dependencies
+node_modules/
+
+# Optional: lockfiles (if you use multiple package managers)
+yarn.lock
+pnpm-lock.yaml
+
+# Build output / generated artifacts
+dist/
+build/
+screenshots/
+
 # Logs
 logs
 *.log
@@ -6,45 +18,37 @@ yarn-debug.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Dependency directories
-node_modules/
-
-# Build output
-dist/
-build/
-
-# Local env files
+# Local environment variables (never commit these)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Vite cache
+# Tool caches
 .vite/
 vite.config.ts.timestamp-*
-
-# ESLint cache
 .eslintcache
 
-# Editor directories and files
+# Unversioned documentation
+src/docs/
+
+# Editor / IDE settings
 .vscode/
 .idea/
+
+# Microsoft IDE project files
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+
+# Editor temporary files
 *.sw?
+
+# System files
 .DS_Store
 Thumbs.db
 
-# Optional: GitHub Pages temporary folder (gh-pages)
+# Temporary folder for GitHub Pages
 gh-pages/
-
-# Optional: lock files if you use multiple package managers
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# Documentation
-src/docs/
