@@ -8,7 +8,6 @@ pnpm-lock.yaml
 # Build output / generated artifacts
 dist/
 build/
-screenshots/
 
 # Logs
 logs
