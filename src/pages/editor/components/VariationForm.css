@@ -1,9 +1,9 @@
 .variation-form-container {
+  background-color: #2a2b30;
   border: 1px dashed #aaa;
+  border-radius: 6px;
   margin: 10px 0;
   padding: 10px;
-  background-color: #2a2b30;
-  border-radius: 6px;
 }
 
 .variation-form-container h4 {

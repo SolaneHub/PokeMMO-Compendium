@@ -1,9 +1,9 @@
 .step-form-container {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
   background-color: #2a2b30;
+  border: 1px solid #ccc;
   border-radius: 6px;
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
 .step-form-container label {
