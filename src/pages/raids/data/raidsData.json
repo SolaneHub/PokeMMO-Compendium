@@ -3,19 +3,37 @@
     "name": "Galvantula",
     "stars": 3,
     "locations": {
-      "kanto": { "area": "Viridian Forest" },
-      "johto": { "area": "Victory Road (Need Strength)" },
-      "hoenn": { "area": "Route 119" },
-      "sinnoh": { "area": "Route 221 (Need Surf)" },
-      "unova": { "area": "Route 2 (Need Cut)" }
+      "kanto": {
+        "area": "Viridian Forest"
+      },
+      "johto": {
+        "area": "Victory Road (Need Strength)"
+      },
+      "hoenn": {
+        "area": "Route 119"
+      },
+      "sinnoh": {
+        "area": "Route 221 (Need Surf)"
+      },
+      "unova": {
+        "area": "Route 2 (Need Cut)"
+      }
     },
     "mechanics": {
       "heldItem": "Wise Glasses",
       "thresholds": {
-        "100": { "effect": "Full Para" },
-        "75": { "effect": "Light Screen" },
-        "50": { "effect": "Sticky Web" },
-        "20": { "effect": "Special Defense" }
+        "100": {
+          "effect": "Full Para"
+        },
+        "75": {
+          "effect": "Light Screen"
+        },
+        "50": {
+          "effect": "Sticky Web"
+        },
+        "20": {
+          "effect": "Special Defense"
+        }
       }
     },
     "moves": ["Discharge", "Bug Buzz", "Giga Drain", "Thunder"],
@@ -30,20 +48,38 @@
     "name": "Banette",
     "stars": 3,
     "locations": {
-      "kanto": { "area": "Route 7" },
-      "johto": { "area": "Dark Cave (Need Surf and Flash)" },
-      "hoenn": { "area": "Route 123, Mt. Pyre side (Need Surf)" },
-      "sinnoh": { "area": "Route 225 (Need Surf)" },
-      "unova": { "area": "Giant Chasm" }
+      "kanto": {
+        "area": "Route 7"
+      },
+      "johto": {
+        "area": "Dark Cave (Need Surf and Flash)"
+      },
+      "hoenn": {
+        "area": "Route 123, Mt. Pyre side (Need Surf)"
+      },
+      "sinnoh": {
+        "area": "Route 225 (Need Surf)"
+      },
+      "unova": {
+        "area": "Giant Chasm"
+      }
     },
     "mechanics": {
       "ability": "Curse Body",
       "heldItem": "Sitrus Berry",
       "thresholds": {
-        "100": { "effect": "Stat Drop Barrier" },
-        "75": { "effect": "Cotton Guard" },
-        "50": { "effect": "Calm Mind" },
-        "20": { "effect": "Powder Jar" }
+        "100": {
+          "effect": "Stat Drop Barrier"
+        },
+        "75": {
+          "effect": "Cotton Guard"
+        },
+        "50": {
+          "effect": "Calm Mind"
+        },
+        "20": {
+          "effect": "Powder Jar"
+        }
       }
     },
     "moves": ["Ice Punch", "Dark Pulse", "Thunderbolt", "Shadow Claw"],
@@ -86,19 +122,37 @@
     "name": "Hypno",
     "stars": 3,
     "locations": {
-      "kanto": { "area": "Berry Forest" },
-      "johto": { "area": "Route 39" },
-      "hoenn": { "area": "Route 117" },
-      "sinnoh": { "area": "Fuego Ironworks (Need Surf)" },
-      "unova": { "area": "Dreamyard" }
+      "kanto": {
+        "area": "Berry Forest"
+      },
+      "johto": {
+        "area": "Route 39"
+      },
+      "hoenn": {
+        "area": "Route 117"
+      },
+      "sinnoh": {
+        "area": "Fuego Ironworks (Need Surf)"
+      },
+      "unova": {
+        "area": "Dreamyard"
+      }
     },
     "mechanics": {
       "heldItem": null,
       "thresholds": {
-        "100": { "effect": "Reflect" },
-        "75": { "effect": "Hypnosis" },
-        "60": { "effect": "Trick Room" },
-        "33": { "effect": "Inverted Space (Type Inversion)" }
+        "100": {
+          "effect": "Reflect"
+        },
+        "75": {
+          "effect": "Hypnosis"
+        },
+        "60": {
+          "effect": "Trick Room"
+        },
+        "33": {
+          "effect": "Inverted Space (Type Inversion)"
+        }
       }
     },
     "moves": ["Psychic", "Foul Play", "Focus Blast", "Grass Knot"],
@@ -141,19 +195,37 @@
     "name": "Golurk",
     "stars": 3,
     "locations": {
-      "kanto": { "area": "Victory Road" },
-      "johto": { "area": "Ruins of Alph" },
-      "hoenn": { "area": "Granite Cave" },
-      "sinnoh": { "area": "Iron Island" },
-      "unova": { "area": "Twist Mountain" }
+      "kanto": {
+        "area": "Victory Road"
+      },
+      "johto": {
+        "area": "Ruins of Alph"
+      },
+      "hoenn": {
+        "area": "Granite Cave"
+      },
+      "sinnoh": {
+        "area": "Iron Island"
+      },
+      "unova": {
+        "area": "Twist Mountain"
+      }
     },
     "mechanics": {
       "heldItem": "?",
       "thresholds": {
-        "100": { "effect": "Stealth Rock" },
-        "75": { "effect": "Rock Polish" },
-        "60": { "effect": "Omniboost" },
-        "30": { "effect": "Gravity" }
+        "100": {
+          "effect": "Stealth Rock"
+        },
+        "75": {
+          "effect": "Rock Polish"
+        },
+        "60": {
+          "effect": "Omniboost"
+        },
+        "30": {
+          "effect": "Gravity"
+        }
       }
     },
     "moves": ["Drain Punch", "Earthquake", "Ice Punch", "Shadow Punch"],
@@ -175,20 +247,38 @@
     "name": "Scolipede",
     "stars": 4,
     "locations": {
-      "kanto": { "area": "Island 6" },
-      "johto": { "area": "Ilex Forest" },
-      "hoenn": { "area": "Petalburg" },
-      "sinnoh": { "area": "Eterna Forest" },
-      "unova": { "area": "Lostorn Forest" }
+      "kanto": {
+        "area": "Island 6"
+      },
+      "johto": {
+        "area": "Ilex Forest"
+      },
+      "hoenn": {
+        "area": "Petalburg"
+      },
+      "sinnoh": {
+        "area": "Eterna Forest"
+      },
+      "unova": {
+        "area": "Lostorn Forest"
+      }
     },
     "mechanics": {
       "ability": "Speed Boost",
       "heldItem": "Sitrus Berry",
       "thresholds": {
-        "100": { "effect": "Spikes" },
-        "75": { "effect": "+2 Defense" },
-        "40": { "effect": "+2 Attack" },
-        "20": { "effect": "Omniboost" }
+        "100": {
+          "effect": "Spikes"
+        },
+        "75": {
+          "effect": "+2 Defense"
+        },
+        "40": {
+          "effect": "+2 Attack"
+        },
+        "20": {
+          "effect": "Omniboost"
+        }
       }
     },
     "moves": ["Rock Slide", "Earthquake", "Megahorn", "Aqua Tail"],
@@ -210,19 +300,37 @@
     "name": "Mandibuzz",
     "stars": 4,
     "locations": {
-      "kanto": { "area": "Sevault Canyon Island 7" },
-      "johto": { "area": "Route 46 (Rock Climb)" },
-      "hoenn": { "area": "Mt. Chimney" },
-      "sinnoh": { "area": "Route 207" },
-      "unova": { "area": "Desert Resort" }
+      "kanto": {
+        "area": "Sevault Canyon Island 7"
+      },
+      "johto": {
+        "area": "Route 46 (Rock Climb)"
+      },
+      "hoenn": {
+        "area": "Mt. Chimney"
+      },
+      "sinnoh": {
+        "area": "Route 207"
+      },
+      "unova": {
+        "area": "Desert Resort"
+      }
     },
     "mechanics": {
       "notes": "Swaps every Pokémon at end of turn, dealing a percentage of current HP.",
       "thresholds": {
-        "100": { "effect": "High Winds" },
-        "75": { "effect": "Nasty Plot" },
-        "50": { "effect": "Tailwind" },
-        "25": { "effect": "Nasty Plot" }
+        "100": {
+          "effect": "High Winds"
+        },
+        "75": {
+          "effect": "Nasty Plot"
+        },
+        "50": {
+          "effect": "Tailwind"
+        },
+        "25": {
+          "effect": "Nasty Plot"
+        }
       }
     },
     "moves": ["Air Cutter", "Dark Pulse", "Heat Wave", "Snarl"],
@@ -265,18 +373,36 @@
     "name": "Absol",
     "stars": 4,
     "locations": {
-      "kanto": { "area": "Route 10" },
-      "johto": { "area": "Route 45" },
-      "hoenn": { "area": "Route 120" },
-      "sinnoh": { "area": "Route 217" },
-      "unova": { "area": "Guidance Chamber" }
+      "kanto": {
+        "area": "Route 10"
+      },
+      "johto": {
+        "area": "Route 45"
+      },
+      "hoenn": {
+        "area": "Route 120"
+      },
+      "sinnoh": {
+        "area": "Route 217"
+      },
+      "unova": {
+        "area": "Guidance Chamber"
+      }
     },
     "mechanics": {
       "thresholds": {
-        "100": { "effect": "Bad Luck" },
-        "75": { "effect": "Thunder Wave" },
-        "50": { "effect": "Swords Dance" },
-        "40": { "effect": "Wish" }
+        "100": {
+          "effect": "Bad Luck"
+        },
+        "75": {
+          "effect": "Thunder Wave"
+        },
+        "50": {
+          "effect": "Swords Dance"
+        },
+        "40": {
+          "effect": "Wish"
+        }
       }
     },
     "moves": ["Psycho Cut", "Close Combat", "Night Slash", "Rock Slide"],
@@ -325,10 +451,18 @@
     },
     "mechanics": {
       "thresholds": {
-        "100": { "effect": "Dark Void" },
-        "70": { "effect": "Nasty Plot" },
-        "40": { "effect": "Dark Void" },
-        "25": { "effect": "Invert typing" }
+        "100": {
+          "effect": "Dark Void"
+        },
+        "70": {
+          "effect": "Nasty Plot"
+        },
+        "40": {
+          "effect": "Dark Void"
+        },
+        "25": {
+          "effect": "Invert typing"
+        }
       }
     },
     "moves": [],
@@ -371,11 +505,21 @@
     "mechanics": {
       "notes": "Repeatable on a 6 hour cooldown. Typing inversion alternates every turn once HP is around 51%.",
       "thresholds": {
-        "100": { "effect": "Dark Void" },
-        "70": { "effect": "Nasty Plot" },
-        "51": { "effect": "Alternating turn type inversion" },
-        "33": { "effect": "Dark Void" },
-        "25": { "effect": "Physical/Special switch" }
+        "100": {
+          "effect": "Dark Void"
+        },
+        "70": {
+          "effect": "Nasty Plot"
+        },
+        "51": {
+          "effect": "Alternating turn type inversion"
+        },
+        "33": {
+          "effect": "Dark Void"
+        },
+        "25": {
+          "effect": "Physical/Special switch"
+        }
       }
     },
     "moves": [],
@@ -423,61 +567,135 @@
       }
     },
     "mechanics": {
+      "ability": "Flash Fire",
+      "heldItem": "Leftovers",
       "thresholds": {
-        "100": { "effect": "Magmapool" },
-        "80": { "effect": "Stealth Rock" },
-        "67": { "effect": "Roar" },
-        "50": { "effect": "Iron Defense" },
-        "40": { "effect": "Adaptation" },
-        "25": { "effect": "Barrier" }
+        "100": {
+          "effect": "Magmapool"
+        },
+        "80": {
+          "effect": "Stealth Rock"
+        },
+        "67": {
+          "effect": "Roar"
+        },
+        "50": {
+          "effect": "Iron Defense"
+        },
+        "40": {
+          "effect": "Adaptation"
+        },
+        "25": {
+          "effect": "Barrier"
+        }
       }
     },
     "moves": ["Solarbeam", "Earth Power", "Magma Storm", "Power Gem"],
-    "roles": {
-      "player1": [
-        "Flygon Defog",
-        "Flygon Earth Power",
-        "Nidoking Earth Power",
-        "Dig",
-        "Dig",
-        "Gallade",
-        "Kingdra",
-        "Kingrdra",
-        "Kingdra / Pelliper"
-      ],
-      "player2": [
-        "Flygon Defog",
-        "Flygon Earth Power",
-        "Hydreigon Earth Power",
-        "Hydreigon Earth Power",
-        "Hydreigon Earth Power",
-        "Gallade",
-        "Toed/Pelipper",
-        "Toed/Pelipper/Kingdra",
-        "Kingdra"
-      ],
-      "player3": [
-        "Light Screen",
-        "Hydreigon Earth Power",
-        "Hydreigon Earth Power",
-        "Dig",
-        "Dig",
-        "Gallade",
-        "Fake Tears",
-        "Kingdra",
-        "Kingdra"
-      ],
-      "player4": [
-        "Knock Off",
-        "Hydreigon Earth Power",
-        "Hydreigon Earth Power",
-        "Dig",
-        "Dig",
-        "Gallade",
-        "Kingdra",
-        "Kingdra",
-        "Kingdra/Pelliper"
-      ]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Strategy 1 - Dig",
+        "roles": {
+          "player1": [
+            "Flygon Defog",
+            "Flygon Earth Power",
+            "Nidoking Earth Power",
+            "Dig",
+            "Dig",
+            "Gallade",
+            "Kingdra",
+            "Kingrdra",
+            "Kingdra / Pelliper"
+          ],
+          "player2": [
+            "Flygon Defog",
+            "Flygon Earth Power",
+            "Hydreigon Earth Power",
+            "Hydreigon Earth Power",
+            "Hydreigon Earth Power",
+            "Gallade",
+            "Toed/Pelipper",
+            "Toed/Pelipper/Kingdra",
+            "Kingdra"
+          ],
+          "player3": [
+            "Light Screen",
+            "Hydreigon Earth Power",
+            "Hydreigon Earth Power",
+            "Dig",
+            "Dig",
+            "Gallade",
+            "Fake Tears",
+            "Kingdra",
+            "Kingdra"
+          ],
+          "player4": [
+            "Knock Off",
+            "Hydreigon Earth Power",
+            "Hydreigon Earth Power",
+            "Dig",
+            "Dig",
+            "Gallade",
+            "Kingdra",
+            "Kingdra",
+            "Kingdra/Pelliper"
+          ]
+        },
+        "strategy": "Testo fittizio per la strategia standard di Heatran.",
+        "recommended": [
+          "Garchomp (placeholder)",
+          "Kingdra (placeholder)",
+          "Pelipper (placeholder)"
+        ],
+        "links": {
+          "guide": "Da definire",
+          "video": "Da definire"
+        }
+      },
+      {
+        "id": "alt",
+        "label": "Strategy 2 - Octillery",
+        "roles": {
+          "player1": [
+            "Earthquake/Earth Power",
+            "Earth Power/Close Combat",
+            "Octillery",
+            "Starmie",
+            "Kingdra",
+            "Jolteon"
+          ],
+          "player2": [
+            "Earthquake/Earth Power",
+            "Gliscor",
+            "Octillery",
+            "Pelipper",
+            "Politoed",
+            "Kingdra"
+          ],
+          "player3": [
+            "Weavile/Ambipom",
+            "Earth Power/Close Combat",
+            "Xatu",
+            "Flygon",
+            "Politoed",
+            "Kingdra"
+          ],
+          "player4": [
+            "Drill Run/Earth Power",
+            "Earth Power/Close Combat",
+            "Pelipper",
+            "Flygon",
+            "Politoed",
+            "Kingdra"
+          ]
+        },
+        "strategy": "Seconda strategia fittizia per Heatran.",
+        "recommended": ["Placeholder Mon 1", "Placeholder Mon 2"],
+        "links": {
+          "guide": "Da definire",
+          "video": "Da definire"
+        }
+      }
+    ]
   }
 ]
