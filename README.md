@@ -162,24 +162,24 @@ It stands as a collaborative effort shaped by countless trainers, creators, and 
 
 ### 🔥 High Priority (Active Development)
 
-- **Finish BreedingPage**: Complete the UI and logic for the IV and nature inheritance visualizer.
+- **BreedingPage Polish**: The page is implemented and fully functional; focus on improving the UX, refining the IV/nature visualizations, and adding quality-of-life enhancements.
 - **Complete EliteFourPage Strategies**: Add detailed, emoji-annotated strategies for all remaining Pokémon across all regions.
-- **Finish RedPage Strategies**: Finalize the battle strategy against Red.
+- **RedPage Strategy Coverage**: The page is implemented; add and refine all remaining strategies and team variants to achieve full coverage.
+- **RaidsPage Content Completion**: The page is implemented; populate it with all currently available raids, including recommended teams, mechanics, and rewards.
 
 ### 🚀 New Feature Development
 
 - **Develop Ho-Oh Page**: Create a dedicated page for the Ho-Oh encounter, detailing strategy, team composition, and rewards.
 - **Develop PokédexPage**: Build an interactive Pokédex filterable by region, type, and stats.
 - **Develop PickupPage**: Create a utility page showing Pickup tables and optimal farming locations/parties.
-- **Develop RaidsPage**: Design a guide for raid bosses, including recommended counters and rewards.
 
 ### ♻️ Code Quality & Infrastructure
 
 - **Integrate Tailwind CSS**: Systematically convert existing plain CSS to Tailwind CSS for better maintainability and a more consistent design system. This includes:
   - Convert App.css and component-specific CSS to Tailwind utility classes.
-  - Configure Tailwind theme to match the existing color scheme.
+  - Configure the Tailwind theme to match the existing color scheme.
   - Ensure responsive design is maintained or improved with Tailwind's breakpoints.
-- **Expand Team Options**: Add more team variations to the Elite Four and Red guides to accommodate diverse strategies and playstyles.
+- **Expand Team Options**: Add more team variations to the Elite Four, Red, and raid guides to accommodate diverse strategies and playstyles.
 
 ### 🌍 Future Enhancements
 
