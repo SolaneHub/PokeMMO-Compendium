@@ -15,6 +15,7 @@ function RaidsPage() {
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedTurnIndex, setSelectedTurnIndex] = useState(0);
+  const [selectedStrategyIndex, setSelectedStrategyIndex] = useState(0);
 
   // Clic sulle stelle
   const handleStarClick = useCallback((star) => {
@@ -23,6 +24,7 @@ function RaidsPage() {
     setIsPokemonDetailsVisible(false);
     setSelectedRole(null);
     setSelectedTurnIndex(0);
+    setSelectedStrategyIndex(0);
   }, []);
 
   // Clic sulla card del Pokémon
@@ -31,6 +33,7 @@ function RaidsPage() {
     setIsPokemonDetailsVisible(true);
     setSelectedRole(null);
     setSelectedTurnIndex(0);
+    setSelectedStrategyIndex(0);
   }, []);
 
   // Cambio ruolo → reset turno
@@ -67,6 +70,68 @@ function RaidsPage() {
     return withinStar.find((r) => r.name === selectedPokemon) || null;
   }, [selectedPokemon, selectedStar]);
 
+  // Strategia attiva (se il raid ha più strategie)
+  const activeTeamStrategy = useMemo(() => {
+    if (
+      !currentRaid?.teamStrategies ||
+      currentRaid.teamStrategies.length === 0
+    ) {
+      return null;
+    }
+
+    return (
+      currentRaid.teamStrategies[selectedStrategyIndex] ||
+      currentRaid.teamStrategies[0]
+    );
+  }, [currentRaid, selectedStrategyIndex]);
+
+  const rolesSource = useMemo(() => {
+    if (activeTeamStrategy?.roles) return activeTeamStrategy.roles;
+
+    if (currentRaid?.teamStrategies && currentRaid.teamStrategies.length > 0) {
+      // Raid multi-strategia: ignoriamo la strategia "originale" in currentRaid.roles
+      return null;
+    }
+
+    return currentRaid?.roles || null;
+  }, [activeTeamStrategy, currentRaid]);
+
+  // Testo strategia
+  // const strategyText = useMemo(() => {
+  //   if (activeTeamStrategy?.strategy) return activeTeamStrategy.strategy;
+
+  //   if (currentRaid?.teamStrategies && currentRaid.teamStrategies.length > 0) {
+  //     // Raid con varianti: non usiamo più currentRaid.strategy
+  //     return "";
+  //   }
+
+  //   return currentRaid?.strategy || "";
+  // }, [activeTeamStrategy, currentRaid]);
+
+  // Recommended
+  const recommendedList = useMemo(() => {
+    if (activeTeamStrategy?.recommended?.length) {
+      return activeTeamStrategy.recommended;
+    }
+
+    if (currentRaid?.teamStrategies && currentRaid.teamStrategies.length > 0) {
+      return [];
+    }
+
+    return currentRaid?.recommended || [];
+  }, [activeTeamStrategy, currentRaid]);
+
+  // Links
+  // const links = useMemo(() => {
+  //   if (activeTeamStrategy?.links) return activeTeamStrategy.links;
+
+  //   if (currentRaid?.teamStrategies && currentRaid.teamStrategies.length > 0) {
+  //     return null;
+  //   }
+
+  //   return currentRaid?.links || null;
+  // }, [activeTeamStrategy, currentRaid]);
+
   // Pokémon corrente (per tipi / gradient header)
   const currentPokemonObject = useMemo(() => {
     if (!selectedPokemon) return null;
@@ -96,6 +161,7 @@ function RaidsPage() {
     setIsPokemonDetailsVisible(false);
     setSelectedRole(null);
     setSelectedTurnIndex(0);
+    setSelectedStrategyIndex(0);
   }, []);
 
   // Background della card dei Pokémon (stesso sistema degli Elite Four)
@@ -123,22 +189,22 @@ function RaidsPage() {
 
   // Ruolo attivo
   const effectiveSelectedRole = useMemo(() => {
-    if (!currentRaid?.roles) return "";
-    if (selectedRole && currentRaid.roles[selectedRole]) return selectedRole;
-    if (currentRaid.roles.player1) return "player1";
-    const keys = Object.keys(currentRaid.roles);
+    if (!rolesSource) return "";
+    if (selectedRole && rolesSource[selectedRole]) return selectedRole;
+    if (rolesSource.player1) return "player1";
+    const keys = Object.keys(rolesSource);
     return keys.length ? keys[0] : "";
-  }, [selectedRole, currentRaid]);
+  }, [selectedRole, rolesSource]);
 
   const roleOptions = useMemo(() => {
-    if (!currentRaid?.roles) return [];
-    return Object.keys(currentRaid.roles);
-  }, [currentRaid]);
+    if (!rolesSource) return [];
+    return Object.keys(rolesSource);
+  }, [rolesSource]);
 
   const movesForSelectedRole = useMemo(() => {
-    if (!currentRaid?.roles || !effectiveSelectedRole) return [];
-    return currentRaid.roles[effectiveSelectedRole] || [];
-  }, [currentRaid, effectiveSelectedRole]);
+    if (!rolesSource || !effectiveSelectedRole) return [];
+    return rolesSource[effectiveSelectedRole] || [];
+  }, [rolesSource, effectiveSelectedRole]);
 
   return (
     <div className="container raids-page">
@@ -193,10 +259,54 @@ function RaidsPage() {
 
             {/* Contenuto */}
             <div className="raids-modal-content">
+              {/* Locations */}
+              {currentRaid.locations && (
+                <section className="raids-section raids-section-locations">
+                  <h3 className="raids-section-title">Locations</h3>
+                  <ul>
+                    {Object.entries(currentRaid.locations).map(
+                      ([region, location]) => (
+                        <li key={region}>
+                          <strong>{region}</strong>
+                          <span>{location.area}</span>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </section>
+              )}
+
+              {/* Selettore versione team (solo se ci sono almeno 2 strategie) */}
+              {currentRaid.teamStrategies &&
+                currentRaid.teamStrategies.length > 1 && (
+                  <section className="raids-section raids-section-team-versions">
+                    <h3 className="raids-section-title">Team version</h3>
+                    <div className="raids-team-version-selector">
+                      <label>
+                        Choose version:
+                        <select
+                          value={selectedStrategyIndex}
+                          onChange={(e) => {
+                            setSelectedStrategyIndex(Number(e.target.value));
+                            setSelectedRole(null);
+                            setSelectedTurnIndex(0);
+                          }}
+                        >
+                          {currentRaid.teamStrategies.map((strategy, idx) => (
+                            <option key={strategy.id || idx} value={idx}>
+                              {strategy.label || `Version ${idx + 1}`}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
+                  </section>
+                )}
+
               {/* Roles + Mechanics & thresholds + Moves sulla stessa riga */}
               <section className="raids-section raids-section-grid">
                 {/* Roles */}
-                {currentRaid.roles && roleOptions.length > 0 && (
+                {rolesSource && roleOptions.length > 0 && (
                   <div className="raids-subsection raids-subsection-roles">
                     <h3 className="raids-section-title">Roles</h3>
 
@@ -294,15 +404,13 @@ function RaidsPage() {
                       )}
 
                       {currentRaid.mechanics.notes && (
-                        <p>
-                          <strong>Notes:</strong> {currentRaid.mechanics.notes}
-                        </p>
+                        <p>{currentRaid.mechanics.notes}</p>
                       )}
                     </div>
 
                     {currentRaid.mechanics.thresholds && (
                       <div className="raids-thresholds">
-                        <ul>
+                        <ul className="raids-threshold-list">
                           {Object.entries(currentRaid.mechanics.thresholds)
                             .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
                             .map(([hp, info]) => (
@@ -320,84 +428,66 @@ function RaidsPage() {
                         </ul>
                       </div>
                     )}
-                  </div>
-                )}
 
-                {/* Moves */}
-                {currentRaid.moves && currentRaid.moves.length > 0 && (
-                  <div className="raids-subsection raids-subsection-moves">
-                    <h3 className="raids-section-title">Moves</h3>
-                    <ul className="raids-move-chips">
-                      {currentRaid.moves.map((move) => (
-                        <li key={move}>{move}</li>
-                      ))}
-                    </ul>
+                    {/* MOVES dentro la stessa card, sotto gli HP */}
+                    {currentRaid.moves && currentRaid.moves.length > 0 && (
+                      <div className="raids-mechanics-moves">
+                        <h3 className="raids-section-title">Moves</h3>
+                        <ul className="raids-move-chips">
+                          {currentRaid.moves.map((move) => (
+                            <li key={move}>{move}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 )}
               </section>
 
-              {/* Locations */}
-              {currentRaid.locations && (
-                <section className="raids-section raids-section-locations">
-                  <h3 className="raids-section-title">Locations</h3>
-                  <ul>
-                    {Object.entries(currentRaid.locations).map(
-                      ([region, location]) => (
-                        <li key={region}>
-                          <strong>{region}</strong>
-                          <span>{location.area}</span>
-                        </li>
-                      )
-                    )}
+              {/* Strategy */}
+              {/* {strategyText && (
+                <section className="raids-section">
+                  <h3 className="raids-section-title">Strategy</h3>
+                  <p className="raids-strategy-text">{strategyText}</p>
+                </section>
+              )} */}
+
+              {/* Recommended Pokémon */}
+              {recommendedList && recommendedList.length > 0 && (
+                <section className="raids-section">
+                  <h3 className="raids-section-title">Recommended Pokémon</h3>
+                  <ul className="raids-recommended-list">
+                    {recommendedList.map((rec) => (
+                      <li key={rec}>{rec}</li>
+                    ))}
                   </ul>
                 </section>
               )}
 
-              {/* Strategy */}
-              {currentRaid.strategy && (
-                <section className="raids-section">
-                  <h3 className="raids-section-title">Strategy</h3>
-                  <p className="raids-strategy-text">{currentRaid.strategy}</p>
-                </section>
-              )}
-
-              {/* Recommended Pokémon */}
-              {currentRaid.recommended &&
-                currentRaid.recommended.length > 0 && (
-                  <section className="raids-section">
-                    <h3 className="raids-section-title">Recommended Pokémon</h3>
-                    <ul className="raids-recommended-list">
-                      {currentRaid.recommended.map((rec) => (
-                        <li key={rec}>{rec}</li>
-                      ))}
-                    </ul>
-                  </section>
-                )}
-
               {/* Links */}
-              {currentRaid.links && (
+              {/* {links && (
                 <section className="raids-section raids-section-links">
                   <h3 className="raids-section-title">Links</h3>
                   <ul>
-                    {currentRaid.links.guide && (
+                    {links.guide && (
                       <li>
-                        {currentRaid.links.guide.startsWith("http") ? (
+                        {links.guide.startsWith("http") ? (
                           <a
-                            href={currentRaid.links.guide}
+                            href={links.guide}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
                             Guide
                           </a>
                         ) : (
-                          <span>{currentRaid.links.guide}</span>
+                          <span>{links.guide}</span>
                         )}
                       </li>
                     )}
-                    {currentRaid.links.video && (
+                    {links.video && (
                       <li>
                         <a
-                          href={currentRaid.links.video}
+                          href={links.video}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -407,7 +497,7 @@ function RaidsPage() {
                     )}
                   </ul>
                 </section>
-              )}
+              )} */}
             </div>
           </div>
         </div>
