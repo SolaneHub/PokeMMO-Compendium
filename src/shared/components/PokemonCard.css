@@ -13,10 +13,11 @@
   cursor: pointer;
   height: 140px;
   overflow: hidden;
+  width: 160px;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-  width: 160px;
 }
 
 .pokemon-card:hover {

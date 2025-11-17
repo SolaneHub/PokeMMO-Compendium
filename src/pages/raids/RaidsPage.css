@@ -1,79 +1,65 @@
-/* ============ OVERLAY SOLO RAID ============ */
-
 .raids-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px);
   background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
   z-index: 999;
 }
-
-/* ============ MODAL RAID (wide ma stile sito) ============ */
 
 .raids-modal {
   background: #24252a;
   border-radius: 8px;
   box-shadow: 0 20px 50px #000f;
   box-sizing: border-box;
-  width: min(960px, 96vw); /* largo ma non esce dallo schermo */
-  max-height: 85vh;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  max-height: 85vh;
+  overflow: hidden;
+  width: min(960px, 96vw);
 }
 
-/* HEADER */
-
 .raids-modal-header {
-  padding: 10px 20px 12px;
+  align-items: center;
   color: #fff;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  align-items: center;
+  padding: 10px 20px 12px;
 }
 
 .raids-modal-header h2 {
-  margin: 0;
   font-size: 1.4rem;
+  margin: 0;
 }
 
 .raids-modal-header p {
-  margin: 0;
   font-size: 0.9rem;
+  margin: 0;
   opacity: 0.9;
 }
 
-/* CONTENUTO PRINCIPALE */
-
 .raids-modal-content {
-  padding: 12px 18px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
+  padding: 12px 18px 16px;
 }
 
-/* Testo base dentro il modal:
-   - niente bold eccessivo
-   - colori coerenti col sito
-*/
 .raids-modal p,
 .raids-modal li {
+  color: #e4e6eb;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #e4e6eb;
 }
 
 .raids-modal strong {
-  font-weight: 700;
   color: #ffffff;
+  font-weight: 700;
 }
-
-/* ============ SEZIONI GENERICHE ============ */
 
 .raids-section {
   background-color: #2a2b30;
@@ -82,25 +68,43 @@
 }
 
 .raids-section-title {
+  color: #e4e6eb;
   font-size: 0.8rem;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 6px 0;
-  color: #e4e6eb;
+  text-transform: uppercase;
 }
 
-/* Niente bullet di default nelle liste delle sezioni */
 .raids-section ul {
   list-style: none;
   margin: 4px 0 0;
   padding: 0;
 }
 
-/* ============ RUOLI ============ */
-
 .raids-subsection-roles {
   border: 1px solid #3a3b3d;
+}
+
+.raids-section-team-versions {
+  margin-bottom: 4px;
+}
+
+.raids-team-version-selector label {
+  align-items: center;
+  display: inline-flex;
+  font-size: 0.9rem;
+  gap: 6px;
+}
+
+.raids-team-version-selector select {
+  background-color: #1a1a1a;
+  border: 1px solid #3a3b3d;
+  border-radius: 6px;
+  color: #e4e6eb;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 4px 10px;
 }
 
 .raids-role-selector {
@@ -108,9 +112,9 @@
 }
 
 .raids-role-selector label {
-  font-size: 0.9rem;
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
+  font-size: 0.9rem;
   gap: 6px;
 }
 
@@ -124,7 +128,6 @@
   padding: 4px 10px;
 }
 
-/* Lista delle mosse/istruzioni del ruolo: verticale ma compatta */
 .raids-role-moves {
   margin-top: 4px;
 }
@@ -133,13 +136,11 @@
   margin-bottom: 2px;
 }
 
-/* ============ GRID INFO BOSS (MECH + MOSSE) ============ */
-
 .raids-section-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr) minmax(0, 1.1fr);
-  gap: 10px;
   background-color: transparent;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr) minmax(0, 1.1fr);
   padding: 0;
 }
 
@@ -149,8 +150,6 @@
   padding: 10px 12px;
 }
 
-/* Mechanics */
-
 .raids-mechanics-text p {
   margin: 2px 0;
 }
@@ -159,33 +158,29 @@
   margin-right: 4px;
 }
 
-/* Thresholds in colonnina ordinata */
-
 .raids-thresholds ul {
-  margin-top: 6px;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-top: 6px;
 }
 
 .raids-thresholds li {
-  display: grid;
-  grid-template-columns: 70px minmax(0, 1fr); /* colonna HP un po' più larga */
   align-items: baseline;
-  column-gap: 14px; /* più spazio tra le due colonne */
+  column-gap: 14px;
+  display: grid;
   font-size: 0.85rem;
+  grid-template-columns: 70px minmax(0, 1fr);
 }
 
 .raids-threshold-hp {
-  font-weight: 700;
   color: #646cff;
+  font-weight: 700;
 }
 
 .raids-threshold-effect {
   color: #f4f4f4;
 }
-
-/* Mosse come chip, in linea, in stile simile ai bottoni del sito */
 
 .raids-subsection-moves {
   align-self: stretch;
@@ -193,31 +188,29 @@
 
 .raids-move-chips {
   display: flex;
-  flex-direction: column; /* mosse in colonna */
+  flex-direction: column;
   gap: 4px;
 }
 
 .raids-move-chips li {
-  align-self: flex-start; /* non riempie tutta la riga */
+  align-self: flex-start;
   background-color: #1a1a1a;
-  border-radius: 999px;
-  padding: 3px 10px;
-  font-size: 0.85rem;
   border: 1px solid #3a3b3d;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  padding: 3px 10px;
 }
-
-/* ============ LOCATIONS (Kanto | Johto | ...) ============ */
 
 .raids-section-locations ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 6px 18px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
 }
 
 .raids-section-locations li {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   text-align: center;
 }
 
@@ -230,14 +223,10 @@
   font-size: 0.9rem;
 }
 
-/* Strategy text */
-
 .raids-strategy-text {
   font-size: 0.9rem;
   line-height: 1.4;
 }
-
-/* Recommended: list stile "pill" */
 
 .raids-recommended-list {
   display: flex;
@@ -247,13 +236,11 @@
 
 .raids-recommended-list li {
   background-color: #1a1a1a;
-  border-radius: 6px;
-  padding: 3px 8px;
-  font-size: 0.85rem;
   border: 1px solid #3a3b3d;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  padding: 3px 8px;
 }
-
-/* Links */
 
 .raids-section-links ul {
   display: flex;
@@ -263,23 +250,21 @@
 
 .raids-section-links a {
   color: #4ba3ff;
-  text-decoration: none;
   font-size: 0.9rem;
+  text-decoration: none;
 }
 
 .raids-section-links a:hover {
   text-decoration: underline;
 }
 
-/* --- RUOLI: indicatore turno --- */
-
 .raids-turn-indicator {
-  margin-bottom: 4px;
-  font-size: 0.85rem;
-  display: inline-flex;
   align-items: center;
-  gap: 6px;
   color: #e4e6eb;
+  display: inline-flex;
+  font-size: 0.85rem;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .raids-turn-label {
@@ -297,22 +282,20 @@
 }
 
 .raids-turn-total {
-  opacity: 0.7;
   font-size: 0.8rem;
+  opacity: 0.7;
 }
-
-/* --- RUOLI: lista turni --- */
 
 .raids-role-moves {
   margin-top: 4px;
 }
 
 .raids-role-move {
-  display: flex;
-  gap: 6px;
   align-items: baseline;
-  margin-bottom: 2px;
+  display: flex;
   font-size: 0.9rem;
+  gap: 6px;
+  margin-bottom: 2px;
 }
 
 .raids-role-move-turn {
@@ -322,8 +305,6 @@
 .raids-role-move-text {
   flex: 1;
 }
-
-/* turno attivo evidenziato */
 
 .raids-role-move--active {
   background-color: #1a1a1a;
@@ -335,14 +316,12 @@
   color: #646cff;
 }
 
-/* ============ RESPONSIVE ============ */
-
 @media (max-width: 768px) {
   .raids-modal {
-    width: 100vw;
+    border-radius: 0;
     height: 100vh;
     max-height: 100vh;
-    border-radius: 0;
+    width: 100vw;
   }
 
   .raids-modal-header {

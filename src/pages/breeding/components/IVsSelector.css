@@ -15,11 +15,12 @@
   font-size: 1.5rem;
   font-weight: 700;
   height: 60px;
+  width: 80px;
+
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
     border-color 0.2s ease;
-  width: 80px;
 }
 
 .ivs-selector-button:hover {
