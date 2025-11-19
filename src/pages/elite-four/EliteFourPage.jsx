@@ -6,16 +6,16 @@ import {
   getPokemonListForTeam,
   getPokemonStrategy,
 } from "@/pages/elite-four/data/eliteFourService";
+import {
+  getPokemonBackground,
+  getPokemonByName,
+  getPokemonCardData,
+} from "@/pages/pokedex/data/pokemonService";
 import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
-import {
-  getPokemonBackground,
-  getPokemonByName,
-  getPokemonCardData,
-} from "@/shared/utils/pokemonService";
 import { pokemonRegions } from "@/shared/utils/regionData";
 
 function EliteFourPage() {

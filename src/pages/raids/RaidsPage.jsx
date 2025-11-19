@@ -3,6 +3,10 @@ import "./RaidsPage.css";
 import { useCallback, useMemo, useState } from "react";
 
 import {
+  getPokemonBackground,
+  getPokemonCardData,
+} from "@/pages/pokedex/data/pokemonService";
+import {
   getActiveStrategy,
   getRaidByName,
   getRaidsByStars,
@@ -10,10 +14,6 @@ import {
 } from "@/pages/raids/data/raidsService";
 import PokemonCard from "@/shared/components/PokemonCard";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
-import {
-  getPokemonBackground,
-  getPokemonCardData,
-} from "@/shared/utils/pokemonService";
 
 function RaidsPage() {
   const [selectedStar, setSelectedStar] = useState();

@@ -3,6 +3,11 @@ import "@/pages/elite-four/EliteFourPage.css";
 import React, { useCallback, useMemo, useState } from "react";
 
 import {
+  getPokemonBackground,
+  getPokemonByName,
+  getPokemonCardData,
+} from "@/pages/pokedex/data/pokemonService";
+import {
   getAllRedTrainers,
   getAvailableRedRegions,
   getPokemonListForTeam,
@@ -14,11 +19,6 @@ import MoveColoredText from "@/shared/components/MoveColoredText";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
-import {
-  getPokemonBackground,
-  getPokemonByName,
-  getPokemonCardData,
-} from "@/shared/utils/pokemonService";
 
 function RedPage() {
   // * ─────────────────────────────

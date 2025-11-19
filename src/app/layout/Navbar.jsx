@@ -21,19 +21,21 @@ function Navbar({ onLinkClick, currentActive }) {
   return (
     <nav className="navbar">
       <ul className="nav-links">
-        {links.sort().map((linkName) => (
-          <li key={linkName}>
-            <a
-              href={`#${linkName.toLowerCase().replace(/\s/g, "-")}`}
-              onClick={(e) => handleLinkClick(e, linkName)}
-              className={
-                currentActive === linkName.replace(/\s+/g, "") ? "active" : ""
-              }
-            >
-              {linkName}
-            </a>
-          </li>
-        ))}
+        {links.sort().map((linkName) => {
+          const formattedId = linkName.replace(/\s+/g, "");
+
+          return (
+            <li key={linkName}>
+              <a
+                href={`?section=${formattedId}`}
+                onClick={(e) => handleLinkClick(e, linkName)}
+                className={currentActive === formattedId ? "active" : ""}
+              >
+                {linkName}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
