@@ -1,17 +1,21 @@
-import VariationForm from "./VariationForm";
 import "./StepForm.css";
 
+import VariationForm from "./VariationForm";
+
 const StepForm = ({ step, onChange }) => {
+  // ? Update basic fields of the step
   const handleFieldChange = (field, value) => {
     onChange({ ...step, [field]: value });
   };
 
+  // ? Update a specific variation within the step
   const handleVariationChange = (index, updatedVariation) => {
     const newVariations = [...(step.variations || [])];
     newVariations[index] = updatedVariation;
     onChange({ ...step, variations: newVariations });
   };
 
+  // * Add a new empty variation
   const addVariation = () => {
     const newVariations = [
       ...(step.variations || []),
@@ -20,6 +24,7 @@ const StepForm = ({ step, onChange }) => {
     onChange({ ...step, variations: newVariations });
   };
 
+  // ! Remove a variation by index
   const removeVariation = (index) => {
     const newVariations = step.variations.filter((_, i) => i !== index);
     onChange({ ...step, variations: newVariations });
@@ -74,12 +79,12 @@ const StepForm = ({ step, onChange }) => {
               className="btn btn-danger"
               onClick={() => removeVariation(i)}
             >
-              ❌ Rimuovi Variation
+              ❌ Remove Variation
             </button>
           </div>
         ))}
         <button className="btn btn-success" onClick={addVariation}>
-          ➕ Aggiungi Variation
+          ➕ Add Variation
         </button>
       </div>
     </div>

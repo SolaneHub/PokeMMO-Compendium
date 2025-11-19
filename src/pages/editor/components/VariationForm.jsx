@@ -1,26 +1,27 @@
-import StepForm from "./StepForm";
 import "./VariationForm.css";
 
+import StepForm from "./StepForm";
+
 const VariationForm = ({ variation, onChange }) => {
-  // aggiorna i campi base (type, name)
+  // ? Updates basic fields (type, name)
   const handleFieldChange = (field, value) => {
     onChange({ ...variation, [field]: value });
   };
 
-  // aggiorna uno step dentro variation.steps
+  // ? Updates a specific step within variation.steps
   const handleStepChange = (index, updatedStep) => {
     const newSteps = [...variation.steps];
     newSteps[index] = updatedStep;
     onChange({ ...variation, steps: newSteps });
   };
 
-  // aggiunge un nuovo step vuoto
+  // * Appends a new empty step to the list
   const addStep = () => {
     const newSteps = [...(variation.steps || []), { type: "", player: "" }];
     onChange({ ...variation, steps: newSteps });
   };
 
-  // elimina step
+  // ! Removes a step by index
   const removeStep = (index) => {
     const newSteps = variation.steps.filter((_, i) => i !== index);
     onChange({ ...variation, steps: newSteps });
@@ -58,12 +59,12 @@ const VariationForm = ({ variation, onChange }) => {
               onChange={(updated) => handleStepChange(i, updated)}
             />
             <button className="btn btn-danger" onClick={() => removeStep(i)}>
-              ❌ Rimuovi Step
+              ❌ Remove Step
             </button>
           </div>
         ))}
         <button className="btn btn-success" onClick={addStep}>
-          ➕ Aggiungi Step
+          ➕ Add Step
         </button>
       </div>
     </div>

@@ -10,6 +10,7 @@ function IVsSelector({
   return (
     <div className="container">
       <div className="ivs-container">
+        {/* ? Render buttons for each available IV count option (e.g., 2, 3, 4, 5, 6) */}
         {ivOptions.map((option) => (
           <button
             className={`ivs-selector-button ${
@@ -24,6 +25,7 @@ function IVsSelector({
       </div>
       <div className="nature-container">
         <p>Nature</p>
+        {/* * Checkbox to toggle Nature breeding logic */}
         <input
           type="checkbox"
           checked={nature}

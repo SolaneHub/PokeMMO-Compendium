@@ -1,7 +1,9 @@
+import "./App.css";
+
+import { useEffect, useState } from "react";
+
 import Content from "@/app/layout/Content";
 import Navbar from "@/app/layout/Navbar";
-import { useEffect, useState } from "react";
-import "./App.css";
 
 function App() {
   const [currentSection, setCurrentSection] = useState(null);

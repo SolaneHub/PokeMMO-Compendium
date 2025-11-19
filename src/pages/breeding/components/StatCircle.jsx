@@ -1,5 +1,6 @@
 import "./IVsSelector.css";
 
+// ? Helper: Converts Polar coordinates (radius, angle) to Cartesian (x, y)
 const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
   return {
@@ -8,10 +9,12 @@ const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
   };
 };
 
+// ? Helper: Generates the SVG path command for an arc segment
 const describeArc = (x, y, radius, startAngle, endAngle) => {
   const start = polarToCartesian(x, y, radius, endAngle);
   const end = polarToCartesian(x, y, radius, startAngle);
 
+  // * Handle full circle case (360 degrees)
   if (Math.abs(endAngle - startAngle) >= 359.99) {
     return `M ${x} ${y} m -${radius}, 0 a ${radius},${radius} 0 1,0 ${
       radius * 2
@@ -69,6 +72,7 @@ const StatCircle = ({ ivColors, index }) => {
         );
       })}
 
+      {/* ? Outer ring stroke for better visibility */}
       <circle
         cx={centerX}
         cy={centerY}

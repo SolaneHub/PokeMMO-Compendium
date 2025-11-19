@@ -1,3 +1,5 @@
+import "./Content.css";
+
 import BreedingPage from "@/pages/breeding/BreedingPage";
 import EditorPage from "@/pages/editor/EditorPage";
 import EliteFourPage from "@/pages/elite-four/EliteFourPage";
@@ -6,7 +8,6 @@ import PickupPage from "@/pages/pickup/PickupPage";
 import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import RedPage from "@/pages/red/RedPage";
-import "./Content.css";
 
 function Content({ linkName }) {
   const componentsMap = {
