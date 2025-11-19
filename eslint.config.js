@@ -1,10 +1,12 @@
 import js from "@eslint/js";
-import pluginReact from "eslint-plugin-react";
 import { defineConfig, globalIgnores } from "eslint/config";
+import pluginReact from "eslint-plugin-react";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
 
 export default defineConfig([
   globalIgnores(["dist/**"]),
+
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
     plugins: { js },
@@ -16,6 +18,18 @@ export default defineConfig([
       },
     },
   },
+
+  {
+    files: ["**/*.{js,mjs,cjs,jsx}"],
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
+  },
+
   {
     ...pluginReact.configs.flat.recommended,
     settings: {
