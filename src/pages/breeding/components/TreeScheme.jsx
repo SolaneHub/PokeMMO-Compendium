@@ -1,6 +1,8 @@
-import { useCallback } from "react";
-import StatCircle from "./StatCircle";
 import "./TreeScheme.css";
+
+import { useCallback } from "react";
+
+import StatCircle from "./StatCircle";
 
 const STAT_COLOR_MAP = {
   HP: "#55b651",
@@ -11,12 +13,14 @@ const STAT_COLOR_MAP = {
   Speed: "#25e2f7",
 };
 
-const GAP_VALUES = [60, 170, 390, 830, 1710, 3470]; // valori reali osservati
+// ? Real-world observed gap values for positioning tree nodes
+const GAP_VALUES = [60, 170, 390, 830, 1710, 3470];
 
 const getColors = (stats) =>
   stats.map((stat) => STAT_COLOR_MAP[stat] || "#ffffff");
 
 function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
+  // * Scale factors based on IV count to fit the tree on screen
   const scaleValues = {
     2: 1,
     3: 1,
@@ -25,6 +29,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
     6: 0.55,
   };
 
+  // * Different scale factors when Nature is included (tree gets taller)
   const scaleValuesNature = {
     2: 1,
     3: 1,
@@ -39,27 +44,23 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
   const generateTree = useCallback(
     (selectedIvCount, selectedIvStats, nature) => {
-      // 1. Limitiamo comunque a max 6 IV, per sicurezza
+      // ! 1. Safety clamp: max 6 IVs supported
       const clampedCount = Math.min(selectedIvCount ?? 0, 6);
 
-      // 2. Prendiamo solo gli IV effettivamente selezionati
+      // ? 2. Slice only the active stats based on user selection
       const baseStats = selectedIvStats.slice(0, clampedCount);
 
-      // 3. Se la nature è attiva, la mettiamo DAVANTI
-      //    così il cerchio singolo della nature sarà il primo in alto.
-      //
-      //    "Nature" non è in STAT_COLOR_MAP, quindi getColors("Nature")
-      //    restituisce "#ffffff", esattamente come prima quando passavi il booleano.
+      // ? 3. If nature is active, prepend it to the array.
+      // * "Nature" is not in STAT_COLOR_MAP, so getColors will return "#ffffff" (White).
       const stats = nature ? ["Nature", ...baseStats] : baseStats;
 
-      // Se non ci sono stat, non disegno niente
       if (stats.length === 0) return [];
 
-      // 4. Costruisco un albero binario completo:
-      //    - livello 0: [stats]
-      //    - ogni nodo con length > 1 genera:
-      //        left  = tutti tranne l'ultimo
-      //        right = tutti tranne il primo
+      // * 4. Build a Complete Binary Tree structure:
+      // * Level 0: [stats] (Root)
+      // * Recursion:
+      // * Left Child = all elements except the last
+      // * Right Child = all elements except the first
       const levels = [];
       let currentLevel = [stats];
 
@@ -79,9 +80,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         currentLevel = nextLevel;
       }
 
-      // 5. Converto ogni nodo in colori e inverto le righe:
-      //    - in cima avrai i cerchi singoli (foglie)
-      //    - sotto via via quelli più "pieni"
+      // ? 5. Convert stats to colors and reverse rows for display (Leaves at top, Root at bottom)
       const coloredLevels = levels
         .map((level) => level.map((nodeStats) => getColors(nodeStats)))
         .reverse();
@@ -93,6 +92,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
   const dataByRow = generateTree(selectedIvCount, selectedIvStats, nature);
 
+  // * Generate legend data for the active stats
   const legendData = selectedIvStats
     .slice(0, selectedIvCount)
     .map((statName) => ({
@@ -102,7 +102,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
   return (
     <div className="tree-scheme-container">
-      {/* Legenda */}
+      {/* ? Legend Section */}
       <div className="legend-container">
         <div className="legend-items">
           {legendData.map((item, index) => (
@@ -118,8 +118,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         </div>
       </div>
 
-      {/* Albero a righe (verticale) */}
-
+      {/* ? Main Tree Visualization */}
       <div className="tree-wrapper">
         <div className="tree-container" style={{ "--scale": scale }}>
           {dataByRow.map((rowItems, rowIndex) => {
@@ -132,6 +131,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                 style={{ "--gap": `${rowGap}px` }}
               >
                 {rowItems.reduce((pairs, colors, i) => {
+                  // * Group nodes in pairs for alignment
                   if (i % 2 === 0) {
                     const next = rowItems[i + 1];
                     pairs.push(

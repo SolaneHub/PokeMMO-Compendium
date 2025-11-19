@@ -1,6 +1,8 @@
-import StepForm from "@/pages/editor/components/StepForm.jsx";
-import { useEffect, useState } from "react";
 import "./EditorPage.css";
+
+import { useEffect, useState } from "react";
+
+import StepForm from "@/pages/editor/components/StepForm.jsx";
 
 const EditorPage = () => {
   const [eliteFourData, setEliteFourData] = useState(null);
@@ -9,7 +11,7 @@ const EditorPage = () => {
   const [selectedTeamKey, setSelectedTeamKey] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  // Carica dati dal backend
+  // * Fetch data from the backend on component mount
   useEffect(() => {
     fetch("http://localhost:3001/api/elite-four")
       .then((res) => res.json())
@@ -18,12 +20,12 @@ const EditorPage = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Errore caricamento dati:", err);
+        console.error("Error loading data:", err);
         setLoading(false);
       });
   }, []);
 
-  // Salva i dati sul backend
+  // ! Save changes to the backend
   const handleSave = async () => {
     if (!eliteFourData) return;
     try {
@@ -34,20 +36,20 @@ const EditorPage = () => {
       });
       const result = await res.json();
       if (result.success) {
-        alert("✅ Dati salvati con successo!");
+        alert("✅ Data saved successfully!");
       } else {
-        alert("❌ Errore durante il salvataggio");
+        alert("❌ Error while saving");
       }
     } catch (err) {
-      console.error("Errore salvataggio:", err);
-      alert("❌ Errore durante il salvataggio");
+      console.error("Save error:", err);
+      alert("❌ Error while saving");
     }
   };
 
-  if (loading) return <p>Caricamento...</p>;
-  if (!eliteFourData) return <p>Nessun dato disponibile</p>;
+  if (loading) return <p>Loading...</p>;
+  if (!eliteFourData) return <p>No data available</p>;
 
-  // Seleziona steps correnti (se tutto è scelto)
+  // ? Select current steps for editing (only if Member, Team, and Pokemon are selected)
   let steps = [];
   if (selectedMemberIndex !== null && selectedTeamKey && selectedPokemon) {
     steps =
@@ -55,6 +57,7 @@ const EditorPage = () => {
         .pokemonStrategies[selectedPokemon];
   }
 
+  // ? Logic to generate the live JSON preview based on current selection depth
   let previewData = eliteFourData;
 
   if (selectedMemberIndex !== null) {
@@ -71,12 +74,12 @@ const EditorPage = () => {
 
   return (
     <div className="editor-container">
-      {/* Sidebar Navigatore */}
+      {/* Sidebar Navigator */}
       <div className="editor-sidebar">
-        <h3>Navigatore</h3>
+        <h3>Navigator</h3>
 
-        {/* Superquattro */}
-        <label>Superquattro:</label>
+        {/* Elite Four Member Selection */}
+        <label>Elite Four:</label>
         <select
           value={selectedMemberIndex ?? ""}
           onChange={(e) => {
@@ -87,7 +90,7 @@ const EditorPage = () => {
             setSelectedPokemon(null);
           }}
         >
-          <option value="">-- Seleziona --</option>
+          <option value="">-- Select --</option>
           {eliteFourData.map((m, i) => (
             <option key={i} value={i}>
               {m.name} ({m.region})
@@ -95,7 +98,7 @@ const EditorPage = () => {
           ))}
         </select>
 
-        {/* Team */}
+        {/* Team Selection */}
         {selectedMemberIndex !== null && (
           <>
             <label>Team:</label>
@@ -106,7 +109,7 @@ const EditorPage = () => {
                 setSelectedPokemon(null);
               }}
             >
-              <option value="">-- Seleziona --</option>
+              <option value="">-- Select --</option>
               {Object.keys(eliteFourData[selectedMemberIndex].teams).map(
                 (teamKey) => (
                   <option key={teamKey} value={teamKey}>
@@ -119,7 +122,7 @@ const EditorPage = () => {
               <button
                 className="btn btn-success"
                 onClick={() => {
-                  const newTeamName = prompt("Nome del nuovo Team:");
+                  const newTeamName = prompt("New Team Name:");
                   if (!newTeamName) return;
                   const newData = [...eliteFourData];
                   newData[selectedMemberIndex].teams[newTeamName] = {
@@ -130,7 +133,7 @@ const EditorPage = () => {
                   setSelectedTeamKey(newTeamName);
                 }}
               >
-                ➕ Aggiungi Team
+                ➕ Add Team
               </button>
 
               {selectedTeamKey && (
@@ -139,7 +142,7 @@ const EditorPage = () => {
                   onClick={() => {
                     if (
                       window.confirm(
-                        `Vuoi eliminare il team ${selectedTeamKey}?`
+                        `Are you sure you want to delete team ${selectedTeamKey}?`
                       )
                     ) {
                       const newData = [...eliteFourData];
@@ -152,14 +155,14 @@ const EditorPage = () => {
                     }
                   }}
                 >
-                  ❌ Elimina Team
+                  ❌ Delete Team
                 </button>
               )}
             </div>
           </>
         )}
 
-        {/* Pokémon */}
+        {/* Pokémon Selection */}
         {selectedTeamKey && (
           <>
             <label>Pokémon:</label>
@@ -167,7 +170,7 @@ const EditorPage = () => {
               value={selectedPokemon ?? ""}
               onChange={(e) => setSelectedPokemon(e.target.value || null)}
             >
-              <option value="">-- Seleziona --</option>
+              <option value="">-- Select --</option>
               {Object.keys(
                 eliteFourData[selectedMemberIndex].teams[selectedTeamKey]
                   .pokemonStrategies
@@ -184,20 +187,20 @@ const EditorPage = () => {
                 <button
                   className="btn btn-success"
                   onClick={() => {
-                    const newPokemon = prompt("Nome del nuovo Pokémon:");
+                    const newPokemon = prompt("New Pokémon Name:");
 
-                    if (!newPokemon) return; // esci se non viene inserito nulla
+                    if (!newPokemon) return; // Exit if canceled or empty
 
                     const newData = [...eliteFourData];
                     const team =
                       newData[selectedMemberIndex].teams[selectedTeamKey];
 
-                    // Se il Pokémon non è già presente, aggiungilo a pokemonNames
+                    // ? Only add to pokemonNames list if not already present
                     if (!team.pokemonNames.includes(newPokemon)) {
                       team.pokemonNames.push(newPokemon);
                     }
 
-                    // Assicurati che esista la strategia per il Pokémon
+                    // ? Ensure strategy object exists
                     if (!team.pokemonStrategies[newPokemon]) {
                       team.pokemonStrategies[newPokemon] = [];
                     }
@@ -206,7 +209,7 @@ const EditorPage = () => {
                     setSelectedPokemon(newPokemon);
                   }}
                 >
-                  ➕ Aggiungi Pokémon
+                  ➕ Add Pokémon
                 </button>
               )}
 
@@ -214,12 +217,16 @@ const EditorPage = () => {
                 <button
                   className="btn btn-danger"
                   onClick={() => {
-                    if (window.confirm(`Vuoi eliminare ${selectedPokemon}?`)) {
+                    if (
+                      window.confirm(
+                        `Are you sure you want to delete ${selectedPokemon}?`
+                      )
+                    ) {
                       const newData = [...eliteFourData];
                       const team =
                         newData[selectedMemberIndex].teams[selectedTeamKey];
 
-                      // rimuovi da entrambe le liste
+                      // ! Remove from both names list and strategy object
                       team.pokemonNames = team.pokemonNames.filter(
                         (p) => p !== selectedPokemon
                       );
@@ -230,27 +237,27 @@ const EditorPage = () => {
                     }
                   }}
                 >
-                  ❌ Elimina Pokémon
+                  ❌ Delete Pokémon
                 </button>
               )}
             </div>
           </>
         )}
 
-        {/* Salva */}
+        {/* Save Button */}
         <div>
           <button className="btn btn-primary" onClick={handleSave}>
-            💾 Salva su File
+            💾 Save to File
           </button>
         </div>
       </div>
 
-      {/* Editor degli Step */}
+      {/* Main Editor Area */}
       <div className="editor-main">
         {selectedMemberIndex !== null && selectedTeamKey && selectedPokemon ? (
           <>
             <h3>
-              Modifica Steps → {eliteFourData[selectedMemberIndex].name} →{" "}
+              Editing Steps → {eliteFourData[selectedMemberIndex].name} →{" "}
               {selectedTeamKey} → {selectedPokemon}
             </h3>
             {steps.map((step, i) => (
@@ -279,7 +286,7 @@ const EditorPage = () => {
                     setEliteFourData(newData);
                   }}
                 >
-                  ❌ Rimuovi Step
+                  ❌ Remove Step
                 </button>
               </div>
             ))}
@@ -298,20 +305,20 @@ const EditorPage = () => {
                 setEliteFourData(newData);
               }}
             >
-              ➕ Aggiungi Step
+              ➕ Add Step
             </button>
           </>
         ) : (
           <p>
-            Seleziona un Superquattro, un Team e un Pokémon per iniziare a
-            modificare
+            Please select an Elite Four member, a Team, and a Pokémon to start
+            editing.
           </p>
         )}
       </div>
 
-      {/* Preview JSON */}
+      {/* JSON Preview Panel */}
       <div className="editor-preview">
-        <h3>Preview JSON</h3>
+        <h3>JSON Preview</h3>
         <pre>{JSON.stringify(previewData, null, 2)}</pre>
       </div>
     </div>
