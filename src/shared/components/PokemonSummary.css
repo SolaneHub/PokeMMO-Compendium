@@ -1,0 +1,818 @@
+/* --- ANIMATIONS & UTILITIES --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* --- 1. BASE LAYOUT & CARD CONTAINER --- */
+.summary-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+  padding: 20px;
+}
+
+.summary-card {
+  background: #24252a;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh; /* Forza altezza massima */
+  height: 85vh;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #3a3b3d;
+}
+
+/* --- 2. HEADER --- */
+.summary-header {
+  padding: 15px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  flex-shrink: 0; /* Impedisce di restringersi */
+}
+
+.summary-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.id-badge {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: monospace;
+}
+
+.summary-close-btn {
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.summary-close-btn:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* --- 3. HERO SECTION --- */
+.summary-hero {
+  background-color: #1a1a1a;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #3a3b3d;
+  position: relative;
+  flex-shrink: 0; /* Impedisce di restringersi */
+}
+
+.summary-sprite {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.6));
+  margin-bottom: 15px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.play-cry-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #2a2b30;
+  border: 1px solid #3a3b3d;
+  color: #ccc;
+  font-size: 0.75rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: border-color 0.2s;
+}
+
+.play-cry-btn:hover {
+  color: white;
+  border-color: #007bff;
+}
+
+.hero-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.summary-types {
+  display: flex;
+  gap: 8px;
+}
+
+.type-pill {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white; /* Il testo rimane bianco per risaltare */
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.category-text {
+  color: #aaa;
+  font-size: 0.85rem;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* --- 4. TABS NAVIGATION --- */
+.summary-tabs {
+  display: flex;
+  background: #1f1f23;
+  border-bottom: 1px solid #3a3b3d;
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+  overflow-x: auto;
+}
+
+.summary-tab {
+  flex: 1;
+  min-width: 80px;
+  background: transparent;
+  border: none;
+  padding: 14px 0;
+  color: #888;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.summary-tab:hover {
+  color: #ccc;
+  background-color: #2a2b30;
+}
+
+.summary-tab.active {
+  color: #007bff;
+  background-color: #24252a;
+}
+
+.summary-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #007bff;
+}
+
+/* --- 5. SCROLLABLE BODY & GENERAL CONTAINERS --- */
+.summary-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  background-color: #24252a;
+}
+
+.data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-title {
+  color: #6c757d;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  border-bottom: 1px solid #3a3b3d;
+  padding-bottom: 5px;
+}
+
+.empty-text {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+/* --- 6. OVERVIEW TAB STYLES --- */
+.desc-text {
+  color: #e4e6eb;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  font-style: italic;
+  background: #2a2b30;
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 3px solid #007bff;
+  margin: 0;
+}
+
+/* General Data Grids */
+.info-grid-compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.info-card {
+  background: #2a2b30;
+  border: 1px solid #3a3b3d;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info-card.full-width {
+  grid-column: span 2;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-label {
+  color: #888;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.full-width .info-label {
+  margin-bottom: 0;
+}
+
+.info-value {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Gender Styles */
+.gender-row {
+  display: flex;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+.g-male {
+  color: #6890f0;
+}
+.g-female {
+  color: #f08030;
+}
+
+/* EV & Tier Styles */
+.ev-text {
+  color: #e0c068;
+  font-size: 0.85rem;
+}
+.tier-text {
+  color: #007bff;
+  font-weight: 700;
+  background: rgba(0, 123, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Abilities */
+.ability-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ability-chip {
+  background: #1a1a1a;
+  border: 1px solid #3a3b3d;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #e4e6eb;
+  font-size: 0.9rem;
+  flex: 1;
+  text-align: center;
+}
+
+.ability-chip small {
+  display: block;
+  font-size: 0.7rem;
+  color: #888;
+  margin-top: 2px;
+}
+
+.hidden-ability {
+  border-color: #d63031 !important;
+  background: rgba(214, 48, 49, 0.1) !important;
+}
+
+/* --- 7. STATS TAB STYLES --- */
+.stat-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.stat-name {
+  width: 40px;
+  font-size: 0.8rem;
+  color: #aaa;
+  font-weight: bold;
+}
+
+.stat-num {
+  width: 35px;
+  text-align: right;
+  font-size: 0.9rem;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.stat-track {
+  flex: 1;
+  height: 6px;
+  background: #1a1a1a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+/* --- 8. MOVES TAB STYLES --- */
+.moves-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #3a3b3d;
+  padding-bottom: 8px;
+}
+
+.moves-title-row .section-title {
+  border-bottom: none; /* Rimuove la linea del titolo singolo */
+  margin: 0;
+  padding: 0;
+}
+
+.moves-search-input {
+  background-color: #1a1a1a;
+  border: 1px solid #3a3b3d;
+  border-radius: 6px;
+  color: #e4e6eb;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  width: 180px; /* Larghezza fissa o auto */
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.moves-search-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.moves-search-input::placeholder {
+  color: #666;
+  font-style: italic;
+}
+
+.no-moves-found {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.moves-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid #3a3b3d;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
+.moves-header-row {
+  display: flex;
+  padding: 10px 12px;
+  background-color: #2a2b30;
+  border-bottom: 1px solid #3a3b3d;
+  color: #888;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* Colonna Header Definitions */
+.col-lvl {
+  width: 40px;
+  text-align: center;
+}
+.col-move {
+  flex: 1;
+  padding-left: 12px;
+}
+.col-cat {
+  width: 50px;
+  text-align: center;
+}
+.col-pwr {
+  width: 40px;
+  text-align: center;
+}
+.col-acc {
+  width: 45px;
+  text-align: right;
+}
+
+/* Move Row Item Styles */
+.move-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2a2b30;
+  background-color: transparent;
+  transition: background-color 0.15s;
+}
+
+.move-row:last-child {
+  border-bottom: none;
+}
+
+.move-row:hover {
+  background-color: #2a2b30;
+}
+
+.move-lvl-col {
+  width: 40px;
+  text-align: center;
+}
+
+.lvl-badge {
+  color: #6c757d;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: monospace;
+}
+
+.move-row:hover .lvl-badge {
+  color: #fff;
+}
+
+.move-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 12px;
+  gap: 2px;
+}
+
+.move-name {
+  color: #e4e6eb;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.1;
+}
+
+.move-type-text {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* Type Text Colors */
+.type-text-normal {
+  color: #a8a878;
+}
+.type-text-fire {
+  color: #f08030;
+}
+.type-text-water {
+  color: #6890f0;
+}
+.type-text-grass {
+  color: #78c850;
+}
+.type-text-poison {
+  color: #a040a0;
+}
+/* ... Aggiungi altri colori tipo se necessario ... */
+
+.move-cat-col {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+}
+.cat-badge {
+  font-size: 0.6rem;
+  padding: 2px 0;
+  width: 40px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+}
+.cat-badge.physical {
+  background-color: #ff9966;
+}
+.cat-badge.special {
+  background-color: #66ccff;
+}
+.cat-badge.status {
+  background-color: #b3b3b3;
+}
+
+.move-pwr-col {
+  width: 40px;
+  text-align: center;
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+.move-acc-col {
+  width: 45px;
+  text-align: right;
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+/* --- 9. LOCATIONS TAB STYLES --- */
+.locations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.locations-container-grid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3a3b3d;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #1e1e1e;
+}
+
+.location-header-row {
+  display: flex;
+  background-color: #2a2b30; /* Sfondo scuro per l'intestazione */
+  color: #ccc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 15px; /* Padding interno */
+  border-bottom: 1px solid #3a3b3d;
+}
+
+.col-type,
+.col-region,
+.col-levels,
+.col-rarity {
+  width: 70px; /* Larghezza fissa per le colonne più piccole */
+  text-align: center;
+}
+
+.col-location {
+  flex: 1; /* Larghezza flessibile per la colonna Location */
+  text-align: left;
+}
+
+.location-data-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border-bottom: 1px solid #2a2b30; /* Linea sottile tra le righe di dati */
+  transition: background-color 0.15s;
+}
+
+.location-data-row:last-child {
+  border-bottom: none;
+}
+
+.location-data-row:hover {
+  background-color: #2a2b30;
+}
+
+.loc-type,
+.loc-region,
+.loc-levels,
+.loc-rarity {
+  /* Riutilizza la larghezza fissa */
+  width: 70px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e4e6eb;
+}
+
+.loc-rarity {
+  color: #d69e32; /* Colore giallo/oro per Rarity (Lure è un esempio di Rarity) */
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.loc-type {
+  background: rgba(
+    120,
+    200,
+    80,
+    0.2
+  ); /* Sfondo semi-trasparente tipo Grass (esempio) */
+  color: #78c850; /* Testo colore tipo Grass (esempio) */
+  padding: 4px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  width: 58px; /* Adattamento per centrare */
+  flex-shrink: 0;
+}
+
+.location-row {
+  background-color: #1a1a1a;
+  border: 1px solid #3a3b3d;
+  border-radius: 6px;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.location-row:hover {
+  background-color: #2a2b30;
+  border-color: #007bff;
+}
+
+.loc-region {
+  color: #007bff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.loc-area {
+  /* Riutilizza la larghezza flessibile */
+  flex: 1;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #e4e6eb;
+  font-weight: 500;
+}
+
+/* --- 10. EVOLUTIONS TAB STYLES --- */
+.evolution-chain {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 2px;
+  background: #1a1a1a;
+  padding: 15px 10px;
+  border-radius: 8px;
+  border: 1px solid #3a3b3d;
+  overflow-x: auto;
+}
+
+.evo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 80px;
+  background: transparent;
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.evo-card:hover {
+  background-color: #2a2b30;
+  border-color: #007bff;
+  transform: translateY(-2px);
+}
+
+.evo-img-wrapper {
+  width: 65px;
+  height: 65px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  border: 1px solid #333;
+}
+
+.evo-img-wrapper img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.evo-name {
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.evo-method {
+  color: #888;
+  font-size: 0.75rem;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.evo-arrow {
+  color: #007bff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  opacity: 0.8;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* Media Query (rimasta per layout evoluzioni responsive) */
+@media (min-width: 400px) {
+  .evolution-chain {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+}

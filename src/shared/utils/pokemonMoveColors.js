@@ -1,4 +1,4 @@
-import pokedex from "@/shared/utils/pokedex.json";
+import pokedex from "@/pages/pokedex/data/pokedex.json";
 
 import { generateDualTypeGradient, typeBackgrounds } from "./pokemonColors";
 
