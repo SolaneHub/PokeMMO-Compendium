@@ -6,16 +6,21 @@
 }
 
 .ivs-selector-button {
-  background: #24252a;
+  align-items: center;
+  background-color: #3a3b3d;
   border: 2px solid transparent;
   border-radius: 8px;
   box-shadow: 0 12px 32px #000000;
   color: #e4e6eb;
   cursor: pointer;
+  display: flex;
+  font-family: inherit;
   font-size: 1.5rem;
   font-weight: 700;
+  gap: 2px;
   height: 60px;
-  width: 80px;
+  justify-content: center;
+  width: 120px;
 
   transition:
     transform 0.2s ease,
@@ -24,15 +29,26 @@
 }
 
 .ivs-selector-button:hover {
-  border-color: #646cff;
   transform: translateY(-5px);
 }
 
 .ivs-selector-button.selected {
-  background-color: #3a3b3d;
   border-color: #007bff;
-  box-shadow: 0 8px 16px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 8px 16px #007bff66;
   transform: translateY(-3px);
+}
+
+.iv-symbol {
+  color: #646cff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 4px;
+  opacity: 0.9;
+  transition: color 0.2s ease;
+}
+
+.ivs-selector-button.selected .iv-symbol {
+  color: #a1a6ff;
 }
 
 .nature-container {
@@ -40,13 +56,58 @@
   display: flex;
   gap: 15px;
   justify-content: center;
-}
-
-.nature-container input {
-  height: 25px;
-  width: 25px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .nature-container p {
   font-size: 1.5rem;
+  margin: 0;
+}
+
+.nature-container input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #3a3b3d;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px #000000;
+  cursor: pointer;
+  display: grid;
+  height: 32px;
+  place-content: center;
+  width: 32px;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.nature-container input[type="checkbox"]:hover {
+  border-color: #646cff;
+  transform: translateY(-2px);
+}
+
+.nature-container input[type="checkbox"]:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+  box-shadow: 0 0 15px #007bff66;
+}
+
+.nature-container input[type="checkbox"]::before {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: "";
+  height: 18px;
+  transform: scale(0);
+  transition: transform 0.2s ease-in-out;
+  width: 18px;
+}
+
+.nature-container input[type="checkbox"]:checked::before {
+  transform: scale(1);
 }
