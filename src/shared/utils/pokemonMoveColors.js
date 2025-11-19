@@ -1,6 +1,8 @@
-import { typeBackgrounds, generateDualTypeGradient } from "./pokemonColors";
-import { pokemonData } from "./pokemonData";
+import pokedex from "@/shared/utils/pokedex.json";
 
+import { generateDualTypeGradient, typeBackgrounds } from "./pokemonColors";
+
+// * Mapping specific Move Names to their Elemental Type.
 export const moveTypeMap = {
   Explosion: "Normal",
   Protect: "Normal",
@@ -63,46 +65,50 @@ export const moveTypeMap = {
   "X Speed": "Ice",
 };
 
-// Create a map of Pokémon names to their text color style
+// ? Map to store the calculated text gradient style for each Pokemon.
 export const pokemonColorMap = {};
-pokemonData.forEach((pokemon) => {
-  if (pokemon.types.length >= 2) {
-    // Dual-type Pokémon get a gradient text color
+
+// * Iterate over the JSON to pre-calculate colors.
+pokedex.forEach((pokemon) => {
+  const types = pokemon.types || [];
+
+  if (types.length >= 2) {
+    // * Dual-type Pokemon get a gradient text color
     pokemonColorMap[pokemon.name] = generateDualTypeGradient(
-      pokemon.types[0],
-      pokemon.types[1]
+      types[0],
+      types[1]
     );
-  } else if (pokemon.types.length === 1) {
-    // Single-type Pokémon get their type's color
-    pokemonColorMap[pokemon.name] =
-      typeBackgrounds[pokemon.types[0]] || "#999999";
+  } else if (types.length === 1) {
+    // * Single-type Pokemon get their type's flat color
+    pokemonColorMap[pokemon.name] = typeBackgrounds[types[0]] || "#999999";
   } else {
-    // Default color if no type is specified
+    // ! Default color if no type is specified
     pokemonColorMap[pokemon.name] = "#999999";
   }
 });
 
-// Function to get the gradient for a move
+// ? Function to get the gradient style for a specific Move
 export const getMoveGradient = (moveName) => {
   const moveType = moveTypeMap[moveName];
   if (moveType && typeBackgrounds[moveType]) {
     return typeBackgrounds[moveType];
   }
-  return typeBackgrounds[""]; // Default gradient if move not found
+  return typeBackgrounds[""]; // ! Default if not found
 };
 
-// Function to get the gradient style for a Pokémon
+// ? Function to get the gradient style for a specific Pokemon
 export const getPokemonGradient = (pokemonName) => {
   return pokemonColorMap[pokemonName] || typeBackgrounds[""];
 };
 
-// Function to color both moves and Pokémon in text with gradients
+// * Main function to colorize moves and pokemon names within a text string.
 export const colorTextElements = (text) => {
   if (!text) return text;
 
   let result = text;
 
-  // First color move names (prioritize longer names first)
+  // * 1. Color Moves
+  // ! Sort by length descending to prevent partial replacements (e.g., "Ice" vs "Ice Beam")
   const moveNames = Object.keys(moveTypeMap).sort(
     (a, b) => b.length - a.length
   );
@@ -117,7 +123,8 @@ export const colorTextElements = (text) => {
     );
   });
 
-  // Then color Pokémon names (prioritize longer names first)
+  // * 2. Color Pokemon Names
+  // ! Sort by length descending for the same reason as moves
   const pokemonNames = Object.keys(pokemonColorMap).sort(
     (a, b) => b.length - a.length
   );

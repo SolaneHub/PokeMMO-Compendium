@@ -3,8 +3,9 @@ import "./PokemonCard.css";
 const PokemonCard = ({
   pokemonName,
   pokemonImageSrc,
-  onClick,
   nameBackground,
+  onClick,
+  isSelected,
 }) => {
   const handleImageError = (e) => {
     e.target.onerror = null;
@@ -12,35 +13,40 @@ const PokemonCard = ({
   };
 
   return (
-    <div className="pokemon-card" onClick={onClick}>
+    <div
+      className={`pokemon-card ${isSelected ? "selected" : ""}`}
+      onClick={onClick}
+    >
       {pokemonName && (
         <p className="pokemon-name" style={{ background: nameBackground }}>
           {pokemonName}
         </p>
       )}
 
-      {pokemonImageSrc ? (
-        <img
-          src={pokemonImageSrc}
-          alt={pokemonName || "Pokemon Placeholder"}
-          className="pokemon-image"
-          onError={handleImageError}
-        />
-      ) : (
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "2rem",
-            color: "#b0b3b8",
-          }}
-        >
-          ?
-        </div>
-      )}
+      <div className="image-container">
+        {pokemonImageSrc ? (
+          <img
+            src={pokemonImageSrc}
+            alt={pokemonName || "Pokemon"}
+            className="pokemon-image"
+            onError={handleImageError}
+          />
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "2rem",
+              color: "#b0b3b8",
+            }}
+          >
+            ?
+          </div>
+        )}
+      </div>
     </div>
   );
 };

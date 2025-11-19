@@ -1,22 +1,27 @@
-import { eliteFourMembers } from "@/pages/elite-four/data/eliteFourData";
+import React, { useCallback, useMemo, useState } from "react";
+
+import {
+  getAllEliteFourMembers,
+  getMembersByRegion,
+  getPokemonListForTeam,
+  getPokemonStrategy,
+} from "@/pages/elite-four/data/eliteFourService";
 import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
+import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
 import {
-  generateDualTypeGradient,
-  getDualShadow,
-  typeBackgrounds,
-} from "@/shared/utils/pokemonColors";
-import { pokemonData } from "@/shared/utils/pokemonData";
-import { pokemonImages } from "@/shared/utils/pokemonImages";
+  getPokemonBackground,
+  getPokemonByName,
+  getPokemonCardData,
+} from "@/shared/utils/pokemonService";
 import { pokemonRegions } from "@/shared/utils/regionData";
-import React, { useCallback, useMemo, useState } from "react";
 
 function EliteFourPage() {
-  // ─────────────────────────────
-  // Stati principali
-  // ─────────────────────────────
+  // * ─────────────────────────────
+  // * Main State Variables
+  // * ─────────────────────────────
   const [selectedTeam, setSelectedTeam] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
   const [selectedMember, setSelectedMember] = useState();
@@ -25,66 +30,48 @@ function EliteFourPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  // ─────────────────────────────
-  // Reset strategy
-  // ─────────────────────────────
+  // * ─────────────────────────────
+  // * Derived Data (Logic delegated to Services)
+  // * ─────────────────────────────
+
+  // ? Retrieve all available team names (e.g., "Reckless", "Wild Taste").
+  // ? Assumes consistency across members, using the first available member as reference.
+  const allTeamNames = useMemo(() => {
+    const members = getAllEliteFourMembers();
+    if (members.length === 0) return [];
+    return Object.keys(members[0].teams || {}).sort();
+  }, []);
+
+  const filteredEliteFour = useMemo(() => {
+    return getMembersByRegion(selectedRegion);
+  }, [selectedRegion]);
+
+  const pokemonNamesForSelectedTeam = useMemo(() => {
+    return getPokemonListForTeam(selectedMember, selectedTeam);
+  }, [selectedMember, selectedTeam]);
+
+  const currentPokemonObject = useMemo(() => {
+    return selectedPokemon ? getPokemonByName(selectedPokemon) : null;
+  }, [selectedPokemon]);
+
+  // ? Calculate the dynamic background for the modal title based on Pokemon type
+  const detailsTitleBackground = useMemo(() => {
+    return selectedPokemon ? getPokemonBackground(selectedPokemon) : "#ccc";
+  }, [selectedPokemon]);
+
+  // * ─────────────────────────────
+  // * Event Handlers
+  // * ─────────────────────────────
+
   const resetStrategyStates = useCallback(() => {
     setCurrentStrategyView([]);
     setStrategyHistory([]);
   }, []);
 
-  // ─────────────────────────────
-  // Dati derivati
-  // ─────────────────────────────
-  const filteredEliteFour = useMemo(() => {
-    return selectedRegion
-      ? eliteFourMembers.filter((m) => m.region === selectedRegion)
-      : [];
-  }, [selectedRegion]);
-
-  const currentMemberObject = useMemo(() => {
-    return selectedMember
-      ? eliteFourMembers.find((m) => m.name === selectedMember)
-      : null;
-  }, [selectedMember]);
-
-  const currentTeamData = useMemo(() => {
-    return currentMemberObject?.teams?.[selectedTeam] || null;
-  }, [currentMemberObject, selectedTeam]);
-
-  const pokemonNamesForSelectedTeam = useMemo(() => {
-    return currentTeamData?.pokemonNames || [];
-  }, [currentTeamData]);
-
-  const currentPokemonObject = useMemo(() => {
-    return selectedPokemon
-      ? pokemonData.find((p) => p.name === selectedPokemon)
-      : null;
-  }, [selectedPokemon]);
-
-  const selectedPokemonTypes = useMemo(() => {
-    return currentPokemonObject?.types || [];
-  }, [currentPokemonObject]);
-
-  const detailsTitleBackground = useMemo(() => {
-    if (selectedPokemonTypes.length >= 2) {
-      return generateDualTypeGradient(
-        selectedPokemonTypes[0],
-        selectedPokemonTypes[1]
-      );
-    }
-    if (selectedPokemonTypes.length === 1) {
-      return typeBackgrounds[selectedPokemonTypes[0]] || typeBackgrounds[""];
-    }
-    return typeBackgrounds[""];
-  }, [selectedPokemonTypes]);
-
-  // ─────────────────────────────
-  // Event handlers
-  // ─────────────────────────────
   const handleTeamClick = useCallback(
     (teamName) => {
       setSelectedTeam(teamName);
+      // * Reset all subordinate selections when changing the main team context
       setSelectedRegion(null);
       setSelectedMember(null);
       setSelectedPokemon(null);
@@ -97,6 +84,7 @@ function EliteFourPage() {
   const handleRegionClick = useCallback(
     (region) => {
       const regionName = typeof region === "object" ? region.name : region;
+      // ? Toggle logic: deselect if clicking the already selected region
       setSelectedRegion((prev) => (prev === regionName ? null : regionName));
       setSelectedMember(null);
       setSelectedPokemon(null);
@@ -122,14 +110,17 @@ function EliteFourPage() {
       setSelectedPokemon(pokemonName);
       setIsPokemonDetailsVisible(true);
 
-      const pokemonStrategy =
-        currentMemberObject?.teams?.[selectedTeam]?.pokemonStrategies?.[
-          pokemonName
-        ] || [];
-      setCurrentStrategyView(pokemonStrategy);
+      // ? Service Call: Retrieve specific strategy steps for the selected Pokemon
+      const strategy = getPokemonStrategy(
+        selectedMember,
+        selectedTeam,
+        pokemonName
+      );
+
+      setCurrentStrategyView(strategy);
       setStrategyHistory([]);
     },
-    [currentMemberObject, selectedTeam]
+    [selectedMember, selectedTeam]
   );
 
   const closePokemonDetails = useCallback(() => {
@@ -140,6 +131,7 @@ function EliteFourPage() {
 
   const handleStepClick = useCallback(
     (item) => {
+      // * Navigate deeper into strategy variations (nested steps)
       if (item?.steps && Array.isArray(item.steps)) {
         setStrategyHistory((prev) => [...prev, currentStrategyView]);
         setCurrentStrategyView(item.steps);
@@ -149,32 +141,29 @@ function EliteFourPage() {
   );
 
   const handleBackClick = useCallback(() => {
+    // * Navigate back up the strategy history stack
     if (strategyHistory.length > 0) {
       setCurrentStrategyView(strategyHistory[strategyHistory.length - 1]);
       setStrategyHistory((prev) => prev.slice(0, -1));
     }
   }, [strategyHistory]);
 
-  // ─────────────────────────────
-  // Render JSX
-  // ─────────────────────────────
+  // * ─────────────────────────────
+  // * Main JSX Render
+  // * ─────────────────────────────
   return (
     <div className="container">
       {/* Team Selector */}
       <div className="cards-container">
-        {Object.keys(eliteFourMembers[0].teams || {})
-          .sort()
-          .map((teamName) => (
-            <div
-              key={teamName}
-              className={`card team-card ${
-                selectedTeam === teamName ? "selected" : ""
-              }`}
-              onClick={() => handleTeamClick(teamName)}
-            >
-              <p>{teamName}</p>
-            </div>
-          ))}
+        {allTeamNames.map((teamName) => (
+          <div
+            key={teamName}
+            className={`card team-card ${selectedTeam === teamName ? "selected" : ""}`}
+            onClick={() => handleTeamClick(teamName)}
+          >
+            <p>{teamName}</p>
+          </div>
+        ))}
       </div>
 
       {/* Region Selector */}
@@ -191,12 +180,13 @@ function EliteFourPage() {
         </div>
       )}
 
-      {/* Elite Four Members */}
+      {/* Elite Four Members Display */}
       {selectedRegion && filteredEliteFour.length > 0 && (
         <div className="cards-container">
           {filteredEliteFour.map((member, i) => {
             const memberBackground =
               typeBackgrounds[member.type] || typeBackgrounds[""];
+            // ? Use getDualShadow to generate consistent colored shadows
             const shadowStyle = getDualShadow(memberBackground);
             return (
               <EliteMemberCard
@@ -212,36 +202,21 @@ function EliteFourPage() {
         </div>
       )}
 
-      {/* Pokemon Cards */}
+      {/* Pokemon Cards Grid */}
       {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
-            const pokemon = pokemonData.find((p) => p.name === pokemonName) || {
-              name: pokemonName,
-              types: [],
-            };
-            let nameBackground =
-              typeBackgrounds[pokemon.name] || typeBackgrounds[""];
-            if (!typeBackgrounds[pokemon.name] && pokemon.types.length >= 2) {
-              nameBackground = generateDualTypeGradient(
-                pokemon.types[0],
-                pokemon.types[1]
-              );
-            } else if (
-              !typeBackgrounds[pokemon.name] &&
-              pokemon.types.length === 1
-            ) {
-              nameBackground =
-                typeBackgrounds[pokemon.types[0]] || typeBackgrounds[""];
-            }
+            // ? Service Call: Get UI data (sprite, gradient)
+            const { sprite, background } = getPokemonCardData(pokemonName);
+
             return (
               <PokemonCard
                 key={index}
-                pokemonName={pokemon.name}
-                pokemonImageSrc={pokemonImages[pokemonName]}
-                onClick={() => handlePokemonCardClick(pokemon.name)}
-                nameBackground={nameBackground}
-                isSelected={selectedPokemon === pokemon.name}
+                pokemonName={pokemonName}
+                pokemonImageSrc={sprite}
+                nameBackground={background}
+                onClick={() => handlePokemonCardClick(pokemonName)}
+                isSelected={selectedPokemon === pokemonName}
               />
             );
           })}
@@ -280,7 +255,7 @@ function EliteFourPage() {
                       </div>
                     ) : null;
 
-                  // Main strategy
+                  // * Logic to render recursive strategy steps or flat lists
                   if (item.type === "main") {
                     return (
                       <React.Fragment key={index}>
@@ -310,7 +285,6 @@ function EliteFourPage() {
                     );
                   }
 
-                  // Step normale
                   if (item.type === "step") {
                     return (
                       <div key={index} className="strategy-step">
@@ -330,7 +304,6 @@ function EliteFourPage() {
                     );
                   }
 
-                  // Variations senza type
                   if (!item.type && item.variations) {
                     return (
                       <div key={index} className="variation-group">
@@ -347,7 +320,6 @@ function EliteFourPage() {
                       </div>
                     );
                   }
-
                   return null;
                 })
               )}

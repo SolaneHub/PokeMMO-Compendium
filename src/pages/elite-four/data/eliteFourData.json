@@ -4712,7 +4712,7 @@
     "name": "Lance",
     "region": "Johto",
     "type": "Dragon",
-    "image": "BluLGPE.png",
+    "image": "LanceLGPE.png",
     "teams": {
       "Reckless": {
         "pokemonNames": [

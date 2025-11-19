@@ -22,6 +22,7 @@ export const typeBackgrounds = {
   "": "linear-gradient(to right, #cccccc, #999999)",
 };
 
+// ? Helper to extract individual hex codes from a CSS linear-gradient string
 const extractGradientColors = (gradientString) => {
   const regex = /linear-gradient\(to right, (.+)\)/;
   const match = gradientString.match(regex);
@@ -34,6 +35,7 @@ const extractGradientColors = (gradientString) => {
   return [];
 };
 
+// ? Returns the primary color (first color of gradient or the flat color)
 export const getPrimaryColor = (backgroundStyle) => {
   if (!backgroundStyle) {
     return "#999999";
@@ -47,6 +49,7 @@ export const getPrimaryColor = (backgroundStyle) => {
   }
 };
 
+// * Generates a complex box-shadow based on the type gradient
 export const getDualShadow = (backgroundStyle) => {
   if (!backgroundStyle) {
     return `0 4px 10px #999999aa`;
@@ -54,9 +57,33 @@ export const getDualShadow = (backgroundStyle) => {
 
   if (backgroundStyle.startsWith("linear-gradient")) {
     const colors = extractGradientColors(backgroundStyle);
+
+    // ! CASE 1: Rainbow / "Various" (7+ Colors)
+    // * We distribute colors around the card (approx 140x153) in a clockwise manner.
+    // * FIXES APPLIED:
+    // * 1. Increased general opacity to '88' (~53%) for visibility.
+    // * 2. Boosted Green (index 3) opacity to 'aa' (~66%) for extra contrast.
+    // * 3. Increased offsets to 7px to clearly separate colors.
+    if (colors.length >= 7) {
+      return `
+        0 -7px 12px ${colors[0]}88,    /* Red - Top */
+        5px -5px 12px ${colors[1]}88,  /* Orange */
+        7px 0 12px ${colors[2]}88,     /* Yellow */
+        6px 6px 12px ${colors[3]}aa,   /* Green (Opacity Boost) */
+        0 7px 12px ${colors[4]}88,     /* Blue - Bottom */
+        -6px 6px 12px ${colors[5]}88,  /* Indigo */
+        -7px 0 12px ${colors[6]}88,    /* Violet */
+        -5px -5px 12px ${colors[0]}88  /* Red Loop Closure */
+      `;
+    }
+
+    // ! CASE 2: Dual Type (Standard 2 colors)
     if (colors.length >= 2) {
       return `0 4px 10px ${colors[0]}aa, 0 2px 5px ${colors[1]}aa`;
-    } else if (colors.length === 1) {
+    }
+
+    // ! CASE 3: Single (Fallback)
+    if (colors.length === 1) {
       return `0 4px 10px ${colors[0]}aa`;
     }
   } else {
@@ -66,6 +93,7 @@ export const getDualShadow = (backgroundStyle) => {
   return `0 4px 10px #999999aa`;
 };
 
+// * Generates the CSS gradient string based on two types
 export const generateDualTypeGradient = (type1, type2) => {
   const gradient1 = typeBackgrounds[type1];
   const gradient2 = typeBackgrounds[type2];
@@ -96,6 +124,7 @@ export const generateDualTypeGradient = (type1, type2) => {
     return typeBackgrounds["Vario"];
   }
 
+  // ? Merges the second color of the first gradient with the second color of the second gradient
   if (colors1.length >= 2 && colors2.length >= 2) {
     return `linear-gradient(to right, ${colors1[1]}, ${colors2[1]})`;
   } else if (colors1.length >= 1 && colors2.length >= 1) {
