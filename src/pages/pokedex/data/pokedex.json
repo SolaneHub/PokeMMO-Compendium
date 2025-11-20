@@ -94,7 +94,8 @@
         "region": "Kanto",
         "area": "Viridian Forest",
         "levels": 10,
-        "rarity": "lure"
+        "rarity": "lure",
+        "method": "Grass"
       }
     ]
   },
@@ -451,7 +452,11 @@
     "id": 60,
     "name": "Poliwag",
     "types": ["Water"],
-    "sprite": null
+    "sprite": null,
+    "abilities": {
+      "main": ["Water Absorb", "Damp"],
+      "hidden": "Swift Swim"
+    }
   },
   {
     "id": 61,
