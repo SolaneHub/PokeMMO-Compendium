@@ -1,31 +1,44 @@
-// File: PokemonSummary.jsx
-
 import "./PokemonSummary.css";
 
 import React, { useEffect, useMemo, useState } from "react";
 
-// Import updated service
 import {
   getPokemonCardData,
   getPokemonFullDetails,
 } from "@/pages/pokedex/data/pokemonService";
-// Import color data
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
+import { calculateDefenses } from "@/shared/utils/typeUtils";
 
 // * Minimal initial state for loading
 const initialLoadingState = { name: null, id: null };
 
-// --- HELPER FOR TYPE PILL STYLE ---
 const getTypePillStyle = (typeName) => {
   const backgroundStyle = typeBackgrounds[typeName] || typeBackgrounds[""];
   return { background: backgroundStyle };
 };
 
-/* * This prop is used to switch the current summary view to a variant or evolution. */
+/* * Component: PokemonSummary (Modal View)
+ * This component displays the detailed view of a selected Pokémon.
+ * It handles fetching data, managing tab navigation, and rendering specific details.
+ */
 const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
   const [activeTab, setActiveTab] = useState("Overview");
   const [pokemonData, setPokemonData] = useState(initialLoadingState);
   const [moveSearch, setMoveSearch] = useState("");
+
+  // * Memoized calculation of Type Defenses (Weakness/Resistance)
+  const defenses = useMemo(() => {
+    if (!pokemonData || !pokemonData.types) return null;
+    return calculateDefenses(pokemonData.types);
+  }, [pokemonData]);
+
+  // ? Helper function to group types by their damage multiplier (e.g., 4x, 0.5x)
+  const getTypesByMultiplier = (mult) => {
+    if (!defenses) return [];
+    return Object.entries(defenses)
+      .filter(([, val]) => val === mult)
+      .map(([type]) => type);
+  };
 
   const tabs = ["Overview", "Stats", "Moves", "Locations", "Evolutions"];
 
@@ -39,22 +52,23 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
 
   // * Fetch Logic (Synchronous Service Simulation)
   useEffect(() => {
-    setPokemonData(initialLoadingState); // ! Reset to loading state
+    // ! Reset to loading state on prop change
+    setPokemonData(initialLoadingState);
     setMoveSearch("");
     setActiveTab("Overview");
 
     if (!pokemonName) return;
 
-    // ? Use setTimeout to simulate loading delay and show the loading state
+    // ? Use setTimeout to simulate network delay and show the loading state
     const timer = setTimeout(() => {
       const data = getPokemonFullDetails(pokemonName);
       setPokemonData(data);
     }, 50);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // Cleanup timer on unmount/re-run
   }, [pokemonName]);
 
-  // ? Move filter logic (uses pokemonData.moves, guaranteed array from service fallback)
+  // ? Move filter logic
   const filteredMoves = useMemo(() => {
     if (!pokemonData || !pokemonData.moves) return [];
 
@@ -135,7 +149,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           </button>
         </div>
 
-        {/* HERO SECTION */}
+        {/* HERO SECTION (Sprite, Types, Category) */}
         <div className="summary-hero">
           <button className="play-cry-btn">🔊 Cry</button>
           <img
@@ -150,7 +164,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                 <span
                   key={t}
                   className="type-pill"
-                  style={getTypePillStyle(t)} // * Applying the type gradient/color
+                  style={getTypePillStyle(t)} // * Apply type color/gradient
                 >
                   {t}
                 </span>
@@ -160,7 +174,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           </div>
         </div>
 
-        {/* TABS */}
+        {/* TABS Navigation */}
         <div className="summary-tabs">
           {tabs.map((tab) => (
             <button
@@ -275,34 +289,142 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
             </>
           )}
 
-          {/* --- TAB: STATS --- */}
           {activeTab === "Stats" && (
-            <div className="data-section">
-              <h4 className="section-title">Base Stats</h4>
-              {Object.entries(pokemonData.baseStats).map(([key, val]) => (
-                <div key={key} className="stat-row">
-                  <span className="stat-name">{key.toUpperCase()}</span>
-                  <span className="stat-num">{val}</span>
-                  <div className="stat-track">
-                    <div
-                      className="stat-fill"
-                      style={{
-                        width: `${Math.min((val / 255) * 100, 100)}%`,
-                        background:
-                          val > 100
-                            ? "#00b894"
-                            : val > 60
-                              ? "#007bff"
-                              : "#ff7675",
-                      }}
-                    ></div>
+            <>
+              {/* 1. BASE STATS SECTION */}
+              <div className="data-section">
+                <h4 className="section-title">Base Stats</h4>
+                {Object.entries(pokemonData.baseStats).map(([key, val]) => (
+                  <div key={key} className="stat-row">
+                    <span className="stat-name">{key.toUpperCase()}</span>
+                    <span className="stat-num">{val}</span>
+                    <div className="stat-track">
+                      {/* ? Dynamic width based on a 255 maximum value for stat bar */}
+                      <div
+                        className="stat-fill"
+                        style={{
+                          width: `${Math.min((val / 255) * 100, 100)}%`,
+                          // * Color logic based on stat value (e.g., >100 is high)
+                          background:
+                            val > 100
+                              ? "#00b894"
+                              : val > 60
+                                ? "#007bff"
+                                : "#ff7675",
+                        }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-              ))}
-              {Object.keys(pokemonData.baseStats).length === 0 && (
-                <p className="empty-text">Stats not available.</p>
-              )}
-            </div>
+                ))}
+                {Object.keys(pokemonData.baseStats).length === 0 && (
+                  <p className="empty-text">Stats not available.</p>
+                )}
+              </div>
+
+              {/* 2. TYPE DEFENSES SECTION (Weakness & Resistance) */}
+              <div className="data-section" style={{ marginTop: "20px" }}>
+                <h4 className="section-title">Weakness & Resistance</h4>
+
+                {/* ! Fallback if defense calculation data is missing */}
+                {!defenses ? (
+                  <p className="empty-text">Type data not available.</p>
+                ) : (
+                  <div className="defense-grid">
+                    {/* * Render only if types exist for this multiplier */}
+
+                    {/* 4x (Extreme Weakness) */}
+                    {getTypesByMultiplier(4).length > 0 && (
+                      <div className="defense-row">
+                        <span className="defense-label bad">4x</span>
+                        <div className="defense-types">
+                          {getTypesByMultiplier(4).map((t) => (
+                            <span
+                              key={t}
+                              className="type-pill small"
+                              style={getTypePillStyle(t)}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 2x (Standard Weakness) */}
+                    {getTypesByMultiplier(2).length > 0 && (
+                      <div className="defense-row">
+                        <span className="defense-label bad">2x</span>
+                        <div className="defense-types">
+                          {getTypesByMultiplier(2).map((t) => (
+                            <span
+                              key={t}
+                              className="type-pill small"
+                              style={getTypePillStyle(t)}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 0.5x (Standard Resistance) */}
+                    {getTypesByMultiplier(0.5).length > 0 && (
+                      <div className="defense-row">
+                        <span className="defense-label good">0.5x</span>
+                        <div className="defense-types">
+                          {getTypesByMultiplier(0.5).map((t) => (
+                            <span
+                              key={t}
+                              className="type-pill small"
+                              style={getTypePillStyle(t)}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 0.25x (Extreme Resistance) */}
+                    {getTypesByMultiplier(0.25).length > 0 && (
+                      <div className="defense-row">
+                        <span className="defense-label good">¼x</span>
+                        <div className="defense-types">
+                          {getTypesByMultiplier(0.25).map((t) => (
+                            <span
+                              key={t}
+                              className="type-pill small"
+                              style={getTypePillStyle(t)}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 0x (Immunity) */}
+                    {getTypesByMultiplier(0).length > 0 && (
+                      <div className="defense-row">
+                        <span className="defense-label zero">0x</span>
+                        <div className="defense-types">
+                          {getTypesByMultiplier(0).map((t) => (
+                            <span
+                              key={t}
+                              className="type-pill small"
+                              style={getTypePillStyle(t)}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </>
           )}
 
           {/* --- TAB: MOVES --- */}
@@ -351,6 +473,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                     </div>
                   ))
                 ) : (
+                  // ! Handle case when search yields no results or no moves are available
                   <div className="no-moves-found">
                     {pokemonData.moves.length > 0
                       ? `No moves found for "${moveSearch}"`
@@ -368,24 +491,25 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
 
               {pokemonData.locations.length > 0 ? (
                 <div className="locations-container-grid">
-                  {" "}
-                  {/* Nuovo container */}
-                  {/* Header della Griglia */}
+                  {/* Location Grid Header */}
                   <div className="location-header-row">
-                    <span className="col-type">Type</span>
+                    {/* * Renamed from "Type" to "Method" in the underlying data structure */}
+                    <span className="col-method">Method</span>
                     <span className="col-region">Region</span>
                     <span className="col-location">Location</span>
                     <span className="col-levels">Levels</span>
                     <span className="col-rarity">Rarity</span>
                   </div>
+
                   {pokemonData.locations.map((loc, i) => (
                     <div key={i} className="location-data-row">
-                      {" "}
-                      {/* Nuova riga dati */}
-                      <span className="loc-type">{loc.type}</span>
+                      {/* ? Use loc.method, falling back to loc.type if method is missing */}
+                      <span className="loc-method">
+                        {loc.method || loc.type || "-"}
+                      </span>
+
                       <span className="loc-region">{loc.region}</span>
-                      <span className="loc-area">{loc.area}</span>{" "}
-                      {/* rinominato in .loc-area */}
+                      <span className="loc-area">{loc.area}</span>
                       <span className="loc-levels">{loc.levels}</span>
                       <span className="loc-rarity">{loc.rarity}</span>
                     </div>
@@ -459,6 +583,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                           <span className="evo-name">{evo.name}</span>
                           <span className="evo-method">{evo.level}</span>
                         </div>
+                        {/* * Render arrow between evolutions, but not after the last one */}
                         {index < pokemonData.evolutions.length - 1 && (
                           <div className="evo-arrow">➜</div>
                         )}
