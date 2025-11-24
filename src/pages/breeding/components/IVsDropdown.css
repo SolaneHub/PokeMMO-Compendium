@@ -1,88 +1,119 @@
-.dropdown {
-  display: block;
-  position: relative;
-  text-align: center;
-  width: 160px;
-}
+/* * ============================================ */
+/* * 1. DROPDOWN CONTAINER (Parent Wrapper)       */
+/* * ============================================ */
 
+/* ? Layout container for all the dropdown menus */
 .dropdown-container {
   display: flex;
-  gap: 15px;
+  flex-wrap: wrap; /* ! Important for responsiveness on small screens */
+  gap: 10px;
   justify-content: center;
   margin: 0 auto;
-  margin-bottom: 30px;
-  text-align: center;
+  margin-bottom: 20px;
+  max-width: 1200px;
 }
 
+/* * ============================================ */
+/* * 2. INDIVIDUAL DROPDOWN (Wrapper)             */
+/* * ============================================ */
+
+/* ? Wrapper for a single button + menu combo */
+.dropdown {
+  /* * Flexible width: min 110px, expands if space allows */
+  flex: 1 1 110px;
+  max-width: 150px;
+  position: relative;
+}
+
+/* * Interaction: Show menu on wrapper hover */
+.dropdown:hover .dropdown-content {
+  animation: fadeIn 0.2s ease;
+  display: block;
+}
+
+/* * ============================================ */
+/* * 3. DROP BUTTON (The Visible Trigger)         */
+/* * ============================================ */
+
+/* ? The visible button showing the current selection */
 .dropbtn {
   background-color: #24252a;
   border: 2px solid transparent;
   border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   color: #e4e6eb;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 12px 0px;
+  overflow: hidden;
+  padding: 10px 0;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+  /* ! Text Truncation Handling */
+  white-space: nowrap;
   width: 100%;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
 }
 
+/* * Button Hover State */
 .dropbtn:hover,
 .dropdown:hover .dropbtn {
   background-color: #3a3b3d;
-  border-color: #646cff;
+  border-color: #646cff; /* ! Highlight color on interaction */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
   transform: translateY(-2px);
 }
 
+/* * ============================================ */
+/* * 4. DROPDOWN CONTENT (The Hidden Menu)        */
+/* * ============================================ */
+
+/* ? The absolute positioned menu hidden by default */
 .dropdown-content {
   background-color: #2a2b30;
+  border: 1px solid #3a3b3d;
   border-radius: 8px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.8);
-  display: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
+  display: none; /* ! Hidden initially */
   left: 0;
-  margin-top: 0px;
-  min-width: 0;
+  min-width: 120px;
+  overflow: hidden;
   position: absolute;
-  top: 100%;
-  transform: none;
+  top: calc(100% + 5px);
   width: 100%;
-  z-index: 1;
+  z-index: 1000; /* ! High z-index to sit on top of the TreeScheme */
 }
 
+/* * Animation for the menu appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* * ============================================ */
+/* * 5. DROPDOWN ITEMS (The Links)                */
+/* * ============================================ */
+
+/* ? Individual clickable options inside the menu */
 .dropdown-content a {
   color: #e4e6eb;
+  cursor: pointer;
   display: block;
-  font-size: 1.2rem;
-  font-weight: 600;
-  padding: 12px 16px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 10px 12px;
   text-align: center;
   text-decoration: none;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.1s;
 }
 
-.dropdown-content a:first-child {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.dropdown-content a:last-child {
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-}
-
+/* * Option Hover State */
 .dropdown-content a:hover {
-  background-color: #3a3b3d;
-  color: #007bff;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
+  background-color: #007bff; /* ! Blue highlight on selection */
+  color: #fff;
 }
