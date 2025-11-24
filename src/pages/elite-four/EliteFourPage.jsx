@@ -1,3 +1,6 @@
+import "./EliteFourPage.css";
+import "../raids/RaidsPage.css"
+
 import React, { useCallback, useMemo, useState } from "react";
 
 import {
@@ -5,6 +8,7 @@ import {
   getMembersByRegion,
   getPokemonListForTeam,
   getPokemonStrategy,
+  getTeamBuilds, // Assicurati di aver aggiunto questa funzione nel service come discusso!
 } from "@/pages/elite-four/data/eliteFourService";
 import {
   getPokemonBackground,
@@ -18,29 +22,134 @@ import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
 import { pokemonRegions } from "@/shared/utils/regionData";
 
+// * ─────────────────────────────
+// * HELPER & SUB-COMPONENTS
+// * ─────────────────────────────
+
+// Helper per URL sprite strumenti
+const getItemSpriteUrl = (itemName) => {
+  if (!itemName) return null;
+  const formattedName = itemName
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/['’]/g, "")
+    .replace(/\./g, "");
+  return `/PokeMMO-Compendium/items/${formattedName}.png`;
+};
+
+// Componente Card Singola Build (Stile Raids)
+const PlayerBuildCard = ({ build }) => {
+  const { sprite } = getPokemonCardData(build.name);
+
+  return (
+    <div className="raids-build-card">
+      {/* Header */}
+      <div className="build-card-header">
+        <img src={sprite} alt={build.name} className="build-sprite" />
+        <div className="build-main-info">
+          <span className="build-name">{build.name}</span>
+        </div>
+
+        {/* Item */}
+        {build.item && (
+          <span className="build-held-item">
+            <img
+              src={getItemSpriteUrl(build.item)}
+              alt={build.item}
+              className="item-icon"
+              onError={(e) => (e.target.style.display = "none")}
+            />
+            {build.item}
+          </span>
+        )}
+      </div>
+
+      {/* Stats Row */}
+      <div className="build-stats-row">
+        {build.ability && (
+          <span className="build-stat">
+            Ability: <strong>{build.ability}</strong>
+          </span>
+        )}
+        {build.nature && (
+          <span className="build-stat">
+            Nature: <strong>{build.nature}</strong>
+          </span>
+        )}
+        {build.evs && (
+          <span className="build-stat">
+            EVs: <strong>{build.evs}</strong>
+          </span>
+        )}
+      </div>
+
+      {/* Moves List */}
+      {build.moves && (
+        <div className="build-moves-list">
+          {build.moves.map((m, k) => (
+            <span key={k} className="build-move">
+              {m}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente Modale Team Build
+const TeamBuildModal = ({ teamName, builds, onClose }) => {
+  if (!builds || builds.length === 0) return null;
+
+  return (
+    <div className="raids-overlay" onClick={onClose}>
+      <div className="raids-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="raids-modal-header" style={{ background: "#2a2b30" }}>
+          <h2>{teamName} Setup</h2>
+          <p>Player Team Configuration</p>
+        </div>
+
+        <div className="raids-modal-content">
+          <div className="raids-builds-grid fade-in">
+            {builds.map((build, idx) => (
+              <PlayerBuildCard key={idx} build={build} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// * ─────────────────────────────
+// * MAIN COMPONENT
+// * ─────────────────────────────
+
 function EliteFourPage() {
-  // * ─────────────────────────────
-  // * Main State Variables
-  // * ─────────────────────────────
   const [selectedTeam, setSelectedTeam] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
   const [selectedMember, setSelectedMember] = useState();
   const [selectedPokemon, setSelectedPokemon] = useState();
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
+
+  // Nuovo stato per la modale del Team Player
+  const [isTeamBuildVisible, setIsTeamBuildVisible] = useState(false);
+
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  // * ─────────────────────────────
-  // * Derived Data (Logic delegated to Services)
-  // * ─────────────────────────────
-
-  // ? Retrieve all available team names (e.g., "Reckless", "Wild Taste").
-  // ? Assumes consistency across members, using the first available member as reference.
+  // * Derived Data
   const allTeamNames = useMemo(() => {
     const members = getAllEliteFourMembers();
     if (members.length === 0) return [];
     return Object.keys(members[0].teams || {}).sort();
   }, []);
+
+  // Recupera le build per il team selezionato (Player)
+  const currentTeamBuilds = useMemo(() => {
+    return getTeamBuilds ? getTeamBuilds(selectedTeam) : [];
+  }, [selectedTeam]);
 
   const filteredEliteFour = useMemo(() => {
     return getMembersByRegion(selectedRegion);
@@ -54,15 +163,11 @@ function EliteFourPage() {
     return selectedPokemon ? getPokemonByName(selectedPokemon) : null;
   }, [selectedPokemon]);
 
-  // ? Calculate the dynamic background for the modal title based on Pokemon type
   const detailsTitleBackground = useMemo(() => {
     return selectedPokemon ? getPokemonBackground(selectedPokemon) : "#ccc";
   }, [selectedPokemon]);
 
-  // * ─────────────────────────────
-  // * Event Handlers
-  // * ─────────────────────────────
-
+  // * Handlers
   const resetStrategyStates = useCallback(() => {
     setCurrentStrategyView([]);
     setStrategyHistory([]);
@@ -71,11 +176,11 @@ function EliteFourPage() {
   const handleTeamClick = useCallback(
     (teamName) => {
       setSelectedTeam(teamName);
-      // * Reset all subordinate selections when changing the main team context
       setSelectedRegion(null);
       setSelectedMember(null);
       setSelectedPokemon(null);
       setIsPokemonDetailsVisible(false);
+      setIsTeamBuildVisible(false); // Resetta modale team
       resetStrategyStates();
     },
     [resetStrategyStates]
@@ -84,7 +189,6 @@ function EliteFourPage() {
   const handleRegionClick = useCallback(
     (region) => {
       const regionName = typeof region === "object" ? region.name : region;
-      // ? Toggle logic: deselect if clicking the already selected region
       setSelectedRegion((prev) => (prev === regionName ? null : regionName));
       setSelectedMember(null);
       setSelectedPokemon(null);
@@ -109,14 +213,11 @@ function EliteFourPage() {
     (pokemonName) => {
       setSelectedPokemon(pokemonName);
       setIsPokemonDetailsVisible(true);
-
-      // ? Service Call: Retrieve specific strategy steps for the selected Pokemon
       const strategy = getPokemonStrategy(
         selectedMember,
         selectedTeam,
         pokemonName
       );
-
       setCurrentStrategyView(strategy);
       setStrategyHistory([]);
     },
@@ -131,7 +232,6 @@ function EliteFourPage() {
 
   const handleStepClick = useCallback(
     (item) => {
-      // * Navigate deeper into strategy variations (nested steps)
       if (item?.steps && Array.isArray(item.steps)) {
         setStrategyHistory((prev) => [...prev, currentStrategyView]);
         setCurrentStrategyView(item.steps);
@@ -141,19 +241,15 @@ function EliteFourPage() {
   );
 
   const handleBackClick = useCallback(() => {
-    // * Navigate back up the strategy history stack
     if (strategyHistory.length > 0) {
       setCurrentStrategyView(strategyHistory[strategyHistory.length - 1]);
       setStrategyHistory((prev) => prev.slice(0, -1));
     }
   }, [strategyHistory]);
 
-  // * ─────────────────────────────
-  // * Main JSX Render
-  // * ─────────────────────────────
   return (
     <div className="container">
-      {/* Team Selector */}
+      {/* 1. Team Selector */}
       <div className="cards-container">
         {allTeamNames.map((teamName) => (
           <div
@@ -166,7 +262,19 @@ function EliteFourPage() {
         ))}
       </div>
 
-      {/* Region Selector */}
+      {/* 2. Team Build Button (NUOVO) */}
+      {selectedTeam && currentTeamBuilds.length > 0 && (
+        <div className="team-info-bar fade-in">
+          <button
+            className="team-info-btn"
+            onClick={() => setIsTeamBuildVisible(true)}
+          >
+            📋 View {selectedTeam} Team Build
+          </button>
+        </div>
+      )}
+
+      {/* 3. Region Selector */}
       {selectedTeam && (
         <div className="cards-container">
           {pokemonRegions.map((region) => (
@@ -180,13 +288,12 @@ function EliteFourPage() {
         </div>
       )}
 
-      {/* Elite Four Members Display */}
+      {/* 4. Elite Four Members */}
       {selectedRegion && filteredEliteFour.length > 0 && (
         <div className="cards-container">
           {filteredEliteFour.map((member, i) => {
             const memberBackground =
               typeBackgrounds[member.type] || typeBackgrounds[""];
-            // ? Use getDualShadow to generate consistent colored shadows
             const shadowStyle = getDualShadow(memberBackground);
             return (
               <EliteMemberCard
@@ -202,13 +309,11 @@ function EliteFourPage() {
         </div>
       )}
 
-      {/* Pokemon Cards Grid */}
+      {/* 5. Pokemon Cards Grid */}
       {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
-            // ? Service Call: Get UI data (sprite, gradient)
             const { sprite, background } = getPokemonCardData(pokemonName);
-
             return (
               <PokemonCard
                 key={index}
@@ -223,7 +328,16 @@ function EliteFourPage() {
         </div>
       )}
 
-      {/* Pokemon Details Modal */}
+      {/* 6. MODALE: Team Build (NUOVA) */}
+      {isTeamBuildVisible && (
+        <TeamBuildModal
+          teamName={selectedTeam}
+          builds={currentTeamBuilds}
+          onClose={() => setIsTeamBuildVisible(false)}
+        />
+      )}
+
+      {/* 7. MODALE: Pokemon Details (Esistente) */}
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div className="overlay" onClick={closePokemonDetails}>
           <div
@@ -255,7 +369,6 @@ function EliteFourPage() {
                       </div>
                     ) : null;
 
-                  // * Logic to render recursive strategy steps or flat lists
                   if (item.type === "main") {
                     return (
                       <React.Fragment key={index}>

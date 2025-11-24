@@ -575,15 +575,20 @@
             "moves": ["Tailwind", "Haze", "Defog"]
           },
           {
-            "name":"Gallade",
-            "player":"Player 4",
-            "order":2,
-            "item":"Choice Band",
-            "ability":"Sharpness",
-            "nature":"Adamant",
-            "evs":"252 Atk / 252 Spe",
-            "ivs":"31 Atk / 31 Spe",
-            "moves":["Sacred Sword", "Psycho Cut", "Aura Sphere", "Shadow Sneak"]
+            "name": "Gallade",
+            "player": "Player 4",
+            "order": 2,
+            "item": "Choice Band",
+            "ability": "Sharpness",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": [
+              "Sacred Sword",
+              "Psycho Cut",
+              "Aura Sphere",
+              "Shadow Sneak"
+            ]
           }
         ]
       }

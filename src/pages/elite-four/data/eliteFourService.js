@@ -58,3 +58,22 @@ export const getPokemonStrategy = (memberName, teamName, pokemonName) => {
 
   return team.pokemonStrategies[pokemonName] || [];
 };
+
+/**
+ * * Recupera la configurazione (Builds) del team del giocatore.
+ * ? Cerca nel primo membro della lega che possiede quel team (es. Lorelei).
+ */
+export const getTeamBuilds = (teamName) => {
+  if (!teamName) return [];
+
+  // Cerchiamo il primo membro che ha definizioni per questo team
+  const memberWithTeam = eliteFourData.find(
+    (m) => m.teams && m.teams[teamName]
+  );
+
+  if (memberWithTeam && memberWithTeam.teams[teamName].builds) {
+    return memberWithTeam.teams[teamName].builds;
+  }
+
+  return [];
+};
