@@ -6,21 +6,26 @@ function IVsDropdown({
   selectedIvStats,
   setSelectedIvStats,
 }) {
+  // * Main Handler: Updates the state when a user selects a stat from the dropdown
   const handleSelect = (index, newStat) => {
     const newSelectedIvStats = [...selectedIvStats];
 
-    // ? Check if the newly selected stat is already present in another slot
+    // ? Check: Is the newly selected stat ALREADY present in another slot?
     const conflictIndex = newSelectedIvStats.findIndex(
       (currentStat) => currentStat === newStat
     );
 
+    // ! CRITICAL LOGIC: Prevention of duplicate IVs
     if (conflictIndex !== -1) {
-      // * Swap logic: if stat exists, swap the old stat into the conflict position
+      // * Swap Strategy:
+      // If the stat exists elsewhere, we don't just overwrite it.
+      // We swap the old value into the conflicting position to maintain unique selection.
       const oldStat = selectedIvStats[index];
       newSelectedIvStats[index] = newStat;
       newSelectedIvStats[conflictIndex] = oldStat;
     } else {
-      // * Direct update if no conflict
+      // * Standard Update:
+      // No conflict found, simply update the value at the specific index.
       newSelectedIvStats[index] = newStat;
     }
 
@@ -28,13 +33,19 @@ function IVsDropdown({
   };
 
   return (
+    // * 1. Wrapper Container
     <div className="dropdown-container">
-      {/* ? Create dropdowns dynamically based on the selected IV count */}
+      {/* ? Generating dynamic dropdowns based on the selected count (e.g., 3x, 4x, 6x) */}
       {Array.from({ length: selectedIvCount }, (_, index) => (
+        // * 2. Individual Dropdown Wrapper
         <div className="dropdown" key={index}>
+          {/* * 3. Main Button (Activator) */}
           <button className="dropbtn">{selectedIvStats[index]}</button>
+
+          {/* * 4. Hidden Content (Menu) */}
           <div className="dropdown-content">
             {ivStats.map((stat) => (
+              // * 5. Dropdown Options (Links)
               <a key={stat} onClick={() => handleSelect(index, stat)}>
                 {stat}
               </a>
