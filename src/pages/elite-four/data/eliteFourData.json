@@ -1180,7 +1180,31 @@
               "warning": "If you get Black Sludge, use 6x Calm Mind, give X Speed"
             }
           ]
-        }
+        },
+        "builds": [
+          {
+            "name": "Typhlosion",
+            "item": "Choice Specs",
+            "ability": "Blaze",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe / 6 HP",
+            "ivs": "5x31",
+            "moves": [
+              "Eruption",
+              "Flamethrower",
+              "Focus Blast",
+              "Hidden Power Grass"
+            ]
+          },
+          {
+            "name": "Samurott",
+            "item": "Mystic Water",
+            "ability": "Torrent",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "moves": ["Aqua Jet", "Megahorn", "Superpower", "Swords Dance"]
+          }
+        ]
       },
       "Wild Taste": {
         "pokemonNames": [
