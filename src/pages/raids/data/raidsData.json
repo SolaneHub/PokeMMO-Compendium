@@ -2,6 +2,7 @@
   {
     "name": "Galvantula",
     "stars": 3,
+    "drops": ["Spell Tag", "Ghost Gem"],
     "locations": {
       "kanto": {
         "area": "Viridian Forest"
@@ -16,7 +17,8 @@
         "area": "Route 221 (Need Surf)"
       },
       "unova": {
-        "area": "Route 2 (Need Cut)"
+        "area": "Route 2 (Need Cut)",
+        "requirements": ["Surf", "Flash"]
       }
     },
     "mechanics": {
@@ -503,67 +505,98 @@
       }
     },
     "mechanics": {
-      "notes": "Repeatable on a 6 hour cooldown. Typing inversion alternates every turn once HP is around 51%.",
+      "ability": "Bad Dreams",
+      "heldItem": "Dread Plate",
       "thresholds": {
         "100": {
           "effect": "Dark Void"
         },
-        "70": {
+        "66": {
           "effect": "Nasty Plot"
         },
-        "51": {
-          "effect": "Alternating turn type inversion"
+        "50": {
+          "effect": "Inverted Space (Type Inversion)"
         },
         "33": {
           "effect": "Dark Void"
         },
         "25": {
-          "effect": "Physical/Special switch"
+          "effect": "Move Flip"
         }
       }
     },
-    "moves": [],
-    "roles": {
-      "player1": [
-        "Chesto/Vital + CC / SS / HJK",
-        "CC / SS",
-        "CC / SS",
-        "Shiftry Sucker",
-        "Tailwind",
-        "Medicham Psychic"
-      ],
-      "player2": [
-        "Chesto/Vital + CC / SS / HJK",
-        "CC / SS",
-        "CC / SS",
-        "Shiftry Assurance",
-        "Fast CC / SS",
-        "Medicham Psychic"
-      ],
-      "player3": [
-        "Chesto/Vital + CC / SS / HJK",
-        "CC / SS",
-        "CC / SS",
-        "Shiftry Assurance",
-        "Fast CC / SS",
-        "Medicham Psychic"
-      ],
-      "player4": [
-        "Tailwind",
-        "CC / SS",
-        "CC / SS",
-        "Slow Shiftry Lum Assurance",
-        "Close Combat Special",
-        "Medicham Psychic"
-      ]
-    }
+    "moves": ["Dark Pulse", "Psyshock", "Snarl", "Focus Blast"],
+    "teamStrategies": [
+      {
+        "roles": {
+          "player1": [
+            "Chesto/Vital + CC / SS / HJK",
+            "Sacred Sword",
+            "Close Combat",
+            "Shiftry Sucker",
+            "Tailwind",
+            "Medicham Psychic"
+          ],
+          "player2": [
+            "Chesto/Vital + CC / SS / HJK",
+            "Sacred Sword",
+            "Close Combat",
+            "Shiftry Assurance",
+            "Fast CC / SS",
+            "Medicham Psychic"
+          ],
+          "player3": [
+            "Chesto/Vital + CC / SS / HJK",
+            "Sacred Sword",
+            "Close Combat",
+            "Shiftry Assurance",
+            "Fast CC / SS",
+            "Medicham Psychic"
+          ],
+          "player4": [
+            "Tailwind",
+            "Sacred Sword",
+            "Close Combat",
+            "Shiftry Sucker Punch",
+            "Lucario ",
+            "Medicham Psychic"
+          ]
+        },
+        "recommended": [
+          {
+            "name": "Xatu",
+            "player": "Player 4",
+            "order": 1,
+            "item": "Rocky Helmet",
+            "ability": "Magic Bounce",
+            "nature": "Timid",
+            "evs": "252 HP / 252 Spe",
+            "ivs": "31 HP / 15- Def / 15- SpD / 31 Spe",
+            "moves": ["Tailwind", "Haze", "Defog"]
+          },
+          {
+            "name":"Gallade",
+            "player":"Player 4",
+            "order":2,
+            "item":"Choice Band",
+            "ability":"Sharpness",
+            "nature":"Adamant",
+            "evs":"252 Atk / 252 Spe",
+            "ivs":"31 Atk / 31 Spe",
+            "moves":["Sacred Sword", "Psycho Cut", "Aura Sphere", "Shadow Sneak"]
+          }
+        ]
+      }
+    ]
   },
   {
     "name": "Heatran",
     "stars": 6,
+    "drops": ["Spell Tag", "Ghost Gem"],
     "locations": {
       "sinnoh": {
-        "area": "Stark Mountain (Heatran's Room)"
+        "area": "Stark Mountain (Heatran's Room)",
+        "requirements": ["Surf", "Flash"]
       }
     },
     "mechanics": {
@@ -594,58 +627,569 @@
     "teamStrategies": [
       {
         "id": "standard",
-        "label": "Strategy 1 - Dig",
+        "label": "Dig Strategy",
         "roles": {
           "player1": [
-            "Flygon Defog",
-            "Flygon Earth Power",
-            "Nidoking Earth Power",
+            "Defog",
+            "Earth Power",
+            "Earth Power",
             "Dig",
             "Dig",
-            "Gallade",
-            "Kingdra",
-            "Kingrdra",
-            "Kingdra / Pelliper"
+            "Sacred Sword",
+            "Brine",
+            "Brine",
+            "Brine"
           ],
           "player2": [
-            "Flygon Defog",
-            "Flygon Earth Power",
-            "Hydreigon Earth Power",
-            "Hydreigon Earth Power",
-            "Hydreigon Earth Power",
-            "Gallade",
-            "Toed/Pelipper",
-            "Toed/Pelipper/Kingdra",
-            "Kingdra"
+            "Defog",
+            "Earth Power",
+            "Earth Power",
+            "Earth Power",
+            "Earth Power",
+            "Sacred Sword",
+            "Brine / Weather Ball",
+            "Brine",
+            "Brine"
           ],
           "player3": [
             "Light Screen",
-            "Hydreigon Earth Power",
-            "Hydreigon Earth Power",
+            "Earth Power",
+            "Earth Power",
             "Dig",
             "Dig",
-            "Gallade",
+            "Sacred Sword",
             "Fake Tears",
-            "Kingdra",
-            "Kingdra"
+            "Brine",
+            "Brine"
           ],
           "player4": [
             "Knock Off",
-            "Hydreigon Earth Power",
-            "Hydreigon Earth Power",
+            "Earth Power",
+            "Earth Power",
             "Dig",
             "Dig",
-            "Gallade",
-            "Kingdra",
-            "Kingdra",
-            "Kingdra/Pelliper"
+            "Sacred Sword",
+            "Brine",
+            "Brine",
+            "Brine"
           ]
         },
         "strategy": "Testo fittizio per la strategia standard di Heatran.",
         "recommended": [
-          "Garchomp (placeholder)",
-          "Kingdra (placeholder)",
-          "Pelipper (placeholder)"
+          {
+            "name": "Flygon",
+            "player": "Player 1",
+            "order": 1,
+            "item": "Ground Gem",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 156 SpD / 100 Spe",
+            "ivs": "5x31",
+            "moves": ["Defog", "Earth Power"]
+          },
+          {
+            "name": "Nidoking",
+            "player": "Player 1",
+            "order": 2,
+            "item": "Choice Specs",
+            "ability": "Sheer Force",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Earth Power"],
+            "variants": [
+              {
+                "name": "Hydreigon",
+                "item": "Choice Band",
+                "ability": "Levitate",
+                "nature": "Modest",
+                "evs": "252 SpA / 252 Spe",
+                "ivs": "31 SpA / 31 Spe",
+                "moves": ["Earth Power"]
+              }
+            ]
+          },
+          {
+            "name": "Excadrill",
+            "player": "Player 1",
+            "order": 3,
+            "item": "Life Orb",
+            "ability": "Any",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Dig", "Earthquake"],
+            "variants": [
+              {
+                "name": "Garchomp",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Krookodile",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Mamoswine",
+                "order": 3,
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Jolly / Naive",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Nidoking",
+                "order": 3,
+                "item": "Life Orb",
+                "ability": "Rivalry",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake", "Drill Run"]
+              }
+            ]
+          },
+          {
+            "name": "Gallade",
+            "player": "Player 1",
+            "order": 4,
+            "item": "Choice Band",
+            "ability": "Sharpness",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Sacred Sword"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 1",
+            "order": 5,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"],
+            "variants": [
+              {
+                "name": "Suicune",
+                "item": "Assault Vest",
+                "ability": "Any",
+                "nature": "Modest",
+                "evs": "236 SpA / 58 SpD / 216 Spe",
+                "ivs": "5x31",
+                "moves": ["Brine"]
+              }
+            ]
+          },
+          {
+            "name": "Pelipper",
+            "player": "Player 1",
+            "order": 6,
+            "item": "Choice Scarf",
+            "ability": "Drizzle",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Brine"]
+          },
+          {
+            "name": "Flygon",
+            "player": "Player 2",
+            "order": 1,
+            "item": "Ground Gem",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 156 SpD / 100 Spe",
+            "ivs": "5x31",
+            "moves": ["Defog", "Earth Power"]
+          },
+          {
+            "name": "Hydreigon",
+            "player": "Player 2",
+            "order": 2,
+            "item": "Choice Specs",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 168 SpD / 88 Spe",
+            "ivs": "5x31",
+            "moves": ["Earth Power"]
+          },
+          {
+            "name": "Gallade",
+            "player": "Player 2",
+            "order": 3,
+            "item": "Choice Band",
+            "ability": "Sharpness",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Sacred Sword"]
+          },
+          {
+            "name": "Pelipper",
+            "player": "Player 2",
+            "order": 4,
+            "item": "Choice Scarf",
+            "ability": "Drizzle",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Brine"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 2",
+            "order": 5,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"],
+            "variants": [
+              {
+                "name": "Suicune",
+                "item": "Assault Vest",
+                "ability": "Any",
+                "nature": "Modest",
+                "evs": "236 SpA / 58 SpD / 216 Spe",
+                "ivs": "5x31",
+                "moves": ["Brine"]
+              }
+            ]
+          },
+          {
+            "name": "Politoed",
+            "player": "Player 2",
+            "order": 6,
+            "item": "Water Gem",
+            "ability": "Drizzle",
+            "nature": "Timid",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Weather Ball"]
+          },
+          {
+            "name": "Jolteon",
+            "player": "Player 3",
+            "order": 1,
+            "item": "Light Clay",
+            "ability": "Any",
+            "nature": "Any",
+            "evs": "252 Spe",
+            "ivs": "14+ HP / 14+ SpD / 31 Spe",
+            "moves": ["Light Screen"],
+            "variants": [
+              {
+                "name": "Sableye",
+                "item": "Light Clay",
+                "ability": "Prankster",
+                "nature": "Any",
+                "evs": "252 HP / 56 SpD",
+                "ivs": "31 HP / 31 SpD",
+                "moves": ["Light Screen"]
+              },
+              {
+                "name": "Raikou",
+                "item": "Light Clay",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "31 Spe",
+                "moves": ["Light Screen"]
+              },
+              {
+                "name": "Minun",
+                "order": 1,
+                "item": "Light Clay",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "29+ HP / 29+ SpD / 31 Spe",
+                "moves": ["Light Screen"]
+              }
+            ]
+          },
+          {
+            "name": "Hydreigon",
+            "player": "Player 3",
+            "order": 2,
+            "item": "Choice Specs",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 120 SpD / 138 Spe",
+            "ivs": "5x31",
+            "moves": ["Earth Power"]
+          },
+          {
+            "name": "Excadrill",
+            "player": "Player 3",
+            "order": 3,
+            "item": "Life Orb",
+            "ability": "Any",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Dig", "Earthquake", "Drill Run"],
+            "variants": [
+              {
+                "name": "Garchomp",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Krookodile",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Mamoswine",
+                "order": 3,
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Jolly / Naive",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Nidoking",
+                "order": 3,
+                "item": "Life Orb",
+                "ability": "Rivalry",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake", "Drill Run"]
+              }
+            ]
+          },
+          {
+            "name": "Gallade",
+            "player": "Player 3",
+            "order": 4,
+            "item": "Choice Band",
+            "ability": "Sharpness",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Sacred Sword"]
+          },
+          {
+            "name": "Infernape",
+            "player": "Player 3",
+            "order": 5,
+            "item": "Choice Scarf",
+            "ability": "Any",
+            "nature": "Any",
+            "evs": "252 Spe",
+            "ivs": "31 Spe",
+            "moves": ["Fake Tears"],
+            "variants": [
+              {
+                "name": "Jolteon",
+                "item": "Choice Scarf",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "31 Spe",
+                "moves": ["Fake Tears"]
+              },
+              {
+                "name": "Minun",
+                "item": "Choice Scarf",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "31 Spe",
+                "moves": ["Fake Tears"]
+              },
+              {
+                "name": "Plusle",
+                "item": "Choice Scarf",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "31 Spe",
+                "moves": ["Fake Tears"]
+              },
+              {
+                "name": "Raichu",
+                "item": "Choice Scarf",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "31 Spe",
+                "moves": ["Fake Tears"]
+              },
+              {
+                "name": "Pikachu",
+                "item": "Choice Scarf",
+                "ability": "Any",
+                "nature": "Any",
+                "evs": "252 Spe",
+                "ivs": "31 Spe",
+                "moves": ["Fake Tears"]
+              }
+            ]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 3",
+            "order": 6,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"],
+            "variants": [
+              {
+                "name": "Suicune",
+                "item": "Assault Vest",
+                "ability": "Any",
+                "nature": "Modest",
+                "evs": "236 SpA / 58 SpD / 216 Spe",
+                "ivs": "5x31",
+                "moves": ["Brine"]
+              }
+            ]
+          },
+          {
+            "name": "Heatmor",
+            "player": "Player 4",
+            "order": 1,
+            "item": "Focus Sash",
+            "ability": "Flash Fire",
+            "nature": "Jolly / Naive",
+            "evs": "252 HP / 252 Spe",
+            "iv": "31 Spe",
+            "moves": ["Knock Off"]
+          },
+          {
+            "name": "Hydreigon",
+            "player": "Player 4",
+            "order": 2,
+            "item": "Choice Specs",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 120 SpD / 138 Spe",
+            "ivs": "5x31",
+            "moves": ["Earth Power"]
+          },
+          {
+            "name": "Excadrill",
+            "player": "Player 4",
+            "order": 3,
+            "item": "Life Orb",
+            "ability": "Any",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Dig", "Earthquake", "Drill Run"],
+            "variants": [
+              {
+                "name": "Garchomp",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Krookodile",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Mamoswine",
+                "item": "Life Orb",
+                "ability": "Any",
+                "nature": "Jolly / Naive",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake"]
+              },
+              {
+                "name": "Nidoking",
+                "item": "Life Orb",
+                "ability": "Rivalry",
+                "nature": "Adamant / Naughty",
+                "evs": "252 Atk / 252 Spe",
+                "ivs": "31 Atk / 31 Spe",
+                "moves": ["Dig", "Earthquake", "Drill Run"]
+              }
+            ]
+          },
+          {
+            "name": "Gallade",
+            "player": "Player 4",
+            "order": 4,
+            "item": "Choice Band",
+            "ability": "Sharpness",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Sacred Sword"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 4",
+            "order": 5,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"],
+            "variants": [
+              {
+                "name": "Suicune",
+                "item": "Assault Vest",
+                "ability": "Any",
+                "nature": "Modest",
+                "evs": "236 SpA / 58 SpD / 216 Spe",
+                "ivs": "5x31",
+                "moves": ["Brine"]
+              }
+            ]
+          },
+          {
+            "name": "Pelipper",
+            "player": "Player 4",
+            "order": 6,
+            "item": "Choice Scarf",
+            "ability": "Drizzle",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Brine"]
+          }
         ],
         "links": {
           "guide": "Da definire",
@@ -654,48 +1198,356 @@
       },
       {
         "id": "alt",
-        "label": "Strategy 2 - Octillery",
+        "label": "Octillery Strategy",
         "roles": {
           "player1": [
-            "Earthquake/Earth Power",
-            "Earth Power/Close Combat",
-            "Octillery",
-            "Starmie",
-            "Kingdra",
-            "Jolteon"
+            "Earthquake or Earth Power",
+            "Earth Power or Close Combat",
+            "Hydro Pump",
+            "Starmie Light Screen & Hydro Pump",
+            "Kingdra Brine / Hydro Pump / Rain Dance",
+            "Jolteon Fake Tears"
           ],
           "player2": [
-            "Earthquake/Earth Power",
-            "Gliscor",
-            "Octillery",
-            "Pelipper",
-            "Politoed",
-            "Kingdra"
+            "Excadrill / Mamoswine / Krookodile Earthquake or Nidoking Earth Power",
+            "Gliscor Bulldoze",
+            "Octillery Hydro Pump",
+            "Pelipper Water Sport",
+            "Politoed Weather Ball / Hydro Pump",
+            "Kingdra Brine"
           ],
           "player3": [
-            "Weavile/Ambipom",
-            "Earth Power/Close Combat",
-            "Xatu",
-            "Flygon",
-            "Politoed",
-            "Kingdra"
+            "Weavile / Ambipom Thief",
+            "Nidoking Earth Power or Heracross Close Combat",
+            "Xatu Defog / Light Screen",
+            "Flygon Earth Power",
+            "Politoed Weather Ball / Hydro Pump",
+            "Kingdra Brine"
           ],
           "player4": [
-            "Drill Run/Earth Power",
-            "Earth Power/Close Combat",
-            "Pelipper",
-            "Flygon",
-            "Politoed",
-            "Kingdra"
+            "Excadrill Drill Run or Nidoking Earth Power",
+            "Nidoking Earth Power or Heracross Close Combat",
+            "Pelipper Defog",
+            "Flygon Earth Power / Hidden Power Water",
+            "Politoed Weather Ball / Hydro Pump",
+            "Kingdra Brine"
           ]
         },
         "strategy": "Seconda strategia fittizia per Heatran.",
-        "recommended": ["Placeholder Mon 1", "Placeholder Mon 2"],
-        "links": {
-          "guide": "Da definire",
-          "video": "Da definire"
-        }
+        "recommended": [
+          {
+            "name": "Excadrill",
+            "player": "Player 1",
+            "order": 1,
+            "item": "Choice Band",
+            "ability": "Sand Rush",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Earthquake"],
+            "variants": [
+              {
+                "name": "Mamoswine",
+                "item": "Choice Band",
+                "moves": ["Earthquake", "Icicle Crash"]
+              },
+              {
+                "name": "Krookodile",
+                "item": "Choice Band",
+                "moves": ["Earthquake", "Crunch"]
+              }
+            ]
+          },
+          {
+            "name": "Pelipper",
+            "player": "Player 1",
+            "order": 2,
+            "item": "Water Gem",
+            "ability": "Drizzle",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Weather Ball", "Hydro Pump"]
+          },
+          {
+            "name": "Octillery",
+            "player": "Player 1",
+            "order": 3,
+            "item": "Choice Specs",
+            "ability": "Suction Cups",
+            "nature": "Modest",
+            "evs": "252 SpA / 200 Spe",
+            "ivs": "31 SpA / 11+ Spe",
+            "moves": ["Hydro Pump"]
+          },
+          {
+            "name": "Starmie",
+            "player": "Player 1",
+            "order": 4,
+            "item": "Light Clay",
+            "ability": "Natural Cure",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "25+ Spe",
+            "moves": ["Light Screen", "Hydro Pump"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 1",
+            "order": 5,
+            "item": "Mystic Water",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 192 Spe / 64 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine", "Hydro Pump", "Rain Dance"]
+          },
+          {
+            "name": "Jolteon",
+            "player": "Player 1",
+            "order": 6,
+            "item": "Choice Scarf",
+            "ability": "Volt Absorb",
+            "nature": "Timid",
+            "evs": "252 Spe",
+            "ivs": "31 Spe",
+            "moves": ["Fake Tears"]
+          },
+          {
+            "name": "Excadrill",
+            "player": "Player 2",
+            "order": 1,
+            "item": "Choice Band",
+            "ability": "Sand Rush",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Earthquake"],
+            "variants": [
+              {
+                "name": "Mamoswine",
+                "item": "Choice Band",
+                "moves": ["Earthquake"]
+              },
+              {
+                "name": "Krookodile",
+                "item": "Choice Band",
+                "moves": ["Earthquake"]
+              }
+            ]
+          },
+          {
+            "name": "Gliscor",
+            "player": "Player 2",
+            "order": 2,
+            "item": "Ground Gem",
+            "ability": "Hyper Cutter",
+            "nature": "Naughty",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 10+ Spe",
+            "moves": ["Bulldoze", "Earthquake"]
+          },
+          {
+            "name": "Octillery",
+            "player": "Player 2",
+            "order": 3,
+            "item": "Choice Specs",
+            "ability": "Suction Cups",
+            "nature": "Modest",
+            "evs": "252 SpA / 200 Spe",
+            "ivs": "31 SpA / 11+ Spe",
+            "moves": ["Hydro Pump"]
+          },
+          {
+            "name": "Pelipper",
+            "player": "Player 2",
+            "order": 4,
+            "item": "Choice Scarf",
+            "ability": "Drizzle",
+            "nature": "Naughty",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Water Sport", "Weather Ball"]
+          },
+          {
+            "name": "Politoed",
+            "player": "Player 2",
+            "order": 5,
+            "item": "Water Gem",
+            "ability": "Drizzle",
+            "nature": "Timid",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Weather Ball", "Hydro Pump"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 2",
+            "order": 6,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"]
+          },
+          {
+            "name": "Weavile",
+            "player": "Player 3",
+            "order": 1,
+            "item": "No Item",
+            "ability": "Pressure",
+            "nature": "Jolly",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Thief"],
+            "variants": [
+              {
+                "name": "Ambipom",
+                "item": "No Item",
+                "moves": ["Covet"]
+              }
+            ]
+          },
+          {
+            "name": "Nidoking",
+            "player": "Player 3",
+            "order": 2,
+            "item": "Life Orb",
+            "ability": "Sheer Force",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Earth Power"]
+          },
+          {
+            "name": "Xatu",
+            "player": "Player 3",
+            "order": 3,
+            "item": "Light Clay",
+            "ability": "Magic Bounce",
+            "nature": "Timid",
+            "evs": "252 Spe",
+            "ivs": "31 Spe",
+            "moves": ["Defog", "Light Screen"]
+          },
+          {
+            "name": "Flygon",
+            "player": "Player 3",
+            "order": 4,
+            "item": "Life Orb",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 100 Spe / 152 SpD",
+            "ivs": "5x31",
+            "moves": ["Earth Power", "Hidden Power Water"]
+          },
+          {
+            "name": "Politoed",
+            "player": "Player 3",
+            "order": 5,
+            "item": "Water Gem",
+            "ability": "Drizzle",
+            "nature": "Timid",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Weather Ball", "Hydro Pump"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 3",
+            "order": 6,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"]
+          },
+          {
+            "name": "Excadrill",
+            "player": "Player 4",
+            "order": 1,
+            "item": "Choice Band",
+            "ability": "Sand Rush",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": ["Drill Run"],
+            "variants": [
+              {
+                "name": "Nidoking",
+                "item": "Life Orb",
+                "moves": ["Earth Power"]
+              },
+              {
+                "name": "Heracross",
+                "item": "Choice Band",
+                "moves": ["Close Combat"]
+              }
+            ]
+          },
+          {
+            "name": "Nidoking",
+            "player": "Player 4",
+            "order": 2,
+            "item": "Life Orb",
+            "ability": "Sheer Force",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Earth Power"]
+          },
+          {
+            "name": "Xatu",
+            "player": "Player 4",
+            "order": 3,
+            "item": "Light Clay",
+            "ability": "Magic Bounce",
+            "nature": "Timid",
+            "evs": "252 Spe",
+            "ivs": "31 Spe",
+            "moves": ["Defog"]
+          },
+          {
+            "name": "Flygon",
+            "player": "Player 4",
+            "order": 4,
+            "item": "Life Orb",
+            "ability": "Levitate",
+            "nature": "Modest",
+            "evs": "252 SpA / 100 Spe / 152 SpD",
+            "ivs": "5x31",
+            "moves": ["Earth Power", "Hidden Power Water"]
+          },
+          {
+            "name": "Politoed",
+            "player": "Player 4",
+            "order": 5,
+            "item": "Water Gem",
+            "ability": "Drizzle",
+            "nature": "Timid",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Weather Ball", "Hydro Pump"]
+          },
+          {
+            "name": "Kingdra",
+            "player": "Player 4",
+            "order": 6,
+            "item": "Assault Vest",
+            "ability": "Swift Swim",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 SpD",
+            "ivs": "5x31",
+            "moves": ["Brine"]
+          }
+        ]
       }
     ]
+  },
+  {
+    "name": "Cresselia",
+    "stars": 6
   }
 ]
