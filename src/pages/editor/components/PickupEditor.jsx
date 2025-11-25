@@ -1,3 +1,5 @@
+import React from "react";
+
 import UniversalJsonEditor from "../UniversalJsonEditor";
 
 const PickupEditor = ({ data, onChange }) => {
@@ -34,7 +36,7 @@ const PickupEditor = ({ data, onChange }) => {
         <div>
           <h3 style={{ margin: 0 }}>🎒 Editor Pickup</h3>
           <span style={{ color: "#888", fontSize: "0.9rem" }}>
-            Gestisci le tabelle di drop per l'abilità Pickup.
+            Gestisci le tabelle di drop per l&apos;abilità Pickup.
           </span>
         </div>
         <button className="btn btn-success" onClick={addItem}>
@@ -135,7 +137,7 @@ const PickupEditor = ({ data, onChange }) => {
 
       {data.length === 0 && (
         <div style={{ textAlign: "center", padding: "50px", color: "#666" }}>
-          Nessuna area configurata. Clicca "Nuova Area" in alto.
+          Nessuna area configurata. Clicca &quot;Nuova Area&quot; in alto.
         </div>
       )}
     </div>
