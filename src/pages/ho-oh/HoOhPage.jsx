@@ -8,7 +8,7 @@ import {
   getHoOhTrainersByRegion,
   getPokemonListForTeam,
   getPokemonStrategy,
-} from "@/pages/ho-oh/data/hoOhService"; // Assicurati di creare questo service
+} from "@/pages/ho-oh/data/hoohService";
 import {
   getPokemonBackground,
   getPokemonByName,
@@ -26,7 +26,7 @@ function HoOhPage() {
   // * ─────────────────────────────
   const [selectedTeam, setSelectedTeam] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
-  const [selectedHoOh, setSelectedHoOh] = useState(); // Rinominato da selectedRed
+  const [selectedHoOh, setSelectedHoOh] = useState();
   const [selectedPokemon, setSelectedPokemon] = useState();
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
