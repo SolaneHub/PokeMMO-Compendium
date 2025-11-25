@@ -1,6 +1,5 @@
-import React from "react";
 
-import UniversalJsonEditor from "../UniversalJsonEditor";
+import UniversalJsonEditor from "./UniversalJsonEditor";
 
 const PickupEditor = ({ data, onChange }) => {
   const handleItemChange = (index, newItem) => {
