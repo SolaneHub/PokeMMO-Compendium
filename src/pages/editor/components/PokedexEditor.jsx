@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import UniversalJsonEditor from "../UniversalJsonEditor";
+import UniversalJsonEditor from "./UniversalJsonEditor";
 
 // TEMPLATE COMPLETO
 const POKE_TEMPLATE = {
