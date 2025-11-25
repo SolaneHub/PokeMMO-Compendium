@@ -1,6 +1,5 @@
+import redData from "@/data/redData.json";
 import { pokemonRegions } from "@/shared/utils/regionData";
-
-import redData from "./redData.json";
 
 // * Map for fast access/filtering.
 // * Note: Since "Red" appears in multiple regions with the same name,
