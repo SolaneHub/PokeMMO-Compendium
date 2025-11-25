@@ -1,6 +1,5 @@
 import "./UniversalJsonEditor.css";
 
-import React from "react";
 
 const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
   // --- 1. GESTIONE ARRAY ---
