@@ -1,4 +1,4 @@
-import raidsData from "./raidsData.json";
+import raidsData from "@/data/raidsData.json";
 
 // * Map for fast O(1) access based on the raid name.
 // * This avoids iterating through the array every time a raid is selected.

@@ -1,4 +1,4 @@
-import eliteFourData from "./eliteFourData.json";
+import eliteFourData from "@/data/eliteFourData.json";
 
 // * Map for fast O(1) access to Elite Four members by name.
 const membersMap = new Map(eliteFourData.map((m) => [m.name, m]));
