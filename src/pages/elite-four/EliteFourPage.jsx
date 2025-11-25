@@ -1,5 +1,5 @@
 import "./EliteFourPage.css";
-import "../raids/RaidsPage.css"
+import "../raids/RaidsPage.css";
 
 import React, { useCallback, useMemo, useState } from "react";
 
