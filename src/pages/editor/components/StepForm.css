@@ -29,11 +29,6 @@ label {
   display: block;
 }
 
-/* --- STRUTTURA ANNIDATA (Variations) --- */
-.step-form-container {
-  /* Pulito, lo stile è gestito da .step-card in EditorPage.css */
-}
-
 /* Contenitore delle Variation */
 .variation-list {
   margin-top: 20px;

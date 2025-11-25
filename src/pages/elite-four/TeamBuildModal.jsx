@@ -1,7 +1,5 @@
 import "./EliteFourPage.css"; // Usiamo lo stesso CSS o quello aggiornato sotto
 
-import React from "react";
-
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 
 // Helper per URL strumenti (copiato da RaidsPage o importato da utils)
