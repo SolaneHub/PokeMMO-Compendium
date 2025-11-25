@@ -22,45 +22,62 @@
       }
     },
     "mechanics": {
+      "ability": null,
       "heldItem": "Wise Glasses",
       "thresholds": {
-        "100": {
-          "effect": "Full Para"
-        },
-        "75": {
-          "effect": "Light Screen"
+        "20": {
+          "effect": "Special Defense"
         },
         "50": {
           "effect": "Sticky Web"
         },
-        "20": {
-          "effect": "Special Defense"
+        "75": {
+          "effect": "Light Screen"
+        },
+        "100": {
+          "effect": "Full Para"
         }
       }
     },
     "moves": ["Discharge", "Bug Buzz", "Giga Drain", "Thunder"],
-    "roles": {
-      "player1": ["Sun", "Phys Fire", "Fire", "Fire", "Tailwind", "Fire"],
-      "player2": ["Tailwind", "Phys Fire", "Fire", "Fire", "Fire", "Fire"],
-      "player3": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"],
-      "player4": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": ["Sun", "Phys Fire", "Fire", "Fire", "Tailwind", "Fire"],
+          "player2": ["Tailwind", "Phys Fire", "Fire", "Fire", "Fire", "Fire"],
+          "player3": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"],
+          "player4": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"]
+        },
+        "strategy": "",
+        "recommended": [{}, {}],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Banette",
     "stars": 3,
+    "drops": [null],
     "locations": {
       "kanto": {
         "area": "Route 7"
       },
       "johto": {
-        "area": "Dark Cave (Need Surf and Flash)"
+        "area": "Dark Cave",
+        "requirements": ["Surf", "Flash"]
       },
       "hoenn": {
-        "area": "Route 123, Mt. Pyre side (Need Surf)"
+        "area": "Route 123, Mt. Pyre side",
+        "requirements": ["Surf"]
       },
       "sinnoh": {
-        "area": "Route 225 (Need Surf)"
+        "area": "Route 225",
+        "requirements": ["Surf"]
       },
       "unova": {
         "area": "Giant Chasm"
@@ -70,59 +87,84 @@
       "ability": "Curse Body",
       "heldItem": "Sitrus Berry",
       "thresholds": {
-        "100": {
-          "effect": "Stat Drop Barrier"
-        },
-        "75": {
-          "effect": "Cotton Guard"
+        "20": {
+          "effect": "Powder Jar"
         },
         "50": {
           "effect": "Calm Mind"
         },
-        "20": {
-          "effect": "Powder Jar"
+        "75": {
+          "effect": "Cotton Guard"
+        },
+        "100": {
+          "effect": "Stat Drop Barrier"
         }
       }
     },
     "moves": ["Ice Punch", "Dark Pulse", "Thunderbolt", "Shadow Claw"],
-    "roles": {
-      "player1": [
-        "Sun & Incinerate",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower"
-      ],
-      "player2": [
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower"
-      ],
-      "player3": [
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower"
-      ],
-      "player4": [
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower",
-        "Flamethrower"
-      ]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "",
+        "roles": {
+          "player1": [
+            "Sun & Incinerate",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower"
+          ],
+          "player2": [
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower"
+          ],
+          "player3": [
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower"
+          ],
+          "player4": [
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower",
+            "Flamethrower"
+          ]
+        },
+        "strategy": "",
+        "recommended": [
+          {
+            "name": "Ninetales",
+            "player": "Player 1",
+            "order": 1,
+            "item": "Heat Rock",
+            "ability": "Drought",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": ["Incinerate", "Safeguard", "Weather Ball", "Overheat"]
+          }
+        ],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Hypno",
     "stars": 3,
+    "drops": [null],
     "locations": {
       "kanto": {
         "area": "Berry Forest"
@@ -141,61 +183,75 @@
       }
     },
     "mechanics": {
+      "ability": null,
       "heldItem": null,
       "thresholds": {
-        "100": {
-          "effect": "Reflect"
-        },
-        "75": {
-          "effect": "Hypnosis"
+        "33": {
+          "effect": "Inverted Space (Type Inversion)"
         },
         "60": {
           "effect": "Trick Room"
         },
-        "33": {
-          "effect": "Inverted Space (Type Inversion)"
+        "75": {
+          "effect": "Hypnosis"
+        },
+        "100": {
+          "effect": "Reflect"
         }
       }
     },
     "moves": ["Psychic", "Foul Play", "Focus Blast", "Grass Knot"],
-    "roles": {
-      "player1": [
-        "Sun & Safeguard",
-        "Sucker Punch",
-        "Sucker Punch",
-        "Flare Blitz",
-        "Fighting",
-        "Fighting"
-      ],
-      "player2": [
-        "Defog",
-        "Sucker Punch",
-        "Sucker Punch",
-        "Flare Blitz",
-        "Fighting",
-        "Fighting"
-      ],
-      "player3": [
-        "Flare Blitz",
-        "Sucker Punch",
-        "Sucker Punch",
-        "Flare Blitz",
-        "Fighting",
-        "Fighting"
-      ],
-      "player4": [
-        "Flare Blitz",
-        "Trick Room",
-        "Sucker Punch",
-        "Flare Blitz",
-        "Fighting",
-        "Fighting"
-      ]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": [
+            "Sun & Safeguard",
+            "Sucker Punch",
+            "Sucker Punch",
+            "Flare Blitz",
+            "Fighting",
+            "Fighting"
+          ],
+          "player2": [
+            "Defog",
+            "Sucker Punch",
+            "Sucker Punch",
+            "Flare Blitz",
+            "Fighting",
+            "Fighting"
+          ],
+          "player3": [
+            "Flare Blitz",
+            "Sucker Punch",
+            "Sucker Punch",
+            "Flare Blitz",
+            "Fighting",
+            "Fighting"
+          ],
+          "player4": [
+            "Flare Blitz",
+            "Trick Room",
+            "Sucker Punch",
+            "Flare Blitz",
+            "Fighting",
+            "Fighting"
+          ]
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Golurk",
     "stars": 3,
+    "drops": [null],
     "locations": {
       "kanto": {
         "area": "Victory Road"
@@ -214,40 +270,54 @@
       }
     },
     "mechanics": {
+      "ability": null,
       "heldItem": "?",
       "thresholds": {
-        "100": {
-          "effect": "Stealth Rock"
-        },
-        "75": {
-          "effect": "Rock Polish"
+        "30": {
+          "effect": "Gravity"
         },
         "60": {
           "effect": "Omniboost"
         },
-        "30": {
-          "effect": "Gravity"
+        "75": {
+          "effect": "Rock Polish"
+        },
+        "100": {
+          "effect": "Stealth Rock"
         }
       }
     },
     "moves": ["Drain Punch", "Earthquake", "Ice Punch", "Shadow Punch"],
-    "roles": {
-      "player1": [
-        "Drizzle & Tailwind",
-        "Water",
-        "Water",
-        "Water",
-        "Water",
-        "Water"
-      ],
-      "player2": ["Defog", "Water", "Water", "Water", "Water", "Water"],
-      "player3": ["Water", "Water", "Water", "Water", "Tailwind", "Water"],
-      "player4": ["Water", "Water", "Water", "Water", "Water", "Water"]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": [
+            "Drizzle & Tailwind",
+            "Water",
+            "Water",
+            "Water",
+            "Water",
+            "Water"
+          ],
+          "player2": ["Defog", "Water", "Water", "Water", "Water", "Water"],
+          "player3": ["Water", "Water", "Water", "Water", "Tailwind", "Water"],
+          "player4": ["Water", "Water", "Water", "Water", "Water", "Water"]
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Scolipede",
     "stars": 4,
+    "drops": [null],
     "locations": {
       "kanto": {
         "area": "Island 6"
@@ -269,38 +339,65 @@
       "ability": "Speed Boost",
       "heldItem": "Sitrus Berry",
       "thresholds": {
-        "100": {
-          "effect": "Spikes"
-        },
-        "75": {
-          "effect": "+2 Defense"
+        "20": {
+          "effect": "Omniboost"
         },
         "40": {
           "effect": "+2 Attack"
         },
-        "20": {
-          "effect": "Omniboost"
+        "75": {
+          "effect": "+2 Defense"
+        },
+        "100": {
+          "effect": "Spikes"
         }
       }
     },
     "moves": ["Rock Slide", "Earthquake", "Megahorn", "Aqua Tail"],
-    "roles": {
-      "player1": [
-        "Sun & Incinerate",
-        "Special Fire",
-        "Haze",
-        "Fire",
-        "Fire",
-        "Fire"
-      ],
-      "player2": ["Tailwind", "Special Fire", "Fire", "Fire", "Fire", "Fire"],
-      "player3": ["Fire", "Special Fire", "Fire", "Fire", "Tailwind", "Fire"],
-      "player4": ["Fire", "Special Fire", "Fire", "Fire", "Haze", "Fire"]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": [
+            "Sun & Incinerate",
+            "Special Fire",
+            "Haze",
+            "Fire",
+            "Fire",
+            "Fire"
+          ],
+          "player2": [
+            "Tailwind",
+            "Special Fire",
+            "Fire",
+            "Fire",
+            "Fire",
+            "Fire"
+          ],
+          "player3": [
+            "Fire",
+            "Special Fire",
+            "Fire",
+            "Fire",
+            "Tailwind",
+            "Fire"
+          ],
+          "player4": ["Fire", "Special Fire", "Fire", "Fire", "Haze", "Fire"]
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Mandibuzz",
     "stars": 4,
+    "drops": [null],
     "locations": {
       "kanto": {
         "area": "Sevault Canyon Island 7"
@@ -319,61 +416,76 @@
       }
     },
     "mechanics": {
+      "ability": null,
+      "heldItem": null,
       "notes": "Swaps every Pokémon at end of turn, dealing a percentage of current HP.",
       "thresholds": {
-        "100": {
-          "effect": "High Winds"
-        },
-        "75": {
+        "25": {
           "effect": "Nasty Plot"
         },
         "50": {
           "effect": "Tailwind"
         },
-        "25": {
+        "75": {
           "effect": "Nasty Plot"
+        },
+        "100": {
+          "effect": "High Winds"
         }
       }
     },
     "moves": ["Air Cutter", "Dark Pulse", "Heat Wave", "Snarl"],
-    "roles": {
-      "player1": [
-        "Rain & Tailwind",
-        "Thunder",
-        "Thunder",
-        "Thunder",
-        "Thunder",
-        "Thunder"
-      ],
-      "player2": [
-        "Thunder",
-        "Thunder",
-        "Non-Prankster Haze",
-        "Thunder",
-        "Thunder",
-        "Thunder"
-      ],
-      "player3": [
-        "Thunder",
-        "Thunder",
-        "Thunder",
-        "Thunder",
-        "Tailwind",
-        "Thunder"
-      ],
-      "player4": [
-        "Thunder",
-        "Thunder",
-        "Thunder",
-        "Thunder",
-        "Non-Prankster Haze",
-        "Thunder"
-      ]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": [
+            "Rain & Tailwind",
+            "Thunder",
+            "Thunder",
+            "Thunder",
+            "Thunder",
+            "Thunder"
+          ],
+          "player2": [
+            "Thunder",
+            "Thunder",
+            "Non-Prankster Haze",
+            "Thunder",
+            "Thunder",
+            "Thunder"
+          ],
+          "player3": [
+            "Thunder",
+            "Thunder",
+            "Thunder",
+            "Thunder",
+            "Tailwind",
+            "Thunder"
+          ],
+          "player4": [
+            "Thunder",
+            "Thunder",
+            "Thunder",
+            "Thunder",
+            "Non-Prankster Haze",
+            "Thunder"
+          ]
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Absol",
     "stars": 4,
+    "drops": [null],
     "locations": {
       "kanto": {
         "area": "Route 10"
@@ -392,113 +504,150 @@
       }
     },
     "mechanics": {
+      "ability": null,
+      "heldItem": null,
       "thresholds": {
-        "100": {
-          "effect": "Bad Luck"
-        },
-        "75": {
-          "effect": "Thunder Wave"
+        "40": {
+          "effect": "Wish"
         },
         "50": {
           "effect": "Swords Dance"
         },
-        "40": {
-          "effect": "Wish"
+        "75": {
+          "effect": "Thunder Wave"
+        },
+        "100": {
+          "effect": "Bad Luck"
         }
       }
     },
     "moves": ["Psycho Cut", "Close Combat", "Night Slash", "Rock Slide"],
-    "roles": {
-      "player1": [
-        "Tailwind",
-        "Fighting",
-        "Fighting",
-        "Heal Block",
-        "Fighting",
-        "Fighting"
-      ],
-      "player2": [
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Tailwind",
-        "Fighting"
-      ],
-      "player3": [
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting"
-      ],
-      "player4": [
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting",
-        "Fighting"
-      ]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": [
+            "Tailwind",
+            "Fighting",
+            "Fighting",
+            "Heal Block",
+            "Fighting",
+            "Fighting"
+          ],
+          "player2": [
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Tailwind",
+            "Fighting"
+          ],
+          "player3": [
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting"
+          ],
+          "player4": [
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting",
+            "Fighting"
+          ]
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Darkrai",
     "stars": 4,
+    "drops": [null],
     "locations": {
       "sinnoh": {
         "area": "Newmoon Island (accessible after completing all previous raids via the Dream Orb)"
       }
     },
     "mechanics": {
+      "ability": null,
+      "heldItem": null,
       "thresholds": {
-        "100": {
+        "25": {
+          "effect": "Invert typing"
+        },
+        "40": {
           "effect": "Dark Void"
         },
         "70": {
           "effect": "Nasty Plot"
         },
-        "40": {
+        "100": {
           "effect": "Dark Void"
-        },
-        "25": {
-          "effect": "Invert typing"
         }
       }
     },
     "moves": [],
-    "roles": {
-      "player1": [
-        "Chesto/Vital + CC / SS / HJK",
-        "CC",
-        "CC / SS",
-        "CC",
-        "Tailwind",
-        "Psycho Cut"
-      ],
-      "player2": [
-        "Chesto/Vital + CC / SS / HJK",
-        "CC",
-        "CC / SS",
-        "CC",
-        "Fast CC / SS",
-        "Psycho Cut"
-      ],
-      "player3": [
-        "Chesto/Vital + CC / SS / HJK",
-        "CC",
-        "CC",
-        "CC",
-        "Fast CC / SS",
-        "Psycho Cut"
-      ],
-      "player4": ["Tailwind", "CC", "CC", "CC", "Slow Psycho Cut", "Psycho Cut"]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": [
+            "Chesto/Vital + CC / SS / HJK",
+            "CC",
+            "CC / SS",
+            "CC",
+            "Tailwind",
+            "Psycho Cut"
+          ],
+          "player2": [
+            "Chesto/Vital + CC / SS / HJK",
+            "CC",
+            "CC / SS",
+            "CC",
+            "Fast CC / SS",
+            "Psycho Cut"
+          ],
+          "player3": [
+            "Chesto/Vital + CC / SS / HJK",
+            "CC",
+            "CC",
+            "CC",
+            "Fast CC / SS",
+            "Psycho Cut"
+          ],
+          "player4": [
+            "Tailwind",
+            "CC",
+            "CC",
+            "CC",
+            "Slow Psycho Cut",
+            "Psycho Cut"
+          ]
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Darkrai",
     "stars": 5,
+    "drops": [null],
     "locations": {
       "sinnoh": {
         "area": "Newmoon Island (accessible after completing all previous raids via the Dream Orb)"
@@ -508,26 +657,28 @@
       "ability": "Bad Dreams",
       "heldItem": "Dread Plate",
       "thresholds": {
-        "100": {
-          "effect": "Dark Void"
-        },
-        "66": {
-          "effect": "Nasty Plot"
-        },
-        "50": {
-          "effect": "Inverted Space (Type Inversion)"
+        "25": {
+          "effect": "Move Flip"
         },
         "33": {
           "effect": "Dark Void"
         },
-        "25": {
-          "effect": "Move Flip"
+        "50": {
+          "effect": "Inverted Space (Type Inversion)"
+        },
+        "66": {
+          "effect": "Nasty Plot"
+        },
+        "100": {
+          "effect": "Dark Void"
         }
       }
     },
     "moves": ["Dark Pulse", "Psyshock", "Snarl", "Focus Blast"],
     "teamStrategies": [
       {
+        "id": "standard",
+        "label": "",
         "roles": {
           "player1": [
             "Chesto/Vital + CC / SS / HJK",
@@ -562,6 +713,7 @@
             "Medicham Psychic"
           ]
         },
+        "strategy": "",
         "recommended": [
           {
             "name": "Xatu",
@@ -575,17 +727,26 @@
             "moves": ["Tailwind", "Haze", "Defog"]
           },
           {
-            "name":"Gallade",
-            "player":"Player 4",
-            "order":2,
-            "item":"Choice Band",
-            "ability":"Sharpness",
-            "nature":"Adamant",
-            "evs":"252 Atk / 252 Spe",
-            "ivs":"31 Atk / 31 Spe",
-            "moves":["Sacred Sword", "Psycho Cut", "Aura Sphere", "Shadow Sneak"]
+            "name": "Gallade",
+            "player": "Player 4",
+            "order": 2,
+            "item": "Choice Band",
+            "ability": "Sharpness",
+            "nature": "Adamant",
+            "evs": "252 Atk / 252 Spe",
+            "ivs": "31 Atk / 31 Spe",
+            "moves": [
+              "Sacred Sword",
+              "Psycho Cut",
+              "Aura Sphere",
+              "Shadow Sneak"
+            ]
           }
-        ]
+        ],
+        "links": {
+          "guide": null,
+          "video": null
+        }
       }
     ]
   },
@@ -603,23 +764,23 @@
       "ability": "Flash Fire",
       "heldItem": "Leftovers",
       "thresholds": {
-        "100": {
-          "effect": "Magmapool"
-        },
-        "80": {
-          "effect": "Stealth Rock"
-        },
-        "67": {
-          "effect": "Roar"
-        },
-        "50": {
-          "effect": "Iron Defense"
+        "25": {
+          "effect": "Barrier"
         },
         "40": {
           "effect": "Adaptation"
         },
-        "25": {
-          "effect": "Barrier"
+        "50": {
+          "effect": "Iron Defense"
+        },
+        "67": {
+          "effect": "Roar"
+        },
+        "80": {
+          "effect": "Stealth Rock"
+        },
+        "100": {
+          "effect": "Magmapool"
         }
       }
     },
@@ -1542,12 +1703,44 @@
             "ivs": "5x31",
             "moves": ["Brine"]
           }
-        ]
+        ],
+        "links": {
+          "guide": "Da definire",
+          "video": "Da definire"
+        }
       }
     ]
   },
   {
     "name": "Cresselia",
-    "stars": 6
+    "stars": 6,
+    "drops": [null],
+    "locations": {
+      "sinnoh": {
+        "area": "Fullmoon Island",
+        "requirements": [null]
+      }
+    },
+    "mechanics": {
+      "ability": null,
+      "heldItem": null,
+      "thresholds": null
+    },
+    "moves": ["Thunderbolt", "Power Gem", "Psychic", "Shadow Ball"],
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Bisharp Strategy",
+        "roles": {
+          "player1": []
+        },
+        "strategy": "",
+        "recommended": [],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   }
 ]

@@ -31,61 +31,62 @@ const StepForm = ({ step, onChange }) => {
   };
 
   return (
-    <div
-      style={{
-        border: "1px solid #ccc",
-        padding: "10px",
-        marginBottom: "10px",
-      }}
-    >
+    <div className="step-form-container">
       <label>
-        Type:{" "}
+        Type:
         <input
           type="text"
           value={step.type || ""}
+          placeholder="e.g. main, step, warning..."
           onChange={(e) => handleFieldChange("type", e.target.value)}
         />
       </label>
-      <br />
 
       <label>
-        Player Action:{" "}
+        Player Action:
         <input
           type="text"
           value={step.player || ""}
+          placeholder="Describe the action..."
           onChange={(e) => handleFieldChange("player", e.target.value)}
         />
       </label>
-      <br />
 
       <label>
-        Warning:{" "}
+        Warning / Note:
         <input
           type="text"
           value={step.warning || ""}
+          placeholder="Optional warning..."
           onChange={(e) => handleFieldChange("warning", e.target.value)}
         />
       </label>
 
-      <div style={{ marginTop: "10px" }}>
-        <h4>Variations:</h4>
+      {/* Sezione Variazioni */}
+      <div className="variation-list">
+        <h4>Variations</h4>
         {step.variations?.map((variation, i) => (
           <div key={i}>
             <VariationForm
               variation={variation}
               onChange={(updated) => handleVariationChange(i, updated)}
             />
-            <button
-              className="btn btn-danger"
-              onClick={() => removeVariation(i)}
-            >
-              ❌ Remove Variation
-            </button>
+            <div className="form-actions" style={{ marginBottom: "15px" }}>
+              <button
+                className="btn btn-danger"
+                onClick={() => removeVariation(i)}
+              >
+                ❌ Remove Variation
+              </button>
+            </div>
           </div>
         ))}
-        <button className="btn btn-success" onClick={addVariation}>
-          ➕ Add Variation
-        </button>
+
+        <div className="form-actions">
+          <button className="btn btn-success" onClick={addVariation}>
+            ➕ Add Variation
+          </button>
+        </div>
       </div>
     </div>
   );

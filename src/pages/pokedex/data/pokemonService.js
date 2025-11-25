@@ -1,4 +1,4 @@
-import pokedex from "@/pages/pokedex/data/pokedex.json";
+import pokedex from "@/data/pokedex.json";
 import {
   generateDualTypeGradient,
   getDualShadow,
