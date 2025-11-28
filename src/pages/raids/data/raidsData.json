@@ -22,6 +22,7 @@
       }
     },
     "mechanics": {
+      "ability": "Compound Eyes",
       "heldItem": "Wise Glasses",
       "thresholds": {
         "100": {
@@ -39,12 +40,36 @@
       }
     },
     "moves": ["Discharge", "Bug Buzz", "Giga Drain", "Thunder"],
-    "roles": {
-      "player1": ["Sun", "Phys Fire", "Fire", "Fire", "Tailwind", "Fire"],
-      "player2": ["Tailwind", "Phys Fire", "Fire", "Fire", "Fire", "Fire"],
-      "player3": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"],
-      "player4": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"]
-    }
+    "teamStrategies": [
+      {
+        "id": "standard",
+        "label": "Standard Strategy",
+        "roles": {
+          "player1": ["Sun", "Phys Fire", "Fire", "Fire", "Tailwind", "Fire"],
+          "player2": ["Tailwind", "Phys Fire", "Fire", "Fire", "Fire", "Fire"],
+          "player3": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"],
+          "player4": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"]
+        },
+        "strategy": "",
+        "recommended": [
+          {
+            "name": "Ninetales",
+            "player": "Player 1",
+            "order": "1",
+            "item": "Cheri Berry",
+            "ability": "Drought",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": []
+          }
+        ],
+        "links": {
+          "guide": null,
+          "video": null
+        }
+      }
+    ]
   },
   {
     "name": "Banette",
