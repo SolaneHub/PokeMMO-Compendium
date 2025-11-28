@@ -22,7 +22,7 @@
       }
     },
     "mechanics": {
-      "ability": null,
+      "ability": "Compound Eyes",
       "heldItem": "Wise Glasses",
       "thresholds": {
         "20": {
@@ -51,7 +51,19 @@
           "player4": ["Fire", "Phys Fire", "Defog", "Fire", "Fire", "Fire"]
         },
         "strategy": "",
-        "recommended": [{}, {}],
+        "recommended": [
+          {
+            "name": "Ninetales",
+            "player": "Player 1",
+            "order": "1",
+            "item": "Cheri Berry",
+            "ability": "Drought",
+            "nature": "Modest",
+            "evs": "252 SpA / 252 Spe",
+            "ivs": "31 SpA / 31 Spe",
+            "moves": []
+          }
+        ],
         "links": {
           "guide": null,
           "video": null
