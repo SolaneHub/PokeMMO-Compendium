@@ -2,10 +2,10 @@ import "./EditorPage.css";
 
 import { useEffect, useState } from "react";
 
-// Importiamo i 4 Editor Specifici
+// Importiamo i 5 Editor Specifici
 import EliteFourEditor from "./components/EliteFourEditor";
-import PickupEditor from "./components/PickupEditor"; // Nuovo
-import PokedexEditor from "./components/PokedexEditor"; // Nuovo
+import PickupEditor from "./components/PickupEditor";
+import PokedexEditor from "./components/PokedexEditor";
 import RaidsEditor from "./components/RaidsEditor";
 import RedEditor from "./components/RedEditor";
 import UniversalJsonEditor from "./components/UniversalJsonEditor"; // Fallback
@@ -16,11 +16,11 @@ const EditorPage = () => {
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // CONFIGURAZIONE: Associa ogni file al suo Editor specifico
+  // CONFIGURAZIONE: Associa il nome esatto del file JSON al suo Editor
   const EDITOR_MAPPING = {
     "eliteFourData.json": EliteFourEditor,
     "raidsData.json": RaidsEditor,
-    "pokedexData.json": PokedexEditor,
+    "pokedex.json": PokedexEditor, // <--- CORRETTO: era "pokedexData.json"
     "pickupData.json": PickupEditor,
     "redData.json": RedEditor,
   };
@@ -31,9 +31,8 @@ const EditorPage = () => {
       .then((res) => res.json())
       .then((data) => {
         setFileList(data);
-        // Cerca di selezionare eliteFourData come default se esiste
-        const defaultFile =
-          data.find((f) => f === "eliteFourData.json") || data[0];
+        // Se c'è pokedex.json, prova a selezionarlo, altrimenti il primo
+        const defaultFile = data.find((f) => f === "pokedex.json") || data[0];
         if (defaultFile) setSelectedFileName(defaultFile);
       })
       .catch((err) => console.error("Error fetching file list:", err));
@@ -106,8 +105,8 @@ const EditorPage = () => {
           Editor in uso: <br />
           <strong style={{ color: "#007bff" }}>
             {EDITOR_MAPPING[selectedFileName]
-              ? selectedFileName.replace(".json", "")
-              : "Universal"}
+              ? selectedFileName.replace(".json", "") // Toglie .json per estetica
+              : "Universal (Default)"}
           </strong>
         </div>
 
