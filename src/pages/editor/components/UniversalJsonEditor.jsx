@@ -1,6 +1,5 @@
 import "./UniversalJsonEditor.css";
 
-
 const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
   // --- 1. GESTIONE ARRAY ---
   if (Array.isArray(data)) {

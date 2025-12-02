@@ -1,4 +1,3 @@
-
 import UniversalJsonEditor from "./UniversalJsonEditor";
 
 const PickupEditor = ({ data, onChange }) => {
