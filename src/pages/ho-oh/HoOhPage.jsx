@@ -139,7 +139,6 @@ function HoOhPage() {
 
   return (
     <div className="container">
-      
       <div className="cards-container">
         {allTeamNames.map((teamName) => (
           <div
@@ -152,7 +151,6 @@ function HoOhPage() {
         ))}
       </div>
 
-      
       {selectedTeam && (
         <div className="cards-container">
           {availableRegions.map((region) => (
@@ -166,7 +164,6 @@ function HoOhPage() {
         </div>
       )}
 
-      
       {selectedRegion && filteredHoOh.length > 0 && (
         <div className="cards-container">
           {filteredHoOh.map((hoOh, i) => {
@@ -188,7 +185,6 @@ function HoOhPage() {
         </div>
       )}
 
-      
       {selectedHoOh && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
@@ -208,7 +204,6 @@ function HoOhPage() {
         </div>
       )}
 
-      
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div className="overlay" onClick={closePokemonDetails}>
           <div

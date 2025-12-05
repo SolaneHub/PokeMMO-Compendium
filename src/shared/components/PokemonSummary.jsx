@@ -115,7 +115,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
   return (
     <div className="summary-overlay" onClick={onClose}>
       <div className="summary-card" onClick={(e) => e.stopPropagation()}>
-        
         <div
           className="summary-header"
           style={{ background: pokemonData.background }}
@@ -129,7 +128,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           </button>
         </div>
 
-        
         <div className="summary-hero">
           <button className="play-cry-btn">🔊 Cry</button>
           <img
@@ -149,7 +147,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           </div>
         </div>
 
-        
         <div className="summary-tabs">
           {tabs.map((tab) => (
             <button
@@ -162,7 +159,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           ))}
         </div>
 
-        
         <div className="summary-body">
           {activeTab === "Overview" && (
             <>

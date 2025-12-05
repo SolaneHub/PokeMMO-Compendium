@@ -194,7 +194,6 @@ const RaidsEditor = ({ data, onChange }) => {
             )}
 
             {activeTab === "mechanics" && (
-              
               <UniversalJsonEditor
                 data={raid.mechanics || {}}
                 onChange={(v) => handleRaidChange("mechanics", v)}

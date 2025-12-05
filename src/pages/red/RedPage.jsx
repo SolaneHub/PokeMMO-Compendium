@@ -122,7 +122,6 @@ function RedPage() {
     <div className="container">
       <title>Compendium: Red Fight</title>
 
-      
       <div className="cards-container">
         {allTeamNames.map((teamName) => (
           <div
@@ -135,7 +134,6 @@ function RedPage() {
         ))}
       </div>
 
-      
       {selectedTeam && (
         <div className="cards-container">
           {availableRegions.map((region) => (
@@ -149,7 +147,6 @@ function RedPage() {
         </div>
       )}
 
-      
       {selectedRegion && filteredRed.length > 0 && (
         <div className="cards-container">
           {filteredRed.map((red, i) => {
@@ -171,7 +168,6 @@ function RedPage() {
         </div>
       )}
 
-      
       {selectedRed && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
@@ -191,7 +187,6 @@ function RedPage() {
         </div>
       )}
 
-      
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div
           className="overlay"
@@ -201,7 +196,6 @@ function RedPage() {
             className="pokemon-details-card"
             onClick={(e) => e.stopPropagation()}
           >
-            
             <div
               className="pokemon-details-title-wrapper"
               style={{ background: detailsTitleBackground }}
@@ -210,14 +204,12 @@ function RedPage() {
             </div>
 
             <div className="menu-content">
-              
               {strategyHistory.length > 0 && (
                 <button className="back-button" onClick={handleBackClick}>
                   ⬅️ Back
                 </button>
               )}
 
-              
               {currentStrategyView.length === 0 ? (
                 <p>No strategy available.</p>
               ) : (

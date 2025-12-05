@@ -88,7 +88,6 @@ const PokedexEditor = ({ data, onChange }) => {
     <div style={{ display: "flex", height: "100%", gap: "20px" }}>
       <title>Editor: Pokédex</title>
 
-      
       <div
         style={{
           width: "250px",
@@ -108,7 +107,6 @@ const PokedexEditor = ({ data, onChange }) => {
           style={{ marginBottom: "10px" }}
         />
         <div style={{ overflowY: "auto", flex: 1 }}>
-          
           {filteredList.map((p, index) => (
             <div
               key={p.id ?? index}
@@ -147,11 +145,9 @@ const PokedexEditor = ({ data, onChange }) => {
         </button>
       </div>
 
-      
       <div style={{ flex: 1, overflowY: "auto", paddingRight: "10px" }}>
         {pokemon ? (
           <div className="step-card" style={{ padding: 0, overflow: "hidden" }}>
-            
             <div
               style={{
                 padding: "15px 20px",
@@ -180,7 +176,6 @@ const PokedexEditor = ({ data, onChange }) => {
               </button>
             </div>
 
-            
             <div
               style={{
                 display: "flex",
@@ -206,7 +201,6 @@ const PokedexEditor = ({ data, onChange }) => {
             </div>
 
             <div style={{ padding: "20px" }}>
-              
               {activeTab === "info" && (
                 <div className="fade-in">
                   <div
@@ -289,7 +283,6 @@ const PokedexEditor = ({ data, onChange }) => {
                     </div>
                   </div>
 
-                  
                   <div
                     style={{
                       display: "grid",
@@ -386,7 +379,6 @@ const PokedexEditor = ({ data, onChange }) => {
                 </div>
               )}
 
-              
               {activeTab === "stats" && (
                 <div className="fade-in">
                   <h4
@@ -575,7 +567,6 @@ const PokedexEditor = ({ data, onChange }) => {
                 </div>
               )}
 
-              
               {activeTab === "moves" && (
                 <div className="fade-in">
                   <div
@@ -610,7 +601,6 @@ const PokedexEditor = ({ data, onChange }) => {
                   </div>
 
                   <div style={{ display: "grid", gap: "8px" }}>
-                    
                     <div
                       style={{
                         display: "grid",
@@ -726,10 +716,8 @@ const PokedexEditor = ({ data, onChange }) => {
                 </div>
               )}
 
-            
               {activeTab === "extra" && (
                 <div className="fade-in">
-                
                   <div style={{ marginBottom: "30px" }}>
                     <div
                       style={{
@@ -827,7 +815,6 @@ const PokedexEditor = ({ data, onChange }) => {
                     ))}
                   </div>
 
-                
                   <div>
                     <div
                       style={{
