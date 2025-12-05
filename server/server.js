@@ -6,22 +6,16 @@ import path from "path";
 const app = express();
 const PORT = 3001;
 
-// Middlewares
 app.use(cors());
-app.use(express.json({ limit: "50mb" })); // Aumentato il limite per file grossi
+app.use(express.json({ limit: "50mb" }));
 
-// Directory dei dati
-// process.cwd() punta alla cartella da cui lanci il comando 'node server.js' (la root del progetto)
 const DATA_DIR = path.join(process.cwd(), "src/data");
 
-// Helper per ottenere il percorso sicuro
 const getFilePath = (fileName) => {
-  // Sicurezza basilare per evitare path traversal
   const safeName = path.basename(fileName);
   return path.join(DATA_DIR, safeName);
 };
 
-// GET → Lista dei file JSON disponibili
 app.get("/api/files", (req, res) => {
   try {
     if (!fs.existsSync(DATA_DIR)) {
@@ -37,7 +31,6 @@ app.get("/api/files", (req, res) => {
   }
 });
 
-// GET → Leggere un file specifico
 app.get("/api/data", (req, res) => {
   const fileName = req.query.file;
   if (!fileName) {
@@ -58,7 +51,6 @@ app.get("/api/data", (req, res) => {
   }
 });
 
-// POST → Salvare un file specifico
 app.post("/api/data", (req, res) => {
   const fileName = req.query.file;
   if (!fileName) {
@@ -69,7 +61,6 @@ app.post("/api/data", (req, res) => {
     const newData = req.body;
     const filePath = getFilePath(fileName);
 
-    // Scrivi i nuovi dati
     fs.writeFileSync(filePath, JSON.stringify(newData, null, 2), "utf-8");
     res.json({
       success: true,

@@ -1,8 +1,4 @@
-/*
- * -------------------------------------------
- * GLOBAL & ANIMATIONS (Always at the top)
- * -------------------------------------------
- */
+
 
 @keyframes overlayFade {
   from {
@@ -36,12 +32,6 @@
   }
 }
 
-/*
- * -------------------------------------------
- * 1. SUMMARY OVERLAY & CARD (Main Containers)
- * -------------------------------------------
- */
-
 .summary-overlay {
   align-items: center;
   animation: overlayFade 0.3s ease-out forwards;
@@ -73,11 +63,6 @@
   width: 100%;
 }
 
-/*
- * -------------------------------------------
- * 2. SUMMARY HEADER
- * -------------------------------------------
- */
 
 .summary-header {
   align-items: center;
@@ -127,11 +112,6 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-/*
- * -------------------------------------------
- * 3. SUMMARY HERO (Sprite, Cry, Types)
- * -------------------------------------------
- */
 
 .summary-hero {
   align-items: center;
@@ -203,11 +183,7 @@
   font-weight: 500;
 }
 
-/*
- * -------------------------------------------
- * 4. SUMMARY TABS (Navigation)
- * -------------------------------------------
- */
+
 
 .summary-tabs {
   background: #1f1f23;
@@ -254,11 +230,6 @@
   width: 100%;
 }
 
-/*
- * -------------------------------------------
- * 5. SUMMARY BODY (Tab Content Container)
- * -------------------------------------------
- */
 
 .summary-body {
   background-color: #24252a;
@@ -296,11 +267,7 @@
   text-align: center;
 }
 
-/*
- * -------------------------------------------
- * 6. OVERVIEW TAB
- * -------------------------------------------
- */
+
 
 .desc-text {
   background: #2a2b30;
@@ -314,7 +281,7 @@
   padding: 12px;
 }
 
-/* --- Abilities --- */
+
 .ability-row {
   display: flex;
   gap: 10px;
@@ -343,7 +310,7 @@
   border-color: #d63031 !important;
 }
 
-/* --- Info Grid --- */
+
 .info-grid-compact {
   display: grid;
   gap: 8px;
@@ -409,13 +376,8 @@
   padding: 2px 8px;
 }
 
-/*
- * -------------------------------------------
- * 7. STATS TAB
- * -------------------------------------------
- */
 
-/* --- Base Stats --- */
+
 .stat-row {
   align-items: center;
   display: flex;
@@ -451,7 +413,7 @@
   height: 100%;
 }
 
-/* --- Type Defenses --- */
+
 .defense-grid {
   background: #2a2b30;
   border: 1px solid #3a3b3d;
@@ -475,18 +437,18 @@
   text-align: right;
   width: 35px;
 
-  /* Larghezza fissa per allineare */
+  
 }
 
 .defense-label.bad {
   color: #ff7675;
-} /* Rosso per debolezze */
+} 
 .defense-label.good {
   color: #55efc4;
-} /* Verde acqua per resistenze */
+} 
 .defense-label.zero {
   color: #a29bfe;
-} /* Viola per immunità */
+} 
 
 .defense-types {
   display: flex;
@@ -500,14 +462,9 @@
   font-size: 0.7rem;
   padding: 3px 10px;
 
-  /* Rimuove ombra per pulizia */
+  
 }
 
-/*
- * -------------------------------------------
- * 8. MOVES TAB
- * -------------------------------------------
- */
 
 .moves-title-row {
   align-items: center;
@@ -659,7 +616,7 @@
   text-transform: uppercase;
 }
 
-/* Move Type Colors (partial list provided in original file) */
+
 .type-text-normal {
   color: #a8a878;
 }
@@ -715,11 +672,6 @@
   width: 45px;
 }
 
-/*
- * -------------------------------------------
- * 9. LOCATIONS TAB
- * -------------------------------------------
- */
 
 .locations-container-grid {
   background-color: #1e1e1e;
@@ -814,11 +766,7 @@
   text-transform: uppercase;
 }
 
-/*
- * -------------------------------------------
- * 10. EVOLUTIONS TAB
- * -------------------------------------------
- */
+
 
 .evolution-chain {
   align-items: center;
@@ -897,11 +845,6 @@
   opacity: 0.8;
 }
 
-/*
- * -------------------------------------------
- * Z. MEDIA QUERIES (At the end)
- * -------------------------------------------
- */
 
 @media (min-width: 400px) {
   .evolution-chain {

@@ -1,32 +1,24 @@
-/* * ============================================ */
-/* * 1. MAIN CONTAINER (Static Parent)            */
-/* * ============================================ */
 
-/* ? Wraps the entire breeding scheme section */
 .tree-scheme-container {
   align-items: center;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   position: relative;
   width: 100%;
 }
 
-/* * ============================================ */
-/* * 2. LEGEND (Sticky Top)                       */
-/* * ============================================ */
-
-/* ? The sticky header showing color codes */
 .legend-container {
   background-color: transparent;
   display: flex;
   justify-content: center;
   padding: 10px 0 20px 0;
-  position: sticky; /* ! Sticks to top during scroll */
+  position: sticky;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
 }
 
 .legend-items {
@@ -42,7 +34,7 @@
   flex-direction: column;
   gap: 5px;
   text-align: center;
-  width: 90px; /* ! Fixed width for uniform spacing */
+  width: 90px;
 }
 
 .legend-stat-name {
@@ -55,23 +47,25 @@
   width: 100%;
 }
 
-/* * ============================================ */
-/* * 3. SCROLL AREA (Horizontal Scroll)           */
-/* * ============================================ */
 
-/* ? The scrollable viewport for the tree */
+
+
+
+
 .tree-scroll-view {
   box-sizing: border-box;
   display: flex;
-  max-width: 100vw; /* ! Force viewport limit */
-  overflow-x: auto; /* ! Enable horizontal scroll */
+  max-width: 100vw; 
+  overflow-x: auto; 
   overflow-y: hidden;
   padding: 0 20px 20px 20px;
   width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3b3d #24252a; 
   -webkit-overflow-scrolling: touch;
 }
 
-/* * Custom Scrollbar Styling */
+
 .tree-scroll-view::-webkit-scrollbar {
   height: 8px;
 }
@@ -87,20 +81,20 @@
   background: #646cff;
 }
 
-/* * ============================================ */
-/* * 4. TREE GRID STRUCTURE                       */
-/* * ============================================ */
 
-/* ? wrapper that expands based on content width */
+
+
+
+
 .tree-wrapper {
   align-items: flex-end;
   display: flex;
   margin: 0 auto;
-  min-width: max-content; /* ! Prevents shrinking */
+  min-width: max-content; 
   padding-bottom: 20px;
 }
 
-/* ? Main flex column holding rows */
+
 .tree-container {
   align-items: center;
   display: flex;
@@ -111,14 +105,14 @@
   transform-origin: top center;
 }
 
-/* ? Individual horizontal level */
+
 .tree-row {
   display: flex;
   gap: var(--row-gap);
   justify-content: center;
 }
 
-/* ? Container for two parents (A + B) */
+
 .tree-pair {
   display: flex;
   gap: var(--pair-gap);
@@ -126,7 +120,7 @@
   position: relative;
 }
 
-/* ? Wrapper for the circular node */
+
 .tree-node {
   align-items: center;
   display: flex;
@@ -135,11 +129,11 @@
   z-index: 2;
 }
 
-/* * ============================================ */
-/* * 5. CONNECTOR LINES (Pseudo-elements)         */
-/* * ============================================ */
 
-/* ? Horizontal Bridge Line (Between Parents) */
+
+
+
+
 .tree-pair::before {
   background-color: #ffffff;
   content: "";
@@ -155,7 +149,7 @@
   z-index: 0;
 }
 
-/* ? Vertical Stem Line (To Child) */
+
 .tree-pair::after {
   background-color: #ffffff;
   content: "";
@@ -170,7 +164,7 @@
   z-index: 0;
 }
 
-/* ! Hide lines on the last row (No children below) */
+
 .tree-row:last-child .tree-pair::after,
 .tree-row:last-child .tree-pair::before {
   display: none;

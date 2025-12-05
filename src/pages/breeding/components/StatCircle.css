@@ -1,46 +1,41 @@
-/* * ============================================ */
-/* * 1. BASE NODE STYLE                           */
-/* * ============================================ */
-
-/* ? The main circular container for the SVG */
 .tree-stat-circle {
-  background-color: #24252a; /* * Matches background to hide lines behind it */
+  background-color: #24252a; 
   border-radius: 50%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   cursor: pointer;
 
-  /* ! Dynamic Sizing: Falls back to 40px if variable is missing */
+  
   height: var(--node-size, 40px);
   width: var(--node-size, 40px);
 
   position: relative;
 
-  /* ? Animation Configuration */
+  
   transition:
     transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.27),
     opacity 0.3s ease,
     filter 0.3s ease;
 
-  /* ! Layering: Must be above the connection lines */
+  
   z-index: 2;
 }
 
-/* * ============================================ */
-/* * 2. HOVER INTERACTION                         */
-/* * ============================================ */
 
-/* ? Scale up when the parent wrapper is hovered */
+
+
+
+
 .tree-node:hover .tree-stat-circle {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   transform: scale(1.25);
-  z-index: 100; /* ! Pop to front */
+  z-index: 100; 
 }
 
-/* * ============================================ */
-/* * 3. ACTIVE STATE (Selected)                   */
-/* * ============================================ */
 
-/* ? Visual feedback when part of the active path */
+
+
+
+
 .tree-stat-circle.is-active {
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
   opacity: 1;
@@ -50,13 +45,13 @@
   z-index: 50;
 }
 
-/* * ============================================ */
-/* * 4. DIMMED STATE (Inactive)                   */
-/* * ============================================ */
 
-/* ? Visual feedback when NOT part of the active path */
+
+
+
+
 .tree-stat-circle.is-dimmed {
   filter: grayscale(0.8);
-  opacity: 0.2; /* ! Fade out significantly */
+  opacity: 0.2; 
   transform: scale(0.9);
 }

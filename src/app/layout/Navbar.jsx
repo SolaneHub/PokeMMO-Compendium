@@ -1,6 +1,8 @@
 import "./Navbar.css";
 
-function Navbar({ onLinkClick, currentActive }) {
+import { NavLink } from "react-router-dom";
+
+function Navbar() {
   const links = [
     "Elite Four",
     "Ho-Oh",
@@ -12,27 +14,24 @@ function Navbar({ onLinkClick, currentActive }) {
     "Editor",
   ];
 
-  const handleLinkClick = (e, linkName) => {
-    e.preventDefault();
-    const formattedName = linkName.replace(/\s+/g, "");
-    onLinkClick(formattedName);
-  };
-
   return (
     <nav className="navbar">
       <ul className="nav-links">
         {links.sort().map((linkName) => {
-          const formattedId = linkName.replace(/\s+/g, "");
+          const path = linkName
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s+/g, "-");
 
           return (
             <li key={linkName}>
-              <a
-                href={`?section=${formattedId}`}
-                onClick={(e) => handleLinkClick(e, linkName)}
-                className={currentActive === formattedId ? "active" : ""}
+              <NavLink
+                to={`/${path}`}
+                className={({ isActive }) => (isActive ? "active" : "")}
               >
                 {linkName}
-              </a>
+              </NavLink>
             </li>
           );
         })}

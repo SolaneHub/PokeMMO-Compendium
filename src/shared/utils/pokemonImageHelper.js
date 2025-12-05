@@ -1,24 +1,18 @@
-// * Manual mapping for alternative forms that have a specific ID on PokeAPI (usually > 10000)
 const variantIds = {
-  // Castform
   "Castform (Sunny)": 10013,
   "Castform (Rainy)": 10014,
   "Castform (Snowy)": 10015,
-  // Deoxys
   "Deoxys (Attack)": 10001,
   "Deoxys (Defense)": 10002,
   "Deoxys (Speed)": 10003,
-  // Wormadam
-  "Wormadam (Plant)": 413, // Base
+  "Wormadam (Plant)": 413,
   "Wormadam (Sandy)": 10004,
   "Wormadam (Trash)": 10005,
-  // Rotom
   "Heat Rotom": 10008,
   "Wash Rotom": 10009,
   "Frost Rotom": 10010,
   "Fan Rotom": 10011,
   "Mow Rotom": 10012,
-  // Giratina, Shaymin, etc.
   "Giratina (Origin)": 10007,
   "Shaymin (Sky)": 10006,
   "Basculin (Blue-Striped)": 10016,
@@ -30,12 +24,8 @@ const variantIds = {
   "Kyurem (White)": 10023,
   "Keldeo (Resolute)": 10024,
   "Meloetta (Pirouette)": 10018,
-  // Arceus forms (Generic mapping to base for simplicity, or specific if needed)
-  // ? If PokeAPI lacks specific artwork for the type, it will use the base image (493)
 };
 
-// ? Ordered list of STANDARD Pokemon (Gen 1-5) to correctly retrieve National Dex ID.
-// * This ensures we ignore the misaligned IDs in the custom JSON.
 const standardPokemonList = [
   "Bulbasaur",
   "Ivysaur",
@@ -688,35 +678,25 @@ const standardPokemonList = [
   "Genesect",
 ];
 
-/**
- * * Returns the official artwork URL based on name.
- * ? Searches variants first, then the standard list.
- */
 export const getSpriteUrlByName = (name) => {
   const baseUrl =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork";
 
-  // ! 1. Check Variants (e.g., "Deoxys (Attack)" uses specific ID)
   if (variantIds[name]) {
     return `${baseUrl}/${variantIds[name]}.png`;
   }
 
-  // ? 2. Clean name for non-specific forms (e.g., "Arceus (Fire)" uses base image)
   let cleanName = name.split(" (")[0];
 
-  // * Handle special cases of names in custom JSON that differ from standard list
   if (name === "Nidoran♀") cleanName = "Nidoran♀";
   if (name === "Nidoran♂") cleanName = "Nidoran♂";
   if (name === "Basculin (Red-Striped)") cleanName = "Basculin";
 
-  // * 3. Search ID in the Standard Pokemon List
   const index = standardPokemonList.indexOf(cleanName);
 
   if (index !== -1) {
-    // ? The official ID is index + 1 (Bulbasaur is index 0, ID 1)
     return `${baseUrl}/${index + 1}.png`;
   }
 
-  // ! 4. Fallback if lookup failed
   return null;
 };

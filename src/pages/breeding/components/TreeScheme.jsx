@@ -1,10 +1,9 @@
 import "./TreeScheme.css";
 
-import { useCallback, useEffect, useState } from "react";
+import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 import StatCircle from "./StatCircle";
 
-// * Configuration: Stat Colors Mapping
 const STAT_COLOR_MAP = {
   HP: "#55b651",
   Attack: "#f72533",
@@ -15,154 +14,110 @@ const STAT_COLOR_MAP = {
   Nature: "#ffffff",
 };
 
-// ? Helper: Maps an array of stat names to their hex codes
+const NODE_SIZE = 50;
+const BASE_PAIR_GAP = 50;
+const BASE_ROW_GAP = 100;
+const VERTICAL_GAP = 60;
+
 const getColors = (stats) =>
   stats.map((stat) => STAT_COLOR_MAP[stat] || "#ffffff");
 
-// * ============================================
-// * COMPONENT: TreeScheme
-// * ============================================
 function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
-  // * 1. VISUAL CONFIGURATION
-  const NODE_SIZE = 50;
-  const BASE_PAIR_GAP = 50;
-  const BASE_ROW_GAP = 100;
-  const VERTICAL_GAP = 60;
-
-  const scaleValues = { 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.95 };
-  const scaleValuesNature = { 2: 1.0, 3: 1.0, 4: 1.0, 5: 0.95, 6: 0.9 };
-
-  const scale = nature
-    ? scaleValuesNature[selectedIvCount]
-    : scaleValues[selectedIvCount];
-
-  // * State: Tracks which nodes are currently active/lit up
-  // ! PERSISTENZA: Inizializza leggendo dal LocalStorage
-  const [activeIds, setActiveIds] = useState(() => {
-    const saved = localStorage.getItem("breeding_activeNodes");
-    return saved ? new Set(JSON.parse(saved)) : new Set();
-  });
-
-  // ! EFFECT: Salva nel LocalStorage ogni volta che un nodo viene cliccato
-  useEffect(() => {
-    localStorage.setItem(
-      "breeding_activeNodes",
-      JSON.stringify([...activeIds])
-    );
-  }, [activeIds]);
-
-  // * ============================================
-  // * 2. TREE GENERATION LOGIC
-  // * ============================================
-  const generateTree = useCallback(
-    (selectedIvCount, selectedIvStats, nature) => {
-      const clampedCount = Math.min(selectedIvCount ?? 0, 6);
-      const baseStats = selectedIvStats.slice(0, clampedCount);
-      const stats = nature ? ["Nature", ...baseStats] : baseStats;
-
-      if (stats.length === 0) return [];
-
-      const levels = [];
-      let currentLevel = [stats];
-
-      while (currentLevel.length > 0) {
-        levels.push(currentLevel);
-        const nextLevel = [];
-        currentLevel.forEach((nodeStats) => {
-          if (nodeStats.length > 1) {
-            const leftChild = nodeStats.slice(0, -1);
-            const rightChild = nodeStats.slice(1);
-            nextLevel.push(leftChild, rightChild);
-          }
-        });
-        currentLevel = nextLevel;
-      }
-      return levels
-        .map((level) => level.map((nodeStats) => getColors(nodeStats)))
-        .reverse();
-    },
+  const [activeIdsArray, setActiveIdsArray] = usePersistentState(
+    "breeding_activeNodes",
     []
   );
 
-  const dataByRow = generateTree(selectedIvCount, selectedIvStats, nature);
-  const totalRows = dataByRow.length;
+  const activeIds = new Set(activeIdsArray);
 
-  // * ============================================
-  // * 3. INTERACTION HANDLER (Recursive Selection)
-  // * ============================================
-  const handleNodeClick = (rowIndex, colIndex) => {
-    const clickedId = `${rowIndex}-${colIndex}`;
-
-    setActiveIds((prevSet) => {
-      const newSet = new Set(prevSet);
-      const isTurningOn = !newSet.has(clickedId);
-
-      if (isTurningOn) {
-        // * ACTION: TURN ON
-        newSet.add(clickedId);
-        const activateAncestors = (r, c) => {
-          if (r === 0) return;
-          const parentRow = r - 1;
-          const leftP = `${parentRow}-${c * 2}`;
-          const rightP = `${parentRow}-${c * 2 + 1}`;
-          newSet.add(leftP);
-          newSet.add(rightP);
-          activateAncestors(parentRow, c * 2);
-          activateAncestors(parentRow, c * 2 + 1);
-        };
-        activateAncestors(rowIndex, colIndex);
-      } else {
-        // * ACTION: TURN OFF
-        newSet.delete(clickedId);
-        const deactivateDescendants = (r, c) => {
-          const childRow = r + 1;
-          if (childRow >= dataByRow.length) return;
-          const childCol = Math.floor(c / 2);
-          const childId = `${childRow}-${childCol}`;
-          if (newSet.has(childId)) {
-            newSet.delete(childId);
-            deactivateDescendants(childRow, childCol);
-          }
-        };
-        deactivateDescendants(rowIndex, colIndex);
-
-        const deactivateAncestors = (r, c) => {
-          if (r === 0) return;
-          const parentRow = r - 1;
-          const pLeftId = `${parentRow}-${c * 2}`;
-          const pRightId = `${parentRow}-${c * 2 + 1}`;
-
-          if (newSet.has(pLeftId)) {
-            newSet.delete(pLeftId);
-            deactivateAncestors(parentRow, c * 2);
-          }
-          if (newSet.has(pRightId)) {
-            newSet.delete(pRightId);
-            deactivateAncestors(parentRow, c * 2 + 1);
-          }
-        };
-        deactivateAncestors(rowIndex, colIndex);
-      }
-      return newSet;
-    });
+  const updateActiveIds = (newSet) => {
+    setActiveIdsArray(Array.from(newSet));
   };
 
-  const legendData = selectedIvStats
-    .slice(0, selectedIvCount)
-    .map((statName) => ({
-      name: statName,
-      colors: [STAT_COLOR_MAP[statName]],
-    }));
+  const generateTree = () => {
+    const clampedCount = Math.min(selectedIvCount ?? 0, 6);
+    const baseStats = selectedIvStats.slice(0, clampedCount);
+    const stats = nature ? ["Nature", ...baseStats] : baseStats;
 
-  const isSelectionActive = activeIds.size > 0;
+    if (stats.length === 0) return [];
 
-  // * ============================================
-  // * 4. GEOMETRIC GAP CALCULATION
-  // * ============================================
-  const rowConfigs = [];
-  for (let i = 0; i < totalRows; i++) {
-    rowConfigs.push({ size: NODE_SIZE, pairGap: 0, rowGap: 0 });
-  }
+    const levels = [];
+    let currentLevel = [stats];
+
+    while (currentLevel.length > 0) {
+      levels.push(currentLevel);
+      const nextLevel = [];
+      currentLevel.forEach((nodeStats) => {
+        if (nodeStats.length > 1) {
+          nextLevel.push(nodeStats.slice(0, -1), nodeStats.slice(1));
+        }
+      });
+      currentLevel = nextLevel;
+    }
+    return levels
+      .map((level) => level.map((nodeStats) => getColors(nodeStats)))
+      .reverse();
+  };
+
+  const dataByRow = generateTree();
+  const totalRows = dataByRow.length;
+
+  const handleNodeClick = (rowIndex, colIndex) => {
+    const clickedId = `${rowIndex}-${colIndex}`;
+    const newSet = new Set(activeIds);
+    const isTurningOn = !newSet.has(clickedId);
+
+    if (isTurningOn) {
+      newSet.add(clickedId);
+      const activateAncestors = (r, c) => {
+        if (r === 0) return;
+        const parentRow = r - 1;
+        newSet.add(`${parentRow}-${c * 2}`);
+        newSet.add(`${parentRow}-${c * 2 + 1}`);
+        activateAncestors(parentRow, c * 2);
+        activateAncestors(parentRow, c * 2 + 1);
+      };
+      activateAncestors(rowIndex, colIndex);
+    } else {
+      newSet.delete(clickedId);
+
+      const deactivateDescendants = (r, c) => {
+        const childRow = r + 1;
+        if (childRow >= totalRows) return;
+        const childCol = Math.floor(c / 2);
+        const childId = `${childRow}-${childCol}`;
+        if (newSet.has(childId)) {
+          newSet.delete(childId);
+          deactivateDescendants(childRow, childCol);
+        }
+      };
+      deactivateDescendants(rowIndex, colIndex);
+
+      const deactivateAncestors = (r, c) => {
+        if (r === 0) return;
+        const parentRow = r - 1;
+        const leftP = `${parentRow}-${c * 2}`;
+        const rightP = `${parentRow}-${c * 2 + 1}`;
+        if (newSet.has(leftP)) {
+          newSet.delete(leftP);
+          deactivateAncestors(parentRow, c * 2);
+        }
+        if (newSet.has(rightP)) {
+          newSet.delete(rightP);
+          deactivateAncestors(parentRow, c * 2 + 1);
+        }
+      };
+      deactivateAncestors(rowIndex, colIndex);
+    }
+
+    updateActiveIds(newSet);
+  };
+
+  const rowConfigs = Array.from({ length: totalRows }, () => ({
+    size: NODE_SIZE,
+    pairGap: 0,
+    rowGap: 0,
+  }));
 
   if (rowConfigs.length > 0) {
     rowConfigs[0].pairGap = BASE_PAIR_GAP;
@@ -172,41 +127,45 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
   for (let i = 0; i < totalRows - 1; i++) {
     const current = rowConfigs[i];
     const next = rowConfigs[i + 1];
-    const distanceBetweenParents =
-      2 * current.size + current.pairGap + current.rowGap;
-    const nextGap = distanceBetweenParents - next.size;
+    const dist = 2 * current.size + current.pairGap + current.rowGap;
+    const nextGap = dist - next.size;
     next.pairGap = nextGap;
     next.rowGap = nextGap;
   }
 
+  const scale = nature
+    ? selectedIvCount >= 6
+      ? 0.9
+      : selectedIvCount === 5
+        ? 0.95
+        : 1.0
+    : selectedIvCount >= 6
+      ? 0.95
+      : 1.0;
+
   return (
     <div className="tree-scheme-container">
-      {/* * A. Sticky Legend */}
+      
       <div className="legend-container">
         <div className="legend-items">
-          {legendData.map((item, index) => (
+          {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
             <div key={index} className="legend-item">
-              <span className="legend-stat-name">{item.name}</span>
-              <StatCircle ivColors={item.colors} index={`legend-${index}`} />
+              <span className="legend-stat-name">{statName}</span>
+              <StatCircle ivColors={[STAT_COLOR_MAP[statName]]} />
             </div>
           ))}
         </div>
       </div>
 
-      {/* * B. Horizontal Scroll Area */}
+      
       <div className="tree-scroll-view">
         <div className="tree-wrapper">
           <div
             className="tree-container"
-            style={{
-              "--scale": scale,
-              "--vertical-gap": `${VERTICAL_GAP}px`,
-            }}
+            style={{ "--scale": scale, "--vertical-gap": `${VERTICAL_GAP}px` }}
           >
-            {/* * C. Tree Rows Rendering */}
             {dataByRow.map((rowItems, rowIndex) => {
               const config = rowConfigs[rowIndex];
-
               return (
                 <div
                   key={`row-${rowIndex}`}
@@ -217,7 +176,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                     "--node-size": `${config.size}px`,
                   }}
                 >
-                  {/* * D. Node Pairs Rendering */}
                   {rowItems.reduce((pairs, colors, i) => {
                     if (i % 2 === 0) {
                       const next = rowItems[i + 1];
@@ -232,11 +190,10 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                           <div className="tree-node">
                             <StatCircle
                               ivColors={colors}
-                              index={id1}
                               onClick={() => handleNodeClick(rowIndex, i)}
                               isActive={activeIds.has(id1)}
                               isDimmed={
-                                isSelectionActive && !activeIds.has(id1)
+                                activeIds.size > 0 && !activeIds.has(id1)
                               }
                             />
                           </div>
@@ -244,11 +201,10 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                             <div className="tree-node">
                               <StatCircle
                                 ivColors={next}
-                                index={id2}
                                 onClick={() => handleNodeClick(rowIndex, i + 1)}
                                 isActive={activeIds.has(id2)}
                                 isDimmed={
-                                  isSelectionActive && !activeIds.has(id2)
+                                  activeIds.size > 0 && !activeIds.has(id2)
                                 }
                               />
                             </div>

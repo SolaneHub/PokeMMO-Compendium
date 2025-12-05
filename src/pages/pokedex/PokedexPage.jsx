@@ -1,6 +1,6 @@
 import "./PokedexPage.css";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import {
   getPokedexMainList,
@@ -9,35 +9,22 @@ import {
 import PokemonCard from "@/shared/components/PokemonCard";
 import PokemonSummary from "@/shared/components/PokemonSummary";
 
+const MAIN_POKEMON_LIST = getPokedexMainList();
+
 function PokedexPage() {
   const [searchTerm, setSearchTerm] = useState("");
-
-  // ? Tracks the Pokemon selected to open the details modal
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  // * 1. Retrieve the main list (only base forms/family heads)
-  const mainPokemonList = useMemo(() => getPokedexMainList(), []);
-
-  // * 2. Search bar filter logic
-  const filteredPokemon = useMemo(() => {
-    if (!searchTerm) return mainPokemonList;
-    return mainPokemonList.filter((name) =>
-      name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [mainPokemonList, searchTerm]);
-
-  // * 3. Modal Open/Close handlers
-  const handleCardClick = (pokemonName) => {
-    setSelectedPokemon(pokemonName);
-  };
-
-  const closeModal = () => {
-    setSelectedPokemon(null);
-  };
+  const filteredPokemon = !searchTerm
+    ? MAIN_POKEMON_LIST
+    : MAIN_POKEMON_LIST.filter((name) =>
+        name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
   return (
     <div className="pokedex-container">
-      {/* --- Search Bar --- */}
+      <title>Compendium: Pokédex</title>
+    
       <input
         type="text"
         placeholder="Search Pokémon..."
@@ -46,10 +33,9 @@ function PokedexPage() {
         className="pokedex-search-input"
       />
 
-      {/* --- Card Grid --- */}
+    
       <div className="pokemon-cards-display">
         {filteredPokemon.map((pokemonName, index) => {
-          // ? Fetch graphic data (sprite, background) from the service
           const { sprite, background } = getPokemonCardData(pokemonName);
 
           return (
@@ -58,7 +44,7 @@ function PokedexPage() {
               pokemonName={pokemonName}
               pokemonImageSrc={sprite}
               nameBackground={background}
-              onClick={() => handleCardClick(pokemonName)}
+              onClick={() => setSelectedPokemon(pokemonName)}
               isSelected={selectedPokemon === pokemonName}
             />
           );
@@ -69,12 +55,12 @@ function PokedexPage() {
         )}
       </div>
 
-      {/* --- Details Modal --- */}
+    
       {selectedPokemon && (
         <PokemonSummary
           pokemonName={selectedPokemon}
-          onClose={closeModal}
-          onSelectPokemon={handleCardClick}
+          onClose={() => setSelectedPokemon(null)}
+          onSelectPokemon={setSelectedPokemon}
         />
       )}
     </div>

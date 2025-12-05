@@ -3,93 +3,73 @@ import "./StepForm.css";
 import VariationForm from "./VariationForm";
 
 const StepForm = ({ step, onChange }) => {
-  // ? Update basic fields of the step
-  const handleFieldChange = (field, value) => {
-    onChange({ ...step, [field]: value });
-  };
-
-  // ? Update a specific variation within the step
-  const handleVariationChange = (index, updatedVariation) => {
-    const newVariations = [...(step.variations || [])];
-    newVariations[index] = updatedVariation;
-    onChange({ ...step, variations: newVariations });
-  };
-
-  // * Add a new empty variation
-  const addVariation = () => {
-    const newVariations = [
-      ...(step.variations || []),
-      { type: "", name: "", steps: [] },
-    ];
-    onChange({ ...step, variations: newVariations });
-  };
-
-  // ! Remove a variation by index
-  const removeVariation = (index) => {
-    const newVariations = step.variations.filter((_, i) => i !== index);
-    onChange({ ...step, variations: newVariations });
-  };
+  const update = (field, value) => onChange({ ...step, [field]: value });
 
   return (
     <div className="step-form-container">
       <label>
-        Type:
+        Type:{" "}
         <input
           type="text"
           value={step.type || ""}
-          placeholder="e.g. main, step, warning..."
-          onChange={(e) => handleFieldChange("type", e.target.value)}
+          onChange={(e) => update("type", e.target.value)}
         />
       </label>
-
       <label>
-        Player Action:
+        Action:{" "}
         <input
           type="text"
           value={step.player || ""}
-          placeholder="Describe the action..."
-          onChange={(e) => handleFieldChange("player", e.target.value)}
+          onChange={(e) => update("player", e.target.value)}
         />
       </label>
-
       <label>
-        Warning / Note:
+        Note:{" "}
         <input
           type="text"
           value={step.warning || ""}
-          placeholder="Optional warning..."
-          onChange={(e) => handleFieldChange("warning", e.target.value)}
+          onChange={(e) => update("warning", e.target.value)}
         />
       </label>
 
-      {/* Sezione Variazioni */}
       <div className="variation-list">
         <h4>Variations</h4>
         {step.variations?.map((variation, i) => (
           <div key={i}>
             <VariationForm
               variation={variation}
-              onChange={(updated) => handleVariationChange(i, updated)}
+              onChange={(upd) => {
+                const newVars = [...step.variations];
+                newVars[i] = upd;
+                update("variations", newVars);
+              }}
             />
-            <div className="form-actions" style={{ marginBottom: "15px" }}>
-              <button
-                className="btn btn-danger"
-                onClick={() => removeVariation(i)}
-              >
-                ❌ Remove Variation
-              </button>
-            </div>
+            <button
+              className="btn btn-danger mt-2"
+              onClick={() =>
+                update(
+                  "variations",
+                  step.variations.filter((_, idx) => idx !== i)
+                )
+              }
+            >
+              Remove
+            </button>
           </div>
         ))}
-
-        <div className="form-actions">
-          <button className="btn btn-success" onClick={addVariation}>
-            ➕ Add Variation
-          </button>
-        </div>
+        <button
+          className="btn btn-success mt-4"
+          onClick={() =>
+            update("variations", [
+              ...(step.variations || []),
+              { type: "", name: "", steps: [] },
+            ])
+          }
+        >
+          + Variation
+        </button>
       </div>
     </div>
   );
 };
-
 export default StepForm;

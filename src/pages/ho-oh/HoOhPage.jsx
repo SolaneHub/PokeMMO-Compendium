@@ -21,9 +21,6 @@ import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
 
 function HoOhPage() {
-  // * ─────────────────────────────
-  // * Main State Variables
-  // * ─────────────────────────────
   const [selectedTeam, setSelectedTeam] = useState();
   const [selectedRegion, setSelectedRegion] = useState();
   const [selectedHoOh, setSelectedHoOh] = useState();
@@ -32,19 +29,11 @@ function HoOhPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  // * ─────────────────────────────
-  // * Strategy Logic & Reset
-  // * ─────────────────────────────
   const resetStrategyStates = useCallback(() => {
     setCurrentStrategyView([]);
     setStrategyHistory([]);
   }, []);
 
-  // * ─────────────────────────────
-  // * Derived Data (Service Calls)
-  // * ─────────────────────────────
-
-  // ? Recupera tutti i nomi dei team disponibili.
   const allTeamNames = useMemo(() => {
     const allData = getAllHoOhTrainers();
     if (allData.length === 0) return [];
@@ -73,9 +62,6 @@ function HoOhPage() {
       : typeBackgrounds[""];
   }, [selectedPokemon]);
 
-  // * ─────────────────────────────
-  // * Event Handlers
-  // * ─────────────────────────────
   const handleTeamClick = useCallback(
     (teamName) => {
       setSelectedTeam(teamName);
@@ -102,7 +88,6 @@ function HoOhPage() {
 
   const handleHoOhClick = useCallback(
     (hoOhName) => {
-      // ! hoOhName is passed as a string from the child component here
       setSelectedHoOh((prev) => (prev === hoOhName ? null : hoOhName));
       setSelectedPokemon(null);
       setIsPokemonDetailsVisible(false);
@@ -116,7 +101,6 @@ function HoOhPage() {
       setSelectedPokemon(pokemonName);
       setIsPokemonDetailsVisible(true);
 
-      // ? Service Call: Fetch the specific strategy for the selected Pokemon
       const strategy = getPokemonStrategy(
         selectedHoOh,
         selectedRegion,
@@ -153,12 +137,9 @@ function HoOhPage() {
     }
   }, [strategyHistory]);
 
-  // * ─────────────────────────────
-  // * Main JSX Render
-  // * ─────────────────────────────
   return (
     <div className="container">
-      {/* Team Selector */}
+      
       <div className="cards-container">
         {allTeamNames.map((teamName) => (
           <div
@@ -171,7 +152,7 @@ function HoOhPage() {
         ))}
       </div>
 
-      {/* Region Selector */}
+      
       {selectedTeam && (
         <div className="cards-container">
           {availableRegions.map((region) => (
@@ -185,7 +166,7 @@ function HoOhPage() {
         </div>
       )}
 
-      {/* HoOh Trainers Display */}
+      
       {selectedRegion && filteredHoOh.length > 0 && (
         <div className="cards-container">
           {filteredHoOh.map((hoOh, i) => {
@@ -207,7 +188,7 @@ function HoOhPage() {
         </div>
       )}
 
-      {/* Pokemon Cards */}
+      
       {selectedHoOh && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
@@ -227,7 +208,7 @@ function HoOhPage() {
         </div>
       )}
 
-      {/* Pokemon Details Modal */}
+      
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div className="overlay" onClick={closePokemonDetails}>
           <div
@@ -259,7 +240,6 @@ function HoOhPage() {
                       </div>
                     ) : null;
 
-                  // * Main strategy rendering logic
                   if (item.type === "main") {
                     return (
                       <React.Fragment key={index}>
@@ -289,7 +269,6 @@ function HoOhPage() {
                     );
                   }
 
-                  // * Standard Step rendering
                   if (item.type === "step") {
                     return (
                       <div key={index} className="strategy-step">
@@ -309,7 +288,6 @@ function HoOhPage() {
                     );
                   }
 
-                  // * Variations without specific type
                   if (!item.type && item.variations) {
                     return (
                       <div key={index} className="variation-group">

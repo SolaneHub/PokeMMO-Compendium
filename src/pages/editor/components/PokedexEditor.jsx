@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const POKE_TEMPLATE = {
   id: 0,
@@ -24,76 +24,54 @@ const POKE_TEMPLATE = {
 };
 
 const PokedexEditor = ({ data, onChange }) => {
+  if (!data || !Array.isArray(data)) {
+    return (
+      <div style={{ padding: "20px", color: "#ff6b81", textAlign: "center" }}>
+        ⚠️ Dati non validi.
+      </div>
+    );
+  }
+
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [activeTab, setActiveTab] = useState("info");
 
-  // Filtra la lista laterale
-  const filteredList = useMemo(() => {
+  const filteredList = data.filter((p) => {
+    if (!p) return false;
+    const name = (p.name || "").toLowerCase();
     const s = search.toLowerCase();
-    return data.filter(
-      (p) => p.name.toLowerCase().includes(s) || p.id.toString().includes(s)
-    );
-  }, [data, search]);
+    return name.includes(s) || (p.id?.toString() || "").includes(s);
+  });
 
-  const pokemon = useMemo(
-    () => data.find((p) => p.id === selectedId),
-    [data, selectedId]
-  );
+  const pokemon = data.find((p) => p.id === selectedId);
 
-  // --- FUNZIONI DI AGGIORNAMENTO DATI ---
-
-  // Aggiorna un campo di primo livello (es. name, category)
   const updateField = (field, value) => {
-    const newData = data.map((p) =>
-      p.id === selectedId ? { ...p, [field]: value } : p
+    onChange(
+      data.map((p) => (p.id === selectedId ? { ...p, [field]: value } : p))
     );
-    onChange(newData);
   };
 
-  // Aggiorna un oggetto annidato (es. baseStats, genderRatio)
   const updateNested = (parent, key, value) => {
     if (!pokemon) return;
-    const newParentObj = { ...pokemon[parent], [key]: value };
+    const newParentObj = { ...(pokemon[parent] || {}), [key]: value };
     updateField(parent, newParentObj);
   };
 
-  // Aggiorna un array di primitive (es. types, eggGroups) per indice
   const updateArrayPrimitive = (field, index, value) => {
     const newArray = [...(pokemon[field] || [])];
     newArray[index] = value;
     updateField(field, newArray);
   };
 
-  // Aggiungi elemento ad array primitive
   const addArrayPrimitive = (field) => {
     updateField(field, [...(pokemon[field] || []), ""]);
   };
 
-  // Rimuovi elemento da array primitive
   const removeArrayPrimitive = (field, index) => {
-    const newArray = pokemon[field].filter((_, i) => i !== index);
+    const newArray = (pokemon[field] || []).filter((_, i) => i !== index);
     updateField(field, newArray);
   };
 
-  // Creazione Nuovo Pokémon
-  const handleCreate = () => {
-    const newId = data.length > 0 ? Math.max(...data.map((p) => p.id)) + 1 : 1;
-    const newPoke = { ...POKE_TEMPLATE, id: newId };
-    onChange([...data, newPoke]);
-    setSelectedId(newId);
-    setActiveTab("info");
-  };
-
-  // Eliminazione Pokémon
-  const handleDelete = () => {
-    if (!window.confirm(`Eliminare ${pokemon.name}?`)) return;
-    const newData = data.filter((p) => p.id !== selectedId);
-    onChange(newData);
-    setSelectedId(null);
-  };
-
-  // --- STILI & HELPERS ---
   const tabBtnStyle = (tabName) => ({
     flex: 1,
     padding: "10px",
@@ -101,14 +79,16 @@ const PokedexEditor = ({ data, onChange }) => {
     textAlign: "center",
     background: activeTab === tabName ? "#333" : "transparent",
     borderBottom:
-      activeTab === tabName ? "3px solid #007bff" : "1px solid #333",
+      activeTab === tabName ? "3px solid #00bcd4" : "1px solid #333",
     fontWeight: activeTab === tabName ? "bold" : "normal",
     color: activeTab === tabName ? "#fff" : "#888",
   });
 
   return (
     <div style={{ display: "flex", height: "100%", gap: "20px" }}>
-      {/* SIDEBAR */}
+      <title>Editor: Pokédex</title>
+
+      
       <div
         style={{
           width: "250px",
@@ -128,9 +108,10 @@ const PokedexEditor = ({ data, onChange }) => {
           style={{ marginBottom: "10px" }}
         />
         <div style={{ overflowY: "auto", flex: 1 }}>
-          {filteredList.map((p) => (
+          
+          {filteredList.map((p, index) => (
             <div
-              key={p.id}
+              key={p.id ?? index}
               onClick={() => setSelectedId(p.id)}
               style={{
                 padding: "8px",
@@ -147,29 +128,34 @@ const PokedexEditor = ({ data, onChange }) => {
                 marginBottom: "2px",
               }}
             >
-              <strong>#{p.id}</strong> {p.name}
+              <strong>#{p.id}</strong> {p.name || "Senza Nome"}
             </div>
           ))}
         </div>
         <button
           className="btn btn-success"
           style={{ marginTop: "10px" }}
-          onClick={handleCreate}
+          onClick={() => {
+            const newId =
+              data.length > 0 ? Math.max(...data.map((p) => p.id || 0)) + 1 : 1;
+            onChange([...data, { ...POKE_TEMPLATE, id: newId }]);
+            setSelectedId(newId);
+            setActiveTab("info");
+          }}
         >
           + Nuovo
         </button>
       </div>
 
-      {/* MAIN CONTENT */}
+      
       <div style={{ flex: 1, overflowY: "auto", paddingRight: "10px" }}>
         {pokemon ? (
           <div className="step-card" style={{ padding: 0, overflow: "hidden" }}>
-            {/* HEADER */}
+            
             <div
               style={{
                 padding: "15px 20px",
                 background: "#252526",
-                borderBottom: "1px solid #333",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -181,12 +167,20 @@ const PokedexEditor = ({ data, onChange }) => {
                   #{pokemon.id}
                 </span>
               </h2>
-              <button className="btn btn-danger btn-sm" onClick={handleDelete}>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => {
+                  if (window.confirm("Eliminare definitivamente?")) {
+                    onChange(data.filter((p) => p.id !== selectedId));
+                    setSelectedId(null);
+                  }
+                }}
+              >
                 Elimina
               </button>
             </div>
 
-            {/* TABS */}
+            
             <div
               style={{
                 display: "flex",
@@ -194,34 +188,25 @@ const PokedexEditor = ({ data, onChange }) => {
                 borderBottom: "1px solid #333",
               }}
             >
-              <div
-                onClick={() => setActiveTab("info")}
-                style={tabBtnStyle("info")}
-              >
-                📝 Info
-              </div>
-              <div
-                onClick={() => setActiveTab("stats")}
-                style={tabBtnStyle("stats")}
-              >
-                📊 Stats
-              </div>
-              <div
-                onClick={() => setActiveTab("moves")}
-                style={tabBtnStyle("moves")}
-              >
-                ⚔️ Moveset
-              </div>
-              <div
-                onClick={() => setActiveTab("extra")}
-                style={tabBtnStyle("extra")}
-              >
-                🧬 Evo & Loc
-              </div>
+              {["info", "stats", "moves", "extra"].map((t) => (
+                <div
+                  key={t}
+                  onClick={() => setActiveTab(t)}
+                  style={tabBtnStyle(t)}
+                >
+                  {t === "info"
+                    ? "📝 Info"
+                    : t === "stats"
+                      ? "📊 Stats"
+                      : t === "moves"
+                        ? "⚔️ Moves"
+                        : "🧬 Extra"}
+                </div>
+              ))}
             </div>
 
             <div style={{ padding: "20px" }}>
-              {/* === TAB 1: INFO GENERALI === */}
+              
               {activeTab === "info" && (
                 <div className="fade-in">
                   <div
@@ -238,9 +223,11 @@ const PokedexEditor = ({ data, onChange }) => {
                         type="number"
                         className="universal-input"
                         value={pokemon.id}
-                        onChange={(e) =>
-                          updateField("id", parseInt(e.target.value))
-                        }
+                        onChange={(e) => {
+                          const newId = parseInt(e.target.value);
+                          updateField("id", newId);
+                          setSelectedId(newId);
+                        }}
                       />
                     </div>
                     <div>
@@ -276,7 +263,7 @@ const PokedexEditor = ({ data, onChange }) => {
                       <input
                         type="text"
                         className="universal-input"
-                        value={pokemon.category}
+                        value={pokemon.category || ""}
                         onChange={(e) =>
                           updateField("category", e.target.value)
                         }
@@ -287,7 +274,7 @@ const PokedexEditor = ({ data, onChange }) => {
                       <input
                         type="text"
                         className="universal-input"
-                        value={pokemon.height}
+                        value={pokemon.height || ""}
                         onChange={(e) => updateField("height", e.target.value)}
                       />
                     </div>
@@ -296,12 +283,13 @@ const PokedexEditor = ({ data, onChange }) => {
                       <input
                         type="text"
                         className="universal-input"
-                        value={pokemon.weight}
+                        value={pokemon.weight || ""}
                         onChange={(e) => updateField("weight", e.target.value)}
                       />
                     </div>
                   </div>
 
+                  
                   <div
                     style={{
                       display: "grid",
@@ -309,7 +297,6 @@ const PokedexEditor = ({ data, onChange }) => {
                       gap: "20px",
                     }}
                   >
-                    {/* TIPI */}
                     <div
                       style={{
                         background: "#252526",
@@ -317,10 +304,10 @@ const PokedexEditor = ({ data, onChange }) => {
                         borderRadius: "6px",
                       }}
                     >
-                      <label style={{ marginBottom: "5px", display: "block" }}>
+                      <label style={{ display: "block", marginBottom: "5px" }}>
                         Types
                       </label>
-                      {pokemon.types.map((type, i) => (
+                      {(pokemon.types || []).map((type, i) => (
                         <div
                           key={i}
                           style={{ display: "flex", marginBottom: "5px" }}
@@ -351,7 +338,6 @@ const PokedexEditor = ({ data, onChange }) => {
                       </button>
                     </div>
 
-                    {/* EGG GROUPS */}
                     <div
                       style={{
                         background: "#252526",
@@ -359,7 +345,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         borderRadius: "6px",
                       }}
                     >
-                      <label style={{ marginBottom: "5px", display: "block" }}>
+                      <label style={{ display: "block", marginBottom: "5px" }}>
                         Egg Groups
                       </label>
                       {(pokemon.eggGroups || []).map((eg, i) => (
@@ -400,7 +386,7 @@ const PokedexEditor = ({ data, onChange }) => {
                 </div>
               )}
 
-              {/* === TAB 2: STATISTICHE E ABILITÀ === */}
+              
               {activeTab === "stats" && (
                 <div className="fade-in">
                   <h4
@@ -453,44 +439,13 @@ const PokedexEditor = ({ data, onChange }) => {
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr",
                       gap: "20px",
-                      marginBottom: "20px",
                     }}
                   >
                     <div>
-                      <label>EV Yield</label>
-                      <input
-                        type="text"
-                        className="universal-input"
-                        value={pokemon.evYield || ""}
-                        onChange={(e) => updateField("evYield", e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label>Base Exp</label>
+                      <label>Gender Ratio (M %)</label>
                       <input
                         type="number"
                         className="universal-input"
-                        value={pokemon.baseExp || 0}
-                        onChange={(e) =>
-                          updateField("baseExp", parseInt(e.target.value))
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "20px",
-                    }}
-                  >
-                    <div>
-                      <label>Gender Ratio (Male %)</label>
-                      <input
-                        type="number"
-                        className="universal-input"
-                        placeholder="Male"
                         value={pokemon.genderRatio?.m ?? ""}
                         onChange={(e) =>
                           updateNested(
@@ -501,12 +456,11 @@ const PokedexEditor = ({ data, onChange }) => {
                         }
                       />
                       <label style={{ marginTop: "5px" }}>
-                        Gender Ratio (Female %)
+                        Gender Ratio (F %)
                       </label>
                       <input
                         type="number"
                         className="universal-input"
-                        placeholder="Female"
                         value={pokemon.genderRatio?.f ?? ""}
                         onChange={(e) =>
                           updateNested(
@@ -527,7 +481,6 @@ const PokedexEditor = ({ data, onChange }) => {
                           updateField("catchRate", parseInt(e.target.value))
                         }
                       />
-
                       <label style={{ marginTop: "5px" }}>Tier</label>
                       <input
                         type="text"
@@ -562,7 +515,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         borderRadius: "6px",
                       }}
                     >
-                      <label>Main Abilities (List)</label>
+                      <label>Main Abilities</label>
                       {(pokemon.abilities?.main || []).map((ab, i) => (
                         <div
                           key={i}
@@ -573,7 +526,9 @@ const PokedexEditor = ({ data, onChange }) => {
                             className="universal-input"
                             value={ab}
                             onChange={(e) => {
-                              const newMain = [...pokemon.abilities.main];
+                              const newMain = [
+                                ...(pokemon.abilities.main || []),
+                              ];
                               newMain[i] = e.target.value;
                               updateNested("abilities", "main", newMain);
                             }}
@@ -620,14 +575,13 @@ const PokedexEditor = ({ data, onChange }) => {
                 </div>
               )}
 
-              {/* === TAB 3: MOVESET (AD HOC TABLE) === */}
+              
               {activeTab === "moves" && (
                 <div className="fade-in">
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
-                      alignItems: "center",
                       marginBottom: "10px",
                     }}
                   >
@@ -656,12 +610,12 @@ const PokedexEditor = ({ data, onChange }) => {
                   </div>
 
                   <div style={{ display: "grid", gap: "8px" }}>
-                    {/* Header Tabella */}
+                    
                     <div
                       style={{
                         display: "grid",
                         gridTemplateColumns:
-                          "60px 2fr 100px 80px 60px 60px 40px",
+                          "50px 2fr 100px 80px 50px 50px 40px",
                         gap: "10px",
                         padding: "0 10px",
                         fontSize: "0.8rem",
@@ -684,7 +638,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         style={{
                           display: "grid",
                           gridTemplateColumns:
-                            "60px 2fr 100px 80px 60px 60px 40px",
+                            "50px 2fr 100px 80px 50px 50px 40px",
                           gap: "10px",
                           background: "#2e2e2e",
                           padding: "8px",
@@ -702,7 +656,6 @@ const PokedexEditor = ({ data, onChange }) => {
                             updateField("moves", newMoves);
                           }}
                         />
-
                         <input
                           type="text"
                           className="universal-input"
@@ -713,7 +666,6 @@ const PokedexEditor = ({ data, onChange }) => {
                             updateField("moves", newMoves);
                           }}
                         />
-
                         <input
                           type="text"
                           className="universal-input"
@@ -724,10 +676,8 @@ const PokedexEditor = ({ data, onChange }) => {
                             updateField("moves", newMoves);
                           }}
                         />
-
                         <select
                           className="universal-input"
-                          style={{ padding: "5px" }}
                           value={move.cat}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -739,7 +689,6 @@ const PokedexEditor = ({ data, onChange }) => {
                           <option value="Special">Spec</option>
                           <option value="Status">Stat</option>
                         </select>
-
                         <input
                           type="text"
                           className="universal-input"
@@ -750,7 +699,6 @@ const PokedexEditor = ({ data, onChange }) => {
                             updateField("moves", newMoves);
                           }}
                         />
-
                         <input
                           type="text"
                           className="universal-input"
@@ -761,7 +709,6 @@ const PokedexEditor = ({ data, onChange }) => {
                             updateField("moves", newMoves);
                           }}
                         />
-
                         <button
                           className="delete-key-btn"
                           onClick={() => {
@@ -779,16 +726,15 @@ const PokedexEditor = ({ data, onChange }) => {
                 </div>
               )}
 
-              {/* === TAB 4: EVOLUZIONI & LOCATIONS === */}
+            
               {activeTab === "extra" && (
                 <div className="fade-in">
-                  {/* EVOLUTIONS */}
+                
                   <div style={{ marginBottom: "30px" }}>
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        alignItems: "center",
                         marginBottom: "10px",
                         borderBottom: "1px solid #444",
                         paddingBottom: "5px",
@@ -809,7 +755,6 @@ const PokedexEditor = ({ data, onChange }) => {
                         + Add Evo
                       </button>
                     </div>
-                    {/* Lista Evoluzioni Ad Hoc */}
                     {(pokemon.evolutions || []).map((evo, i) => (
                       <div
                         key={i}
@@ -839,7 +784,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         </div>
                         <div>
                           <label style={{ fontSize: "0.7rem" }}>
-                            Level / Condition
+                            Condition
                           </label>
                           <input
                             type="text"
@@ -876,19 +821,18 @@ const PokedexEditor = ({ data, onChange }) => {
                             updateField("evolutions", newEvos);
                           }}
                         >
-                          🗑️
+                          ×
                         </button>
                       </div>
                     ))}
                   </div>
 
-                  {/* LOCATIONS */}
+                
                   <div>
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
-                        alignItems: "center",
                         marginBottom: "10px",
                         borderBottom: "1px solid #444",
                         paddingBottom: "5px",
@@ -905,12 +849,11 @@ const PokedexEditor = ({ data, onChange }) => {
                               area: "",
                               levels: "",
                               rarity: "",
-                              method: "",
                             },
                           ]);
                         }}
                       >
-                        + Add Location
+                        + Add Loc
                       </button>
                     </div>
                     {(pokemon.locations || []).map((loc, i) => (
@@ -933,8 +876,8 @@ const PokedexEditor = ({ data, onChange }) => {
                         >
                           <input
                             type="text"
-                            placeholder="Region"
                             className="universal-input"
+                            placeholder="Region"
                             value={loc.region}
                             onChange={(e) => {
                               const newLocs = [...pokemon.locations];
@@ -944,8 +887,8 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                           <input
                             type="text"
-                            placeholder="Area"
                             className="universal-input"
+                            placeholder="Area"
                             value={loc.area}
                             onChange={(e) => {
                               const newLocs = [...pokemon.locations];
@@ -957,14 +900,14 @@ const PokedexEditor = ({ data, onChange }) => {
                         <div
                           style={{
                             display: "grid",
-                            gridTemplateColumns: "1fr 1fr 1fr auto",
+                            gridTemplateColumns: "1fr 1fr auto",
                             gap: "10px",
                           }}
                         >
                           <input
                             type="text"
-                            placeholder="Levels (es. 10-15)"
                             className="universal-input"
+                            placeholder="Levels"
                             value={loc.levels}
                             onChange={(e) => {
                               const newLocs = [...pokemon.locations];
@@ -974,23 +917,12 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                           <input
                             type="text"
-                            placeholder="Rarity"
                             className="universal-input"
+                            placeholder="Rarity"
                             value={loc.rarity}
                             onChange={(e) => {
                               const newLocs = [...pokemon.locations];
                               newLocs[i].rarity = e.target.value;
-                              updateField("locations", newLocs);
-                            }}
-                          />
-                          <input
-                            type="text"
-                            placeholder="Method"
-                            className="universal-input"
-                            value={loc.method}
-                            onChange={(e) => {
-                              const newLocs = [...pokemon.locations];
-                              newLocs[i].method = e.target.value;
                               updateField("locations", newLocs);
                             }}
                           />
@@ -1003,7 +935,7 @@ const PokedexEditor = ({ data, onChange }) => {
                               updateField("locations", newLocs);
                             }}
                           >
-                            🗑️
+                            ×
                           </button>
                         </div>
                       </div>
@@ -1015,10 +947,13 @@ const PokedexEditor = ({ data, onChange }) => {
           </div>
         ) : (
           <div
-            style={{ textAlign: "center", marginTop: "100px", color: "#666" }}
+            style={{
+              textAlign: "center",
+              marginTop: "100px",
+              color: "#666",
+            }}
           >
-            <h2>Seleziona un Pokémon</h2>
-            <p>Usa la barra laterale per cercare o clicca su Nuovo.</p>
+            Seleziona un Pokémon per iniziare.
           </div>
         )}
       </div>
