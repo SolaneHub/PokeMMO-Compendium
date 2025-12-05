@@ -1,13 +1,12 @@
 // * ============================================
 // * STYLE IMPORTS
-// * Importing component-specific styles globally for the page
 // * ============================================
 import "@/pages/breeding/components/IVsDropdown.css";
 import "@/pages/breeding/components/IVsSelector.css";
 import "@/pages/breeding/components/StatCircle.css";
 import "@/pages/breeding/components/TreeScheme.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // * ============================================
 // * COMPONENT IMPORTS
@@ -20,10 +19,8 @@ import TreeScheme from "@/pages/breeding/components/TreeScheme";
 // * CONFIGURATION CONSTANTS
 // * ============================================
 
-// ? Available options for the number of IVs to breed
 const IV_OPTIONS = [2, 3, 4, 5, 6];
 
-// ? The complete list of available Stats in the game
 const IV_STATS = [
   "HP",
   "Attack",
@@ -35,27 +32,47 @@ const IV_STATS = [
 
 // * ============================================
 // * MAIN PAGE COMPONENT
-// * Orchestrates the state between the Selector, Dropdowns, and Tree.
 // * ============================================
 function BreedingPage() {
-  // * 1. STATE MANAGEMENT
+  // * 1. STATE MANAGEMENT CON PERSISTENZA (LocalStorage)
 
-  // ? Controls how many IVs are currently selected (e.g., 3)
-  const [selectedIvCount, setSelectedIvCount] = useState(IV_OPTIONS[0]);
+  // ? Controls how many IVs are currently selected
+  const [selectedIvCount, setSelectedIvCount] = useState(() => {
+    // ! Check LocalStorage on init
+    const saved = localStorage.getItem("breeding_ivCount");
+    return saved ? JSON.parse(saved) : IV_OPTIONS[0];
+  });
 
-  // ? Boolean toggle for whether Nature is included in breeding
-  const [nature, setNature] = useState(false);
+  // ? Boolean toggle for Nature
+  const [nature, setNature] = useState(() => {
+    const saved = localStorage.getItem("breeding_nature");
+    return saved ? JSON.parse(saved) : false;
+  });
 
-  // ! Critical State: Holds the current configuration of stats (e.g., ["HP", "Attack", ...])
-  // Passed down to both Dropdowns (to change them) and Tree (to display them)
-  const [selectedIvStats, setSelectedIvStats] = useState(IV_STATS);
+  // ! Critical State: Holds the current configuration of stats
+  const [selectedIvStats, setSelectedIvStats] = useState(() => {
+    const saved = localStorage.getItem("breeding_ivStats");
+    return saved ? JSON.parse(saved) : IV_STATS;
+  });
+
+  // * 2. EFFECTS FOR SAVING DATA
+  // Ogni volta che uno stato cambia, salviamo nel LocalStorage
+
+  useEffect(() => {
+    localStorage.setItem("breeding_ivCount", JSON.stringify(selectedIvCount));
+  }, [selectedIvCount]);
+
+  useEffect(() => {
+    localStorage.setItem("breeding_nature", JSON.stringify(nature));
+  }, [nature]);
+
+  useEffect(() => {
+    localStorage.setItem("breeding_ivStats", JSON.stringify(selectedIvStats));
+  }, [selectedIvStats]);
 
   return (
     <div className="container">
-      {/* * ============================================ */}
-      {/* * A. SELECTION PANEL                           */}
-      {/* * Buttons for 2x-6x IVs and Nature Toggle      */}
-      {/* * ============================================ */}
+      {/* * A. SELECTION PANEL */}
       <IVsSelector
         ivOptions={IV_OPTIONS}
         selectedIvCount={selectedIvCount}
@@ -64,10 +81,7 @@ function BreedingPage() {
         setNature={setNature}
       />
 
-      {/* * ============================================ */}
-      {/* * B. CONFIGURATION DROPDOWNS                   */}
-      {/* * Allows user to map specific stats to slots   */}
-      {/* * ============================================ */}
+      {/* * B. CONFIGURATION DROPDOWNS */}
       <IVsDropdown
         ivStats={IV_STATS}
         selectedIvCount={selectedIvCount}
@@ -75,10 +89,7 @@ function BreedingPage() {
         setSelectedIvStats={setSelectedIvStats}
       />
 
-      {/* * ============================================ */}
-      {/* * C. VISUALIZATION TREE                        */}
-      {/* * Renders the interactive breeding path        */}
-      {/* * ============================================ */}
+      {/* * C. VISUALIZATION TREE */}
       <TreeScheme
         selectedIvCount={selectedIvCount}
         nature={nature}
