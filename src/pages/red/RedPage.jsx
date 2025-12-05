@@ -1,6 +1,7 @@
 import "@/pages/elite-four/EliteFourPage.css";
 
-import React, { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
+import React from "react";
 
 import {
   getPokemonBackground,
@@ -21,145 +22,107 @@ import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
 
 function RedPage() {
-  // * ─────────────────────────────
-  // * Main State Variables
-  // * ─────────────────────────────
-  const [selectedTeam, setSelectedTeam] = useState();
-  const [selectedRegion, setSelectedRegion] = useState();
-  const [selectedRed, setSelectedRed] = useState();
-  const [selectedPokemon, setSelectedPokemon] = useState();
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [selectedRed, setSelectedRed] = useState(null);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  // * ─────────────────────────────
-  // * Strategy Logic & Reset
-  // * ─────────────────────────────
-  const resetStrategyStates = useCallback(() => {
+  const allTeamNames = (() => {
+    const allData = getAllRedTrainers();
+    return allData.length > 0 ? Object.keys(allData[0].teams || {}).sort() : [];
+  })();
+
+  const availableRegions = getAvailableRedRegions();
+  const filteredRed = getRedTrainersByRegion(selectedRegion);
+  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
+    selectedRed,
+    selectedRegion,
+    selectedTeam
+  );
+
+  const currentPokemonObject = selectedPokemon
+    ? getPokemonByName(selectedPokemon)
+    : null;
+
+  const detailsTitleBackground = selectedPokemon
+    ? getPokemonBackground(selectedPokemon)
+    : typeBackgrounds[""];
+
+  const resetStrategyStates = () => {
     setCurrentStrategyView([]);
     setStrategyHistory([]);
-  }, []);
+  };
 
-  // * ─────────────────────────────
-  // * Derived Data (Service Calls)
-  // * ─────────────────────────────
-
-  // ? Retrieve all available team names.
-  // ? Assumes Red has consistent team names across regions, using the first entry as a reference.
-  const allTeamNames = useMemo(() => {
-    const allData = getAllRedTrainers();
-    if (allData.length === 0) return [];
-    return Object.keys(allData[0].teams || {}).sort();
-  }, []);
-
-  const availableRegions = useMemo(() => {
-    return getAvailableRedRegions();
-  }, []);
-
-  const filteredRed = useMemo(() => {
-    return getRedTrainersByRegion(selectedRegion);
-  }, [selectedRegion]);
-
-  const pokemonNamesForSelectedTeam = useMemo(() => {
-    return getPokemonListForTeam(selectedRed, selectedRegion, selectedTeam);
-  }, [selectedRed, selectedRegion, selectedTeam]);
-
-  const currentPokemonObject = useMemo(() => {
-    return selectedPokemon ? getPokemonByName(selectedPokemon) : null;
-  }, [selectedPokemon]);
-
-  const detailsTitleBackground = useMemo(() => {
-    return selectedPokemon
-      ? getPokemonBackground(selectedPokemon)
-      : typeBackgrounds[""];
-  }, [selectedPokemon]);
-
-  // * ─────────────────────────────
-  // * Event Handlers
-  // * ─────────────────────────────
-  const handleTeamClick = useCallback(
-    (teamName) => {
-      setSelectedTeam(teamName);
-      setSelectedRegion(null);
-      setSelectedRed(null);
-      setSelectedPokemon(null);
-      setIsPokemonDetailsVisible(false);
-      resetStrategyStates();
-    },
-    [resetStrategyStates]
-  );
-
-  const handleRegionClick = useCallback(
-    (region) => {
-      const regionName = typeof region === "object" ? region.name : region;
-      setSelectedRegion((prev) => (prev === regionName ? null : regionName));
-      setSelectedRed(null);
-      setSelectedPokemon(null);
-      setIsPokemonDetailsVisible(false);
-      resetStrategyStates();
-    },
-    [resetStrategyStates]
-  );
-
-  const handleRedClick = useCallback(
-    (redName) => {
-      // ! redName is passed as a string from the child component here
-      setSelectedRed((prev) => (prev === redName ? null : redName));
-      setSelectedPokemon(null);
-      setIsPokemonDetailsVisible(false);
-      resetStrategyStates();
-    },
-    [resetStrategyStates]
-  );
-
-  const handlePokemonCardClick = useCallback(
-    (pokemonName) => {
-      setSelectedPokemon(pokemonName);
-      setIsPokemonDetailsVisible(true);
-
-      // ? Service Call: Fetch the specific strategy for the selected Pokemon
-      const strategy = getPokemonStrategy(
-        selectedRed,
-        selectedRegion,
-        selectedTeam,
-        pokemonName
-      );
-
-      setCurrentStrategyView(strategy);
-      setStrategyHistory([]);
-    },
-    [selectedRed, selectedRegion, selectedTeam]
-  );
-
-  const closePokemonDetails = useCallback(() => {
+  const handleTeamClick = (teamName) => {
+    setSelectedTeam(teamName);
+    setSelectedRegion(null);
+    setSelectedRed(null);
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     resetStrategyStates();
-  }, [resetStrategyStates]);
+  };
 
-  const handleStepClick = useCallback(
-    (item) => {
-      if (item?.steps && Array.isArray(item.steps)) {
-        setStrategyHistory((prev) => [...prev, currentStrategyView]);
-        setCurrentStrategyView(item.steps);
-      }
-    },
-    [currentStrategyView]
-  );
+  const handleRegionClick = (region) => {
+    const regionName = typeof region === "object" ? region.name : region;
+    setSelectedRegion((prev) => (prev === regionName ? null : regionName));
 
-  const handleBackClick = useCallback(() => {
+    setSelectedRed(null);
+    setSelectedPokemon(null);
+    setIsPokemonDetailsVisible(false);
+    resetStrategyStates();
+  };
+
+  const handleRedClick = (redName) => {
+    setSelectedRed((prev) => (prev === redName ? null : redName));
+    setSelectedPokemon(null);
+    setIsPokemonDetailsVisible(false);
+    resetStrategyStates();
+  };
+
+  const handlePokemonCardClick = (pokemonName) => {
+    setSelectedPokemon(pokemonName);
+    setIsPokemonDetailsVisible(true);
+
+    const strategy = getPokemonStrategy(
+      selectedRed,
+      selectedRegion,
+      selectedTeam,
+      pokemonName
+    );
+
+    setCurrentStrategyView(strategy);
+    setStrategyHistory([]);
+  };
+
+  const handleStepClick = (item) => {
+    if (item?.steps && Array.isArray(item.steps)) {
+      setStrategyHistory((prev) => [...prev, currentStrategyView]);
+      setCurrentStrategyView(item.steps);
+    }
+  };
+
+  const handleBackClick = () => {
     if (strategyHistory.length > 0) {
       setCurrentStrategyView(strategyHistory[strategyHistory.length - 1]);
       setStrategyHistory((prev) => prev.slice(0, -1));
     }
-  }, [strategyHistory]);
+  };
 
-  // * ─────────────────────────────
-  // * Main JSX Render
-  // * ─────────────────────────────
+  const renderWarning = (warningText) =>
+    warningText ? (
+      <div className="strategy-warning-row">
+        <div className="strategy-warning">{warningText}</div>
+      </div>
+    ) : null;
+
   return (
     <div className="container">
-      {/* Team Selector */}
+      <title>Compendium: Red Fight</title>
+
+      
       <div className="cards-container">
         {allTeamNames.map((teamName) => (
           <div
@@ -172,7 +135,7 @@ function RedPage() {
         ))}
       </div>
 
-      {/* Region Selector */}
+      
       {selectedTeam && (
         <div className="cards-container">
           {availableRegions.map((region) => (
@@ -186,13 +149,12 @@ function RedPage() {
         </div>
       )}
 
-      {/* Red Trainers Display */}
+      
       {selectedRegion && filteredRed.length > 0 && (
         <div className="cards-container">
           {filteredRed.map((red, i) => {
             const redBackground =
               typeBackgrounds[red.type] || typeBackgrounds[""];
-            // ? Use getDualShadow for consistency with EliteFourPage
             const redShadowColor = getDualShadow(redBackground);
 
             return (
@@ -209,11 +171,10 @@ function RedPage() {
         </div>
       )}
 
-      {/* Pokemon Cards */}
+      
       {selectedRed && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
-            // ? Unified Service Call for card data
             const { sprite, background } = getPokemonCardData(pokemonName);
 
             return (
@@ -230,13 +191,17 @@ function RedPage() {
         </div>
       )}
 
-      {/* Pokemon Details Modal */}
+      
       {isPokemonDetailsVisible && currentPokemonObject && (
-        <div className="overlay" onClick={closePokemonDetails}>
+        <div
+          className="overlay"
+          onClick={() => setIsPokemonDetailsVisible(false)}
+        >
           <div
             className="pokemon-details-card"
             onClick={(e) => e.stopPropagation()}
           >
+            
             <div
               className="pokemon-details-title-wrapper"
               style={{ background: detailsTitleBackground }}
@@ -245,24 +210,18 @@ function RedPage() {
             </div>
 
             <div className="menu-content">
+              
               {strategyHistory.length > 0 && (
                 <button className="back-button" onClick={handleBackClick}>
-                  Back
+                  ⬅️ Back
                 </button>
               )}
 
+              
               {currentStrategyView.length === 0 ? (
-                <p>No strategy available</p>
+                <p>No strategy available.</p>
               ) : (
                 currentStrategyView.map((item, index) => {
-                  const renderWarning = (warningText) =>
-                    warningText ? (
-                      <div className="strategy-warning-row">
-                        <div className="strategy-warning">{warningText}</div>
-                      </div>
-                    ) : null;
-
-                  // * Main strategy rendering logic
                   if (item.type === "main") {
                     return (
                       <React.Fragment key={index}>
@@ -274,6 +233,7 @@ function RedPage() {
                           </div>
                         )}
                         {renderWarning(item.warning)}
+
                         {item.variations && (
                           <div className="variation-group">
                             {item.variations.map((v, vi) => (
@@ -292,7 +252,6 @@ function RedPage() {
                     );
                   }
 
-                  // * Standard Step rendering
                   if (item.type === "step") {
                     return (
                       <div key={index} className="strategy-step">
@@ -312,7 +271,6 @@ function RedPage() {
                     );
                   }
 
-                  // * Variations without specific type
                   if (!item.type && item.variations) {
                     return (
                       <div key={index} className="variation-group">

@@ -1,8 +1,8 @@
-import "./EliteFourPage.css"; // Usiamo lo stesso CSS o quello aggiornato sotto
+import "./EliteFourPage.css";
 
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 
-// Helper per URL strumenti (copiato da RaidsPage o importato da utils)
+const TRAINER_PATH = `${import.meta.env.BASE_URL}items/`;
 const getItemSpriteUrl = (itemName) => {
   if (!itemName) return null;
   const formattedName = itemName
@@ -11,22 +11,21 @@ const getItemSpriteUrl = (itemName) => {
     .replace(/\s+/g, "-")
     .replace(/['’]/g, "")
     .replace(/\./g, "");
-  return `/PokeMMO-Compendium/items/${formattedName}.png`;
+  return `${TRAINER_PATH}${formattedName}.png`;
 };
 
-const PlayerBuildCard = ({ build }) => {
+function PlayerBuildCard({ build }) {
   const { sprite } = getPokemonCardData(build.name);
 
   return (
     <div className="raids-build-card">
-      {/* Header */}
+      
       <div className="build-card-header">
         <img src={sprite} alt={build.name} className="build-sprite" />
         <div className="build-main-info">
           <span className="build-name">{build.name}</span>
         </div>
 
-        {/* Strumento */}
         {build.item && (
           <span className="build-held-item">
             <img
@@ -40,7 +39,7 @@ const PlayerBuildCard = ({ build }) => {
         )}
       </div>
 
-      {/* Stats */}
+    
       <div className="build-stats-row">
         {build.ability && (
           <span className="build-stat">
@@ -59,7 +58,7 @@ const PlayerBuildCard = ({ build }) => {
         )}
       </div>
 
-      {/* Mosse */}
+      
       {build.moves && (
         <div className="build-moves-list">
           {build.moves.map((m, k) => (
@@ -71,9 +70,9 @@ const PlayerBuildCard = ({ build }) => {
       )}
     </div>
   );
-};
+}
 
-const TeamBuildModal = ({ teamName, builds, onClose }) => {
+export default function TeamBuildModal({ teamName, builds, onClose }) {
   if (!builds || builds.length === 0) return null;
 
   return (
@@ -94,6 +93,4 @@ const TeamBuildModal = ({ teamName, builds, onClose }) => {
       </div>
     </div>
   );
-};
-
-export default TeamBuildModal;
+}

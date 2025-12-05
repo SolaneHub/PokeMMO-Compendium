@@ -1,7 +1,4 @@
-/* * -------------------------------------------
- * ANIMAZIONI
- * -------------------------------------------
- */
+
 @keyframes overlayFade {
   from {
     backdrop-filter: blur(0px);
@@ -39,10 +36,7 @@
   }
 }
 
-/* * -------------------------------------------
- * STRUTTURA OVERLAY & MODALE
- * -------------------------------------------
- */
+
 
 .raids-overlay {
   align-items: center;
@@ -58,32 +52,28 @@
 }
 
 .raids-modal {
-  /* Animazione */
+  
   animation: cardEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   animation-delay: 0.1s;
 
-  /* Stile Visuale */
+  
   background: #24252a;
   border: 1px solid #3a3b3d;
   border-radius: 12px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
 
-  /* Layout & Dimensioni (Identiche a PokemonSummary) */
+  
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   height: auto;
   max-height: 85vh;
-  max-width: 480px; /* Larghezza "Card" */
+  max-width: 480px; 
   width: 100%;
   opacity: 0;
   overflow: hidden;
 }
 
-/* * -------------------------------------------
- * HEADER
- * -------------------------------------------
- */
 
 .raids-modal-header {
   align-items: center;
@@ -111,10 +101,6 @@
   opacity: 0.8;
 }
 
-/* * -------------------------------------------
- * TABS DI NAVIGAZIONE
- * -------------------------------------------
- */
 
 .raids-tabs {
   background: #1f1f23;
@@ -124,6 +110,11 @@
   overflow-x: auto;
   position: relative;
   z-index: 10;
+  scrollbar-width: none; 
+}
+
+.raids-tabs::-webkit-scrollbar {
+  display: none; 
 }
 
 .raids-tab {
@@ -163,10 +154,7 @@
   width: 100%;
 }
 
-/* * -------------------------------------------
- * CONTENUTO (Scrollable Body)
- * -------------------------------------------
- */
+
 
 .raids-modal-content {
   background-color: #24252a;
@@ -180,7 +168,7 @@
   position: relative;
 }
 
-/* Typography generica */
+
 .raids-modal p,
 .raids-modal li {
   color: #e4e6eb;
@@ -193,7 +181,7 @@
   font-weight: 700;
 }
 
-/* Sections Containers */
+
 .raids-section {
   background-color: #2a2b30;
   border-radius: 8px;
@@ -215,7 +203,7 @@
   padding: 0;
 }
 
-/* Dropdown Styles (Globali per la modale) */
+
 .raids-modal select {
   appearance: none;
   background-color: #1a1a1a;
@@ -241,24 +229,20 @@
   outline: none;
 }
 
-/* * -------------------------------------------
- * STRATEGY TAB WIDGETS
- * -------------------------------------------
- */
 
-/* Icona dell'oggetto */
-/* Aggiorna la classe .item-icon */
+
+
 .item-icon {
-  height: 20px; /* Deve essere più piccola del contenitore (28px) */
-  width: auto; /* Mantiene le proporzioni (non si schiaccia) */
-  max-width: 24px; /* Limite larghezza per oggetti larghi */
+  height: 20px; 
+  width: auto; 
+  max-width: 24px; 
   object-fit: contain;
 
-  margin-right: 6px; /* Spazio tra icona e testo */
+  margin-right: 6px; 
   display: block;
 }
 
-/* Aggiorna il contenitore per centrare meglio */
+
 .build-held-item {
   display: flex;
   align-items: center;
@@ -270,7 +254,7 @@
     255,
     255,
     0.05
-  ); /* Sfondo leggermente più trasparente */
+  ); 
   padding: 2px 8px 2px 4px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -283,10 +267,11 @@
 }
 
 .raids-version-buttons {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 5px; /* Spazio leggero sotto i bottoni */
+  margin-bottom: 5px; 
 }
 
 .raids-role-buttons {
@@ -302,10 +287,10 @@
   border-radius: 6px;
   color: #888;
   cursor: pointer;
-  flex: 1; /* Si espandono per riempire lo spazio */
+  flex: 1; 
   font-size: 0.85rem;
   font-weight: 600;
-  min-width: 80px; /* Dimensione minima */
+  min-width: 80px; 
   padding: 10px 5px;
   transition: all 0.2s;
 }
@@ -341,11 +326,11 @@
   background-color: #2a2b30;
   border: 1px solid #3a3b3d;
   border-bottom: 1px solid #222;
-  border-radius: 8px 8px 0 0; /* Arrotondato solo sopra */
+  border-radius: 8px 8px 0 0; 
   display: flex;
-  justify-content: space-between; /* Spinge le frecce ai lati */
+  justify-content: space-between; 
   padding: 8px 10px;
-  user-select: none; /* Evita selezione testo cliccando veloce */
+  user-select: none; 
 }
 
 .turn-nav-btn {
@@ -399,17 +384,17 @@
   font-size: 0.85rem;
 }
 
-/* --- BOX UNIFICATO: HEADER (Turni) --- */
+
 .raids-turn-indicator {
   align-items: center;
   background-color: #2a2b30;
   border: 1px solid #3a3b3d;
   border-bottom: 1px solid #222;
-  border-radius: 8px 8px 0 0; /* Round Top */
+  border-radius: 8px 8px 0 0; 
   box-sizing: border-box;
   display: flex;
   gap: 10px;
-  margin-bottom: 0; /* Unito al box sotto */
+  margin-bottom: 0; 
   padding: 10px 15px;
   width: 100%;
 }
@@ -429,7 +414,7 @@
   font-weight: 600;
   height: auto;
   padding: 4px 28px 4px 10px;
-  width: auto; /* Fix per non schiacciarlo */
+  width: auto; 
   min-width: 60px;
 }
 
@@ -440,13 +425,13 @@
   font-weight: 700;
 }
 
-/* --- BOX UNIFICATO: LISTA (Mosse) --- */
+
 .raids-role-moves {
   background: #1f1f23;
   border: 1px solid #3a3b3d;
-  border-left: 1px solid #3a3b3d; /* Assicura bordo coerente */
-  border-top: none; /* Unito all'header */
-  border-radius: 0 0 8px 8px; /* Round Bottom */
+  border-left: 1px solid #3a3b3d; 
+  border-top: none; 
+  border-radius: 0 0 8px 8px; 
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -477,7 +462,7 @@
   flex: 1;
 }
 
-/* Stato Attivo */
+
 .raids-role-move--active {
   background-color: rgba(0, 123, 255, 0.15);
   border: 1px solid rgba(0, 123, 255, 0.3);
@@ -488,25 +473,22 @@
   font-weight: 700;
 }
 
-/* Rimuove eventuali pallini rimasti da versioni precedenti */
+
 .raids-role-move::before {
   content: none;
 }
 
-/* * -------------------------------------------
- * MECHANICS TAB (Restyling)
- * -------------------------------------------
- */
 
-/* Sottosezione Info (Ability, Item, Notes) */
+
+
 .raids-mechanics-text {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Griglia a 2 colonne */
+  grid-template-columns: 1fr 1fr; 
   gap: 10px;
   margin-bottom: 20px;
 }
 
-/* Stile "Card" per ogni blocco di info */
+
 .raids-mechanics-text p {
   background-color: #1a1a1a;
   border: 1px solid #3a3b3d;
@@ -520,12 +502,12 @@
   padding: 10px 12px;
 }
 
-/* Se le note sono lunghe, falle occupare entrambe le colonne */
+
 .raids-mechanics-text p:last-child:nth-child(odd) {
   grid-column: span 2;
 }
 
-/* Label (Ability:, Item:, etc.) */
+
 .raids-mechanics-text strong {
   color: #888;
   font-size: 0.7rem;
@@ -534,11 +516,11 @@
   text-transform: uppercase;
 }
 
-/* --- THRESHOLDS LIST (Stile "Timeline") --- */
+
 .raids-threshold-list {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Spazio ridotto tra le righe */
+  gap: 4px; 
 }
 
 .raids-threshold-list li {
@@ -555,12 +537,12 @@
   background-color: #2a2b30;
 }
 
-/* Badge HP (Percentuale) */
+
 .raids-threshold-hp {
   background: rgba(255, 82, 82, 0.1);
   border: 1px solid rgba(255, 82, 82, 0.3);
   border-radius: 4px;
-  color: #ff5252; /* Rosso soft */
+  color: #ff5252; 
   font-family: monospace;
   font-size: 0.85rem;
   font-weight: 700;
@@ -570,14 +552,14 @@
   text-align: center;
 }
 
-/* Effetto del Threshold */
+
 .raids-threshold-effect {
   color: #e4e6eb;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
-/* --- MOVES CHIPS (Stile coerente con i build items) --- */
+
 .raids-move-chips {
   display: flex;
   flex-wrap: wrap;
@@ -597,10 +579,7 @@
   padding: 4px 12px;
 }
 
-/* * -------------------------------------------
- * LOCATIONS TAB (Restyling a Card)
- * -------------------------------------------
- */
+
 
 .locations-grid {
   display: flex;
@@ -613,7 +592,7 @@
   background-color: #1a1a1a;
   border: 1px solid #3a3b3d;
   border-radius: 8px;
-  overflow: hidden; /* Assicura che l'header non esca dai bordi */
+  overflow: hidden; 
 }
 
 .location-header {
@@ -662,7 +641,7 @@
   gap: 6px;
 }
 
-/* Badge Generico */
+
 .loc-badge {
   align-items: center;
   border-radius: 4px;
@@ -672,21 +651,21 @@
   padding: 4px 8px;
 }
 
-/* Stile Requisiti (Arancione) */
+
 .loc-badge.req {
   background: rgba(255, 152, 0, 0.1);
   border: 1px solid rgba(255, 152, 0, 0.3);
   color: #ff9800;
 }
 
-/* Stile Loot (Oro) */
+
 .loc-badge.drop {
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid rgba(255, 215, 0, 0.3);
   color: #ffd700;
 }
 
-/* Icona piccola per i drop */
+
 .drop-icon {
   height: 18px;
   width: auto;
@@ -694,10 +673,7 @@
   object-fit: contain;
 }
 
-/* * -------------------------------------------
- * NUOVI STILI: BUILD CARDS (Recommended)
- * -------------------------------------------
- */
+
 
 .raids-builds-grid {
   display: flex;
@@ -715,7 +691,7 @@
   overflow: hidden;
 }
 
-/* Testata della Card: Sprite + Info base */
+
 .build-card-header {
   align-items: center;
   background: #2a2b30;
@@ -755,7 +731,7 @@
 }
 
 .build-role {
-  color: #007bff; /* Blu */
+  color: #007bff; 
 }
 
 .build-role-separator {
@@ -763,14 +739,14 @@
 }
 
 .build-usage {
-  color: #ffd700; /* Oro/Giallo per risaltare l'importanza */
-  /* Oppure usa #ff9f43 (Arancione) o #2ecc71 (Verde) a tua scelta */
+  color: #ffd700; 
+  
 }
 
 .build-held-item {
   color: #ccc;
   font-size: 0.8rem;
-  margin-left: auto; /* Spinge a destra */
+  margin-left: auto; 
   background: rgba(255, 255, 255, 0.1);
   padding: 2px 6px;
   border-radius: 4px;
@@ -778,18 +754,18 @@
 
 .build-variants-tabs {
   display: flex;
-  background: #1a1a1a; /* Stesso colore della card */
+  background: #1a1a1a; 
   border-bottom: 1px solid #3a3b3d;
-  overflow-x: auto; /* Permette lo scroll se ci sono troppe varianti */
-  scrollbar-width: none; /* Nasconde scrollbar (Firefox) */
+  overflow-x: auto; 
+  scrollbar-width: none; 
 }
 
 .build-variants-tabs::-webkit-scrollbar {
-  display: none; /* Nasconde scrollbar (Chrome/Safari) */
+  display: none; 
 }
 
 .variant-tab {
-  flex: 1; /* Si espandono equamente */
+  flex: 1; 
   background: transparent;
   border: none;
   border-right: 1px solid #3a3b3d;
@@ -812,14 +788,14 @@
   color: #ccc;
 }
 
-/* Variante Attiva */
+
 .variant-tab.active {
   background: #2a2b30;
-  color: #007bff; /* Blu attivo */
-  box-shadow: inset 0 -2px 0 #007bff; /* Linea blu sotto */
+  color: #007bff; 
+  box-shadow: inset 0 -2px 0 #007bff; 
 }
 
-/* Griglia dettagli (Natura, EV) */
+
 .build-stats-row {
   display: flex;
   background: #1f1f23;
@@ -838,7 +814,7 @@
   margin-left: 4px;
 }
 
-/* Lista Mosse nella card */
+
 .build-moves-list {
   display: flex;
   flex-wrap: wrap;
@@ -855,15 +831,11 @@
   padding: 2px 6px;
 }
 
-/* * -------------------------------------------
- * NUOVI STILI: LOCATION BADGES
- * -------------------------------------------
- */
 
 .loc-details {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Allinea a destra */
+  align-items: flex-end; 
   gap: 4px;
 }
 
@@ -883,22 +855,22 @@
   text-transform: uppercase;
 }
 
-/* Stile per Requisiti (MN) */
+
 .loc-badge.req {
   background: rgba(255, 152, 0, 0.15);
   border: 1px solid rgba(255, 152, 0, 0.4);
-  color: #ff9800; /* Arancione */
+  color: #ff9800; 
 }
 
-/* Stile per Drop (Loot) */
+
 .loc-badge.drop {
   background: rgba(255, 215, 0, 0.15);
   border: 1px solid rgba(255, 215, 0, 0.4);
-  color: #ffd700; /* Oro */
+  color: #ffd700; 
 }
 
 .build-group {
-  margin-bottom: 25px; /* Spazio tra i gruppi */
+  margin-bottom: 25px; 
 }
 
 .build-group:last-child {
@@ -910,20 +882,16 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1px;
-  margin: 0 0 10px 4px; /* Allineato col bordo card */
+  margin: 0 0 10px 4px; 
   text-transform: uppercase;
-  border-left: 3px solid #007bff; /* Piccolo accento blu */
+  border-left: 3px solid #007bff; 
   padding-left: 8px;
 }
 
-/* * -------------------------------------------
- * DROPS TAB (Loot)
- * -------------------------------------------
- */
 
 .drops-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 colonne */
+  grid-template-columns: 1fr 1fr; 
   gap: 10px;
   margin-top: 10px;
 }
@@ -943,12 +911,12 @@
 
 .drop-card:hover {
   background-color: #222;
-  border-color: #ffd700; /* Oro al passaggio del mouse */
+  border-color: #ffd700; 
   transform: translateY(-2px);
 }
 
 .drop-card-icon {
-  height: 40px; /* Icona grande e ben visibile */
+  height: 40px; 
   width: 40px;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
@@ -960,17 +928,13 @@
   font-weight: 700;
 }
 
-/* * -------------------------------------------
- * MEDIA QUERIES (Override Finale)
- * -------------------------------------------
- */
 
 @media (max-width: 768px) {
   .raids-modal {
     border-radius: 0;
     height: 100vh;
     max-height: 100vh;
-    max-width: 100vw; /* Assicura full width su mobile */
+    max-width: 100vw; 
     width: 100vw;
   }
 

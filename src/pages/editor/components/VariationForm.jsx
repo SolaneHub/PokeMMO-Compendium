@@ -1,4 +1,4 @@
-import "./StepForm.css"; // Usa lo stesso CSS di StepForm per coerenza
+import "./StepForm.css";
 
 import StepForm from "./StepForm";
 

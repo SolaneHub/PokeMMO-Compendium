@@ -1,7 +1,6 @@
 import "./UniversalJsonEditor.css";
 
 const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
-  // --- 1. GESTIONE ARRAY ---
   if (Array.isArray(data)) {
     return (
       <div className="universal-array-container">
@@ -13,15 +12,11 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
               <strong>Item {index + 1}</strong>
               <button
                 className="btn btn-danger btn-sm"
-                onClick={() => {
-                  const newData = data.filter((_, i) => i !== index);
-                  onChange(newData);
-                }}
+                onClick={() => onChange(data.filter((_, i) => i !== index))}
               >
                 🗑️ Remove
               </button>
             </div>
-            {/* Passiamo suggestedKeys ricorsivamente agli item della lista */}
             <UniversalJsonEditor
               data={item}
               label={null}
@@ -39,22 +34,21 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
           <button
             className="btn btn-success btn-sm"
             onClick={() => {
-              // Clona la struttura del primo elemento
               let newItem = {};
               if (data.length > 0) {
                 try {
                   newItem = JSON.parse(JSON.stringify(data[0]));
                   const cleanValues = (obj) => {
                     for (let k in obj) {
-                      if (typeof obj[k] === "object" && obj[k] !== null)
+                      if (obj[k] && typeof obj[k] === "object")
                         cleanValues(obj[k]);
                       else if (typeof obj[k] === "string") obj[k] = "";
                       else if (typeof obj[k] === "number") obj[k] = 0;
+                      else if (typeof obj[k] === "boolean") obj[k] = false;
                     }
                   };
                   if (typeof newItem === "object") cleanValues(newItem);
                 } catch {
-                  // Rimosso (e) per evitare l'avviso "defined but never used"
                   newItem = {};
                 }
               }
@@ -68,9 +62,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
     );
   }
 
-  // --- 2. GESTIONE OGGETTI ---
   if (typeof data === "object" && data !== null) {
-    // Calcola quali chiavi suggerite mancano ancora in questo oggetto
     const missingSuggestions = suggestedKeys.filter(
       (key) => !Object.keys(data).includes(key)
     );
@@ -79,34 +71,19 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
       const value = e.target.value;
       if (!value) return;
 
-      let fieldName = value;
+      let fieldName =
+        value === "__custom__"
+          ? window.prompt("Nome del nuovo campo (es. 'ability'):")
+          : value;
 
-      // Se l'utente sceglie "Custom...", apre il prompt classico
-      if (value === "__custom__") {
-        fieldName = window.prompt("Nome del nuovo campo (es. 'ability'):");
-      }
-
-      if (fieldName) {
-        if (Object.prototype.hasOwnProperty.call(data, fieldName)) {
-          alert("Questa chiave esiste già!");
-          return;
-        }
-        // Se il campo è 'moves' o 'variants', inizializzalo come array vuoto per comodità
+      if (fieldName && !Object.hasOwn(data, fieldName)) {
         const initialValue =
           fieldName === "moves" || fieldName === "variants" ? [] : "";
         onChange({ ...data, [fieldName]: initialValue });
+      } else if (fieldName) {
+        alert("Chiave esistente o non valida.");
       }
-
-      // Resetta la select
       e.target.value = "";
-    };
-
-    const handleDeleteField = (keyToDelete) => {
-      if (window.confirm(`Eliminare campo "${keyToDelete}"?`)) {
-        const newData = { ...data };
-        delete newData[keyToDelete];
-        onChange(newData);
-      }
     };
 
     return (
@@ -115,7 +92,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
           <h5 style={{ color: "#aaa", margin: "10px 0 5px" }}>{label}</h5>
         )}
 
-        {Object.keys(data).map((key) => (
+        {Object.entries(data).map(([key, value]) => (
           <div key={key} className="universal-field-row">
             <div className="universal-field-label-wrapper">
               <div className="universal-field-label" title={key}>
@@ -124,22 +101,27 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
               <button
                 className="delete-key-btn"
                 title="Elimina"
-                onClick={() => handleDeleteField(key)}
+                onClick={() => {
+                  if (window.confirm(`Eliminare campo "${key}"?`)) {
+                    const newData = { ...data };
+                    delete newData[key];
+                    onChange(newData);
+                  }
+                }}
               >
                 ×
               </button>
             </div>
             <div className="universal-field-value">
               <UniversalJsonEditor
-                data={data[key]}
-                suggestedKeys={suggestedKeys} // Propaga i suggerimenti
+                data={value}
+                suggestedKeys={suggestedKeys}
                 onChange={(newVal) => onChange({ ...data, [key]: newVal })}
               />
             </div>
           </div>
         ))}
 
-        {/* --- MENU A TENDINA PER AGGIUNGERE CAMPI --- */}
         <div style={{ marginTop: "8px" }}>
           <select
             className="add-field-select"
@@ -149,8 +131,6 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
             <option value="" disabled>
               + Aggiungi Campo...
             </option>
-
-            {/* Mostra i suggerimenti mancanti */}
             {missingSuggestions.length > 0 && (
               <optgroup label="Suggeriti">
                 {missingSuggestions.map((key) => (
@@ -160,7 +140,6 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                 ))}
               </optgroup>
             )}
-
             <optgroup label="Altro">
               <option value="__custom__">Scrivi a mano...</option>
             </optgroup>
@@ -170,7 +149,6 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
     );
   }
 
-  // --- 3. PRIMITIVI ---
   if (typeof data === "boolean") {
     return (
       <input
@@ -184,7 +162,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
   return (
     <input
       type={typeof data === "number" ? "number" : "text"}
-      value={data === null ? "" : data}
+      value={data ?? ""}
       className="universal-input"
       onChange={(e) => {
         const val = e.target.value;

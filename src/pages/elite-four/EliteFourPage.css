@@ -1,7 +1,4 @@
-/* * -------------------------------------------
- * STILI ESISTENTI DI ELITEFOURPAGE
- * -------------------------------------------
- */
+
 
 .team-card {
   align-items: center;
@@ -157,10 +154,6 @@
   cursor: pointer;
 }
 
-/* * -------------------------------------------
- * NUOVI STILI: TEAM INFO BUTTON
- * -------------------------------------------
- */
 
 .team-info-bar {
   display: flex;
@@ -197,4 +190,20 @@
 
 .team-info-btn:active {
   transform: translateY(1px);
+}
+
+
+@media (max-width: 520px) {
+  .pokemon-details-card {
+    width: 95%; 
+    max-height: 90vh; 
+    overflow-y: auto; 
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .team-card {
+    width: 100px; 
+    font-size: 0.9rem;
+  }
 }

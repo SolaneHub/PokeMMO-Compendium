@@ -1,24 +1,24 @@
-/* * ============================================ */
-/* * 1. IVs CONTAINER (Buttons Wrapper)           */
-/* * ============================================ */
 
-/* ? Wrapper for the numeric selection buttons */
+
+
+
+
 .ivs-container {
   display: flex;
-  flex-wrap: wrap; /* ! Important for mobile devices */
+  flex-wrap: wrap; 
   gap: 10px;
   justify-content: center;
   margin-top: 20px;
 }
 
-/* * ============================================ */
-/* * 2. IV BUTTONS STYLING                        */
-/* * ============================================ */
 
-/* ? The core button style (2x, 3x, etc.) */
+
+
+
+
 .ivs-selector-button {
   align-items: center;
-  background-color: #24252a; /* * Matches tree node color */
+  background-color: #24252a; 
   border: 2px solid transparent;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
@@ -35,22 +35,22 @@
   width: 100px;
 }
 
-/* * Hover Effect */
+
 .ivs-selector-button:hover {
   background-color: #3a3b3d;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6);
   transform: translateY(-3px);
 }
 
-/* ! Active/Selected State */
+
 .ivs-selector-button.selected {
   background-color: #2a2b30;
-  border-color: #007bff; /* ! Blue highlight */
+  border-color: #007bff; 
   box-shadow: 0 0 15px rgba(0, 123, 255, 0.3);
   transform: translateY(-2px);
 }
 
-/* ? The small 'x' symbol next to the number */
+
 .iv-symbol {
   color: #646cff;
   font-size: 1rem;
@@ -58,16 +58,16 @@
   opacity: 0.8;
 }
 
-/* * Symbol color change when selected */
+
 .ivs-selector-button.selected .iv-symbol {
   color: #fff;
 }
 
-/* * ============================================ */
-/* * 3. NATURE SECTION                            */
-/* * ============================================ */
 
-/* ? Container for the label and checkbox */
+
+
+
+
 .nature-container {
   align-items: center;
   display: flex;
@@ -76,7 +76,7 @@
   margin: 15px 0 25px 0;
 }
 
-/* * Label Text */
+
 .nature-container p {
   color: #e4e6eb;
   font-size: 1.2rem;
@@ -84,11 +84,11 @@
   margin: 0;
 }
 
-/* * ============================================ */
-/* * 4. CUSTOM CHECKBOX STYLING                   */
-/* * ============================================ */
 
-/* ? Completely replacing the default browser checkbox */
+
+
+
+
 .nature-container input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
@@ -105,20 +105,20 @@
   width: 28px;
 }
 
-/* * Checkbox Hover */
+
 .nature-container input[type="checkbox"]:hover {
   border-color: #646cff;
   transform: translateY(-2px);
 }
 
-/* ! Checkbox Checked State */
+
 .nature-container input[type="checkbox"]:checked {
   background-color: #007bff;
   border-color: #007bff;
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
 }
 
-/* * Checkmark Icon (Pseudo-element) */
+
 .nature-container input[type="checkbox"]::before {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
   background-position: center;
@@ -126,12 +126,12 @@
   background-size: contain;
   content: "";
   height: 16px;
-  transform: scale(0); /* ! Hidden by default */
+  transform: scale(0); 
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   width: 16px;
 }
 
-/* * Reveal Checkmark when checked */
+
 .nature-container input[type="checkbox"]:checked::before {
   transform: scale(1);
 }

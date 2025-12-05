@@ -1,10 +1,6 @@
 import "./EliteMemberCard.css";
 
-// Definiamo il percorso base.
-// Se usi GitHub Pages con la repo "PokeMMO-Compendium", mantieni il prefisso.
-// Se sei solo in locale, puoi usare semplicemente "/trainers/"
-const TRAINER_PATH = "/PokeMMO-Compendium/trainers/";
-
+const TRAINER_PATH = `${import.meta.env.BASE_URL}trainers/`;
 const EliteMemberCard = ({
   member,
   onMemberClick,
@@ -23,17 +19,12 @@ const EliteMemberCard = ({
       </p>
 
       <img
-        // MODIFICA QUI: Concateniamo il percorso cartella + nome file dal JSON
         src={`${TRAINER_PATH}${member.image}`}
         alt={member.name}
         className="image"
         onError={(e) => {
-          // Gestione errore: se non trova l'immagine, mostra un placeholder
           e.target.onerror = null;
-          e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${member.name.replace(
-            " ",
-            "+"
-          )}`;
+          e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${member.name.replace(" ", "+")}`;
         }}
       />
     </div>

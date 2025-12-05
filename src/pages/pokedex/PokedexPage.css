@@ -1,4 +1,4 @@
-/* File: PokedexPage.css */
+
 
 .pokedex-container {
   align-items: center;
@@ -9,8 +9,8 @@
   width: 100%;
 }
 
-/* --- Search Bar Styling --- */
-/* Rimuoviamo .pokedex-search-wrapper e applichiamo gli stili all'input */
+
+
 /*
 .pokedex-search-wrapper {
   margin-bottom: 30px;
@@ -29,7 +29,7 @@
   padding: 12px 20px;
   width: 100%;
 
-  /* Aggiungo queste righe per gestire il layout dall'input */
+  
   max-width: 400px;
   margin-bottom: 30px;
 
@@ -47,8 +47,8 @@
   color: #888;
 }
 
-/* --- Grid Styling --- */
-/* Questa classe replica il layout a griglia per le carte */
+
+
 .pokemon-cards-display {
   display: flex;
   flex-wrap: wrap;
@@ -56,10 +56,10 @@
   justify-content: center;
   width: 100%;
 
-  /* Limite larghezza per schermi molto grandi */
+  
 }
 
-/* Gestione caso nessun risultato */
+
 .no-results {
   color: #ccc;
   font-size: 1.2rem;
@@ -67,16 +67,16 @@
   text-align: center;
 }
 
-/* Responsive tweaks */
+
 @media (max-width: 600px) {
   .pokemon-cards-display {
     gap: 15px;
   }
 }
 
-/* ... (Mantieni il CSS precedente per container e search) ... */
 
-/* --- MODAL STYLES --- */
+
+
 .modal-overlay {
   align-items: center;
   animation: fadeIn 0.2s ease-out;
@@ -143,7 +143,7 @@
   flex-direction: column;
   padding: 30px;
 
-  /* Dark gray */
+  
 }
 
 .modal-main-image {
@@ -164,7 +164,7 @@
   padding: 5px 15px;
 }
 
-/* --- VARIANTS SECTION --- */
+
 .variants-section {
   background: #202125;
   border-top: 1px solid #3a3b3d;
@@ -185,7 +185,7 @@
   padding-bottom: 5px;
 }
 
-/* Scrollbar sottile per le varianti */
+
 .variants-grid::-webkit-scrollbar {
   height: 6px;
 }
@@ -224,7 +224,7 @@
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
 }
 
-/* Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;

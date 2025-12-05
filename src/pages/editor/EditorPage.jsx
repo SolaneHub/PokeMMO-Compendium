@@ -2,94 +2,132 @@ import "./EditorPage.css";
 
 import { useEffect, useState } from "react";
 
-// Importiamo i 5 Editor Specifici
+import { usePersistentState } from "@/shared/utils/usePersistentState";
+
 import EliteFourEditor from "./components/EliteFourEditor";
 import PickupEditor from "./components/PickupEditor";
 import PokedexEditor from "./components/PokedexEditor";
 import RaidsEditor from "./components/RaidsEditor";
 import RedEditor from "./components/RedEditor";
-import UniversalJsonEditor from "./components/UniversalJsonEditor"; // Fallback
+import UniversalJsonEditor from "./components/UniversalJsonEditor";
+
+const EDITOR_MAPPING = {
+  "eliteFourData.json": EliteFourEditor,
+  "raidsData.json": RaidsEditor,
+  "pokedex.json": PokedexEditor,
+  "pickupData.json": PickupEditor,
+  "redData.json": RedEditor,
+};
+
+const API_URL = "http://localhost:3001/api";
 
 const EditorPage = () => {
   const [fileList, setFileList] = useState([]);
-  const [selectedFileName, setSelectedFileName] = useState("");
+
+  const [selectedFileName, setSelectedFileName] = usePersistentState(
+    "editor_lastFile",
+    ""
+  );
+
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
-  // CONFIGURAZIONE: Associa il nome esatto del file JSON al suo Editor
-  const EDITOR_MAPPING = {
-    "eliteFourData.json": EliteFourEditor,
-    "raidsData.json": RaidsEditor,
-    "pokedex.json": PokedexEditor, // <--- CORRETTO: era "pokedexData.json"
-    "pickupData.json": PickupEditor,
-    "redData.json": RedEditor,
-  };
-
-  // 1. Carica lista file
   useEffect(() => {
-    fetch("http://localhost:3001/api/files")
-      .then((res) => res.json())
-      .then((data) => {
+    async function fetchFiles() {
+      try {
+        const res = await fetch(`${API_URL}/files`);
+        if (!res.ok) throw new Error("Impossibile contattare il server");
+
+        const data = await res.json();
         setFileList(data);
-        // Se c'è pokedex.json, prova a selezionarlo, altrimenti il primo
-        const defaultFile = data.find((f) => f === "pokedex.json") || data[0];
-        if (defaultFile) setSelectedFileName(defaultFile);
-      })
-      .catch((err) => console.error("Error fetching file list:", err));
+        setServerError(null);
+
+        if (!selectedFileName || !data.includes(selectedFileName)) {
+          const defaultFile = data.find((f) => f === "pokedex.json") || data[0];
+          if (defaultFile) setSelectedFileName(defaultFile);
+        }
+      } catch (err) {
+        console.error(err);
+        setServerError(
+          "Errore: Assicurati che il server (port 3001) sia attivo."
+        );
+      }
+    }
+    fetchFiles();
   }, []);
 
-  // 2. Carica contenuto file
   useEffect(() => {
     if (!selectedFileName) return;
-    setLoading(true);
-    setFileData(null);
 
-    fetch(`http://localhost:3001/api/data?file=${selectedFileName}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setFileData(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error loading file data:", err);
-        setLoading(false);
-      });
+    let ignore = false;
+    async function fetchData() {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
+        if (!res.ok) throw new Error("Errore fetch dati");
+        const data = await res.json();
+        if (!ignore) setFileData(data);
+      } catch (err) {
+        console.error(err);
+        if (!ignore) alert("Errore nel caricamento del file.");
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    }
+    fetchData();
+    return () => {
+      ignore = true;
+    };
   }, [selectedFileName]);
 
-  // 3. Salva Modifiche
   const handleSave = async () => {
     if (!fileData || !selectedFileName) return;
     try {
-      const res = await fetch(
-        `http://localhost:3001/api/data?file=${selectedFileName}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(fileData),
-        }
-      );
+      const res = await fetch(`${API_URL}/data?file=${selectedFileName}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fileData),
+      });
       const result = await res.json();
       if (result.success) {
-        alert(`✅ ${selectedFileName} salvato con successo!`);
+        alert(`✅ ${selectedFileName} salvato!`);
       } else {
-        alert("❌ Errore durante il salvataggio");
+        alert("❌ Errore server durante il salvataggio.");
       }
     } catch (err) {
-      console.error("Save error:", err);
-      alert("❌ Errore di rete");
+      console.error(err);
+      alert("❌ Errore di connessione.");
     }
   };
 
-  // Seleziona il componente giusto, o usa quello Universale se il file non è mappato
+  if (serverError) {
+    return (
+      <div
+        className="editor-container"
+        style={{ justifyContent: "center", alignItems: "center" }}
+      >
+        <div style={{ textAlign: "center", color: "#ff6b81" }}>
+          <h2>⚠️ Backend Non Raggiungibile</h2>
+          <p>{serverError}</p>
+          <p style={{ color: "#ccc", fontSize: "0.9rem" }}>
+            Esegui <code>npm run server</code> nel terminale.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   const SpecificEditor =
     EDITOR_MAPPING[selectedFileName] || UniversalJsonEditor;
 
   return (
     <div className="editor-container">
+      <title>Editor: {selectedFileName || "File Manager"}</title>
+
       {/* SIDEBAR */}
       <div className="editor-sidebar">
         <h3>File Manager</h3>
-        <label>File Attivo:</label>
         <select
           value={selectedFileName}
           onChange={(e) => setSelectedFileName(e.target.value)}
@@ -102,11 +140,9 @@ const EditorPage = () => {
         </select>
 
         <div style={{ marginTop: "20px", fontSize: "0.85rem", color: "#888" }}>
-          Editor in uso: <br />
+          Editor:{" "}
           <strong style={{ color: "#007bff" }}>
-            {EDITOR_MAPPING[selectedFileName]
-              ? selectedFileName.replace(".json", "") // Toglie .json per estetica
-              : "Universal (Default)"}
+            {EDITOR_MAPPING[selectedFileName] ? "Custom" : "Universal"}
           </strong>
         </div>
 
@@ -116,14 +152,14 @@ const EditorPage = () => {
             onClick={handleSave}
             disabled={loading}
           >
-            {loading ? "Caricamento..." : "💾 Salva Tutto"}
+            {loading ? "..." : "💾 Salva"}
           </button>
         </div>
       </div>
 
-      {/* AREA EDITOR */}
+      {/* MAIN AREA */}
       <div className="editor-main">
-        {loading && <p>Caricamento dati in corso...</p>}
+        {loading && <p>Caricamento...</p>}
         {!loading && fileData && (
           <SpecificEditor data={fileData} onChange={setFileData} />
         )}

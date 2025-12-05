@@ -5,12 +5,7 @@ import StepForm from "./StepForm";
 const RedEditor = ({ data, onChange }) => {
   const [teamKey, setTeamKey] = useState(null);
   const [pokemon, setPokemon] = useState(null);
-
-  // Assumiamo che 'data' sia l'oggetto di Red, che contiene { teams: { "Classic": { ... }, "Challenge": { ... } } }
-  // Se data è un array (come EliteFour), useremo la logica Array.
   const isArray = Array.isArray(data);
-
-  // Se è un array (vecchio stile), prendiamo il primo elemento o gestiamo errori
   const redData = isArray ? data[0] || {} : data;
 
   const updateData = (newData) => {
@@ -19,7 +14,7 @@ const RedEditor = ({ data, onChange }) => {
 
   const addTeam = () => {
     const name = prompt("Nome del Team (es. 'Mt. Silver'):");
-    if (!name) return;
+    if (!name || name.trim() === "") return;
     const newRed = {
       ...redData,
       teams: {
@@ -50,7 +45,7 @@ const RedEditor = ({ data, onChange }) => {
   };
 
   const updateStrategies = (newStrat) => {
-    const newRed = JSON.parse(JSON.stringify(redData));
+    const newRed = structuredClone(redData);
     newRed.teams[teamKey].pokemonStrategies[pokemon] = newStrat;
     updateData(newRed);
   };
@@ -63,6 +58,7 @@ const RedEditor = ({ data, onChange }) => {
 
   return (
     <div>
+      <title>Editor: Red</title>
       <h3
         style={{
           borderBottom: "2px solid #ff5252",
