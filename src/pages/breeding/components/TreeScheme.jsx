@@ -1,6 +1,6 @@
 import "./TreeScheme.css";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import StatCircle from "./StatCircle";
 
@@ -12,6 +12,7 @@ const STAT_COLOR_MAP = {
   "Sp. Attack": "#e925f7",
   "Sp. Defense": "#f7e225",
   Speed: "#25e2f7",
+  Nature: "#ffffff",
 };
 
 // ? Helper: Maps an array of stat names to their hex codes
@@ -20,16 +21,14 @@ const getColors = (stats) =>
 
 // * ============================================
 // * COMPONENT: TreeScheme
-// * Renders the interactive binary breeding tree.
 // * ============================================
 function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
   // * 1. VISUAL CONFIGURATION
-  const NODE_SIZE = 50; // ! Fixed circle size
-  const BASE_PAIR_GAP = 50; // ? Gap between two parents (A + B)
-  const BASE_ROW_GAP = 100; // ? Gap between different branches
-  const VERTICAL_GAP = 60; // ? Height of vertical connector lines
+  const NODE_SIZE = 50;
+  const BASE_PAIR_GAP = 50;
+  const BASE_ROW_GAP = 100;
+  const VERTICAL_GAP = 60;
 
-  // * Scale Configuration (Kept close to 1.0 for clarity due to horizontal scroll)
   const scaleValues = { 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.0, 6: 0.95 };
   const scaleValuesNature = { 2: 1.0, 3: 1.0, 4: 1.0, 5: 0.95, 6: 0.9 };
 
@@ -38,11 +37,22 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
     : scaleValues[selectedIvCount];
 
   // * State: Tracks which nodes are currently active/lit up
-  const [activeIds, setActiveIds] = useState(new Set());
+  // ! PERSISTENZA: Inizializza leggendo dal LocalStorage
+  const [activeIds, setActiveIds] = useState(() => {
+    const saved = localStorage.getItem("breeding_activeNodes");
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+
+  // ! EFFECT: Salva nel LocalStorage ogni volta che un nodo viene cliccato
+  useEffect(() => {
+    localStorage.setItem(
+      "breeding_activeNodes",
+      JSON.stringify([...activeIds])
+    );
+  }, [activeIds]);
 
   // * ============================================
   // * 2. TREE GENERATION LOGIC
-  // * Constructs a binary tree structure from the selected stats.
   // * ============================================
   const generateTree = useCallback(
     (selectedIvCount, selectedIvStats, nature) => {
@@ -55,7 +65,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
       const levels = [];
       let currentLevel = [stats];
 
-      // ? Build levels bottom-up (combining pairs)
       while (currentLevel.length > 0) {
         levels.push(currentLevel);
         const nextLevel = [];
@@ -68,7 +77,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         });
         currentLevel = nextLevel;
       }
-      // ! Reverse to render Top-Down (Leaves -> Root)
       return levels
         .map((level) => level.map((nodeStats) => getColors(nodeStats)))
         .reverse();
@@ -91,13 +99,9 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
       if (isTurningOn) {
         // * ACTION: TURN ON
-        // 1. Activate clicked node
         newSet.add(clickedId);
-
-        // 2. ! Recursively activate ANCESTORS (Parents)
-        // Logic: A node cannot exist without its parents.
         const activateAncestors = (r, c) => {
-          if (r === 0) return; // Reached top
+          if (r === 0) return;
           const parentRow = r - 1;
           const leftP = `${parentRow}-${c * 2}`;
           const rightP = `${parentRow}-${c * 2 + 1}`;
@@ -109,11 +113,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         activateAncestors(rowIndex, colIndex);
       } else {
         // * ACTION: TURN OFF
-        // 1. Deactivate clicked node
         newSet.delete(clickedId);
-
-        // 2. ! Recursively deactivate DESCENDANTS (Children)
-        // Logic: If a parent is removed, the child cannot exist.
         const deactivateDescendants = (r, c) => {
           const childRow = r + 1;
           if (childRow >= dataByRow.length) return;
@@ -126,7 +126,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         };
         deactivateDescendants(rowIndex, colIndex);
 
-        // 3. ! Recursively deactivate ANCESTORS (Clean up path)
         const deactivateAncestors = (r, c) => {
           if (r === 0) return;
           const parentRow = r - 1;
@@ -159,31 +158,23 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
   // * ============================================
   // * 4. GEOMETRIC GAP CALCULATION
-  // * Ensures vertical lines connect perfectly to children.
   // * ============================================
   const rowConfigs = [];
-
-  // ? Initialize all rows with fixed node size
   for (let i = 0; i < totalRows; i++) {
     rowConfigs.push({ size: NODE_SIZE, pairGap: 0, rowGap: 0 });
   }
 
-  // ? Set base gaps for the leaves (first row)
   if (rowConfigs.length > 0) {
     rowConfigs[0].pairGap = BASE_PAIR_GAP;
     rowConfigs[0].rowGap = BASE_ROW_GAP;
   }
 
-  // ! Recursive Math: Calculate gaps from top to bottom
-  // The distance between two parents must equal the space needed for the child below.
   for (let i = 0; i < totalRows - 1; i++) {
     const current = rowConfigs[i];
     const next = rowConfigs[i + 1];
-
     const distanceBetweenParents =
       2 * current.size + current.pairGap + current.rowGap;
     const nextGap = distanceBetweenParents - next.size;
-
     next.pairGap = nextGap;
     next.rowGap = nextGap;
   }
