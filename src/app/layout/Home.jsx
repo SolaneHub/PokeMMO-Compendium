@@ -1,9 +1,11 @@
 import "./Home.css";
 
+import PageTitle from "@/shared/components/PageTitle";
+
 function Home() {
   return (
     <div className="container">
-      <title>PokéMMO Compendium: Home</title>
+      <PageTitle title="PokéMMO Compendium: Home" />
 
       <div className="credits-content">
         <p>

@@ -6,6 +6,7 @@ import {
   getPokedexMainList,
   getPokemonCardData,
 } from "@/pages/pokedex/data/pokemonService";
+import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
 import PokemonSummary from "@/shared/components/PokemonSummary";
 
@@ -23,7 +24,7 @@ function PokedexPage() {
 
   return (
     <div className="pokedex-container">
-      <title>Compendium: Pokédex</title>
+      <PageTitle title="PokéMMO Compendium: Pokédex" />
 
       <input
         type="text"
