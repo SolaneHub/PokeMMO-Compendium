@@ -12,6 +12,7 @@ import {
   getRaidsByStars,
   getStarLevels,
 } from "@/pages/raids/data/raidsService";
+import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
 
@@ -235,7 +236,7 @@ function RaidsPage() {
 
   return (
     <div className="container raids-page">
-      <title>Compendium: Raids</title>
+      <PageTitle title="PokéMMO Compendium: Raids" />
 
       <div className="cards-container">
         {starLevels.map((star) => (

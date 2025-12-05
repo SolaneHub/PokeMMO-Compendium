@@ -17,6 +17,7 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
+import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
@@ -127,7 +128,7 @@ function EliteFourPage() {
 
   return (
     <div className="container">
-      <title>Compendium: Elite Four Strategy</title>
+      <PageTitle title="PokéMMO Compendium: Elite Four" />
 
       <div className="cards-container">
         {allTeamNames.map((teamName) => (

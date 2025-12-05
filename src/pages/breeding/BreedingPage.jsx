@@ -6,6 +6,7 @@ import "@/pages/breeding/components/TreeScheme.css";
 import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
 import IVsSelector from "@/pages/breeding/components/IVsSelector";
 import TreeScheme from "@/pages/breeding/components/TreeScheme";
+import PageTitle from "@/shared/components/PageTitle";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 const IV_OPTIONS = [2, 3, 4, 5, 6];
@@ -31,7 +32,7 @@ function BreedingPage() {
 
   return (
     <div className="container">
-      <title>PokéMMO Compendium: Breeding Simulator</title>
+      <PageTitle title="PokéMMO Compendium: Breeding Planner" />
       <IVsSelector
         ivOptions={IV_OPTIONS}
         selectedIvCount={selectedIvCount}

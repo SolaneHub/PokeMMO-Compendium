@@ -2,6 +2,7 @@ import "./EditorPage.css";
 
 import { useEffect, useState } from "react";
 
+import PageTitle from "@/shared/components/PageTitle";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 import EliteFourEditor from "./components/EliteFourEditor";
@@ -123,7 +124,7 @@ const EditorPage = () => {
 
   return (
     <div className="editor-container">
-      <title>Editor: {selectedFileName || "File Manager"}</title>
+      <PageTitle title="PokéMMO Compendium: Editor" />
 
       {/* SIDEBAR */}
       <div className="editor-sidebar">
