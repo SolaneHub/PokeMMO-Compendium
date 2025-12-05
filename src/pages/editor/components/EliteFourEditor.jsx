@@ -49,7 +49,6 @@ const EliteFourEditor = ({ data, onChange }) => {
           flexWrap: "wrap",
         }}
       >
-        
         <div style={{ flex: 1, minWidth: "200px" }}>
           <label style={{ fontSize: "0.85rem", color: "#aaa" }}>Membro</label>
           <select
@@ -71,7 +70,6 @@ const EliteFourEditor = ({ data, onChange }) => {
           </select>
         </div>
 
-        
         <div style={{ flex: 1, minWidth: "200px" }}>
           <label style={{ fontSize: "0.85rem", color: "#aaa" }}>Team</label>
           <select
@@ -93,7 +91,6 @@ const EliteFourEditor = ({ data, onChange }) => {
           </select>
         </div>
 
-        
         <div style={{ flex: 1, minWidth: "200px" }}>
           <label style={{ fontSize: "0.85rem", color: "#aaa" }}>Pokémon</label>
           <select
@@ -113,7 +110,6 @@ const EliteFourEditor = ({ data, onChange }) => {
         </div>
       </div>
 
-    
       {steps ? (
         <div className="fade-in">
           <div
@@ -137,7 +133,6 @@ const EliteFourEditor = ({ data, onChange }) => {
             </button>
           </div>
 
-          
           {steps.length > 0 ? (
             steps.map((step, i) => (
               <div

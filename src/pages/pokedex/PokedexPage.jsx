@@ -24,7 +24,7 @@ function PokedexPage() {
   return (
     <div className="pokedex-container">
       <title>Compendium: Pokédex</title>
-    
+
       <input
         type="text"
         placeholder="Search Pokémon..."
@@ -33,7 +33,6 @@ function PokedexPage() {
         className="pokedex-search-input"
       />
 
-    
       <div className="pokemon-cards-display">
         {filteredPokemon.map((pokemonName, index) => {
           const { sprite, background } = getPokemonCardData(pokemonName);
@@ -55,7 +54,6 @@ function PokedexPage() {
         )}
       </div>
 
-    
       {selectedPokemon && (
         <PokemonSummary
           pokemonName={selectedPokemon}

@@ -1,8 +1,6 @@
-
 * {
   box-sizing: border-box;
 }
-
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -20,7 +18,7 @@
 }
 
 .editor-container {
-  background-color: #121212; 
+  background-color: #121212;
   color: #e4e6eb;
   display: flex;
   height: 100vh;
@@ -30,7 +28,6 @@
     -apple-system,
     sans-serif;
 }
-
 
 .editor-sidebar {
   background-color: #1e1e1e;
@@ -85,7 +82,6 @@
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
 }
 
-
 .btn {
   border: none;
   border-radius: 6px;
@@ -126,10 +122,9 @@
   background-color: #c82333;
 }
 
-
 .editor-main {
   background-color: #121212;
-  flex: 1; 
+  flex: 1;
   overflow-y: auto;
   padding: 30px;
 }
@@ -142,7 +137,6 @@
   border-bottom: 1px solid #333;
   padding-bottom: 10px;
 }
-
 
 .step-card {
   background-color: #1e1e1e;

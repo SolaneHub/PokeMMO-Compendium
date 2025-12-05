@@ -52,7 +52,6 @@ const BuildCard = ({ buildData }) => {
 
   return (
     <div className="raids-build-card">
-      
       {allVariants.length > 1 && (
         <div className="build-variants-tabs">
           {allVariants.map((variant, idx) => (
@@ -67,7 +66,6 @@ const BuildCard = ({ buildData }) => {
         </div>
       )}
 
-      
       <div className="build-card-header">
         <img src={sprite} alt={activeBuild.name} className="build-sprite" />
         <div className="build-main-info">
@@ -81,7 +79,6 @@ const BuildCard = ({ buildData }) => {
           </div>
         </div>
 
-      
         {activeBuild.item && (
           <span className="build-held-item">
             <img
@@ -96,7 +93,6 @@ const BuildCard = ({ buildData }) => {
         )}
       </div>
 
-      
       <div className="build-stats-row">
         {activeBuild.ability && (
           <span className="build-stat">
@@ -120,7 +116,6 @@ const BuildCard = ({ buildData }) => {
         )}
       </div>
 
-    
       {activeBuild.moves && (
         <div className="build-moves-list">
           {activeBuild.moves.map((m, k) => (
@@ -275,7 +270,6 @@ function RaidsPage() {
       {isPokemonDetailsVisible && currentRaid && (
         <div className="raids-overlay" onClick={closePokemonDetails}>
           <div className="raids-modal" onClick={(e) => e.stopPropagation()}>
-            
             <div
               className="raids-modal-header"
               style={{ background: detailsTitleBackground }}
@@ -284,7 +278,6 @@ function RaidsPage() {
               <p>{currentRaid.stars}★ Raid</p>
             </div>
 
-            
             <div className="raids-tabs">
               {tabs.map((tab) => (
                 <button
@@ -297,9 +290,7 @@ function RaidsPage() {
               ))}
             </div>
 
-          
             <div className="raids-modal-content">
-              
               {activeTab === "Strategy" && (
                 <>
                   {currentRaid.teamStrategies &&
@@ -418,7 +409,6 @@ function RaidsPage() {
                 </>
               )}
 
-              
               {activeTab === "Builds" && (
                 <section className="raids-section">
                   {recommendedList.length > 0 ? (
@@ -445,7 +435,6 @@ function RaidsPage() {
                               ))}
                           </div>
 
-                          
                           {effectiveBuildGroupKey &&
                             buildGroups[effectiveBuildGroupKey] && (
                               <div className="raids-builds-grid fade-in">
@@ -473,7 +462,6 @@ function RaidsPage() {
                 </section>
               )}
 
-              
               {activeTab === "Mechanics" && currentRaid.mechanics && (
                 <section className="raids-section">
                   <h3 className="raids-section-title">Boss Info</h3>
@@ -535,7 +523,6 @@ function RaidsPage() {
                 </section>
               )}
 
-            
               {activeTab === "Locations" && (
                 <section className="raids-section">
                   <h3 className="raids-section-title">Where to find</h3>

@@ -19,7 +19,6 @@ function PlayerBuildCard({ build }) {
 
   return (
     <div className="raids-build-card">
-      
       <div className="build-card-header">
         <img src={sprite} alt={build.name} className="build-sprite" />
         <div className="build-main-info">
@@ -39,7 +38,6 @@ function PlayerBuildCard({ build }) {
         )}
       </div>
 
-    
       <div className="build-stats-row">
         {build.ability && (
           <span className="build-stat">
@@ -58,7 +56,6 @@ function PlayerBuildCard({ build }) {
         )}
       </div>
 
-      
       {build.moves && (
         <div className="build-moves-list">
           {build.moves.map((m, k) => (

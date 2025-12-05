@@ -129,7 +129,6 @@ function EliteFourPage() {
     <div className="container">
       <title>Compendium: Elite Four Strategy</title>
 
-    
       <div className="cards-container">
         {allTeamNames.map((teamName) => (
           <div
@@ -142,7 +141,6 @@ function EliteFourPage() {
         ))}
       </div>
 
-      
       {selectedTeam && currentTeamBuilds.length > 0 && (
         <div className="team-info-bar fade-in">
           <button
@@ -154,7 +152,6 @@ function EliteFourPage() {
         </div>
       )}
 
-    
       {selectedTeam && (
         <div className="cards-container">
           {pokemonRegions.map((region) => (
@@ -168,7 +165,6 @@ function EliteFourPage() {
         </div>
       )}
 
-      
       {selectedRegion && filteredEliteFour.length > 0 && (
         <div className="cards-container">
           {filteredEliteFour.map((member) => {
@@ -189,7 +185,6 @@ function EliteFourPage() {
         </div>
       )}
 
-    
       {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="pokemon-cards-display">
           {pokemonNamesForSelectedTeam.map((pokemonName) => {
@@ -208,7 +203,6 @@ function EliteFourPage() {
         </div>
       )}
 
-      
       {isTeamBuildVisible && (
         <TeamBuildModal
           teamName={selectedTeam}
@@ -217,7 +211,6 @@ function EliteFourPage() {
         />
       )}
 
-      
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div
           className="overlay"
@@ -227,7 +220,6 @@ function EliteFourPage() {
             className="pokemon-details-card"
             onClick={(e) => e.stopPropagation()}
           >
-            
             <div
               className="pokemon-details-title-wrapper"
               style={{ background: detailsTitleBackground }}
@@ -236,21 +228,18 @@ function EliteFourPage() {
             </div>
 
             <div className="menu-content">
-            
               {strategyHistory.length > 0 && (
                 <button className="back-button" onClick={handleBackClick}>
                   ⬅️ Back
                 </button>
               )}
 
-              
               {currentStrategyView.length === 0 ? (
                 <p>No strategy available for this Pokémon.</p>
               ) : (
                 currentStrategyView.map((item, index) => {
                   return (
                     <div key={index} className="strategy-block">
-                      
                       {(item.type === "main" || item.type === "step") && (
                         <>
                           {item.player && (
@@ -270,7 +259,6 @@ function EliteFourPage() {
                         </>
                       )}
 
-                      
                       {item.variations && (
                         <div className="variation-group">
                           {item.variations.map((v, vi) => (

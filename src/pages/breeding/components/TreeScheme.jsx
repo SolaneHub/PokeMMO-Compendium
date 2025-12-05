@@ -145,7 +145,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
   return (
     <div className="tree-scheme-container">
-      
       <div className="legend-container">
         <div className="legend-items">
           {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
@@ -157,7 +156,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         </div>
       </div>
 
-      
       <div className="tree-scroll-view">
         <div className="tree-wrapper">
           <div

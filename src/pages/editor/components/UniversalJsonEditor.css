@@ -1,10 +1,7 @@
-
-
 .universal-wrapper {
   font-family: "Fira Code", "Consolas", monospace;
   font-size: 0.9rem;
 }
-
 
 .universal-object-container {
   display: flex;
@@ -20,9 +17,8 @@
   border-bottom: 1px solid #2a2a2a;
 }
 
-
 .universal-field-label-wrapper {
-  flex: 0 0 160px; 
+  flex: 0 0 160px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -38,7 +34,6 @@
   white-space: nowrap;
   max-width: 130px;
 }
-
 
 .delete-key-btn {
   background: transparent;
@@ -64,14 +59,12 @@
   min-width: 0;
 }
 
-
 .universal-field-value .universal-object-container {
   border-left: 2px solid #444;
   padding-left: 15px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
-
 
 .btn-text-only {
   background: none;
@@ -90,7 +83,6 @@
   color: #007bff;
   background-color: rgba(0, 123, 255, 0.05);
 }
-
 
 .universal-array-container {
   margin-top: 10px;
@@ -133,7 +125,6 @@
   color: #fab1a0;
 }
 
-
 input.universal-input {
   background-color: #1a1a1a;
   border: 1px solid #3a3b3d;
@@ -164,7 +155,6 @@ input[type="checkbox"] {
   font-size: 0.75rem;
 }
 
-
 .add-field-select {
   background-color: transparent;
   border: 1px dashed #555;
@@ -175,7 +165,7 @@ input[type="checkbox"] {
   cursor: pointer;
   font-size: 0.85rem;
   transition: all 0.2s;
-  appearance: none; 
+  appearance: none;
   text-align: center;
 }
 
