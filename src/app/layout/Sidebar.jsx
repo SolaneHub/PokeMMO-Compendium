@@ -6,8 +6,6 @@ import {
   Database,
   Edit3,
   Home,
-  Map,
-  Menu,
   Search,
   Shield,
   Swords,

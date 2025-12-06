@@ -1,27 +1,48 @@
 import VariationForm from "@/pages/editor/components/VariationForm";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import the hook
 
 const StepForm = ({ step, onChange }) => {
+  const { pokemonNames, moveNames, itemNames } = usePokedexData(); // Use the hook
   const update = (field, value) => onChange({ ...step, [field]: value });
+
+  const combinedSuggestions = [
+    ...new Set([...pokemonNames, ...moveNames, ...itemNames]),
+  ].sort();
+
+  const isConditionStep = step.type === "check" || step.type === "condition";
+  const actionLabel = isConditionStep ? "Condition:" : "Action:";
 
   return (
     <div className="border-l-[3px] border-[#00bcd4] bg-[#2a2b2e] p-2.5 px-4 mt-2.5">
       <label className="text-[#b0b0b0] text-xs font-bold mt-4 block first:mt-0">
         Type:{" "}
-        <input
-          type="text"
+        <select
           value={step.type || ""}
           onChange={(e) => update("type", e.target.value)}
           className="bg-[#2c2c2c] border border-[#444] rounded text-white text-[0.95rem] px-3 py-2 w-full mt-1.5 transition-all focus:bg-[#333] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
-        />
+        >
+          <option value="">-- Select Type --</option>
+          <option value="main">Main</option>
+          <option value="step">Step</option>
+          <option value="check">Check</option>
+          <option value="condition">Condition</option>
+        </select>
       </label>
       <label className="text-[#b0b0b0] text-xs font-bold mt-4 block">
-        Action:{" "}
+        {actionLabel}{" "}
         <input
           type="text"
+          list="action-suggestions" // Add list attribute
           value={step.player || ""}
           onChange={(e) => update("player", e.target.value)}
           className="bg-[#2c2c2c] border border-[#444] rounded text-white text-[0.95rem] px-3 py-2 w-full mt-1.5 transition-all focus:bg-[#333] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
         />
+        {/* Datalist for action suggestions */}
+        <datalist id="action-suggestions">
+          {combinedSuggestions.map((suggestion) => (
+            <option key={suggestion} value={suggestion} />
+          ))}
+        </datalist>
       </label>
       <label className="text-[#b0b0b0] text-xs font-bold mt-4 block">
         Note:{" "}

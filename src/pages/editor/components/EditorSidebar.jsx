@@ -1,0 +1,141 @@
+// src/pages/editor/components/EditorSidebar.jsx
+import React from "react";
+import {
+  FaBolt,
+  FaBook,
+  FaDragon,
+  FaEgg,
+  FaHatWizard,
+  FaList,
+  FaRedhat,
+  FaUsers,
+} from "react-icons/fa"; // Example icons, adjust as needed
+
+const editorNavigationItems = [
+  {
+    fileName: "eliteFourData.json",
+    label: "Elite Four",
+    icon: <FaDragon className="text-xl" />,
+  },
+  {
+    fileName: "raidsData.json",
+    label: "Raids",
+    icon: <FaBolt className="text-xl" />,
+  },
+  {
+    fileName: "pokedex.json",
+    label: "Pokedex",
+    icon: <FaBook className="text-xl" />,
+  },
+  {
+    fileName: "pickupData.json",
+    label: "Pickup",
+    icon: <FaEgg className="text-xl" />,
+  },
+  {
+    fileName: "redData.json",
+    label: "Red Battle",
+    icon: <FaRedhat className="text-xl" />,
+  },
+  {
+    fileName: "bossFightsData.json",
+    label: "Boss Fights",
+    icon: <FaUsers className="text-xl" />,
+  },
+  {
+    fileName: "superTrainersData.json",
+    label: "Super Trainers",
+    icon: <FaHatWizard className="text-xl" />,
+  },
+  // Add other JSON files as needed for universal editor or specific editors
+];
+
+const EditorSidebar = ({
+  fileList,
+  selectedFileName,
+  onSelectFile,
+  onSave,
+  loading,
+}) => {
+  return (
+    <div className="w-[280px] bg-[#1e1e1e] border-r border-[#333] flex flex-col gap-4 p-5 overflow-y-auto shrink-0">
+      <h3 className="text-white text-lg font-normal uppercase tracking-wider border-b-2 border-blue-500 pb-2.5 inline-block m-0">
+        File Manager
+      </h3>
+
+      <div className="flex flex-col gap-1.5">
+        <label className="text-[#a0a0a0] text-xs font-bold uppercase mb-2">
+          Select Editor
+        </label>
+        <nav>
+          <ul className="flex flex-col gap-2">
+            {editorNavigationItems
+              .filter((item) => fileList.includes(item.fileName)) // Only show editors for available files
+              .map((item) => (
+                <li key={item.fileName}>
+                  <button
+                    className={`w-full flex items-center gap-3 p-2.5 rounded-md text-sm font-medium transition-colors
+                    ${
+                      selectedFileName === item.fileName
+                        ? "bg-blue-600 text-white shadow-lg"
+                        : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
+                    }`}
+                    onClick={() => onSelectFile(item.fileName)}
+                  >
+                    {item.icon}
+                    {item.label}
+                  </button>
+                </li>
+              ))}
+            {/* Fallback for files not explicitly mapped, if UniversalJsonEditor is desired for them */}
+            {fileList
+              .filter(
+                (file) =>
+                  !editorNavigationItems.some((item) => item.fileName === file)
+              )
+              .map((file) => (
+                <li key={file}>
+                  <button
+                    className={`w-full flex items-center gap-3 p-2.5 rounded-md text-sm font-medium transition-colors
+                    ${
+                      selectedFileName === file
+                        ? "bg-blue-600 text-white shadow-lg"
+                        : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
+                    }`}
+                    onClick={() => onSelectFile(file)}
+                  >
+                    <FaList className="text-xl" />
+                    {file.replace(".json", "")} (Universal)
+                  </button>
+                </li>
+              ))}
+          </ul>
+        </nav>
+      </div>
+
+      <div className="mt-5 text-xs text-[#888]">
+        Editor:{" "}
+        <strong className="text-blue-500">
+          {selectedFileName &&
+          editorNavigationItems.some(
+            (item) => item.fileName === selectedFileName
+          )
+            ? "Custom"
+            : "Universal"}
+        </strong>
+      </div>
+
+      <div className="mt-auto">
+        <button
+          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-4 rounded-md transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={onSave}
+          disabled={loading}
+        >
+          {loading ? "..." : "💾 Salva"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default EditorSidebar;

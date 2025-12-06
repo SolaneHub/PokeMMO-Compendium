@@ -11,6 +11,7 @@ import PickupPage from "@/pages/pickup/PickupPage";
 import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
+import { ToastProvider } from "@/shared/components/ToastNotification"; // Import ToastProvider
 
 function App() {
   const location = useLocation();
@@ -36,22 +37,26 @@ function App() {
   }
 
   return (
-    <Shell>
-      {pages.map(({ path, Component, key }) => {
-        const isActive = currentPath === path;
+    <ToastProvider>
+      {" "}
+      {/* Wrap with ToastProvider */}
+      <Shell>
+        {pages.map(({ path, Component, key }) => {
+          const isActive = currentPath === path;
 
-        return (
-          <Activity key={key} mode={isActive ? "visible" : "hidden"}>
-            <div
-              className="w-full h-full"
-              style={{ display: isActive ? "block" : "none" }}
-            >
-              <Component />
-            </div>
-          </Activity>
-        );
-      })}
-    </Shell>
+          return (
+            <Activity key={key} mode={isActive ? "visible" : "hidden"}>
+              <div
+                className="w-full h-full"
+                style={{ display: isActive ? "block" : "none" }}
+              >
+                <Component />
+              </div>
+            </Activity>
+          );
+        })}
+      </Shell>
+    </ToastProvider>
   );
 }
 

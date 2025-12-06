@@ -7,40 +7,128 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import {
   getAllSuperTrainers,
-  getAvailableSuperTrainerRegions,
   getPokemonListForTeam,
   getPokemonStrategy,
-  getSuperTrainersByRegion,
+  getTeamNamesForSuperTrainer,
 } from "@/pages/super-trainers/data/superTrainersService";
-import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
 import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
-import RegionCard from "@/shared/components/RegionCard";
-import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
+import { typeBackgrounds } from "@/shared/utils/pokemonColors";
+
+const SuperTrainerSection = ({
+  trainer,
+  onPokemonCardClick,
+  selectedPokemon,
+}) => {
+  const [activeTeam, setActiveTeam] = useState(
+    Object.keys(trainer.teams || {})[0]
+  );
+  const teamNames = getTeamNamesForSuperTrainer(trainer.name, trainer.region);
+  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
+    trainer.name,
+    trainer.region,
+    activeTeam
+  );
+
+  const trainerBackground =
+    typeBackgrounds[trainer.type] || typeBackgrounds[""];
+
+  return (
+    <div className="bg-[#1e2025] rounded-2xl p-4 md:p-6 shadow-lg border border-white/5 animate-[fade-in_0.4s_ease-out]">
+      <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-blue-500 shadow-md flex-shrink-0">
+          <img
+            src={`/PokeMMO-Compendium/trainers/${trainer.image}`}
+            alt={trainer.name}
+            className="w-full h-full object-cover object-top"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `https://placehold.co/128x128/cccccc/333333?text=${trainer.name}`;
+            }}
+          />
+        </div>
+        <div className="text-center md:text-left">
+          <h2 className="text-3xl font-bold text-white m-0">{trainer.name}</h2>
+          <p className="text-blue-400 text-lg m-0">{trainer.region} Trainer</p>
+          {trainer.type && (
+            <span
+              className="inline-block px-3 py-1 mt-2 rounded-full text-sm font-semibold text-[#1a1b20]"
+              style={{ backgroundColor: trainerBackground }}
+            >
+              {trainer.type}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {teamNames.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold text-slate-300 mb-3 text-center md:text-left">
+            Teams
+          </h3>
+          <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+            {teamNames.map((teamName) => (
+              <button
+                key={teamName}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors
+                  ${
+                    activeTeam === teamName
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white"
+                  }
+                `}
+                onClick={() => setActiveTeam(teamName)}
+              >
+                {teamName}
+              </button>
+            ))}
+          </div>
+
+          {pokemonNamesForSelectedTeam.length > 0 && (
+            <div>
+              <h3 className="text-xl font-semibold text-slate-300 mb-3 text-center md:text-left">
+                Pokémon for {activeTeam}
+              </h3>
+              <div className="flex flex-wrap justify-center gap-4">
+                {pokemonNamesForSelectedTeam.map((pokemonName) => {
+                  const { sprite, background } =
+                    getPokemonCardData(pokemonName);
+                  return (
+                    <PokemonCard
+                      key={pokemonName}
+                      pokemonName={pokemonName}
+                      pokemonImageSrc={sprite}
+                      nameBackground={background}
+                      onClick={() =>
+                        onPokemonCardClick(
+                          pokemonName,
+                          trainer.name,
+                          trainer.region,
+                          activeTeam
+                        )
+                      }
+                      isSelected={selectedPokemon === pokemonName}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 function SuperTrainersPage() {
-  const [selectedTeam, setSelectedTeam] = useState(null);
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedTrainer, setSelectedTrainer] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  const allTeamNames = (() => {
-    const allData = getAllSuperTrainers();
-    return allData.length > 0 ? Object.keys(allData[0].teams || {}).sort() : [];
-  })();
-
-  const availableRegions = getAvailableSuperTrainerRegions();
-  const filteredTrainers = getSuperTrainersByRegion(selectedRegion);
-  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
-    selectedTrainer,
-    selectedRegion,
-    selectedTeam
-  );
+  // Store the context for fetching Pokémon strategy in the modal
+  const allSuperTrainers = getAllSuperTrainers();
 
   const currentPokemonObject = selectedPokemon
     ? getPokemonByName(selectedPokemon)
@@ -49,45 +137,20 @@ function SuperTrainersPage() {
     ? getPokemonBackground(selectedPokemon)
     : "#333";
 
-  const resetStrategyStates = () => {
-    setCurrentStrategyView([]);
-    setStrategyHistory([]);
-  };
-
-  const handleTeamClick = (teamName) => {
-    setSelectedTeam(teamName);
-    setSelectedRegion(null);
-    setSelectedTrainer(null);
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
-  };
-
-  const handleRegionClick = (region) => {
-    const regionName = typeof region === "object" ? region.name : region;
-    setSelectedRegion((prev) => (prev === regionName ? null : regionName));
-
-    setSelectedTrainer(null);
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
-  };
-
-  const handleTrainerClick = (trainerName) => {
-    setSelectedTrainer((prev) => (prev === trainerName ? null : trainerName));
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
-  };
-
-  const handlePokemonCardClick = (pokemonName) => {
+  const handlePokemonCardClick = (
+    pokemonName,
+    trainerName,
+    trainerRegion,
+    teamName
+  ) => {
     setSelectedPokemon(pokemonName);
     setIsPokemonDetailsVisible(true);
+    // setStrategyContext({ trainerName, trainerRegion, teamName, pokemonName }); // Removed unused setter
 
     const strategy = getPokemonStrategy(
-      selectedTrainer,
-      selectedRegion,
-      selectedTeam,
+      trainerName,
+      trainerRegion,
+      teamName,
       pokemonName
     );
     setCurrentStrategyView(strategy);
@@ -124,100 +187,25 @@ function SuperTrainersPage() {
       <PageTitle title="PokéMMO Compendium: Super Trainers" />
 
       {/* Header */}
-      <div className="text-center space-y-2">
+      <div className="text-center space-y-2 mb-8">
         <h1 className="text-3xl font-bold text-white">
-          Super Trainers Strategy
+          Super Trainers Strategies
         </h1>
-        <p className="text-slate-400">Select your team to begin.</p>
+        <p className="text-slate-400">
+          Detailed strategies for defeating the Super Trainers.
+        </p>
       </div>
 
-      {/* Team Selection */}
-      <div className="flex flex-wrap justify-center gap-4">
-        {allTeamNames.map((teamName) => (
-          <button
-            key={teamName}
-            onClick={() => handleTeamClick(teamName)}
-            className={`
-              relative w-40 h-16 rounded-2xl font-bold text-lg transition-all duration-300 border
-              ${
-                selectedTeam === teamName
-                  ? "bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.2)] scale-105"
-                  : "bg-[#1e2025] border-white/5 text-slate-400 hover:bg-[#25272e] hover:border-white/20 hover:text-slate-200 hover:-translate-y-1"
-              }
-            `}
-          >
-            {teamName}
-          </button>
+      <div className="flex flex-col gap-8">
+        {allSuperTrainers.map((trainer) => (
+          <SuperTrainerSection
+            key={trainer.name}
+            trainer={trainer}
+            onPokemonCardClick={handlePokemonCardClick}
+            selectedPokemon={selectedPokemon}
+          />
         ))}
       </div>
-
-      {selectedTeam && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Region
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5">
-            {availableRegions.map((region) => (
-              <RegionCard
-                key={region.id}
-                region={region}
-                onRegionClick={() => handleRegionClick(region.name)}
-                isSelected={selectedRegion === region.name}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedRegion && filteredTrainers.length > 0 && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Trainer
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5">
-            {filteredTrainers.map((trainer, i) => {
-              const trainerBackground =
-                typeBackgrounds[trainer.type] || typeBackgrounds[""];
-              const trainerShadowColor = getDualShadow(trainerBackground);
-
-              return (
-                <EliteMemberCard
-                  key={i}
-                  member={trainer}
-                  onMemberClick={() => handleTrainerClick(trainer.name)}
-                  isSelected={selectedTrainer === trainer.name}
-                  background={trainerBackground}
-                  shadowColor={trainerShadowColor}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {selectedTrainer && pokemonNamesForSelectedTeam.length > 0 && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Opponent Pokémon
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5">
-            {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
-              const { sprite, background } = getPokemonCardData(pokemonName);
-
-              return (
-                <PokemonCard
-                  key={index}
-                  pokemonName={pokemonName}
-                  pokemonImageSrc={sprite}
-                  nameBackground={background}
-                  onClick={() => handlePokemonCardClick(pokemonName)}
-                  isSelected={selectedPokemon === pokemonName}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {/* Strategy Modal */}
       {isPokemonDetailsVisible && currentPokemonObject && (
