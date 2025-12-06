@@ -18,70 +18,77 @@ const describeArc = (x, y, radius, startAngle, endAngle) => {
   return `M ${x} ${y} L ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y} Z`;
 };
 
-const StatCircle = ({ ivColors, onClick, isActive, isDimmed }) => {
-  const centerX = 25;
-  const centerY = 25;
-  const radius = 22;
+const StatCircle = ({
+  ivColors,
+  onClick,
+  isActive,
+  isDimmed,
+  size,
+  className = "",
+}) => {
+  const viewBoxSize = 50;
+  const centerX = viewBoxSize / 2;
+  const centerY = viewBoxSize / 2;
+  const radius = 24; // Almost full fill
 
   const numSectors = ivColors.length;
   const sectorAngle = 360 / numSectors;
 
-  // Tailwind classes for state
-  const baseClasses =
-    "bg-slate-800 rounded-full shadow-md cursor-pointer relative transition-all duration-200 ease-[cubic-bezier(0.175,0.885,0.32,1.27)] z-[2]";
-  const hoverClasses =
-    "group-hover/node:shadow-lg group-hover/node:scale-125 group-hover/node:z-[100]";
-  const activeClasses = isActive
-    ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] opacity-100 stroke-white stroke-2 scale-115 z-[50]"
-    : "";
-  const dimmedClasses = isDimmed ? "grayscale opacity-20 scale-90" : "";
+  // Base style
+  const baseStyle = size ? { width: size, height: size } : {};
 
-  // We'll use inline style for width/height since they might be dynamic in TreeScheme,
-  // but here they are fixed props in the original CSS as var(--node-size, 40px).
-  // TreeScheme passes style={{ "--node-size": ... }} to parent.
-  // SVG fills the container so we just need the container to have the size.
-  // Wait, StatCircle IS the SVG. The original CSS applied size to the SVG class.
-  // We can use w-[var(--node-size,40px)] h-[var(--node-size,40px)].
+  // Tailwind classes
+  const containerClasses = `
+    relative rounded-full transition-all duration-300 ease-out
+    ${onClick ? "cursor-pointer hover:scale-110 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:z-50" : ""}
+    ${isActive ? "scale-110 shadow-[0_0_20px_rgba(59,130,246,0.6)] ring-2 ring-white z-40" : "shadow-md"}
+    ${isDimmed ? "opacity-20 grayscale scale-90 blur-[1px]" : "opacity-100"}
+    ${!size ? "w-[var(--node-size,40px)] h-[var(--node-size,40px)]" : ""}
+    ${className}
+  `;
 
   return (
-    <svg
-      className={`${baseClasses} ${hoverClasses} ${activeClasses} ${dimmedClasses} w-[var(--node-size,40px)] h-[var(--node-size,40px)]`}
-      viewBox="0 0 50 50"
-      xmlns="http://www.w3.org/2000/svg"
-      onClick={onClick}
-    >
-      {ivColors.map((color, idx) => {
-        const startAngle = idx * sectorAngle;
-        const endAngle = (idx + 1) * sectorAngle;
+    <div className={containerClasses} style={baseStyle} onClick={onClick}>
+      <svg
+        className="w-full h-full drop-shadow-sm"
+        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {ivColors.map((color, idx) => {
+          const startAngle = idx * sectorAngle;
+          const endAngle = (idx + 1) * sectorAngle;
 
-        const pathData = describeArc(
-          centerX,
-          centerY,
-          radius,
-          startAngle,
-          endAngle
-        );
+          const pathData = describeArc(
+            centerX,
+            centerY,
+            radius,
+            startAngle,
+            endAngle
+          );
 
-        return (
-          <path
-            key={idx}
-            d={pathData}
-            fill={color}
-            stroke="#1a1a1a"
-            strokeWidth="0.5"
-          />
-        );
-      })}
+          return (
+            <path
+              key={idx}
+              d={pathData}
+              fill={color}
+              // Removed heavy strokes for cleaner look
+              stroke="rgba(0,0,0,0.2)"
+              strokeWidth="0.5"
+            />
+          );
+        })}
 
-      <circle
-        cx={centerX}
-        cy={centerY}
-        r={radius}
-        fill="none"
-        stroke={isActive ? "#ffffff" : "#e4e6eb"}
-        strokeWidth="2"
-      />
-    </svg>
+        {/* Center hole or border overlay for style */}
+        <circle
+          cx={centerX}
+          cy={centerY}
+          r={radius}
+          fill="none"
+          stroke={isActive ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.1)"}
+          strokeWidth="1"
+        />
+      </svg>
+    </div>
   );
 };
 

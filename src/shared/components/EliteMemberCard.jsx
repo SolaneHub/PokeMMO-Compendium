@@ -9,29 +9,47 @@ const EliteMemberCard = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col w-36 bg-slate-800 rounded-lg overflow-hidden shadow-lg cursor-pointer transition-all duration-300 transform 
-        ${isSelected ? "scale-105" : "hover:-translate-y-1 hover:shadow-xl"}
+      className={`relative flex flex-col w-36 bg-[#1e2025] border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 group
+        ${
+          isSelected
+            ? "scale-105 z-10 border-transparent" // Selected state handled by style prop for specific color shadow
+            : "border-white/5 hover:border-white/20 hover:bg-[#25272e] hover:-translate-y-1 hover:shadow-xl"
+        }
       `}
       onClick={() => onMemberClick(member)}
-      style={isSelected ? { boxShadow: shadowColor } : {}}
+      style={
+        isSelected
+          ? {
+              boxShadow: shadowColor || "0 0 15px rgba(255,255,255,0.2)",
+              borderColor: "rgba(255,255,255,0.2)", // Fallback border if needed
+            }
+          : {}
+      }
     >
-      <p
-        className="text-slate-900 font-bold text-sm text-center py-1 px-2 m-0"
+      <div
+        className="py-1.5 px-2 text-center"
         style={{ background: background }}
       >
-        {member.name}
-      </p>
+        <p className="text-[#1a1b20] font-bold text-sm m-0 truncate">
+          {member.name}
+        </p>
+      </div>
 
-      <div className="w-full h-32 bg-slate-700/50">
+      <div className="w-full h-32 bg-black/20 relative">
         <img
           src={`${TRAINER_PATH}${member.image}`}
           alt={member.name}
-          className="w-full h-full object-cover object-top"
+          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${member.name.replace(" ", "+")}`;
+            e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${member.name.replace(
+              " ",
+              "+"
+            )}`;
           }}
         />
+        {/* Gradient overlay for better text contrast if we overlay text, but here it just adds depth */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1e2025] to-transparent opacity-20" />
       </div>
     </div>
   );

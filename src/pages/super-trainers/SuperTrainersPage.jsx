@@ -1,46 +1,44 @@
 import { useState } from "react";
 
 import {
-  getAllEliteFourMembers,
-  getMembersByRegion,
-  getPokemonListForTeam,
-  getPokemonStrategy,
-  getTeamBuilds,
-} from "@/pages/elite-four/data/eliteFourService";
-import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
-import {
   getPokemonBackground,
   getPokemonByName,
   getPokemonCardData,
 } from "@/pages/pokedex/data/pokemonService";
+import {
+  getAllSuperTrainers,
+  getAvailableSuperTrainerRegions,
+  getPokemonListForTeam,
+  getPokemonStrategy,
+  getSuperTrainersByRegion,
+} from "@/pages/super-trainers/data/superTrainersService";
 import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
 import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
-import { pokemonRegions } from "@/shared/utils/regionData";
 
-function EliteFourPage() {
+function SuperTrainersPage() {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedTrainer, setSelectedTrainer] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
-  const [isTeamBuildVisible, setIsTeamBuildVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
   const allTeamNames = (() => {
-    const members = getAllEliteFourMembers();
-    return members.length > 0 ? Object.keys(members[0].teams || {}).sort() : [];
+    const allData = getAllSuperTrainers();
+    return allData.length > 0 ? Object.keys(allData[0].teams || {}).sort() : [];
   })();
 
-  const currentTeamBuilds = getTeamBuilds ? getTeamBuilds(selectedTeam) : [];
-  const filteredEliteFour = getMembersByRegion(selectedRegion);
+  const availableRegions = getAvailableSuperTrainerRegions();
+  const filteredTrainers = getSuperTrainersByRegion(selectedRegion);
   const pokemonNamesForSelectedTeam = getPokemonListForTeam(
-    selectedMember,
+    selectedTrainer,
+    selectedRegion,
     selectedTeam
   );
 
@@ -59,10 +57,9 @@ function EliteFourPage() {
   const handleTeamClick = (teamName) => {
     setSelectedTeam(teamName);
     setSelectedRegion(null);
-    setSelectedMember(null);
+    setSelectedTrainer(null);
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
-    setIsTeamBuildVisible(false);
     resetStrategyStates();
   };
 
@@ -70,16 +67,14 @@ function EliteFourPage() {
     const regionName = typeof region === "object" ? region.name : region;
     setSelectedRegion((prev) => (prev === regionName ? null : regionName));
 
-    setSelectedMember(null);
+    setSelectedTrainer(null);
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     resetStrategyStates();
   };
 
-  const handleMemberClick = (member) => {
-    const memberName = typeof member === "object" ? member.name : member;
-    setSelectedMember((prev) => (prev === memberName ? null : memberName));
-
+  const handleTrainerClick = (trainerName) => {
+    setSelectedTrainer((prev) => (prev === trainerName ? null : trainerName));
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     resetStrategyStates();
@@ -90,7 +85,8 @@ function EliteFourPage() {
     setIsPokemonDetailsVisible(true);
 
     const strategy = getPokemonStrategy(
-      selectedMember,
+      selectedTrainer,
+      selectedRegion,
       selectedTeam,
       pokemonName
     );
@@ -125,11 +121,13 @@ function EliteFourPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-24">
-      <PageTitle title="PokéMMO Compendium: Elite Four" />
+      <PageTitle title="PokéMMO Compendium: Super Trainers" />
 
       {/* Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-white">Elite Four Strategy</h1>
+        <h1 className="text-3xl font-bold text-white">
+          Super Trainers Strategy
+        </h1>
         <p className="text-slate-400">Select your team to begin.</p>
       </div>
 
@@ -153,24 +151,13 @@ function EliteFourPage() {
         ))}
       </div>
 
-      {selectedTeam && currentTeamBuilds.length > 0 && (
-        <div className="flex justify-center animate-[fade-in_0.3s_ease-out]">
-          <button
-            className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-900/20 transition-all hover:scale-105 active:scale-95"
-            onClick={() => setIsTeamBuildVisible(true)}
-          >
-            📋 View {selectedTeam} Team Build
-          </button>
-        </div>
-      )}
-
       {selectedTeam && (
         <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
           <h2 className="text-xl font-semibold text-slate-300 text-center">
             Select Region
           </h2>
           <div className="flex flex-wrap justify-center gap-5">
-            {pokemonRegions.map((region) => (
+            {availableRegions.map((region) => (
               <RegionCard
                 key={region.id}
                 region={region}
@@ -182,24 +169,25 @@ function EliteFourPage() {
         </div>
       )}
 
-      {selectedRegion && filteredEliteFour.length > 0 && (
+      {selectedRegion && filteredTrainers.length > 0 && (
         <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
           <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Member
+            Select Trainer
           </h2>
           <div className="flex flex-wrap justify-center gap-5">
-            {filteredEliteFour.map((member) => {
-              const memberBackground =
-                typeBackgrounds[member.type] || typeBackgrounds[""];
-              const shadowStyle = getDualShadow(memberBackground);
+            {filteredTrainers.map((trainer, i) => {
+              const trainerBackground =
+                typeBackgrounds[trainer.type] || typeBackgrounds[""];
+              const trainerShadowColor = getDualShadow(trainerBackground);
+
               return (
                 <EliteMemberCard
-                  key={member.name}
-                  member={member}
-                  onMemberClick={() => handleMemberClick(member.name)}
-                  isSelected={selectedMember === member.name}
-                  background={memberBackground}
-                  shadowColor={shadowStyle}
+                  key={i}
+                  member={trainer}
+                  onMemberClick={() => handleTrainerClick(trainer.name)}
+                  isSelected={selectedTrainer === trainer.name}
+                  background={trainerBackground}
+                  shadowColor={trainerShadowColor}
                 />
               );
             })}
@@ -207,17 +195,18 @@ function EliteFourPage() {
         </div>
       )}
 
-      {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
+      {selectedTrainer && pokemonNamesForSelectedTeam.length > 0 && (
         <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
           <h2 className="text-xl font-semibold text-slate-300 text-center">
             Select Opponent Pokémon
           </h2>
           <div className="flex flex-wrap justify-center gap-5">
-            {pokemonNamesForSelectedTeam.map((pokemonName) => {
+            {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
               const { sprite, background } = getPokemonCardData(pokemonName);
+
               return (
                 <PokemonCard
-                  key={pokemonName}
+                  key={index}
                   pokemonName={pokemonName}
                   pokemonImageSrc={sprite}
                   nameBackground={background}
@@ -228,14 +217,6 @@ function EliteFourPage() {
             })}
           </div>
         </div>
-      )}
-
-      {isTeamBuildVisible && (
-        <TeamBuildModal
-          teamName={selectedTeam}
-          builds={currentTeamBuilds}
-          onClose={() => setIsTeamBuildVisible(false)}
-        />
       )}
 
       {/* Strategy Modal */}
@@ -335,4 +316,4 @@ function EliteFourPage() {
   );
 }
 
-export default EliteFourPage;
+export default SuperTrainersPage;
