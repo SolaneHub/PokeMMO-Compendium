@@ -11,6 +11,7 @@ Welcome to the PokéMMO Compendium — your comprehensive, step-by-step companio
 - ⚔️ **Battle Strategies**: Detailed guides for Red, Ho-Oh, and raid encounters
 - 🛠️ **Game Mechanics**: Deep dives into Pickup farming, Pokédex completion, and efficiency optimization
 - 📱 **Mobile-First Design**: Clean, responsive interface that works perfectly on any device
+- ✏️ **Enhanced Content Editor**: A radically improved local CMS interface for maintaining and expanding all guide content with ease.
 
 **Walk through each challenge with confidence** — every strategy includes emoji-annotated battle sequences, item recommendations, and alternative approaches for different playstyles.
 
@@ -18,9 +19,11 @@ Welcome to the PokéMMO Compendium — your comprehensive, step-by-step companio
 
 ## ⚡ Status
 
-![React](https://img.shields.io/badge/React-19.2.0-00d8ff?logo=react&logoColor=white&style=flat)
-![Vite](https://img.shields.io/badge/Vite-7.1.11-646CFF?logo=vite&logoColor=white&style=flat)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
+![React](https://img.shields.io/badge/React-19.2.1-00d8ff?logo=react&logoColor=white&style=flat)
+![Vite](https://img.shields.io/badge/Vite-7.2.6-646CFF?logo=vite&logoColor=white&style=flat)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.17-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
+![React Icons](https://img.shields.io/badge/React_Icons-5.5.0-e91e63?logo=react&logoColor=white&style=flat)
+![dnd-kit](https://img.shields.io/badge/dnd--kit-6.3.1-007bff?style=flat)
 ![License](https://img.shields.io/badge/License-Proprietary-red)
 
 ---
@@ -37,9 +40,10 @@ Welcome to the PokéMMO Compendium — your comprehensive, step-by-step companio
 
 ![Breeding Section Screenshot](./screenshots/breeding-section.png)
 
-#### ✏️ Strategy Editor
+#### ✏️ Strategy Editor (Radically Improved!)
 
 ![Editor Section Screenshot](./screenshots/editor-section.png)
+_Note: The editor interface has been significantly enhanced for better usability and visual feedback, including drag-and-drop, smart input fields, and collapsible sections._
 
 #### 🏆 Elite Four Challenges
 
@@ -94,44 +98,88 @@ This legend decodes the emojis used in the step-by-step battle strategies throug
 ├── /server
 │   ├── server.js
 ├── /src
-│   ├── /components
-│   │   ├── /BreedingPage
-│   │   │   ├── IVsDropdown.jsx
-│   │   │   ├── IVsSelector.jsx
-│   │   │   ├── StatCircle.jsx
-│   │   │   ├── TreeScheme.jsx
-│   │   ├── /EditorPage
-│   │   │   ├── StepForm.jsx
-│   │   │   ├── VariationForm.jsx
-│   │   ├── /EliteFourPage
-│   │   │   ├── EliteMemberCard.jsx
-│   │   ├── Content.jsx
-│   │   ├── MoveColoredText.jsx
-│   │   ├── Navbar.jsx
-│   │   ├── PokemonCard.jsx
-│   │   ├── RegionCard.jsx
-│   ├── /data
-│   │   ├── eliteFourData.js
+│   ├── /app
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── layout
+│   │       ├── Home.jsx
+│   │       └── Shell.jsx
+│   │       └── Sidebar.jsx
+│   ├── /data           # JSON data files (The "Database")
+│   │   ├── bossFightsData.json
 │   │   ├── eliteFourData.json
-│   │   ├── pokemonColors.js
-│   │   ├── pokemonData.js
-│   │   ├── pokemonImages.js
-│   │   ├── pokemonMoveColors.js
-│   │   ├── redData.js
-│   │   ├── redData.json
-│   │   ├── regionData.js
-│   ├── /docs
-│   │   ├── elite4Template.js
-│   │   ├── emoji_legend.txt
+│   │   ├── pokedex.json
+│   │   ├── raidsData.json
+│   │   └── superTrainersData.json
 │   ├── /pages
-│   │   ├── BreedingPage.jsx
-│   │   ├── EditorPage.jsx
-│   │   ├── EliteFourPage.jsx
-│   │   ├── RedPage.jsx
-│   ├── App.css
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
+│   │   ├── boss-fights
+│   │   │   ├── BossFightsPage.jsx
+│   │   │   └── data
+│   │   │       └── bossFightsService.js
+│   │   ├── breeding
+│   │   │   ├── BreedingPage.jsx
+│   │   │   └── components
+│   │   │       ├── IVsDropdown.jsx
+│   │   │       ├── IVsSelector.jsx
+│   │   │       ├── StatCircle.jsx
+│   │   │       └── TreeScheme.jsx
+│   │   ├── editor
+│   │   │   ├── EditorPage.jsx
+│   │   │   └── components
+│   │   │       ├── EditorSidebar.jsx
+│   │   │       ├── EliteFourEditor.jsx
+│   │   │       ├── EliteFourMemberCard.jsx
+│   │   │       ├── EliteFourTeamOverview.jsx
+│   │   │       ├── PickupEditor.jsx
+│   │   │       ├── PokedexEditor.jsx
+│   │   │       ├── RaidsEditor.jsx
+│   │   │       ├── RedEditor.jsx
+│   │   │       ├── SortableNestedStepItem.jsx
+│   │   │       ├── SortableStepItem.jsx
+│   │   │       ├── StepForm.jsx
+│   │   │       ├── UniversalJsonEditor.jsx
+│   │   │       └── VariationForm.jsx
+│   │   ├── elite-four
+│   │   │   ├── EliteFourPage.jsx
+│   │   │   ├── TeamBuildModal.jsx
+│   │   │   └── data
+│   │   │       ├── elite4Template.js
+│   │   │       └── eliteFourService.js
+│   │   ├── pickup
+│   │   │   └── PickupPage.jsx
+│   │   ├── pokedex
+│   │   │   ├── PokedexPage.jsx
+│   │   │   └── data
+│   │   │       └── pokemonService.js
+│   │   ├── raids
+│   │   │   ├── RaidsPage.jsx
+│   │   │   ├── components
+│   │   │   │   └── RaidCard.jsx
+│   │   │   └── data
+│   │   │       └── raidsService.js
+│   │   └── super-trainers
+│   │       ├── SuperTrainersPage.jsx
+│   │       └── data
+│   │           └── superTrainersService.js
+│   └── /shared
+│       ├── components
+│       │   ├── EliteMemberCard.jsx
+│       │   ├── MoveColoredText.jsx
+│       │   ├── PageTitle.jsx
+│       │   ├── PokemonCard.jsx
+│       │   ├── PokemonSummary.jsx
+│       │   ├── RegionCard.jsx
+│       │   └── ToastNotification.jsx
+│       ├── hooks
+│       │   └── usePokedexData.js
+│       └── utils
+│           ├── pokemonColors.js
+│           ├── pokemonImageHelper.js
+│           ├── pokemonMoveColors.js
+│           ├── pokedexDataExtraction.js
+│           ├── regionData.js
+│           ├── typeUtils.js
+│           └── usePersistentState.js
 ├── index.html
 ├── jsconfig.json
 ├── LICENSE
@@ -159,13 +207,6 @@ It stands as a collaborative effort shaped by countless trainers, creators, and 
 ---
 
 ## 🗺️ Development Roadmap & TODO
-
-### 🔥 High Priority (Active Development)
-
-- **BreedingPage Polish**: The page is implemented and fully functional; focus on improving the UX, refining the IV/nature visualizations, and adding quality-of-life enhancements.
-- **Complete EliteFourPage Strategies**: Add detailed, emoji-annotated strategies for all remaining Pokémon across all regions.
-- **RedPage Strategy Coverage**: The page is implemented; add and refine all remaining strategies and team variants to achieve full coverage.
-- **RaidsPage Content Completion**: The page is implemented; populate it with all currently available raids, including recommended teams, mechanics, and rewards.
 
 ### 🚀 New Feature Development
 

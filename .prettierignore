@@ -1,0 +1,16 @@
+# Ignore artifacts:
+build/
+dist/
+node_modules/
+.vite/
+*.log
+
+# Ignore IDE/tooling configs:
+.idea/
+.vscode/
+
+# Ignore Gemini specific files
+GEMINI.md
+
+# Ignore screenshots
+screenshots/
