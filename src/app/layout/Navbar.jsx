@@ -29,7 +29,11 @@ function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo / Brand */}
           <div className="flex-shrink-0">
-            <NavLink to="/" className="text-xl font-bold tracking-wider text-yellow-400 hover:text-yellow-300" onClick={closeMenu}>
+            <NavLink
+              to="/"
+              className="text-xl font-bold tracking-wider text-yellow-400 hover:text-yellow-300"
+              onClick={closeMenu}
+            >
               PokéMMO Compendium
             </NavLink>
           </div>

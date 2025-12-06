@@ -28,7 +28,7 @@ function BreedingPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <PageTitle title="PokéMMO Compendium: Breeding Planner" />
-      
+
       <IVsSelector
         ivOptions={IV_OPTIONS}
         selectedIvCount={selectedIvCount}

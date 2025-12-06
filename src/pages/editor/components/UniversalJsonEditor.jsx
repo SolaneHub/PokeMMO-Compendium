@@ -2,10 +2,17 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
   if (Array.isArray(data)) {
     return (
       <div className="mt-2.5 border-l-[3px] border-blue-500 bg-blue-500/5 p-2.5 pl-4 rounded-r-md font-mono text-sm">
-        {label && <h4 className="text-white text-xs mb-2.5 uppercase tracking-widest opacity-70">{label} (List)</h4>}
+        {label && (
+          <h4 className="text-white text-xs mb-2.5 uppercase tracking-widest opacity-70">
+            {label} (List)
+          </h4>
+        )}
 
         {data.map((item, index) => (
-          <div key={index} className="bg-[#242424] border border-[#333] rounded-md mb-2.5 mr-2.5 p-2.5">
+          <div
+            key={index}
+            className="bg-[#242424] border border-[#333] rounded-md mb-2.5 mr-2.5 p-2.5"
+          >
             <div className="flex justify-between items-center bg-[#2a2a2a] p-1.5 px-2.5 -m-2.5 mb-2.5 border-b border-[#333] rounded-t-md">
               <strong className="text-[#fab1a0]">Item {index + 1}</strong>
               <button
@@ -91,9 +98,15 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
         )}
 
         {Object.entries(data).map(([key, value]) => (
-          <div key={key} className="flex items-start py-2 border-b border-[#2a2a2a]">
+          <div
+            key={key}
+            className="flex items-start py-2 border-b border-[#2a2a2a]"
+          >
             <div className="flex-[0_0_160px] flex justify-between items-center pr-4 pt-1.5">
-              <div className="text-[#88c0d0] font-semibold overflow-hidden text-ellipsis whitespace-nowrap max-w-[130px]" title={key}>
+              <div
+                className="text-[#88c0d0] font-semibold overflow-hidden text-ellipsis whitespace-nowrap max-w-[130px]"
+                title={key}
+              >
                 {key}:
               </div>
               <button

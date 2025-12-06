@@ -103,10 +103,14 @@ const EditorPage = () => {
     return (
       <div className="flex h-screen justify-center items-center bg-[#121212] text-slate-200 font-sans">
         <div className="text-center text-red-400">
-          <h2 className="text-2xl font-bold mb-2">⚠️ Backend Non Raggiungibile</h2>
+          <h2 className="text-2xl font-bold mb-2">
+            ⚠️ Backend Non Raggiungibile
+          </h2>
           <p>{serverError}</p>
           <p className="text-slate-400 text-sm mt-2">
-            Esegui <code className="bg-slate-800 px-1 rounded">npm run server</code> nel terminale.
+            Esegui{" "}
+            <code className="bg-slate-800 px-1 rounded">npm run server</code>{" "}
+            nel terminale.
           </p>
         </div>
       </div>
@@ -122,10 +126,14 @@ const EditorPage = () => {
 
       {/* SIDEBAR */}
       <div className="w-[280px] bg-[#1e1e1e] border-r border-[#333] flex flex-col gap-4 p-5 overflow-y-auto shrink-0">
-        <h3 className="text-white text-lg font-normal uppercase tracking-wider border-b-2 border-blue-500 pb-2.5 inline-block m-0">File Manager</h3>
-        
+        <h3 className="text-white text-lg font-normal uppercase tracking-wider border-b-2 border-blue-500 pb-2.5 inline-block m-0">
+          File Manager
+        </h3>
+
         <div className="flex flex-col gap-1.5">
-          <label className="text-[#a0a0a0] text-xs font-bold uppercase">Select File</label>
+          <label className="text-[#a0a0a0] text-xs font-bold uppercase">
+            Select File
+          </label>
           <select
             className="w-full bg-[#2c2c2c] border border-[#444] rounded-md text-white text-sm p-2.5 outline-none transition-colors hover:border-[#666] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
             value={selectedFileName}

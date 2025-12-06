@@ -145,8 +145,13 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
       <div className="sticky top-0 w-full flex justify-center py-2.5 pb-5 z-[200] bg-black/80 backdrop-blur-sm">
         <div className="flex flex-wrap justify-center gap-2.5">
           {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
-            <div key={index} className="flex flex-col items-center gap-1.5 w-[90px] text-center">
-              <span className="w-full text-slate-200 text-sm font-semibold whitespace-nowrap overflow-hidden text-ellipsis">{statName}</span>
+            <div
+              key={index}
+              className="flex flex-col items-center gap-1.5 w-[90px] text-center"
+            >
+              <span className="w-full text-slate-200 text-sm font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+                {statName}
+              </span>
               <StatCircle ivColors={[STAT_COLOR_MAP[statName]]} />
             </div>
           ))}
@@ -157,11 +162,11 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         <div className="flex items-end justify-center min-w-max mx-auto pb-5">
           <div
             className="flex flex-col items-center pt-2.5 origin-top"
-            style={{ 
+            style={{
               gap: `${VERTICAL_GAP}px`,
-              transform: `scale(${scale})`, 
+              transform: `scale(${scale})`,
               "--node-size": `${NODE_SIZE}px`,
-              "--vertical-gap": `${VERTICAL_GAP}px`
+              "--vertical-gap": `${VERTICAL_GAP}px`,
             }}
           >
             {dataByRow.map((rowItems, rowIndex) => {
@@ -186,9 +191,10 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                         <div
                           className={`
                             relative flex justify-center items-center
-                            ${!isLastRow ? 
-                              "before:content-[''] before:absolute before:h-[2px] before:bg-white before:opacity-30 before:top-1/2 before:left-0 before:right-0 before:mx-[calc(var(--node-size)/2)] before:-z-10 after:content-[''] after:absolute after:w-[2px] after:bg-white after:opacity-30 after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:-z-10" 
-                              : ""
+                            ${
+                              !isLastRow
+                                ? "before:content-[''] before:absolute before:h-[2px] before:bg-white before:opacity-30 before:top-1/2 before:left-0 before:right-0 before:mx-[calc(var(--node-size)/2)] before:-z-10 after:content-[''] after:absolute after:w-[2px] after:bg-white after:opacity-30 after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:-z-10"
+                                : ""
                             }
                           `}
                           style={{ gap: `${config.pairGap}px` }}

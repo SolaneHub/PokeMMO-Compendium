@@ -26,8 +26,8 @@ const PickupEditor = ({ data, onChange }) => {
             Gestisci le tabelle di drop.
           </span>
         </div>
-        <button 
-          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]" 
+        <button
+          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
           onClick={addItem}
         >
           ➕ Nuova Area
@@ -55,7 +55,9 @@ const PickupEditor = ({ data, onChange }) => {
             <div className="p-5">
               <div className="grid grid-cols-[2fr_1fr] gap-5 mb-5">
                 <div>
-                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Location:</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
+                    Location:
+                  </label>
                   <input
                     type="text"
                     className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
@@ -69,7 +71,9 @@ const PickupEditor = ({ data, onChange }) => {
                   />
                 </div>
                 <div>
-                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Livelli:</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
+                    Livelli:
+                  </label>
                   <input
                     type="text"
                     className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"

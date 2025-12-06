@@ -17,7 +17,11 @@ function IVsSelector({
             onClick={() => setSelectedIvCount(option)}
           >
             {option}
-            <span className={`text-base mt-0.5 opacity-80 ${option === selectedIvCount ? "text-white" : "text-blue-400"}`}>×</span>
+            <span
+              className={`text-base mt-0.5 opacity-80 ${option === selectedIvCount ? "text-white" : "text-blue-400"}`}
+            >
+              ×
+            </span>
           </button>
         ))}
       </div>
@@ -27,9 +31,11 @@ function IVsSelector({
           htmlFor="nature-toggle"
           className="flex items-center gap-2.5 cursor-pointer group"
         >
-          <p className="m-0 text-slate-200 text-lg font-semibold group-hover:text-white transition-colors">Nature</p>
+          <p className="m-0 text-slate-200 text-lg font-semibold group-hover:text-white transition-colors">
+            Nature
+          </p>
           <div className="relative flex items-center">
-             <input
+            <input
               id="nature-toggle"
               type="checkbox"
               checked={nature}

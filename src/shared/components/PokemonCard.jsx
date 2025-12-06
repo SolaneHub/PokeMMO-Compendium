@@ -18,8 +18,8 @@ const PokemonCard = ({
       onClick={onClick}
     >
       {pokemonName && (
-        <p 
-          className="text-slate-900 font-bold text-sm text-center py-1 px-2 m-0" 
+        <p
+          className="text-slate-900 font-bold text-sm text-center py-1 px-2 m-0"
           style={{ background: nameBackground }}
         >
           {pokemonName}
