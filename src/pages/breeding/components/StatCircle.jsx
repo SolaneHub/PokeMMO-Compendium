@@ -1,5 +1,3 @@
-import "./IVsSelector.css";
-
 const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
   return {
@@ -27,22 +25,30 @@ const StatCircle = ({ ivColors, onClick, isActive, isDimmed }) => {
 
   const numSectors = ivColors.length;
   const sectorAngle = 360 / numSectors;
-  let currentAngle = 0;
 
-  const activeClass = isActive ? "is-active" : "";
-  const dimmedClass = isDimmed ? "is-dimmed" : "";
+  // Tailwind classes for state
+  const baseClasses = "bg-slate-800 rounded-full shadow-md cursor-pointer relative transition-all duration-200 ease-[cubic-bezier(0.175,0.885,0.32,1.27)] z-[2]";
+  const hoverClasses = "group-hover/node:shadow-lg group-hover/node:scale-125 group-hover/node:z-[100]";
+  const activeClasses = isActive ? "drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] opacity-100 stroke-white stroke-2 scale-115 z-[50]" : "";
+  const dimmedClasses = isDimmed ? "grayscale opacity-20 scale-90" : "";
+
+  // We'll use inline style for width/height since they might be dynamic in TreeScheme, 
+  // but here they are fixed props in the original CSS as var(--node-size, 40px).
+  // TreeScheme passes style={{ "--node-size": ... }} to parent. 
+  // SVG fills the container so we just need the container to have the size.
+  // Wait, StatCircle IS the SVG. The original CSS applied size to the SVG class.
+  // We can use w-[var(--node-size,40px)] h-[var(--node-size,40px)].
 
   return (
     <svg
-      className={`tree-stat-circle ${activeClass} ${dimmedClass}`}
+      className={`${baseClasses} ${hoverClasses} ${activeClasses} ${dimmedClasses} w-[var(--node-size,40px)] h-[var(--node-size,40px)]`}
       viewBox="0 0 50 50"
       xmlns="http://www.w3.org/2000/svg"
       onClick={onClick}
     >
       {ivColors.map((color, idx) => {
-        const startAngle = currentAngle;
-        const endAngle = currentAngle + sectorAngle;
-        currentAngle = endAngle;
+        const startAngle = idx * sectorAngle;
+        const endAngle = (idx + 1) * sectorAngle;
 
         const pathData = describeArc(
           centerX,

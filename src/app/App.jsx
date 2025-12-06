@@ -1,5 +1,3 @@
-import "./App.css";
-
 import { Activity } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -33,9 +31,9 @@ function App() {
   ];
 
   return (
-    <div className="App">
+    <div className="min-h-screen bg-black text-slate-200 flex flex-col font-sans">
       <header
-        className="app-header"
+        className="bg-[#24252a] text-white text-2xl font-bold py-2 text-center cursor-pointer select-none w-full transition-colors hover:text-[#a1a6ff] active:translate-y-[1px]"
         onClick={() => navigate("/")}
         title="Torna alla Home"
       >
@@ -44,14 +42,14 @@ function App() {
 
       <Navbar />
 
-      <main className="app-content">
+      <main className="w-full flex-1">
         {pages.map(({ path, Component, key }) => {
           const isActive = currentPath === path;
 
           return (
             <Activity key={key} mode={isActive ? "visible" : "hidden"}>
               <div
-                className="page-wrapper"
+                className="w-full"
                 style={{ display: isActive ? "block" : "none" }}
               >
                 <Component />

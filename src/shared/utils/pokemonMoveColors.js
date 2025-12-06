@@ -1,6 +1,8 @@
 import pokedex from "@/data/pokedex.json";
-
-import { generateDualTypeGradient, typeBackgrounds } from "./pokemonColors";
+import {
+  generateDualTypeGradient,
+  typeBackgrounds,
+} from "@/shared/utils/pokemonColors";
 
 export const moveTypeMap = {
   Explosion: "Normal",

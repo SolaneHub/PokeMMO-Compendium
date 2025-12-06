@@ -1,16 +1,13 @@
-import "./EditorPage.css";
-
 import { useEffect, useState } from "react";
 
+import EliteFourEditor from "@/pages/editor/components/EliteFourEditor";
+import PickupEditor from "@/pages/editor/components/PickupEditor";
+import PokedexEditor from "@/pages/editor/components/PokedexEditor";
+import RaidsEditor from "@/pages/editor/components/RaidsEditor";
+import RedEditor from "@/pages/editor/components/RedEditor";
+import UniversalJsonEditor from "@/pages/editor/components/UniversalJsonEditor";
 import PageTitle from "@/shared/components/PageTitle";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
-
-import EliteFourEditor from "./components/EliteFourEditor";
-import PickupEditor from "./components/PickupEditor";
-import PokedexEditor from "./components/PokedexEditor";
-import RaidsEditor from "./components/RaidsEditor";
-import RedEditor from "./components/RedEditor";
-import UniversalJsonEditor from "./components/UniversalJsonEditor";
 
 const EDITOR_MAPPING = {
   "eliteFourData.json": EliteFourEditor,
@@ -56,7 +53,7 @@ const EditorPage = () => {
       }
     }
     fetchFiles();
-  }, []);
+  }, [selectedFileName, setSelectedFileName]);
 
   useEffect(() => {
     if (!selectedFileName) return;
@@ -104,15 +101,12 @@ const EditorPage = () => {
 
   if (serverError) {
     return (
-      <div
-        className="editor-container"
-        style={{ justifyContent: "center", alignItems: "center" }}
-      >
-        <div style={{ textAlign: "center", color: "#ff6b81" }}>
-          <h2>⚠️ Backend Non Raggiungibile</h2>
+      <div className="flex h-screen justify-center items-center bg-[#121212] text-slate-200 font-sans">
+        <div className="text-center text-red-400">
+          <h2 className="text-2xl font-bold mb-2">⚠️ Backend Non Raggiungibile</h2>
           <p>{serverError}</p>
-          <p style={{ color: "#ccc", fontSize: "0.9rem" }}>
-            Esegui <code>npm run server</code> nel terminale.
+          <p className="text-slate-400 text-sm mt-2">
+            Esegui <code className="bg-slate-800 px-1 rounded">npm run server</code> nel terminale.
           </p>
         </div>
       </div>
@@ -123,33 +117,38 @@ const EditorPage = () => {
     EDITOR_MAPPING[selectedFileName] || UniversalJsonEditor;
 
   return (
-    <div className="editor-container">
+    <div className="flex h-screen bg-[#121212] text-slate-200 font-sans overflow-hidden">
       <PageTitle title="PokéMMO Compendium: Editor" />
 
       {/* SIDEBAR */}
-      <div className="editor-sidebar">
-        <h3>File Manager</h3>
-        <select
-          value={selectedFileName}
-          onChange={(e) => setSelectedFileName(e.target.value)}
-        >
-          {fileList.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
-        </select>
+      <div className="w-[280px] bg-[#1e1e1e] border-r border-[#333] flex flex-col gap-4 p-5 overflow-y-auto shrink-0">
+        <h3 className="text-white text-lg font-normal uppercase tracking-wider border-b-2 border-blue-500 pb-2.5 inline-block m-0">File Manager</h3>
+        
+        <div className="flex flex-col gap-1.5">
+          <label className="text-[#a0a0a0] text-xs font-bold uppercase">Select File</label>
+          <select
+            className="w-full bg-[#2c2c2c] border border-[#444] rounded-md text-white text-sm p-2.5 outline-none transition-colors hover:border-[#666] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+            value={selectedFileName}
+            onChange={(e) => setSelectedFileName(e.target.value)}
+          >
+            {fileList.map((f) => (
+              <option key={f} value={f}>
+                {f}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <div style={{ marginTop: "20px", fontSize: "0.85rem", color: "#888" }}>
+        <div className="mt-5 text-xs text-[#888]">
           Editor:{" "}
-          <strong style={{ color: "#007bff" }}>
+          <strong className="text-blue-500">
             {EDITOR_MAPPING[selectedFileName] ? "Custom" : "Universal"}
           </strong>
         </div>
 
-        <div style={{ marginTop: "auto" }}>
+        <div className="mt-auto">
           <button
-            className="btn btn-primary"
+            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-4 rounded-md transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleSave}
             disabled={loading}
           >
@@ -159,8 +158,8 @@ const EditorPage = () => {
       </div>
 
       {/* MAIN AREA */}
-      <div className="editor-main">
-        {loading && <p>Caricamento...</p>}
+      <div className="flex-1 bg-[#121212] overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-[#444] scrollbar-track-[#1a1a1a]">
+        {loading && <p className="text-slate-400">Caricamento...</p>}
         {!loading && fileData && (
           <SpecificEditor data={fileData} onChange={setFileData} />
         )}

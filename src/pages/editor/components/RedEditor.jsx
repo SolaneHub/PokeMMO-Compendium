@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import StepForm from "./StepForm";
+import StepForm from "@/pages/editor/components/StepForm";
 
 const RedEditor = ({ data, onChange }) => {
   const [teamKey, setTeamKey] = useState(null);
@@ -59,23 +59,17 @@ const RedEditor = ({ data, onChange }) => {
   return (
     <div>
       <title>Editor: Red</title>
-      <h3
-        style={{
-          borderBottom: "2px solid #ff5252",
-          paddingBottom: "10px",
-          color: "#ff5252",
-        }}
-      >
+      <h3 className="border-b-2 border-red-500 pb-2.5 text-red-500 text-xl font-bold mb-5">
         🧢 Red Editor
       </h3>
 
-      <div className="step-card" style={{ borderTop: "4px solid #ff5252" }}>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <div style={{ flex: 1 }}>
-            <label>Team</label>
-            <div style={{ display: "flex", gap: "5px" }}>
+      <div className="bg-[#1e1e1e] border border-[#333] border-t-4 border-t-red-500 rounded-md shadow-sm p-5 mb-5">
+        <div className="flex gap-5 flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Team</label>
+            <div className="flex gap-1.5">
               <select
-                className="universal-input"
+                className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                 value={teamKey || ""}
                 onChange={(e) => {
                   setTeamKey(e.target.value);
@@ -90,16 +84,19 @@ const RedEditor = ({ data, onChange }) => {
                     </option>
                   ))}
               </select>
-              <button className="btn btn-success btn-sm" onClick={addTeam}>
+              <button 
+                className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2.5 py-2 text-sm font-bold cursor-pointer transition-all active:translate-y-[1px]" 
+                onClick={addTeam}
+              >
                 +
               </button>
             </div>
           </div>
-          <div style={{ flex: 1 }}>
-            <label>Pokémon</label>
-            <div style={{ display: "flex", gap: "5px" }}>
+          <div className="flex-1 min-w-[200px]">
+            <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Pokémon</label>
+            <div className="flex gap-1.5">
               <select
-                className="universal-input"
+                className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 value={pokemon || ""}
                 onChange={(e) => setPokemon(e.target.value)}
                 disabled={!teamKey}
@@ -116,7 +113,7 @@ const RedEditor = ({ data, onChange }) => {
                   )}
               </select>
               <button
-                className="btn btn-success btn-sm"
+                className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2.5 py-2 text-sm font-bold cursor-pointer transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={addPokemon}
                 disabled={!teamKey}
               >
@@ -128,18 +125,11 @@ const RedEditor = ({ data, onChange }) => {
       </div>
 
       {pokemon ? (
-        <div className="fade-in">
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              margin: "20px 0",
-            }}
-          >
-            <h4 style={{ margin: 0 }}>Strategia: {pokemon}</h4>
+        <div className="animate-[fade-in_0.3s_ease-out]">
+          <div className="flex justify-between items-center my-5">
+            <h4 className="m-0 text-lg font-bold text-white">Strategia: <span className="text-red-400">{pokemon}</span></h4>
             <button
-              className="btn btn-success"
+              className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
               onClick={() =>
                 updateStrategies([
                   ...strategies,
@@ -153,8 +143,7 @@ const RedEditor = ({ data, onChange }) => {
           {strategies.map((step, i) => (
             <div
               key={i}
-              className="step-card"
-              style={{ borderLeft: "3px solid #ff5252" }}
+              className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm mb-4 p-5 border-l-[3px] border-l-red-500"
             >
               <StepForm
                 step={step}
@@ -165,8 +154,7 @@ const RedEditor = ({ data, onChange }) => {
                 }}
               />
               <button
-                className="btn btn-danger btn-sm"
-                style={{ marginTop: "10px" }}
+                className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer mt-2.5 transition-all"
                 onClick={() =>
                   updateStrategies(strategies.filter((_, x) => x !== i))
                 }
@@ -177,7 +165,7 @@ const RedEditor = ({ data, onChange }) => {
           ))}
         </div>
       ) : (
-        <p style={{ textAlign: "center", color: "#666", marginTop: "50px" }}>
+        <p className="text-center text-[#666] mt-12 italic">
           Seleziona un Team e un Pokémon
         </p>
       )}

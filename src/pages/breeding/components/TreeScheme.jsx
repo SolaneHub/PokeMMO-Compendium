@@ -1,8 +1,5 @@
-import "./TreeScheme.css";
-
+import StatCircle from "@/pages/breeding/components/StatCircle";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
-
-import StatCircle from "./StatCircle";
 
 const STAT_COLOR_MAP = {
   HP: "#55b651",
@@ -144,34 +141,39 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
       : 1.0;
 
   return (
-    <div className="tree-scheme-container">
-      <div className="legend-container">
-        <div className="legend-items">
+    <div className="flex flex-col items-center w-full relative box-border">
+      <div className="sticky top-0 w-full flex justify-center py-2.5 pb-5 z-[200] bg-black/80 backdrop-blur-sm">
+        <div className="flex flex-wrap justify-center gap-2.5">
           {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
-            <div key={index} className="legend-item">
-              <span className="legend-stat-name">{statName}</span>
+            <div key={index} className="flex flex-col items-center gap-1.5 w-[90px] text-center">
+              <span className="w-full text-slate-200 text-sm font-semibold whitespace-nowrap overflow-hidden text-ellipsis">{statName}</span>
               <StatCircle ivColors={[STAT_COLOR_MAP[statName]]} />
             </div>
           ))}
         </div>
       </div>
 
-      <div className="tree-scroll-view">
-        <div className="tree-wrapper">
+      <div className="flex w-full max-w-[100vw] overflow-x-auto overflow-y-hidden px-5 pb-5 box-border scrollbar-thin scrollbar-track-slate-800 scrollbar-thumb-slate-700 hover:scrollbar-thumb-blue-500">
+        <div className="flex items-end justify-center min-w-max mx-auto pb-5">
           <div
-            className="tree-container"
-            style={{ "--scale": scale, "--vertical-gap": `${VERTICAL_GAP}px` }}
+            className="flex flex-col items-center pt-2.5 origin-top"
+            style={{ 
+              gap: `${VERTICAL_GAP}px`,
+              transform: `scale(${scale})`, 
+              "--node-size": `${NODE_SIZE}px`,
+              "--vertical-gap": `${VERTICAL_GAP}px`
+            }}
           >
             {dataByRow.map((rowItems, rowIndex) => {
               const config = rowConfigs[rowIndex];
+              const isLastRow = rowIndex === totalRows - 1;
+
               return (
                 <div
                   key={`row-${rowIndex}`}
-                  className="tree-row"
+                  className="flex justify-center"
                   style={{
-                    "--row-gap": `${config.rowGap}px`,
-                    "--pair-gap": `${config.pairGap}px`,
-                    "--node-size": `${config.size}px`,
+                    gap: `${config.rowGap}px`,
                   }}
                 >
                   {rowItems.reduce((pairs, colors, i) => {
@@ -182,10 +184,17 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
                       pairs.push(
                         <div
-                          className="tree-pair"
+                          className={`
+                            relative flex justify-center items-center
+                            ${!isLastRow ? 
+                              "before:content-[''] before:absolute before:h-[2px] before:bg-white before:opacity-30 before:top-1/2 before:left-0 before:right-0 before:mx-[calc(var(--node-size)/2)] before:-z-10 after:content-[''] after:absolute after:w-[2px] after:bg-white after:opacity-30 after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:-z-10" 
+                              : ""
+                            }
+                          `}
+                          style={{ gap: `${config.pairGap}px` }}
                           key={`${rowIndex}-pair-${i / 2}`}
                         >
-                          <div className="tree-node">
+                          <div className="relative flex items-center justify-center z-[2] group/node">
                             <StatCircle
                               ivColors={colors}
                               onClick={() => handleNodeClick(rowIndex, i)}
@@ -196,7 +205,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                             />
                           </div>
                           {next && (
-                            <div className="tree-node">
+                            <div className="relative flex items-center justify-center z-[2] group/node">
                               <StatCircle
                                 ivColors={next}
                                 onClick={() => handleNodeClick(rowIndex, i + 1)}

@@ -1,6 +1,4 @@
-import "./RaidsPage.css";
-
-import { useEffect, useState } from "react";
+import { Activity, useEffect, useState } from "react";
 
 import {
   getPokemonBackground,
@@ -52,13 +50,13 @@ const BuildCard = ({ buildData }) => {
   const { sprite } = getPokemonCardData(activeBuild.name);
 
   return (
-    <div className="raids-build-card">
+    <div className="flex flex-col bg-neutral-900 border border-slate-700 rounded-lg overflow-hidden shadow-sm hover:border-slate-500 transition-colors">
       {allVariants.length > 1 && (
-        <div className="build-variants-tabs">
+        <div className="flex bg-neutral-900 border-b border-slate-700 overflow-x-auto scrollbar-hide">
           {allVariants.map((variant, idx) => (
             <button
               key={idx}
-              className={`variant-tab ${activeBuild.name === variant.name ? "active" : ""}`}
+              className={`flex-1 bg-transparent border-none border-r border-slate-700 text-slate-500 cursor-pointer text-xs font-bold uppercase px-2.5 py-2 transition-colors whitespace-nowrap last:border-r-0 hover:bg-slate-800 hover:text-slate-300 ${activeBuild.name === variant.name ? "bg-slate-800 text-blue-500 shadow-[inset_0_-2px_0_#3b82f6]" : ""}`}
               onClick={() => setActiveBuild(variant)}
             >
               {variant.name}
@@ -67,26 +65,32 @@ const BuildCard = ({ buildData }) => {
         </div>
       )}
 
-      <div className="build-card-header">
-        <img src={sprite} alt={activeBuild.name} className="build-sprite" />
-        <div className="build-main-info">
-          <span className="build-name">{activeBuild.name}</span>
-          <div className="build-roles-row">
-            {activeBuild.order && (
-              <span className="build-usage" style={{ color: "#ffd700" }}>
-                Pokemon {activeBuild.order}
-              </span>
-            )}
+      <div className="flex items-center justify-between p-2.5 bg-slate-800 border-b border-slate-700">
+        <div className="flex items-center gap-3">
+          <img 
+            src={sprite} 
+            alt={activeBuild.name} 
+            className="w-10 h-10 object-contain drop-shadow-md" 
+          />
+          <div className="flex flex-col">
+            <span className="text-white font-bold text-sm leading-tight">{activeBuild.name}</span>
+            <div className="flex items-center gap-1.5 text-xs font-bold uppercase mt-0.5">
+              {activeBuild.order && (
+                <span className="text-yellow-400">
+                  Pokemon {activeBuild.order}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
         {activeBuild.item && (
-          <span className="build-held-item">
+          <span className="flex items-center text-slate-300 text-xs bg-white/5 px-2 py-0.5 rounded-full border border-white/10 ml-auto">
             <img
               key={activeBuild.item}
               src={getItemSpriteUrl(activeBuild.item)}
               alt={activeBuild.item}
-              className="item-icon"
+              className="w-5 h-5 object-contain mr-1.5"
               onError={(e) => (e.target.style.display = "none")}
             />
             {activeBuild.item}
@@ -94,33 +98,33 @@ const BuildCard = ({ buildData }) => {
         )}
       </div>
 
-      <div className="build-stats-row">
+      <div className="flex flex-wrap gap-2.5 bg-neutral-800 border-b border-slate-700 px-2.5 py-1.5 text-xs">
         {activeBuild.ability && (
-          <span className="build-stat">
-            Ability: <strong>{activeBuild.ability}</strong>
+          <span className="text-slate-400">
+            Ability: <strong className="text-slate-200 ml-1">{activeBuild.ability}</strong>
           </span>
         )}
         {activeBuild.nature && (
-          <span className="build-stat">
-            Nature: <strong>{activeBuild.nature}</strong>
+          <span className="text-slate-400">
+            Nature: <strong className="text-slate-200 ml-1">{activeBuild.nature}</strong>
           </span>
         )}
         {activeBuild.evs && (
-          <span className="build-stat">
-            EVs: <strong>{activeBuild.evs}</strong>
+          <span className="text-slate-400">
+            EVs: <strong className="text-slate-200 ml-1">{activeBuild.evs}</strong>
           </span>
         )}
         {activeBuild.ivs && (
-          <span className="build-stat">
-            IVs: <strong>{activeBuild.ivs}</strong>
+          <span className="text-slate-400">
+            IVs: <strong className="text-slate-200 ml-1">{activeBuild.ivs}</strong>
           </span>
         )}
       </div>
 
       {activeBuild.moves && (
-        <div className="build-moves-list">
+        <div className="flex flex-wrap gap-1.5 p-2.5 bg-neutral-900">
           {activeBuild.moves.map((m, k) => (
-            <span key={k} className="build-move">
+            <span key={k} className="bg-slate-800 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-xs">
               {m}
             </span>
           ))}
@@ -189,16 +193,13 @@ function RaidsPage() {
     return null;
   })();
 
-  useEffect(() => {
-    setSelectedBuildGroup(null);
-  }, [selectedPokemon, selectedStrategyIndex]);
-
   const closePokemonDetails = () => {
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     setSelectedRole(null);
     setSelectedTurnIndex(0);
     setSelectedStrategyIndex(0);
+    setSelectedBuildGroup(null);
   };
 
   const handleStarClick = (star) => {
@@ -212,6 +213,7 @@ function RaidsPage() {
     setSelectedRole(null);
     setSelectedTurnIndex(0);
     setSelectedStrategyIndex(0);
+    setSelectedBuildGroup(null);
     setActiveTab("Strategy");
   };
 
@@ -235,23 +237,25 @@ function RaidsPage() {
       : [];
 
   return (
-    <div className="container raids-page">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-24">
       <PageTitle title="PokéMMO Compendium: Raids" />
 
-      <div className="cards-container">
+      <div className="flex flex-wrap justify-center gap-4 my-8">
         {starLevels.map((star) => (
           <div
             key={star}
-            className={`card team-card ${selectedStar === star ? "selected" : ""}`}
+            className={`w-32 h-16 flex items-center justify-center bg-slate-700 border-2 border-transparent rounded-lg cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg
+              ${selectedStar === star ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-slate-600" : "hover:bg-slate-600"}
+            `}
             onClick={() => handleStarClick(star)}
           >
-            <p>{star}★</p>
+            <p className="text-white font-bold m-0">{star}★</p>
           </div>
         ))}
       </div>
 
       {selectedStar && filteredRaids.length > 0 && (
-        <div className="pokemon-cards-display">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           {filteredRaids.map((raid) => {
             const { sprite, background } = getPokemonCardData(raid.name);
             return (
@@ -269,21 +273,31 @@ function RaidsPage() {
       )}
 
       {isPokemonDetailsVisible && currentRaid && (
-        <div className="raids-overlay" onClick={closePokemonDetails}>
-          <div className="raids-modal" onClick={(e) => e.stopPropagation()}>
+        <div 
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]" 
+          onClick={closePokemonDetails}
+        >
+          <div 
+            className="relative w-[500px] max-w-[95vw] max-h-[90vh] flex flex-col bg-slate-800 rounded-lg shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]" 
+            onClick={(e) => e.stopPropagation()}
+          >
             <div
-              className="raids-modal-header"
+              className="flex flex-col p-4 shadow-md z-10 shrink-0"
               style={{ background: detailsTitleBackground }}
             >
-              <h2>{currentRaid.name}</h2>
-              <p>{currentRaid.stars}★ Raid</p>
+              <h2 className="text-slate-900 font-bold text-xl m-0 drop-shadow-sm">{currentRaid.name}</h2>
+              <p className="text-slate-800 font-medium text-sm m-0 opacity-90">{currentRaid.stars}★ Raid</p>
             </div>
 
-            <div className="raids-tabs">
+            <div className="flex shrink-0 overflow-x-auto bg-slate-900 border-b border-slate-700 z-10 scrollbar-hide">
               {tabs.map((tab) => (
                 <button
                   key={tab}
-                  className={`raids-tab ${activeTab === tab ? "active" : ""}`}
+                  className={`flex-1 min-w-[80px] py-3.5 text-sm font-semibold whitespace-nowrap uppercase tracking-wide transition-colors relative
+                    ${activeTab === tab 
+                      ? "bg-slate-800 text-blue-500 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-blue-500" 
+                      : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                    }`}
                   onClick={() => setActiveTab(tab)}
                 >
                   {tab}
@@ -291,22 +305,25 @@ function RaidsPage() {
               ))}
             </div>
 
-            <div className="raids-modal-content">
-              {activeTab === "Strategy" && (
-                <>
+            <div className="flex-1 overflow-y-auto p-5 bg-slate-800 flex flex-col gap-5">
+              <Activity mode={activeTab === "Strategy" ? "visible" : "hidden"}>
+                <div className="flex flex-col gap-5">
                   {currentRaid.teamStrategies &&
                     currentRaid.teamStrategies.length > 1 && (
-                      <section className="raids-section raids-section-team-versions">
-                        <h3 className="raids-section-title">Select Strategy</h3>
-                        <div className="raids-version-buttons">
+                      <section className="bg-neutral-800 rounded-lg p-3">
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-2">Select Strategy</h3>
+                        <div className="grid grid-cols-[repeat(auto-fit,minmax(80px,1fr))] gap-2">
                           {currentRaid.teamStrategies.map((strategy, idx) => (
                             <button
                               key={strategy.id || idx}
-                              className={`role-btn ${selectedStrategyIndex === idx ? "active" : ""}`}
+                              className={`bg-neutral-900 border border-slate-700 rounded-md text-slate-400 cursor-pointer font-semibold text-sm p-2 transition-all hover:bg-slate-700 hover:text-slate-200
+                                ${selectedStrategyIndex === idx ? "bg-blue-500/15 border-blue-500 text-blue-500 shadow-[0_0_0_1px_rgba(59,130,246,0.2)]" : ""}
+                              `}
                               onClick={() => {
                                 setSelectedStrategyIndex(idx);
                                 setSelectedRole(null);
                                 setSelectedTurnIndex(0);
+                                setSelectedBuildGroup(null);
                               }}
                             >
                               {strategy.label || `Version ${idx + 1}`}
@@ -316,16 +333,18 @@ function RaidsPage() {
                       </section>
                     )}
 
-                  <section className="raids-section">
+                  <section className="bg-neutral-800 rounded-lg p-3">
                     {rolesSource && roleOptions.length > 0 ? (
-                      <div className="raids-subsection-roles">
-                        <h3 className="raids-section-title">Player Roles</h3>
+                      <div className="flex flex-col gap-3">
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">Player Roles</h3>
 
-                        <div className="raids-role-buttons">
+                        <div className="flex flex-wrap gap-2 mb-2">
                           {roleOptions.map((roleKey) => (
                             <button
                               key={roleKey}
-                              className={`role-btn ${effectiveSelectedRole === roleKey ? "active" : ""}`}
+                              className={`flex-1 min-w-[80px] bg-neutral-900 border border-slate-700 rounded-md text-slate-400 cursor-pointer font-semibold text-sm py-2.5 px-1.5 transition-all hover:bg-slate-700 hover:text-slate-200
+                                ${effectiveSelectedRole === roleKey ? "bg-blue-500/15 border-blue-500 text-blue-500 shadow-[0_0_0_1px_rgba(59,130,246,0.2)]" : ""}
+                              `}
                               onClick={() => handleRoleChange(roleKey)}
                             >
                               {roleKey === "player1"
@@ -337,9 +356,9 @@ function RaidsPage() {
 
                         {movesForSelectedRole.length > 0 && (
                           <>
-                            <div className="raids-turn-navigator">
+                            <div className="flex items-center justify-between bg-slate-700 border border-slate-700 border-b-neutral-900 rounded-t-lg p-2">
                               <button
-                                className="turn-nav-btn"
+                                className="flex items-center justify-center w-8 h-8 bg-neutral-800 border border-slate-600 rounded-md text-white transition-all hover:bg-blue-500 hover:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-neutral-800 disabled:hover:border-slate-600"
                                 disabled={selectedTurnIndex === 0}
                                 onClick={() =>
                                   setSelectedTurnIndex((prev) =>
@@ -350,18 +369,18 @@ function RaidsPage() {
                                 ❮
                               </button>
 
-                              <div className="turn-display-text">
-                                <span className="turn-label">Turn</span>
-                                <span className="turn-current">
+                              <div className="flex items-baseline gap-1.5">
+                                <span className="text-slate-400 text-xs font-bold uppercase">Turn</span>
+                                <span className="text-white font-mono text-lg font-bold">
                                   {selectedTurnIndex + 1}
                                 </span>
-                                <span className="turn-total">
+                                <span className="text-slate-500 text-sm font-medium">
                                   / {movesForSelectedRole.length}
                                 </span>
                               </div>
 
                               <button
-                                className="turn-nav-btn"
+                                className="flex items-center justify-center w-8 h-8 bg-neutral-800 border border-slate-600 rounded-md text-white transition-all hover:bg-blue-500 hover:border-blue-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-neutral-800 disabled:hover:border-slate-600"
                                 disabled={
                                   selectedTurnIndex >=
                                   movesForSelectedRole.length - 1
@@ -379,22 +398,21 @@ function RaidsPage() {
                               </button>
                             </div>
 
-                            <ul className="raids-role-moves">
+                            <ul className="flex flex-col gap-1 bg-neutral-900 border border-slate-700 border-t-0 rounded-b-lg p-2.5 mt-0 list-none">
                               {movesForSelectedRole.map((item, idx) => (
                                 <li
                                   key={idx}
-                                  className={
-                                    idx === selectedTurnIndex
-                                      ? "raids-role-move raids-role-move--active"
-                                      : "raids-role-move"
-                                  }
+                                  className={`flex items-center rounded-md text-sm px-3 py-2 cursor-pointer transition-colors relative
+                                    ${idx === selectedTurnIndex 
+                                      ? "bg-blue-500/15 border border-blue-500/30" 
+                                      : "hover:bg-slate-800"}
+                                  `}
                                   onClick={() => setSelectedTurnIndex(idx)}
-                                  style={{ cursor: "pointer" }}
                                 >
-                                  <span className="raids-role-move-turn">
+                                  <span className={`font-mono text-xs mr-3 min-w-[25px] ${idx === selectedTurnIndex ? "text-blue-400 font-bold" : "text-slate-500"}`}>
                                     T{idx + 1}:
                                   </span>
-                                  <span className="raids-role-move-text">
+                                  <span className="flex-1 text-slate-200">
                                     {item}
                                   </span>
                                 </li>
@@ -404,29 +422,28 @@ function RaidsPage() {
                         )}
                       </div>
                     ) : (
-                      <p className="empty-text">No strategy data available.</p>
+                      <p className="text-slate-500 italic p-4 text-center">No strategy data available.</p>
                     )}
                   </section>
-                </>
-              )}
+                </div>
+              </Activity>
 
-              {activeTab === "Builds" && (
-                <section className="raids-section">
+              <Activity mode={activeTab === "Builds" ? "visible" : "hidden"}>
+                <section className="bg-neutral-800 rounded-lg p-3">
                   {recommendedList.length > 0 ? (
                     <>
-                      <h3 className="raids-section-title">Recommended Setup</h3>
+                      <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-3">Recommended Setup</h3>
                       {buildGroups ? (
                         <>
-                          <div
-                            className="raids-role-buttons"
-                            style={{ marginBottom: "20px" }}
-                          >
+                          <div className="flex flex-wrap gap-2 mb-5">
                             {Object.keys(buildGroups)
                               .sort()
                               .map((groupName) => (
                                 <button
                                   key={groupName}
-                                  className={`role-btn ${effectiveBuildGroupKey === groupName ? "active" : ""}`}
+                                  className={`flex-1 min-w-[80px] bg-neutral-900 border border-slate-700 rounded-md text-slate-400 cursor-pointer font-semibold text-sm py-2.5 px-1.5 transition-all hover:bg-slate-700 hover:text-slate-200
+                                    ${effectiveBuildGroupKey === groupName ? "bg-blue-500/15 border-blue-500 text-blue-500 shadow-[0_0_0_1px_rgba(59,130,246,0.2)]" : ""}
+                                  `}
                                   onClick={() =>
                                     setSelectedBuildGroup(groupName)
                                   }
@@ -438,7 +455,7 @@ function RaidsPage() {
 
                           {effectiveBuildGroupKey &&
                             buildGroups[effectiveBuildGroupKey] && (
-                              <div className="raids-builds-grid fade-in">
+                              <div className="flex flex-col gap-2.5 animate-[fade-in_0.3s_ease-out]">
                                 {buildGroups[effectiveBuildGroupKey].map(
                                   (build, i) => (
                                     <BuildCard key={i} buildData={build} />
@@ -448,109 +465,115 @@ function RaidsPage() {
                             )}
                         </>
                       ) : (
-                        <ul className="raids-recommended-list">
+                        <ul className="flex flex-col gap-2 list-none p-0 m-0">
                           {recommendedList.map((rec, i) => (
-                            <li key={i}>{rec}</li>
+                            <li key={i} className="bg-neutral-900 border border-slate-700 rounded p-2 text-slate-300 text-sm">{rec}</li>
                           ))}
                         </ul>
                       )}
                     </>
                   ) : (
-                    <p className="empty-text">
+                    <p className="text-slate-500 italic p-4 text-center">
                       No recommended builds available.
                     </p>
                   )}
                 </section>
-              )}
+              </Activity>
 
-              {activeTab === "Mechanics" && currentRaid.mechanics && (
-                <section className="raids-section">
-                  <h3 className="raids-section-title">Boss Info</h3>
-                  <div className="raids-mechanics-text">
-                    {currentRaid.mechanics.ability && (
-                      <p>
-                        <strong>Ability:</strong>{" "}
-                        {currentRaid.mechanics.ability}
-                      </p>
-                    )}
-                    {currentRaid.mechanics.heldItem && (
-                      <p>
-                        <strong>Item:</strong> {currentRaid.mechanics.heldItem}
-                      </p>
-                    )}
-                    {currentRaid.mechanics.notes && (
-                      <p>
-                        <strong>Notes:</strong> {currentRaid.mechanics.notes}
-                      </p>
-                    )}
-                  </div>
+              <Activity mode={activeTab === "Mechanics" ? "visible" : "hidden"}>
+                {currentRaid.mechanics ? (
+                  <section className="bg-neutral-800 rounded-lg p-3 flex flex-col gap-4">
+                    <div>
+                      <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-2">Boss Info</h3>
+                      <div className="grid grid-cols-2 gap-2.5">
+                        {currentRaid.mechanics.ability && (
+                          <div className="flex flex-col gap-1 bg-neutral-900 border border-slate-700 rounded-lg p-2.5">
+                            <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Ability</strong>
+                            <span className="text-slate-200 text-sm">{currentRaid.mechanics.ability}</span>
+                          </div>
+                        )}
+                        {currentRaid.mechanics.heldItem && (
+                          <div className="flex flex-col gap-1 bg-neutral-900 border border-slate-700 rounded-lg p-2.5">
+                             <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Item</strong>
+                             <span className="text-slate-200 text-sm">{currentRaid.mechanics.heldItem}</span>
+                          </div>
+                        )}
+                        {currentRaid.mechanics.notes && (
+                          <div className="col-span-2 flex flex-col gap-1 bg-neutral-900 border border-slate-700 rounded-lg p-2.5">
+                             <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Notes</strong>
+                             <span className="text-slate-200 text-sm">{currentRaid.mechanics.notes}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-                  {currentRaid.mechanics.thresholds && (
-                    <div
-                      className="raids-thresholds"
-                      style={{ marginTop: "15px" }}
-                    >
-                      <h3 className="raids-section-title">HP Thresholds</h3>
-                      <ul className="raids-threshold-list">
-                        {Object.entries(currentRaid.mechanics.thresholds)
-                          .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
-                          .map(([hp, info]) => (
-                            <li key={hp}>
-                              <span className="raids-threshold-hp">
-                                {hp}% HP
-                              </span>
-                              <span className="raids-threshold-effect">
-                                {typeof info === "string" ? info : info?.effect}
-                              </span>
+                    {currentRaid.mechanics.thresholds && (
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">HP Thresholds</h3>
+                        <ul className="flex flex-col gap-1 list-none p-0">
+                          {Object.entries(currentRaid.mechanics.thresholds)
+                            .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
+                            .map(([hp, info]) => (
+                              <li key={hp} className="flex items-center bg-neutral-900 border border-slate-700 rounded-md p-2 hover:bg-slate-700/50 transition-colors">
+                                <span className="bg-red-500/10 border border-red-500/30 rounded text-red-400 font-mono font-bold text-xs text-center min-w-[55px] py-0.5 mr-3">
+                                  {hp}% HP
+                                </span>
+                                <span className="text-slate-200 text-sm font-medium">
+                                  {typeof info === "string"
+                                    ? info
+                                    : info?.effect}
+                                </span>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {currentRaid.moves && (
+                      <div className="flex flex-col gap-2">
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">Known Moves</h3>
+                        <ul className="flex flex-wrap gap-1.5 list-none p-0">
+                          {currentRaid.moves.map((move) => (
+                            <li key={move} className="bg-white/5 border border-white/10 rounded-full text-slate-300 text-xs font-semibold px-3 py-1">
+                              {move}
                             </li>
                           ))}
-                      </ul>
-                    </div>
-                  )}
+                        </ul>
+                      </div>
+                    )}
+                  </section>
+                ) : (
+                  <div />
+                )}
+              </Activity>
 
-                  {currentRaid.moves && (
-                    <div
-                      className="raids-mechanics-moves"
-                      style={{ marginTop: "15px" }}
-                    >
-                      <h3 className="raids-section-title">Known Moves</h3>
-                      <ul className="raids-move-chips">
-                        {currentRaid.moves.map((move) => (
-                          <li key={move}>{move}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </section>
-              )}
-
-              {activeTab === "Locations" && (
-                <section className="raids-section">
-                  <h3 className="raids-section-title">Where to find</h3>
+              <Activity mode={activeTab === "Locations" ? "visible" : "hidden"}>
+                <section className="bg-neutral-800 rounded-lg p-3">
+                  <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-3">Where to find</h3>
                   {currentRaid.locations ? (
-                    <div className="locations-grid">
+                    <div className="flex flex-col gap-3">
                       {Object.entries(currentRaid.locations).map(
                         ([region, locationData]) => {
                           const areaName = locationData.area || locationData;
                           const reqs = locationData.requirements || [];
                           return (
-                            <div key={region} className="location-card">
-                              <div className="location-header">
-                                <span className="region-name">{region}</span>
+                            <div key={region} className="bg-neutral-900 border border-slate-700 rounded-lg overflow-hidden">
+                              <div className="bg-slate-700 border-b border-slate-700 p-2 px-3">
+                                <span className="text-white text-xs font-bold uppercase tracking-wider">{region}</span>
                               </div>
-                              <div className="location-body">
-                                <div className="loc-row">
-                                  <strong className="loc-label">Area</strong>
-                                  <span className="area-text">{areaName}</span>
+                              <div className="p-3 flex flex-col gap-3">
+                                <div className="flex flex-col gap-1">
+                                  <strong className="text-slate-500 text-[10px] font-bold uppercase">Area</strong>
+                                  <span className="text-slate-200 text-sm font-medium">{areaName}</span>
                                 </div>
                                 {reqs.length > 0 && (
-                                  <div className="loc-row">
-                                    <strong className="loc-label">
+                                  <div className="flex flex-col gap-1">
+                                    <strong className="text-slate-500 text-[10px] font-bold uppercase">
                                       Requirements
                                     </strong>
-                                    <div className="loc-badges">
+                                    <div className="flex flex-wrap gap-1.5">
                                       {reqs.map((req, k) => (
-                                        <span key={k} className="loc-badge req">
+                                        <span key={k} className="inline-flex items-center rounded border text-xs font-semibold px-2 py-1 bg-orange-500/15 border-orange-500/40 text-orange-500">
                                           {req}
                                         </span>
                                       ))}
@@ -564,10 +587,10 @@ function RaidsPage() {
                       )}
                     </div>
                   ) : (
-                    <p className="empty-text">No location data available.</p>
+                    <p className="text-slate-500 italic p-4 text-center">No location data available.</p>
                   )}
                 </section>
-              )}
+              </Activity>
             </div>
           </div>
         </div>

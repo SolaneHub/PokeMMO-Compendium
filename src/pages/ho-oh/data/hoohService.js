@@ -1,6 +1,5 @@
+import hoOhData from "@/pages/ho-oh/data/hoOhData.json";
 import { pokemonRegions } from "@/shared/utils/regionData";
-
-import hoOhData from "./hoOhData.json";
 
 export const getAllHoOhTrainers = () => {
   return hoOhData;
