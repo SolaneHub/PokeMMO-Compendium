@@ -130,7 +130,6 @@ function BossFightsPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  // Store the context for fetching Pokémon strategy in the modal
   const allBossFights = getAllBossFights();
 
   const currentPokemonObject = selectedPokemon
@@ -148,7 +147,6 @@ function BossFightsPage() {
   ) => {
     setSelectedPokemon(pokemonName);
     setIsPokemonDetailsVisible(true);
-    // setStrategyContext is removed as strategyContext is no longer declared
     const strategy = getPokemonStrategy(
       bossFightName,
       bossFightRegion,

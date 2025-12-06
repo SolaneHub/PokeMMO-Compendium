@@ -11,7 +11,6 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import React, { useMemo } from "react";
 
 import { SortableNestedStepItem } from "@/pages/editor/components/SortableNestedStepItem";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
@@ -19,7 +18,7 @@ import { usePokedexData } from "@/shared/hooks/usePokedexData";
 const createNewNestedStepTemplate = () => ({
   type: "",
   player: "",
-  id: `nested-step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique ID on creation
+  id: `nested-step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 });
 
 const VariationForm = ({ variation, onChange }) => {
@@ -47,9 +46,9 @@ const VariationForm = ({ variation, onChange }) => {
     updateNestedSteps(newSteps);
   };
 
-  const combinedSuggestions = useMemo(() => {
-    return [...new Set([...pokemonNames, ...moveNames, ...itemNames])].sort();
-  }, [pokemonNames, moveNames, itemNames]);
+  const combinedSuggestions = [
+    ...new Set([...pokemonNames, ...moveNames, ...itemNames]),
+  ].sort();
 
   const sensors = useSensors(
     useSensor(PointerSensor),

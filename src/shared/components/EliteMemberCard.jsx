@@ -12,7 +12,7 @@ const EliteMemberCard = ({
       className={`relative flex flex-col w-36 bg-[#1e2025] border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 group
         ${
           isSelected
-            ? "scale-105 z-10 border-transparent" // Selected state handled by style prop for specific color shadow
+            ? "scale-105 z-10 border-transparent"
             : "border-white/5 hover:border-white/20 hover:bg-[#25272e] hover:-translate-y-1 hover:shadow-xl"
         }
       `}
@@ -21,7 +21,7 @@ const EliteMemberCard = ({
         isSelected
           ? {
               boxShadow: shadowColor || "0 0 15px rgba(255,255,255,0.2)",
-              borderColor: "rgba(255,255,255,0.2)", // Fallback border if needed
+              borderColor: "rgba(255,255,255,0.2)",
             }
           : {}
       }

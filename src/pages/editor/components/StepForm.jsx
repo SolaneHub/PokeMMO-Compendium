@@ -1,8 +1,8 @@
 import VariationForm from "@/pages/editor/components/VariationForm";
-import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import the hook
+import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const StepForm = ({ step, onChange }) => {
-  const { pokemonNames, moveNames, itemNames } = usePokedexData(); // Use the hook
+  const { pokemonNames, moveNames, itemNames } = usePokedexData();
   const update = (field, value) => onChange({ ...step, [field]: value });
 
   const combinedSuggestions = [
@@ -32,7 +32,7 @@ const StepForm = ({ step, onChange }) => {
         {actionLabel}{" "}
         <input
           type="text"
-          list="action-suggestions" // Add list attribute
+          list="action-suggestions"
           value={step.player || ""}
           onChange={(e) => update("player", e.target.value)}
           className="bg-[#2c2c2c] border border-[#444] rounded text-white text-[0.95rem] px-3 py-2 w-full mt-1.5 transition-all focus:bg-[#333] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/10"

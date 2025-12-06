@@ -1,7 +1,5 @@
-// src/pages/editor/components/SortableStepItem.jsx
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import React from "react";
 
 import StepForm from "@/pages/editor/components/StepForm";
 
@@ -12,7 +10,7 @@ export function SortableStepItem({ step, id, index, onChange, onRemove }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    touchAction: "none", // Prevent scrolling on drag
+    touchAction: "none",
   };
 
   return (

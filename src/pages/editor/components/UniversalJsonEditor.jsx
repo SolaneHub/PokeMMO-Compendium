@@ -1,7 +1,7 @@
-import { useState } from "react"; // Import useState
+import { useState } from "react";
 
 const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false); // State for collapsed/expanded
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
@@ -46,7 +46,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
           </button>
         </div>
 
-        {!isCollapsed && // Conditionally render content
+        {!isCollapsed &&
           (data.length === 0 ? (
             <p className="text-[#888] italic py-2">Empty List</p>
           ) : (
@@ -115,9 +115,8 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                 <button
                   className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded px-2 py-1 text-xs cursor-pointer transition-colors"
                   onClick={() => {
-                    // For simplicity, let's just add the first missing suggestion
                     if (missingSuggestions.length > 0) {
-                      handleAddField(missingSuggestions[0], ""); // Default value for suggested field
+                      handleAddField(missingSuggestions[0], "");
                     }
                   }}
                 >
@@ -140,7 +139,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
             </div>
           )}
         </div>
-        {!isCollapsed && // Conditionally render content
+        {!isCollapsed &&
           (Object.keys(data).length === 0 ? (
             <p className="text-[#888] italic py-2">Empty Object</p>
           ) : (

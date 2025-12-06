@@ -15,14 +15,14 @@ import { useState } from "react";
 
 import EliteFourMemberCard from "@/pages/editor/components/EliteFourMemberCard";
 import EliteFourTeamOverview from "@/pages/editor/components/EliteFourTeamOverview";
-import { SortableStepItem } from "@/pages/editor/components/SortableStepItem"; // Import SortableStepItem
+import { SortableStepItem } from "@/pages/editor/components/SortableStepItem";
 
 const createNewStepTemplate = () => ({
   type: "main",
   player: "",
   warning: "",
   variations: [],
-  id: `step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique ID on creation
+  id: `step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 });
 
 const EliteFourEditor = ({ data, onChange }) => {
@@ -153,8 +153,8 @@ const EliteFourEditor = ({ data, onChange }) => {
             <SortableContext items={steps.map((s) => s.id)}>
               {steps.map((step, i) => (
                 <SortableStepItem
-                  key={step.id} // Use the unique ID as key
-                  id={step.id} // Pass the ID to SortableStepItem
+                  key={step.id}
+                  id={step.id}
                   index={i}
                   step={step}
                   onChange={(updatedStep) => {
