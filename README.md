@@ -24,7 +24,7 @@ Welcome to the PokéMMO Compendium — your comprehensive, step-by-step companio
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.17-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
 ![React Icons](https://img.shields.io/badge/React_Icons-5.5.0-e91e63?logo=react&logoColor=white&style=flat)
 ![dnd-kit](https://img.shields.io/badge/dnd--kit-6.3.1-007bff?style=flat)
-![License](https://img.shields.io/badge/License-Proprietary-red)
+![License](https://img.shields.io/badge/License-Unlicense-blue)
 
 ---
 
@@ -105,7 +105,7 @@ This legend decodes the emojis used in the step-by-step battle strategies throug
 │   │       ├── Home.jsx
 │   │       └── Shell.jsx
 │   │       └── Sidebar.jsx
-│   ├── /data           # JSON data files (The "Database")
+│   ├── /data
 │   │   ├── bossFightsData.json
 │   │   ├── eliteFourData.json
 │   │   ├── pokedex.json
@@ -228,10 +228,10 @@ It stands as a collaborative effort shaped by countless trainers, creators, and 
 
 ---
 
-## ©️ Copyright
+## ©️ License
 
-This project is **not open source**.
-All content, code, and media are protected by copyright and may not be copied, modified, or distributed without explicit permission from the author.
+This project is released under the [Unlicense](http://unlicense.org/).
+This means it is free and unencumbered software released into the public domain. You can copy, modify, publish, use, sell, or distribute this software for any purpose, commercial or non-commercial, and by any means.
 
 ---
 
