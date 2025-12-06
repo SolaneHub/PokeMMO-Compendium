@@ -255,6 +255,14 @@ function RaidsPage() {
     <div className="max-w-7xl mx-auto px-4 py-6 pb-24">
       <PageTitle title="PokéMMO Compendium: Raids" />
 
+      {/* Header */}
+      <div className="text-center space-y-2 mb-8">
+        <h1 className="text-3xl font-bold text-white">Raid Strategies</h1>
+        <p className="text-slate-400">
+          Detailed strategies for defeating various raids.
+        </p>
+      </div>
+
       <div className="flex flex-wrap justify-center gap-4 my-8">
         {starLevels.map((star) => (
           <RaidCard

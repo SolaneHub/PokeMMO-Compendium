@@ -2,107 +2,161 @@ import { useState } from "react";
 
 import {
   getAllBossFights,
-  getAvailableBossFightRegions,
-  getBossFightsByRegion,
   getPokemonListForTeam,
   getPokemonStrategy,
+  getTeamNamesForBossFight,
 } from "@/pages/boss-fights/data/bossFightsService";
 import {
   getPokemonBackground,
   getPokemonByName,
   getPokemonCardData,
 } from "@/pages/pokedex/data/pokemonService";
-import EliteMemberCard from "@/shared/components/EliteMemberCard";
 import MoveColoredText from "@/shared/components/MoveColoredText";
 import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
-import RegionCard from "@/shared/components/RegionCard";
-import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
+import { typeBackgrounds } from "@/shared/utils/pokemonColors";
+
+const BossFightSection = ({
+  bossFight,
+  onPokemonCardClick,
+  selectedPokemon,
+}) => {
+  const [activeTeam, setActiveTeam] = useState(
+    Object.keys(bossFight.teams || {})[0]
+  );
+  const teamNames = getTeamNamesForBossFight(bossFight.name, bossFight.region);
+  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
+    bossFight.name,
+    bossFight.region,
+    activeTeam
+  );
+
+  const bossBackground = typeBackgrounds[bossFight.type] || typeBackgrounds[""];
+
+  return (
+    <div className="bg-[#1e2025] rounded-2xl p-4 md:p-6 shadow-lg border border-white/5 animate-[fade-in_0.4s_ease-out]">
+      <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-red-500 shadow-md flex-shrink-0">
+          <img
+            src={`/PokeMMO-Compendium/trainers/${bossFight.image}`}
+            alt={bossFight.name}
+            className="w-full h-full object-cover object-top"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = `https://placehold.co/128x128/cccccc/333333?text=${bossFight.name}`;
+            }}
+          />
+        </div>
+        <div className="text-center md:text-left">
+          <h2 className="text-3xl font-bold text-white m-0">
+            {bossFight.name}
+          </h2>
+          <p className="text-red-400 text-lg m-0">
+            {bossFight.region} Boss Fight
+          </p>
+          {bossFight.type && (
+            <span
+              className="inline-block px-3 py-1 mt-2 rounded-full text-sm font-semibold text-[#1a1b20]"
+              style={{ backgroundColor: bossBackground }}
+            >
+              {bossFight.type}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {teamNames.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold text-slate-300 mb-3 text-center md:text-left">
+            Teams
+          </h3>
+          <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+            {teamNames.map((teamName) => (
+              <button
+                key={teamName}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors
+                  ${
+                    activeTeam === teamName
+                      ? "bg-red-600 text-white shadow-md"
+                      : "bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white"
+                  }
+                `}
+                onClick={() => setActiveTeam(teamName)}
+              >
+                {teamName}
+              </button>
+            ))}
+          </div>
+
+          {pokemonNamesForSelectedTeam.length > 0 && (
+            <div>
+              <h3 className="text-xl font-semibold text-slate-300 mb-3 text-center md:text-left">
+                Pokémon for {activeTeam}
+              </h3>
+              <div className="flex flex-wrap justify-center gap-4">
+                {pokemonNamesForSelectedTeam.map((pokemonName) => {
+                  const { sprite, background } =
+                    getPokemonCardData(pokemonName);
+                  return (
+                    <PokemonCard
+                      key={pokemonName}
+                      pokemonName={pokemonName}
+                      pokemonImageSrc={sprite}
+                      nameBackground={background}
+                      onClick={() =>
+                        onPokemonCardClick(
+                          pokemonName,
+                          bossFight.name,
+                          bossFight.region,
+                          activeTeam
+                        )
+                      }
+                      isSelected={selectedPokemon === pokemonName}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 function BossFightsPage() {
-  const [selectedTeam, setSelectedTeam] = useState(null);
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const [selectedBossFight, setSelectedBossFight] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  const resetStrategyStates = () => {
-    setCurrentStrategyView([]);
-    setStrategyHistory([]);
-  };
-
-  const allTeamNames = (() => {
-    const allData = getAllBossFights();
-    if (allData.length === 0) return [];
-    return Object.keys(allData[0].teams || {}).sort();
-  })();
-
-  const availableRegions = getAvailableBossFightRegions();
-
-  const filteredBossFights = getBossFightsByRegion(selectedRegion);
-
-  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
-    selectedBossFight,
-    selectedRegion,
-    selectedTeam
-  );
+  // Store the context for fetching Pokémon strategy in the modal
+  const allBossFights = getAllBossFights();
 
   const currentPokemonObject = selectedPokemon
     ? getPokemonByName(selectedPokemon)
     : null;
-
   const detailsTitleBackground = selectedPokemon
     ? getPokemonBackground(selectedPokemon)
     : "#333";
 
-  const handleTeamClick = (teamName) => {
-    setSelectedTeam(teamName);
-    setSelectedRegion(null);
-    setSelectedBossFight(null);
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
-  };
-
-  const handleRegionClick = (region) => {
-    const regionName = typeof region === "object" ? region.name : region;
-    setSelectedRegion((prev) => (prev === regionName ? null : regionName));
-    setSelectedBossFight(null);
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
-  };
-
-  const handleBossFightClick = (bossFightName) => {
-    setSelectedBossFight((prev) =>
-      prev === bossFightName ? null : bossFightName
-    );
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
-  };
-
-  const handlePokemonCardClick = (pokemonName) => {
+  const handlePokemonCardClick = (
+    pokemonName,
+    bossFightName,
+    bossFightRegion,
+    teamName
+  ) => {
     setSelectedPokemon(pokemonName);
     setIsPokemonDetailsVisible(true);
-
+    // setStrategyContext is removed as strategyContext is no longer declared
     const strategy = getPokemonStrategy(
-      selectedBossFight,
-      selectedRegion,
-      selectedTeam,
+      bossFightName,
+      bossFightRegion,
+      teamName,
       pokemonName
     );
-
     setCurrentStrategyView(strategy);
     setStrategyHistory([]);
-  };
-
-  const closePokemonDetails = () => {
-    setSelectedPokemon(null);
-    setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
   };
 
   const handleStepClick = (item) => {
@@ -135,103 +189,30 @@ function BossFightsPage() {
       <PageTitle title="PokéMMO Compendium: Boss Fights" />
 
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-white">Boss Fights Strategy</h1>
-        <p className="text-slate-400">Select your team to begin.</p>
+      <div className="text-center space-y-2 mb-8">
+        <h1 className="text-3xl font-bold text-white">
+          Boss Fights Strategies
+        </h1>
+        <p className="text-slate-400">
+          Detailed strategies for defeating the Boss Fights.
+        </p>
       </div>
 
-      {/* Team Selection */}
-      <div className="flex flex-wrap justify-center gap-4">
-        {allTeamNames.map((teamName) => (
-          <button
-            key={teamName}
-            onClick={() => handleTeamClick(teamName)}
-            className={`
-              relative w-40 h-16 rounded-2xl font-bold text-lg transition-all duration-300 border
-              ${
-                selectedTeam === teamName
-                  ? "bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.2)] scale-105"
-                  : "bg-[#1e2025] border-white/5 text-slate-400 hover:bg-[#25272e] hover:border-white/20 hover:text-slate-200 hover:-translate-y-1"
-              }
-            `}
-          >
-            {teamName}
-          </button>
+      <div className="flex flex-col gap-8">
+        {allBossFights.map((bossFight) => (
+          <BossFightSection
+            key={bossFight.name}
+            bossFight={bossFight}
+            onPokemonCardClick={handlePokemonCardClick}
+            selectedPokemon={selectedPokemon}
+          />
         ))}
       </div>
-
-      {selectedTeam && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Region
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5">
-            {availableRegions.map((region) => (
-              <RegionCard
-                key={region.id}
-                region={region}
-                onRegionClick={() => handleRegionClick(region.name)}
-                isSelected={selectedRegion === region.name}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {selectedRegion && filteredBossFights.length > 0 && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Boss
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5">
-            {filteredBossFights.map((bossFight, i) => {
-              const bossBackground =
-                typeBackgrounds[bossFight.type] || typeBackgrounds[""];
-              const bossShadowColor = getDualShadow(bossBackground);
-
-              return (
-                <EliteMemberCard
-                  key={i}
-                  member={bossFight}
-                  onMemberClick={() => handleBossFightClick(bossFight.name)}
-                  isSelected={selectedBossFight === bossFight.name}
-                  background={bossBackground}
-                  shadowColor={bossShadowColor}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {selectedBossFight && pokemonNamesForSelectedTeam.length > 0 && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
-            Select Opponent Pokémon
-          </h2>
-          <div className="flex flex-wrap justify-center gap-5">
-            {pokemonNamesForSelectedTeam.map((pokemonName, index) => {
-              const { sprite, background } = getPokemonCardData(pokemonName);
-
-              return (
-                <PokemonCard
-                  key={index}
-                  pokemonName={pokemonName}
-                  pokemonImageSrc={sprite}
-                  nameBackground={background}
-                  onClick={() => handlePokemonCardClick(pokemonName)}
-                  isSelected={selectedPokemon === pokemonName}
-                />
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-[fade-in_0.2s_ease-out]"
-          onClick={closePokemonDetails}
+          onClick={() => setIsPokemonDetailsVisible(false)}
         >
           <div
             className="relative w-[500px] max-w-[90vw] max-h-[85vh] flex flex-col bg-[#1a1b20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-[scale-in_0.3s_ease-out]"

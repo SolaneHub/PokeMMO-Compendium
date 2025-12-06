@@ -1,13 +1,29 @@
+import {
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
 import { useState } from "react";
 
-import StepForm from "@/pages/editor/components/StepForm";
+import EliteFourMemberCard from "@/pages/editor/components/EliteFourMemberCard";
+import EliteFourTeamOverview from "@/pages/editor/components/EliteFourTeamOverview";
+import { SortableStepItem } from "@/pages/editor/components/SortableStepItem"; // Import SortableStepItem
 
-const NEW_STEP_TEMPLATE = {
+const createNewStepTemplate = () => ({
   type: "main",
   player: "",
   warning: "",
   variations: [],
-};
+  id: `step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // Generate a unique ID on creation
+});
 
 const EliteFourEditor = ({ data, onChange }) => {
   const [memberIndex, setMemberIndex] = useState(null);
@@ -26,6 +42,24 @@ const EliteFourEditor = ({ data, onChange }) => {
     }
   };
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = steps.findIndex((step) => step.id === active.id);
+      const newIndex = steps.findIndex((step) => step.id === over.id);
+      const newSteps = arrayMove(steps, oldIndex, newIndex);
+      updateStrategies(newSteps);
+    }
+  }
+
   return (
     <div>
       <title>Editor: Elite Four</title>
@@ -33,75 +67,69 @@ const EliteFourEditor = ({ data, onChange }) => {
         🏰 Editor E4
       </h3>
 
-      <div className="bg-[#252526] border border-[#333] border-t-4 border-t-pink-500 rounded-md p-5 flex gap-4 flex-wrap shadow-md mb-5">
-        <div className="flex-1 min-w-[200px]">
-          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">
-            Membro
-          </label>
-          <select
-            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
-            value={memberIndex ?? ""}
-            onChange={(e) => {
-              const val = e.target.value;
-              setMemberIndex(val !== "" ? parseInt(val) : null);
-              setTeamKey(null);
-              setPokemon(null);
-            }}
-          >
-            <option value="">-- Seleziona Membro --</option>
-            {data?.map((m, i) => (
-              <option key={i} value={i}>
-                {m.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex-1 min-w-[200px]">
-          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">
-            Team
-          </label>
-          <select
-            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-            value={teamKey ?? ""}
-            onChange={(e) => {
-              setTeamKey(e.target.value);
-              setPokemon(null);
-            }}
-            disabled={memberIndex === null}
-          >
-            <option value="">-- Seleziona Team --</option>
-            {currentMember?.teams &&
-              Object.keys(currentMember.teams).map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-          </select>
-        </div>
-
-        <div className="flex-1 min-w-[200px]">
-          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">
-            Pokémon
-          </label>
-          <select
-            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-            value={pokemon ?? ""}
-            onChange={(e) => setPokemon(e.target.value)}
-            disabled={!teamKey}
-          >
-            <option value="">-- Seleziona Pokémon --</option>
-            {currentTeam?.pokemonStrategies &&
-              Object.keys(currentTeam.pokemonStrategies).map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-          </select>
+      {/* Elite Four Member Selection */}
+      <div className="mb-8">
+        <h4 className="text-white text-md font-semibold mb-3">
+          Seleziona Membro:
+        </h4>
+        <div className="flex flex-wrap gap-4">
+          {data?.map((member, i) => (
+            <EliteFourMemberCard
+              key={i}
+              member={member}
+              isSelected={memberIndex === i}
+              onSelect={() => {
+                setMemberIndex(i);
+                setTeamKey(null);
+                setPokemon(null);
+              }}
+            />
+          ))}
         </div>
       </div>
 
-      {steps ? (
+      {/* Team Selection for Selected Member */}
+      {currentMember && (
+        <div className="mb-8 animate-[fade-in_0.3s_ease-out]">
+          <h4 className="text-white text-md font-semibold mb-3">
+            Seleziona Team di {currentMember.name}:
+          </h4>
+          <div className="flex flex-wrap gap-4">
+            {Object.keys(currentMember.teams).map((key) => (
+              <button
+                key={key}
+                className={`flex-1 min-w-[150px] p-3 rounded-lg border-2 text-center transition-all duration-200 ease-in-out
+                    ${teamKey === key ? "border-pink-500 bg-pink-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-pink-500 hover:bg-gray-700"}
+                    focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50`}
+                onClick={() => {
+                  setTeamKey(key);
+                  setPokemon(null);
+                }}
+              >
+                <span
+                  className={`text-lg font-semibold ${teamKey === key ? "text-pink-300" : "text-white"}`}
+                >
+                  {key}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Pokémon Selection for Selected Team */}
+      {currentTeam && (
+        <div className="mb-8 animate-[fade-in_0.3s_ease-out]">
+          <EliteFourTeamOverview
+            teamKey={teamKey}
+            team={currentTeam}
+            selectedPokemon={pokemon}
+            onSelectPokemon={setPokemon}
+          />
+        </div>
+      )}
+
+      {steps && pokemon ? (
         <div className="animate-[fade-in_0.3s_ease-out]">
           <div className="flex justify-between items-center my-5 border-b border-[#444] pb-2.5">
             <h4 className="m-0 text-pink-500 font-bold">
@@ -109,45 +137,48 @@ const EliteFourEditor = ({ data, onChange }) => {
             </h4>
             <button
               className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
-              onClick={() => updateStrategies([...steps, NEW_STEP_TEMPLATE])}
+              onClick={() =>
+                updateStrategies([...steps, createNewStepTemplate()])
+              }
             >
               + Aggiungi Step
             </button>
           </div>
 
-          {steps.length > 0 ? (
-            steps.map((step, i) => (
-              <div
-                key={i}
-                className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm mb-4 p-5 border-l-[3px] border-l-pink-500"
-              >
-                <div className="flex justify-between mb-2.5">
-                  <strong className="text-pink-500">Step {i + 1}</strong>
-                  <button
-                    className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
-                    onClick={() =>
-                      updateStrategies(steps.filter((_, idx) => idx !== i))
-                    }
-                  >
-                    Elimina Step
-                  </button>
-                </div>
-
-                <StepForm
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={steps.map((s) => s.id)}>
+              {steps.map((step, i) => (
+                <SortableStepItem
+                  key={step.id} // Use the unique ID as key
+                  id={step.id} // Pass the ID to SortableStepItem
+                  index={i}
                   step={step}
                   onChange={(updatedStep) => {
                     const newSteps = [...steps];
                     newSteps[i] = updatedStep;
                     updateStrategies(newSteps);
                   }}
+                  onRemove={() =>
+                    updateStrategies(steps.filter((_, idx) => idx !== i))
+                  }
                 />
-              </div>
-            ))
-          ) : (
-            <p className="text-[#888] italic">
-              Nessuno step configurato per questo Pokémon.
-            </p>
-          )}
+              ))}
+            </SortableContext>
+          </DndContext>
+        </div>
+      ) : pokemon ? (
+        <div className="text-center p-10 border-2 border-dashed border-[#444] rounded-lg mt-5 text-[#888]">
+          Nessuno step configurato per questo Pokémon.
+          <button
+            className="mt-4 bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
+            onClick={() => updateStrategies([createNewStepTemplate()])}
+          >
+            + Aggiungi Primo Step
+          </button>
         </div>
       ) : (
         <div className="text-center p-10 border-2 border-dashed border-[#444] rounded-lg mt-5 text-[#888]">

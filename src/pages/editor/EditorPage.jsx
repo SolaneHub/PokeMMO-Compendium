@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import EditorSidebar from "@/pages/editor/components/EditorSidebar";
 import EliteFourEditor from "@/pages/editor/components/EliteFourEditor";
 import PickupEditor from "@/pages/editor/components/PickupEditor";
 import PokedexEditor from "@/pages/editor/components/PokedexEditor";
@@ -7,6 +8,7 @@ import RaidsEditor from "@/pages/editor/components/RaidsEditor";
 import RedEditor from "@/pages/editor/components/RedEditor";
 import UniversalJsonEditor from "@/pages/editor/components/UniversalJsonEditor";
 import PageTitle from "@/shared/components/PageTitle";
+import { useToast } from "@/shared/components/ToastNotification"; // Import useToast
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 const EDITOR_MAPPING = {
@@ -15,11 +17,14 @@ const EDITOR_MAPPING = {
   "pokedex.json": PokedexEditor,
   "pickupData.json": PickupEditor,
   "redData.json": RedEditor,
+  "bossFightsData.json": EliteFourEditor,
+  "superTrainersData.json": EliteFourEditor,
 };
 
 const API_URL = "http://localhost:3001/api";
 
 const EditorPage = () => {
+  const showToast = useToast(); // Use the toast hook
   const [fileList, setFileList] = useState([]);
 
   const [selectedFileName, setSelectedFileName] = usePersistentState(
@@ -68,7 +73,7 @@ const EditorPage = () => {
         if (!ignore) setFileData(data);
       } catch (err) {
         console.error(err);
-        if (!ignore) alert("Errore nel caricamento del file.");
+        if (!ignore) showToast("Errore nel caricamento del file.", "error"); // Use toast
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -77,7 +82,7 @@ const EditorPage = () => {
     return () => {
       ignore = true;
     };
-  }, [selectedFileName]);
+  }, [selectedFileName, showToast]);
 
   const handleSave = async () => {
     if (!fileData || !selectedFileName) return;
@@ -89,13 +94,13 @@ const EditorPage = () => {
       });
       const result = await res.json();
       if (result.success) {
-        alert(`✅ ${selectedFileName} salvato!`);
+        showToast(`✅ ${selectedFileName} salvato!`, "success"); // Use toast
       } else {
-        alert("❌ Errore server durante il salvataggio.");
+        showToast("❌ Errore server durante il salvataggio.", "error"); // Use toast
       }
     } catch (err) {
       console.error(err);
-      alert("❌ Errore di connessione.");
+      showToast("❌ Errore di connessione.", "error"); // Use toast
     }
   };
 
@@ -125,45 +130,13 @@ const EditorPage = () => {
       <PageTitle title="PokéMMO Compendium: Editor" />
 
       {/* SIDEBAR */}
-      <div className="w-[280px] bg-[#1e1e1e] border-r border-[#333] flex flex-col gap-4 p-5 overflow-y-auto shrink-0">
-        <h3 className="text-white text-lg font-normal uppercase tracking-wider border-b-2 border-blue-500 pb-2.5 inline-block m-0">
-          File Manager
-        </h3>
-
-        <div className="flex flex-col gap-1.5">
-          <label className="text-[#a0a0a0] text-xs font-bold uppercase">
-            Select File
-          </label>
-          <select
-            className="w-full bg-[#2c2c2c] border border-[#444] rounded-md text-white text-sm p-2.5 outline-none transition-colors hover:border-[#666] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
-            value={selectedFileName}
-            onChange={(e) => setSelectedFileName(e.target.value)}
-          >
-            {fileList.map((f) => (
-              <option key={f} value={f}>
-                {f}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="mt-5 text-xs text-[#888]">
-          Editor:{" "}
-          <strong className="text-blue-500">
-            {EDITOR_MAPPING[selectedFileName] ? "Custom" : "Universal"}
-          </strong>
-        </div>
-
-        <div className="mt-auto">
-          <button
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-4 rounded-md transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleSave}
-            disabled={loading}
-          >
-            {loading ? "..." : "💾 Salva"}
-          </button>
-        </div>
-      </div>
+      <EditorSidebar
+        fileList={fileList}
+        selectedFileName={selectedFileName}
+        onSelectFile={setSelectedFileName}
+        onSave={handleSave}
+        loading={loading}
+      />
 
       {/* MAIN AREA */}
       <div className="flex-1 bg-[#121212] overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-[#444] scrollbar-track-[#1a1a1a]">
