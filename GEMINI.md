@@ -8,14 +8,14 @@ The project functions as a static web application deployed to GitHub Pages, but 
 
 ## Technical Stack
 
-- **Framework:** [React 19](https://react.dev/) (Experimental `Activity` API used for view management).
-- **Build Tool:** [Vite 7](https://vitejs.dev/).
-- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/) (configured via `@import "tailwindcss"` in CSS and Vite plugin).
+- **Framework:** [React 19.2.1](https://react.dev/) (Experimental `Activity` API used for view management).
+- **Build Tool:** [Vite 7.2.6](https://vitejs.dev/).
+- **Styling:** [Tailwind CSS 4.1.17](https://tailwindcss.com/) (configured via `@import "tailwindcss"` in CSS and Vite plugin).
 - **Routing:** [React Router DOM 7](https://reactrouter.com/) (used for navigation state, though rendering is handled via React 19 `Activity`).
-- **Backend (Local Only):** Node.js + [Express](https://expressjs.com/) (handles file system operations for `src/data/`).
+- **Backend (Local Only):** Node.js + [Express 5.2.1](https://expressjs.com/) (handles file system operations for `src/data/`).
 - **Deployment:** [GitHub Pages](https://pages.github.com/).
-- **Icons:** [Lucide React](https://lucide.dev/icons/) and [React Icons](https://react-icons.github.io/react-icons/) (specifically Font Awesome).
-- **Drag and Drop:** [`dnd-kit`](https://dndkit.com/) (`@dnd-kit/core`, `@dnd-kit/sortable`).
+- **Icons:** [Lucide React](https://lucide.dev/icons/) and [React Icons 5.5.0](https://react-icons.github.io/react-icons/) (specifically Font Awesome).
+- **Drag and Drop:** [`dnd-kit 6.3.1`](https://dndkit.com/) (`@dnd-kit/core`, `@dnd-kit/sortable`).
 
 ## Project Structure
 
@@ -88,22 +88,22 @@ The project uses **Tailwind CSS v4**.
 
 The Editor page (`src/pages/editor/`) has undergone significant enhancements to provide a more intuitive and user-friendly content management experience:
 
--   **Enhanced Navigation:** The generic file selection dropdown has been replaced with a visually rich sidebar navigation (`EditorSidebar.jsx`) featuring icons and user-friendly labels for different data types.
--   **Visual Data Representation (Elite Four Editor):**
-    *   Elite Four members are now selected via interactive cards displaying their trainer images.
-    *   Teams are presented with clickable Pokémon sprites (`EliteFourTeamOverview.jsx`), offering a clear and engaging selection process.
-    *   Strategies (`EliteFourEditor.jsx`) now support **drag-and-drop reordering** for steps and nested steps, powered by [`dnd-kit`](https://dndkit.com/), greatly improving content organization.
--   **Intelligent Input Forms (`StepForm.jsx`, `VariationForm.jsx`):**
-    *   Generic text inputs have been replaced with smart input fields (e.g., `<select>` dropdowns for predefined types, `<datalist>` for autocompletion of Pokémon names, moves, abilities, and items).
-    *   These intelligent inputs are driven by pre-processed data from `pokedex.json` via a custom `usePokedexData` hook and `pokedexDataExtraction.js` utility.
-    *   Conditional rendering ensures that only relevant input fields are displayed based on the `step.type`.
--   **Improved Universal JSON Editor (`UniversalJsonEditor.jsx`):**
-    *   **Collapsible Sections:** Large JSON objects and arrays can now be collapsed/expanded, significantly improving navigability and reducing visual clutter.
-    *   **User-Friendly Field Management:** The generic `<select>` for adding new fields has been replaced with dedicated buttons for "Suggested Fields" and "Custom Fields," providing a more intuitive workflow.
-    *   **Empty State Cues:** Clear visual messages (e.g., "Empty List," "Empty Object") are displayed for empty data structures, enhancing user feedback.
--   **Robust Saving and Feedback:** Intrusive `alert()` messages have been replaced with a custom, non-blocking toast notification system (`ToastNotification.jsx` and `useToast` hook) for all save operations and data loading errors, providing a smoother user experience.
+- **Enhanced Navigation:** The generic file selection dropdown has been replaced with a visually rich sidebar navigation (`EditorSidebar.jsx`) featuring icons and user-friendly labels for different data types.
+- **Visual Data Representation (Elite Four Editor):**
+  - Elite Four members are now selected via interactive cards displaying their trainer images.
+  - Teams are presented with clickable Pokémon sprites (`EliteFourTeamOverview.jsx`), offering a clear and engaging selection process.
+  - Strategies (`EliteFourEditor.jsx`) now support **drag-and-drop reordering** for steps and nested steps, powered by [`dnd-kit`](https://dndkit.com/), greatly improving content organization.
+- **Intelligent Input Forms (`StepForm.jsx`, `VariationForm.jsx`):**
+  - Generic text inputs have been replaced with smart input fields (e.g., `<select>` dropdowns for predefined types, `<datalist>` for autocompletion of Pokémon names, moves, abilities, and items).
+  - These intelligent inputs are driven by pre-processed data from `pokedex.json` via a custom `usePokedexData` hook and `pokedexDataExtraction.js` utility.
+  - Conditional rendering ensures that only relevant input fields are displayed based on the `step.type`.
+- **Improved Universal JSON Editor (`UniversalJsonEditor.jsx`):**
+  - **Collapsible Sections:** Large JSON objects and arrays can now be collapsed/expanded, significantly improving navigability and reducing visual clutter.
+  - **User-Friendly Field Management:** The generic `<select>` for adding new fields has been replaced with dedicated buttons for "Suggested Fields" and "Custom Fields," providing a more intuitive workflow.
+  - **Empty State Cues:** Clear visual messages (e.g., "Empty List," "Empty Object") are displayed for empty data structures, enhancing user feedback.
+- **Robust Saving and Feedback:** Intrusive `alert()` messages have been replaced with a custom, non-blocking toast notification system (`ToastNotification.jsx` and `useToast` hook) for all save operations and data loading errors, providing a smoother user experience.
 
 ## Configuration Files
 
--   **`vite.config.js`**: Sets up the React plugin with the Babel React Compiler and Tailwind CSS plugin. Configures the base path for GitHub Pages.
--   **`package.json`**: Defines the `concurrently` script for running frontend and backend together.
+- **`vite.config.js`**: Sets up the React plugin with the Babel React Compiler and Tailwind CSS plugin. Configures the base path for GitHub Pages.
+- **`package.json`**: Defines the `concurrently` script for running frontend and backend together.
