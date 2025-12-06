@@ -1,3 +1,5 @@
+import { Check, Leaf, X } from "lucide-react";
+
 function IVsSelector({
   ivOptions,
   selectedIvCount,
@@ -6,48 +8,84 @@ function IVsSelector({
   setNature,
 }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex flex-wrap gap-2.5 justify-center mt-5">
-        {ivOptions.map((option) => (
-          <button
-            key={option}
-            className={`flex items-center justify-center gap-0.5 w-[100px] h-[50px] bg-slate-800 border-2 border-transparent rounded-lg shadow-md text-slate-200 text-xl font-bold cursor-pointer transition-all duration-200 hover:bg-slate-700 hover:shadow-lg hover:-translate-y-0.5
-              ${option === selectedIvCount ? "bg-slate-700 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] -translate-y-0.5" : ""}
-            `}
-            onClick={() => setSelectedIvCount(option)}
-          >
-            {option}
-            <span
-              className={`text-base mt-0.5 opacity-80 ${option === selectedIvCount ? "text-white" : "text-blue-400"}`}
+    <div className="space-y-6">
+      {/* IV Count Selector */}
+      <div className="space-y-3">
+        <label className="text-sm text-slate-400 font-medium ml-1">
+          Desired Perfect IVs
+        </label>
+        <div className="grid grid-cols-5 gap-2">
+          {ivOptions.map((option) => (
+            <button
+              key={option}
+              onClick={() => setSelectedIvCount(option)}
+              className={`
+                relative h-12 rounded-xl font-bold text-lg transition-all duration-200 flex flex-col items-center justify-center
+                ${
+                  option === selectedIvCount
+                    ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20 scale-105"
+                    : "bg-[#25272e] text-slate-400 hover:bg-[#2d3038] hover:text-slate-200 border border-transparent hover:border-white/10"
+                }
+              `}
             >
-              ×
-            </span>
-          </button>
-        ))}
+              <span className="leading-none">{option}</span>
+              <span className="text-[10px] opacity-60 font-normal">IV</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center justify-center gap-3 my-4 mb-6">
-        <label
-          htmlFor="nature-toggle"
-          className="flex items-center gap-2.5 cursor-pointer group"
+      {/* Nature Toggle */}
+      <div className="space-y-3 pt-2">
+        <div
+          className={`
+          relative group cursor-pointer rounded-xl border p-4 transition-all duration-300
+          ${
+            nature
+              ? "bg-emerald-500/10 border-emerald-500/50"
+              : "bg-[#25272e] border-white/5 hover:border-white/10"
+          }
+        `}
+          onClick={() => setNature(!nature)}
         >
-          <p className="m-0 text-slate-200 text-lg font-semibold group-hover:text-white transition-colors">
-            Nature
-          </p>
-          <div className="relative flex items-center">
-            <input
-              id="nature-toggle"
-              type="checkbox"
-              checked={nature}
-              onChange={() => setNature(!nature)}
-              className="appearance-none w-7 h-7 bg-slate-800 border-2 border-transparent rounded-md shadow-md cursor-pointer grid place-content-center transition-all duration-200 hover:border-blue-400 hover:-translate-y-0.5 checked:bg-blue-500 checked:border-blue-500 checked:shadow-[0_0_10px_rgba(59,130,246,0.4)]
-                before:content-[''] before:w-4 before:h-4 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwb2x5bGluZSBwb2ludHM9IjIwIDYgOSAxNyA0IDEyIj48L3BvbHlsaW5lPjwvc3ZnPg==')] before:bg-center before:bg-no-repeat before:bg-contain before:scale-0 checked:before:scale-100 before:transition-transform before:duration-200
-              "
-            />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div
+                className={`p-2 rounded-lg transition-colors ${
+                  nature
+                    ? "bg-emerald-500 text-white"
+                    : "bg-slate-700 text-slate-400"
+                }`}
+              >
+                <Leaf size={20} />
+              </div>
+              <div className="flex flex-col">
+                <span
+                  className={`font-semibold ${
+                    nature ? "text-emerald-400" : "text-slate-300"
+                  }`}
+                >
+                  Nature Breeding
+                </span>
+                <span className="text-xs text-slate-500">
+                  {nature ? "Include nature in path" : "IVs only"}
+                </span>
+              </div>
+            </div>
+
+            <div
+              className={`
+              w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300
+              ${nature ? "bg-emerald-500 text-white rotate-0" : "bg-slate-700 text-slate-400 -rotate-90"}
+            `}
+            >
+              {nature ? <Check size={14} strokeWidth={3} /> : <X size={14} />}
+            </div>
           </div>
-        </label>
+        </div>
       </div>
     </div>
   );
 }
+
 export default IVsSelector;

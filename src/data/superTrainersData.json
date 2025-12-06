@@ -72,5 +72,19 @@
       "Metaoyster": {},
       "Blilligon": {}
     }
+  },
+  {
+    "name": "Morimoto",
+    "region": "Unova",
+    "type": "Various",
+    "image": "Morimoto.png",
+    "teams": {}
+  },
+  {
+    "name": "Cynthia",
+    "region": "Unova",
+    "type": "Various",
+    "image": "CynthiaDP.png",
+    "teams": {}
   }
 ]

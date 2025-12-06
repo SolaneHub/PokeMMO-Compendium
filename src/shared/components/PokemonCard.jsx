@@ -12,32 +12,36 @@ const PokemonCard = ({
 
   return (
     <div
-      className={`relative w-40 h-36 bg-slate-800 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 transform 
-        ${isSelected ? "ring-2 ring-yellow-400 -translate-y-1 shadow-2xl" : "hover:-translate-y-1 hover:shadow-xl"}
+      className={`relative w-40 bg-[#1e2025] border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 group
+        ${
+          isSelected
+            ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] scale-105 z-10"
+            : "border-white/5 hover:border-white/20 hover:bg-[#25272e] hover:-translate-y-1 hover:shadow-xl"
+        }
       `}
       onClick={onClick}
     >
       {pokemonName && (
-        <p
-          className="text-slate-900 font-bold text-sm text-center py-1 px-2 m-0"
+        <div
+          className="py-1.5 px-2 text-center"
           style={{ background: nameBackground }}
         >
-          {pokemonName}
-        </p>
+          <p className="text-[#1a1b20] font-bold text-sm m-0 truncate">
+            {pokemonName}
+          </p>
+        </div>
       )}
 
-      <div className="w-full h-full flex items-center justify-center p-2 bg-slate-700/50">
+      <div className="w-full h-32 flex items-center justify-center p-4">
         {pokemonImageSrc ? (
           <img
             src={pokemonImageSrc}
             alt={pokemonName || "Pokemon"}
-            className="w-full h-auto object-contain max-h-24 drop-shadow-md"
+            className="w-full h-full object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
             onError={handleImageError}
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full text-4xl text-slate-500 font-bold opacity-30">
-            ?
-          </div>
+          <div className="text-4xl text-slate-600 font-bold opacity-30">?</div>
         )}
       </div>
     </div>

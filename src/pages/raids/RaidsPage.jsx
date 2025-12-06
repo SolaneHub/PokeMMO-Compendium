@@ -14,6 +14,8 @@ import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
 
+import RaidCard from "./components/RaidCard";
+
 const getItemSpriteUrl = (itemName) => {
   if (!itemName) return null;
   const formattedName = itemName
@@ -255,15 +257,14 @@ function RaidsPage() {
 
       <div className="flex flex-wrap justify-center gap-4 my-8">
         {starLevels.map((star) => (
-          <div
+          <RaidCard
             key={star}
-            className={`w-32 h-16 flex items-center justify-center bg-slate-700 border-2 border-transparent rounded-lg cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg
-              ${selectedStar === star ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-slate-600" : "hover:bg-slate-600"}
-            `}
-            onClick={() => handleStarClick(star)}
-          >
-            <p className="text-white font-bold m-0">{star}★</p>
-          </div>
+            raid={{ name: `${star}★` }}
+            onRaidClick={() => handleStarClick(star)}
+            isSelected={selectedStar === star}
+            displayValue={`${star}★`}
+            isCompact={true}
+          />
         ))}
       </div>
 

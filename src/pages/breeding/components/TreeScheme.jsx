@@ -1,3 +1,6 @@
+import { Minus, Plus, RefreshCcw } from "lucide-react";
+import { useState } from "react";
+
 import StatCircle from "@/pages/breeding/components/StatCircle";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
@@ -11,9 +14,9 @@ const STAT_COLOR_MAP = {
   Nature: "#ffffff",
 };
 
-const NODE_SIZE = 50;
-const BASE_PAIR_GAP = 50;
-const BASE_ROW_GAP = 100;
+const NODE_SIZE = 48;
+const BASE_PAIR_GAP = 40;
+const BASE_ROW_GAP = 90;
 const VERTICAL_GAP = 60;
 
 const getColors = (stats) =>
@@ -24,6 +27,8 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
     "breeding_activeNodes",
     []
   );
+  // Manual Zoom State
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   const activeIds = new Set(activeIdsArray);
 
@@ -130,41 +135,68 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
     next.rowGap = nextGap;
   }
 
-  const scale = nature
-    ? selectedIvCount >= 6
-      ? 0.9
-      : selectedIvCount === 5
-        ? 0.95
-        : 1.0
-    : selectedIvCount >= 6
-      ? 0.95
-      : 1.0;
-
   return (
-    <div className="flex flex-col items-center w-full relative box-border">
-      <div className="sticky top-0 w-full flex justify-center py-2.5 pb-5 z-[200] bg-black/80 backdrop-blur-sm">
-        <div className="flex flex-wrap justify-center gap-2.5">
+    <div className="flex flex-col items-center w-full h-full relative">
+      {/* Legend / Key - Sticky inside the container */}
+      <div className="sticky top-0 w-full flex items-center justify-between px-6 py-4 bg-[#1e2025]/95 backdrop-blur-md z-[20] border-b border-white/5 shadow-md">
+        <div className="flex flex-wrap gap-2">
           {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
             <div
               key={index}
-              className="flex flex-col items-center gap-1.5 w-[90px] text-center"
+              className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/40 border border-white/10"
             >
-              <span className="w-full text-slate-200 text-sm font-semibold whitespace-nowrap overflow-hidden text-ellipsis">
+              <StatCircle
+                ivColors={[STAT_COLOR_MAP[statName]]}
+                size={12}
+                className="shadow-none"
+              />
+              <span className="text-slate-300 text-[10px] font-bold uppercase tracking-wider">
                 {statName}
               </span>
-              <StatCircle ivColors={[STAT_COLOR_MAP[statName]]} />
             </div>
           ))}
         </div>
+
+        {/* Zoom Controls */}
+        <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg p-1 ml-4 shrink-0">
+          <button
+            onClick={() => setZoomLevel((z) => Math.max(z - 0.1, 0.3))}
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+          >
+            <Minus size={16} />
+          </button>
+          <span className="text-xs font-mono text-slate-300 w-10 text-center">
+            {Math.round(zoomLevel * 100)}%
+          </span>
+          <button
+            onClick={() => setZoomLevel((z) => Math.min(z + 0.1, 2.0))}
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+          >
+            <Plus size={16} />
+          </button>
+          <div className="w-px h-4 bg-white/10 mx-1" />
+          <button
+            onClick={() => setZoomLevel(1)}
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            title="Reset Zoom"
+          >
+            <RefreshCcw size={14} />
+          </button>
+        </div>
       </div>
 
-      <div className="flex w-full max-w-[100vw] overflow-x-auto overflow-y-hidden px-5 pb-5 box-border scrollbar-thin scrollbar-track-slate-800 scrollbar-thumb-slate-700 hover:scrollbar-thumb-blue-500">
-        <div className="flex items-end justify-center min-w-max mx-auto pb-5">
+      {/* Scrollable Tree Area */}
+      <div className="flex-1 w-full overflow-auto p-8 relative bg-[url('/grid.svg')] bg-opacity-5">
+        {/*
+          Using min-w-max to ensure the container expands to fit the content horizontally.
+          The transform origin is top-center to keep it centered while zooming.
+        */}
+        <div className="min-w-max mx-auto pb-20 pt-10">
           <div
-            className="flex flex-col items-center pt-2.5 origin-top"
+            className="flex flex-col items-center transition-transform duration-200 ease-out origin-top"
             style={{
               gap: `${VERTICAL_GAP}px`,
-              transform: `scale(${scale})`,
+              transform: `scale(${zoomLevel})`,
               "--node-size": `${NODE_SIZE}px`,
               "--vertical-gap": `${VERTICAL_GAP}px`,
             }}
@@ -193,14 +225,14 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                             relative flex justify-center items-center
                             ${
                               !isLastRow
-                                ? "before:content-[''] before:absolute before:h-[2px] before:bg-white before:opacity-30 before:top-1/2 before:left-0 before:right-0 before:mx-[calc(var(--node-size)/2)] before:-z-10 after:content-[''] after:absolute after:w-[2px] after:bg-white after:opacity-30 after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:-z-10"
+                                ? "before:content-[''] before:absolute before:h-[1px] before:bg-white/20 before:top-1/2 before:left-0 before:right-0 before:mx-[calc(var(--node-size)/2)] before:-z-10 after:content-[''] after:absolute after:w-[1px] after:bg-white/20 after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:-z-10"
                                 : ""
                             }
                           `}
                           style={{ gap: `${config.pairGap}px` }}
                           key={`${rowIndex}-pair-${i / 2}`}
                         >
-                          <div className="relative flex items-center justify-center z-[2] group/node">
+                          <div className="relative flex items-center justify-center z-[2]">
                             <StatCircle
                               ivColors={colors}
                               onClick={() => handleNodeClick(rowIndex, i)}
@@ -211,7 +243,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                             />
                           </div>
                           {next && (
-                            <div className="relative flex items-center justify-center z-[2] group/node">
+                            <div className="relative flex items-center justify-center z-[2]">
                               <StatCircle
                                 ivColors={next}
                                 onClick={() => handleNodeClick(rowIndex, i + 1)}

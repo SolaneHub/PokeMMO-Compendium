@@ -2,70 +2,84 @@
 
 ## Project Overview
 
-**PokeMMO Compendium** is a comprehensive, interactive guide for the game PokeMMO. It helps players with Elite Four strategies, breeding, raids, and legendary encounters.
+**PokeMMO Compendium** is an interactive web guide for the game PokeMMO, designed to assist players with strategies for the Elite Four, breeding mechanics, raids, legendary encounters (Red, Ho-Oh), and more.
 
-**Key Technologies:**
+The project functions as a static web application deployed to GitHub Pages, but it features a unique **local development CMS** workflow. A lightweight Express backend runs locally to allow developers (or content maintainers) to edit the JSON data files directly via an in-app "Editor" page, which are then committed to the repository.
 
-- **Frontend:** React 19, Vite 7, Tailwind CSS 4.
-- **Routing:** React Router Dom 7.
-- **Backend (Local Dev):** Express.js (used for reading/writing JSON data files locally).
-- **Data Storage:** JSON files located in `src/data/`.
-- **Deployment:** GitHub Pages.
+## Technical Stack
 
-## Building and Running
+- **Framework:** [React 19](https://react.dev/) (Experimental `Activity` API used for view management).
+- **Build Tool:** [Vite 7](https://vitejs.dev/).
+- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/) (configured via `@import "tailwindcss"` in CSS and Vite plugin).
+- **Routing:** [React Router DOM 7](https://reactrouter.com/) (used for navigation state, though rendering is handled via React 19 `Activity`).
+- **Backend (Local Only):** Node.js + [Express](https://expressjs.com/) (handles file system operations for `src/data/`).
+- **Deployment:** [GitHub Pages](https://pages.github.com/).
 
-### Prerequisites
+## Project Structure
 
-- Node.js (v18+ recommended)
-- npm
+```text
+/
+├── dist/               # Production build output
+├── public/             # Static assets (images, icons)
+├── server/             # Local backend for data editing
+│   └── server.js       # Express server (runs on port 3001)
+├── src/
+│   ├── app/            # Core app logic
+│   │   ├── App.jsx     # Main component & routing logic
+│   │   ├── index.css   # Global styles & Tailwind directives
+│   │   └── layout/     # Layout components (Navbar, Home)
+│   ├── data/           # JSON data files (The "Database")
+│   ├── pages/          # Feature-specific pages
+│   │   ├── breeding/   # Breeding calculators
+│   │   ├── editor/     # CMS interface for editing JSON data
+│   │   ├── elite-four/ # E4 strategies
+│   │   ├── pokedex/    # Pokedex viewer
+│   │   └── ...         # Other guides (Raids, Red, Ho-Oh, etc.)
+│   └── shared/         # Reusable components and utilities
+├── .prettierrc         # Prettier configuration
+├── eslint.config.js    # ESLint configuration
+├── package.json        # Dependencies and scripts
+└── vite.config.js      # Vite configuration
+```
 
-### Key Commands
+## Key Commands
 
-- **Development:** `npm run dev`
-  - Starts both the Vite frontend (typically http://localhost:5173) and the Express backend (http://localhost:3001) concurrently.
-- **Build:** `npm run build`
-  - Compiles the React app into the `dist/` directory.
-- **Lint:** `npm run lint` (and `npm run lint:fix`)
-  - Runs ESLint.
-- **Format:** `npm run format`
-  - Runs Prettier.
-- **Deploy:** `npm run deploy`
-  - Deploys the `dist` folder to GitHub Pages.
+- **`npm run dev`**: Starts the development environment.
+  - Runs the **Vite** frontend (typically `http://localhost:5173`) AND the **Express** backend (`http://localhost:3001`) concurrently.
+  - _Use this for all development work._
+- **`npm run server`**: Starts only the Express backend.
+- **`npm run build`**: Compiles the application for production into the `dist/` directory.
+- **`npm run preview`**: Locally previews the production build.
+- **`npm run lint` / `npm run lint:fix`**: Runs ESLint to check/fix code quality issues.
+- **`npm run format`**: Formats code using Prettier.
+- **`npm run deploy`**: Deploys the `dist` folder to GitHub Pages.
 
-## Architecture & Data Flow
+## Architecture & Development Patterns
 
-### Frontend (`src/`)
+### 1. The "Local CMS" Pattern
 
-The application is structured by features within `src/pages/`:
+The content (Elite Four teams, Raid data, Pokedex) is stored in static JSON files in `src/data/`.
 
-- **`elite-four/`**: Strategies for E4 battles.
-- **`breeding/`**: IV/Nature calculators and guides.
-- **`editor/`**: A specialized interface for editing the JSON data files.
-- **`raids/`**, **`red/`**, **`ho-oh/`**: Specific guide sections.
+- **Production:** The frontend imports these JSON files directly.
+- **Development (Editing):** The `server/server.js` exposes endpoints (`GET /api/data`, `POST /api/data`) to read and overwrite these files. The `Editor` page in the frontend interacts with this API to provide a GUI for updating the game data.
+- **Workflow:** Edit data via UI -> Save -> Backend writes to disk -> Git Commit -> Deploy.
 
-### Backend (`server/`)
+### 2. React 19 `Activity` for Routing
 
-- **`server/server.js`**: A simple Express server that exposes endpoints (`GET/POST /api/data`) to read and write files in `src/data/`.
-- **Usage:** This backend allows the `EditorPage` in the frontend to modify the static JSON files directly on the developer's machine. This serves as a CMS for the project.
+Instead of standard Route switching where components unmount on navigation, `App.jsx` uses the React 19 `Activity` component (formerly `Offscreen`).
 
-### Styling
+- **Mechanism:** All main page components are rendered simultaneously but toggled between `mode="visible"` and `mode="hidden"` based on the current route.
+- **Benefit:** This preserves the internal state of complex pages (like the Breeding calculator or Multi-step forms) when navigating away and returning.
 
-The project is currently migrating to **Tailwind CSS (v4)**.
+### 3. Styling
 
-- New components should use Tailwind utility classes.
-- Existing CSS files (`App.css`, component-specific `.css`) are being converted.
+The project uses **Tailwind CSS v4**.
 
-## Development Conventions
+- Styles are defined in `src/app/index.css` using the `@import "tailwindcss";` directive.
+- Configuration is minimal, relying on CSS variables and Tailwind's implicit defaults.
+- Custom animations (`fade-in`, `scale-in`) are defined in standard CSS within `index.css`.
 
-- **Data-Driven:** Most content (strategies, stats, moves) should be stored in `src/data/*.json` rather than hardcoded in components.
-- **Components:** Functional components with hooks.
-- **State Management:** React Context or local state (`useState`, `useReducer`). Custom hook `usePersistentState` is used for local storage persistence.
-- **Linting/Formatting:** Adhere to the project's ESLint and Prettier configurations.
+## Configuration Files
 
-## Key Files
-
-- `src/app/App.jsx`: Main application component and routing setup.
-- `src/data/`: Directory containing all the game data (Elite Four teams, Pokedex, etc.).
-- `server/server.js`: Local backend for data manipulation.
-- `vite.config.js`: Vite configuration.
-- `tailwind.config.js` (or implicit v4 config): Tailwind setup.
+- **`vite.config.js`**: Sets up the React plugin with the Babel React Compiler and Tailwind CSS plugin. Configures the base path for GitHub Pages.
+- **`package.json`**: Defines the `concurrently` script for running frontend and backend together.
