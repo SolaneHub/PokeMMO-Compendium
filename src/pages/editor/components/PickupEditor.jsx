@@ -1,4 +1,4 @@
-import UniversalJsonEditor from "./UniversalJsonEditor";
+import UniversalJsonEditor from "@/pages/editor/components/UniversalJsonEditor";
 
 const PickupEditor = ({ data, onChange }) => {
   const safeData = Array.isArray(data) ? data : [];
@@ -19,69 +19,46 @@ const PickupEditor = ({ data, onChange }) => {
   return (
     <div>
       <title>Editor: Pickup</title>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          borderBottom: "2px solid #ebcb8b",
-          paddingBottom: "15px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="flex justify-between items-center border-b-2 border-[#ebcb8b] pb-4 mb-5">
         <div>
-          <h3 style={{ margin: 0 }}>🎒 Editor Pickup</h3>
-          <span style={{ color: "#888", fontSize: "0.9rem" }}>
+          <h3 className="m-0 text-lg font-bold text-white">🎒 Editor Pickup</h3>
+          <span className="text-[#888] text-sm">
             Gestisci le tabelle di drop.
           </span>
         </div>
-        <button className="btn btn-success" onClick={addItem}>
+        <button 
+          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]" 
+          onClick={addItem}
+        >
           ➕ Nuova Area
         </button>
       </div>
 
-      <div style={{ display: "grid", gap: "20px" }}>
+      <div className="grid gap-5">
         {safeData.map((entry, index) => (
           <div
             key={index}
-            className="step-card"
-            style={{ borderLeft: "5px solid #ebcb8b", padding: "0" }}
+            className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm border-l-[5px] border-l-[#ebcb8b] p-0 overflow-hidden"
           >
-            <div
-              style={{
-                background: "#252526",
-                padding: "10px 20px",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderBottom: "1px solid #333",
-              }}
-            >
-              <strong style={{ color: "#ebcb8b", fontSize: "1.1em" }}>
+            <div className="bg-[#252526] px-5 py-2.5 flex justify-between items-center border-b border-[#333]">
+              <strong className="text-[#ebcb8b] text-[1.1em]">
                 #{index + 1} - {entry.location || "Area Sconosciuta"}
               </strong>
               <button
-                className="btn btn-danger btn-sm"
+                className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
                 onClick={() => onChange(safeData.filter((_, i) => i !== index))}
               >
                 Elimina
               </button>
             </div>
 
-            <div style={{ padding: "20px" }}>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "2fr 1fr",
-                  gap: "20px",
-                  marginBottom: "20px",
-                }}
-              >
+            <div className="p-5">
+              <div className="grid grid-cols-[2fr_1fr] gap-5 mb-5">
                 <div>
-                  <label>Location:</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Location:</label>
                   <input
                     type="text"
-                    className="universal-input"
+                    className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                     value={entry.location || ""}
                     onChange={(e) =>
                       handleItemChange(index, {
@@ -92,10 +69,10 @@ const PickupEditor = ({ data, onChange }) => {
                   />
                 </div>
                 <div>
-                  <label>Livelli:</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Livelli:</label>
                   <input
                     type="text"
-                    className="universal-input"
+                    className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                     value={entry.levels || ""}
                     placeholder="1-100"
                     onChange={(e) =>
@@ -108,13 +85,7 @@ const PickupEditor = ({ data, onChange }) => {
                 </div>
               </div>
 
-              <h5
-                style={{
-                  color: "#88c0d0",
-                  borderBottom: "1px solid #333",
-                  paddingBottom: "5px",
-                }}
-              >
+              <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">
                 Items
               </h5>
               <UniversalJsonEditor

@@ -24,17 +24,17 @@ const POKE_TEMPLATE = {
 };
 
 const PokedexEditor = ({ data, onChange }) => {
+  const [search, setSearch] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const [activeTab, setActiveTab] = useState("info");
+
   if (!data || !Array.isArray(data)) {
     return (
-      <div style={{ padding: "20px", color: "#ff6b81", textAlign: "center" }}>
+      <div className="p-5 text-[#ff6b81] text-center">
         ⚠️ Dati non validi.
       </div>
     );
   }
-
-  const [search, setSearch] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
-  const [activeTab, setActiveTab] = useState("info");
 
   const filteredList = data.filter((p) => {
     if (!p) return false;
@@ -72,67 +72,36 @@ const PokedexEditor = ({ data, onChange }) => {
     updateField(field, newArray);
   };
 
-  const tabBtnStyle = (tabName) => ({
-    flex: 1,
-    padding: "10px",
-    cursor: "pointer",
-    textAlign: "center",
-    background: activeTab === tabName ? "#333" : "transparent",
-    borderBottom:
-      activeTab === tabName ? "3px solid #00bcd4" : "1px solid #333",
-    fontWeight: activeTab === tabName ? "bold" : "normal",
-    color: activeTab === tabName ? "#fff" : "#888",
-  });
-
   return (
-    <div style={{ display: "flex", height: "100%", gap: "20px" }}>
+    <div className="flex h-full gap-5">
       <title>Editor: Pokédex</title>
 
-      <div
-        style={{
-          width: "250px",
-          display: "flex",
-          flexDirection: "column",
-          borderRight: "1px solid #333",
-          paddingRight: "15px",
-        }}
-      >
-        <h3 style={{ margin: "0 0 10px 0", color: "#00bcd4" }}>📖 Pokedex</h3>
+      <div className="w-[250px] flex flex-col border-r border-[#333] pr-[15px]">
+        <h3 className="m-0 mb-2.5 text-[#00bcd4] text-lg font-bold">📖 Pokedex</h3>
         <input
           type="text"
           placeholder="Cerca..."
-          className="universal-input"
+          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full mb-2.5 transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          style={{ marginBottom: "10px" }}
         />
-        <div style={{ overflowY: "auto", flex: 1 }}>
+        <div className="overflow-y-auto flex-1">
           {filteredList.map((p, index) => (
             <div
               key={p.id ?? index}
               onClick={() => setSelectedId(p.id)}
-              style={{
-                padding: "8px",
-                cursor: "pointer",
-                background:
-                  selectedId === p.id
-                    ? "rgba(0, 188, 212, 0.15)"
-                    : "transparent",
-                borderLeft:
-                  selectedId === p.id
-                    ? "3px solid #00bcd4"
-                    : "3px solid transparent",
-                color: selectedId === p.id ? "#fff" : "#aaa",
-                marginBottom: "2px",
-              }}
+              className={`p-2 cursor-pointer border-l-[3px] mb-0.5 transition-colors
+                ${selectedId === p.id 
+                  ? "bg-[#00bcd4]/15 border-[#00bcd4] text-white" 
+                  : "bg-transparent border-transparent text-[#aaa] hover:bg-[#2526]"
+                }`}
             >
               <strong>#{p.id}</strong> {p.name || "Senza Nome"}
             </div>
           ))}
         </div>
         <button
-          className="btn btn-success"
-          style={{ marginTop: "10px" }}
+          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer mt-2.5 flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
           onClick={() => {
             const newId =
               data.length > 0 ? Math.max(...data.map((p) => p.id || 0)) + 1 : 1;
@@ -145,26 +114,18 @@ const PokedexEditor = ({ data, onChange }) => {
         </button>
       </div>
 
-      <div style={{ flex: 1, overflowY: "auto", paddingRight: "10px" }}>
+      <div className="flex-1 overflow-y-auto pr-2.5">
         {pokemon ? (
-          <div className="step-card" style={{ padding: 0, overflow: "hidden" }}>
-            <div
-              style={{
-                padding: "15px 20px",
-                background: "#252526",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <h2 style={{ margin: 0, color: "#fff" }}>
+          <div className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm mb-5 overflow-hidden p-0">
+            <div className="p-4 px-5 bg-[#252526] flex justify-between items-center">
+              <h2 className="m-0 text-white text-xl font-bold">
                 {pokemon.name}{" "}
-                <span style={{ fontSize: "0.6em", color: "#888" }}>
+                <span className="text-[0.6em] text-[#888]">
                   #{pokemon.id}
                 </span>
               </h2>
               <button
-                className="btn btn-danger btn-sm"
+                className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
                 onClick={() => {
                   if (window.confirm("Eliminare definitivamente?")) {
                     onChange(data.filter((p) => p.id !== selectedId));
@@ -176,18 +137,16 @@ const PokedexEditor = ({ data, onChange }) => {
               </button>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                background: "#1e1e1e",
-                borderBottom: "1px solid #333",
-              }}
-            >
+            <div className="flex bg-[#1e1e1e] border-b border-[#333]">
               {["info", "stats", "moves", "extra"].map((t) => (
                 <div
                   key={t}
                   onClick={() => setActiveTab(t)}
-                  style={tabBtnStyle(t)}
+                  className={`flex-1 p-2.5 cursor-pointer text-center border-b-[3px] transition-colors
+                    ${activeTab === t 
+                      ? "bg-[#333] border-[#00bcd4] font-bold text-white" 
+                      : "bg-transparent border-transparent font-normal text-[#888] hover:bg-[#2526]"
+                    }`}
                 >
                   {t === "info"
                     ? "📝 Info"
@@ -200,22 +159,15 @@ const PokedexEditor = ({ data, onChange }) => {
               ))}
             </div>
 
-            <div style={{ padding: "20px" }}>
+            <div className="p-5">
               {activeTab === "info" && (
-                <div className="fade-in">
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 2fr",
-                      gap: "20px",
-                      marginBottom: "15px",
-                    }}
-                  >
+                <div className="animate-[fade-in_0.3s_ease-out]">
+                  <div className="grid grid-cols-[1fr_2fr] gap-5 mb-4">
                     <div>
-                      <label>ID</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">ID</label>
                       <input
                         type="number"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.id}
                         onChange={(e) => {
                           const newId = parseInt(e.target.value);
@@ -225,38 +177,30 @@ const PokedexEditor = ({ data, onChange }) => {
                       />
                     </div>
                     <div>
-                      <label>Nome</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Nome</label>
                       <input
                         type="text"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.name}
                         onChange={(e) => updateField("name", e.target.value)}
                       />
                     </div>
                   </div>
 
-                  <label>Descrizione</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Descrizione</label>
                   <textarea
-                    className="universal-input"
+                    className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full mb-4 transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                     rows={3}
                     value={pokemon.description || ""}
                     onChange={(e) => updateField("description", e.target.value)}
-                    style={{ marginBottom: "15px" }}
                   />
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr 1fr",
-                      gap: "15px",
-                      marginBottom: "15px",
-                    }}
-                  >
+                  <div className="grid grid-cols-3 gap-4 mb-4">
                     <div>
-                      <label>Category</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Category</label>
                       <input
                         type="text"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.category || ""}
                         onChange={(e) =>
                           updateField("category", e.target.value)
@@ -264,58 +208,45 @@ const PokedexEditor = ({ data, onChange }) => {
                       />
                     </div>
                     <div>
-                      <label>Height</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Height</label>
                       <input
                         type="text"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.height || ""}
                         onChange={(e) => updateField("height", e.target.value)}
                       />
                     </div>
                     <div>
-                      <label>Weight</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Weight</label>
                       <input
                         type="text"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.weight || ""}
                         onChange={(e) => updateField("weight", e.target.value)}
                       />
                     </div>
                   </div>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "20px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        background: "#252526",
-                        padding: "10px",
-                        borderRadius: "6px",
-                      }}
-                    >
-                      <label style={{ display: "block", marginBottom: "5px" }}>
+                  <div className="grid grid-cols-2 gap-5">
+                    <div className="bg-[#252526] p-2.5 rounded-md">
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
                         Types
                       </label>
                       {(pokemon.types || []).map((type, i) => (
                         <div
                           key={i}
-                          style={{ display: "flex", marginBottom: "5px" }}
+                          className="flex mb-1.5"
                         >
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             value={type}
                             onChange={(e) =>
                               updateArrayPrimitive("types", i, e.target.value)
                             }
                           />
                           <button
-                            className="btn btn-danger btn-sm"
-                            style={{ marginLeft: "5px" }}
+                            className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer ml-1.5 transition-all"
                             onClick={() => removeArrayPrimitive("types", i)}
                           >
                             ×
@@ -323,32 +254,25 @@ const PokedexEditor = ({ data, onChange }) => {
                         </div>
                       ))}
                       <button
-                        className="btn btn-sm btn-primary"
-                        style={{ width: "100%" }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer w-full transition-all"
                         onClick={() => addArrayPrimitive("types")}
                       >
                         + Add Type
                       </button>
                     </div>
 
-                    <div
-                      style={{
-                        background: "#252526",
-                        padding: "10px",
-                        borderRadius: "6px",
-                      }}
-                    >
-                      <label style={{ display: "block", marginBottom: "5px" }}>
+                    <div className="bg-[#252526] p-2.5 rounded-md">
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
                         Egg Groups
                       </label>
                       {(pokemon.eggGroups || []).map((eg, i) => (
                         <div
                           key={i}
-                          style={{ display: "flex", marginBottom: "5px" }}
+                          className="flex mb-1.5"
                         >
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             value={eg}
                             onChange={(e) =>
                               updateArrayPrimitive(
@@ -359,8 +283,7 @@ const PokedexEditor = ({ data, onChange }) => {
                             }
                           />
                           <button
-                            className="btn btn-danger btn-sm"
-                            style={{ marginLeft: "5px" }}
+                            className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer ml-1.5 transition-all"
                             onClick={() => removeArrayPrimitive("eggGroups", i)}
                           >
                             ×
@@ -368,8 +291,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         </div>
                       ))}
                       <button
-                        className="btn btn-sm btn-primary"
-                        style={{ width: "100%" }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer w-full transition-all"
                         onClick={() => addArrayPrimitive("eggGroups")}
                       >
                         + Add Group
@@ -380,39 +302,19 @@ const PokedexEditor = ({ data, onChange }) => {
               )}
 
               {activeTab === "stats" && (
-                <div className="fade-in">
-                  <h4
-                    style={{
-                      borderBottom: "1px solid #444",
-                      paddingBottom: "5px",
-                      color: "#fab1a0",
-                    }}
-                  >
+                <div className="animate-[fade-in_0.3s_ease-out]">
+                  <h4 className="border-b border-[#444] pb-1.5 text-[#fab1a0] font-semibold mb-4">
                     Base Stats
                   </h4>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(6, 1fr)",
-                      gap: "10px",
-                      marginBottom: "20px",
-                    }}
-                  >
+                  <div className="grid grid-cols-6 gap-2.5 mb-5">
                     {["hp", "atk", "def", "spa", "spd", "spe"].map((stat) => (
-                      <div key={stat} style={{ textAlign: "center" }}>
-                        <label
-                          style={{
-                            textTransform: "uppercase",
-                            fontSize: "0.75rem",
-                            color: "#888",
-                          }}
-                        >
+                      <div key={stat} className="text-center">
+                        <label className="uppercase text-xs text-[#888] font-bold block mb-1">
                           {stat}
                         </label>
                         <input
                           type="number"
-                          className="universal-input"
-                          style={{ textAlign: "center", fontWeight: "bold" }}
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-2 w-full text-center font-bold transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={pokemon.baseStats?.[stat] || 0}
                           onChange={(e) =>
                             updateNested(
@@ -426,18 +328,12 @@ const PokedexEditor = ({ data, onChange }) => {
                     ))}
                   </div>
 
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "20px",
-                    }}
-                  >
+                  <div className="grid grid-cols-2 gap-5">
                     <div>
-                      <label>Gender Ratio (M %)</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Gender Ratio (M %)</label>
                       <input
                         type="number"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.genderRatio?.m ?? ""}
                         onChange={(e) =>
                           updateNested(
@@ -447,12 +343,12 @@ const PokedexEditor = ({ data, onChange }) => {
                           )
                         }
                       />
-                      <label style={{ marginTop: "5px" }}>
+                      <label className="text-[#aaa] text-xs font-bold block mt-2.5 mb-1.5 uppercase">
                         Gender Ratio (F %)
                       </label>
                       <input
                         type="number"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.genderRatio?.f ?? ""}
                         onChange={(e) =>
                           updateNested(
@@ -464,58 +360,39 @@ const PokedexEditor = ({ data, onChange }) => {
                       />
                     </div>
                     <div>
-                      <label>Catch Rate</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Catch Rate</label>
                       <input
                         type="number"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.catchRate}
                         onChange={(e) =>
                           updateField("catchRate", parseInt(e.target.value))
                         }
                       />
-                      <label style={{ marginTop: "5px" }}>Tier</label>
+                      <label className="text-[#aaa] text-xs font-bold block mt-2.5 mb-1.5 uppercase">Tier</label>
                       <input
                         type="text"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.tier}
                         onChange={(e) => updateField("tier", e.target.value)}
                       />
                     </div>
                   </div>
 
-                  <h4
-                    style={{
-                      borderBottom: "1px solid #444",
-                      paddingBottom: "5px",
-                      color: "#a3be8c",
-                      marginTop: "20px",
-                    }}
-                  >
+                  <h4 className="border-b border-[#444] pb-1.5 text-[#a3be8c] mt-5 font-semibold mb-4">
                     Abilities
                   </h4>
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "20px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        background: "#252526",
-                        padding: "10px",
-                        borderRadius: "6px",
-                      }}
-                    >
-                      <label>Main Abilities</label>
+                  <div className="grid grid-cols-2 gap-5">
+                    <div className="bg-[#252526] p-2.5 rounded-md">
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Main Abilities</label>
                       {(pokemon.abilities?.main || []).map((ab, i) => (
                         <div
                           key={i}
-                          style={{ display: "flex", marginTop: "5px" }}
+                          className="flex mt-1.5"
                         >
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             value={ab}
                             onChange={(e) => {
                               const newMain = [
@@ -526,8 +403,7 @@ const PokedexEditor = ({ data, onChange }) => {
                             }}
                           />
                           <button
-                            className="btn btn-danger btn-sm"
-                            style={{ marginLeft: "5px" }}
+                            className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer ml-1.5 transition-all"
                             onClick={() => {
                               const newMain = pokemon.abilities.main.filter(
                                 (_, idx) => idx !== i
@@ -540,8 +416,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         </div>
                       ))}
                       <button
-                        className="btn btn-sm btn-primary"
-                        style={{ marginTop: "5px", width: "100%" }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer mt-1.5 w-full transition-all"
                         onClick={() => {
                           updateNested("abilities", "main", [
                             ...(pokemon.abilities?.main || []),
@@ -553,10 +428,10 @@ const PokedexEditor = ({ data, onChange }) => {
                       </button>
                     </div>
                     <div>
-                      <label>Hidden Ability</label>
+                      <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Hidden Ability</label>
                       <input
                         type="text"
-                        className="universal-input"
+                        className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                         value={pokemon.abilities?.hidden || ""}
                         onChange={(e) =>
                           updateNested("abilities", "hidden", e.target.value)
@@ -568,19 +443,13 @@ const PokedexEditor = ({ data, onChange }) => {
               )}
 
               {activeTab === "moves" && (
-                <div className="fade-in">
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <h4 style={{ margin: 0, color: "#81a1c1" }}>
+                <div className="animate-[fade-in_0.3s_ease-out]">
+                  <div className="flex justify-between mb-2.5 items-center">
+                    <h4 className="m-0 text-[#81a1c1] font-bold">
                       Moves ({pokemon.moves?.length || 0})
                     </h4>
                     <button
-                      className="btn btn-success btn-sm"
+                      className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
                       onClick={() => {
                         const newMove = {
                           level: 1,
@@ -600,19 +469,8 @@ const PokedexEditor = ({ data, onChange }) => {
                     </button>
                   </div>
 
-                  <div style={{ display: "grid", gap: "8px" }}>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns:
-                          "50px 2fr 100px 80px 50px 50px 40px",
-                        gap: "10px",
-                        padding: "0 10px",
-                        fontSize: "0.8rem",
-                        color: "#888",
-                        fontWeight: "bold",
-                      }}
-                    >
+                  <div className="grid gap-2">
+                    <div className="grid grid-cols-[50px_2fr_100px_80px_50px_50px_40px] gap-2.5 px-2.5 text-xs text-[#888] font-bold uppercase">
                       <span>Lvl</span>
                       <span>Name</span>
                       <span>Type</span>
@@ -625,20 +483,11 @@ const PokedexEditor = ({ data, onChange }) => {
                     {(pokemon.moves || []).map((move, i) => (
                       <div
                         key={i}
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns:
-                            "50px 2fr 100px 80px 50px 50px 40px",
-                          gap: "10px",
-                          background: "#2e2e2e",
-                          padding: "8px",
-                          borderRadius: "4px",
-                          alignItems: "center",
-                        }}
+                        className="grid grid-cols-[50px_2fr_100px_80px_50px_50px_40px] gap-2.5 bg-[#2e2e2e] p-2 rounded items-center"
                       >
                         <input
                           type="text"
-                          className="universal-input"
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-1 w-full text-center text-sm transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={move.level}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -648,7 +497,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         />
                         <input
                           type="text"
-                          className="universal-input"
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-1 w-full text-sm transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={move.name}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -658,7 +507,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         />
                         <input
                           type="text"
-                          className="universal-input"
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-1 w-full text-sm transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={move.type}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -667,7 +516,7 @@ const PokedexEditor = ({ data, onChange }) => {
                           }}
                         />
                         <select
-                          className="universal-input"
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-1 w-full text-sm transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={move.cat}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -681,7 +530,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         </select>
                         <input
                           type="text"
-                          className="universal-input"
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-1 w-full text-center text-sm transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={move.pwr}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -691,7 +540,7 @@ const PokedexEditor = ({ data, onChange }) => {
                         />
                         <input
                           type="text"
-                          className="universal-input"
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-1 py-1 w-full text-center text-sm transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                           value={move.acc}
                           onChange={(e) => {
                             const newMoves = [...pokemon.moves];
@@ -700,7 +549,7 @@ const PokedexEditor = ({ data, onChange }) => {
                           }}
                         />
                         <button
-                          className="delete-key-btn"
+                          className="bg-transparent border-none text-[#555] text-lg leading-none cursor-pointer px-1 rounded transition-colors hover:text-[#ff6b6b] hover:bg-red-500/10"
                           onClick={() => {
                             const newMoves = pokemon.moves.filter(
                               (_, idx) => idx !== i
@@ -717,22 +566,14 @@ const PokedexEditor = ({ data, onChange }) => {
               )}
 
               {activeTab === "extra" && (
-                <div className="fade-in">
-                  <div style={{ marginBottom: "30px" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "10px",
-                        borderBottom: "1px solid #444",
-                        paddingBottom: "5px",
-                      }}
-                    >
-                      <h4 style={{ margin: 0, color: "#ebcb8b" }}>
+                <div className="animate-[fade-in_0.3s_ease-out]">
+                  <div className="mb-8">
+                    <div className="flex justify-between mb-2.5 border-b border-[#444] pb-1.5 items-center">
+                      <h4 className="m-0 text-[#ebcb8b] font-bold">
                         Evolutions
                       </h4>
                       <button
-                        className="btn btn-success btn-sm"
+                        className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
                         onClick={() => {
                           updateField("evolutions", [
                             ...(pokemon.evolutions || []),
@@ -746,22 +587,13 @@ const PokedexEditor = ({ data, onChange }) => {
                     {(pokemon.evolutions || []).map((evo, i) => (
                       <div
                         key={i}
-                        style={{
-                          background: "#252526",
-                          padding: "10px",
-                          borderRadius: "6px",
-                          marginBottom: "10px",
-                          display: "grid",
-                          gridTemplateColumns: "1fr 1fr 1fr auto",
-                          gap: "10px",
-                          alignItems: "end",
-                        }}
+                        className="bg-[#252526] p-2.5 rounded-md mb-2.5 grid grid-cols-[1fr_1fr_1fr_auto] gap-2.5 items-end"
                       >
                         <div>
-                          <label style={{ fontSize: "0.7rem" }}>Name</label>
+                          <label className="text-[0.7rem] text-[#aaa] font-bold uppercase mb-1 block">Name</label>
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             value={evo.name}
                             onChange={(e) => {
                               const newEvos = [...pokemon.evolutions];
@@ -771,12 +603,12 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                         </div>
                         <div>
-                          <label style={{ fontSize: "0.7rem" }}>
+                          <label className="text-[0.7rem] text-[#aaa] font-bold uppercase mb-1 block">
                             Condition
                           </label>
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             value={evo.level}
                             onChange={(e) => {
                               const newEvos = [...pokemon.evolutions];
@@ -786,12 +618,12 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                         </div>
                         <div>
-                          <label style={{ fontSize: "0.7rem" }}>
+                          <label className="text-[0.7rem] text-[#aaa] font-bold uppercase mb-1 block">
                             Sprite ID
                           </label>
                           <input
                             type="number"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             value={evo.sprite_id}
                             onChange={(e) => {
                               const newEvos = [...pokemon.evolutions];
@@ -801,7 +633,7 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                         </div>
                         <button
-                          className="btn btn-danger btn-sm"
+                          className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all h-[38px]"
                           onClick={() => {
                             const newEvos = pokemon.evolutions.filter(
                               (_, idx) => idx !== i
@@ -816,18 +648,10 @@ const PokedexEditor = ({ data, onChange }) => {
                   </div>
 
                   <div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "10px",
-                        borderBottom: "1px solid #444",
-                        paddingBottom: "5px",
-                      }}
-                    >
-                      <h4 style={{ margin: 0, color: "#b48ead" }}>Locations</h4>
+                    <div className="flex justify-between mb-2.5 border-b border-[#444] pb-1.5 items-center">
+                      <h4 className="m-0 text-[#b48ead] font-bold">Locations</h4>
                       <button
-                        className="btn btn-success btn-sm"
+                        className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
                         onClick={() => {
                           updateField("locations", [
                             ...(pokemon.locations || []),
@@ -846,24 +670,12 @@ const PokedexEditor = ({ data, onChange }) => {
                     {(pokemon.locations || []).map((loc, i) => (
                       <div
                         key={i}
-                        style={{
-                          background: "#252526",
-                          padding: "10px",
-                          borderRadius: "6px",
-                          marginBottom: "10px",
-                        }}
+                        className="bg-[#252526] p-2.5 rounded-md mb-2.5"
                       >
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 2fr",
-                            gap: "10px",
-                            marginBottom: "5px",
-                          }}
-                        >
+                        <div className="grid grid-cols-[1fr_2fr] gap-2.5 mb-1.5">
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             placeholder="Region"
                             value={loc.region}
                             onChange={(e) => {
@@ -874,7 +686,7 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             placeholder="Area"
                             value={loc.area}
                             onChange={(e) => {
@@ -884,16 +696,10 @@ const PokedexEditor = ({ data, onChange }) => {
                             }}
                           />
                         </div>
-                        <div
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr auto",
-                            gap: "10px",
-                          }}
-                        >
+                        <div className="grid grid-cols-[1fr_1fr_auto] gap-2.5">
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             placeholder="Levels"
                             value={loc.levels}
                             onChange={(e) => {
@@ -904,7 +710,7 @@ const PokedexEditor = ({ data, onChange }) => {
                           />
                           <input
                             type="text"
-                            className="universal-input"
+                            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                             placeholder="Rarity"
                             value={loc.rarity}
                             onChange={(e) => {
@@ -914,7 +720,7 @@ const PokedexEditor = ({ data, onChange }) => {
                             }}
                           />
                           <button
-                            className="btn btn-danger btn-sm"
+                            className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
                             onClick={() => {
                               const newLocs = pokemon.locations.filter(
                                 (_, idx) => idx !== i
@@ -933,13 +739,7 @@ const PokedexEditor = ({ data, onChange }) => {
             </div>
           </div>
         ) : (
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "100px",
-              color: "#666",
-            }}
-          >
+          <div className="text-center mt-[100px] text-[#666]">
             Seleziona un Pokémon per iniziare.
           </div>
         )}

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { Activity, useState } from "react";
 
-import UniversalJsonEditor from "./UniversalJsonEditor";
+import UniversalJsonEditor from "@/pages/editor/components/UniversalJsonEditor";
 
 const RAID_TEMPLATE = {
   drops: [],
@@ -40,27 +40,16 @@ const RaidsEditor = ({ data, onChange }) => {
 
   const raid = idx !== null ? data[idx] : null;
 
-  const tabStyle = (tabName) => ({
-    padding: "10px 20px",
-    cursor: "pointer",
-    borderBottom:
-      activeTab === tabName ? "3px solid #007bff" : "3px solid transparent",
-    color: activeTab === tabName ? "white" : "#888",
-    fontWeight: activeTab === tabName ? "bold" : "normal",
-    backgroundColor: activeTab === tabName ? "#252526" : "transparent",
-    borderRadius: "6px 6px 0 0",
-  });
-
   return (
     <div>
       <title>Editor: Raids</title>
-      <h3 style={{ borderBottom: "2px solid #00bcd4", paddingBottom: "10px" }}>
+      <h3 className="border-b-2 border-[#00bcd4] pb-2.5 mb-5 font-bold text-xl text-white">
         👹 Editor Raid
       </h3>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div className="mb-5">
         <select
-          className="universal-input"
+          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
           value={idx ?? ""}
           onChange={(e) =>
             setIdx(e.target.value !== "" ? parseInt(e.target.value) : null)
@@ -76,16 +65,18 @@ const RaidsEditor = ({ data, onChange }) => {
       </div>
 
       {raid ? (
-        <div className="step-card" style={{ padding: 0, overflow: "hidden" }}>
-          <div
-            style={{
-              display: "flex",
-              borderBottom: "1px solid #333",
-              background: "#1e1e1e",
-            }}
-          >
+        <div className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm p-0 overflow-hidden">
+          <div className="flex border-b border-[#333] bg-[#1e1e1e]">
             {["info", "locations", "mechanics", "strategies"].map((t) => (
-              <div key={t} onClick={() => setActiveTab(t)} style={tabStyle(t)}>
+              <div
+                key={t}
+                onClick={() => setActiveTab(t)}
+                className={`px-5 py-2.5 cursor-pointer border-b-[3px] rounded-t-md transition-colors
+                  ${activeTab === t 
+                    ? "border-blue-500 text-white font-bold bg-[#252526]" 
+                    : "border-transparent text-[#888] font-normal bg-transparent hover:bg-[#252526]"
+                  }`}
+              >
                 {t === "info"
                   ? "📝 Info"
                   : t === "locations"
@@ -97,83 +88,66 @@ const RaidsEditor = ({ data, onChange }) => {
             ))}
           </div>
 
-          <div style={{ padding: "20px" }}>
-            {activeTab === "info" && (
-              <div className="fade-in grid grid-cols-2 gap-4">
+          <div className="p-5">
+            <Activity mode={activeTab === "info" ? "visible" : "hidden"}>
+              <div className="animate-[fade-in_0.3s_ease-out] grid grid-cols-2 gap-4">
                 <div>
-                  <label>Nome</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Nome</label>
                   <input
-                    className="universal-input"
+                    className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                     value={raid.name}
                     onChange={(e) => handleRaidChange("name", e.target.value)}
                   />
                 </div>
                 <div>
-                  <label>Stelle</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Stelle</label>
                   <input
                     type="number"
-                    className="universal-input"
+                    className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                     value={raid.stars}
                     onChange={(e) =>
                       handleRaidChange("stars", parseInt(e.target.value))
                     }
                   />
                 </div>
-                <div>
-                  <h5>Drops</h5>
+                <div className="col-span-2 md:col-span-1">
+                  <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">Drops</h5>
                   <UniversalJsonEditor
                     data={raid.drops || []}
                     onChange={(v) => handleRaidChange("drops", v)}
                   />
                 </div>
-                <div>
-                  <h5>Moveset</h5>
+                <div className="col-span-2 md:col-span-1">
+                  <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">Moveset</h5>
                   <UniversalJsonEditor
                     data={raid.moves || []}
                     onChange={(v) => handleRaidChange("moves", v)}
                   />
                 </div>
               </div>
-            )}
+            </Activity>
 
-            {activeTab === "locations" && (
-              <div className="fade-in">
+            <Activity mode={activeTab === "locations" ? "visible" : "hidden"}>
+              <div className="animate-[fade-in_0.3s_ease-out]">
                 {!raid.locations ? (
                   <button
-                    className="btn btn-primary"
+                    className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all"
                     onClick={() => ensureField("locations")}
                   >
                     Inizializza
                   </button>
                 ) : (
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns:
-                        "repeat(auto-fit, minmax(150px, 1fr))",
-                      gap: "10px",
-                    }}
-                  >
+                  <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
                     {Object.keys(RAID_TEMPLATE.locations).map((reg) => (
                       <div
                         key={reg}
-                        style={{
-                          background: "#252526",
-                          padding: "10px",
-                          borderRadius: "4px",
-                        }}
+                        className="bg-[#252526] p-2.5 rounded"
                       >
-                        <strong
-                          style={{
-                            textTransform: "capitalize",
-                            color: "#88c0d0",
-                          }}
-                        >
+                        <strong className="capitalize text-[#88c0d0] block mb-1.5">
                           {reg}
                         </strong>
                         <input
-                          className="universal-input"
-                          style={{ marginTop: "5px" }}
+                          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none mt-1.5"
                           value={raid.locations?.[reg]?.area || ""}
                           onChange={(e) => {
                             const locs = {
@@ -191,22 +165,26 @@ const RaidsEditor = ({ data, onChange }) => {
                   </div>
                 )}
               </div>
-            )}
+            </Activity>
 
-            {activeTab === "mechanics" && (
-              <UniversalJsonEditor
-                data={raid.mechanics || {}}
-                onChange={(v) => handleRaidChange("mechanics", v)}
-              />
-            )}
+            <Activity mode={activeTab === "mechanics" ? "visible" : "hidden"}>
+              <div className="animate-[fade-in_0.3s_ease-out]">
+                <UniversalJsonEditor
+                  data={raid.mechanics || {}}
+                  onChange={(v) => handleRaidChange("mechanics", v)}
+                />
+              </div>
+            </Activity>
 
-            {activeTab === "strategies" && (
-              <UniversalJsonEditor
-                data={raid.teamStrategies || []}
-                onChange={(v) => handleRaidChange("teamStrategies", v)}
-                suggestedKeys={POKEMON_BUILD_KEYS}
-              />
-            )}
+            <Activity mode={activeTab === "strategies" ? "visible" : "hidden"}>
+              <div className="animate-[fade-in_0.3s_ease-out]">
+                <UniversalJsonEditor
+                  data={raid.teamStrategies || []}
+                  onChange={(v) => handleRaidChange("teamStrategies", v)}
+                  suggestedKeys={POKEMON_BUILD_KEYS}
+                />
+              </div>
+            </Activity>
           </div>
         </div>
       ) : (

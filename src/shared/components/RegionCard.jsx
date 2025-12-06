@@ -1,35 +1,18 @@
-import "./RegionCard.css";
-
 const RegionCard = ({ region, onRegionClick, isSelected }) => {
   return (
     <div
-      className={`card region-card ${isSelected ? "selected" : ""}`}
+      className={`relative flex flex-col items-center justify-center p-3 w-40 h-28 rounded-xl cursor-pointer transition-all duration-300 transform 
+      ${isSelected ? "scale-105" : "hover:-translate-y-1 hover:shadow-xl shadow-md"}
+      `}
       onClick={() => onRegionClick(region)}
       style={{
         backgroundColor: region.bgColor,
-        color: "#000000",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "10px",
-        width: "160px",
-        height: "100px",
-        boxSizing: "border-box",
         boxShadow: isSelected
-          ? `0 4px 10px ${region.bgColor}aa`
-          : "0 2px 8px rgba(0,0,0,0.3)",
+          ? `0 4px 14px ${region.bgColor}cc` // Stronger shadow when selected
+          : undefined, // Let CSS/Tailwind handle hover shadow otherwise, or inline if needed
       }}
     >
-      <h2
-        style={{
-          margin: "0",
-          textAlign: "center",
-          color: "#000000",
-          fontSize: "1.1rem",
-          wordBreak: "break-word",
-        }}
-      >
+      <h2 className="m-0 text-center text-black font-bold text-lg break-words leading-tight">
         {region.name}
       </h2>
     </div>

@@ -1,8 +1,3 @@
-import "@/pages/breeding/components/IVsDropdown.css";
-import "@/pages/breeding/components/IVsSelector.css";
-import "@/pages/breeding/components/StatCircle.css";
-import "@/pages/breeding/components/TreeScheme.css";
-
 import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
 import IVsSelector from "@/pages/breeding/components/IVsSelector";
 import TreeScheme from "@/pages/breeding/components/TreeScheme";
@@ -31,8 +26,9 @@ function BreedingPage() {
   );
 
   return (
-    <div className="container">
+    <div className="max-w-7xl mx-auto px-4 py-6">
       <PageTitle title="PokéMMO Compendium: Breeding Planner" />
+      
       <IVsSelector
         ivOptions={IV_OPTIONS}
         selectedIvCount={selectedIvCount}

@@ -1,6 +1,3 @@
-import "./EliteFourPage.css";
-import "../raids/RaidsPage.css";
-
 import { useState } from "react";
 
 import {
@@ -10,6 +7,7 @@ import {
   getPokemonStrategy,
   getTeamBuilds,
 } from "@/pages/elite-four/data/eliteFourService";
+import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
 import {
   getPokemonBackground,
   getPokemonByName,
@@ -22,8 +20,6 @@ import PokemonCard from "@/shared/components/PokemonCard";
 import RegionCard from "@/shared/components/RegionCard";
 import { getDualShadow, typeBackgrounds } from "@/shared/utils/pokemonColors";
 import { pokemonRegions } from "@/shared/utils/regionData";
-
-import TeamBuildModal from "./TeamBuildModal";
 
 function EliteFourPage() {
   const [selectedTeam, setSelectedTeam] = useState(null);
@@ -107,7 +103,10 @@ function EliteFourPage() {
       setStrategyHistory((prev) => [...prev, currentStrategyView]);
       setCurrentStrategyView(item.steps);
 
-      const modalContent = document.querySelector(".pokemon-details-card");
+      // Scroll to top logic if needed, handled by React state re-render mostly, 
+      // but manual scroll might be needed if the modal content is long.
+      // Tailwind/React specific scroll reset can be done via refs if necessary.
+      const modalContent = document.getElementById("pokemon-details-content");
       if (modalContent) modalContent.scrollTop = 0;
     }
   };
@@ -121,31 +120,36 @@ function EliteFourPage() {
 
   const renderWarning = (warningText) =>
     warningText ? (
-      <div className="strategy-warning-row">
-        <div className="strategy-warning">{warningText}</div>
+      <div className="w-full flex mb-2.5">
+        <div className="w-full bg-gradient-to-br from-red-400 to-red-600 border border-red-500 rounded-lg shadow-md text-red-950 text-sm font-semibold p-3 text-center">
+          {warningText}
+        </div>
       </div>
     ) : null;
 
   return (
-    <div className="container">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-24">
       <PageTitle title="PokéMMO Compendium: Elite Four" />
 
-      <div className="cards-container">
+      {/* Team Selection */}
+      <div className="flex flex-wrap justify-center gap-4 my-8">
         {allTeamNames.map((teamName) => (
           <div
             key={teamName}
-            className={`card team-card ${selectedTeam === teamName ? "selected" : ""}`}
+            className={`w-32 h-16 flex items-center justify-center bg-slate-700 border-2 border-transparent rounded-lg cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:shadow-lg
+              ${selectedTeam === teamName ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-slate-600" : "hover:bg-slate-600"}
+            `}
             onClick={() => handleTeamClick(teamName)}
           >
-            <p>{teamName}</p>
+            <p className="text-white font-bold m-0">{teamName}</p>
           </div>
         ))}
       </div>
 
       {selectedTeam && currentTeamBuilds.length > 0 && (
-        <div className="team-info-bar fade-in">
+        <div className="w-full flex justify-center my-4 mb-6 animate-[fade-in_0.3s_ease-out]">
           <button
-            className="team-info-btn"
+            className="flex items-center gap-2 px-6 py-2.5 bg-blue-500/15 border border-blue-500 rounded-lg text-white font-semibold uppercase tracking-wide text-sm shadow-md transition-all hover:bg-blue-500 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
             onClick={() => setIsTeamBuildVisible(true)}
           >
             📋 View {selectedTeam} Team Build
@@ -154,7 +158,7 @@ function EliteFourPage() {
       )}
 
       {selectedTeam && (
-        <div className="cards-container">
+        <div className="flex flex-wrap justify-center gap-4 my-8">
           {pokemonRegions.map((region) => (
             <RegionCard
               key={region.id}
@@ -167,7 +171,7 @@ function EliteFourPage() {
       )}
 
       {selectedRegion && filteredEliteFour.length > 0 && (
-        <div className="cards-container">
+        <div className="flex flex-wrap justify-center gap-4 my-8">
           {filteredEliteFour.map((member) => {
             const memberBackground =
               typeBackgrounds[member.type] || typeBackgrounds[""];
@@ -187,7 +191,7 @@ function EliteFourPage() {
       )}
 
       {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
-        <div className="pokemon-cards-display">
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
           {pokemonNamesForSelectedTeam.map((pokemonName) => {
             const { sprite, background } = getPokemonCardData(pokemonName);
             return (
@@ -214,70 +218,75 @@ function EliteFourPage() {
 
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div
-          className="overlay"
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]"
           onClick={() => setIsPokemonDetailsVisible(false)}
         >
           <div
-            className="pokemon-details-card"
+            className="relative w-[500px] max-w-[95vw] max-h-[90vh] flex flex-col bg-slate-800 rounded-lg shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]"
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="pokemon-details-title-wrapper"
+              className="flex justify-center p-4 shadow-md z-10 shrink-0"
               style={{ background: detailsTitleBackground }}
             >
-              <h2>{currentPokemonObject.name}</h2>
+              <h2 className="text-slate-900 font-bold text-xl m-0">{currentPokemonObject.name}</h2>
             </div>
 
-            <div className="menu-content">
-              {strategyHistory.length > 0 && (
-                <button className="back-button" onClick={handleBackClick}>
-                  ⬅️ Back
-                </button>
-              )}
+            <div id="pokemon-details-content" className="flex-1 overflow-y-auto p-5 bg-slate-800">
+              <div className="flex flex-col gap-3">
+                {strategyHistory.length > 0 && (
+                  <button 
+                    className="w-full mb-2.5 px-4 py-2 bg-neutral-900 border border-slate-700 rounded-lg text-white font-semibold hover:bg-slate-700 hover:border-blue-500 transition-all text-left flex items-center gap-2" 
+                    onClick={handleBackClick}
+                  >
+                    ⬅️ Back
+                  </button>
+                )}
 
-              {currentStrategyView.length === 0 ? (
-                <p>No strategy available for this Pokémon.</p>
-              ) : (
-                currentStrategyView.map((item, index) => {
-                  return (
-                    <div key={index} className="strategy-block">
-                      {(item.type === "main" || item.type === "step") && (
-                        <>
-                          {item.player && (
-                            <div
-                              className={
-                                item.type === "main"
-                                  ? "strategy-step-main"
-                                  : "strategy-step"
-                              }
-                            >
-                              <p>
-                                <MoveColoredText text={item.player} />
-                              </p>
-                            </div>
-                          )}
-                          {renderWarning(item.warning)}
-                        </>
-                      )}
+                {currentStrategyView.length === 0 ? (
+                  <p className="text-slate-400 text-center italic">No strategy available for this Pokémon.</p>
+                ) : (
+                  currentStrategyView.map((item, index) => {
+                    return (
+                      <div key={index} className="flex flex-col">
+                        {(item.type === "main" || item.type === "step") && (
+                          <>
+                            {item.player && (
+                              <div
+                                className={`flex justify-center mb-2.5 px-3 py-3 rounded-lg ${
+                                  item.type === "main"
+                                    ? "bg-neutral-800 shadow-sm"
+                                    : "bg-transparent"
+                                }`}
+                              >
+                                <p className="text-white text-center m-0 leading-relaxed">
+                                  <MoveColoredText text={item.player} />
+                                </p>
+                              </div>
+                            )}
+                            {renderWarning(item.warning)}
+                          </>
+                        )}
 
-                      {item.variations && (
-                        <div className="variation-group">
-                          {item.variations.map((v, vi) => (
-                            <div
-                              key={vi}
-                              className="strategy-variation-as-button"
-                              onClick={() => handleStepClick(v)}
-                            >
-                              <p>{v.name}</p>
-                              {renderWarning(v.warning)}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              )}
+                        {item.variations && (
+                          <div className="flex flex-col gap-2 pb-2.5">
+                            {item.variations.map((v, vi) => (
+                              <div
+                                key={vi}
+                                className="flex items-center justify-center gap-2 h-10 px-3 bg-neutral-800 border border-slate-700 rounded text-slate-200 cursor-pointer transition-all hover:bg-slate-700 hover:border-blue-500"
+                                onClick={() => handleStepClick(v)}
+                              >
+                                <p className="m-0 text-sm font-semibold">{v.name}</p>
+                                {renderWarning(v.warning)}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
             </div>
           </div>
         </div>

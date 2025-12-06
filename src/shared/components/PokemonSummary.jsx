@@ -1,6 +1,4 @@
-import "./PokemonSummary.css";
-
-import React, { useEffect, useState } from "react";
+import { Activity, Fragment, useEffect, useState } from "react";
 
 import { getPokemonFullDetails } from "@/pages/pokedex/data/pokemonService";
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
@@ -15,17 +13,21 @@ const getTypePillStyle = (typeName) => {
 };
 
 const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
+  const [prevName, setPrevName] = useState(pokemonName);
   const [activeTab, setActiveTab] = useState("Overview");
   const [pokemonData, setPokemonData] = useState(initialLoadingState);
   const [moveSearch, setMoveSearch] = useState("");
 
+  if (pokemonName !== prevName) {
+    setPrevName(pokemonName);
+    setActiveTab("Overview");
+    setMoveSearch("");
+    setPokemonData(initialLoadingState);
+  }
+
   const tabs = ["Overview", "Stats", "Moves", "Locations", "Evolutions"];
 
   useEffect(() => {
-    setPokemonData(initialLoadingState);
-    setMoveSearch("");
-    setActiveTab("Overview");
-
     if (!pokemonName) return;
 
     const timer = setTimeout(() => {
@@ -71,14 +73,15 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     return "???";
   };
 
+  // Loading State
   if (pokemonData.name === null) {
     return (
-      <div className="summary-overlay" onClick={onClose}>
+      <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]" onClick={onClose}>
         <div
-          className="summary-card loading"
+          className="relative w-full max-w-[480px] h-[85vh] flex items-center justify-center bg-slate-800 rounded-xl border border-slate-700 shadow-2xl animate-[scale-in_0.4s_ease-out_forwards]"
           onClick={(e) => e.stopPropagation()}
         >
-          <p style={{ textAlign: "center", margin: "auto", color: "#007bff" }}>
+          <p className="text-center text-blue-400 animate-pulse">
             Loading details for {pokemonName}...
           </p>
         </div>
@@ -86,24 +89,25 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     );
   }
 
+  // Error State
   if (pokemonData.id === null) {
     return (
-      <div className="summary-overlay" onClick={onClose}>
+      <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]" onClick={onClose}>
         <div
-          className="summary-card error-fallback"
+          className="relative w-full max-w-[480px] h-[85vh] flex flex-col bg-slate-800 rounded-xl border border-slate-700 shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="summary-header" style={{ background: "#3a3b3d" }}>
-            <h2>Pokémon Not Available</h2>
-            <button className="summary-close-btn" onClick={onClose}>
+          <div className="flex items-center justify-between p-4 bg-slate-700 text-white shadow-sm z-10">
+            <h2 className="text-xl font-bold">Pokémon Not Available</h2>
+            <button 
+              className="flex items-center justify-center w-8 h-8 rounded-full bg-black/20 text-white hover:bg-black/50 transition-colors" 
+              onClick={onClose}
+            >
               ×
             </button>
           </div>
-          <div
-            className="summary-body"
-            style={{ textAlign: "center", padding: "50px 20px", color: "#ccc" }}
-          >
-            <p style={{ fontSize: "1.1rem" }}>
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-slate-400 text-center">
+            <p className="text-lg">
               Full details for **{pokemonData.name}** are not available yet.
             </p>
           </div>
@@ -112,46 +116,60 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     );
   }
 
+  // Main Content
   return (
-    <div className="summary-overlay" onClick={onClose}>
-      <div className="summary-card" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]" onClick={onClose}>
+      <div className="relative w-full max-w-[480px] h-[85vh] flex flex-col bg-slate-800 rounded-xl border border-slate-700 shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]" onClick={(e) => e.stopPropagation()}>
+        
+        {/* Header */}
         <div
-          className="summary-header"
+          className="flex items-center justify-between p-4 text-white shadow-md z-10 shrink-0"
           style={{ background: pokemonData.background }}
         >
-          <h2>
-            <span className="id-badge">{formatPokedexId(pokemonData.id)}</span>
+          <h2 className="flex items-center gap-2 text-xl font-bold drop-shadow-md">
+            <span className="bg-black/30 px-2 py-1 rounded-md font-mono text-sm">{formatPokedexId(pokemonData.id)}</span>
             {pokemonData.name}
           </h2>
-          <button className="summary-close-btn" onClick={onClose}>
+          <button 
+            className="flex items-center justify-center w-8 h-8 rounded-full bg-black/20 text-white hover:bg-black/50 transition-colors text-2xl" 
+            onClick={onClose}
+          >
             ×
           </button>
         </div>
 
-        <div className="summary-hero">
-          <button className="play-cry-btn">🔊 Cry</button>
+        {/* Hero Section */}
+        <div className="relative flex flex-col items-center p-5 bg-neutral-900 border-b border-slate-700 shrink-0">
+          <button className="absolute top-4 right-4 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-md text-slate-300 text-xs font-semibold hover:border-blue-500 hover:text-white transition-colors">
+            🔊 Cry
+          </button>
           <img
-            className="summary-sprite"
+            className="w-40 h-40 object-contain mb-4 drop-shadow-xl animate-[bounce_6s_infinite]"
             src={pokemonData.sprite}
             alt={pokemonData.name}
           />
-          <div className="hero-info">
-            <div className="summary-types">
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex gap-2">
               {pokemonData.types.map((t) => (
-                <span key={t} className="type-pill" style={getTypePillStyle(t)}>
+                <span key={t} className="px-4 py-1.5 rounded-full text-white text-xs font-bold uppercase tracking-wide shadow-sm" style={getTypePillStyle(t)}>
                   {t}
                 </span>
               ))}
             </div>
-            <span className="category-text">{pokemonData.category}</span>
+            <span className="text-slate-400 text-sm italic font-medium">{pokemonData.category}</span>
           </div>
         </div>
 
-        <div className="summary-tabs">
+        {/* Tabs */}
+        <div className="flex shrink-0 overflow-x-auto bg-slate-900 border-b border-slate-700 z-10 scrollbar-hide">
           {tabs.map((tab) => (
             <button
               key={tab}
-              className={`summary-tab ${activeTab === tab ? "active" : ""}`}
+              className={`flex-1 min-w-[80px] py-3.5 text-sm font-semibold whitespace-nowrap transition-colors relative
+                ${activeTab === tab 
+                  ? "bg-slate-800 text-blue-500 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-blue-500" 
+                  : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                }`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
@@ -159,262 +177,228 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           ))}
         </div>
 
-        <div className="summary-body">
-          {activeTab === "Overview" && (
-            <>
-              <div className="data-section">
-                <p className="desc-text">{pokemonData.description}</p>
-              </div>
-              <div className="data-section">
-                <h4 className="section-title">Abilities</h4>
-                <div className="ability-row">
-                  {pokemonData.abilities.main.map((a) => (
-                    <div key={a} className="ability-chip">
-                      {a}
-                    </div>
-                  ))}
-                  {pokemonData.abilities.hidden && (
-                    <div className="ability-chip hidden-ability">
-                      {pokemonData.abilities.hidden} <small>Hidden</small>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="data-section">
-                <h4 className="section-title">Breeding & Size</h4>
-                <div className="info-grid-compact">
-                  <div className="info-card">
-                    <span className="info-label">Height</span>
-                    <span className="info-value">{pokemonData.height}</span>
-                  </div>
-                  <div className="info-card">
-                    <span className="info-label">Weight</span>
-                    <span className="info-value">{pokemonData.weight}</span>
-                  </div>
-                  <div className="info-card">
-                    <span className="info-label">Egg Group</span>
-                    <span className="info-value">
-                      {pokemonData.eggGroups.join(", ")}
-                    </span>
-                  </div>
-                  <div className="info-card">
-                    <span className="info-label">Gender</span>
-                    <span className="info-value gender-row">
-                      <span className="g-male">
-                        {pokemonData.genderRatio.m}% ♂
-                      </span>
-                      <span className="g-female">
-                        {pokemonData.genderRatio.f}% ♀
-                      </span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="data-section">
-                <h4 className="section-title">Training</h4>
-                <div className="info-grid-compact">
-                  <div className="info-card">
-                    <span className="info-label">Catch Rate</span>
-                    <span className="info-value">{pokemonData.catchRate}</span>
-                  </div>
-                  <div className="info-card">
-                    <span className="info-label">Base Exp</span>
-                    <span className="info-value">{pokemonData.baseExp}</span>
-                  </div>
-                  <div className="info-card">
-                    <span className="info-label">Growth Rate</span>
-                    <span className="info-value">{pokemonData.growthRate}</span>
-                  </div>
-                  <div className="info-card">
-                    <span className="info-label">EV Yield</span>
-                    <span className="info-value ev-text">
-                      {pokemonData.evYield}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="data-section">
-                <div className="info-grid-compact">
-                  <div className="info-card full-width">
-                    <span className="info-label">Held Item</span>
-                    <span className="info-value">{pokemonData.heldItems}</span>
-                  </div>
-                  <div className="info-card full-width">
-                    <span className="info-label">PvP Tier</span>
-                    <span className="info-value tier-text">
-                      {pokemonData.tier}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {activeTab === "Stats" && (
-            <>
-              <div className="data-section">
-                <h4 className="section-title">Base Stats</h4>
-                {Object.entries(pokemonData.baseStats).map(([key, val]) => (
-                  <div key={key} className="stat-row">
-                    <span className="stat-name">{key.toUpperCase()}</span>
-                    <span className="stat-num">{val}</span>
-                    <div className="stat-track">
-                      <div
-                        className="stat-fill"
-                        style={{
-                          width: `${Math.min((val / 255) * 100, 100)}%`,
-                          background:
-                            val > 100
-                              ? "#00b894"
-                              : val > 60
-                                ? "#007bff"
-                                : "#ff7675",
-                        }}
-                      ></div>
-                    </div>
+        {/* Body Content */}
+        <div className="flex-1 flex flex-col gap-5 p-5 bg-slate-800 overflow-y-auto min-h-0">
+          
+          <Activity mode={activeTab === "Overview" ? "visible" : "hidden"}>
+            <div className="flex flex-col gap-2.5">
+              <p className="bg-slate-700 border-l-4 border-blue-500 rounded-lg text-slate-200 text-sm italic leading-relaxed p-3 m-0">
+                {pokemonData.description}
+              </p>
+            </div>
+            
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Abilities</h4>
+              <div className="flex gap-2.5">
+                {pokemonData.abilities.main.map((a) => (
+                  <div key={a} className="flex-1 bg-neutral-900 border border-slate-700 rounded-md text-slate-200 text-sm p-2 text-center">
+                    {a}
                   </div>
                 ))}
-              </div>
-
-              <div className="data-section" style={{ marginTop: "20px" }}>
-                <h4 className="section-title">Weakness & Resistance</h4>
-                {!defenses ? (
-                  <p className="empty-text">Type data not available.</p>
-                ) : (
-                  <div className="defense-grid">
-                    {[4, 2, 0.5, 0.25, 0].map((mult) => {
-                      const types = getTypesByMultiplier(mult);
-                      if (types.length === 0) return null;
-                      const label = mult === 0.25 ? "¼x" : `${mult}x`;
-                      const className =
-                        mult > 1 ? "bad" : mult === 0 ? "zero" : "good";
-                      return (
-                        <div key={mult} className="defense-row">
-                          <span className={`defense-label ${className}`}>
-                            {label}
-                          </span>
-                          <div className="defense-types">
-                            {types.map((t) => (
-                              <span
-                                key={t}
-                                className="type-pill small"
-                                style={getTypePillStyle(t)}
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })}
+                {pokemonData.abilities.hidden && (
+                  <div className="flex-1 bg-red-900/10 border border-red-500/50 rounded-md text-slate-200 text-sm p-2 text-center">
+                    {pokemonData.abilities.hidden} <small className="block text-slate-500 text-[10px] mt-0.5">Hidden</small>
                   </div>
                 )}
               </div>
-            </>
-          )}
+            </div>
 
-          {activeTab === "Moves" && (
-            <div className="data-section">
-              <div className="moves-title-row">
-                <h4 className="section-title">Level Up Moves</h4>
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Breeding & Size</h4>
+              <div className="grid grid-cols-2 gap-2">
+                <InfoCard label="Height" value={pokemonData.height} />
+                <InfoCard label="Weight" value={pokemonData.weight} />
+                <InfoCard label="Egg Group" value={pokemonData.eggGroups.join(", ")} />
+                <div className="bg-slate-700 border border-slate-600 rounded-lg flex flex-col justify-center p-2.5">
+                  <span className="text-slate-400 text-[10px] font-bold uppercase mb-1">Gender</span>
+                  <span className="text-white text-sm font-semibold flex gap-2">
+                    <span className="text-blue-400">{pokemonData.genderRatio.m}% ♂</span>
+                    <span className="text-orange-400">{pokemonData.genderRatio.f}% ♀</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Training</h4>
+              <div className="grid grid-cols-2 gap-2">
+                <InfoCard label="Catch Rate" value={pokemonData.catchRate} />
+                <InfoCard label="Base Exp" value={pokemonData.baseExp} />
+                <InfoCard label="Growth Rate" value={pokemonData.growthRate} />
+                <InfoCard label="EV Yield" value={pokemonData.evYield} valueClass="text-yellow-200" />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2.5">
+              <div className="grid grid-cols-2 gap-2">
+                <InfoCard label="Held Item" value={pokemonData.heldItems} className="col-span-2 flex-row items-center justify-between" labelClass="mb-0" />
+                <div className="col-span-2 bg-slate-700 border border-slate-600 rounded-lg flex flex-row items-center justify-between p-2.5">
+                   <span className="text-slate-400 text-[10px] font-bold uppercase">PvP Tier</span>
+                   <span className="bg-blue-500/10 text-blue-400 rounded px-2 py-0.5 font-bold text-sm">{pokemonData.tier}</span>
+                </div>
+              </div>
+            </div>
+          </Activity>
+
+          <Activity mode={activeTab === "Stats" ? "visible" : "hidden"}>
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Base Stats</h4>
+              {Object.entries(pokemonData.baseStats).map(([key, val]) => (
+                <div key={key} className="flex items-center mb-1">
+                  <span className="text-slate-400 text-xs font-bold w-10 uppercase">{key}</span>
+                  <span className="text-white text-sm font-bold text-right w-9 mr-2.5">{val}</span>
+                  <div className="flex-1 h-1.5 bg-neutral-900 rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${Math.min((val / 255) * 100, 100)}%`,
+                        background: val > 100 ? "#00b894" : val > 60 ? "#007bff" : "#ff7675",
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col gap-2.5 mt-5">
+              <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Weakness & Resistance</h4>
+              {!defenses ? (
+                <p className="text-slate-500 italic p-5 text-center">Type data not available.</p>
+              ) : (
+                <div className="flex flex-col gap-2 bg-slate-700 border border-slate-600 rounded-lg p-3">
+                  {[4, 2, 0.5, 0.25, 0].map((mult) => {
+                    const types = getTypesByMultiplier(mult);
+                    if (types.length === 0) return null;
+                    const label = mult === 0.25 ? "¼x" : `${mult}x`;
+                    const colorClass = mult > 1 ? "text-red-400" : mult === 0 ? "text-purple-400" : "text-emerald-400";
+                    
+                    return (
+                      <div key={mult} className="flex items-center gap-3">
+                        <span className={`shrink-0 text-sm font-bold text-right w-9 ${colorClass}`}>
+                          {label}
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {types.map((t) => (
+                            <span
+                              key={t}
+                              className="rounded-full text-white text-[10px] px-2.5 py-0.5 shadow-none"
+                              style={getTypePillStyle(t)}
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </Activity>
+
+          <Activity mode={activeTab === "Moves" ? "visible" : "hidden"}>
+            <div className="flex flex-col gap-2.5">
+              <div className="flex items-center justify-between border-b border-slate-700 pb-2 mb-2">
+                <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest m-0 p-0 border-none">Level Up Moves</h4>
                 <input
                   type="text"
-                  className="moves-search-input"
+                  className="bg-neutral-900 border border-slate-700 rounded-md text-slate-200 text-sm px-3 py-1.5 w-44 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-600 placeholder:italic"
                   placeholder="Search move..."
                   value={moveSearch}
                   onChange={(e) => setMoveSearch(e.target.value)}
                 />
               </div>
-              <div className="moves-container">
-                <div className="moves-header-row">
-                  <span className="col-lvl">LVL</span>
-                  <span className="col-move">MOVE</span>
-                  <span className="col-cat">CAT</span>
-                  <span className="col-pwr">PWR</span>
-                  <span className="col-acc">ACC</span>
+              <div className="flex flex-col bg-neutral-800 border border-slate-700 rounded-lg overflow-hidden">
+                <div className="flex bg-slate-700 border-b border-slate-700 text-slate-400 text-[10px] font-bold tracking-wider p-2.5 uppercase sticky top-0 z-[1]">
+                  <span className="text-center w-10">LVL</span>
+                  <span className="flex-1 pl-3">MOVE</span>
+                  <span className="text-center w-12">CAT</span>
+                  <span className="text-center w-10">PWR</span>
+                  <span className="text-right w-11">ACC</span>
                 </div>
                 {filteredMoves.length > 0 ? (
                   filteredMoves.map((move, i) => (
-                    <div key={i} className="move-row">
-                      <div className="move-lvl-col">
-                        <span className="lvl-badge">{move.level}</span>
+                    <div key={i} className="flex items-center p-2 border-b border-slate-700/50 hover:bg-slate-700/50 transition-colors last:border-b-0">
+                      <div className="text-center w-10">
+                        <span className="text-slate-500 font-mono text-sm font-bold group-hover:text-white">{move.level}</span>
                       </div>
-                      <div className="move-info-col">
-                        <span className="move-name">{move.name}</span>
-                        <span
-                          className={`move-type-text type-text-${move.type.toLowerCase()}`}
-                        >
+                      <div className="flex flex-1 flex-col justify-center pl-3 gap-0.5">
+                        <span className="text-slate-200 text-sm font-semibold leading-tight">{move.name}</span>
+                        <span className={`text-[10px] font-bold uppercase opacity-80 type-text-${move.type.toLowerCase()}`}>
                           {move.type}
                         </span>
                       </div>
-                      <div className="move-cat-col">
-                        <span className={`cat-badge ${move.cat.toLowerCase()}`}>
+                      <div className="flex justify-center w-12">
+                         <span className={`rounded-sm text-neutral-900 text-[9px] font-bold py-0.5 text-center uppercase w-10 ${
+                           move.cat === "Physical" ? "bg-orange-400" : move.cat === "Special" ? "bg-sky-400" : "bg-neutral-400"
+                         }`}>
                           {move.cat.substring(0, 4)}
                         </span>
                       </div>
-                      <div className="move-pwr-col">{move.pwr}</div>
-                      <div className="move-acc-col">{move.acc}%</div>
+                      <div className="text-slate-300 text-sm text-center w-10">{move.pwr}</div>
+                      <div className="text-slate-300 text-sm text-right w-11">{move.acc}%</div>
                     </div>
                   ))
                 ) : (
-                  <div className="no-moves-found">No moves found.</div>
+                  <div className="text-slate-500 text-sm italic p-5 text-center">No moves found.</div>
                 )}
               </div>
             </div>
-          )}
+          </Activity>
 
-          {activeTab === "Locations" && (
-            <div className="data-section">
-              <h4 className="section-title">Wild Locations</h4>
+          <Activity mode={activeTab === "Locations" ? "visible" : "hidden"}>
+            <div className="flex flex-col gap-2.5">
+              <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Wild Locations</h4>
               {pokemonData.locations.length > 0 ? (
-                <div className="locations-container-grid">
-                  <div className="location-header-row">
-                    <span className="col-method">Method</span>
-                    <span className="col-region">Region</span>
-                    <span className="col-location">Location</span>
-                    <span className="col-levels">Levels</span>
-                    <span className="col-rarity">Rarity</span>
+                <div className="flex flex-col bg-neutral-800 border border-slate-700 rounded-lg overflow-hidden">
+                  <div className="flex bg-slate-700 border-b border-slate-700 text-slate-400 text-[10px] font-bold tracking-wider p-2.5 uppercase">
+                    <span className="text-center w-[70px]">Method</span>
+                    <span className="text-center w-[70px]">Region</span>
+                    <span className="flex-1 text-center">Location</span>
+                    <span className="text-center w-[70px]">Levels</span>
+                    <span className="text-center w-[70px]">Rarity</span>
                   </div>
                   {pokemonData.locations.map((loc, i) => (
-                    <div key={i} className="location-data-row">
-                      <span className="loc-method">
+                    <div key={i} className="flex items-center p-2 border-b border-slate-700/50 hover:bg-slate-700/50 transition-colors last:border-b-0">
+                      <span className="shrink-0 bg-white/10 rounded text-slate-300 text-xs px-1.5 py-1 text-center w-[58px] mx-auto truncate capitalize">
                         {loc.method || loc.type || "-"}
                       </span>
-                      <span className="loc-region">{loc.region}</span>
-                      <span className="loc-area">{loc.area}</span>
-                      <span className="loc-levels">{loc.levels}</span>
-                      <span className="loc-rarity">{loc.rarity}</span>
+                      <span className="text-slate-200 text-sm font-semibold text-center w-[70px]">{loc.region}</span>
+                      <span className="flex-1 text-slate-200 text-sm font-medium text-center">{loc.area}</span>
+                      <span className="text-slate-200 text-sm font-semibold text-center w-[70px]">{loc.levels}</span>
+                      <span className="text-amber-500 text-xs font-bold uppercase text-center w-[70px]">{loc.rarity}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="empty-text">No wild locations found.</p>
+                <p className="text-slate-500 italic p-5 text-center">No wild locations found.</p>
               )}
             </div>
-          )}
+          </Activity>
 
-          {activeTab === "Evolutions" && (
-            <div className="data-section">
+          <Activity mode={activeTab === "Evolutions" ? "visible" : "hidden"}>
+            <div className="flex flex-col gap-5">
               {pokemonData.variants.length > 0 && (
-                <div className="data-section">
-                  <h4 className="section-title">Alternative Forms</h4>
-                  <div className="evolution-chain">
+                <div className="flex flex-col gap-2.5">
+                  <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">Alternative Forms</h4>
+                  <div className="flex items-center bg-neutral-900 border border-slate-700 rounded-lg overflow-x-auto p-4 gap-0.5 scrollbar-thin scrollbar-thumb-slate-700">
                     {pokemonData.variants.map((variantName) => {
                       const variantCardData = getPokemonCardData(variantName);
                       return (
                         <div
                           key={variantName}
-                          className="evo-card variant-card"
+                          className="flex flex-1 flex-col items-center justify-center min-w-[80px] p-1.5 rounded-lg border border-transparent transition-all cursor-pointer hover:bg-slate-700 hover:border-blue-500 hover:-translate-y-0.5"
                           onClick={() => onSelectPokemon(variantName)}
                         >
-                          <div className="evo-img-wrapper">
+                          <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black/20 border border-neutral-800 mb-1.5">
                             <img
                               src={variantCardData.sprite}
                               alt={variantName}
+                              className="w-12 h-12 object-contain"
                             />
                           </div>
-                          <span className="evo-name">{variantName}</span>
-                          <span className="evo-method">Variant</span>
+                          <span className="text-white text-sm font-bold text-center whitespace-nowrap">{variantName}</span>
+                          <span className="text-slate-500 text-xs mt-0.5 text-center">Variant</span>
                         </div>
                       );
                     })}
@@ -422,46 +406,51 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                 </div>
               )}
 
-              <h4
-                className="section-title"
-                style={{
-                  marginTop: pokemonData.variants.length > 0 ? "20px" : "0",
-                }}
-              >
-                Evolution Tree
-              </h4>
-              {pokemonData.evolutions.length > 0 ? (
-                <div className="evolution-chain">
-                  {pokemonData.evolutions.map((evo, index) => {
-                    const evoCardData = getPokemonCardData(evo.name);
-                    return (
-                      <React.Fragment key={evo.name}>
-                        <div
-                          className="evo-card"
-                          onClick={() => onSelectPokemon(evo.name)}
-                        >
-                          <div className="evo-img-wrapper">
-                            <img src={evoCardData.sprite} alt={evo.name} />
+              <div className="flex flex-col gap-2.5">
+                <h4 className="text-slate-500 text-xs font-bold uppercase tracking-widest border-b border-slate-700 pb-1">
+                  Evolution Tree
+                </h4>
+                {pokemonData.evolutions.length > 0 ? (
+                  <div className="flex items-center justify-center bg-neutral-900 border border-slate-700 rounded-lg overflow-x-auto p-4 gap-0.5 scrollbar-thin scrollbar-thumb-slate-700">
+                    {pokemonData.evolutions.map((evo, index) => {
+                      const evoCardData = getPokemonCardData(evo.name);
+                      return (
+                        <Fragment key={evo.name}>
+                          <div
+                            className="flex flex-1 flex-col items-center justify-center min-w-[80px] p-1.5 rounded-lg border border-transparent transition-all cursor-pointer hover:bg-slate-700 hover:border-blue-500 hover:-translate-y-0.5"
+                            onClick={() => onSelectPokemon(evo.name)}
+                          >
+                            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-black/20 border border-neutral-800 mb-1.5">
+                              <img src={evoCardData.sprite} alt={evo.name} className="w-12 h-12 object-contain" />
+                            </div>
+                            <span className="text-white text-sm font-bold text-center whitespace-nowrap">{evo.name}</span>
+                            <span className="text-slate-500 text-xs mt-0.5 text-center">{evo.level}</span>
                           </div>
-                          <span className="evo-name">{evo.name}</span>
-                          <span className="evo-method">{evo.level}</span>
-                        </div>
-                        {index < pokemonData.evolutions.length - 1 && (
-                          <div className="evo-arrow">➜</div>
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
-              ) : (
-                <p className="empty-text">Evolution data not available.</p>
-              )}
+                          {index < pokemonData.evolutions.length - 1 && (
+                            <div className="shrink-0 text-blue-500 text-lg font-bold mx-0.5 opacity-80">➜</div>
+                          )}
+                        </Fragment>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="text-slate-500 italic p-5 text-center">Evolution data not available.</p>
+                )}
+              </div>
             </div>
-          )}
+          </Activity>
         </div>
       </div>
     </div>
   );
 };
+
+// Helper Component for Info Grid
+const InfoCard = ({ label, value, className = "", labelClass = "", valueClass = "text-white" }) => (
+  <div className={`bg-slate-700 border border-slate-600 rounded-lg flex flex-col justify-center p-2.5 ${className}`}>
+    <span className={`text-slate-400 text-[10px] font-bold uppercase mb-1 ${labelClass}`}>{label}</span>
+    <span className={`text-sm font-semibold ${valueClass}`}>{value}</span>
+  </div>
+);
 
 export default PokemonSummary;
