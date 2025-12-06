@@ -29,15 +29,13 @@ const StatCircle = ({
   const viewBoxSize = 50;
   const centerX = viewBoxSize / 2;
   const centerY = viewBoxSize / 2;
-  const radius = 24; // Almost full fill
+  const radius = 24;
 
   const numSectors = ivColors.length;
   const sectorAngle = 360 / numSectors;
 
-  // Base style
   const baseStyle = size ? { width: size, height: size } : {};
 
-  // Tailwind classes
   const containerClasses = `
     relative rounded-full transition-all duration-300 ease-out
     ${onClick ? "cursor-pointer hover:scale-110 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:z-50" : ""}
@@ -71,7 +69,6 @@ const StatCircle = ({
               key={idx}
               d={pathData}
               fill={color}
-              // Removed heavy strokes for cleaner look
               stroke="rgba(0,0,0,0.2)"
               strokeWidth="0.5"
             />

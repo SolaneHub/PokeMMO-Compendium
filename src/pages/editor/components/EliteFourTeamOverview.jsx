@@ -1,6 +1,3 @@
-// src/pages/editor/components/EliteFourTeamOverview.jsx
-import React from "react";
-
 import { getSpriteUrlByName } from "@/shared/utils/pokemonImageHelper";
 
 const EliteFourTeamOverview = ({

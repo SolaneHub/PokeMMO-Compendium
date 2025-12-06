@@ -73,7 +73,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     return "???";
   };
 
-  // Loading State
   if (pokemonData.name === null) {
     return (
       <div
@@ -92,7 +91,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     );
   }
 
-  // Error State
   if (pokemonData.id === null) {
     return (
       <div
@@ -122,7 +120,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     );
   }
 
-  // Main Content
   return (
     <div
       className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]"
@@ -576,7 +573,6 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
   );
 };
 
-// Helper Component for Info Grid
 const InfoCard = ({
   label,
   value,

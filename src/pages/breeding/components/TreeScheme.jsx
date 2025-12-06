@@ -27,7 +27,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
     "breeding_activeNodes",
     []
   );
-  // Manual Zoom State
+
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const activeIds = new Set(activeIdsArray);
@@ -187,10 +187,6 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
       {/* Scrollable Tree Area */}
       <div className="flex-1 w-full overflow-auto p-8 relative bg-[url('/grid.svg')] bg-opacity-5">
-        {/*
-          Using min-w-max to ensure the container expands to fit the content horizontally.
-          The transform origin is top-center to keep it centered while zooming.
-        */}
         <div className="min-w-max mx-auto pb-20 pt-10">
           <div
             className="flex flex-col items-center transition-transform duration-200 ease-out origin-top"

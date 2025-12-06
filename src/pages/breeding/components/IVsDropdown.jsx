@@ -27,10 +27,6 @@ function IVsDropdown({
     setOpenDropdownIndex(null);
   };
 
-  // Close dropdown when clicking outside could be implemented with a custom hook or overlay,
-  // but for simplicity we'll toggle or rely on onMouseLeave for now if we want to keep it simple,
-  // or a transparent overlay. Let's use a simple toggle logic with overlay for cleaner UX on mobile.
-
   return (
     <div className="space-y-3">
       <label className="text-sm text-slate-400 font-medium ml-1">

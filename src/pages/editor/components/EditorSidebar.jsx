@@ -1,5 +1,3 @@
-// src/pages/editor/components/EditorSidebar.jsx
-import React from "react";
 import {
   FaBolt,
   FaBook,
@@ -9,7 +7,7 @@ import {
   FaList,
   FaRedhat,
   FaUsers,
-} from "react-icons/fa"; // Example icons, adjust as needed
+} from "react-icons/fa";
 
 const editorNavigationItems = [
   {
@@ -47,7 +45,6 @@ const editorNavigationItems = [
     label: "Super Trainers",
     icon: <FaHatWizard className="text-xl" />,
   },
-  // Add other JSON files as needed for universal editor or specific editors
 ];
 
 const EditorSidebar = ({
@@ -70,7 +67,7 @@ const EditorSidebar = ({
         <nav>
           <ul className="flex flex-col gap-2">
             {editorNavigationItems
-              .filter((item) => fileList.includes(item.fileName)) // Only show editors for available files
+              .filter((item) => fileList.includes(item.fileName))
               .map((item) => (
                 <li key={item.fileName}>
                   <button

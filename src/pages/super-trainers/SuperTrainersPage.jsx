@@ -127,7 +127,6 @@ function SuperTrainersPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  // Store the context for fetching Pokémon strategy in the modal
   const allSuperTrainers = getAllSuperTrainers();
 
   const currentPokemonObject = selectedPokemon
@@ -145,7 +144,6 @@ function SuperTrainersPage() {
   ) => {
     setSelectedPokemon(pokemonName);
     setIsPokemonDetailsVisible(true);
-    // setStrategyContext({ trainerName, trainerRegion, teamName, pokemonName }); // Removed unused setter
 
     const strategy = getPokemonStrategy(
       trainerName,

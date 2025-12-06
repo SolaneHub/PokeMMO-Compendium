@@ -8,7 +8,7 @@ import RaidsEditor from "@/pages/editor/components/RaidsEditor";
 import RedEditor from "@/pages/editor/components/RedEditor";
 import UniversalJsonEditor from "@/pages/editor/components/UniversalJsonEditor";
 import PageTitle from "@/shared/components/PageTitle";
-import { useToast } from "@/shared/components/ToastNotification"; // Import useToast
+import { useToast } from "@/shared/components/ToastNotification";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 const EDITOR_MAPPING = {
@@ -24,7 +24,7 @@ const EDITOR_MAPPING = {
 const API_URL = "http://localhost:3001/api";
 
 const EditorPage = () => {
-  const showToast = useToast(); // Use the toast hook
+  const showToast = useToast();
   const [fileList, setFileList] = useState([]);
 
   const [selectedFileName, setSelectedFileName] = usePersistentState(
@@ -73,7 +73,7 @@ const EditorPage = () => {
         if (!ignore) setFileData(data);
       } catch (err) {
         console.error(err);
-        if (!ignore) showToast("Errore nel caricamento del file.", "error"); // Use toast
+        if (!ignore) showToast("Errore nel caricamento del file.", "error");
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -94,13 +94,13 @@ const EditorPage = () => {
       });
       const result = await res.json();
       if (result.success) {
-        showToast(`✅ ${selectedFileName} salvato!`, "success"); // Use toast
+        showToast(`✅ ${selectedFileName} salvato!`, "success");
       } else {
-        showToast("❌ Errore server durante il salvataggio.", "error"); // Use toast
+        showToast("❌ Errore server durante il salvataggio.", "error");
       }
     } catch (err) {
       console.error(err);
-      showToast("❌ Errore di connessione.", "error"); // Use toast
+      showToast("❌ Errore di connessione.", "error");
     }
   };
 

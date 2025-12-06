@@ -1,6 +1,3 @@
-// src/pages/editor/components/EliteFourMemberCard.jsx
-import React from "react";
-
 const EliteFourMemberCard = ({ member, isSelected, onSelect }) => {
   const imageUrl = `/trainers/${member.image}`;
 
