@@ -67,13 +67,15 @@ const BuildCard = ({ buildData }) => {
 
       <div className="flex items-center justify-between p-2.5 bg-slate-800 border-b border-slate-700">
         <div className="flex items-center gap-3">
-          <img 
-            src={sprite} 
-            alt={activeBuild.name} 
-            className="w-10 h-10 object-contain drop-shadow-md" 
+          <img
+            src={sprite}
+            alt={activeBuild.name}
+            className="w-10 h-10 object-contain drop-shadow-md"
           />
           <div className="flex flex-col">
-            <span className="text-white font-bold text-sm leading-tight">{activeBuild.name}</span>
+            <span className="text-white font-bold text-sm leading-tight">
+              {activeBuild.name}
+            </span>
             <div className="flex items-center gap-1.5 text-xs font-bold uppercase mt-0.5">
               {activeBuild.order && (
                 <span className="text-yellow-400">
@@ -101,22 +103,30 @@ const BuildCard = ({ buildData }) => {
       <div className="flex flex-wrap gap-2.5 bg-neutral-800 border-b border-slate-700 px-2.5 py-1.5 text-xs">
         {activeBuild.ability && (
           <span className="text-slate-400">
-            Ability: <strong className="text-slate-200 ml-1">{activeBuild.ability}</strong>
+            Ability:{" "}
+            <strong className="text-slate-200 ml-1">
+              {activeBuild.ability}
+            </strong>
           </span>
         )}
         {activeBuild.nature && (
           <span className="text-slate-400">
-            Nature: <strong className="text-slate-200 ml-1">{activeBuild.nature}</strong>
+            Nature:{" "}
+            <strong className="text-slate-200 ml-1">
+              {activeBuild.nature}
+            </strong>
           </span>
         )}
         {activeBuild.evs && (
           <span className="text-slate-400">
-            EVs: <strong className="text-slate-200 ml-1">{activeBuild.evs}</strong>
+            EVs:{" "}
+            <strong className="text-slate-200 ml-1">{activeBuild.evs}</strong>
           </span>
         )}
         {activeBuild.ivs && (
           <span className="text-slate-400">
-            IVs: <strong className="text-slate-200 ml-1">{activeBuild.ivs}</strong>
+            IVs:{" "}
+            <strong className="text-slate-200 ml-1">{activeBuild.ivs}</strong>
           </span>
         )}
       </div>
@@ -124,7 +134,10 @@ const BuildCard = ({ buildData }) => {
       {activeBuild.moves && (
         <div className="flex flex-wrap gap-1.5 p-2.5 bg-neutral-900">
           {activeBuild.moves.map((m, k) => (
-            <span key={k} className="bg-slate-800 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-xs">
+            <span
+              key={k}
+              className="bg-slate-800 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-xs"
+            >
               {m}
             </span>
           ))}
@@ -273,20 +286,24 @@ function RaidsPage() {
       )}
 
       {isPokemonDetailsVisible && currentRaid && (
-        <div 
-          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]" 
+        <div
+          className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]"
           onClick={closePokemonDetails}
         >
-          <div 
-            className="relative w-[500px] max-w-[95vw] max-h-[90vh] flex flex-col bg-slate-800 rounded-lg shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]" 
+          <div
+            className="relative w-[500px] max-w-[95vw] max-h-[90vh] flex flex-col bg-slate-800 rounded-lg shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]"
             onClick={(e) => e.stopPropagation()}
           >
             <div
               className="flex flex-col p-4 shadow-md z-10 shrink-0"
               style={{ background: detailsTitleBackground }}
             >
-              <h2 className="text-slate-900 font-bold text-xl m-0 drop-shadow-sm">{currentRaid.name}</h2>
-              <p className="text-slate-800 font-medium text-sm m-0 opacity-90">{currentRaid.stars}★ Raid</p>
+              <h2 className="text-slate-900 font-bold text-xl m-0 drop-shadow-sm">
+                {currentRaid.name}
+              </h2>
+              <p className="text-slate-800 font-medium text-sm m-0 opacity-90">
+                {currentRaid.stars}★ Raid
+              </p>
             </div>
 
             <div className="flex shrink-0 overflow-x-auto bg-slate-900 border-b border-slate-700 z-10 scrollbar-hide">
@@ -294,9 +311,10 @@ function RaidsPage() {
                 <button
                   key={tab}
                   className={`flex-1 min-w-[80px] py-3.5 text-sm font-semibold whitespace-nowrap uppercase tracking-wide transition-colors relative
-                    ${activeTab === tab 
-                      ? "bg-slate-800 text-blue-500 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-blue-500" 
-                      : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                    ${
+                      activeTab === tab
+                        ? "bg-slate-800 text-blue-500 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] after:bg-blue-500"
+                        : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
                     }`}
                   onClick={() => setActiveTab(tab)}
                 >
@@ -311,7 +329,9 @@ function RaidsPage() {
                   {currentRaid.teamStrategies &&
                     currentRaid.teamStrategies.length > 1 && (
                       <section className="bg-neutral-800 rounded-lg p-3">
-                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-2">Select Strategy</h3>
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-2">
+                          Select Strategy
+                        </h3>
                         <div className="grid grid-cols-[repeat(auto-fit,minmax(80px,1fr))] gap-2">
                           {currentRaid.teamStrategies.map((strategy, idx) => (
                             <button
@@ -336,7 +356,9 @@ function RaidsPage() {
                   <section className="bg-neutral-800 rounded-lg p-3">
                     {rolesSource && roleOptions.length > 0 ? (
                       <div className="flex flex-col gap-3">
-                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">Player Roles</h3>
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">
+                          Player Roles
+                        </h3>
 
                         <div className="flex flex-wrap gap-2 mb-2">
                           {roleOptions.map((roleKey) => (
@@ -370,7 +392,9 @@ function RaidsPage() {
                               </button>
 
                               <div className="flex items-baseline gap-1.5">
-                                <span className="text-slate-400 text-xs font-bold uppercase">Turn</span>
+                                <span className="text-slate-400 text-xs font-bold uppercase">
+                                  Turn
+                                </span>
                                 <span className="text-white font-mono text-lg font-bold">
                                   {selectedTurnIndex + 1}
                                 </span>
@@ -403,13 +427,17 @@ function RaidsPage() {
                                 <li
                                   key={idx}
                                   className={`flex items-center rounded-md text-sm px-3 py-2 cursor-pointer transition-colors relative
-                                    ${idx === selectedTurnIndex 
-                                      ? "bg-blue-500/15 border border-blue-500/30" 
-                                      : "hover:bg-slate-800"}
+                                    ${
+                                      idx === selectedTurnIndex
+                                        ? "bg-blue-500/15 border border-blue-500/30"
+                                        : "hover:bg-slate-800"
+                                    }
                                   `}
                                   onClick={() => setSelectedTurnIndex(idx)}
                                 >
-                                  <span className={`font-mono text-xs mr-3 min-w-[25px] ${idx === selectedTurnIndex ? "text-blue-400 font-bold" : "text-slate-500"}`}>
+                                  <span
+                                    className={`font-mono text-xs mr-3 min-w-[25px] ${idx === selectedTurnIndex ? "text-blue-400 font-bold" : "text-slate-500"}`}
+                                  >
                                     T{idx + 1}:
                                   </span>
                                   <span className="flex-1 text-slate-200">
@@ -422,7 +450,9 @@ function RaidsPage() {
                         )}
                       </div>
                     ) : (
-                      <p className="text-slate-500 italic p-4 text-center">No strategy data available.</p>
+                      <p className="text-slate-500 italic p-4 text-center">
+                        No strategy data available.
+                      </p>
                     )}
                   </section>
                 </div>
@@ -432,7 +462,9 @@ function RaidsPage() {
                 <section className="bg-neutral-800 rounded-lg p-3">
                   {recommendedList.length > 0 ? (
                     <>
-                      <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-3">Recommended Setup</h3>
+                      <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-3">
+                        Recommended Setup
+                      </h3>
                       {buildGroups ? (
                         <>
                           <div className="flex flex-wrap gap-2 mb-5">
@@ -467,7 +499,12 @@ function RaidsPage() {
                       ) : (
                         <ul className="flex flex-col gap-2 list-none p-0 m-0">
                           {recommendedList.map((rec, i) => (
-                            <li key={i} className="bg-neutral-900 border border-slate-700 rounded p-2 text-slate-300 text-sm">{rec}</li>
+                            <li
+                              key={i}
+                              className="bg-neutral-900 border border-slate-700 rounded p-2 text-slate-300 text-sm"
+                            >
+                              {rec}
+                            </li>
                           ))}
                         </ul>
                       )}
@@ -484,24 +521,38 @@ function RaidsPage() {
                 {currentRaid.mechanics ? (
                   <section className="bg-neutral-800 rounded-lg p-3 flex flex-col gap-4">
                     <div>
-                      <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-2">Boss Info</h3>
+                      <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-2">
+                        Boss Info
+                      </h3>
                       <div className="grid grid-cols-2 gap-2.5">
                         {currentRaid.mechanics.ability && (
                           <div className="flex flex-col gap-1 bg-neutral-900 border border-slate-700 rounded-lg p-2.5">
-                            <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Ability</strong>
-                            <span className="text-slate-200 text-sm">{currentRaid.mechanics.ability}</span>
+                            <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                              Ability
+                            </strong>
+                            <span className="text-slate-200 text-sm">
+                              {currentRaid.mechanics.ability}
+                            </span>
                           </div>
                         )}
                         {currentRaid.mechanics.heldItem && (
                           <div className="flex flex-col gap-1 bg-neutral-900 border border-slate-700 rounded-lg p-2.5">
-                             <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Item</strong>
-                             <span className="text-slate-200 text-sm">{currentRaid.mechanics.heldItem}</span>
+                            <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                              Item
+                            </strong>
+                            <span className="text-slate-200 text-sm">
+                              {currentRaid.mechanics.heldItem}
+                            </span>
                           </div>
                         )}
                         {currentRaid.mechanics.notes && (
                           <div className="col-span-2 flex flex-col gap-1 bg-neutral-900 border border-slate-700 rounded-lg p-2.5">
-                             <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">Notes</strong>
-                             <span className="text-slate-200 text-sm">{currentRaid.mechanics.notes}</span>
+                            <strong className="text-slate-500 text-[10px] font-bold uppercase tracking-wider">
+                              Notes
+                            </strong>
+                            <span className="text-slate-200 text-sm">
+                              {currentRaid.mechanics.notes}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -509,12 +560,17 @@ function RaidsPage() {
 
                     {currentRaid.mechanics.thresholds && (
                       <div className="flex flex-col gap-2">
-                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">HP Thresholds</h3>
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">
+                          HP Thresholds
+                        </h3>
                         <ul className="flex flex-col gap-1 list-none p-0">
                           {Object.entries(currentRaid.mechanics.thresholds)
                             .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
                             .map(([hp, info]) => (
-                              <li key={hp} className="flex items-center bg-neutral-900 border border-slate-700 rounded-md p-2 hover:bg-slate-700/50 transition-colors">
+                              <li
+                                key={hp}
+                                className="flex items-center bg-neutral-900 border border-slate-700 rounded-md p-2 hover:bg-slate-700/50 transition-colors"
+                              >
                                 <span className="bg-red-500/10 border border-red-500/30 rounded text-red-400 font-mono font-bold text-xs text-center min-w-[55px] py-0.5 mr-3">
                                   {hp}% HP
                                 </span>
@@ -531,10 +587,15 @@ function RaidsPage() {
 
                     {currentRaid.moves && (
                       <div className="flex flex-col gap-2">
-                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">Known Moves</h3>
+                        <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase">
+                          Known Moves
+                        </h3>
                         <ul className="flex flex-wrap gap-1.5 list-none p-0">
                           {currentRaid.moves.map((move) => (
-                            <li key={move} className="bg-white/5 border border-white/10 rounded-full text-slate-300 text-xs font-semibold px-3 py-1">
+                            <li
+                              key={move}
+                              className="bg-white/5 border border-white/10 rounded-full text-slate-300 text-xs font-semibold px-3 py-1"
+                            >
                               {move}
                             </li>
                           ))}
@@ -549,7 +610,9 @@ function RaidsPage() {
 
               <Activity mode={activeTab === "Locations" ? "visible" : "hidden"}>
                 <section className="bg-neutral-800 rounded-lg p-3">
-                  <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-3">Where to find</h3>
+                  <h3 className="text-slate-200 text-xs font-bold tracking-widest uppercase mb-3">
+                    Where to find
+                  </h3>
                   {currentRaid.locations ? (
                     <div className="flex flex-col gap-3">
                       {Object.entries(currentRaid.locations).map(
@@ -557,14 +620,23 @@ function RaidsPage() {
                           const areaName = locationData.area || locationData;
                           const reqs = locationData.requirements || [];
                           return (
-                            <div key={region} className="bg-neutral-900 border border-slate-700 rounded-lg overflow-hidden">
+                            <div
+                              key={region}
+                              className="bg-neutral-900 border border-slate-700 rounded-lg overflow-hidden"
+                            >
                               <div className="bg-slate-700 border-b border-slate-700 p-2 px-3">
-                                <span className="text-white text-xs font-bold uppercase tracking-wider">{region}</span>
+                                <span className="text-white text-xs font-bold uppercase tracking-wider">
+                                  {region}
+                                </span>
                               </div>
                               <div className="p-3 flex flex-col gap-3">
                                 <div className="flex flex-col gap-1">
-                                  <strong className="text-slate-500 text-[10px] font-bold uppercase">Area</strong>
-                                  <span className="text-slate-200 text-sm font-medium">{areaName}</span>
+                                  <strong className="text-slate-500 text-[10px] font-bold uppercase">
+                                    Area
+                                  </strong>
+                                  <span className="text-slate-200 text-sm font-medium">
+                                    {areaName}
+                                  </span>
                                 </div>
                                 {reqs.length > 0 && (
                                   <div className="flex flex-col gap-1">
@@ -573,7 +645,10 @@ function RaidsPage() {
                                     </strong>
                                     <div className="flex flex-wrap gap-1.5">
                                       {reqs.map((req, k) => (
-                                        <span key={k} className="inline-flex items-center rounded border text-xs font-semibold px-2 py-1 bg-orange-500/15 border-orange-500/40 text-orange-500">
+                                        <span
+                                          key={k}
+                                          className="inline-flex items-center rounded border text-xs font-semibold px-2 py-1 bg-orange-500/15 border-orange-500/40 text-orange-500"
+                                        >
                                           {req}
                                         </span>
                                       ))}
@@ -587,7 +662,9 @@ function RaidsPage() {
                       )}
                     </div>
                   ) : (
-                    <p className="text-slate-500 italic p-4 text-center">No location data available.</p>
+                    <p className="text-slate-500 italic p-4 text-center">
+                      No location data available.
+                    </p>
                   )}
                 </section>
               </Activity>

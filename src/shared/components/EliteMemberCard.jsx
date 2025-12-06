@@ -15,7 +15,7 @@ const EliteMemberCard = ({
       onClick={() => onMemberClick(member)}
       style={isSelected ? { boxShadow: shadowColor } : {}}
     >
-      <p 
+      <p
         className="text-slate-900 font-bold text-sm text-center py-1 px-2 m-0"
         style={{ background: background }}
       >

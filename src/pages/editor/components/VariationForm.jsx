@@ -23,7 +23,9 @@ const VariationForm = ({ variation, onChange }) => {
 
   return (
     <div className="bg-[#252526] border-l-[3px] border-pink-500 rounded-r-md my-4 p-4 relative">
-      <h4 className="text-pink-500 mt-0 text-sm uppercase tracking-wide font-semibold mb-2.5">Variation Details</h4>
+      <h4 className="text-pink-500 mt-0 text-sm uppercase tracking-wide font-semibold mb-2.5">
+        Variation Details
+      </h4>
 
       <label className="text-[#b0b0b0] text-xs font-bold mt-4 block">
         Type:
@@ -56,8 +58,8 @@ const VariationForm = ({ variation, onChange }) => {
               onChange={(updated) => handleStepChange(i, updated)}
             />
             <div className="flex justify-end gap-2.5 mt-2.5">
-              <button 
-                className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-4 py-2.5 text-sm font-medium cursor-pointer flex items-center justify-center gap-2 transition-all active:translate-y-[1px]" 
+              <button
+                className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-4 py-2.5 text-sm font-medium cursor-pointer flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
                 onClick={() => removeStep(i)}
               >
                 ❌ Remove Step
@@ -67,8 +69,8 @@ const VariationForm = ({ variation, onChange }) => {
         ))}
 
         <div className="flex justify-end gap-2.5 mt-2.5">
-          <button 
-            className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2.5 text-sm font-medium cursor-pointer flex items-center justify-center gap-2 transition-all active:translate-y-[1px]" 
+          <button
+            className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2.5 text-sm font-medium cursor-pointer flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
             onClick={addStep}
           >
             ➕ Add Step

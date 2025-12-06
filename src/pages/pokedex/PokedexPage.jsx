@@ -49,7 +49,9 @@ function PokedexPage() {
         })}
 
         {filteredPokemon.length === 0 && (
-          <p className="text-slate-400 text-xl mt-10 text-center">No Pokémon found.</p>
+          <p className="text-slate-400 text-xl mt-10 text-center">
+            No Pokémon found.
+          </p>
         )}
       </div>
 

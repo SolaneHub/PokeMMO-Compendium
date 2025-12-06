@@ -103,7 +103,7 @@ function EliteFourPage() {
       setStrategyHistory((prev) => [...prev, currentStrategyView]);
       setCurrentStrategyView(item.steps);
 
-      // Scroll to top logic if needed, handled by React state re-render mostly, 
+      // Scroll to top logic if needed, handled by React state re-render mostly,
       // but manual scroll might be needed if the modal content is long.
       // Tailwind/React specific scroll reset can be done via refs if necessary.
       const modalContent = document.getElementById("pokemon-details-content");
@@ -229,14 +229,19 @@ function EliteFourPage() {
               className="flex justify-center p-4 shadow-md z-10 shrink-0"
               style={{ background: detailsTitleBackground }}
             >
-              <h2 className="text-slate-900 font-bold text-xl m-0">{currentPokemonObject.name}</h2>
+              <h2 className="text-slate-900 font-bold text-xl m-0">
+                {currentPokemonObject.name}
+              </h2>
             </div>
 
-            <div id="pokemon-details-content" className="flex-1 overflow-y-auto p-5 bg-slate-800">
+            <div
+              id="pokemon-details-content"
+              className="flex-1 overflow-y-auto p-5 bg-slate-800"
+            >
               <div className="flex flex-col gap-3">
                 {strategyHistory.length > 0 && (
-                  <button 
-                    className="w-full mb-2.5 px-4 py-2 bg-neutral-900 border border-slate-700 rounded-lg text-white font-semibold hover:bg-slate-700 hover:border-blue-500 transition-all text-left flex items-center gap-2" 
+                  <button
+                    className="w-full mb-2.5 px-4 py-2 bg-neutral-900 border border-slate-700 rounded-lg text-white font-semibold hover:bg-slate-700 hover:border-blue-500 transition-all text-left flex items-center gap-2"
                     onClick={handleBackClick}
                   >
                     ⬅️ Back
@@ -244,7 +249,9 @@ function EliteFourPage() {
                 )}
 
                 {currentStrategyView.length === 0 ? (
-                  <p className="text-slate-400 text-center italic">No strategy available for this Pokémon.</p>
+                  <p className="text-slate-400 text-center italic">
+                    No strategy available for this Pokémon.
+                  </p>
                 ) : (
                   currentStrategyView.map((item, index) => {
                     return (
@@ -276,7 +283,9 @@ function EliteFourPage() {
                                 className="flex items-center justify-center gap-2 h-10 px-3 bg-neutral-800 border border-slate-700 rounded text-slate-200 cursor-pointer transition-all hover:bg-slate-700 hover:border-blue-500"
                                 onClick={() => handleStepClick(v)}
                               >
-                                <p className="m-0 text-sm font-semibold">{v.name}</p>
+                                <p className="m-0 text-sm font-semibold">
+                                  {v.name}
+                                </p>
                                 {renderWarning(v.warning)}
                               </div>
                             ))}

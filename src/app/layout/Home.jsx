@@ -1,56 +1,57 @@
 import { Link } from "react-router-dom";
+
 import PageTitle from "@/shared/components/PageTitle";
 
 function Home() {
   const sections = [
-    { 
-      title: "Elite Four", 
-      path: "/elite-four", 
-      desc: "Detailed strategies and teams for defeating the Elite Four in every region.", 
+    {
+      title: "Elite Four",
+      path: "/elite-four",
+      desc: "Detailed strategies and teams for defeating the Elite Four in every region.",
       color: "bg-indigo-600",
-      hover: "hover:bg-indigo-700"
+      hover: "hover:bg-indigo-700",
     },
-    { 
-      title: "Red Guide", 
-      path: "/red", 
-      desc: "Prepare for the ultimate challenge at Mt. Silver. Teams and tactics included.", 
+    {
+      title: "Red Guide",
+      path: "/red",
+      desc: "Prepare for the ultimate challenge at Mt. Silver. Teams and tactics included.",
       color: "bg-red-600",
-      hover: "hover:bg-red-700"
+      hover: "hover:bg-red-700",
     },
-    { 
-      title: "Ho-Oh", 
-      path: "/ho-oh", 
-      desc: "Steps and requirements to encounter and battle the legendary Ho-Oh.", 
+    {
+      title: "Ho-Oh",
+      path: "/ho-oh",
+      desc: "Steps and requirements to encounter and battle the legendary Ho-Oh.",
       color: "bg-orange-500",
-      hover: "hover:bg-orange-600"
+      hover: "hover:bg-orange-600",
     },
-    { 
-      title: "Raids", 
-      path: "/raids", 
-      desc: "Find raid dens, check rewards, and plan your farming routes.", 
+    {
+      title: "Raids",
+      path: "/raids",
+      desc: "Find raid dens, check rewards, and plan your farming routes.",
       color: "bg-blue-600",
-      hover: "hover:bg-blue-700"
+      hover: "hover:bg-blue-700",
     },
-    { 
-      title: "Pokédex", 
-      path: "/pokedex", 
-      desc: "Search for Pokémon stats, moves, and evolution data.", 
+    {
+      title: "Pokédex",
+      path: "/pokedex",
+      desc: "Search for Pokémon stats, moves, and evolution data.",
       color: "bg-emerald-600",
-      hover: "hover:bg-emerald-700"
+      hover: "hover:bg-emerald-700",
     },
-    { 
-      title: "Pickup", 
-      path: "/pickup", 
-      desc: "Item drop tables for the Pickup ability across all levels.", 
+    {
+      title: "Pickup",
+      path: "/pickup",
+      desc: "Item drop tables for the Pickup ability across all levels.",
       color: "bg-teal-600",
-      hover: "hover:bg-teal-700"
+      hover: "hover:bg-teal-700",
     },
-    { 
-      title: "Breeding", 
-      path: "/breeding", 
-      desc: "Calculators and tools to help you breed perfect Pokémon.", 
+    {
+      title: "Breeding",
+      path: "/breeding",
+      desc: "Calculators and tools to help you breed perfect Pokémon.",
       color: "bg-pink-600",
-      hover: "hover:bg-pink-700"
+      hover: "hover:bg-pink-700",
     },
   ];
 
@@ -71,12 +72,11 @@ function Home() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        
         {/* Quick Access Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {sections.map((section) => (
-            <Link 
-              key={section.title} 
+            <Link
+              key={section.title}
               to={section.path}
               className={`block overflow-hidden rounded-xl shadow-md transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl ${section.color} ${section.hover}`}
             >
@@ -95,45 +95,80 @@ function Home() {
 
         {/* Credits / Info Section */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-md p-8">
-          <h2 className="text-2xl font-bold mb-6 border-b pb-2 border-slate-200 dark:border-slate-700">About this Project</h2>
+          <h2 className="text-2xl font-bold mb-6 border-b pb-2 border-slate-200 dark:border-slate-700">
+            About this Project
+          </h2>
           <div className="prose dark:prose-invert max-w-none text-slate-600 dark:text-slate-300">
             <p className="mb-4">
-              This compendium serves as a community-driven guide for <strong>PokéMMO</strong> players — gathering essential data and
-              strategies to assist in breeding, team building, and late-game encounters such as the Elite Four and Red.
+              This compendium serves as a community-driven guide for{" "}
+              <strong>PokéMMO</strong> players — gathering essential data and
+              strategies to assist in breeding, team building, and late-game
+              encounters such as the Elite Four and Red.
             </p>
             <p className="mb-6">
-              It stands as a collaborative effort shaped by countless trainers, creators, and guide writers across the PokéMMO community.
+              It stands as a collaborative effort shaped by countless trainers,
+              creators, and guide writers across the PokéMMO community.
             </p>
-            
+
             <h3 className="text-lg font-semibold mb-3">Credits & Resources</h3>
             <ul className="list-disc pl-5 space-y-2">
               <li>
                 <strong>Breeding & Pokédex:</strong> Inspired by{" "}
-                <a href="https://pokemmohub.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                <a
+                  href="https://pokemmohub.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                >
                   PokéMMO Hub
-                </a>.
+                </a>
+                .
               </li>
               <li>
-                <strong>Elite Four, Red & Ho-Oh:</strong> Strategies adapted from{" "}
-                <a href="https://team-porygon-pokemmo.pages.dev/guides/EliteFour" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                <strong>Elite Four, Red & Ho-Oh:</strong> Strategies adapted
+                from{" "}
+                <a
+                  href="https://team-porygon-pokemmo.pages.dev/guides/EliteFour"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                >
                   Team Porygon PokéMMO Guide
                 </a>{" "}
                 and{" "}
-                <a href="http://pokeking.icu/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                <a
+                  href="http://pokeking.icu/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                >
                   PokeKing
-                </a>.
+                </a>
+                .
               </li>
               <li>
                 <strong>Raids:</strong> Based on content from{" "}
-                <a href="https://www.youtube.com/@caav.pokemmo/videos" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                <a
+                  href="https://www.youtube.com/@caav.pokemmo/videos"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                >
                   Caav.PokéMMO YouTube Channel
-                </a>.
+                </a>
+                .
               </li>
               <li>
                 <strong>Pickup:</strong> Mechanics sourced from{" "}
-                <a href="https://pokemmo.shoutwiki.com/wiki/Pickup" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+                <a
+                  href="https://pokemmo.shoutwiki.com/wiki/Pickup"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
+                >
                   PokéMMO ShoutWiki
-                </a>.
+                </a>
+                .
               </li>
             </ul>
           </div>

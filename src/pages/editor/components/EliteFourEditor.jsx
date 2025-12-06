@@ -35,7 +35,9 @@ const EliteFourEditor = ({ data, onChange }) => {
 
       <div className="bg-[#252526] border border-[#333] border-t-4 border-t-pink-500 rounded-md p-5 flex gap-4 flex-wrap shadow-md mb-5">
         <div className="flex-1 min-w-[200px]">
-          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">Membro</label>
+          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">
+            Membro
+          </label>
           <select
             className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
             value={memberIndex ?? ""}
@@ -56,7 +58,9 @@ const EliteFourEditor = ({ data, onChange }) => {
         </div>
 
         <div className="flex-1 min-w-[200px]">
-          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">Team</label>
+          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">
+            Team
+          </label>
           <select
             className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             value={teamKey ?? ""}
@@ -77,7 +81,9 @@ const EliteFourEditor = ({ data, onChange }) => {
         </div>
 
         <div className="flex-1 min-w-[200px]">
-          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">Pokémon</label>
+          <label className="text-[0.85rem] text-[#aaa] block mb-1.5 font-medium">
+            Pokémon
+          </label>
           <select
             className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             value={pokemon ?? ""}

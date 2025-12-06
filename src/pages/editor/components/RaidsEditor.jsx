@@ -72,9 +72,10 @@ const RaidsEditor = ({ data, onChange }) => {
                 key={t}
                 onClick={() => setActiveTab(t)}
                 className={`px-5 py-2.5 cursor-pointer border-b-[3px] rounded-t-md transition-colors
-                  ${activeTab === t 
-                    ? "border-blue-500 text-white font-bold bg-[#252526]" 
-                    : "border-transparent text-[#888] font-normal bg-transparent hover:bg-[#252526]"
+                  ${
+                    activeTab === t
+                      ? "border-blue-500 text-white font-bold bg-[#252526]"
+                      : "border-transparent text-[#888] font-normal bg-transparent hover:bg-[#252526]"
                   }`}
               >
                 {t === "info"
@@ -92,7 +93,9 @@ const RaidsEditor = ({ data, onChange }) => {
             <Activity mode={activeTab === "info" ? "visible" : "hidden"}>
               <div className="animate-[fade-in_0.3s_ease-out] grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Nome</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
+                    Nome
+                  </label>
                   <input
                     className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
                     value={raid.name}
@@ -100,7 +103,9 @@ const RaidsEditor = ({ data, onChange }) => {
                   />
                 </div>
                 <div>
-                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">Stelle</label>
+                  <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
+                    Stelle
+                  </label>
                   <input
                     type="number"
                     className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
@@ -111,14 +116,18 @@ const RaidsEditor = ({ data, onChange }) => {
                   />
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                  <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">Drops</h5>
+                  <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">
+                    Drops
+                  </h5>
                   <UniversalJsonEditor
                     data={raid.drops || []}
                     onChange={(v) => handleRaidChange("drops", v)}
                   />
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                  <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">Moveset</h5>
+                  <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">
+                    Moveset
+                  </h5>
                   <UniversalJsonEditor
                     data={raid.moves || []}
                     onChange={(v) => handleRaidChange("moves", v)}
@@ -139,10 +148,7 @@ const RaidsEditor = ({ data, onChange }) => {
                 ) : (
                   <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
                     {Object.keys(RAID_TEMPLATE.locations).map((reg) => (
-                      <div
-                        key={reg}
-                        className="bg-[#252526] p-2.5 rounded"
-                      >
+                      <div key={reg} className="bg-[#252526] p-2.5 rounded">
                         <strong className="capitalize text-[#88c0d0] block mb-1.5">
                           {reg}
                         </strong>

@@ -16,7 +16,6 @@
 
 ### Prerequisites
 
-
 - Node.js (v18+ recommended)
 - npm
 
