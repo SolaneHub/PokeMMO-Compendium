@@ -94,7 +94,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
       if (fieldName && !Object.hasOwn(data, fieldName)) {
         onChange({ ...data, [fieldName]: initialValue });
       } else if (fieldName) {
-        alert("Chiave esistente o non valida.");
+        alert("Key already exists or is invalid.");
       }
     };
 
@@ -127,7 +127,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                 className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2 py-1 text-xs cursor-pointer transition-colors"
                 onClick={() => {
                   const fieldName = window.prompt(
-                    "Nome del nuovo campo (es. 'ability'):"
+                    "New field name (e.g., 'ability'):"
                   );
                   if (fieldName) {
                     handleAddField(fieldName, "");
@@ -160,7 +160,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                       className="bg-transparent border-none text-[#555] text-lg leading-none cursor-pointer px-1.5 rounded transition-colors hover:text-[#ff6b6b] hover:bg-red-500/10"
                       title="Elimina"
                       onClick={() => {
-                        if (window.confirm(`Eliminare campo "${key}"?`)) {
+                        if (window.confirm(`Delete field "${key}"?`)) {
                           const newData = { ...data };
                           delete newData[key];
                           onChange(newData);

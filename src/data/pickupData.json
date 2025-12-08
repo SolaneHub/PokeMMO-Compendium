@@ -1,0 +1,953 @@
+{
+  "regions": [
+    {
+      "name": "Kanto",
+      "locations": [
+        {
+          "name": "Route 1",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Antidote"]
+          }
+        },
+        {
+          "name": "Route 4",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Antidote", "Escape Rope"]
+          }
+        },
+        {
+          "name": "Route 8",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 10",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Magnet", "Metal Coat"]
+          }
+        },
+        {
+          "name": "Route 12",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Sun Stone", "Stick", "Sharp Beak"]
+          }
+        },
+        {
+          "name": "Route 13",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Super Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Metal Powder", "Sun Stone", "Stick", "Sharp Beak"]
+          }
+        },
+        {
+          "name": "Route 15",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": [],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Metal Powder", "Sun Stone", "Sharp Beak"]
+          }
+        },
+        {
+          "name": "Route 21",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Potion", "Hyper Potion"],
+            "repellents": ["Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": ["Miracle Seed"],
+            "misc": ["Sun Stone"]
+          }
+        },
+        {
+          "name": "Route 24",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": ["Miracle Seed"],
+            "misc": ["Silver Powder"]
+          }
+        },
+        {
+          "name": "Pallet Town",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Water Stone",
+              "King's Rock",
+              "Mystic Water",
+              "Poison Barb"
+            ]
+          }
+        },
+        {
+          "name": "Cerulean City",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": []
+          }
+        },
+        {
+          "name": "Vermilion City",
+          "items": {
+            "pokeballs": [],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Yellow Shard",
+              "Red Shard",
+              "Dragon Scale",
+              "Big Pearl",
+              "Mystic Water",
+              "Stardust",
+              "Star Piece"
+            ]
+          }
+        },
+        {
+          "name": "Fuchsia City",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": [],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": []
+          }
+        },
+        {
+          "name": "Viridian Forest",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Antidote", "Revival Herb", "Leaf Stone", "Light Ball"]
+          }
+        },
+        {
+          "name": "Diglett's Cave",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion", "Max Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Energy Root", "Hard Stone"]
+          }
+        },
+        {
+          "name": "Mt. Moon",
+          "items": {
+            "pokeballs": [],
+            "potions": ["Potion"],
+            "repellents": ["Repel", "Escape Rope"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "TinyMushroom",
+              "Everstone",
+              "Moon Stone",
+              "Big Mushroom",
+              "Hard Stone",
+              "Energy Root",
+              "Dome Fossil"
+            ]
+          }
+        },
+        {
+          "name": "Cerulean Cave",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Big Mushroom", "Nugget"]
+          }
+        },
+        {
+          "name": "Power Plant",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Magnet", "Metal Coat", "Light Ball", "Thunderstone"]
+          }
+        },
+        {
+          "name": "Pokémon Tower",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Thick Club", "Spell Tag"]
+          }
+        },
+        {
+          "name": "Pokémon Mansion",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Poison Barb", "Smoke Ball"]
+          }
+        },
+        {
+          "name": "Seafoam Islands",
+          "items": {
+            "pokeballs": [],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "NeverMeltIce",
+              "Water Stone",
+              "King's Rock",
+              "Pearl",
+              "Big Pearl",
+              "Mystic Water"
+            ]
+          }
+        },
+        {
+          "name": "Kanto Victory Road",
+          "items": {
+            "pokeballs": ["Poké Ball", "Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Black Belt", "Hard Stone", "Thick Club"]
+          }
+        },
+        {
+          "name": "Treasure Beach",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Stardust", "Sun Stone", "Moon Stone", "Silk Scarf"]
+          }
+        },
+        {
+          "name": "Kindle Road",
+          "items": {
+            "pokeballs": ["Great Ball", "Ultra Ball"],
+            "potions": ["Super Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Black Belt",
+              "Nugget",
+              "Dome Fossil",
+              "Hard Stone",
+              "Soft Sand",
+              "Old Amber",
+              "Silk Scarf"
+            ]
+          }
+        },
+        {
+          "name": "Mt. Ember",
+          "items": {
+            "pokeballs": ["Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Hyper Potion", "Awakening", "Antidote"],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Hard Stone", "Charcoal", "Sharp Beak", "Black Belt"]
+          }
+        },
+        {
+          "name": "Cape Brink",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Repel", "Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Sun Stone",
+              "Miracle Seed",
+              "Silk Scarf",
+              "BlackGlasses",
+              "Mystic Water",
+              "Water Stone"
+            ]
+          }
+        },
+        {
+          "name": "Bond Bridge",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Super Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": ["Miracle Seed"],
+            "misc": ["Silk Scarf"]
+          }
+        },
+        {
+          "name": "Berry Forest",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [
+              "Pecha Berry",
+              "Bluk Berry",
+              "Cheri Berry",
+              "Liechi Berry",
+              "Pinap Berry",
+              "Rawst Berry",
+              "Aspear Berry",
+              "Oran Berry",
+              "Wepear Berry",
+              "Chesto Berry",
+              "Persim Berry",
+              "Razz Berry"
+            ],
+            "seeds": ["Miracle Seed"],
+            "misc": [
+              "Leftovers",
+              "Sun Stone",
+              "Leaf Stone",
+              "Revival Herb",
+              "TinyMushroom"
+            ]
+          }
+        },
+        {
+          "name": "Icefall Cave",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Mystic Water",
+              "King's Rock",
+              "Stardust",
+              "Star Piece",
+              "NeverMeltIce",
+              "Big Pearl",
+              "Pearl",
+              "Water Stone"
+            ]
+          }
+        },
+        {
+          "name": "Lost Cave",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Sea Incense", "Lax Incense", "Spell Tag", "Silk Scarf"]
+          }
+        },
+        {
+          "name": "Five Isle Meadow",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": [],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Up-Grade", "BlackGlasses", "Silk Scarf"]
+          }
+        },
+        {
+          "name": "Water Path",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": [],
+            "seeds": ["Miracle Seed"],
+            "misc": ["Silk Scarf", "Sharp Beak"]
+          }
+        },
+        {
+          "name": "Ruin Valley",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Silk Scarf"]
+          }
+        },
+        {
+          "name": "Pattern Bush",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Silver Powder"]
+          }
+        },
+        {
+          "name": "Altering Cave",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Super Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Max Repel"],
+            "berries": ["Berry Juice"],
+            "seeds": [],
+            "misc": ["Dragon Fang", "Metal Coat"]
+          }
+        },
+        {
+          "name": "Canyon Entrance",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Silk Scarf", "Sharp Beak"]
+          }
+        },
+        {
+          "name": "Sevault Canyon",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Silk Scarf", "Sharp Beak"]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Johto",
+      "locations": [],
+      "note": "Needs investigation"
+    },
+    {
+      "name": "Hoenn",
+      "locations": [
+        {
+          "name": "Route 101",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": [
+              "Plain Dry Seed",
+              "Plain Sweet Seed",
+              "Plain Sour Seed",
+              "Plain Bitter Seed",
+              "Plain Spicy Seed"
+            ],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 102",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": ["Plain Dry Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 103",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": ["Plain Spicy Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 110",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": ["Plain Spicy Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 111",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Soft Sand", "Poison Barb", "Shiny Stone"]
+          }
+        },
+        {
+          "name": "Route 112",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [
+              "Plain Sour Seed",
+              "Plain Bitter Seed",
+              "Plain Spicy Seed"
+            ],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 113",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Charcoal", "Metal Coat"]
+          }
+        },
+        {
+          "name": "Route 115",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [
+              "Plain Spicy Seed",
+              "Plain Sour Seed",
+              "Plain Dry Seed",
+              "Plain Bitter Seed"
+            ],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 116",
+          "items": {
+            "pokeballs": [],
+            "potions": ["Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": ["Plain Dry Seed", "Plain Bitter Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 117",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": ["Plain Sour Seed", "Plain Sweet Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 119",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": [],
+            "repellents": [],
+            "berries": [],
+            "seeds": ["Plain Spicy Seed"],
+            "misc": ["Mystic Water", "Poison Barb"]
+          }
+        },
+        {
+          "name": "Route 120",
+          "items": {
+            "pokeballs": [],
+            "potions": [],
+            "repellents": [],
+            "berries": [],
+            "seeds": [
+              "Plain Spicy Seed",
+              "Plain Bitter Seed",
+              "Plain Sour Seed",
+              "Plain Sweet Seed"
+            ],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 123",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": ["Plain Bitter Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Route 127",
+          "items": {
+            "pokeballs": [],
+            "potions": [],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Mystic Water", "Poison Barb"]
+          }
+        },
+        {
+          "name": "Route 128",
+          "items": {
+            "pokeballs": [],
+            "potions": [],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Poison Barb"]
+          }
+        },
+        {
+          "name": "Rusturf Tunnel",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": [],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": []
+          }
+        },
+        {
+          "name": "Artisan Cave",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball", "Ultra Ball"],
+            "potions": ["Potion", "Super Potion", "Hyper Potion"],
+            "repellents": ["Repel", "Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [
+              "Plain Spicy Seed",
+              "Plain Sour Seed",
+              "Plain Dry Seed",
+              "Plain Bitter Seed"
+            ],
+            "misc": ["Energy Root", "Silk Scarf"]
+          }
+        },
+        {
+          "name": "Shoal Cave",
+          "items": {
+            "pokeballs": [],
+            "potions": [],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Shoal Salt",
+              "Shoal Shell",
+              "Hard Stone",
+              "NeverMeltIce",
+              "Stardust"
+            ]
+          }
+        },
+        {
+          "name": "Sootopolis City",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Poison Barb", "Mystic Water", "Stardust"]
+          }
+        },
+        {
+          "name": "Petalburg City",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Repel", "Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Poison Barb", "Mystic Water", "Stardust"]
+          }
+        },
+        {
+          "name": "Petalburg Woods",
+          "items": {
+            "pokeballs": [],
+            "potions": ["Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [
+              "Plain Spicy Seed",
+              "Plain Sour Seed",
+              "Plain Dry Seed",
+              "Plain Sweet Seed",
+              "Miracle Seed"
+            ],
+            "misc": ["Revival Herb", "TinyMushroom"]
+          }
+        },
+        {
+          "name": "Mossdeep City",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Mystic Water"]
+          }
+        },
+        {
+          "name": "Meteor Falls",
+          "items": {
+            "pokeballs": ["Great Ball", "Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Sun Stone", "Energy Root"]
+          }
+        },
+        {
+          "name": "Sky Pillar",
+          "items": {
+            "pokeballs": ["Great Ball", "Ultra Ball"],
+            "potions": [],
+            "repellents": ["Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Spell Tag"]
+          }
+        },
+        {
+          "name": "Hoenn Victory Road",
+          "items": {
+            "pokeballs": ["Great Ball", "Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Super Repel", "Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Metal Coat", "Black Belt", "Energy Root"]
+          }
+        },
+        {
+          "name": "Granite Cave",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Metal Coat", "Energy Root"]
+          }
+        },
+        {
+          "name": "New Mauville",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Thunderstone", "Magnet", "Black Belt"]
+          }
+        },
+        {
+          "name": "Hoenn Altering Cave",
+          "items": {
+            "pokeballs": ["Poké Ball", "Great Ball"],
+            "potions": ["Potion", "Super Potion"],
+            "repellents": ["Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Big Pearl",
+              "Mystic Water",
+              "Poison Barb",
+              "Star Piece",
+              "Stardust"
+            ]
+          }
+        },
+        {
+          "name": "Underwater",
+          "items": {
+            "pokeballs": ["Ultra Ball"],
+            "potions": ["Hyper Potion"],
+            "repellents": ["Max Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Big Pearl",
+              "Green Shard",
+              "Blue Shard",
+              "Mystic Water",
+              "Stardust",
+              "Star Piece"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sinnoh",
+      "locations": [],
+      "note": "Pickup currently does not function in Sinnoh."
+    },
+    {
+      "name": "Unova",
+      "locations": [
+        {
+          "name": "Unova Route 1",
+          "items": {
+            "pokeballs": ["Poké Ball"],
+            "potions": ["Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": ["Antidote"]
+          }
+        },
+        {
+          "name": "Unova Route 12",
+          "items": {
+            "pokeballs": [],
+            "potions": [],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": ["Plain Sweet Seed", "Plain Bitter Seed"],
+            "misc": []
+          }
+        },
+        {
+          "name": "Undella Bay",
+          "items": {
+            "pokeballs": [],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Yellow Shard",
+              "Red Shard",
+              "Dragon Scale",
+              "Big Pearl",
+              "Mystic Water",
+              "Stardust",
+              "Star Piece"
+            ]
+          }
+        },
+        {
+          "name": "Undella Town",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Super Potion"],
+            "repellents": ["Super Repel"],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Yellow Shard",
+              "Red Shard",
+              "Dragon Scale",
+              "Big Pearl",
+              "Mystic Water",
+              "Stardust",
+              "Star Piece"
+            ]
+          }
+        },
+        {
+          "name": "Dragonspiral Tower",
+          "items": {
+            "pokeballs": ["Great Ball"],
+            "potions": ["Repel", "Super Repel", "Heal Powder", "Super Potion"],
+            "repellents": [],
+            "berries": [],
+            "seeds": [],
+            "misc": [
+              "Nugget",
+              "Dragon Scale",
+              "Dragon Fang",
+              "Rare Bone",
+              "Black Belt"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

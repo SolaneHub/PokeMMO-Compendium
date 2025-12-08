@@ -32,16 +32,14 @@ function BreedingPage() {
       <PageTitle title="PokéMMO Compendium: Breeding Planner" />
 
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <Calculator className="text-pink-500" size={32} />
-            Breeding Planner
-          </h1>
-          <p className="text-slate-400 mt-1">
-            Calculate the most efficient breeding path for perfect IVs.
-          </p>
-        </div>
+      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <Calculator className="text-pink-500" size={32} />
+          Breeding Planner
+        </h1>
+        <p className="text-slate-400">
+          Calculate the most efficient breeding path for perfect IVs.
+        </p>
       </div>
 
       {/* Controls Container */}

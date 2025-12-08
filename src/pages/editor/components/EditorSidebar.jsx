@@ -128,7 +128,7 @@ const EditorSidebar = ({
           onClick={onSave}
           disabled={loading}
         >
-          {loading ? "..." : "💾 Salva"}
+          {loading ? "Saving..." : "💾 Save"}
         </button>
       </div>
     </div>

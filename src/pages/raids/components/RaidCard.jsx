@@ -19,7 +19,9 @@ const RaidCard = ({
       onClick={() => onRaidClick(raid)}
     >
       <h2
-        className={`relative z-10 m-0 text-center break-words leading-tight drop-shadow-sm ${isSelected ? "text-blue-400" : "text-slate-400 group-hover:text-slate-200"}`}
+        className={`relative z-20 m-0 text-center break-words leading-tight drop-shadow-sm ${
+          isSelected ? "text-blue-400" : "text-slate-300 group-hover:text-white"
+        }`}
       >
         {displayValue || raid.name}
       </h2>

@@ -73,18 +73,19 @@ const EliteFourEditor = ({ data, onChange }) => {
           Seleziona Membro:
         </h4>
         <div className="flex flex-wrap gap-4">
-          {data?.map((member, i) => (
-            <EliteFourMemberCard
-              key={i}
-              member={member}
-              isSelected={memberIndex === i}
-              onSelect={() => {
-                setMemberIndex(i);
-                setTeamKey(null);
-                setPokemon(null);
-              }}
-            />
-          ))}
+          {Array.isArray(data) &&
+            data.map((member, i) => (
+              <EliteFourMemberCard
+                key={i}
+                member={member}
+                isSelected={memberIndex === i}
+                onSelect={() => {
+                  setMemberIndex(i);
+                  setTeamKey(null);
+                  setPokemon(null);
+                }}
+              />
+            ))}
         </div>
       </div>
 

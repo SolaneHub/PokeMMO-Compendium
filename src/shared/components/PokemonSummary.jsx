@@ -272,12 +272,19 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
 
             <div className="flex flex-col gap-2.5">
               <div className="grid grid-cols-2 gap-2">
-                <InfoCard
-                  label="Held Item"
-                  value={pokemonData.heldItems}
-                  className="col-span-2 flex-row items-center justify-between"
-                  labelClass="mb-0"
-                />
+                {/* Held Item - Modified to match PvP Tier style */}
+                <div className="col-span-2 bg-slate-700 border border-slate-600 rounded-lg flex flex-row items-center justify-between p-2.5">
+                  <span className="text-slate-400 text-[10px] font-bold uppercase">
+                    Held Item
+                  </span>
+                  <span className="bg-blue-500/10 text-blue-400 rounded px-2 py-0.5 font-bold text-sm">
+                    {Array.isArray(pokemonData.heldItems) &&
+                    pokemonData.heldItems.length > 0
+                      ? pokemonData.heldItems.join(", ")
+                      : "None"}
+                  </span>
+                </div>
+                {/* PvP Tier - Original */}
                 <div className="col-span-2 bg-slate-700 border border-slate-600 rounded-lg flex flex-row items-center justify-between p-2.5">
                   <span className="text-slate-400 text-[10px] font-bold uppercase">
                     PvP Tier

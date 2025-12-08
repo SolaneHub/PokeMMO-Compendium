@@ -5,24 +5,24 @@
     "category": "Seed Pokémon",
     "types": ["Grass", "Poison"],
     "sprite": null,
-
     "description": "For some time after its birth, it grows by gaining nourishment from the seed on its back.",
     "height": "0.7 m",
     "weight": "6.9 kg",
-    "genderRatio": { "m": 87.5, "f": 12.5 },
+    "genderRatio": {
+      "m": 87.5,
+      "f": 12.5
+    },
     "catchRate": 45,
     "baseExp": 64,
     "growthRate": "Medium Slow",
     "evYield": "+1 Sp. Atk",
     "heldItems": "None",
     "tier": "LC (Little Cup)",
-
     "abilities": {
       "main": ["Overgrow"],
       "hidden": "Chlorophyll"
     },
     "eggGroups": ["Monster", "Plant"],
-
     "baseStats": {
       "hp": 45,
       "atk": 49,
@@ -31,7 +31,6 @@
       "spd": 65,
       "spe": 45
     },
-
     "moves": [
       {
         "level": "Start",
@@ -82,13 +81,23 @@
         "acc": 90
       }
     ],
-
     "evolutions": [
-      { "name": "Bulbasaur", "level": "Base", "sprite_id": 1 },
-      { "name": "Ivysaur", "level": "Lvl 16", "sprite_id": 2 },
-      { "name": "Venusaur", "level": "Lvl 32", "sprite_id": 3 }
+      {
+        "name": "Bulbasaur",
+        "level": "Base",
+        "sprite_id": 1
+      },
+      {
+        "name": "Ivysaur",
+        "level": "Lvl 16",
+        "sprite_id": 2
+      },
+      {
+        "name": "Venusaur",
+        "level": "Lvl 32",
+        "sprite_id": 3
+      }
     ],
-
     "locations": [
       {
         "region": "Kanto",
@@ -104,7 +113,8 @@
     "name": "Ivysaur",
     "category": "Seed Pokémon",
     "types": ["Grass", "Poison"],
-    "sprite": null
+    "sprite": null,
+    "catchRate": 30
   },
   {
     "id": 3,

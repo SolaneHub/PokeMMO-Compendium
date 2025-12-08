@@ -1,3 +1,4 @@
+import { Users } from "lucide-react";
 import { Activity, useEffect, useState } from "react";
 
 import {
@@ -252,12 +253,15 @@ function RaidsPage() {
       : [];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 pb-24">
+    <div className="max-w-7xl mx-auto pb-24">
       <PageTitle title="PokéMMO Compendium: Raids" />
 
       {/* Header */}
-      <div className="text-center space-y-2 mb-8">
-        <h1 className="text-3xl font-bold text-white">Raid Strategies</h1>
+      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <Users className="text-purple-400" size={32} />
+          Raid Strategies
+        </h1>
         <p className="text-slate-400">
           Detailed strategies for defeating various raids.
         </p>

@@ -2,7 +2,7 @@ import superTrainersData from "@/data/superTrainersData.json";
 import { pokemonRegions } from "@/shared/utils/regionData";
 
 export const getAllSuperTrainers = () => {
-  return superTrainersData.sort((a, b) => a.name.localeCompare(b.name));
+  return [...superTrainersData].sort((a, b) => a.name.localeCompare(b.name));
 };
 
 export const getAvailableSuperTrainerRegions = () => {

@@ -1,17 +1,21 @@
-// src/shared/utils/pokedexDataExtraction.js
-
-// This function would be responsible for fetching the pokedex data.
-// In a real application, you might fetch this from an API or a pre-processed file.
-// For now, we'll assume `pokedexData` is imported directly.
 import pokedexData from "@/data/pokedex.json";
 
 export const extractPokedexData = () => {
   const pokemonNames = new Set();
   const moveNames = new Set();
   const abilityNames = new Set();
+  const pokemonCatchRates = [];
 
   pokedexData.forEach((pokemon) => {
-    pokemonNames.add(pokemon.name);
+    if (pokemon.name) {
+      pokemonNames.add(pokemon.name);
+    }
+    if (pokemon.name && pokemon.catchRate !== undefined) {
+      pokemonCatchRates.push({
+        name: pokemon.name,
+        catchRate: pokemon.catchRate,
+      });
+    }
 
     if (pokemon.abilities) {
       if (pokemon.abilities.main) {
@@ -23,15 +27,13 @@ export const extractPokedexData = () => {
     }
 
     if (pokemon.moves) {
-      pokemon.moves.forEach((move) => moveNames.add(move.name));
+      pokemon.moves.forEach((move) => {
+        if (move?.name) {
+          moveNames.add(move.name);
+        }
+      });
     }
   });
-
-  // For items, we need to read the public/items directory.
-  // This is typically not possible directly from client-side JavaScript due to security restrictions.
-  // In a local development environment with Node.js backend, you would make an API call
-  // to list files in that directory. For now, I'll hardcode the known items based on the file structure.
-  // This part would ideally be dynamic if the backend was more integrated for client-side use.
 
   const itemNames = new Set([
     "Assault Vest",
@@ -55,5 +57,8 @@ export const extractPokedexData = () => {
     moveNames: Array.from(moveNames).sort(),
     abilityNames: Array.from(abilityNames).sort(),
     itemNames: Array.from(itemNames).sort(),
+    allPokemonData: pokemonCatchRates.sort((a, b) =>
+      a.name.localeCompare(b.name)
+    ),
   };
 };
