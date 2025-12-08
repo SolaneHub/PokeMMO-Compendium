@@ -42,10 +42,7 @@ const EliteMemberCard = ({
           className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${member.name.replace(
-              " ",
-              "+"
-            )}`;
+            e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${encodeURIComponent(member.name)}`;
           }}
         />
         {/* Gradient overlay for better text contrast if we overlay text, but here it just adds depth */}

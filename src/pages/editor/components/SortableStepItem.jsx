@@ -26,7 +26,7 @@ export function SortableStepItem({ step, id, index, onChange, onRemove }) {
           className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
           onClick={onRemove}
         >
-          Elimina Step
+          Remove Step
         </button>
       </div>
       <div

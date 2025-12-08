@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
     tailwindcss(),
     react({
@@ -13,7 +13,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: "/PokeMMO-Compendium/",
+  base: command === "serve" ? "/" : "/PokeMMO-Compendium/",
   build: {
     outDir: "dist",
   },
@@ -22,4 +22,4 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-});
+}));

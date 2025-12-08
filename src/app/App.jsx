@@ -5,13 +5,15 @@ import Home from "@/app/layout/Home";
 import Shell from "@/app/layout/Shell";
 import BossFightsPage from "@/pages/boss-fights/BossFightsPage";
 import BreedingPage from "@/pages/breeding/BreedingPage";
+import CatchCalculatorPage from "@/pages/catch-calculator/CatchCalculatorPage";
 import EditorPage from "@/pages/editor/EditorPage";
 import EliteFourPage from "@/pages/elite-four/EliteFourPage";
 import PickupPage from "@/pages/pickup/PickupPage";
 import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
-import { ToastProvider } from "@/shared/components/ToastNotification"; // Import ToastProvider
+import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
+import { ToastProvider } from "@/shared/components/ToastNotification";
 
 function App() {
   const location = useLocation();
@@ -26,7 +28,17 @@ function App() {
       Component: SuperTrainersPage,
       key: "super-trainers",
     },
+    {
+      path: "/trainer-rerun",
+      Component: TrainerRerunPage,
+      key: "trainer-rerun",
+    },
     { path: "/raids", Component: RaidsPage, key: "raids" },
+    {
+      path: "/catch-calculator",
+      Component: CatchCalculatorPage,
+      key: "catch-calculator",
+    },
     { path: "/pokedex", Component: PokedexPage, key: "pokedex" },
     { path: "/pickup", Component: PickupPage, key: "pickup" },
     { path: "/breeding", Component: BreedingPage, key: "breeding" },

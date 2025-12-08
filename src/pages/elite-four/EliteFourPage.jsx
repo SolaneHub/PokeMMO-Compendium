@@ -1,3 +1,4 @@
+import { Crown } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -128,8 +129,11 @@ function EliteFourPage() {
       <PageTitle title="PokéMMO Compendium: Elite Four" />
 
       {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-white">Elite Four Strategy</h1>
+      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <Crown className="text-yellow-500" size={32} />
+          Elite Four Strategy
+        </h1>
         <p className="text-slate-400">Select your team to begin.</p>
       </div>
 

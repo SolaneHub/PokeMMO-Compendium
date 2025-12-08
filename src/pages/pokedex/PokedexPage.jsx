@@ -1,3 +1,4 @@
+import { BookOpen } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -21,8 +22,19 @@ function PokedexPage() {
       );
 
   return (
-    <div className="flex flex-col items-center w-full p-5 box-border min-h-screen">
+    <div className="flex flex-col items-center w-full pb-24 box-border min-h-screen space-y-8">
       <PageTitle title="PokéMMO Compendium: Pokédex" />
+
+      {/* Header */}
+      <div className="flex flex-col items-center space-y-2 text-center">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <BookOpen className="text-blue-500" size={32} />
+          Pokédex
+        </h1>
+        <p className="text-slate-400">
+          Search and view details for all Pokémon.
+        </p>
+      </div>
 
       <input
         type="text"

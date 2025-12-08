@@ -1,14 +1,16 @@
 import {
+  BookOpen,
   Calculator,
   Crown,
-  Database,
   ExternalLink,
   Github,
-  Search,
-  Shield,
+  Package,
+  RefreshCw,
+  Skull,
   Swords,
+  Trophy,
+  Users,
   Youtube,
-  Zap,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -17,58 +19,13 @@ import PageTitle from "@/shared/components/PageTitle";
 function Home() {
   const sections = [
     {
-      title: "Elite Four",
-      path: "/elite-four",
-      desc: "Detailed strategies and teams for defeating the Elite Four in every region.",
-      icon: Swords,
-      gradient: "from-indigo-500/20 to-blue-500/20",
-      border: "hover:border-indigo-500/50",
-      text: "text-indigo-400",
-    },
-    {
-      title: "Super Trainers",
-      path: "/super-trainers",
-      desc: "Strategies for challenging Super Trainers like Red, Cynthia, and Morimoto.",
-      icon: Crown,
-      gradient: "from-yellow-500/20 to-amber-500/20",
-      border: "hover:border-yellow-500/50",
-      text: "text-yellow-400",
-    },
-    {
-      title: "Boss Fights",
-      path: "/boss-fights",
-      desc: "Guides and tactics for legendary boss encounters (e.g., Ho-Oh) and other unique fights.",
-      icon: Zap,
-      gradient: "from-purple-500/20 to-pink-500/20",
-      border: "hover:border-purple-500/50",
-      text: "text-purple-400",
-    },
-    {
-      title: "Raids",
-      path: "/raids",
-      desc: "Find raid dens, check rewards, and plan your farming routes.",
-      icon: Shield,
-      gradient: "from-blue-500/20 to-cyan-500/20",
-      border: "hover:border-blue-500/50",
-      text: "text-blue-400",
-    },
-    {
       title: "Pokédex",
       path: "/pokedex",
       desc: "Search for Pokémon stats, moves, and evolution data.",
-      icon: Search,
+      icon: BookOpen,
       gradient: "from-emerald-500/20 to-green-500/20",
       border: "hover:border-emerald-500/50",
       text: "text-emerald-400",
-    },
-    {
-      title: "Pickup",
-      path: "/pickup",
-      desc: "Item drop tables for the Pickup ability across all levels.",
-      icon: Database,
-      gradient: "from-teal-500/20 to-emerald-500/20",
-      border: "hover:border-teal-500/50",
-      text: "text-teal-400",
     },
     {
       title: "Breeding",
@@ -78,6 +35,69 @@ function Home() {
       gradient: "from-pink-500/20 to-rose-500/20",
       border: "hover:border-pink-500/50",
       text: "text-pink-400",
+    },
+    {
+      title: "Catch Calculator",
+      path: "/catch-calculator",
+      desc: "Calculate the probability of catching any Pokémon with various conditions and Poké Balls.",
+      icon: Trophy,
+      gradient: "from-green-500/20 to-lime-500/20",
+      border: "hover:border-green-500/50",
+      text: "text-green-400",
+    },
+    {
+      title: "Pickup",
+      path: "/pickup",
+      desc: "Item drop tables for the Pickup ability across all levels.",
+      icon: Package,
+      gradient: "from-teal-500/20 to-emerald-500/20",
+      border: "hover:border-teal-500/50",
+      text: "text-teal-400",
+    },
+    {
+      title: "Elite Four",
+      path: "/elite-four",
+      desc: "Detailed strategies and teams for defeating the Elite Four in every region.",
+      icon: Crown,
+      gradient: "from-indigo-500/20 to-blue-500/20",
+      border: "hover:border-indigo-500/50",
+      text: "text-indigo-400",
+    },
+    {
+      title: "Trainer Rerun",
+      path: "/trainer-rerun",
+      desc: "Optimize your daily grind with efficient trainer rematch routes and team compositions.",
+      icon: RefreshCw,
+      gradient: "from-orange-500/20 to-red-500/20",
+      border: "hover:border-orange-500/50",
+      text: "text-orange-400",
+    },
+    {
+      title: "Raids",
+      path: "/raids",
+      desc: "Find raid dens, check rewards, and plan your farming routes.",
+      icon: Users,
+      gradient: "from-blue-500/20 to-cyan-500/20",
+      border: "hover:border-blue-500/50",
+      text: "text-blue-400",
+    },
+    {
+      title: "Super Trainers",
+      path: "/super-trainers",
+      desc: "Strategies for challenging Super Trainers like Red, Cynthia, and Morimoto.",
+      icon: Swords,
+      gradient: "from-yellow-500/20 to-amber-500/20",
+      border: "hover:border-yellow-500/50",
+      text: "text-yellow-400",
+    },
+    {
+      title: "Boss Fights",
+      path: "/boss-fights",
+      desc: "Guides and tactics for legendary boss encounters (e.g., Ho-Oh) and other unique fights.",
+      icon: Skull,
+      gradient: "from-purple-500/20 to-pink-500/20",
+      border: "hover:border-purple-500/50",
+      text: "text-purple-400",
     },
   ];
 
@@ -147,7 +167,7 @@ function Home() {
       </section>
 
       {/* Credits / Footer */}
-      <section className="border-t border-white/5 pt-8">
+      <section className="border-t border-white/5 pt-8 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-slate-400">
           <div>
             <h3 className="text-slate-200 font-semibold mb-3">About</h3>

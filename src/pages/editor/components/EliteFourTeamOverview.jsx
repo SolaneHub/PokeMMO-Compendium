@@ -10,7 +10,7 @@ const EliteFourTeamOverview = ({
     <div className="bg-[#252526] border border-[#333] border-t-4 border-t-pink-500 rounded-md p-5 shadow-md mb-5">
       <h4 className="text-white text-md font-semibold mb-3">Team: {teamKey}</h4>
       <div className="flex flex-wrap gap-4">
-        {team.pokemonNames.map((pokemonName) => {
+        {(team.pokemonNames || []).map((pokemonName) => {
           const spriteUrl = getSpriteUrlByName(pokemonName);
           const isPokemonSelected = selectedPokemon === pokemonName;
 

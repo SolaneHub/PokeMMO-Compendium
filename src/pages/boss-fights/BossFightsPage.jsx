@@ -1,3 +1,4 @@
+import { Skull } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -21,9 +22,8 @@ const BossFightSection = ({
   onPokemonCardClick,
   selectedPokemon,
 }) => {
-  const [activeTeam, setActiveTeam] = useState(
-    Object.keys(bossFight.teams || {})[0]
-  );
+  const teamKeys = Object.keys(bossFight.teams || {});
+  const [activeTeam, setActiveTeam] = useState(teamKeys[0] ?? null);
   const teamNames = getTeamNamesForBossFight(bossFight.name, bossFight.region);
   const pokemonNamesForSelectedTeam = getPokemonListForTeam(
     bossFight.name,
@@ -187,8 +187,9 @@ function BossFightsPage() {
       <PageTitle title="PokéMMO Compendium: Boss Fights" />
 
       {/* Header */}
-      <div className="text-center space-y-2 mb-8">
-        <h1 className="text-3xl font-bold text-white">
+      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <Skull className="text-red-500" size={32} />
           Boss Fights Strategies
         </h1>
         <p className="text-slate-400">

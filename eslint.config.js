@@ -18,6 +18,12 @@ export default defineConfig([
         ...globals.node,
       },
     },
+    rules: {
+      "no-unused-vars": [
+        "error",
+        { args: "none", ignoreRestSiblings: true, caughtErrors: "none" },
+      ],
+    },
   },
 
   {

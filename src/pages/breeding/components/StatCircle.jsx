@@ -32,6 +32,7 @@ const StatCircle = ({
   const radius = 24;
 
   const numSectors = ivColors.length;
+  if (numSectors === 0) return null; // or render a placeholder
   const sectorAngle = 360 / numSectors;
 
   const baseStyle = size ? { width: size, height: size } : {};

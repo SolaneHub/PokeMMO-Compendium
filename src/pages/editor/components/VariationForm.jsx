@@ -60,7 +60,7 @@ const VariationForm = ({ variation, onChange }) => {
   function handleDragEnd(event) {
     const { active, over } = event;
 
-    if (active.id !== over.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = (variation.steps || []).findIndex(
         (step) => step.id === active.id
       );

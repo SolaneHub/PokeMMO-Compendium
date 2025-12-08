@@ -1,15 +1,17 @@
 import {
+  BookOpen,
   Calculator,
   ChevronLeft,
   ChevronRight,
   Crown,
-  Database,
   Edit3,
   Home,
-  Search,
-  Shield,
+  Package,
+  RefreshCw,
+  Skull,
   Swords,
-  Zap,
+  Trophy,
+  Users,
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
@@ -20,13 +22,15 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   const baseNavigation = [
     { name: "Home", path: "/", icon: Home },
-    { name: "Elite Four", path: "/elite-four", icon: Swords },
-    { name: "Super Trainers", path: "/super-trainers", icon: Crown },
-    { name: "Boss Fights", path: "/boss-fights", icon: Zap },
-    { name: "Raids", path: "/raids", icon: Shield },
-    { name: "Pokédex", path: "/pokedex", icon: Search },
-    { name: "Pickup", path: "/pickup", icon: Database },
+    { name: "Pokédex", path: "/pokedex", icon: BookOpen },
     { name: "Breeding", path: "/breeding", icon: Calculator },
+    { name: "Catch Calculator", path: "/catch-calculator", icon: Trophy },
+    { name: "Pickup", path: "/pickup", icon: Package },
+    { name: "Elite Four", path: "/elite-four", icon: Crown },
+    { name: "Trainer Rerun", path: "/trainer-rerun", icon: RefreshCw },
+    { name: "Raids", path: "/raids", icon: Users },
+    { name: "Super Trainers", path: "/super-trainers", icon: Swords },
+    { name: "Boss Fights", path: "/boss-fights", icon: Skull },
   ];
 
   const navigation = import.meta.env.PROD

@@ -1,3 +1,4 @@
+import { Swords } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -185,8 +186,9 @@ function SuperTrainersPage() {
       <PageTitle title="PokéMMO Compendium: Super Trainers" />
 
       {/* Header */}
-      <div className="text-center space-y-2 mb-8">
-        <h1 className="text-3xl font-bold text-white">
+      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
+        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <Swords className="text-orange-500" size={32} />
           Super Trainers Strategies
         </h1>
         <p className="text-slate-400">
