@@ -7,12 +7,14 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 ## 🎯 What This Guide Offers
 
 ### ⚔️ Battle Strategies & Walkthroughs
+
 - **🏆 Elite Four**: Complete walkthroughs for every region (Kanto, Johto, Hoenn, Sinnoh, Unova) with proven team compositions and turn-by-turn strategies.
 - **💀 Boss Fights**: Detailed guides for major boss encounters (Red, Ho-Oh, etc.), including enemy team analysis and optimal counters.
 - **⚔️ Super Trainers**: Strategies to defeat the toughest NPC trainers in the game.
 - **🤝 Raids**: Comprehensive raid guides with star-level filtering, role-based turn strategies, recommended builds, and mechanic breakdowns (HP thresholds, abilities).
 
 ### 🧰 Tools & Calculators
+
 - **🧬 Breeding Planner**: Advanced calculator to determine the most efficient path for breeding 2x31, 3x31, or 5x31 competitive Pokémon, complete with cost visualization.
 - **🧮 Catch Calculator**: Real-time probability calculator supporting all ball types, status conditions, HP percentages, and special ball mechanics (Dream, Nest, Timer Ball).
 - **🔄 Trainer Reruns**: Optimized routes for Gym Runs and Trainer Reruns to maximize money making, including requirements and tips.
@@ -20,6 +22,7 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 - **📚 Pokédex**: Fast, filterable database of Pokémon with sprites and basic info.
 
 ### ⚡ Technical Features
+
 - **📱 Mobile-First Design**: Clean, responsive interface that works perfectly on any device.
 - **✏️ Advanced Local CMS**: A radically improved "Editor" page allowing contributors to modify JSON data files (Strategies, Pokedex, etc.) via a rich UI with drag-and-drop support, smart inputs, and validation — running on a local Express backend.
 
@@ -41,21 +44,26 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 ### 🌐 Application Overview
 
 #### 🏠 Landing Page
+
 ![Homepage Screenshot](./screenshots/homepage.png)
 
 #### 🏆 Elite Four Strategies
+
 ![Elite Four Section Screenshot](./screenshots/elite-four-section.png)
 _Interactive decision trees for every turn of the battle._
 ![Elite Four Strategy Tree](./screenshots/elite-four-strategy-tree-section.png)
 
 #### 🧬 Breeding Planner
+
 ![Breeding Section Screenshot](./screenshots/breeding-section.png)
 
 #### ✏️ Strategy Editor (CMS)
+
 ![Editor Section Screenshot](./screenshots/editor-section.png)
 _A powerful local editor for managing game data without touching JSON directly._
 
 #### ⚔️ Boss Fights (Red)
+
 ![Red Section Screenshot](./screenshots/red-section.png)
 
 ---

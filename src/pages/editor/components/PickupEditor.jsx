@@ -191,7 +191,9 @@ const PickupEditor = ({ data, onChange }) => {
     const newRegions = [...safeData.regions];
     newRegions[regionIndex] = {
       ...newRegions[regionIndex],
-      locations: newRegions[regionIndex].locations.filter((_, i) => i !== locIndex),
+      locations: newRegions[regionIndex].locations.filter(
+        (_, i) => i !== locIndex
+      ),
     };
     onChange({ ...safeData, regions: newRegions });
   };

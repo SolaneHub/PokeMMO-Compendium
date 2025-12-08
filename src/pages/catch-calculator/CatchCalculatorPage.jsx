@@ -2,6 +2,7 @@ import { ChevronDown, Search, Trophy, Zap } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
+import ItemImage from "@/shared/components/ItemImage";
 import PageTitle from "@/shared/components/PageTitle";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
@@ -18,34 +19,29 @@ const STATUS_CONDITIONS = [
 ];
 
 const BALL_TYPES = [
-  { name: "Poké Ball", multiplier: 1, image: "poké-ball.png" },
-  { name: "Great Ball", multiplier: 1.5, image: "great-ball.png" },
-  { name: "Ultra Ball", multiplier: 2, image: "ultra-ball.png" },
-  { name: "Premier Ball", multiplier: 1.5, image: "premier-ball.png" },
-  { name: "Dive Ball", multiplier: 1, image: "dive-ball.png" },
-  { name: "Dream Ball", multiplier: 1, image: "dream-ball.png" },
-  { name: "Dusk Ball", multiplier: 1, image: "dusk-ball.png" },
-  { name: "Fast Ball", multiplier: 1, image: "fast-ball.png" },
-  { name: "Heal Ball", multiplier: 1.25, image: "heal-ball.png" },
-  { name: "Heavy Ball", multiplier: 1, image: "heavy-ball.png" },
-  { name: "Level Ball", multiplier: 1, image: "level-ball.png" },
-  { name: "Love Ball", multiplier: 1, image: "love-ball.png" },
-  { name: "Lure Ball", multiplier: 1, image: "lure-ball.png" },
-  { name: "Luxury Ball", multiplier: 1, image: "luxury-ball.png" },
-  { name: "Moon Ball", multiplier: 1, image: "moon-ball.png" },
-  { name: "Nest Ball", multiplier: 1, image: "nest-ball.png" },
-  { name: "Net Ball", multiplier: 1, image: "net-ball.png" },
-  { name: "Quick Ball", multiplier: 5, image: "quick-ball.png" },
-  { name: "Repeat Ball", multiplier: 1, image: "repeat-ball.png" },
-  { name: "Timer Ball", multiplier: 1, image: "timer-ball.png" },
-  { name: "Cherish Ball", multiplier: 2, image: "cherish-ball.png" },
-  { name: "Master Ball", multiplier: 255, image: "master-ball.png" },
+  { name: "Poké Ball", multiplier: 1 },
+  { name: "Great Ball", multiplier: 1.5 },
+  { name: "Ultra Ball", multiplier: 2 },
+  { name: "Premier Ball", multiplier: 1.5 },
+  { name: "Dive Ball", multiplier: 1 },
+  { name: "Dream Ball", multiplier: 1 },
+  { name: "Dusk Ball", multiplier: 1 },
+  { name: "Fast Ball", multiplier: 1 },
+  { name: "Heal Ball", multiplier: 1.25 },
+  { name: "Heavy Ball", multiplier: 1 },
+  { name: "Level Ball", multiplier: 1 },
+  { name: "Love Ball", multiplier: 1 },
+  { name: "Lure Ball", multiplier: 1 },
+  { name: "Luxury Ball", multiplier: 1 },
+  { name: "Moon Ball", multiplier: 1 },
+  { name: "Nest Ball", multiplier: 1 },
+  { name: "Net Ball", multiplier: 1 },
+  { name: "Quick Ball", multiplier: 1 },
+  { name: "Repeat Ball", multiplier: 1 },
+  { name: "Timer Ball", multiplier: 1 },
+  { name: "Cherish Ball", multiplier: 2 },
+  { name: "Master Ball", multiplier: 255 },
 ];
-
-const getBallImage = (filename) => {
-  if (filename === "master-ball.png") return `${import.meta.env.BASE_URL}${filename}`;
-  return `${import.meta.env.BASE_URL}items/${filename}`;
-};
 
 // --- Components ---
 
@@ -79,22 +75,23 @@ const HpBarSlider = ({ value, onChange }) => {
 };
 
 const LevelSlider = ({ value, onChange }) => {
+  const maxLevel = 31;
   return (
     <div className="w-full space-y-2">
       <div className="flex justify-between text-sm font-bold text-slate-300">
         <span>Level</span>
-        <span>{value}</span>
+        <span>{value >= maxLevel ? `${maxLevel}+` : value}</span>
       </div>
       <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
         <div
           className="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-200"
-          style={{ width: `${value}%` }}
+          style={{ width: `${Math.min(100, (value / maxLevel) * 100)}%` }}
         />
         <input
           type="range"
           min="1"
-          max="100"
-          value={value}
+          max={maxLevel}
+          value={Math.min(value, maxLevel)}
           onChange={(e) => onChange(Number(e.target.value))}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
@@ -104,22 +101,49 @@ const LevelSlider = ({ value, onChange }) => {
 };
 
 const TurnsSlider = ({ value, onChange }) => {
+  const maxTurns = 11;
   return (
     <div className="w-full space-y-2">
       <div className="flex justify-between text-sm font-bold text-slate-300">
         <span>Turns Passed</span>
-        <span>{value}</span>
+        <span>{value >= maxTurns ? `${maxTurns}+` : value}</span>
       </div>
       <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
         <div
           className="absolute top-0 left-0 h-full bg-orange-500 transition-all duration-200"
-          style={{ width: `${(value / 15) * 100}%` }}
+          style={{ width: `${Math.min(100, (value / maxTurns) * 100)}%` }}
+        />
+        <input
+          type="range"
+          min="1"
+          max={maxTurns}
+          value={Math.min(value, maxTurns)}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        />
+      </div>
+    </div>
+  );
+};
+
+const RepeatCapturesSlider = ({ value, onChange }) => {
+  const maxCaptures = 15;
+  return (
+    <div className="w-full space-y-2">
+      <div className="flex justify-between text-sm font-bold text-slate-300">
+        <span>Previous Captures</span>
+        <span>{value >= maxCaptures ? `${maxCaptures}+` : value}</span>
+      </div>
+      <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
+        <div
+          className="absolute top-0 left-0 h-full bg-purple-500 transition-all duration-200"
+          style={{ width: `${Math.min(100, (value / maxCaptures) * 100)}%` }}
         />
         <input
           type="range"
           min="0"
-          max="15"
-          value={value}
+          max={maxCaptures}
+          value={Math.min(value, maxCaptures)}
           onChange={(e) => onChange(Number(e.target.value))}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
@@ -156,11 +180,7 @@ const BallSelector = ({ selectedBall, onSelect }) => {
       >
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg bg-[#0f1013] flex items-center justify-center border border-white/5 group-hover:border-white/10 transition-colors">
-            <img
-              src={getBallImage(currentBall?.image)}
-              alt={selectedBall}
-              className="w-8 h-8 object-contain"
-            />
+            <ItemImage item={selectedBall} className="w-8 h-8 object-contain" />
           </div>
           <div className="flex flex-col items-start">
             <span className="font-bold text-slate-200">{selectedBall}</span>
@@ -207,9 +227,8 @@ const BallSelector = ({ selectedBall, onSelect }) => {
                     : "hover:bg-white/5 text-slate-300"
                 }`}
               >
-                <img
-                  src={getBallImage(ball.image)}
-                  alt={ball.name}
+                <ItemImage
+                  item={ball.name}
                   className="w-6 h-6 object-contain"
                 />
                 <span className="text-sm font-medium">{ball.name}</span>
@@ -240,6 +259,7 @@ const CatchCalculatorPage = () => {
   const [dreamBallTurns, setDreamBallTurns] = useState(0);
   const [targetLevel, setTargetLevel] = useState(50);
   const [turnsPassed, setTurnsPassed] = useState(1);
+  const [repeatBallCaptures, setRepeatBallCaptures] = useState(0);
 
   // Search State
   const [searchTerm, setSearchTerm] = useState("");
@@ -317,6 +337,25 @@ const CatchCalculatorPage = () => {
     if (ballType === "Timer Ball") {
       // 1 + (turns * 0.3), max 4
       ballMult = Math.min(4, 1 + (turnsPassed - 1) * 0.3);
+    }
+
+    // Repeat Ball Custom Logic
+    if (ballType === "Repeat Ball") {
+      // 1 + (repeatBallCaptures * 0.1), max 2.5
+      ballMult = Math.min(2.5, 1 + repeatBallCaptures * 0.1);
+    }
+
+    // Quick Ball Custom Logic (Corrected)
+    if (ballType === "Quick Ball") {
+      if (turnsPassed === 1) {
+        if (baseCatchRate >= 154) {
+          ballMult = 255; // Guaranteed catch
+        } else {
+          ballMult = 5; // 5x multiplier
+        }
+      } else {
+        ballMult = 1; // After first turn, it's 1x
+      }
     }
 
     const statusMult =
@@ -559,8 +598,70 @@ const CatchCalculatorPage = () => {
                     x{Math.min(4, 1 + (turnsPassed - 1) * 0.3).toFixed(1)}
                   </span>{" "}
                   Rate
-                  {turnsPassed >= 10 && " (Maxed)"}
+                  {turnsPassed >= 11 && " (Maxed)"}
                 </p>
+              </div>
+            )}
+
+            {/* Repeat Ball Special Logic */}
+            {ballType === "Repeat Ball" && (
+              <div className="animate-in fade-in slide-in-from-top-2 duration-300 pt-2">
+                <RepeatCapturesSlider
+                  value={repeatBallCaptures}
+                  onChange={setRepeatBallCaptures}
+                />
+                <p className="text-xs text-slate-500 mt-2 text-center">
+                  Current:{" "}
+                  <span className="text-purple-400">
+                    x{Math.min(2.5, 1 + repeatBallCaptures * 0.1).toFixed(1)}
+                  </span>{" "}
+                  Rate
+                  {repeatBallCaptures >= 15 && " (Maxed)"}
+                </p>
+              </div>
+            )}
+
+            {/* Quick Ball Special Logic */}
+            {ballType === "Quick Ball" && (
+              <div className="animate-in fade-in slide-in-from-top-2 duration-300 pt-2 space-y-2">
+                <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+                  <span>Combat Turn</span>
+                  <span className="text-blue-400">
+                    {turnsPassed === 1
+                      ? baseCatchRate >= 154
+                        ? "Guaranteed"
+                        : "5x Rate"
+                      : "1x Rate"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-1 p-1 bg-[#15161a] border border-slate-700 rounded-lg">
+                  <button
+                    onClick={() => setTurnsPassed(1)}
+                    className={`
+                      py-1.5 rounded text-xs font-bold transition-all
+                      ${
+                        turnsPassed === 1
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                      }
+                    `}
+                  >
+                    First Turn
+                  </button>
+                  <button
+                    onClick={() => setTurnsPassed(2)}
+                    className={`
+                      py-1.5 rounded text-xs font-bold transition-all
+                      ${
+                        turnsPassed !== 1
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                      }
+                    `}
+                  >
+                    Later Turns
+                  </button>
+                </div>
               </div>
             )}
           </div>

@@ -1,16 +1,7 @@
-import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
+import React from "react";
 
-const TRAINER_PATH = `${import.meta.env.BASE_URL}items/`;
-const getItemSpriteUrl = (itemName) => {
-  if (!itemName) return null;
-  const formattedName = itemName
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/['’]/g, "")
-    .replace(/\./g, "");
-  return `${TRAINER_PATH}${formattedName}.png`;
-};
+import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
+import ItemImage from "@/shared/components/ItemImage";
 
 function PlayerBuildCard({ build }) {
   const { sprite } = getPokemonCardData(build.name);
@@ -29,11 +20,9 @@ function PlayerBuildCard({ build }) {
 
         {build.item && (
           <span className="flex items-center text-slate-300 text-xs bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
-            <img
-              src={getItemSpriteUrl(build.item)}
-              alt={build.item}
+            <ItemImage
+              item={build.item}
               className="w-5 h-5 object-contain mr-1.5"
-              onError={(e) => (e.target.style.display = "none")}
             />
             {build.item}
           </span>

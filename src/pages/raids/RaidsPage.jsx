@@ -11,22 +11,12 @@ import {
   getRaidsByStars,
   getStarLevels,
 } from "@/pages/raids/data/raidsService";
+import ItemImage from "@/shared/components/ItemImage";
 import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
 
 import RaidCard from "./components/RaidCard";
-
-const getItemSpriteUrl = (itemName) => {
-  if (!itemName) return null;
-  const formattedName = itemName
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/['’]/g, "")
-    .replace(/\./g, "");
-  return `${import.meta.env.BASE_URL}items/${formattedName}.png`;
-};
 
 const BuildCard = ({ buildData }) => {
   const [activeBuild, setActiveBuild] = useState(buildData);
@@ -91,12 +81,9 @@ const BuildCard = ({ buildData }) => {
 
         {activeBuild.item && (
           <span className="flex items-center text-slate-300 text-xs bg-white/5 px-2 py-0.5 rounded-full border border-white/10 ml-auto">
-            <img
-              key={activeBuild.item}
-              src={getItemSpriteUrl(activeBuild.item)}
-              alt={activeBuild.item}
+            <ItemImage
+              item={activeBuild.item}
               className="w-5 h-5 object-contain mr-1.5"
-              onError={(e) => (e.target.style.display = "none")}
             />
             {activeBuild.item}
           </span>

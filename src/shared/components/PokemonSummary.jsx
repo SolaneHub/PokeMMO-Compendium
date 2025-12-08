@@ -154,7 +154,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
             🔊 Cry
           </button>
           <img
-            className="w-40 h-40 object-contain mb-4 drop-shadow-xl animate-[bounce_6s_infinite]"
+            className="w-40 h-40 object-contain mb-4 drop-shadow-xl animate-[float_6s_infinite]"
             src={pokemonData.sprite}
             alt={pokemonData.name}
           />
