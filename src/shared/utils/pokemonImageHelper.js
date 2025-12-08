@@ -680,10 +680,10 @@ const standardPokemonList = [
 
 export const getSpriteUrlByName = (name) => {
   const baseUrl =
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork";
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world";
 
   if (variantIds[name]) {
-    return `${baseUrl}/${variantIds[name]}.png`;
+    return `${baseUrl}/${variantIds[name]}.svg`;
   }
 
   let cleanName = name.split(" (")[0];
@@ -695,8 +695,40 @@ export const getSpriteUrlByName = (name) => {
   const index = standardPokemonList.indexOf(cleanName);
 
   if (index !== -1) {
-    return `${baseUrl}/${index + 1}.png`;
+    return `${baseUrl}/${index + 1}.svg`;
   }
 
   return null;
+};
+
+export const formatItemNameForUrl = (itemName) => {
+  if (!itemName) return "";
+
+  let formatted = itemName;
+
+  // Specific overrides for known inconsistencies
+  const overrides = {
+    "Poké Ball": "Poke_Ball",
+    TinyMushroom: "Tiny_Mushroom",
+    NeverMeltIce: "Never-Melt_Ice",
+    TwistedSpoon: "Twisted_Spoon",
+    BrightPowder: "Bright_Powder",
+    DeepSeaScale: "Deep_Sea_Scale",
+    DeepSeaTooth: "Deep_Sea_Tooth",
+  };
+
+  if (overrides[itemName]) {
+    formatted = overrides[itemName];
+  } else {
+    // Remove special characters like apostrophes and dots
+    formatted = formatted.replace(/['’.]/g, "");
+
+    if (!formatted.includes(" ")) {
+      // Split CamelCase (e.g. TinyMushroom -> Tiny_Mushroom) if no spaces exist
+      formatted = formatted.replace(/([a-z])([A-Z])/g, "$1_$2");
+    }
+  }
+
+  // Replace spaces with underscores
+  return formatted.trim().replace(/\s+/g, "_");
 };

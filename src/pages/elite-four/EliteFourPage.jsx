@@ -1,4 +1,4 @@
-import { Crown } from "lucide-react";
+import { ArrowLeft, ArrowRight, Crown } from "lucide-react";
 import { useState } from "react";
 
 import {
@@ -270,10 +270,14 @@ function EliteFourPage() {
               <div className="flex flex-col gap-4">
                 {strategyHistory.length > 0 && (
                   <button
-                    className="self-start mb-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 text-sm font-medium"
+                    className="self-start mb-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 text-sm font-medium group"
                     onClick={handleBackClick}
                   >
-                    ⬅️ Back
+                    <ArrowLeft
+                      size={16}
+                      className=" group-hover:opacity-100  text-slate-300"
+                    />
+                    <span>Back</span>
                   </button>
                 )}
 
@@ -316,10 +320,11 @@ function EliteFourPage() {
                                 onClick={() => handleStepClick(v)}
                               >
                                 <p className="m-0 text-sm font-semibold flex items-center justify-between">
-                                  {v.name}
-                                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400">
-                                    →
-                                  </span>
+                                  <MoveColoredText text={v.name} />
+                                  <ArrowRight
+                                    size={16}
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400"
+                                  />
                                 </p>
                                 {renderWarning(v.warning)}
                               </button>

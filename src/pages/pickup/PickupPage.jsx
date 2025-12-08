@@ -3,18 +3,8 @@ import React, { useState } from "react";
 
 import pickupData from "@/data/pickupData.json";
 import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
+import ItemImage from "@/shared/components/ItemImage";
 import PageTitle from "@/shared/components/PageTitle";
-
-const getItemImagePath = (itemName) => {
-  if (!itemName) return null;
-  const formattedName = itemName
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/['’]/g, "")
-    .replace(/\./g, "");
-  return `${import.meta.env.BASE_URL}items/${formattedName}.png`;
-};
 
 function PickupPage() {
   const [isPickupPokemonModalOpen, setIsPickupPokemonModalOpen] =
@@ -110,11 +100,7 @@ function PickupPage() {
                                     key={itemIdx}
                                     className="flex items-center"
                                   >
-                                    <img
-                                      src={getItemImagePath(item)}
-                                      alt={item}
-                                      className="w-5 h-5 mr-2"
-                                    />
+                                    <ItemImage item={item} />
                                     {item}
                                   </li>
                                 ))}
