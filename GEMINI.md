@@ -11,9 +11,9 @@ The project functions as a static web application deployed to GitHub Pages, but 
 - **Framework:** [React 19.2.1](https://react.dev/) (Experimental `Activity` API used for view management).
 - **Build Tool:** [Vite 7.2.6](https://vitejs.dev/).
 - **Styling:** [Tailwind CSS 4.1.17](https://tailwindcss.com/) (configured via `@import "tailwindcss"` in CSS and Vite plugin).
-- **Routing:** [React Router DOM 7](https://reactrouter.com/) (used for navigation state, though rendering is handled via React 19 `Activity`).
+- **Routing:** [React Router DOM 7](https://reactrouter.com/) (used for navigation state, now dynamically configured with `import.meta.env.BASE_URL` to handle both local development and GitHub Pages deployment, though rendering is handled via React 19 `Activity`).
 - **Backend (Local Only):** Node.js + [Express 5.2.1](https://expressjs.com/) (handles file system operations for `src/data/`).
-- **Deployment:** [GitHub Pages](https://pages.github.com/).
+- **Deployment:** [GitHub Pages](https://pages.github.io/).
 - **Icons:** [Lucide React](https://lucide.dev/icons/) and [React Icons 5.5.0](https://react-icons.github.io/react-icons/) (specifically Font Awesome).
 - **Drag and Drop:** [`dnd-kit 6.3.1`](https://dndkit.com/) (`@dnd-kit/core`, `@dnd-kit/sortable`).
 
@@ -29,14 +29,20 @@ The project functions as a static web application deployed to GitHub Pages, but 
 │   ├── app/            # Core app logic
 │   │   ├── App.jsx     # Main component & routing logic
 │   │   ├── index.css   # Global styles & Tailwind directives
+│   │   ├── main.jsx    # Entry point and Router configuration
 │   │   └── layout/     # Layout components (Navbar, Home)
 │   ├── data/           # JSON data files (The "Database")
 │   ├── pages/          # Feature-specific pages
+│   │   ├── boss-fights/ # Boss Fights strategies
 │   │   ├── breeding/   # Breeding calculators
+│   │   ├── catch-calculator/ # Catch Rate Calculator
 │   │   ├── editor/     # CMS interface for editing JSON data
 │   │   ├── elite-four/ # E4 strategies
+│   │   ├── pickup/     # Pickup item data
 │   │   ├── pokedex/    # Pokedex viewer
-│   │   └── ...         # Other guides (Raids, Red, Ho-Oh, etc.)
+│   │   ├── raids/      # Raid strategies
+│   │   ├── super-trainers/ # Super Trainer strategies
+│   │   └── trainer-rerun/ # Trainer Rerun routes
 │   └── shared/         # Reusable components and utilities
 │       ├── components/ # Reusable UI components (e.g., ToastNotification)
 │       ├── hooks/      # Reusable React hooks (e.g., usePokedexData)
@@ -76,7 +82,15 @@ Instead of standard Route switching where components unmount on navigation, `App
 - **Mechanism:** All main page components are rendered simultaneously but toggled between `mode="visible"` and `mode="hidden"` based on the current route.
 - **Benefit:** This preserves the internal state of complex pages (like the Breeding calculator or Multi-step forms) when navigating away and returning.
 
-### 3. Styling
+### 3. Dynamic Base URL Handling
+
+The application is configured to handle different base URLs for development and production environments, ensuring correct routing and asset loading:
+
+- **`vite.config.js`**: Sets `base` to `/` for local development (`command === "serve"`) and `/PokeMMO-Compendium/` for production builds.
+- **`src/app/main.jsx`**: Uses `import.meta.env.BASE_URL` for `BrowserRouter`'s `basename` prop, dynamically adapting the router's base path.
+- **Asset Paths**: Internal asset paths (e.g., for images in `public/`) are prefixed with `import.meta.env.BASE_URL` in components like `CatchCalculatorPage`, `SuperTrainersPage`, `PickupPage`, `BossFightsPage`, and `RaidsPage` to ensure they load correctly regardless of the deployment subpath.
+
+### 4. Styling
 
 The project uses **Tailwind CSS v4**.
 
@@ -84,7 +98,7 @@ The project uses **Tailwind CSS v4**.
 - Configuration is minimal, relying on CSS variables and Tailwind's implicit defaults.
 - Custom animations (`fade-in`, `scale-in`) are defined in standard CSS within `index.css`.
 
-### 4. Radical UX/UI Improvements for the Editor Page (Implemented)
+### 5. Radical UX/UI Improvements for the Editor Page (Implemented)
 
 The Editor page (`src/pages/editor/`) has undergone significant enhancements to provide a more intuitive and user-friendly content management experience:
 
