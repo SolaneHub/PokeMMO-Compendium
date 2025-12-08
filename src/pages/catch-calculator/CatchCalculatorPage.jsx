@@ -43,8 +43,8 @@ const BALL_TYPES = [
 ];
 
 const getBallImage = (filename) => {
-  if (filename === "master-ball.png") return `/PokeMMO-Compendium/${filename}`;
-  return `/PokeMMO-Compendium/items/${filename}`;
+  if (filename === "master-ball.png") return `${import.meta.env.BASE_URL}${filename}`;
+  return `${import.meta.env.BASE_URL}items/${filename}`;
 };
 
 // --- Components ---
