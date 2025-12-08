@@ -40,7 +40,7 @@ const SuperTrainerSection = ({
       <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
         <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-blue-500 shadow-md flex-shrink-0">
           <img
-            src={`/PokeMMO-Compendium/trainers/${trainer.image}`}
+            src={`${import.meta.env.BASE_URL}trainers/${trainer.image}`}
             alt={trainer.name}
             className="w-full h-full object-cover object-top"
             onError={(e) => {

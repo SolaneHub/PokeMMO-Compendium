@@ -25,7 +25,7 @@ const getItemSpriteUrl = (itemName) => {
     .replace(/\s+/g, "-")
     .replace(/['’]/g, "")
     .replace(/\./g, "");
-  return `/PokeMMO-Compendium/items/${formattedName}.png`;
+  return `${import.meta.env.BASE_URL}items/${formattedName}.png`;
 };
 
 const BuildCard = ({ buildData }) => {
