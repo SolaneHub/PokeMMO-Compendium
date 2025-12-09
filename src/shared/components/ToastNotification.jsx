@@ -15,23 +15,19 @@ export const ToastProvider = ({ children }) => {
   };
 
   return (
-    <ToastContext.Provider value={showToast}>
+    <ToastContext value={showToast}>
       {children}
-      <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end space-y-2">
+      <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end space-y-2">
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`px-4 py-2 rounded-md shadow-lg text-white text-sm font-medium
-              ${toast.type === "success" ? "bg-green-500" : ""}
-              ${toast.type === "error" ? "bg-red-500" : ""}
-              ${toast.type === "info" ? "bg-blue-500" : ""}
-            `}
+            className={`rounded-md px-4 py-2 text-sm font-medium text-white shadow-lg ${toast.type === "success" ? "bg-green-500" : ""} ${toast.type === "error" ? "bg-red-500" : ""} ${toast.type === "info" ? "bg-blue-500" : ""} `}
           >
             {toast.message}
           </div>
         ))}
       </div>
-    </ToastContext.Provider>
+    </ToastContext>
   );
 };
 

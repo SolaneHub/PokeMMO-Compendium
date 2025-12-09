@@ -56,7 +56,7 @@ const HpBarSlider = ({ value, onChange }) => {
         <span>HP Remaining</span>
         <span>{value}%</span>
       </div>
-      <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
+      <div className="relative h-6 overflow-hidden rounded-full border border-slate-600 bg-slate-800 shadow-inner">
         <div
           className={`absolute top-0 left-0 h-full transition-all duration-200 ${colorClass}`}
           style={{ width: `${value}%` }}
@@ -67,7 +67,7 @@ const HpBarSlider = ({ value, onChange }) => {
           max="100"
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         />
       </div>
     </div>
@@ -82,7 +82,7 @@ const LevelSlider = ({ value, onChange }) => {
         <span>Level</span>
         <span>{value >= maxLevel ? `${maxLevel}+` : value}</span>
       </div>
-      <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
+      <div className="relative h-6 overflow-hidden rounded-full border border-slate-600 bg-slate-800 shadow-inner">
         <div
           className="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-200"
           style={{ width: `${Math.min(100, (value / maxLevel) * 100)}%` }}
@@ -93,7 +93,7 @@ const LevelSlider = ({ value, onChange }) => {
           max={maxLevel}
           value={Math.min(value, maxLevel)}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         />
       </div>
     </div>
@@ -108,7 +108,7 @@ const TurnsSlider = ({ value, onChange }) => {
         <span>Turns Passed</span>
         <span>{value >= maxTurns ? `${maxTurns}+` : value}</span>
       </div>
-      <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
+      <div className="relative h-6 overflow-hidden rounded-full border border-slate-600 bg-slate-800 shadow-inner">
         <div
           className="absolute top-0 left-0 h-full bg-orange-500 transition-all duration-200"
           style={{ width: `${Math.min(100, (value / maxTurns) * 100)}%` }}
@@ -119,7 +119,7 @@ const TurnsSlider = ({ value, onChange }) => {
           max={maxTurns}
           value={Math.min(value, maxTurns)}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         />
       </div>
     </div>
@@ -134,7 +134,7 @@ const RepeatCapturesSlider = ({ value, onChange }) => {
         <span>Previous Captures</span>
         <span>{value >= maxCaptures ? `${maxCaptures}+` : value}</span>
       </div>
-      <div className="relative h-6 bg-slate-800 rounded-full overflow-hidden border border-slate-600 shadow-inner">
+      <div className="relative h-6 overflow-hidden rounded-full border border-slate-600 bg-slate-800 shadow-inner">
         <div
           className="absolute top-0 left-0 h-full bg-purple-500 transition-all duration-200"
           style={{ width: `${Math.min(100, (value / maxCaptures) * 100)}%` }}
@@ -145,7 +145,7 @@ const RepeatCapturesSlider = ({ value, onChange }) => {
           max={maxCaptures}
           value={Math.min(value, maxCaptures)}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
         />
       </div>
     </div>
@@ -173,14 +173,14 @@ const BallSelector = ({ selectedBall, onSelect }) => {
   );
 
   return (
-    <div className="relative w-full z-30" ref={dropdownRef}>
+    <div className="relative z-30 w-full" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between bg-[#15161a] border border-slate-700 hover:border-slate-500 rounded-xl p-3 transition-all group"
+        className="group flex w-full items-center justify-between rounded-xl border border-slate-700 bg-[#15161a] p-3 transition-all hover:border-slate-500"
       >
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-[#0f1013] flex items-center justify-center border border-white/5 group-hover:border-white/10 transition-colors">
-            <ItemImage item={selectedBall} className="w-8 h-8 object-contain" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-[#0f1013] transition-colors group-hover:border-white/10">
+            <ItemImage item={selectedBall} className="h-8 w-8 object-contain" />
           </div>
           <div className="flex flex-col items-start">
             <span className="font-bold text-slate-200">{selectedBall}</span>
@@ -195,11 +195,11 @@ const BallSelector = ({ selectedBall, onSelect }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-[#1e2025] border border-slate-700 rounded-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-100">
-          <div className="p-2 border-b border-slate-700">
+        <div className="animate-in fade-in zoom-in-95 absolute top-full right-0 left-0 mt-2 overflow-hidden rounded-xl border border-slate-700 bg-[#1e2025] shadow-2xl duration-100">
+          <div className="border-b border-slate-700 p-2">
             <div className="relative">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
+                className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-500"
                 size={16}
               />
               <input
@@ -207,12 +207,12 @@ const BallSelector = ({ selectedBall, onSelect }) => {
                 placeholder="Find a ball..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-[#15161a] border border-slate-700 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-blue-500"
+                className="w-full rounded-lg border border-slate-700 bg-[#15161a] py-2 pr-3 pl-9 text-sm text-slate-200 focus:border-blue-500 focus:outline-none"
                 autoFocus
               />
             </div>
           </div>
-          <div className="max-h-60 overflow-y-auto p-1 scrollbar-thin scrollbar-thumb-slate-700">
+          <div className="scrollbar-thin scrollbar-thumb-slate-700 max-h-60 overflow-y-auto p-1">
             {filteredBalls.map((ball) => (
               <button
                 key={ball.name}
@@ -221,24 +221,24 @@ const BallSelector = ({ selectedBall, onSelect }) => {
                   setIsOpen(false);
                   setSearch("");
                 }}
-                className={`w-full flex items-center gap-3 p-2 rounded-lg transition-colors ${
+                className={`flex w-full items-center gap-3 rounded-lg p-2 transition-colors ${
                   selectedBall === ball.name
                     ? "bg-blue-600/20 text-blue-400"
-                    : "hover:bg-white/5 text-slate-300"
+                    : "text-slate-300 hover:bg-white/5"
                 }`}
               >
                 <ItemImage
                   item={ball.name}
-                  className="w-6 h-6 object-contain"
+                  className="h-6 w-6 object-contain"
                 />
                 <span className="text-sm font-medium">{ball.name}</span>
-                <span className="ml-auto text-xs text-slate-500 bg-black/20 px-1.5 py-0.5 rounded">
+                <span className="ml-auto rounded bg-black/20 px-1.5 py-0.5 text-xs text-slate-500">
                   x{ball.multiplier}
                 </span>
               </button>
             ))}
             {filteredBalls.length === 0 && (
-              <div className="p-4 text-center text-slate-500 text-sm">
+              <div className="p-4 text-center text-sm text-slate-500">
                 No balls found
               </div>
             )}
@@ -391,18 +391,18 @@ const CatchCalculatorPage = () => {
       <PageTitle title="PokéMMO Compendium: Catch Calculator" />
 
       {/* Header */}
-      <div className="flex flex-col items-center mb-8 space-y-2">
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+      <div className="mb-8 flex flex-col items-center space-y-2">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
           <Trophy className="text-yellow-400" size={32} />
           Catch Calculator
         </h1>
         <p className="text-slate-400">Optimize your capture strategy.</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 lg:grid-cols-3">
         {/* --- COLUMN 1: TARGET POKEMON --- */}
-        <div className="bg-[#1e2025] border border-white/5 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
-          <div className="flex items-center gap-2 pb-2 border-b border-white/5">
+        <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+          <div className="flex items-center gap-2 border-b border-white/5 pb-2">
             <Search className="text-blue-400" size={20} />
             <h2 className="text-lg font-bold text-slate-200">Target</h2>
           </div>
@@ -418,11 +418,11 @@ const CatchCalculatorPage = () => {
                 setSearchTerm(e.target.value);
                 setIsSearchOpen(true);
               }}
-              className="w-full bg-[#15161a] border border-slate-700 rounded-lg px-4 py-3 text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+              className="w-full rounded-lg border border-slate-700 bg-[#15161a] px-4 py-3 text-slate-200 transition-colors placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
             />
             {/* Dropdown List */}
             {isSearchOpen && (
-              <div className="absolute top-full left-0 right-0 mt-2 max-h-48 overflow-y-auto bg-[#15161a] border border-slate-700 rounded-lg shadow-xl z-50 scrollbar-thin scrollbar-thumb-slate-700">
+              <div className="scrollbar-thin scrollbar-thumb-slate-700 absolute top-full right-0 left-0 z-50 mt-2 max-h-48 overflow-y-auto rounded-lg border border-slate-700 bg-[#15161a] shadow-xl">
                 {filteredPokemon.slice(0, 50).map((p) => (
                   <button
                     key={p.name}
@@ -431,16 +431,14 @@ const CatchCalculatorPage = () => {
                       setSearchTerm(p.name); // Optional: Set text to name
                       setIsSearchOpen(false);
                     }}
-                    className={`w-full text-left px-4 py-2 text-sm transition-colors flex justify-between items-center
-                    ${
+                    className={`flex w-full items-center justify-between px-4 py-2 text-left text-sm transition-colors ${
                       selectedPokemonName === p.name
                         ? "bg-blue-600/20 text-blue-400"
                         : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
-                    }
-                  `}
+                    } `}
                   >
                     <span>{p.name}</span>
-                    <span className="text-xs opacity-50 bg-black/30 px-1.5 py-0.5 rounded">
+                    <span className="rounded bg-black/30 px-1.5 py-0.5 text-xs opacity-50">
                       CR: {p.catchRate}
                     </span>
                   </button>
@@ -451,7 +449,7 @@ const CatchCalculatorPage = () => {
 
           {/* Selected Preview */}
           {selectedPokemon && (
-            <div className="flex flex-col items-center bg-[#15161a] rounded-xl p-6 border border-white/5 relative overflow-hidden flex-grow justify-center min-h-[200px]">
+            <div className="relative flex min-h-[200px] flex-grow flex-col items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#15161a] p-6">
               {/* Background Glow */}
               <div
                 className="absolute inset-0 opacity-20 blur-xl transition-colors duration-500"
@@ -460,12 +458,12 @@ const CatchCalculatorPage = () => {
               <img
                 src={sprite}
                 alt={selectedPokemonName}
-                className="w-32 h-32 object-contain relative z-10 drop-shadow-md rendering-pixelated"
+                className="rendering-pixelated relative z-10 h-32 w-32 object-contain drop-shadow-md"
               />
-              <h3 className="text-xl font-bold text-white relative z-10 mt-2">
+              <h3 className="relative z-10 mt-2 text-xl font-bold text-white">
                 {selectedPokemonName}
               </h3>
-              <div className="text-xs font-mono text-slate-400 mt-1 bg-black/40 px-2 py-1 rounded relative z-10">
+              <div className="relative z-10 mt-1 rounded bg-black/40 px-2 py-1 font-mono text-xs text-slate-400">
                 Base Rate:{" "}
                 <span className="text-yellow-400">{baseCatchRate}</span>
               </div>
@@ -473,8 +471,8 @@ const CatchCalculatorPage = () => {
           )}
         </div>
         {/* --- COLUMN 2: CONDITIONS --- */}
-        <div className="bg-[#1e2025] border border-white/5 rounded-2xl p-6 shadow-xl flex flex-col gap-8">
-          <div className="flex items-center gap-2 pb-2 border-b border-white/5">
+        <div className="flex flex-col gap-8 rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+          <div className="flex items-center gap-2 border-b border-white/5 pb-2">
             <Zap className="text-yellow-400" size={20} />
             <h2 className="text-lg font-bold text-slate-200">Conditions</h2>
           </div>
@@ -501,14 +499,11 @@ const CatchCalculatorPage = () => {
                         ? status.gradient
                         : undefined,
                   }}
-                  className={`
-                        px-3 py-3 rounded-lg text-sm font-bold transition-all border-2
-                        ${
-                          statusCondition === status.name
-                            ? "border-white text-white shadow-lg scale-105 text-shadow-sm"
-                            : "bg-[#15161a] border-slate-700 text-slate-400 hover:border-slate-500 hover:bg-slate-800"
-                        }
-                      `}
+                  className={`rounded-lg border-2 px-3 py-3 text-sm font-bold transition-all ${
+                    statusCondition === status.name
+                      ? "scale-105 border-white text-white shadow-lg text-shadow-sm"
+                      : "border-slate-700 bg-[#15161a] text-slate-400 hover:border-slate-500 hover:bg-slate-800"
+                  } `}
                 >
                   <span
                     className={
@@ -524,8 +519,8 @@ const CatchCalculatorPage = () => {
         </div>
 
         {/* --- COLUMN 3: CAPTURE --- */}
-        <div className="bg-[#1e2025] border border-white/5 rounded-2xl p-6 shadow-xl flex flex-col gap-6">
-          <div className="flex items-center gap-2 pb-2 border-b border-white/5">
+        <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+          <div className="flex items-center gap-2 border-b border-white/5 pb-2">
             <Trophy className="text-green-400" size={20} />
             <h2 className="text-lg font-bold text-slate-200">Capture</h2>
           </div>
@@ -539,8 +534,8 @@ const CatchCalculatorPage = () => {
 
             {/* Dream Ball Special Logic */}
             {ballType === "Dream Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300 space-y-2 pt-2">
-                <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+              <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-400">
                   <span>Turns Asleep</span>
                   <span className="text-pink-400">
                     {dreamBallTurns >= 3
@@ -553,19 +548,16 @@ const CatchCalculatorPage = () => {
                     Rate
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-1 p-1 bg-[#15161a] border border-slate-700 rounded-lg">
+                <div className="grid grid-cols-4 gap-1 rounded-lg border border-slate-700 bg-[#15161a] p-1">
                   {[0, 1, 2, 3].map((turn) => (
                     <button
                       key={turn}
                       onClick={() => setDreamBallTurns(turn)}
-                      className={`
-                              py-1.5 rounded text-xs font-bold transition-all
-                              ${
-                                dreamBallTurns === turn
-                                  ? "bg-pink-600 text-white shadow-sm"
-                                  : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
-                              }
-                           `}
+                      className={`rounded py-1.5 text-xs font-bold transition-all ${
+                        dreamBallTurns === turn
+                          ? "bg-pink-600 text-white shadow-sm"
+                          : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+                      } `}
                     >
                       {turn === 3 ? "3+" : turn}
                     </button>
@@ -576,9 +568,9 @@ const CatchCalculatorPage = () => {
 
             {/* Nest Ball Special Logic */}
             {ballType === "Nest Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300 pt-2">
+              <div className="animate-in fade-in slide-in-from-top-2 pt-2 duration-300">
                 <LevelSlider value={targetLevel} onChange={setTargetLevel} />
-                <p className="text-xs text-slate-500 mt-2 text-center">
+                <p className="mt-2 text-center text-xs text-slate-500">
                   {targetLevel <= 16
                     ? "Max Rate (4x)"
                     : targetLevel >= 31
@@ -590,9 +582,9 @@ const CatchCalculatorPage = () => {
 
             {/* Timer Ball Special Logic */}
             {ballType === "Timer Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300 pt-2">
+              <div className="animate-in fade-in slide-in-from-top-2 pt-2 duration-300">
                 <TurnsSlider value={turnsPassed} onChange={setTurnsPassed} />
-                <p className="text-xs text-slate-500 mt-2 text-center">
+                <p className="mt-2 text-center text-xs text-slate-500">
                   Current:{" "}
                   <span className="text-orange-400">
                     x{Math.min(4, 1 + (turnsPassed - 1) * 0.3).toFixed(1)}
@@ -605,12 +597,12 @@ const CatchCalculatorPage = () => {
 
             {/* Repeat Ball Special Logic */}
             {ballType === "Repeat Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300 pt-2">
+              <div className="animate-in fade-in slide-in-from-top-2 pt-2 duration-300">
                 <RepeatCapturesSlider
                   value={repeatBallCaptures}
                   onChange={setRepeatBallCaptures}
                 />
-                <p className="text-xs text-slate-500 mt-2 text-center">
+                <p className="mt-2 text-center text-xs text-slate-500">
                   Current:{" "}
                   <span className="text-purple-400">
                     x{Math.min(2.5, 1 + repeatBallCaptures * 0.1).toFixed(1)}
@@ -623,8 +615,8 @@ const CatchCalculatorPage = () => {
 
             {/* Quick Ball Special Logic */}
             {ballType === "Quick Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300 pt-2 space-y-2">
-                <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+              <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-400">
                   <span>Combat Turn</span>
                   <span className="text-blue-400">
                     {turnsPassed === 1
@@ -634,30 +626,24 @@ const CatchCalculatorPage = () => {
                       : "1x Rate"}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-1 p-1 bg-[#15161a] border border-slate-700 rounded-lg">
+                <div className="grid grid-cols-2 gap-1 rounded-lg border border-slate-700 bg-[#15161a] p-1">
                   <button
                     onClick={() => setTurnsPassed(1)}
-                    className={`
-                      py-1.5 rounded text-xs font-bold transition-all
-                      ${
-                        turnsPassed === 1
-                          ? "bg-blue-600 text-white shadow-sm"
-                          : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
-                      }
-                    `}
+                    className={`rounded py-1.5 text-xs font-bold transition-all ${
+                      turnsPassed === 1
+                        ? "bg-blue-600 text-white shadow-sm"
+                        : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+                    } `}
                   >
                     First Turn
                   </button>
                   <button
                     onClick={() => setTurnsPassed(2)}
-                    className={`
-                      py-1.5 rounded text-xs font-bold transition-all
-                      ${
-                        turnsPassed !== 1
-                          ? "bg-blue-600 text-white shadow-sm"
-                          : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
-                      }
-                    `}
+                    className={`rounded py-1.5 text-xs font-bold transition-all ${
+                      turnsPassed !== 1
+                        ? "bg-blue-600 text-white shadow-sm"
+                        : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+                    } `}
                   >
                     Later Turns
                   </button>
@@ -667,11 +653,11 @@ const CatchCalculatorPage = () => {
           </div>
 
           {/* Result Display - Now more prominent and pushed up by spacing */}
-          <div className="flex-1 flex flex-col justify-center">
-            <div className="bg-[#15161a] border border-slate-700 rounded-2xl p-8 flex flex-col items-center justify-center gap-3 relative overflow-hidden group hover:border-slate-600 transition-colors">
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-green-500/10 pointer-events-none" />
+          <div className="flex flex-1 flex-col justify-center">
+            <div className="group relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-slate-700 bg-[#15161a] p-8 transition-colors hover:border-slate-600">
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-green-500/10" />
 
-              <span className="text-slate-500 text-xs font-bold uppercase tracking-[0.2em]">
+              <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">
                 Probability
               </span>
               <span
@@ -681,12 +667,12 @@ const CatchCalculatorPage = () => {
               </span>
 
               {catchProbability >= 100 ? (
-                <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold border border-green-500/50">
+                <span className="rounded-full border border-green-500/50 bg-green-500/20 px-3 py-1 text-xs font-bold text-green-400">
                   Guaranteed
                 </span>
               ) : (
-                <div className="text-center space-y-1">
-                  <p className="text-sm text-slate-400 font-medium">
+                <div className="space-y-1 text-center">
+                  <p className="text-sm font-medium text-slate-400">
                     {catchProbability < 1
                       ? "Don't give up!"
                       : catchProbability > 50

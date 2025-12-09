@@ -49,7 +49,7 @@ const StatCircle = ({
   return (
     <div className={containerClasses} style={baseStyle} onClick={onClick}>
       <svg
-        className="w-full h-full drop-shadow-sm"
+        className="h-full w-full drop-shadow-sm"
         viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
         xmlns="http://www.w3.org/2000/svg"
       >

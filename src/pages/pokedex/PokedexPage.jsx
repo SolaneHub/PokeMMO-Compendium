@@ -22,12 +22,12 @@ function PokedexPage() {
       );
 
   return (
-    <div className="flex flex-col items-center w-full pb-24 box-border min-h-screen space-y-8">
+    <div className="box-border flex min-h-screen w-full flex-col items-center space-y-8 pb-24">
       <PageTitle title="PokéMMO Compendium: Pokédex" />
 
       {/* Header */}
       <div className="flex flex-col items-center space-y-2 text-center">
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
           <BookOpen className="text-blue-500" size={32} />
           Pokédex
         </h1>
@@ -41,10 +41,10 @@ function PokedexPage() {
         placeholder="Search Pokémon..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full max-w-[400px] bg-slate-800 border-2 border-slate-700 rounded-full text-slate-200 text-base outline-none px-5 py-3 mb-8 transition-all duration-200 focus:border-blue-500 focus:shadow-[0_0_8px_rgba(59,130,246,0.4)] placeholder:text-slate-500"
+        className="mb-8 w-full max-w-[400px] rounded-full border-2 border-slate-700 bg-slate-800 px-5 py-3 text-base text-slate-200 transition-all duration-200 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:shadow-[0_0_8px_rgba(59,130,246,0.4)]"
       />
 
-      <div className="flex flex-wrap justify-center gap-5 w-full max-w-[1400px]">
+      <div className="flex w-full max-w-[1400px] flex-wrap justify-center gap-5">
         {filteredPokemon.map((pokemonName, index) => {
           const { sprite, background } = getPokemonCardData(pokemonName);
 
@@ -61,7 +61,7 @@ function PokedexPage() {
         })}
 
         {filteredPokemon.length === 0 && (
-          <p className="text-slate-400 text-xl mt-10 text-center">
+          <p className="mt-10 text-center text-xl text-slate-400">
             No Pokémon found.
           </p>
         )}

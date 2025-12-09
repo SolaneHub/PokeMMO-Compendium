@@ -8,7 +8,7 @@
     "dev": "concurrently \"npm run server\" \"vite\"",
     "server": "node server/server.js",
     "preview": "vite preview",
-    "format": "prettier . --write",
+    "format": "prettier \"src/**/*.jsx\" --write",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "vite build",
@@ -41,6 +41,7 @@
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
     "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "vite": "^7.2.6",
     "zod-validation-error": "^5.0.0"
   }

@@ -1,22 +1,20 @@
 const RegionCard = ({ region, onRegionClick, isSelected }) => {
   return (
     <div
-      className={`relative flex flex-col items-center justify-center p-4 w-40 h-24 rounded-2xl cursor-pointer transition-all duration-300 overflow-hidden group
-      ${
+      className={`group relative flex h-24 w-40 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl p-4 transition-all duration-300 ${
         isSelected
-          ? "scale-105 z-10 shadow-lg ring-2 ring-white/50"
+          ? "z-10 scale-105 shadow-lg ring-2 ring-white/50"
           : "hover:-translate-y-1 hover:shadow-xl hover:ring-1 hover:ring-white/20"
-      }
-      `}
+      } `}
       onClick={() => onRegionClick(region)}
       style={{
         backgroundColor: region.bgColor,
       }}
     >
       {/* Glass shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-      <h2 className="relative z-10 m-0 text-center text-[#1a1b20] font-bold text-lg break-words leading-tight drop-shadow-sm">
+      <h2 className="relative z-10 m-0 text-center text-lg leading-tight font-bold break-words text-[#1a1b20] drop-shadow-sm">
         {region.name}
       </h2>
     </div>

@@ -44,31 +44,27 @@ function Sidebar({ isOpen, setIsOpen }) {
     <>
       {/* Mobile Overlay */}
       <div
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={() => setIsOpen(false)}
       />
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 flex flex-col bg-[#1a1b20] border-r border-white/5 transition-all duration-300 ease-in-out
-          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-          ${isCollapsed ? "lg:w-20" : "lg:w-64"}
-          w-64
-        `}
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col border-r border-white/5 bg-[#1a1b20] transition-all duration-300 ease-in-out lg:static ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} ${isCollapsed ? "lg:w-20" : "lg:w-64"} w-64`}
       >
         {/* Header */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-white/5">
+        <div className="flex h-16 items-center justify-between border-b border-white/5 px-4">
           {!isCollapsed && (
-            <span className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent truncate">
+            <span className="truncate bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-lg font-bold text-transparent">
               Compendium
             </span>
           )}
           {/* Collapse Toggle (Desktop Only) */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden lg:flex p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+            className="hidden rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/5 hover:text-white lg:flex"
           >
             {isCollapsed ? (
               <ChevronRight size={20} />
@@ -80,14 +76,14 @@ function Sidebar({ isOpen, setIsOpen }) {
           {/* Close Button (Mobile Only) */}
           <button
             onClick={() => setIsOpen(false)}
-            className="lg:hidden p-1.5 text-slate-400 hover:text-white"
+            className="p-1.5 text-slate-400 hover:text-white lg:hidden"
           >
             <ChevronLeft size={24} />
           </button>
         </div>
 
         {/* Navigation Items */}
-        <div className="flex-1 overflow-y-auto py-4 space-y-1 px-3">
+        <div className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
           {navigation.map((item) => {
             const isActive = location.pathname === item.path;
             const Icon = item.icon;
@@ -97,13 +93,11 @@ function Sidebar({ isOpen, setIsOpen }) {
                 key={item.name}
                 to={item.path}
                 onClick={() => setIsOpen(false)}
-                className={`group relative flex items-center px-3 py-2.5 rounded-xl transition-all duration-200 group
-                  ${
-                    isActive
-                      ? "bg-blue-600/10 text-blue-400"
-                      : "text-slate-400 hover:text-slate-100 hover:bg-white/5"
-                  }
-                `}
+                className={`group group relative flex items-center rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                  isActive
+                    ? "bg-blue-600/10 text-blue-400"
+                    : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
+                } `}
               >
                 <Icon
                   size={22}
@@ -115,21 +109,19 @@ function Sidebar({ isOpen, setIsOpen }) {
                 />
 
                 <span
-                  className={`ml-3 font-medium transition-all duration-300 whitespace-nowrap
-                    ${isCollapsed ? "lg:opacity-0 lg:w-0 lg:overflow-hidden" : "opacity-100"}
-                  `}
+                  className={`ml-3 font-medium whitespace-nowrap transition-all duration-300 ${isCollapsed ? "lg:w-0 lg:overflow-hidden lg:opacity-0" : "opacity-100"} `}
                 >
                   {item.name}
                 </span>
 
                 {/* Active Indicator Strip */}
                 {isActive && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-r-full" />
+                  <div className="absolute top-1/2 left-0 h-8 w-1 -translate-y-1/2 rounded-r-full bg-blue-500" />
                 )}
 
                 {/* Tooltip for Collapsed State */}
                 {isCollapsed && (
-                  <div className="hidden lg:group-hover:block absolute left-full ml-2 px-2 py-1 bg-slate-800 text-white text-xs rounded shadow-lg border border-white/10 whitespace-nowrap z-50">
+                  <div className="absolute left-full z-50 ml-2 hidden rounded border border-white/10 bg-slate-800 px-2 py-1 text-xs whitespace-nowrap text-white shadow-lg lg:group-hover:block">
                     {item.name}
                   </div>
                 )}
@@ -139,11 +131,11 @@ function Sidebar({ isOpen, setIsOpen }) {
         </div>
 
         {/* Footer / User / Status (Optional) */}
-        <div className="p-4 border-t border-white/5">
+        <div className="border-t border-white/5 p-4">
           <div
             className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : ""}`}
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-orange-500 flex items-center justify-center text-black font-bold text-xs">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-400 to-orange-500 text-xs font-bold text-black">
               PM
             </div>
             {!isCollapsed && (

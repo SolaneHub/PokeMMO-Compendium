@@ -7,8 +7,8 @@ const EliteFourTeamOverview = ({
   onSelectPokemon,
 }) => {
   return (
-    <div className="bg-[#252526] border border-[#333] border-t-4 border-t-pink-500 rounded-md p-5 shadow-md mb-5">
-      <h4 className="text-white text-md font-semibold mb-3">Team: {teamKey}</h4>
+    <div className="mb-5 rounded-md border border-t-4 border-[#333] border-t-pink-500 bg-[#252526] p-5 shadow-md">
+      <h4 className="text-md mb-3 font-semibold text-white">Team: {teamKey}</h4>
       <div className="flex flex-wrap gap-4">
         {(team.pokemonNames || []).map((pokemonName) => {
           const spriteUrl = getSpriteUrlByName(pokemonName);
@@ -17,19 +17,17 @@ const EliteFourTeamOverview = ({
           return (
             <button
               key={pokemonName}
-              className={`relative flex flex-col items-center p-2 rounded-lg border-2 transition-all duration-200 ease-in-out
-                ${isPokemonSelected ? "border-green-500 bg-green-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-green-500 hover:bg-gray-700"}
-                focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50`}
+              className={`relative flex flex-col items-center rounded-lg border-2 p-2 transition-all duration-200 ease-in-out ${isPokemonSelected ? "border-green-500 bg-green-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-green-500 hover:bg-gray-700"} focus:ring-opacity-50 focus:ring-2 focus:ring-green-500 focus:outline-none`}
               onClick={() => onSelectPokemon(pokemonName)}
             >
               {spriteUrl ? (
                 <img
                   src={spriteUrl}
                   alt={pokemonName}
-                  className="w-16 h-16 object-contain mb-1"
+                  className="mb-1 h-16 w-16 object-contain"
                 />
               ) : (
-                <div className="w-16 h-16 flex items-center justify-center bg-gray-600 rounded mb-1 text-xs text-gray-300">
+                <div className="mb-1 flex h-16 w-16 items-center justify-center rounded bg-gray-600 text-xs text-gray-300">
                   No Sprite
                 </div>
               )}
@@ -39,7 +37,7 @@ const EliteFourTeamOverview = ({
                 {pokemonName}
               </span>
               {isPokemonSelected && (
-                <div className="absolute top-0 right-0 text-green-400 text-xs font-bold px-1 py-0.5 rounded-bl-lg bg-green-900/50">
+                <div className="absolute top-0 right-0 rounded-bl-lg bg-green-900/50 px-1 py-0.5 text-xs font-bold text-green-400">
                   ✓
                 </div>
               )}

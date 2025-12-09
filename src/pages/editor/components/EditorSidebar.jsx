@@ -55,13 +55,13 @@ const EditorSidebar = ({
   loading,
 }) => {
   return (
-    <div className="w-[280px] bg-[#1e1e1e] border-r border-[#333] flex flex-col gap-4 p-5 overflow-y-auto shrink-0">
-      <h3 className="text-white text-lg font-normal uppercase tracking-wider border-b-2 border-blue-500 pb-2.5 inline-block m-0">
+    <div className="flex w-[280px] shrink-0 flex-col gap-4 overflow-y-auto border-r border-[#333] bg-[#1e1e1e] p-5">
+      <h3 className="m-0 inline-block border-b-2 border-blue-500 pb-2.5 text-lg font-normal tracking-wider text-white uppercase">
         File Manager
       </h3>
 
       <div className="flex flex-col gap-1.5">
-        <label className="text-[#a0a0a0] text-xs font-bold uppercase mb-2">
+        <label className="mb-2 text-xs font-bold text-[#a0a0a0] uppercase">
           Select Editor
         </label>
         <nav>
@@ -71,8 +71,7 @@ const EditorSidebar = ({
               .map((item) => (
                 <li key={item.fileName}>
                   <button
-                    className={`w-full flex items-center gap-3 p-2.5 rounded-md text-sm font-medium transition-colors
-                    ${
+                    className={`flex w-full items-center gap-3 rounded-md p-2.5 text-sm font-medium transition-colors ${
                       selectedFileName === item.fileName
                         ? "bg-blue-600 text-white shadow-lg"
                         : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
@@ -93,8 +92,7 @@ const EditorSidebar = ({
               .map((file) => (
                 <li key={file}>
                   <button
-                    className={`w-full flex items-center gap-3 p-2.5 rounded-md text-sm font-medium transition-colors
-                    ${
+                    className={`flex w-full items-center gap-3 rounded-md p-2.5 text-sm font-medium transition-colors ${
                       selectedFileName === file
                         ? "bg-blue-600 text-white shadow-lg"
                         : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
@@ -124,7 +122,7 @@ const EditorSidebar = ({
 
       <div className="mt-auto">
         <button
-          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-4 rounded-md transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-blue-700 active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-50"
           onClick={onSave}
           disabled={loading}
         >

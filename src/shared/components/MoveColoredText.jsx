@@ -44,7 +44,7 @@ const MoveColoredText = ({ text }) => {
             <Icon
               key={index}
               size={16}
-              className={`inline-block mx-1 mb-0.5 ${color}`}
+              className={`mx-1 mb-0.5 inline-block ${color}`}
             />
           );
         } else if (part) {

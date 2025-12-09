@@ -34,13 +34,13 @@ const BossFightSection = ({
   const bossBackground = typeBackgrounds[bossFight.type] || typeBackgrounds[""];
 
   return (
-    <div className="bg-[#1e2025] rounded-2xl p-4 md:p-6 shadow-lg border border-white/5 animate-[fade-in_0.4s_ease-out]">
-      <div className="flex flex-col md:flex-row items-center gap-4 mb-6">
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-red-500 shadow-md flex-shrink-0">
+    <div className="animate-[fade-in_0.4s_ease-out] rounded-2xl border border-white/5 bg-[#1e2025] p-4 shadow-lg md:p-6">
+      <div className="mb-6 flex flex-col items-center gap-4 md:flex-row">
+        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full border-4 border-red-500 shadow-md md:h-32 md:w-32">
           <img
             src={`${import.meta.env.BASE_URL}trainers/${bossFight.image}`}
             alt={bossFight.name}
-            className="w-full h-full object-cover object-top"
+            className="h-full w-full object-cover object-top"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = `https://placehold.co/128x128/cccccc/333333?text=${bossFight.name}`;
@@ -48,15 +48,15 @@ const BossFightSection = ({
           />
         </div>
         <div className="text-center md:text-left">
-          <h2 className="text-3xl font-bold text-white m-0">
+          <h2 className="m-0 text-3xl font-bold text-white">
             {bossFight.name}
           </h2>
-          <p className="text-red-400 text-lg m-0">
+          <p className="m-0 text-lg text-red-400">
             {bossFight.region} Boss Fight
           </p>
           {bossFight.type && (
             <span
-              className="inline-block px-3 py-1 mt-2 rounded-full text-sm font-semibold text-[#1a1b20]"
+              className="mt-2 inline-block rounded-full px-3 py-1 text-sm font-semibold text-[#1a1b20]"
               style={{ backgroundColor: bossBackground }}
             >
               {bossFight.type}
@@ -67,20 +67,18 @@ const BossFightSection = ({
 
       {teamNames.length > 0 && (
         <div className="mb-4">
-          <h3 className="text-xl font-semibold text-slate-300 mb-3 text-center md:text-left">
+          <h3 className="mb-3 text-center text-xl font-semibold text-slate-300 md:text-left">
             Teams
           </h3>
-          <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+          <div className="mb-4 flex flex-wrap justify-center gap-3 md:justify-start">
             {teamNames.map((teamName) => (
               <button
                 key={teamName}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors
-                  ${
-                    activeTeam === teamName
-                      ? "bg-red-600 text-white shadow-md"
-                      : "bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white"
-                  }
-                `}
+                className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                  activeTeam === teamName
+                    ? "bg-red-600 text-white shadow-md"
+                    : "bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white"
+                } `}
                 onClick={() => setActiveTeam(teamName)}
               >
                 {teamName}
@@ -90,7 +88,7 @@ const BossFightSection = ({
 
           {pokemonNamesForSelectedTeam.length > 0 && (
             <div>
-              <h3 className="text-xl font-semibold text-slate-300 mb-3 text-center md:text-left">
+              <h3 className="mb-3 text-center text-xl font-semibold text-slate-300 md:text-left">
                 Pokémon for {activeTeam}
               </h3>
               <div className="flex flex-wrap justify-center gap-4">
@@ -175,20 +173,20 @@ function BossFightsPage() {
 
   const renderWarning = (warningText) =>
     warningText ? (
-      <div className="w-full flex mb-3">
-        <div className="w-full bg-red-500/10 border border-red-500/50 rounded-xl shadow-sm text-red-200 text-sm font-medium p-3 text-center">
+      <div className="mb-3 flex w-full">
+        <div className="w-full rounded-xl border border-red-500/50 bg-red-500/10 p-3 text-center text-sm font-medium text-red-200 shadow-sm">
           ⚠️ {warningText}
         </div>
       </div>
     ) : null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-24">
+    <div className="mx-auto max-w-7xl space-y-8 pb-24">
       <PageTitle title="PokéMMO Compendium: Boss Fights" />
 
       {/* Header */}
-      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
           <Skull className="text-red-500" size={32} />
           Boss Fights Strategies
         </h1>
@@ -210,19 +208,19 @@ function BossFightsPage() {
 
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-[fade-in_0.2s_ease-out]"
+          className="fixed inset-0 z-[100] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 backdrop-blur-sm"
           onClick={() => setIsPokemonDetailsVisible(false)}
         >
           <div
-            className="relative w-[500px] max-w-[90vw] max-h-[85vh] flex flex-col bg-[#1a1b20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-[scale-in_0.3s_ease-out]"
+            className="relative flex max-h-[85vh] w-[500px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div
-              className="flex justify-center p-4 z-10 shrink-0"
+              className="z-10 flex shrink-0 justify-center p-4"
               style={{ background: detailsTitleBackground }}
             >
-              <h2 className="text-[#1a1b20] font-bold text-xl m-0 drop-shadow-sm">
+              <h2 className="m-0 text-xl font-bold text-[#1a1b20] drop-shadow-sm">
                 {currentPokemonObject.name}
               </h2>
             </div>
@@ -230,12 +228,12 @@ function BossFightsPage() {
             {/* Modal Content */}
             <div
               id="pokemon-details-content"
-              className="flex-1 overflow-y-auto p-6 bg-[#1a1b20]"
+              className="flex-1 overflow-y-auto bg-[#1a1b20] p-6"
             >
               <div className="flex flex-col gap-4">
                 {strategyHistory.length > 0 && (
                   <button
-                    className="self-start mb-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 text-sm font-medium"
+                    className="mb-2 flex items-center gap-2 self-start rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white"
                     onClick={handleBackClick}
                   >
                     ⬅️ Back
@@ -243,7 +241,7 @@ function BossFightsPage() {
                 )}
 
                 {currentStrategyView.length === 0 ? (
-                  <p className="text-slate-500 text-center italic py-8">
+                  <p className="py-8 text-center text-slate-500 italic">
                     No strategy available.
                   </p>
                 ) : (
@@ -251,19 +249,19 @@ function BossFightsPage() {
                     return (
                       <div
                         key={index}
-                        className="flex flex-col animate-[fade-in_0.3s_ease-out]"
+                        className="flex animate-[fade-in_0.3s_ease-out] flex-col"
                       >
                         {(item.type === "main" || item.type === "step") && (
                           <>
                             {item.player && (
                               <div
-                                className={`mb-3 p-4 rounded-xl border ${
+                                className={`mb-3 rounded-xl border p-4 ${
                                   item.type === "main"
-                                    ? "bg-[#25272e] border-white/5 shadow-sm"
-                                    : "bg-transparent border-transparent"
+                                    ? "border-white/5 bg-[#25272e] shadow-sm"
+                                    : "border-transparent bg-transparent"
                                 }`}
                               >
-                                <p className="text-slate-200 text-center m-0 text-base leading-relaxed">
+                                <p className="m-0 text-center text-base leading-relaxed text-slate-200">
                                   <MoveColoredText text={item.player} />
                                 </p>
                               </div>
@@ -273,16 +271,16 @@ function BossFightsPage() {
                         )}
 
                         {item.variations && (
-                          <div className="flex flex-col gap-2.5 pl-4 border-l-2 border-white/5 my-2">
+                          <div className="my-2 flex flex-col gap-2.5 border-l-2 border-white/5 pl-4">
                             {item.variations.map((v, vi) => (
                               <button
                                 key={vi}
-                                className="w-full text-left p-3 bg-[#25272e] border border-white/5 rounded-xl text-slate-300 hover:bg-[#2d3038] hover:border-blue-500/50 hover:text-blue-200 transition-all group"
+                                className="group w-full rounded-xl border border-white/5 bg-[#25272e] p-3 text-left text-slate-300 transition-all hover:border-blue-500/50 hover:bg-[#2d3038] hover:text-blue-200"
                                 onClick={() => handleStepClick(v)}
                               >
-                                <p className="m-0 text-sm font-semibold flex items-center justify-between">
+                                <p className="m-0 flex items-center justify-between text-sm font-semibold">
                                   {v.name}
-                                  <span className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400">
+                                  <span className="text-blue-400 opacity-0 transition-opacity group-hover:opacity-100">
                                     →
                                   </span>
                                 </p>

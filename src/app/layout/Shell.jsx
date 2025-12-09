@@ -7,17 +7,17 @@ function Shell({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen w-full bg-[#0f1014] overflow-hidden text-slate-200 font-sans selection:bg-blue-500/30">
+    <div className="flex h-screen w-full overflow-hidden bg-[#0f1014] font-sans text-slate-200 selection:bg-blue-500/30">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden relative">
+      <div className="relative flex h-full flex-1 flex-col overflow-hidden">
         {/* Mobile Header */}
-        <header className="lg:hidden h-14 flex items-center px-4 bg-[#1a1b20] border-b border-white/5 shrink-0 z-30">
+        <header className="z-30 flex h-14 shrink-0 items-center border-b border-white/5 bg-[#1a1b20] px-4 lg:hidden">
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="p-2 -ml-2 text-slate-400 hover:text-white"
+            className="-ml-2 p-2 text-slate-400 hover:text-white"
           >
             <Menu size={24} />
           </button>
@@ -27,8 +27,8 @@ function Shell({ children }) {
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-8 scroll-smooth">
-          <div className="max-w-7xl mx-auto h-full animate-[fade-in_0.3s_ease-out]">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+          <div className="mx-auto h-full max-w-7xl animate-[fade-in_0.3s_ease-out]">
             {children}
           </div>
         </main>

@@ -117,20 +117,20 @@ function EliteFourPage() {
 
   const renderWarning = (warningText) =>
     warningText ? (
-      <div className="w-full flex mb-3">
-        <div className="w-full bg-red-500/10 border border-red-500/50 rounded-xl shadow-sm text-red-200 text-sm font-medium p-3 text-center">
+      <div className="mb-3 flex w-full">
+        <div className="w-full rounded-xl border border-red-500/50 bg-red-500/10 p-3 text-center text-sm font-medium text-red-200 shadow-sm">
           ⚠️ {warningText}
         </div>
       </div>
     ) : null;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-24">
+    <div className="mx-auto max-w-7xl space-y-8 pb-24">
       <PageTitle title="PokéMMO Compendium: Elite Four" />
 
       {/* Header */}
-      <div className="flex flex-col items-center mb-8 space-y-2 text-center">
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
           <Crown className="text-yellow-500" size={32} />
           Elite Four Strategy
         </h1>
@@ -143,14 +143,11 @@ function EliteFourPage() {
           <button
             key={teamName}
             onClick={() => handleTeamClick(teamName)}
-            className={`
-              relative w-40 h-16 rounded-2xl font-bold text-lg transition-all duration-300 border
-              ${
-                selectedTeam === teamName
-                  ? "bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.2)] scale-105"
-                  : "bg-[#1e2025] border-white/5 text-slate-400 hover:bg-[#25272e] hover:border-white/20 hover:text-slate-200 hover:-translate-y-1"
-              }
-            `}
+            className={`relative h-16 w-40 rounded-2xl border text-lg font-bold transition-all duration-300 ${
+              selectedTeam === teamName
+                ? "scale-105 border-blue-500 bg-blue-600/20 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+                : "border-white/5 bg-[#1e2025] text-slate-400 hover:-translate-y-1 hover:border-white/20 hover:bg-[#25272e] hover:text-slate-200"
+            } `}
           >
             {teamName}
           </button>
@@ -158,9 +155,9 @@ function EliteFourPage() {
       </div>
 
       {selectedTeam && currentTeamBuilds.length > 0 && (
-        <div className="flex justify-center animate-[fade-in_0.3s_ease-out]">
+        <div className="flex animate-[fade-in_0.3s_ease-out] justify-center">
           <button
-            className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-900/20 transition-all hover:scale-105 active:scale-95"
+            className="rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-900/20 transition-all hover:scale-105 hover:bg-blue-500 active:scale-95"
             onClick={() => setIsTeamBuildVisible(true)}
           >
             📋 View {selectedTeam} Team Build
@@ -169,8 +166,8 @@ function EliteFourPage() {
       )}
 
       {selectedTeam && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
+        <div className="animate-[fade-in_0.4s_ease-out] space-y-4">
+          <h2 className="text-center text-xl font-semibold text-slate-300">
             Select Region
           </h2>
           <div className="flex flex-wrap justify-center gap-5">
@@ -187,8 +184,8 @@ function EliteFourPage() {
       )}
 
       {selectedRegion && filteredEliteFour.length > 0 && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
+        <div className="animate-[fade-in_0.4s_ease-out] space-y-4">
+          <h2 className="text-center text-xl font-semibold text-slate-300">
             Select Member
           </h2>
           <div className="flex flex-wrap justify-center gap-5">
@@ -212,8 +209,8 @@ function EliteFourPage() {
       )}
 
       {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
-        <div className="space-y-4 animate-[fade-in_0.4s_ease-out]">
-          <h2 className="text-xl font-semibold text-slate-300 text-center">
+        <div className="animate-[fade-in_0.4s_ease-out] space-y-4">
+          <h2 className="text-center text-xl font-semibold text-slate-300">
             Select Opponent Pokémon
           </h2>
           <div className="flex flex-wrap justify-center gap-5">
@@ -245,19 +242,19 @@ function EliteFourPage() {
       {/* Strategy Modal */}
       {isPokemonDetailsVisible && currentPokemonObject && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm animate-[fade-in_0.2s_ease-out]"
+          className="fixed inset-0 z-[100] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 backdrop-blur-sm"
           onClick={() => setIsPokemonDetailsVisible(false)}
         >
           <div
-            className="relative w-[500px] max-w-[90vw] max-h-[85vh] flex flex-col bg-[#1a1b20] border border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-[scale-in_0.3s_ease-out]"
+            className="relative flex max-h-[85vh] w-[500px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div
-              className="flex justify-center p-4 z-10 shrink-0"
+              className="z-10 flex shrink-0 justify-center p-4"
               style={{ background: detailsTitleBackground }}
             >
-              <h2 className="text-[#1a1b20] font-bold text-xl m-0 drop-shadow-sm">
+              <h2 className="m-0 text-xl font-bold text-[#1a1b20] drop-shadow-sm">
                 {currentPokemonObject.name}
               </h2>
             </div>
@@ -265,24 +262,24 @@ function EliteFourPage() {
             {/* Modal Content */}
             <div
               id="pokemon-details-content"
-              className="flex-1 overflow-y-auto p-6 bg-[#1a1b20]"
+              className="flex-1 overflow-y-auto bg-[#1a1b20] p-6"
             >
               <div className="flex flex-col gap-4">
                 {strategyHistory.length > 0 && (
                   <button
-                    className="self-start mb-2 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-slate-300 hover:bg-white/10 hover:text-white transition-all flex items-center gap-2 text-sm font-medium group"
+                    className="group mb-2 flex items-center gap-2 self-start rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white"
                     onClick={handleBackClick}
                   >
                     <ArrowLeft
                       size={16}
-                      className=" group-hover:opacity-100  text-slate-300"
+                      className="text-slate-300 group-hover:opacity-100"
                     />
                     <span>Back</span>
                   </button>
                 )}
 
                 {currentStrategyView.length === 0 ? (
-                  <p className="text-slate-500 text-center italic py-8">
+                  <p className="py-8 text-center text-slate-500 italic">
                     No strategy available for this Pokémon.
                   </p>
                 ) : (
@@ -290,19 +287,19 @@ function EliteFourPage() {
                     return (
                       <div
                         key={index}
-                        className="flex flex-col animate-[fade-in_0.3s_ease-out]"
+                        className="flex animate-[fade-in_0.3s_ease-out] flex-col"
                       >
                         {(item.type === "main" || item.type === "step") && (
                           <>
                             {item.player && (
                               <div
-                                className={`mb-3 p-4 rounded-xl border ${
+                                className={`mb-3 rounded-xl border p-4 ${
                                   item.type === "main"
-                                    ? "bg-[#25272e] border-white/5 shadow-sm"
-                                    : "bg-transparent border-transparent"
+                                    ? "border-white/5 bg-[#25272e] shadow-sm"
+                                    : "border-transparent bg-transparent"
                                 }`}
                               >
-                                <p className="text-slate-200 text-center m-0 text-base leading-relaxed">
+                                <p className="m-0 text-center text-base leading-relaxed text-slate-200">
                                   <MoveColoredText text={item.player} />
                                 </p>
                               </div>
@@ -312,18 +309,18 @@ function EliteFourPage() {
                         )}
 
                         {item.variations && (
-                          <div className="flex flex-col gap-2.5 pl-4 border-l-2 border-white/5 my-2">
+                          <div className="my-2 flex flex-col gap-2.5 border-l-2 border-white/5 pl-4">
                             {item.variations.map((v, vi) => (
                               <button
                                 key={vi}
-                                className="w-full text-left p-3 bg-[#25272e] border border-white/5 rounded-xl text-slate-300 hover:bg-[#2d3038] hover:border-blue-500/50 hover:text-blue-200 transition-all group"
+                                className="group w-full rounded-xl border border-white/5 bg-[#25272e] p-3 text-left text-slate-300 transition-all hover:border-blue-500/50 hover:bg-[#2d3038] hover:text-blue-200"
                                 onClick={() => handleStepClick(v)}
                               >
-                                <p className="m-0 text-sm font-semibold flex items-center justify-between">
+                                <p className="m-0 flex items-center justify-between text-sm font-semibold">
                                   <MoveColoredText text={v.name} />
                                   <ArrowRight
                                     size={16}
-                                    className="opacity-0 group-hover:opacity-100 transition-opacity text-blue-400"
+                                    className="text-blue-400 opacity-0 transition-opacity group-hover:opacity-100"
                                   />
                                 </p>
                                 {renderWarning(v.warning)}

@@ -136,21 +136,21 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full h-full relative">
+    <div className="relative flex h-full w-full flex-col items-center">
       {/* Legend / Key - Sticky inside the container */}
-      <div className="sticky top-0 w-full flex items-center justify-between px-6 py-4 bg-[#1e2025]/95 backdrop-blur-md z-[20] border-b border-white/5 shadow-md">
+      <div className="sticky top-0 z-[20] flex w-full items-center justify-between border-b border-white/5 bg-[#1e2025]/95 px-6 py-4 shadow-md backdrop-blur-md">
         <div className="flex flex-wrap gap-2">
           {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
             <div
               key={index}
-              className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/40 border border-white/10"
+              className="flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-2.5 py-1"
             >
               <StatCircle
                 ivColors={[STAT_COLOR_MAP[statName]]}
                 size={12}
                 className="shadow-none"
               />
-              <span className="text-slate-300 text-[10px] font-bold uppercase tracking-wider">
+              <span className="text-[10px] font-bold tracking-wider text-slate-300 uppercase">
                 {statName}
               </span>
             </div>
@@ -158,26 +158,26 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
         </div>
 
         {/* Zoom Controls */}
-        <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-lg p-1 ml-4 shrink-0">
+        <div className="ml-4 flex shrink-0 items-center gap-1 rounded-lg border border-white/10 bg-black/40 p-1">
           <button
             onClick={() => setZoomLevel((z) => Math.max(z - 0.1, 0.3))}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            className="rounded p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
           >
             <Minus size={16} />
           </button>
-          <span className="text-xs font-mono text-slate-300 w-10 text-center">
+          <span className="w-10 text-center font-mono text-xs text-slate-300">
             {Math.round(zoomLevel * 100)}%
           </span>
           <button
             onClick={() => setZoomLevel((z) => Math.min(z + 0.1, 2.0))}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            className="rounded p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
           >
             <Plus size={16} />
           </button>
-          <div className="w-px h-4 bg-white/10 mx-1" />
+          <div className="mx-1 h-4 w-px bg-white/10" />
           <button
             onClick={() => setZoomLevel(1)}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded transition-colors"
+            className="rounded p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
             title="Reset Zoom"
           >
             <RefreshCcw size={14} />
@@ -186,10 +186,10 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
       </div>
 
       {/* Scrollable Tree Area */}
-      <div className="flex-1 w-full overflow-auto p-8 relative bg-[url('/grid.svg')] bg-opacity-5">
-        <div className="min-w-max mx-auto pb-20 pt-10">
+      <div className="bg-opacity-5 relative w-full flex-1 overflow-auto bg-[url('/grid.svg')] p-8">
+        <div className="mx-auto min-w-max pt-10 pb-20">
           <div
-            className="flex flex-col items-center transition-transform duration-200 ease-out origin-top"
+            className="flex origin-top flex-col items-center transition-transform duration-200 ease-out"
             style={{
               gap: `${VERTICAL_GAP}px`,
               transform: `scale(${zoomLevel})`,
@@ -217,18 +217,15 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
 
                       pairs.push(
                         <div
-                          className={`
-                            relative flex justify-center items-center
-                            ${
-                              !isLastRow
-                                ? "before:content-[''] before:absolute before:h-[1px] before:bg-white/20 before:top-1/2 before:left-0 before:right-0 before:mx-[calc(var(--node-size)/2)] before:-z-10 after:content-[''] after:absolute after:w-[1px] after:bg-white/20 after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:-z-10"
-                                : ""
-                            }
-                          `}
+                          className={`relative flex items-center justify-center ${
+                            !isLastRow
+                              ? "before:absolute before:top-1/2 before:right-0 before:left-0 before:-z-10 before:mx-[calc(var(--node-size)/2)] before:h-[1px] before:bg-white/20 before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-z-10 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:w-[1px] after:-translate-x-1/2 after:bg-white/20 after:content-['']"
+                              : ""
+                          } `}
                           style={{ gap: `${config.pairGap}px` }}
                           key={`${rowIndex}-pair-${i / 2}`}
                         >
-                          <div className="relative flex items-center justify-center z-[2]">
+                          <div className="relative z-[2] flex items-center justify-center">
                             <StatCircle
                               ivColors={colors}
                               onClick={() => handleNodeClick(rowIndex, i)}
@@ -239,7 +236,7 @@ function TreeScheme({ selectedIvCount, selectedIvStats, nature }) {
                             />
                           </div>
                           {next && (
-                            <div className="relative flex items-center justify-center z-[2]">
+                            <div className="relative z-[2] flex items-center justify-center">
                               <StatCircle
                                 ivColors={next}
                                 onClick={() => handleNodeClick(rowIndex, i + 1)}

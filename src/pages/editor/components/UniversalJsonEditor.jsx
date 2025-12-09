@@ -7,11 +7,11 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
 
   if (Array.isArray(data)) {
     return (
-      <div className="mt-2.5 border-l-[3px] border-blue-500 bg-blue-500/5 p-2.5 pl-4 rounded-r-md font-mono text-sm">
+      <div className="mt-2.5 rounded-r-md border-l-[3px] border-blue-500 bg-blue-500/5 p-2.5 pl-4 font-mono text-sm">
         <div className="flex items-center justify-between">
           {label && (
             <h4
-              className="text-white text-xs mb-2.5 uppercase tracking-widest opacity-70 cursor-pointer"
+              className="mb-2.5 cursor-pointer text-xs tracking-widest text-white uppercase opacity-70"
               onClick={toggleCollapse}
             >
               {label} (List){" "}
@@ -19,7 +19,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
             </h4>
           )}
           <button
-            className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2 py-1 text-xs cursor-pointer transition-colors"
+            className="cursor-pointer rounded border-none bg-green-600 px-2 py-1 text-xs text-white transition-colors hover:bg-green-700"
             onClick={() => {
               let newItem = {};
               if (data.length > 0) {
@@ -48,18 +48,18 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
 
         {!isCollapsed &&
           (data.length === 0 ? (
-            <p className="text-[#888] italic py-2">Empty List</p>
+            <p className="py-2 text-[#888] italic">Empty List</p>
           ) : (
             <>
               {data.map((item, index) => (
                 <div
                   key={index}
-                  className="bg-[#242424] border border-[#333] rounded-md mb-2.5 mr-2.5 p-2.5"
+                  className="mr-2.5 mb-2.5 rounded-md border border-[#333] bg-[#242424] p-2.5"
                 >
-                  <div className="flex justify-between items-center bg-[#2a2a2a] p-1.5 px-2.5 -m-2.5 mb-2.5 border-b border-[#333] rounded-t-md">
+                  <div className="-m-2.5 mb-2.5 flex items-center justify-between rounded-t-md border-b border-[#333] bg-[#2a2a2a] p-1.5 px-2.5">
                     <strong className="text-[#fab1a0]">Item {index + 1}</strong>
                     <button
-                      className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs cursor-pointer transition-colors"
+                      className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs text-white transition-colors hover:bg-red-700"
                       onClick={() =>
                         onChange(data.filter((_, i) => i !== index))
                       }
@@ -99,11 +99,11 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
     };
 
     return (
-      <div className="flex flex-col gap-[2px] w-full font-mono text-sm">
+      <div className="flex w-full flex-col gap-[2px] font-mono text-sm">
         <div className="flex items-center justify-between">
           {label && (
             <h5
-              className="text-[#aaa] my-2.5 mb-1.5 font-semibold cursor-pointer"
+              className="my-2.5 mb-1.5 cursor-pointer font-semibold text-[#aaa]"
               onClick={toggleCollapse}
             >
               {label} <span className="ml-2">{isCollapsed ? "▶" : "▼"}</span>
@@ -113,7 +113,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
             <div className="flex gap-2">
               {missingSuggestions.length > 0 && (
                 <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white border-none rounded px-2 py-1 text-xs cursor-pointer transition-colors"
+                  className="cursor-pointer rounded border-none bg-blue-600 px-2 py-1 text-xs text-white transition-colors hover:bg-blue-700"
                   onClick={() => {
                     if (missingSuggestions.length > 0) {
                       handleAddField(missingSuggestions[0], "");
@@ -124,7 +124,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                 </button>
               )}
               <button
-                className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2 py-1 text-xs cursor-pointer transition-colors"
+                className="cursor-pointer rounded border-none bg-green-600 px-2 py-1 text-xs text-white transition-colors hover:bg-green-700"
                 onClick={() => {
                   const fieldName = window.prompt(
                     "New field name (e.g., 'ability'):"
@@ -141,23 +141,23 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
         </div>
         {!isCollapsed &&
           (Object.keys(data).length === 0 ? (
-            <p className="text-[#888] italic py-2">Empty Object</p>
+            <p className="py-2 text-[#888] italic">Empty Object</p>
           ) : (
             <>
               {Object.entries(data).map(([key, value]) => (
                 <div
                   key={key}
-                  className="flex items-start py-2 border-b border-[#2a2a2a]"
+                  className="flex items-start border-b border-[#2a2a2a] py-2"
                 >
-                  <div className="flex-[0_0_160px] flex justify-between items-center pr-4 pt-1.5">
+                  <div className="flex flex-[0_0_160px] items-center justify-between pt-1.5 pr-4">
                     <div
-                      className="text-[#88c0d0] font-semibold overflow-hidden text-ellipsis whitespace-nowrap max-w-[130px]"
+                      className="max-w-[130px] overflow-hidden font-semibold text-ellipsis whitespace-nowrap text-[#88c0d0]"
                       title={key}
                     >
                       {key}:
                     </div>
                     <button
-                      className="bg-transparent border-none text-[#555] text-lg leading-none cursor-pointer px-1.5 rounded transition-colors hover:text-[#ff6b6b] hover:bg-red-500/10"
+                      className="cursor-pointer rounded border-none bg-transparent px-1.5 text-lg leading-none text-[#555] transition-colors hover:bg-red-500/10 hover:text-[#ff6b6b]"
                       title="Elimina"
                       onClick={() => {
                         if (window.confirm(`Delete field "${key}"?`)) {
@@ -170,7 +170,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                       ×
                     </button>
                   </div>
-                  <div className="flex-1 min-w-0 [&>.flex-col]:border-l-2 [&>.flex-col]:border-[#444] [&>.flex-col]:pl-4 [&>.flex-col]:my-1.5">
+                  <div className="min-w-0 flex-1 [&>.flex-col]:my-1.5 [&>.flex-col]:border-l-2 [&>.flex-col]:border-[#444] [&>.flex-col]:pl-4">
                     <UniversalJsonEditor
                       data={value}
                       suggestedKeys={suggestedKeys}
@@ -192,7 +192,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
       <input
         type="checkbox"
         checked={data}
-        className="w-5 h-5 accent-blue-500 cursor-pointer mt-1.5"
+        className="mt-1.5 h-5 w-5 cursor-pointer accent-blue-500"
         onChange={(e) => onChange(e.target.checked)}
       />
     );
@@ -202,7 +202,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
     <input
       type={typeof data === "number" ? "number" : "text"}
       value={data ?? ""}
-      className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full font-inherit transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
+      className="font-inherit w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
       onChange={(e) => {
         const val = e.target.value;
         onChange(typeof data === "number" ? Number(val) : val);
