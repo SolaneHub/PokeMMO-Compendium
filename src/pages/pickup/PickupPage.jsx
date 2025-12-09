@@ -11,16 +11,34 @@ function PickupPage() {
     useState(false);
 
   const pickupPokemonBuilds = [
-    { name: "Teddiursa" },
-    { name: "Meowth" },
-    { name: "Aipom" },
-    { name: "Phanpy" },
-    { name: "Zigzagoon" },
-    { name: "Linoone" },
+    {
+      name: "Teddiursa",
+      item: "Choice Specs or Choice Band",
+      ability: "Pickup",
+      nature: "Mild",
+      evs: "126 Atk / 252 SpA / 132 Spe",
+      ivs: "6x31",
+      moves: ["Earthquake", "Hyper Voice", "Sweet Scent"],
+    },
+    {
+      name: "Meowth",
+      item: "Silk Scarf",
+      ability: "Pickup",
+      nature: "Brave",
+      evs: "6 HP / 252 Atk / 252 Spe",
+      ivs: "6x31",
+      moves: ["Pay Day", "Covet", "Hyper Voice", "Fake Out"],
+    },
+    {
+      name: "Munchlax",
+      item: "Choice Scarf or Choice Band",
+      ability: "Pickup",
+      nature: "Adamant",
+      evs: "6 HP / 252 Atk / 252 Spe",
+      ivs: "5x31",
+      moves: ["Pay Day", "Covet", "Earthquake", "Rock Slide"],
+    },
     { name: "Pachirisu" },
-    { name: "Ambipom" },
-    { name: "Munchlax" },
-    { name: "Lillipup" },
   ];
 
   return (

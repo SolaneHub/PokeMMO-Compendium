@@ -72,6 +72,32 @@ app.post("/api/data", (req, res) => {
   }
 });
 
+app.get("/api/proxy-image", async (req, res) => {
+  const { url } = req.query;
+  if (!url) {
+    return res.status(400).send("URL parameter is required");
+  }
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      return res.status(response.status).send("Failed to fetch image");
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (contentType) {
+      res.setHeader("Content-Type", contentType);
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    res.send(buffer);
+  } catch (error) {
+    console.error("Proxy error:", error);
+    res.status(500).send("Proxy error");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`✅ Backend avviato su http://localhost:${PORT}`);
   console.log(`📂 Cartella dati: ${DATA_DIR}`);

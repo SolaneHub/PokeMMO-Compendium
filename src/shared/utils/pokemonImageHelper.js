@@ -708,20 +708,22 @@ export const formatItemNameForUrl = (itemName) => {
 
   // Specific overrides for known inconsistencies
   const overrides = {
-    "Poké Ball": "Poke_Ball",
+    "Poké Ball": "Poké_Ball",
+    "Poke Ball": "Poké_Ball",
     TinyMushroom: "Tiny_Mushroom",
     NeverMeltIce: "Never-Melt_Ice",
     TwistedSpoon: "Twisted_Spoon",
     BrightPowder: "Bright_Powder",
     DeepSeaScale: "Deep_Sea_Scale",
     DeepSeaTooth: "Deep_Sea_Tooth",
+    Thunderstone: "Thunder_Stone",
   };
 
   if (overrides[itemName]) {
     formatted = overrides[itemName];
   } else {
-    // Remove special characters like apostrophes and dots
-    formatted = formatted.replace(/['’.]/g, "");
+    // Remove special characters (only dots, keep apostrophes for King's Rock etc)
+    formatted = formatted.replace(/[.]/g, "");
 
     if (!formatted.includes(" ")) {
       // Split CamelCase (e.g. TinyMushroom -> Tiny_Mushroom) if no spaces exist

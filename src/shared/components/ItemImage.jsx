@@ -5,13 +5,17 @@ import { formatItemNameForUrl } from "@/shared/utils/pokemonImageHelper";
 const ItemImage = ({ item, className = "w-5 h-5 mr-2 object-contain" }) => {
   const formattedName = formatItemNameForUrl(item);
   const dreamUrl = `https://archives.bulbagarden.net/wiki/Special:FilePath/Dream_${formattedName}_Sprite.png`;
-  const bagUrl = `https://archives.bulbagarden.net/wiki/Special:FilePath/Bag_${formattedName}_Sprite.png`;
 
-  const [imgSrc, setImgSrc] = useState(dreamUrl);
+  // Use local proxy in development to bypass CORS, direct URL in production
+  const finalUrl = import.meta.env.DEV
+    ? `http://localhost:3001/api/proxy-image?url=${encodeURIComponent(dreamUrl)}`
+    : dreamUrl;
+
+  const [imgSrc, setImgSrc] = useState(finalUrl);
 
   useEffect(() => {
-    setImgSrc(dreamUrl);
-  }, [dreamUrl]);
+    setImgSrc(finalUrl);
+  }, [finalUrl]);
 
   return (
     <img
@@ -19,12 +23,9 @@ const ItemImage = ({ item, className = "w-5 h-5 mr-2 object-contain" }) => {
       alt={item}
       loading="lazy"
       className={className}
-      onError={() => {
-        if (imgSrc === dreamUrl) {
-          setImgSrc(bagUrl);
-        } else {
-          setImgSrc(null);
-        }
+      onError={(e) => {
+        console.error("Failed to load image:", imgSrc, e);
+        setImgSrc(null);
       }}
       style={imgSrc === null ? { display: "none" } : {}}
     />
