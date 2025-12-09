@@ -225,7 +225,7 @@ const PickupEditor = ({ data, onChange }) => {
       </div>
 
       <div className="space-y-6">
-        {safeData.regions.map((region, regionIndex) => (
+        {safeData?.regions?.map((region, regionIndex) => (
           <RegionEditor
             key={regionIndex}
             region={region}
