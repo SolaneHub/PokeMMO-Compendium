@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import EditorSidebar from "@/pages/editor/components/EditorSidebar";
 import EliteFourEditor from "@/pages/editor/components/EliteFourEditor";
@@ -34,6 +34,7 @@ const EditorPage = () => {
 
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isSaving, startTransition] = useTransition();
   const [serverError, setServerError] = useState(null);
 
   useEffect(() => {
@@ -84,37 +85,40 @@ const EditorPage = () => {
     };
   }, [selectedFileName, showToast]);
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!fileData || !selectedFileName) return;
-    try {
-      const res = await fetch(`${API_URL}/data?file=${selectedFileName}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fileData),
-      });
-      const result = await res.json();
-      if (result.success) {
-        showToast(`✅ ${selectedFileName} salvato!`, "success");
-      } else {
-        showToast("❌ Errore server durante il salvataggio.", "error");
+
+    startTransition(async () => {
+      try {
+        const res = await fetch(`${API_URL}/data?file=${selectedFileName}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(fileData),
+        });
+        const result = await res.json();
+        if (result.success) {
+          showToast(`✅ ${selectedFileName} salvato!`, "success");
+        } else {
+          showToast("❌ Errore server durante il salvataggio.", "error");
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("❌ Errore di connessione.", "error");
       }
-    } catch (err) {
-      console.error(err);
-      showToast("❌ Errore di connessione.", "error");
-    }
+    });
   };
 
   if (serverError) {
     return (
-      <div className="flex h-screen justify-center items-center bg-[#121212] text-slate-200 font-sans">
+      <div className="flex h-screen items-center justify-center bg-[#121212] font-sans text-slate-200">
         <div className="text-center text-red-400">
-          <h2 className="text-2xl font-bold mb-2">
+          <h2 className="mb-2 text-2xl font-bold">
             ⚠️ Backend Non Raggiungibile
           </h2>
           <p>{serverError}</p>
-          <p className="text-slate-400 text-sm mt-2">
+          <p className="mt-2 text-sm text-slate-400">
             Esegui{" "}
-            <code className="bg-slate-800 px-1 rounded">npm run server</code>{" "}
+            <code className="rounded bg-slate-800 px-1">npm run server</code>{" "}
             nel terminale.
           </p>
         </div>
@@ -126,7 +130,7 @@ const EditorPage = () => {
     EDITOR_MAPPING[selectedFileName] || UniversalJsonEditor;
 
   return (
-    <div className="flex h-screen bg-[#121212] text-slate-200 font-sans overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-[#121212] font-sans text-slate-200">
       <PageTitle title="PokéMMO Compendium: Editor" />
 
       {/* SIDEBAR */}
@@ -135,11 +139,11 @@ const EditorPage = () => {
         selectedFileName={selectedFileName}
         onSelectFile={setSelectedFileName}
         onSave={handleSave}
-        loading={loading}
+        loading={isSaving}
       />
 
       {/* MAIN AREA */}
-      <div className="flex-1 bg-[#121212] overflow-y-auto p-8 scrollbar-thin scrollbar-thumb-[#444] scrollbar-track-[#1a1a1a]">
+      <div className="scrollbar-thin scrollbar-thumb-[#444] scrollbar-track-[#1a1a1a] flex-1 overflow-y-auto bg-[#121212] p-8">
         {loading && <p className="text-slate-400">Caricamento...</p>}
         {!loading && fileData && (
           <SpecificEditor data={fileData} onChange={setFileData} />

@@ -59,19 +59,19 @@ const RedEditor = ({ data, onChange }) => {
   return (
     <div>
       <title>Editor: Red</title>
-      <h3 className="border-b-2 border-red-500 pb-2.5 text-red-500 text-xl font-bold mb-5">
+      <h3 className="mb-5 border-b-2 border-red-500 pb-2.5 text-xl font-bold text-red-500">
         🧢 Red Editor
       </h3>
 
-      <div className="bg-[#1e1e1e] border border-[#333] border-t-4 border-t-red-500 rounded-md shadow-sm p-5 mb-5">
-        <div className="flex gap-5 flex-wrap">
-          <div className="flex-1 min-w-[200px]">
-            <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
+      <div className="mb-5 rounded-md border border-t-4 border-[#333] border-t-red-500 bg-[#1e1e1e] p-5 shadow-sm">
+        <div className="flex flex-wrap gap-5">
+          <div className="min-w-[200px] flex-1">
+            <label className="mb-1.5 block text-xs font-bold text-[#aaa] uppercase">
               Team
             </label>
             <div className="flex gap-1.5">
               <select
-                className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
+                className="w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
                 value={teamKey || ""}
                 onChange={(e) => {
                   setTeamKey(e.target.value);
@@ -87,20 +87,20 @@ const RedEditor = ({ data, onChange }) => {
                   ))}
               </select>
               <button
-                className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2.5 py-2 text-sm font-bold cursor-pointer transition-all active:translate-y-[1px]"
+                className="cursor-pointer rounded border-none bg-green-600 px-2.5 py-2 text-sm font-bold text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
                 onClick={addTeam}
               >
                 +
               </button>
             </div>
           </div>
-          <div className="flex-1 min-w-[200px]">
-            <label className="text-[#aaa] text-xs font-bold block mb-1.5 uppercase">
+          <div className="min-w-[200px] flex-1">
+            <label className="mb-1.5 block text-xs font-bold text-[#aaa] uppercase">
               Pokémon
             </label>
             <div className="flex gap-1.5">
               <select
-                className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-2 w-full transition-colors focus:border-blue-500 focus:bg-[#222] outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222] disabled:cursor-not-allowed disabled:opacity-50"
                 value={pokemon || ""}
                 onChange={(e) => setPokemon(e.target.value)}
                 disabled={!teamKey}
@@ -117,7 +117,7 @@ const RedEditor = ({ data, onChange }) => {
                   )}
               </select>
               <button
-                className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-2.5 py-2 text-sm font-bold cursor-pointer transition-all active:translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="cursor-pointer rounded border-none bg-green-600 px-2.5 py-2 text-sm font-bold text-white transition-all hover:bg-green-700 active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={addPokemon}
                 disabled={!teamKey}
               >
@@ -130,12 +130,12 @@ const RedEditor = ({ data, onChange }) => {
 
       {pokemon ? (
         <div className="animate-[fade-in_0.3s_ease-out]">
-          <div className="flex justify-between items-center my-5">
+          <div className="my-5 flex items-center justify-between">
             <h4 className="m-0 text-lg font-bold text-white">
               Strategia: <span className="text-red-400">{pokemon}</span>
             </h4>
             <button
-              className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
+              className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
               onClick={() =>
                 updateStrategies([
                   ...strategies,
@@ -149,7 +149,7 @@ const RedEditor = ({ data, onChange }) => {
           {strategies.map((step, i) => (
             <div
               key={i}
-              className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm mb-4 p-5 border-l-[3px] border-l-red-500"
+              className="mb-4 rounded-md border border-l-[3px] border-[#333] border-l-red-500 bg-[#1e1e1e] p-5 shadow-sm"
             >
               <StepForm
                 step={step}
@@ -160,7 +160,7 @@ const RedEditor = ({ data, onChange }) => {
                 }}
               />
               <button
-                className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer mt-2.5 transition-all"
+                className="mt-2.5 cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
                 onClick={() =>
                   updateStrategies(strategies.filter((_, x) => x !== i))
                 }
@@ -171,7 +171,7 @@ const RedEditor = ({ data, onChange }) => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-[#666] mt-12 italic">
+        <p className="mt-12 text-center text-[#666] italic">
           Seleziona un Team e un Pokémon
         </p>
       )}

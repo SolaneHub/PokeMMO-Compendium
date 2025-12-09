@@ -59,7 +59,7 @@ function App() {
           return (
             <Activity key={key} mode={isActive ? "visible" : "hidden"}>
               <div
-                className="w-full h-full"
+                className="h-full w-full"
                 style={{ display: isActive ? "block" : "none" }}
               >
                 <Component />

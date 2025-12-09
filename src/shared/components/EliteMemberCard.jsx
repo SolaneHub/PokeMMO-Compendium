@@ -9,13 +9,11 @@ const EliteMemberCard = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col w-36 bg-[#1e2025] border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 group
-        ${
-          isSelected
-            ? "scale-105 z-10 border-transparent"
-            : "border-white/5 hover:border-white/20 hover:bg-[#25272e] hover:-translate-y-1 hover:shadow-xl"
-        }
-      `}
+      className={`group relative flex w-36 cursor-pointer flex-col overflow-hidden rounded-2xl border bg-[#1e2025] transition-all duration-300 ${
+        isSelected
+          ? "z-10 scale-105 border-transparent"
+          : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-[#25272e] hover:shadow-xl"
+      } `}
       onClick={() => onMemberClick(member)}
       style={
         isSelected
@@ -27,19 +25,19 @@ const EliteMemberCard = ({
       }
     >
       <div
-        className="py-1.5 px-2 text-center"
+        className="px-2 py-1.5 text-center"
         style={{ background: background }}
       >
-        <p className="text-[#1a1b20] font-bold text-sm m-0 truncate">
+        <p className="m-0 truncate text-sm font-bold text-[#1a1b20]">
           {member.name}
         </p>
       </div>
 
-      <div className="w-full h-32 bg-black/20 relative">
+      <div className="relative h-32 w-full bg-black/20">
         <img
           src={`${TRAINER_PATH}${member.image}`}
           alt={member.name}
-          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = `https://placehold.co/180x120/cccccc/333333?text=${encodeURIComponent(member.name)}`;

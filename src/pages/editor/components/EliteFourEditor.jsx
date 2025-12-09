@@ -63,13 +63,13 @@ const EliteFourEditor = ({ data, onChange }) => {
   return (
     <div>
       <title>Editor: Elite Four</title>
-      <h3 className="border-b-2 border-pink-500 pb-2.5 mb-5 text-lg font-semibold text-white">
+      <h3 className="mb-5 border-b-2 border-pink-500 pb-2.5 text-lg font-semibold text-white">
         🏰 Editor E4
       </h3>
 
       {/* Elite Four Member Selection */}
       <div className="mb-8">
-        <h4 className="text-white text-md font-semibold mb-3">
+        <h4 className="text-md mb-3 font-semibold text-white">
           Seleziona Membro:
         </h4>
         <div className="flex flex-wrap gap-4">
@@ -92,16 +92,14 @@ const EliteFourEditor = ({ data, onChange }) => {
       {/* Team Selection for Selected Member */}
       {currentMember && (
         <div className="mb-8 animate-[fade-in_0.3s_ease-out]">
-          <h4 className="text-white text-md font-semibold mb-3">
+          <h4 className="text-md mb-3 font-semibold text-white">
             Seleziona Team di {currentMember.name}:
           </h4>
           <div className="flex flex-wrap gap-4">
             {Object.keys(currentMember.teams).map((key) => (
               <button
                 key={key}
-                className={`flex-1 min-w-[150px] p-3 rounded-lg border-2 text-center transition-all duration-200 ease-in-out
-                    ${teamKey === key ? "border-pink-500 bg-pink-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-pink-500 hover:bg-gray-700"}
-                    focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50`}
+                className={`min-w-[150px] flex-1 rounded-lg border-2 p-3 text-center transition-all duration-200 ease-in-out ${teamKey === key ? "border-pink-500 bg-pink-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-pink-500 hover:bg-gray-700"} focus:ring-opacity-50 focus:ring-2 focus:ring-pink-500 focus:outline-none`}
                 onClick={() => {
                   setTeamKey(key);
                   setPokemon(null);
@@ -132,12 +130,12 @@ const EliteFourEditor = ({ data, onChange }) => {
 
       {steps && pokemon ? (
         <div className="animate-[fade-in_0.3s_ease-out]">
-          <div className="flex justify-between items-center my-5 border-b border-[#444] pb-2.5">
-            <h4 className="m-0 text-pink-500 font-bold">
+          <div className="my-5 flex items-center justify-between border-b border-[#444] pb-2.5">
+            <h4 className="m-0 font-bold text-pink-500">
               Strategia per: <span className="text-white">{pokemon}</span>
             </h4>
             <button
-              className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
+              className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
               onClick={() =>
                 updateStrategies([...steps, createNewStepTemplate()])
               }
@@ -172,17 +170,17 @@ const EliteFourEditor = ({ data, onChange }) => {
           </DndContext>
         </div>
       ) : pokemon ? (
-        <div className="text-center p-10 border-2 border-dashed border-[#444] rounded-lg mt-5 text-[#888]">
+        <div className="mt-5 rounded-lg border-2 border-dashed border-[#444] p-10 text-center text-[#888]">
           Nessuno step configurato per questo Pokémon.
           <button
-            className="mt-4 bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
+            className="mt-4 cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
             onClick={() => updateStrategies([createNewStepTemplate()])}
           >
             + Aggiungi Primo Step
           </button>
         </div>
       ) : (
-        <div className="text-center p-10 border-2 border-dashed border-[#444] rounded-lg mt-5 text-[#888]">
+        <div className="mt-5 rounded-lg border-2 border-dashed border-[#444] p-10 text-center text-[#888]">
           Seleziona un Membro, un Team e un Pokémon per modificare la strategia.
         </div>
       )}

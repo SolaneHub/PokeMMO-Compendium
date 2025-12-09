@@ -13,13 +13,13 @@ const StepForm = ({ step, onChange }) => {
   const actionLabel = isConditionStep ? "Condition:" : "Action:";
 
   return (
-    <div className="border-l-[3px] border-[#00bcd4] bg-[#2a2b2e] p-2.5 px-4 mt-2.5">
-      <label className="text-[#b0b0b0] text-xs font-bold mt-4 block first:mt-0">
+    <div className="mt-2.5 border-l-[3px] border-[#00bcd4] bg-[#2a2b2e] p-2.5 px-4">
+      <label className="mt-4 block text-xs font-bold text-[#b0b0b0] first:mt-0">
         Type:{" "}
         <select
           value={step.type || ""}
           onChange={(e) => update("type", e.target.value)}
-          className="bg-[#2c2c2c] border border-[#444] rounded text-white text-[0.95rem] px-3 py-2 w-full mt-1.5 transition-all focus:bg-[#333] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
+          className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         >
           <option value="">-- Select Type --</option>
           <option value="main">Main</option>
@@ -28,14 +28,14 @@ const StepForm = ({ step, onChange }) => {
           <option value="condition">Condition</option>
         </select>
       </label>
-      <label className="text-[#b0b0b0] text-xs font-bold mt-4 block">
+      <label className="mt-4 block text-xs font-bold text-[#b0b0b0]">
         {actionLabel}{" "}
         <input
           type="text"
           list="action-suggestions"
           value={step.player || ""}
           onChange={(e) => update("player", e.target.value)}
-          className="bg-[#2c2c2c] border border-[#444] rounded text-white text-[0.95rem] px-3 py-2 w-full mt-1.5 transition-all focus:bg-[#333] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
+          className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         />
         {/* Datalist for action suggestions */}
         <datalist id="action-suggestions">
@@ -44,17 +44,17 @@ const StepForm = ({ step, onChange }) => {
           ))}
         </datalist>
       </label>
-      <label className="text-[#b0b0b0] text-xs font-bold mt-4 block">
+      <label className="mt-4 block text-xs font-bold text-[#b0b0b0]">
         Note:{" "}
         <input
           type="text"
           value={step.warning || ""}
           onChange={(e) => update("warning", e.target.value)}
-          className="bg-[#2c2c2c] border border-[#444] rounded text-white text-[0.95rem] px-3 py-2 w-full mt-1.5 transition-all focus:bg-[#333] focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/10"
+          className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         />
       </label>
 
-      <div className="mt-5 pt-4 border-t border-[#333]">
+      <div className="mt-5 border-t border-[#333] pt-4">
         <h4 className="mb-2.5 font-semibold text-white">Variations</h4>
         {step.variations?.map((variation, i) => (
           <div key={i}>
@@ -67,7 +67,7 @@ const StepForm = ({ step, onChange }) => {
               }}
             />
             <button
-              className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-4 py-2.5 text-sm font-medium cursor-pointer mt-2 flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
+              className="mt-2 flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-red-700 active:translate-y-[1px]"
               onClick={() =>
                 update(
                   "variations",
@@ -80,7 +80,7 @@ const StepForm = ({ step, onChange }) => {
           </div>
         ))}
         <button
-          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2.5 text-sm font-medium cursor-pointer mt-4 flex items-center justify-center gap-2 transition-all active:translate-y-[1px]"
+          className="mt-4 flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
           onClick={() =>
             update("variations", [
               ...(step.variations || []),

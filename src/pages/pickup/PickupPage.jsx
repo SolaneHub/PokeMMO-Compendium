@@ -24,12 +24,12 @@ function PickupPage() {
   ];
 
   return (
-    <div className="container mx-auto pb-24 space-y-8">
+    <div className="container mx-auto space-y-8 pb-24">
       <PageTitle title="PokéMMO Compendium: Pickup" />
 
       {/* Header */}
       <div className="flex flex-col items-center space-y-2 text-center">
-        <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
           <Package className="text-pink-400" size={32} />
           Pickup
         </h1>
@@ -38,7 +38,7 @@ function PickupPage() {
         </p>
       </div>
 
-      <div className="bg-[#1a1b20] p-6 rounded-lg shadow-lg mb-8 text-slate-300 leading-relaxed">
+      <div className="mb-8 rounded-lg bg-[#1a1b20] p-6 leading-relaxed text-slate-300 shadow-lg">
         <p className="mb-4">
           The <strong className="text-pink-400">Pickup</strong> ability allows a
           Pokémon to randomly find items after defeating wild Pokémon. The items
@@ -53,7 +53,7 @@ function PickupPage() {
         </p>
         <button
           onClick={() => setIsPickupPokemonModalOpen(true)}
-          className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors"
+          className="mt-4 rounded bg-blue-600 px-4 py-2 font-bold text-white transition-colors hover:bg-blue-700"
         >
           Show Pickup Pokémon
         </button>
@@ -63,13 +63,13 @@ function PickupPage() {
         {pickupData.regions?.map((region, regionIndex) => (
           <div
             key={regionIndex}
-            className="bg-[#1a1b20] p-6 rounded-lg shadow-lg"
+            className="rounded-lg bg-[#1a1b20] p-6 shadow-lg"
           >
-            <h4 className="text-2xl font-bold text-slate-200 mb-4 border-b border-gray-700 pb-2">
+            <h4 className="mb-4 border-b border-gray-700 pb-2 text-2xl font-bold text-slate-200">
               Region: <span className="text-blue-400">{region.name}</span>
             </h4>
             {region.note && (
-              <p className="text-yellow-300 mb-4">{region.note}</p>
+              <p className="mb-4 text-yellow-300">{region.note}</p>
             )}
 
             {region.locations?.length > 0 ? (
@@ -77,24 +77,24 @@ function PickupPage() {
                 {region.locations?.map((location, locationIndex) => (
                   <div
                     key={locationIndex}
-                    className="bg-[#1e2025] p-4 rounded-md"
+                    className="rounded-md bg-[#1e2025] p-4"
                   >
-                    <h5 className="text-xl font-semibold text-slate-200 mb-3 border-b border-gray-600 pb-1">
+                    <h5 className="mb-3 border-b border-gray-600 pb-1 text-xl font-semibold text-slate-200">
                       Location:{" "}
                       <span className="text-green-400">{location.name}</span>
                     </h5>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {Object.entries(location.items || {}).map(
                         ([category, items], categoryIndex) =>
                           items?.length > 0 && (
                             <div
                               key={categoryIndex}
-                              className="bg-[#2a2c30] p-3 rounded-md"
+                              className="rounded-md bg-[#2a2c30] p-3"
                             >
-                              <h6 className="text-md font-bold text-pink-400 mb-2 capitalize">
+                              <h6 className="text-md mb-2 font-bold text-pink-400 capitalize">
                                 {category.replace(/([A-Z])/g, " $1").trim()}:
                               </h6>
-                              <ul className="list-disc list-inside text-slate-300 text-sm space-y-1">
+                              <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
                                 {items?.map((item, itemIdx) => (
                                   <li
                                     key={itemIdx}

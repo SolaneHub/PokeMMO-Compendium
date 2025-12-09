@@ -9,23 +9,23 @@ const RegionEditor = ({
   onUpdateLocation,
 }) => {
   return (
-    <div className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm border-l-[5px] border-l-blue-500 p-0 overflow-hidden mb-4">
-      <div className="bg-[#252526] px-5 py-2.5 flex justify-between items-center border-b border-[#333]">
+    <div className="mb-4 overflow-hidden rounded-md border border-l-[5px] border-[#333] border-l-blue-500 bg-[#1e1e1e] p-0 shadow-sm">
+      <div className="flex items-center justify-between border-b border-[#333] bg-[#252526] px-5 py-2.5">
         <div className="flex items-center gap-2">
-          <strong className="text-blue-400 text-[1.1em]">Region:</strong>
+          <strong className="text-[1.1em] text-blue-400">Region:</strong>
           <input
             type="text"
-            className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-1 w-48 transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
+            className="w-48 rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-1 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
             value={region.name || ""}
             onChange={(e) => onChange({ ...region, name: e.target.value })}
           />
         </div>
         <div className="flex gap-2">
           {region.note && (
-            <span className="text-yellow-300 text-sm">({region.note})</span>
+            <span className="text-sm text-yellow-300">({region.note})</span>
           )}
           <button
-            className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
+            className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
             onClick={onRemove}
           >
             Remove Region
@@ -33,10 +33,10 @@ const RegionEditor = ({
         </div>
       </div>
       <div className="p-5">
-        <h5 className="text-[#88c0d0] border-b border-[#333] pb-1.5 mb-2.5 font-semibold">
+        <h5 className="mb-2.5 border-b border-[#333] pb-1.5 font-semibold text-[#88c0d0]">
           Locations
         </h5>
-        <div className="space-y-4 mb-4">
+        <div className="mb-4 space-y-4">
           {region.locations?.map((location, locIndex) => (
             <LocationEditor
               key={locIndex}
@@ -49,7 +49,7 @@ const RegionEditor = ({
           ))}
         </div>
         <button
-          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-3 py-1.5 text-sm font-medium cursor-pointer transition-all"
+          className="cursor-pointer rounded border-none bg-green-600 px-3 py-1.5 text-sm font-medium text-white transition-all hover:bg-green-700"
           onClick={onAddLocation}
         >
           ➕ Add Location
@@ -81,19 +81,19 @@ const LocationEditor = ({ location, onChange, onRemove }) => {
   };
 
   return (
-    <div className="bg-[#2a2c30] border border-[#444] rounded-md p-4">
-      <div className="flex justify-between items-center mb-3 border-b border-gray-600 pb-2">
-        <label className="text-slate-300 text-sm font-bold block uppercase">
+    <div className="rounded-md border border-[#444] bg-[#2a2c30] p-4">
+      <div className="mb-3 flex items-center justify-between border-b border-gray-600 pb-2">
+        <label className="block text-sm font-bold text-slate-300 uppercase">
           Location Name:
         </label>
         <input
           type="text"
-          className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-1 w-2/3 transition-colors focus:border-blue-500 focus:bg-[#222] outline-none"
+          className="w-2/3 rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-1 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
           value={location.name || ""}
           onChange={(e) => onChange({ ...location, name: e.target.value })}
         />
         <button
-          className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
+          className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
           onClick={onRemove}
         >
           Remove Location
@@ -102,7 +102,7 @@ const LocationEditor = ({ location, onChange, onRemove }) => {
 
       {Object.entries(location.items || {}).map(([category, items]) => (
         <div key={category} className="mb-3">
-          <h6 className="text-sm font-bold text-pink-400 mb-1 capitalize">
+          <h6 className="mb-1 text-sm font-bold text-pink-400 capitalize">
             {category.replace(/([A-Z])/g, " $1").trim()}:
           </h6>
           <div className="space-y-1">
@@ -110,14 +110,14 @@ const LocationEditor = ({ location, onChange, onRemove }) => {
               <div key={itemIndex} className="flex items-center gap-2">
                 <input
                   type="text"
-                  className="bg-[#1a1a1a] border border-[#3a3b3d] rounded text-slate-200 px-2.5 py-1 w-full text-sm"
+                  className="w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-1 text-sm text-slate-200"
                   value={item}
                   onChange={(e) =>
                     handleItemChange(category, itemIndex, e.target.value)
                   }
                 />
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1 text-xs"
+                  className="rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600"
                   onClick={() => handleRemoveItem(category, itemIndex)}
                 >
                   −
@@ -125,7 +125,7 @@ const LocationEditor = ({ location, onChange, onRemove }) => {
               </div>
             ))}
             <button
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded px-2 py-1 text-xs mt-1"
+              className="mt-1 rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600"
               onClick={() => handleAddItem(category)}
             >
               Add Item
@@ -207,17 +207,17 @@ const PickupEditor = ({ data, onChange }) => {
   return (
     <div>
       <title>Editor: Pickup</title>
-      <div className="flex justify-between items-center border-b-2 border-[#ebcb8b] pb-4 mb-5">
+      <div className="mb-5 flex items-center justify-between border-b-2 border-[#ebcb8b] pb-4">
         <div>
           <h3 className="m-0 text-lg font-bold text-white">
             🎒 Editor Pickup (Regions)
           </h3>
-          <span className="text-[#888] text-sm">
+          <span className="text-sm text-[#888]">
             Gestisci le tabelle di drop per regione e categoria.
           </span>
         </div>
         <button
-          className="bg-green-600 hover:bg-green-700 text-white border-none rounded px-4 py-2 text-sm font-medium cursor-pointer transition-all active:translate-y-[1px]"
+          className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
           onClick={handleAddRegion}
         >
           ➕ Add Region

@@ -106,13 +106,13 @@ function Home() {
       <PageTitle title="PokéMMO Compendium: Home" />
 
       {/* Hero Section */}
-      <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#1e2025] to-[#15161a] border border-white/5 p-8 md:p-12 shadow-2xl">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      <section className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-[#1e2025] to-[#15161a] p-8 shadow-2xl md:p-12">
+        <div className="absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl" />
         <div className="relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-200 to-indigo-200 bg-clip-text text-transparent mb-4">
+          <h1 className="mb-4 bg-gradient-to-r from-blue-200 to-indigo-200 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
             Welcome, Trainer.
           </h1>
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
+          <p className="max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
             The ultimate companion for your PokéMMO journey. Master the Elite
             Four, breed competitive Pokémon, and conquer late-game content with
             data-driven strategies.
@@ -122,41 +122,41 @@ function Home() {
 
       {/* Features Grid */}
       <section>
-        <h2 className="text-2xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-          <span className="w-1 h-8 bg-blue-500 rounded-full" />
+        <h2 className="mb-6 flex items-center gap-2 text-2xl font-bold text-slate-200">
+          <span className="h-8 w-1 rounded-full bg-blue-500" />
           Tools & Guides
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {sections.map((section) => {
             const Icon = section.icon;
             return (
               <Link
                 key={section.title}
                 to={section.path}
-                className={`group relative p-6 rounded-2xl bg-[#1a1b20] border border-white/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${section.border}`}
+                className={`group relative rounded-2xl border border-white/5 bg-[#1a1b20] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${section.border}`}
               >
                 {/* Hover Gradient Background */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${section.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`}
+                  className={`absolute inset-0 bg-gradient-to-br ${section.gradient} rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
                 />
 
-                <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="mb-4 flex items-center justify-between">
                     <div
-                      className={`p-3 rounded-xl bg-white/5 backdrop-blur-sm ${section.text}`}
+                      className={`rounded-xl bg-white/5 p-3 backdrop-blur-sm ${section.text}`}
                     >
                       <Icon size={24} />
                     </div>
                     <ExternalLink
                       size={16}
-                      className="text-slate-600 group-hover:text-slate-400 transition-colors"
+                      className="text-slate-600 transition-colors group-hover:text-slate-400"
                     />
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-100 mb-2">
+                  <h3 className="mb-2 text-xl font-bold text-slate-100">
                     {section.title}
                   </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed flex-1">
+                  <p className="flex-1 text-sm leading-relaxed text-slate-400">
                     {section.desc}
                   </p>
                 </div>
@@ -168,9 +168,9 @@ function Home() {
 
       {/* Credits / Footer */}
       <section className="border-t border-white/5 pt-8 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-slate-400">
+        <div className="grid grid-cols-1 gap-8 text-sm text-slate-400 md:grid-cols-2">
           <div>
-            <h3 className="text-slate-200 font-semibold mb-3">About</h3>
+            <h3 className="mb-3 font-semibold text-slate-200">About</h3>
             <p className="leading-relaxed text-slate-500">
               This compendium is a community-driven open source project. It is
               not affiliated with PokeMMO or Nintendo. Data is gathered from
@@ -181,7 +181,7 @@ function Home() {
                 href="https://github.com/SolaneHub/PokeMMO-Compendium"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-slate-400 transition-colors hover:text-white"
               >
                 <Github size={18} />
                 <span>GitHub</span>
@@ -189,7 +189,7 @@ function Home() {
             </div>
           </div>
           <div>
-            <h3 className="text-slate-200 font-semibold mb-3">Credits</h3>
+            <h3 className="mb-3 font-semibold text-slate-200">Credits</h3>
             <ul className="space-y-2 text-slate-500">
               <li className="flex items-center gap-2">
                 <Youtube size={14} className="text-red-500" />

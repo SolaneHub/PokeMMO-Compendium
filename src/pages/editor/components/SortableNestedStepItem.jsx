@@ -24,12 +24,12 @@ export function SortableNestedStepItem({
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="bg-[#1e1e1e] border border-[#333] rounded-md shadow-sm mb-4 p-5 border-l-[3px] border-l-orange-500 relative"
+      className="relative mb-4 rounded-md border border-l-[3px] border-[#333] border-l-orange-500 bg-[#1e1e1e] p-5 shadow-sm"
     >
-      <div className="flex justify-between mb-2.5">
+      <div className="mb-2.5 flex justify-between">
         <strong className="text-orange-500">Nested Step {index + 1}</strong>
         <button
-          className="bg-red-600 hover:bg-red-700 text-white border-none rounded px-2 py-1 text-xs font-medium cursor-pointer transition-all"
+          className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
           onClick={onRemove}
         >
           Elimina Step

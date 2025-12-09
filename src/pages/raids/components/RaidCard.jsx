@@ -7,19 +7,15 @@ const RaidCard = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-col items-center justify-center p-4 rounded-2xl cursor-pointer transition-all duration-300 overflow-hidden group
-      ${isCompact ? "w-32 h-16" : "w-40 h-24"}
-      ${isCompact ? "font-bold text-lg" : "font-bold text-xl"}
-      ${
+      className={`group relative flex cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl p-4 transition-all duration-300 ${isCompact ? "h-16 w-32" : "h-24 w-40"} ${isCompact ? "text-lg font-bold" : "text-xl font-bold"} ${
         isSelected
-          ? "scale-105 z-10 bg-blue-600/20 border border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
-          : "bg-[#1e2025] border border-white/5 hover:bg-[#25272e] hover:border-white/20 hover:-translate-y-1"
-      }
-      `}
+          ? "z-10 scale-105 border border-blue-500 bg-blue-600/20 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+          : "border border-white/5 bg-[#1e2025] hover:-translate-y-1 hover:border-white/20 hover:bg-[#25272e]"
+      } `}
       onClick={() => onRaidClick(raid)}
     >
       <h2
-        className={`relative z-20 m-0 text-center break-words leading-tight drop-shadow-sm ${
+        className={`relative z-20 m-0 text-center leading-tight break-words drop-shadow-sm ${
           isSelected ? "text-blue-400" : "text-slate-300 group-hover:text-white"
         }`}
       >

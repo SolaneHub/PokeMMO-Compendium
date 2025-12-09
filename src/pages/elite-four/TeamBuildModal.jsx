@@ -7,54 +7,54 @@ function PlayerBuildCard({ build }) {
   const { sprite } = getPokemonCardData(build.name);
 
   return (
-    <div className="flex flex-col bg-neutral-900 border border-slate-700 rounded-lg overflow-hidden shadow-sm hover:border-slate-500 transition-colors">
-      <div className="flex items-center justify-between p-2.5 bg-slate-800 border-b border-slate-700">
+    <div className="flex flex-col overflow-hidden rounded-lg border border-slate-700 bg-neutral-900 shadow-sm transition-colors hover:border-slate-500">
+      <div className="flex items-center justify-between border-b border-slate-700 bg-slate-800 p-2.5">
         <div className="flex items-center gap-3">
           <img
             src={sprite}
             alt={build.name}
-            className="w-10 h-10 object-contain drop-shadow-md"
+            className="h-10 w-10 object-contain drop-shadow-md"
           />
-          <span className="text-white font-bold text-sm">{build.name}</span>
+          <span className="text-sm font-bold text-white">{build.name}</span>
         </div>
 
         {build.item && (
-          <span className="flex items-center text-slate-300 text-xs bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+          <span className="flex items-center rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-slate-300">
             <ItemImage
               item={build.item}
-              className="w-5 h-5 object-contain mr-1.5"
+              className="mr-1.5 h-5 w-5 object-contain"
             />
             {build.item}
           </span>
         )}
       </div>
 
-      <div className="flex flex-wrap gap-3 bg-neutral-800 border-b border-slate-700 px-2.5 py-1.5 text-xs">
+      <div className="flex flex-wrap gap-3 border-b border-slate-700 bg-neutral-800 px-2.5 py-1.5 text-xs">
         {build.ability && (
           <span className="text-slate-400">
             Ability:{" "}
-            <strong className="text-slate-200 ml-1">{build.ability}</strong>
+            <strong className="ml-1 text-slate-200">{build.ability}</strong>
           </span>
         )}
         {build.nature && (
           <span className="text-slate-400">
             Nature:{" "}
-            <strong className="text-slate-200 ml-1">{build.nature}</strong>
+            <strong className="ml-1 text-slate-200">{build.nature}</strong>
           </span>
         )}
         {build.evs && (
           <span className="text-slate-400">
-            EVs: <strong className="text-slate-200 ml-1">{build.evs}</strong>
+            EVs: <strong className="ml-1 text-slate-200">{build.evs}</strong>
           </span>
         )}
       </div>
 
       {build.moves && (
-        <div className="flex flex-wrap gap-1.5 p-2.5 bg-neutral-900">
+        <div className="flex flex-wrap gap-1.5 bg-neutral-900 p-2.5">
           {build.moves.map((m, k) => (
             <span
               key={k}
-              className="bg-slate-800 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-xs"
+              className="rounded border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-xs text-slate-300"
             >
               {m}
             </span>
@@ -70,24 +70,24 @@ export default function TeamBuildModal({ teamName, builds, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/75 backdrop-blur-sm animate-[fade-in_0.3s_ease-out_forwards]"
+      className="fixed inset-0 z-[2000] flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-[480px] max-h-[85vh] flex flex-col bg-slate-800 rounded-xl border border-slate-700 shadow-2xl overflow-hidden animate-[scale-in_0.4s_ease-out_forwards]"
+        className="relative flex max-h-[85vh] w-full max-w-[480px] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col p-4 bg-slate-700 shadow-md z-10">
-          <h2 className="text-xl font-bold text-white drop-shadow-md m-0">
+        <div className="z-10 flex flex-col bg-slate-700 p-4 shadow-md">
+          <h2 className="m-0 text-xl font-bold text-white drop-shadow-md">
             {teamName} Setup
           </h2>
-          <p className="text-sm text-slate-300 opacity-80 m-0">
+          <p className="m-0 text-sm text-slate-300 opacity-80">
             Player Team Configuration
           </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 bg-slate-800">
-          <div className="flex flex-col gap-3 animate-[fade-in_0.3s_ease-out_forwards]">
+        <div className="flex-1 overflow-y-auto bg-slate-800 p-4">
+          <div className="flex animate-[fade-in_0.3s_ease-out_forwards] flex-col gap-3">
             {builds.map((build, idx) => (
               <PlayerBuildCard key={idx} build={build} />
             ))}

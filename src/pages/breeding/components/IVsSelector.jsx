@@ -11,7 +11,7 @@ function IVsSelector({
     <div className="space-y-6">
       {/* IV Count Selector */}
       <div className="space-y-3">
-        <label className="text-sm text-slate-400 font-medium ml-1">
+        <label className="ml-1 text-sm font-medium text-slate-400">
           Desired Perfect IVs
         </label>
         <div className="grid grid-cols-5 gap-2">
@@ -19,17 +19,14 @@ function IVsSelector({
             <button
               key={option}
               onClick={() => setSelectedIvCount(option)}
-              className={`
-                relative h-12 rounded-xl font-bold text-lg transition-all duration-200 flex flex-col items-center justify-center
-                ${
-                  option === selectedIvCount
-                    ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20 scale-105"
-                    : "bg-[#25272e] text-slate-400 hover:bg-[#2d3038] hover:text-slate-200 border border-transparent hover:border-white/10"
-                }
-              `}
+              className={`relative flex h-12 flex-col items-center justify-center rounded-xl text-lg font-bold transition-all duration-200 ${
+                option === selectedIvCount
+                  ? "scale-105 bg-blue-600 text-white shadow-lg shadow-blue-500/20"
+                  : "border border-transparent bg-[#25272e] text-slate-400 hover:border-white/10 hover:bg-[#2d3038] hover:text-slate-200"
+              } `}
             >
               <span className="leading-none">{option}</span>
-              <span className="text-[10px] opacity-60 font-normal">IV</span>
+              <span className="text-[10px] font-normal opacity-60">IV</span>
             </button>
           ))}
         </div>
@@ -38,20 +35,17 @@ function IVsSelector({
       {/* Nature Toggle */}
       <div className="space-y-3 pt-2">
         <div
-          className={`
-          relative group cursor-pointer rounded-xl border p-4 transition-all duration-300
-          ${
+          className={`group relative cursor-pointer rounded-xl border p-4 transition-all duration-300 ${
             nature
-              ? "bg-emerald-500/10 border-emerald-500/50"
-              : "bg-[#25272e] border-white/5 hover:border-white/10"
-          }
-        `}
+              ? "border-emerald-500/50 bg-emerald-500/10"
+              : "border-white/5 bg-[#25272e] hover:border-white/10"
+          } `}
           onClick={() => setNature(!nature)}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div
-                className={`p-2 rounded-lg transition-colors ${
+                className={`rounded-lg p-2 transition-colors ${
                   nature
                     ? "bg-emerald-500 text-white"
                     : "bg-slate-700 text-slate-400"
@@ -74,10 +68,7 @@ function IVsSelector({
             </div>
 
             <div
-              className={`
-              w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300
-              ${nature ? "bg-emerald-500 text-white rotate-0" : "bg-slate-700 text-slate-400 -rotate-90"}
-            `}
+              className={`flex h-6 w-6 items-center justify-center rounded-full transition-all duration-300 ${nature ? "rotate-0 bg-emerald-500 text-white" : "-rotate-90 bg-slate-700 text-slate-400"} `}
             >
               {nature ? <Check size={14} strokeWidth={3} /> : <X size={14} />}
             </div>
