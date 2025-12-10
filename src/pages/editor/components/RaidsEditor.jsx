@@ -55,7 +55,7 @@ const RaidsEditor = ({ data, onChange }) => {
             setIdx(e.target.value !== "" ? parseInt(e.target.value) : null)
           }
         >
-          <option value="">-- Seleziona un Raid Boss --</option>
+          <option value="">-- Select a Raid Boss --</option>
           {data.map((r, i) => (
             <option key={i} value={i}>
               {r.name} ({r.stars}★)
@@ -74,7 +74,7 @@ const RaidsEditor = ({ data, onChange }) => {
                 className={`cursor-pointer rounded-t-md border-b-[3px] px-5 py-2.5 transition-colors ${
                   activeTab === t
                     ? "border-blue-500 bg-[#252526] font-bold text-white"
-                    : "border-transparent bg-transparent font-normal text-[#888] hover:bg-[#252526]"
+                    : "border-transparent bg-transparent font-normal text-[#888] hover:bg-[#2526]"
                 }`}
               >
                 {t === "info"
@@ -93,7 +93,7 @@ const RaidsEditor = ({ data, onChange }) => {
               <div className="grid animate-[fade-in_0.3s_ease-out] grid-cols-2 gap-4">
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[#aaa] uppercase">
-                    Nome
+                    Name
                   </label>
                   <input
                     className="w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
@@ -103,7 +103,7 @@ const RaidsEditor = ({ data, onChange }) => {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-[#aaa] uppercase">
-                    Stelle
+                    Stars
                   </label>
                   <input
                     type="number"
@@ -142,7 +142,7 @@ const RaidsEditor = ({ data, onChange }) => {
                     className="cursor-pointer rounded border-none bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700"
                     onClick={() => ensureField("locations")}
                   >
-                    Inizializza
+                    Initialize
                   </button>
                 ) : (
                   <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-2.5">
@@ -193,7 +193,7 @@ const RaidsEditor = ({ data, onChange }) => {
           </div>
         </div>
       ) : (
-        <p className="mt-10 text-center text-gray-500">Seleziona un raid.</p>
+        <p className="mt-10 text-center text-gray-500">Select a raid.</p>
       )}
     </div>
   );

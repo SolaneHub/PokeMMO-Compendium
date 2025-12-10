@@ -13,7 +13,7 @@ const RedEditor = ({ data, onChange }) => {
   };
 
   const addTeam = () => {
-    const name = prompt("Nome del Team (es. 'Mt. Silver'):");
+    const name = prompt("Team Name (e.g. 'Mt. Silver'):");
     if (!name || name.trim() === "") return;
     const newRed = {
       ...redData,
@@ -28,7 +28,7 @@ const RedEditor = ({ data, onChange }) => {
 
   const addPokemon = () => {
     if (!teamKey) return;
-    const name = prompt("Nome Pokémon:");
+    const name = prompt("Pokémon Name:");
     if (!name) return;
     const team = redData.teams[teamKey];
     const newTeam = {
@@ -78,7 +78,7 @@ const RedEditor = ({ data, onChange }) => {
                   setPokemon(null);
                 }}
               >
-                <option value="">-- Seleziona Team --</option>
+                <option value="">-- Select Team --</option>
                 {redData.teams &&
                   Object.keys(redData.teams).map((k) => (
                     <option key={k} value={k}>
@@ -105,7 +105,7 @@ const RedEditor = ({ data, onChange }) => {
                 onChange={(e) => setPokemon(e.target.value)}
                 disabled={!teamKey}
               >
-                <option value="">-- Seleziona Pokémon --</option>
+                <option value="">-- Select Pokémon --</option>
                 {teamKey &&
                   redData.teams[teamKey].pokemonStrategies &&
                   Object.keys(redData.teams[teamKey].pokemonStrategies).map(
@@ -132,7 +132,7 @@ const RedEditor = ({ data, onChange }) => {
         <div className="animate-[fade-in_0.3s_ease-out]">
           <div className="my-5 flex items-center justify-between">
             <h4 className="m-0 text-lg font-bold text-white">
-              Strategia: <span className="text-red-400">{pokemon}</span>
+              Strategy: <span className="text-red-400">{pokemon}</span>
             </h4>
             <button
               className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
@@ -143,7 +143,7 @@ const RedEditor = ({ data, onChange }) => {
                 ])
               }
             >
-              + Aggiungi Step
+              + Add Step
             </button>
           </div>
           {strategies.map((step, i) => (
@@ -165,14 +165,14 @@ const RedEditor = ({ data, onChange }) => {
                   updateStrategies(strategies.filter((_, x) => x !== i))
                 }
               >
-                Rimuovi
+                Remove
               </button>
             </div>
           ))}
         </div>
       ) : (
         <p className="mt-12 text-center text-[#666] italic">
-          Seleziona un Team e un Pokémon
+          Select a Team and a Pokémon
         </p>
       )}
     </div>

@@ -213,7 +213,7 @@ const PickupEditor = ({ data, onChange }) => {
             🎒 Editor Pickup (Regions)
           </h3>
           <span className="text-sm text-[#888]">
-            Gestisci le tabelle di drop per regione e categoria.
+            Manage drop tables by region and category.
           </span>
         </div>
         <button

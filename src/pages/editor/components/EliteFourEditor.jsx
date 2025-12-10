@@ -64,13 +64,13 @@ const EliteFourEditor = ({ data, onChange }) => {
     <div>
       <title>Editor: Elite Four</title>
       <h3 className="mb-5 border-b-2 border-pink-500 pb-2.5 text-lg font-semibold text-white">
-        🏰 Editor E4
+        🏰 E4 Editor
       </h3>
 
       {/* Elite Four Member Selection */}
       <div className="mb-8">
         <h4 className="text-md mb-3 font-semibold text-white">
-          Seleziona Membro:
+          Select Member:
         </h4>
         <div className="flex flex-wrap gap-4">
           {Array.isArray(data) &&
@@ -93,7 +93,7 @@ const EliteFourEditor = ({ data, onChange }) => {
       {currentMember && (
         <div className="mb-8 animate-[fade-in_0.3s_ease-out]">
           <h4 className="text-md mb-3 font-semibold text-white">
-            Seleziona Team di {currentMember.name}:
+            Select Team for {currentMember.name}:
           </h4>
           <div className="flex flex-wrap gap-4">
             {Object.keys(currentMember.teams).map((key) => (
@@ -132,7 +132,7 @@ const EliteFourEditor = ({ data, onChange }) => {
         <div className="animate-[fade-in_0.3s_ease-out]">
           <div className="my-5 flex items-center justify-between border-b border-[#444] pb-2.5">
             <h4 className="m-0 font-bold text-pink-500">
-              Strategia per: <span className="text-white">{pokemon}</span>
+              Strategy for: <span className="text-white">{pokemon}</span>
             </h4>
             <button
               className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
@@ -140,7 +140,7 @@ const EliteFourEditor = ({ data, onChange }) => {
                 updateStrategies([...steps, createNewStepTemplate()])
               }
             >
-              + Aggiungi Step
+              + Add Step
             </button>
           </div>
 
@@ -171,17 +171,17 @@ const EliteFourEditor = ({ data, onChange }) => {
         </div>
       ) : pokemon ? (
         <div className="mt-5 rounded-lg border-2 border-dashed border-[#444] p-10 text-center text-[#888]">
-          Nessuno step configurato per questo Pokémon.
+          No steps configured for this Pokémon.
           <button
             className="mt-4 cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
             onClick={() => updateStrategies([createNewStepTemplate()])}
           >
-            + Aggiungi Primo Step
+            + Add First Step
           </button>
         </div>
       ) : (
         <div className="mt-5 rounded-lg border-2 border-dashed border-[#444] p-10 text-center text-[#888]">
-          Seleziona un Membro, un Team e un Pokémon per modificare la strategia.
+          Select a Member, a Team, and a Pokémon to edit strategy.
         </div>
       )}
     </div>
