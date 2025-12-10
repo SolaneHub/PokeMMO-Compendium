@@ -193,13 +193,51 @@ function Home() {
             <ul className="space-y-2 text-slate-500">
               <li className="flex items-center gap-2">
                 <Youtube size={14} className="text-red-500" />
-                <span>Raids by Caav.PokéMMO</span>
+                <span>
+                  Raids by{" "}
+                  <a
+                    href="https://www.youtube.com/@caav.pokemmo"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    Caav.PokéMMO
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="https://discord.gg/gjSNmBmu4j"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    PokeMMO Raid Den Discord
+                  </a>
+                </span>
               </li>
               <li>
-                <span>Strategy: Team Porygon & PokeKing</span>
+                <span>Elite Four Strategies: Pokeking & Team Porygon</span>
               </li>
               <li>
-                <span>Data: PokéMMO Hub & ShoutWiki</span>
+                <span>
+                  Pickup guides:{" "}
+                  <a
+                    href="https://forums.pokemmo.com/index.php?/topic/106742-money-guide-community-pickup-guide-2nd-edition/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    Money Guide Community Pickup Guide
+                  </a>{" "}
+                  and{" "}
+                  <a
+                    href="https://forums.pokemmo.com/index.php?/topic/146969-optimal-pve-pickup-teddiursa-munchlax-meowth-and-pachirisu-with-leveling-strategies/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    Optimal PvE Pickup Guide
+                  </a>
+                </span>
               </li>
             </ul>
           </div>

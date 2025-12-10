@@ -30,7 +30,7 @@ const PokedexEditor = ({ data, onChange }) => {
 
   if (!data || !Array.isArray(data)) {
     return (
-      <div className="p-5 text-center text-[#ff6b81]">⚠️ Dati non validi.</div>
+      <div className="p-5 text-center text-[#ff6b81]">⚠️ Invalid Data.</div>
     );
   }
 
@@ -80,7 +80,7 @@ const PokedexEditor = ({ data, onChange }) => {
         </h3>
         <input
           type="text"
-          placeholder="Cerca..."
+          placeholder="Search..."
           className="mb-2.5 w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -96,7 +96,7 @@ const PokedexEditor = ({ data, onChange }) => {
                   : "border-transparent bg-transparent text-[#aaa] hover:bg-[#2526]"
               }`}
             >
-              <strong>#{p.id}</strong> {p.name || "Senza Nome"}
+              <strong>#{p.id}</strong> {p.name || "Unnamed"}
             </div>
           ))}
         </div>
@@ -110,7 +110,7 @@ const PokedexEditor = ({ data, onChange }) => {
             setActiveTab("info");
           }}
         >
-          + Nuovo
+          + New
         </button>
       </div>
 
@@ -125,13 +125,13 @@ const PokedexEditor = ({ data, onChange }) => {
               <button
                 className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
                 onClick={() => {
-                  if (window.confirm("Eliminare definitivamente?")) {
+                  if (window.confirm("Permanently delete?")) {
                     onChange(data.filter((p) => p.id !== selectedId));
                     setSelectedId(null);
                   }
                 }}
               >
-                Elimina
+                Delete
               </button>
             </div>
 
@@ -178,7 +178,7 @@ const PokedexEditor = ({ data, onChange }) => {
                     </div>
                     <div>
                       <label className="mb-1.5 block text-xs font-bold text-[#aaa] uppercase">
-                        Nome
+                        Name
                       </label>
                       <input
                         type="text"
@@ -190,7 +190,7 @@ const PokedexEditor = ({ data, onChange }) => {
                   </div>
 
                   <label className="mb-1.5 block text-xs font-bold text-[#aaa] uppercase">
-                    Descrizione
+                    Description
                   </label>
                   <textarea
                     className="mb-4 w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
@@ -755,7 +755,7 @@ const PokedexEditor = ({ data, onChange }) => {
           </div>
         ) : (
           <div className="mt-[100px] text-center text-[#666]">
-            Seleziona un Pokémon per iniziare.
+            Select a Pokémon to start.
           </div>
         )}
       </div>

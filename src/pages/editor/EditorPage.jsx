@@ -41,7 +41,7 @@ const EditorPage = () => {
     async function fetchFiles() {
       try {
         const res = await fetch(`${API_URL}/files`);
-        if (!res.ok) throw new Error("Impossibile contattare il server");
+        if (!res.ok) throw new Error("Unable to connect to server");
 
         const data = await res.json();
         setFileList(data);
@@ -53,9 +53,7 @@ const EditorPage = () => {
         }
       } catch (err) {
         console.error(err);
-        setServerError(
-          "Errore: Assicurati che il server (port 3001) sia attivo."
-        );
+        setServerError("Error: Ensure the server (port 3001) is active.");
       }
     }
     fetchFiles();
@@ -69,12 +67,12 @@ const EditorPage = () => {
       setLoading(true);
       try {
         const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
-        if (!res.ok) throw new Error("Errore fetch dati");
+        if (!res.ok) throw new Error("Error fetching data");
         const data = await res.json();
         if (!ignore) setFileData(data);
       } catch (err) {
         console.error(err);
-        if (!ignore) showToast("Errore nel caricamento del file.", "error");
+        if (!ignore) showToast("Error loading file.", "error");
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -97,13 +95,13 @@ const EditorPage = () => {
         });
         const result = await res.json();
         if (result.success) {
-          showToast(`✅ ${selectedFileName} salvato!`, "success");
+          showToast(`✅ ${selectedFileName} saved!`, "success");
         } else {
-          showToast("❌ Errore server durante il salvataggio.", "error");
+          showToast("❌ Server error during save.", "error");
         }
       } catch (err) {
         console.error(err);
-        showToast("❌ Errore di connessione.", "error");
+        showToast("❌ Connection error.", "error");
       }
     });
   };
@@ -112,14 +110,12 @@ const EditorPage = () => {
     return (
       <div className="flex h-screen items-center justify-center bg-[#121212] font-sans text-slate-200">
         <div className="text-center text-red-400">
-          <h2 className="mb-2 text-2xl font-bold">
-            ⚠️ Backend Non Raggiungibile
-          </h2>
+          <h2 className="mb-2 text-2xl font-bold">⚠️ Backend Unreachable</h2>
           <p>{serverError}</p>
           <p className="mt-2 text-sm text-slate-400">
-            Esegui{" "}
-            <code className="rounded bg-slate-800 px-1">npm run server</code>{" "}
-            nel terminale.
+            Run{" "}
+            <code className="rounded bg-slate-800 px-1">npm run server</code> in
+            terminal.
           </p>
         </div>
       </div>
@@ -144,7 +140,7 @@ const EditorPage = () => {
 
       {/* MAIN AREA */}
       <div className="scrollbar-thin scrollbar-thumb-[#444] scrollbar-track-[#1a1a1a] flex-1 overflow-y-auto bg-[#121212] p-8">
-        {loading && <p className="text-slate-400">Caricamento...</p>}
+        {loading && <p className="text-slate-400">Loading...</p>}
         {!loading && fileData && (
           <SpecificEditor data={fileData} onChange={setFileData} />
         )}

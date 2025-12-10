@@ -158,7 +158,7 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                     </div>
                     <button
                       className="cursor-pointer rounded border-none bg-transparent px-1.5 text-lg leading-none text-[#555] transition-colors hover:bg-red-500/10 hover:text-[#ff6b6b]"
-                      title="Elimina"
+                      title="Delete"
                       onClick={() => {
                         if (window.confirm(`Delete field "${key}"?`)) {
                           const newData = { ...data };
