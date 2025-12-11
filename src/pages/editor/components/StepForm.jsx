@@ -2,15 +2,8 @@ import VariationForm from "@/pages/editor/components/VariationForm";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const StepForm = ({ step, onChange }) => {
-  const { pokemonNames, moveNames, itemNames } = usePokedexData();
+  usePokedexData();
   const update = (field, value) => onChange({ ...step, [field]: value });
-
-  const combinedSuggestions = [
-    ...new Set([...pokemonNames, ...moveNames, ...itemNames]),
-  ].sort();
-
-  const isConditionStep = step.type === "check" || step.type === "condition";
-  const actionLabel = isConditionStep ? "Condition:" : "Action:";
 
   return (
     <div className="mt-2.5 border-l-[3px] border-[#00bcd4] bg-[#2a2b2e] p-2.5 px-4">
@@ -18,34 +11,31 @@ const StepForm = ({ step, onChange }) => {
         Type:{" "}
         <select
           value={step.type || ""}
-          onChange={(e) => update("type", e.target.value)}
+          onChange={(e) => update("type", e.target.value || undefined)}
           className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         >
-          <option value="">-- Select Type --</option>
+          <option value="">Default (Undefined)</option>
           <option value="main">Main</option>
-          <option value="step">Step</option>
-          <option value="check">Check</option>
-          <option value="condition">Condition</option>
         </select>
       </label>
       <label className="mt-4 block text-xs font-bold text-[#b0b0b0]">
-        {actionLabel}{" "}
+        Player Action:{" "}
         <input
           type="text"
-          list="action-suggestions"
           value={step.player || ""}
           onChange={(e) => update("player", e.target.value)}
           className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         />
-        {/* Datalist for action suggestions */}
-        <datalist id="action-suggestions">
-          {combinedSuggestions.map((suggestion) => (
-            <option key={suggestion} value={suggestion} />
-          ))}
-        </datalist>
+        <p className="mt-1 text-xs text-slate-500">
+          Use icons: <span className="font-mono text-pink-400">[SWITCH]</span>,{" "}
+          <span className="font-mono text-pink-400">[ATTACK]</span>,{" "}
+          <span className="font-mono text-pink-400">[STAY]</span>,{" "}
+          <span className="font-mono text-pink-400">[LOCK]</span>,{" "}
+          <span className="font-mono text-pink-400">[BAIT]</span>
+        </p>
       </label>
       <label className="mt-4 block text-xs font-bold text-[#b0b0b0]">
-        Note:{" "}
+        Warning (Optional):{" "}
         <input
           type="text"
           value={step.warning || ""}

@@ -16,13 +16,15 @@ import { SortableNestedStepItem } from "@/pages/editor/components/SortableNested
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const createNewNestedStepTemplate = () => ({
-  type: "",
+  type: "main",
   player: "",
+  warning: "",
+  variations: [],
   id: `nested-step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 });
 
 const VariationForm = ({ variation, onChange }) => {
-  const { pokemonNames, moveNames, itemNames } = usePokedexData();
+  usePokedexData();
 
   const handleFieldChange = (field, value) => {
     onChange({ ...variation, [field]: value });
@@ -45,10 +47,6 @@ const VariationForm = ({ variation, onChange }) => {
     );
     updateNestedSteps(newSteps);
   };
-
-  const combinedSuggestions = [
-    ...new Set([...pokemonNames, ...moveNames, ...itemNames]),
-  ].sort();
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -84,17 +82,13 @@ const VariationForm = ({ variation, onChange }) => {
         Type:
         <select
           value={variation.type || ""}
-          onChange={(e) => handleFieldChange("type", e.target.value)}
+          onChange={(e) =>
+            handleFieldChange("type", e.target.value || undefined)
+          }
           className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         >
-          <option value="">-- Select Type --</option>
+          <option value="">Default (Undefined)</option>
           <option value="step">Step</option>
-          <option value="item">Item</option>
-          <option value="move">Move</option>
-          <option value="ability">Ability</option>
-          <option value="status">Status</option>
-          <option value="check">Check</option>
-          <option value="condition">Condition</option>
         </select>
       </label>
 
@@ -102,17 +96,11 @@ const VariationForm = ({ variation, onChange }) => {
         Name / Trigger:
         <input
           type="text"
-          list="variation-suggestions"
           value={variation.name || ""}
           placeholder="e.g. Leftovers, Earthquake..."
           onChange={(e) => handleFieldChange("name", e.target.value)}
           className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         />
-        <datalist id="variation-suggestions">
-          {combinedSuggestions.map((suggestion) => (
-            <option key={suggestion} value={suggestion} />
-          ))}
-        </datalist>
       </label>
 
       <div className="mt-4">
@@ -142,7 +130,7 @@ const VariationForm = ({ variation, onChange }) => {
           </DndContext>
         ) : (
           <p className="text-[#888] italic">
-            Nessuno step annidato configurato.
+            No nested steps defined yet.
           </p>
         )}
 
