@@ -129,9 +129,7 @@ const VariationForm = ({ variation, onChange }) => {
             </SortableContext>
           </DndContext>
         ) : (
-          <p className="text-[#888] italic">
-            No nested steps defined yet.
-          </p>
+          <p className="text-[#888] italic">No nested steps defined yet.</p>
         )}
 
         <div className="mt-2.5 flex justify-end gap-2.5">

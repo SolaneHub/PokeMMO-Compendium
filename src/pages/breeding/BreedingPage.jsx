@@ -3,18 +3,9 @@ import { Calculator, Dna, Settings2 } from "lucide-react";
 import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
 import IVsSelector from "@/pages/breeding/components/IVsSelector";
 import TreeScheme from "@/pages/breeding/components/TreeScheme";
+import { IV_OPTIONS, IV_STATS } from "@/pages/breeding/data/breedingConstants";
 import PageTitle from "@/shared/components/PageTitle";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
-
-const IV_OPTIONS = [2, 3, 4, 5, 6];
-const IV_STATS = [
-  "HP",
-  "Attack",
-  "Defense",
-  "Sp. Attack",
-  "Sp. Defense",
-  "Speed",
-];
 
 function BreedingPage() {
   const [selectedIvCount, setSelectedIvCount] = usePersistentState(
