@@ -6,18 +6,25 @@ import {
   Crown,
   Edit3,
   Home,
+  LogIn,
+  LogOut,
   Package,
   RefreshCw,
   Skull,
   Swords,
   Trophy,
+  User,
   Users,
 } from "lucide-react";
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
+import { useAuth } from "@/shared/context/AuthContext";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { currentUser, logout } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const baseNavigation = [
@@ -33,12 +40,31 @@ function Sidebar({ isOpen, setIsOpen }) {
     { name: "Boss Fights", path: "/boss-fights", icon: Skull },
   ];
 
-  const navigation = import.meta.env.PROD
-    ? baseNavigation
-    : [
-        ...baseNavigation,
-        { name: "Editor", path: "/editor", icon: Edit3, admin: true },
-      ];
+  const navigation = [...baseNavigation];
+
+  if (currentUser) {
+    navigation.push({ name: "My Teams", path: "/my-teams", icon: User });
+  } else {
+    navigation.push({ name: "Login", path: "/login", icon: LogIn });
+  }
+
+  if (!import.meta.env.PROD) {
+    navigation.push({
+      name: "Editor",
+      path: "/editor",
+      icon: Edit3,
+      admin: true,
+    });
+  }
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   return (
     <>
@@ -135,16 +161,41 @@ function Sidebar({ isOpen, setIsOpen }) {
           <div
             className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : ""}`}
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-yellow-400 to-orange-500 text-xs font-bold text-black">
-              PM
-            </div>
-            {!isCollapsed && (
-              <div className="flex flex-col">
-                <span className="text-xs font-medium text-slate-200">
-                  PokeMMO
-                </span>
-                <span className="text-[10px] text-slate-500">v1.0.0</span>
-              </div>
+            {currentUser ? (
+              <>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-pink-600 text-xs font-bold text-white">
+                  {currentUser.email[0].toUpperCase()}
+                </div>
+                {!isCollapsed && (
+                  <div className="flex flex-1 flex-col overflow-hidden">
+                    <span className="truncate text-xs font-medium text-slate-200">
+                      {currentUser.email}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-1 text-[10px] text-red-400 hover:underline"
+                    >
+                      <LogOut size={10} /> Logout
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-400">
+                  ?
+                </div>
+                {!isCollapsed && (
+                  <div className="flex flex-col">
+                    <span className="text-xs font-medium text-slate-200">
+                      Guest
+                    </span>
+                    <span className="text-[10px] text-slate-500">
+                      Log in to save teams
+                    </span>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
