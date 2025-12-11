@@ -16,6 +16,7 @@ import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
 import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
+import AdminApprovalsPage from "@/pages/admin/approvals/AdminApprovalsPage";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
 
@@ -73,10 +74,14 @@ function App() {
           })}
 
           <Routes>
+            {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
+            <Route path="*" element={null} />
+
             <Route path="/login" element={<AuthPage />} />
             <Route path="/signup" element={<AuthPage isSignup />} />
             <Route path="/my-teams" element={<MyTeamsPage />} />
             <Route path="/my-teams/:id" element={<UserTeamEditorPage />} />
+            <Route path="/admin/approvals" element={<AdminApprovalsPage />} />
           </Routes>
         </Shell>
       </ToastProvider>

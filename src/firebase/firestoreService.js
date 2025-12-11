@@ -1,11 +1,13 @@
 import { 
   addDoc, 
   collection, 
+  collectionGroup,
   deleteDoc, 
   doc, 
   getDocs, 
   query, 
-  updateDoc, 
+  updateDoc,
+  where,
 } from "firebase/firestore";
 
 import { db } from "./config";
@@ -30,6 +32,8 @@ export async function createUserTeam(userId, teamData) {
     const teamsRef = getUserTeamsRef(userId);
     const docRef = await addDoc(teamsRef, {
       ...teamData,
+      status: 'draft', // draft, pending, approved, rejected
+      isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -95,4 +99,62 @@ export async function deleteUserTeam(userId, teamId) {
     console.error("Error deleting team:", error);
     throw error;
   }
+}
+
+// --- Admin / Approval Functions ---
+
+/**
+ * Fetches all teams with a specific status across ALL users.
+ * @param {string} status - 'pending' | 'approved' | 'rejected'
+ */
+export async function getTeamsByStatus(status) {
+  try {
+    const teamsQuery = query(
+      collectionGroup(db, TEAMS_COLLECTION),
+      where("status", "==", status)
+    );
+    
+    const querySnapshot = await getDocs(teamsQuery);
+    const teams = [];
+    
+    querySnapshot.forEach((doc) => {
+      const parentUser = doc.ref.parent.parent; 
+      teams.push({ 
+        id: doc.id, 
+        userId: parentUser ? parentUser.id : 'unknown', // Handle edge case if parent is missing (unlikely in this structure)
+        ...doc.data() 
+      });
+    });
+    
+    return teams;
+  } catch (error) {
+    console.error(`Error fetching ${status} teams:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Fetches all teams with status 'pending' across ALL users.
+ * Requires a Firestore Composite Index (CollectionGroup).
+ */
+export async function getAllPendingTeams() {
+  return getTeamsByStatus("pending");
+}
+
+/**
+ * Updates the approval status of a team.
+ * @param {string} userId - The ID of the user who owns the team.
+ * @param {string} teamId - The team ID.
+ * @param {string} status - 'approved' | 'rejected' | 'draft'
+ */
+export async function updateTeamStatus(userId, teamId, status) {
+  return updateUserTeam(userId, teamId, { status });
+}
+
+/**
+ * Fetches all teams with status 'approved' to be displayed publicly.
+ * @returns {Promise<Array>} List of approved teams.
+ */
+export async function getAllApprovedTeams() {
+  return getTeamsByStatus("approved");
 }

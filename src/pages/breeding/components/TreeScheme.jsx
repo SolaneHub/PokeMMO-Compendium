@@ -2,17 +2,8 @@ import { Minus, Plus, RefreshCcw } from "lucide-react";
 import { useState } from "react";
 
 import StatCircle from "@/pages/breeding/components/StatCircle";
+import { STAT_COLOR_MAP } from "@/pages/breeding/data/breedingConstants";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
-
-const STAT_COLOR_MAP = {
-  HP: "#55b651",
-  Attack: "#f72533",
-  Defense: "#f78025",
-  "Sp. Attack": "#e925f7",
-  "Sp. Defense": "#f7e225",
-  Speed: "#25e2f7",
-  Nature: "#ffffff",
-};
 
 const NODE_SIZE = 48;
 const BASE_PAIR_GAP = 40;
