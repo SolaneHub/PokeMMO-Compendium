@@ -138,7 +138,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                     list="pokemon-list"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-slate-600 bg-slate-900 p-3 pl-10 text-white transition-colors focus:border-pink-500 focus:outline-none"
+                    className="w-full rounded-lg border border-slate-600 bg-slate-900 p-3 pl-10 text-white transition-colors focus:border-blue-500 focus:outline-none"
                     placeholder="e.g. Garchomp"
                     value={formData.name}
                     onChange={(e) => handleChange("name", e.target.value)}
@@ -162,7 +162,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                 <input
                   list="items-list"
                   type="text"
-                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-3 text-white transition-colors focus:border-pink-500 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-3 text-white transition-colors focus:border-blue-500 focus:outline-none"
                   placeholder="e.g. Choice Scarf"
                   value={formData.item}
                   onChange={(e) => handleChange("item", e.target.value)}
@@ -183,7 +183,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                 <input
                   list="abilities-list"
                   type="text"
-                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-pink-500 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   value={formData.ability}
                   onChange={(e) => handleChange("ability", e.target.value)}
                 />
@@ -201,7 +201,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                 <input
                   list="natures-list"
                   type="text"
-                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-pink-500 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   value={formData.nature}
                   onChange={(e) => handleChange("nature", e.target.value)}
                 />
@@ -218,7 +218,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-pink-500 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   placeholder="e.g. 6 HP / 252 Atk / 252 Spe"
                   value={formData.evs}
                   onChange={(e) => handleChange("evs", e.target.value)}
@@ -231,7 +231,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-pink-500 focus:outline-none"
+                  className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   placeholder="e.g. 5x31/4x31/3x31/2x31/1x31/0"
                   value={formData.ivs}
                   onChange={(e) => handleChange("ivs", e.target.value)}
@@ -252,7 +252,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                     <input
                       list="moves-list"
                       type="text"
-                      className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 pl-8 text-white focus:border-pink-500 focus:outline-none"
+                      className="w-full rounded-lg border border-slate-600 bg-slate-900 p-2.5 pl-8 text-white focus:border-blue-500 focus:outline-none"
                       placeholder="Select move..."
                       value={move}
                       onChange={(e) => handleMoveChange(idx, e.target.value)}
@@ -280,7 +280,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
           <button
             type="submit"
             form="pokemon-form"
-            className="flex items-center gap-2 rounded-lg bg-pink-600 px-6 py-2 font-bold text-white shadow-lg transition-all hover:bg-pink-700 active:scale-95"
+            className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2 font-bold text-white shadow-lg transition-all hover:bg-blue-700 active:scale-95"
           >
             <Save size={18} />
             Save Pokémon

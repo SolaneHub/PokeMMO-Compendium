@@ -25,7 +25,7 @@ function BreedingPage() {
       {/* Header Section */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Calculator className="text-pink-500" size={32} />
+          <Calculator className="text-blue-500" size={32} />
           Breeding Planner
         </h1>
         <p className="text-slate-400">

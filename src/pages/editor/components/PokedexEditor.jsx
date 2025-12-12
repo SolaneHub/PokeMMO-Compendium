@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 const POKE_TEMPLATE = {
   id: 0,
@@ -25,6 +25,8 @@ const POKE_TEMPLATE = {
 
 const PokedexEditor = ({ data, onChange }) => {
   const [search, setSearch] = useState("");
+  const [deferredSearch, setDeferredSearch] = useState("");
+  const [isPending, startTransition] = useTransition();
   const [selectedId, setSelectedId] = useState(null);
   const [activeTab, setActiveTab] = useState("info");
 
@@ -37,7 +39,7 @@ const PokedexEditor = ({ data, onChange }) => {
   const filteredList = data.filter((p) => {
     if (!p) return false;
     const name = (p.name || "").toLowerCase();
-    const s = search.toLowerCase();
+    const s = deferredSearch.toLowerCase();
     return name.includes(s) || (p.id?.toString() || "").includes(s);
   });
 
@@ -83,9 +85,19 @@ const PokedexEditor = ({ data, onChange }) => {
           placeholder="Search..."
           className="mb-2.5 w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-2 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearch(value);
+            startTransition(() => {
+              setDeferredSearch(value);
+            });
+          }}
         />
-        <div className="flex-1 overflow-y-auto">
+        <div
+          className={`flex-1 overflow-y-auto transition-opacity duration-200 ${
+            isPending ? "opacity-50" : "opacity-100"
+          }`}
+        >
           {filteredList.map((p, index) => (
             <div
               key={p.id ?? index}

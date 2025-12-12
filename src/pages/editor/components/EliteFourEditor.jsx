@@ -63,7 +63,7 @@ const EliteFourEditor = ({ data, onChange }) => {
   return (
     <div>
       <title>Editor: Elite Four</title>
-      <h3 className="mb-5 border-b-2 border-pink-500 pb-2.5 text-lg font-semibold text-white">
+      <h3 className="mb-5 border-b-2 border-blue-500 pb-2.5 text-lg font-semibold text-white">
         🏰 E4 Editor
       </h3>
 
@@ -99,14 +99,14 @@ const EliteFourEditor = ({ data, onChange }) => {
             {Object.keys(currentMember.teams).map((key) => (
               <button
                 key={key}
-                className={`min-w-[150px] flex-1 rounded-lg border-2 p-3 text-center transition-all duration-200 ease-in-out ${teamKey === key ? "border-pink-500 bg-pink-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-pink-500 hover:bg-gray-700"} focus:ring-opacity-50 focus:ring-2 focus:ring-pink-500 focus:outline-none`}
+                className={`min-w-[150px] flex-1 rounded-lg border-2 p-3 text-center transition-all duration-200 ease-in-out ${teamKey === key ? "border-blue-500 bg-blue-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-blue-500 hover:bg-gray-700"} focus:ring-opacity-50 focus:ring-2 focus:ring-blue-500 focus:outline-none`}
                 onClick={() => {
                   setTeamKey(key);
                   setPokemon(null);
                 }}
               >
                 <span
-                  className={`text-lg font-semibold ${teamKey === key ? "text-pink-300" : "text-white"}`}
+                  className={`text-lg font-semibold ${teamKey === key ? "text-blue-300" : "text-white"}`}
                 >
                   {key}
                 </span>
@@ -131,7 +131,7 @@ const EliteFourEditor = ({ data, onChange }) => {
       {steps && pokemon ? (
         <div className="animate-[fade-in_0.3s_ease-out]">
           <div className="my-5 flex items-center justify-between border-b border-[#444] pb-2.5">
-            <h4 className="m-0 font-bold text-pink-500">
+            <h4 className="m-0 font-bold text-blue-500">
               Strategy for: <span className="text-white">{pokemon}</span>
             </h4>
             <button

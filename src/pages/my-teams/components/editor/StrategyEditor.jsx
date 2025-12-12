@@ -15,12 +15,40 @@ import { Sword } from "lucide-react";
 
 import { SortableStepItem } from "@/pages/editor/components/SortableStepItem";
 
+const EXAMPLE_STEP = {
+  type: "main",
+  player:
+    "Use Stealth Rock; facing Claydol, [SWITCH] switch to Chandelure, use 3x Calm Mind, give X Speed",
+  variations: [
+    {
+      type: "step",
+      name: "[SWITCH] Lapras",
+      steps: [
+        {
+          type: "main",
+          player:
+            "[SWITCH] switch to Blissey, [BAIT] baiting Lucario, use Trick, [SWITCH] switch to Chandelure, use 3x Calm Mind, give X Speed",
+        },
+      ],
+    },
+  ],
+};
+
+const addIdsToStep = (step) => ({
+  ...step,
+  id: crypto.randomUUID(),
+  variations: step.variations?.map((v) => ({
+    ...v,
+    steps: v.steps ? v.steps.map(addIdsToStep) : [],
+  })),
+});
+
 const createNewStepTemplate = () => ({
   type: "main",
   player: "",
   warning: "",
   variations: [],
-  id: `step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+  id: crypto.randomUUID(),
 });
 
 const StrategyEditor = ({
@@ -48,31 +76,30 @@ const StrategyEditor = ({
 
   if (!selectedEnemyPokemon) {
     return (
-      <div className="flex min-h-[600px] flex-col rounded-xl border border-slate-700 bg-slate-800 p-6">
-        <div className="flex flex-1 flex-col items-center justify-center text-slate-500 opacity-60">
-          <Sword size={64} className="mb-4" />
-          <p className="text-xl font-medium">
-            Select an Enemy Pokémon to plan a strategy.
-          </p>
-        </div>
+      <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-[#444] bg-[#1a1b20]/50 p-6 text-[#888]">
+        <Sword size={48} className="mb-4 opacity-50" />
+        <p className="text-lg font-medium">
+          Select an Enemy Pokémon to plan a strategy.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-[600px] flex-col rounded-xl border border-slate-700 bg-slate-800 p-6">
-      <div className="animate-fade-in flex flex-1 flex-col">
-        <div className="mb-6 flex items-center justify-between border-b border-slate-600 pb-4">
+    <div className="flex min-h-[600px] flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
+      <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col">
+        <div className="mb-6 flex items-center justify-between border-b-2 border-blue-500 pb-2.5">
           <div>
-            <h2 className="text-2xl font-bold text-white">
-              Strategy vs {selectedEnemyPokemon}
+            <h2 className="text-xl font-bold text-white">
+              Strategy vs{" "}
+              <span className="text-blue-400">{selectedEnemyPokemon}</span>
             </h2>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-xs text-slate-400">
               {selectedRegion} • {selectedMember?.name}
             </p>
           </div>
           <button
-            className="rounded-lg bg-green-600 px-4 py-2 font-medium text-white shadow-lg transition-colors hover:bg-green-700 active:scale-95"
+            className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
             onClick={() =>
               onUpdateSteps([...(steps || []), createNewStepTemplate()])
             }
@@ -105,21 +132,46 @@ const StrategyEditor = ({
                     }
                   />
                 ))}
+                <div className="mt-8 border-t border-[#333] pt-4">
+                  <p className="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+                    Examples
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onUpdateSteps([...steps, addIdsToStep(EXAMPLE_STEP)])
+                    }
+                    className="text-xs text-blue-400 transition-colors hover:text-blue-300 hover:underline"
+                  >
+                    + Append Example Step (Articuno vs Lorelei)
+                  </button>
+                </div>
               </div>
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-700 bg-slate-900/30 p-10">
-            <p className="mb-4 max-w-md text-center text-slate-500">
-              How do you handle {selectedEnemyPokemon}? <br />
+          <div className="flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#444] bg-black/10 p-10">
+            <p className="mb-4 max-w-md text-center text-[#888]">
+              How do you handle{" "}
+              <span className="text-blue-400">{selectedEnemyPokemon}</span>?{" "}
+              <br />
               Click below to define your strategy step-by-step.
             </p>
-            <button
-              className="rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 font-medium text-pink-400 transition-colors hover:border-pink-500 hover:underline"
-              onClick={() => onUpdateSteps([createNewStepTemplate()])}
-            >
-              Create first step
-            </button>
+            <div className="flex gap-4">
+              <button
+                className="cursor-pointer rounded border-none bg-[#1e2025] px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-[#252830] hover:text-blue-300"
+                onClick={() => onUpdateSteps([createNewStepTemplate()])}
+              >
+                Create first step
+              </button>
+
+              <button
+                className="cursor-pointer rounded border-none bg-[#1e2025] px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-[#252830] hover:text-blue-300"
+                onClick={() => onUpdateSteps([addIdsToStep(EXAMPLE_STEP)])}
+              >
+                Load Example
+              </button>
+            </div>
           </div>
         )}
       </div>

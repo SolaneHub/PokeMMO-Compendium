@@ -6,7 +6,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { auth } from "@/firebase/config";
 
@@ -47,14 +47,17 @@ export function AuthProvider({ children }) {
     return unsubscribe;
   }, []);
 
-  const value = {
-    currentUser,
-    loading,
-    signup,
-    login,
-    logout,
-    googleSignIn,
-  };
+  const value = useMemo(
+    () => ({
+      currentUser,
+      loading,
+      signup,
+      login,
+      logout,
+      googleSignIn,
+    }),
+    [currentUser, loading]
+  );
 
   return (
     <AuthContext.Provider value={value}>

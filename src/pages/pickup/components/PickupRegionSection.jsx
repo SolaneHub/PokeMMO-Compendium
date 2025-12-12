@@ -24,7 +24,7 @@ const PickupRegionSection = ({ region }) => {
                         key={categoryIndex}
                         className="rounded-md bg-[#2a2c30] p-3"
                       >
-                        <h6 className="text-md mb-2 font-bold text-pink-400 capitalize">
+                        <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
                           {category.replace(/([A-Z])/g, " $1").trim()}:
                         </h6>
                         <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">

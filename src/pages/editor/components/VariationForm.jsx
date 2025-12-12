@@ -73,33 +73,33 @@ const VariationForm = ({ variation, onChange }) => {
   const currentNestedSteps = variation.steps || [];
 
   return (
-    <div className="relative my-4 rounded-r-md border-l-[3px] border-pink-500 bg-[#252526] p-4">
-      <h4 className="mt-0 mb-2.5 text-sm font-semibold tracking-wide text-pink-500 uppercase">
+    <div className="relative my-4 rounded-r-md border-l-[3px] border-blue-500 bg-[#1a1b20] p-4">
+      <h4 className="mt-0 mb-2.5 text-sm font-semibold tracking-wide text-blue-500 uppercase">
         Variation Details
       </h4>
 
-      <label className="mt-4 block text-xs font-bold text-[#b0b0b0]">
+      <label className="mt-4 block text-xs font-bold text-slate-400">
         Type:
         <select
           value={variation.type || ""}
           onChange={(e) =>
             handleFieldChange("type", e.target.value || undefined)
           }
-          className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
+          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         >
           <option value="">Default (Undefined)</option>
           <option value="step">Step</option>
         </select>
       </label>
 
-      <label className="mt-4 block text-xs font-bold text-[#b0b0b0]">
+      <label className="mt-4 block text-xs font-bold text-slate-400">
         Name / Trigger:
         <input
           type="text"
           value={variation.name || ""}
           placeholder="e.g. Leftovers, Earthquake..."
           onChange={(e) => handleFieldChange("name", e.target.value)}
-          className="mt-1.5 w-full rounded border border-[#444] bg-[#2c2c2c] px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
+          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 p-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         />
       </label>
 
@@ -134,7 +134,7 @@ const VariationForm = ({ variation, onChange }) => {
 
         <div className="mt-2.5 flex justify-end gap-2.5">
           <button
-            className="flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-green-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
+            className="flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
             onClick={addStep}
           >
             ➕ Add Nested Step

@@ -55,7 +55,7 @@ const EditorSidebar = ({
   loading,
 }) => {
   return (
-    <div className="flex w-[280px] shrink-0 flex-col gap-4 overflow-y-auto border-r border-[#333] bg-[#1e1e1e] p-5">
+    <div className="flex w-[280px] shrink-0 flex-col gap-4 overflow-y-auto border-r border-[#333] bg-[#1e1e1e]">
       <h3 className="m-0 inline-block border-b-2 border-blue-500 pb-2.5 text-lg font-normal tracking-wider text-white uppercase">
         File Manager
       </h3>
