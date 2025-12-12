@@ -1,6 +1,12 @@
 import { Check, Clock, Edit, Map, Send, Trash2, XCircle } from "lucide-react";
 
-const TeamCard = ({ team, onClick, onDelete, onSubmit }) => {
+const TeamCard = ({
+  team,
+  onClick,
+  onDelete,
+  onSubmit,
+  onCancelSubmission,
+}) => {
   const status = team.status || "draft";
 
   const getStatusBadge = () => {
@@ -109,6 +115,18 @@ const TeamCard = ({ team, onClick, onDelete, onSubmit }) => {
               className="flex items-center gap-1 rounded bg-slate-700/50 px-3 py-1 text-xs font-bold text-slate-300 hover:bg-slate-600 hover:text-white"
             >
               <Send size={12} /> Submit
+            </button>
+          )}
+
+          {onCancelSubmission && status === "pending" && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onCancelSubmission(team.id);
+              }}
+              className="flex items-center gap-1 rounded bg-red-700/50 px-3 py-1 text-xs font-bold text-red-300 hover:bg-red-600 hover:text-white"
+            >
+              <XCircle size={12} /> Cancel Submission
             </button>
           )}
         </div>
