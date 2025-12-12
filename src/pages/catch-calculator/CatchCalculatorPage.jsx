@@ -1,5 +1,5 @@
 import { Search, Trophy, Zap } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import BallSelector from "@/pages/catch-calculator/components/BallSelector";
 import HpBarSlider from "@/pages/catch-calculator/components/HpBarSlider";
@@ -26,6 +26,8 @@ const CatchCalculatorPage = () => {
 
   // Search State
   const [searchTerm, setSearchTerm] = useState("");
+  const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
+  const [isPending, startTransition] = useTransition();
   const [selectedPokemonName, setSelectedPokemonName] = useState(() => {
     return allPokemonData && allPokemonData.length > 0
       ? allPokemonData[0].name
@@ -49,9 +51,9 @@ const CatchCalculatorPage = () => {
   // -- Derived Data --
   const filteredPokemon = (() => {
     if (!allPokemonData) return [];
-    if (!searchTerm) return allPokemonData;
+    if (!deferredSearchTerm) return allPokemonData;
     return allPokemonData.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      pokemon.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
     );
   })();
 
@@ -101,20 +103,29 @@ const CatchCalculatorPage = () => {
               value={searchTerm}
               onFocus={() => setIsSearchOpen(true)}
               onChange={(e) => {
-                setSearchTerm(e.target.value);
+                const value = e.target.value;
+                setSearchTerm(value);
+                startTransition(() => {
+                  setDeferredSearchTerm(value);
+                });
                 setIsSearchOpen(true);
               }}
               className="w-full rounded-lg border border-slate-700 bg-[#15161a] px-4 py-3 text-slate-200 transition-colors placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
             />
             {/* Dropdown List */}
             {isSearchOpen && (
-              <div className="scrollbar-thin scrollbar-thumb-slate-700 absolute top-full right-0 left-0 z-50 mt-2 max-h-48 overflow-y-auto rounded-lg border border-slate-700 bg-[#15161a] shadow-xl">
+              <div
+                className={`scrollbar-thin scrollbar-thumb-slate-700 absolute top-full right-0 left-0 z-50 mt-2 max-h-48 overflow-y-auto rounded-lg border border-slate-700 bg-[#15161a] shadow-xl transition-opacity duration-200 ${
+                  isPending ? "opacity-50" : "opacity-100"
+                }`}
+              >
                 {filteredPokemon.slice(0, 50).map((p) => (
                   <button
                     key={p.name}
                     onClick={() => {
                       setSelectedPokemonName(p.name);
                       setSearchTerm(p.name);
+                      setDeferredSearchTerm(p.name);
                       setIsSearchOpen(false);
                     }}
                     className={`flex w-full items-center justify-between px-4 py-2 text-left text-sm transition-colors ${
@@ -223,7 +234,7 @@ const CatchCalculatorPage = () => {
               <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
                 <div className="flex items-center justify-between text-xs font-bold text-slate-400">
                   <span>Turns Asleep</span>
-                  <span className="text-pink-400">
+                  <span className="text-blue-400">
                     {dreamBallTurns >= 3
                       ? "4x"
                       : dreamBallTurns === 2
@@ -241,7 +252,7 @@ const CatchCalculatorPage = () => {
                       onClick={() => setDreamBallTurns(turn)}
                       className={`rounded py-1.5 text-xs font-bold transition-all ${
                         dreamBallTurns === turn
-                          ? "bg-pink-600 text-white shadow-sm"
+                          ? "bg-blue-600 text-white shadow-sm"
                           : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
                       } `}
                     >

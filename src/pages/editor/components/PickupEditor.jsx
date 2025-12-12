@@ -102,7 +102,7 @@ const LocationEditor = ({ location, onChange, onRemove }) => {
 
       {Object.entries(location.items || {}).map(([category, items]) => (
         <div key={category} className="mb-3">
-          <h6 className="mb-1 text-sm font-bold text-pink-400 capitalize">
+          <h6 className="mb-1 text-sm font-bold text-blue-400 capitalize">
             {category.replace(/([A-Z])/g, " $1").trim()}:
           </h6>
           <div className="space-y-1">

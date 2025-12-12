@@ -7,7 +7,7 @@ const EliteFourTeamOverview = ({
   onSelectPokemon,
 }) => {
   return (
-    <div className="mb-5 rounded-md border border-t-4 border-[#333] border-t-pink-500 bg-[#252526] p-5 shadow-md">
+    <div className="mb-5 rounded-md border border-t-4 border-[#333] border-t-blue-500 bg-[#252526] p-5 shadow-md">
       <h4 className="text-md mb-3 font-semibold text-white">Team: {teamKey}</h4>
       <div className="flex flex-wrap gap-4">
         {(team.pokemonNames || []).map((pokemonName) => {

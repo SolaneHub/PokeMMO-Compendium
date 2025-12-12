@@ -1,5 +1,5 @@
-import { useEffect,useState } from "react";
-import { useNavigate,useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { getUserTeams, updateUserTeam } from "@/firebase/firestoreService";
 import { useToast } from "@/shared/components/ToastNotification";
@@ -22,9 +22,10 @@ export function useTeamEditor() {
         const teams = await getUserTeams(currentUser.uid);
         const found = teams.find((t) => t.id === teamId);
         if (found) {
-          setTeam(found);
+          // Ensure defaults
           if (!found.strategies) found.strategies = {};
           if (!found.enemyPools) found.enemyPools = {};
+          setTeam(found);
         } else {
           showToast("Team not found", "error");
           navigate("/my-teams");
@@ -51,7 +52,7 @@ export function useTeamEditor() {
         enemyPools: teamToSave.enemyPools,
       });
       showToast("Team saved successfully!", "success");
-      setTeam(teamToSave); // Update local state if needed
+      setTeam(teamToSave); 
     } catch (error) {
       console.error(error);
       showToast("Failed to save team", "error");

@@ -19,7 +19,7 @@ function PickupPage() {
       {/* Header */}
       <div className="flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Package className="text-pink-400" size={32} />
+          <Package className="text-blue-400" size={32} />
           Pickup
         </h1>
         <p className="text-slate-400">

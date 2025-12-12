@@ -3,8 +3,12 @@ import { useState } from "react";
 
 import Sidebar from "./Sidebar";
 
-function Shell({ children }) {
+function Shell({ children, noPadding }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const mainClasses = `flex-1 overflow-x-hidden overflow-y-auto scroll-smooth ${
+    noPadding ? "" : "p-4 lg:p-8"
+  }`;
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#0f1014] font-sans text-slate-200 selection:bg-blue-500/30">
@@ -27,7 +31,7 @@ function Shell({ children }) {
         </header>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+        <main className={mainClasses}>
           <div className="mx-auto h-full max-w-7xl animate-[fade-in_0.3s_ease-out]">
             {children}
           </div>

@@ -18,10 +18,10 @@ export function SortableStepItem({ step, id, index, onChange, onRemove }) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="relative mb-4 rounded-md border border-l-[3px] border-[#333] border-l-pink-500 bg-[#1e1e1e] p-5 shadow-sm"
+      className="relative mb-4 rounded-md border border-l-[3px] border-[#333] border-l-blue-500 bg-[#1e1e1e] p-5 shadow-sm"
     >
       <div className="mb-2.5 flex justify-between">
-        <strong className="text-pink-500">Step {index + 1}</strong>
+        <strong className="text-blue-500">Step {index + 1}</strong>
         <button
           className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
           onClick={onRemove}

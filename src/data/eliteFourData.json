@@ -1202,7 +1202,12 @@
             "ability": "Torrent",
             "nature": "Adamant",
             "evs": "252 Atk / 252 Spe",
-            "moves": ["Aqua Jet", "Megahorn", "Superpower", "Swords Dance"]
+            "moves": [
+              "Aqua Jet",
+              "Megahorn",
+              "Superpower",
+              "Swords Dance"
+            ]
           }
         ]
       },
@@ -5245,7 +5250,17 @@
           "Volcarona",
           "Yanmega"
         ],
-        "pokemonStrategies": {}
+        "pokemonStrategies": {
+          "Forretress": [
+            {
+              "type": "main",
+              "player": "",
+              "warning": "",
+              "variations": [],
+              "id": "step-1765572734107-48spqhmq3"
+            }
+          ]
+        }
       },
       "Zanpaku v2": {
         "pokemonNames": [],

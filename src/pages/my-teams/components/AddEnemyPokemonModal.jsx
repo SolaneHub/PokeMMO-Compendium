@@ -1,11 +1,13 @@
 import { Plus, Search, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
   const { pokemonNames } = usePokedexData();
   const [searchTerm, setSearchTerm] = useState("");
+  const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
+  const [isPending, startTransition] = useTransition();
 
   if (!isOpen) return null;
 
@@ -13,7 +15,8 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
   const filteredPokemon = pokemonNames
     .filter((p) => {
       // 1. Match search term
-      if (!p.toLowerCase().includes(searchTerm.toLowerCase())) return false;
+      if (!p.toLowerCase().includes(deferredSearchTerm.toLowerCase()))
+        return false;
 
       // 2. Filter out alternative forms (containing parentheses)
       // unless they are specific exceptions that have no base form (Wormadam, Deerling, Sawsbuck).
@@ -33,25 +36,31 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
       onClick={onClose}
     >
       <div
-        className="relative flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
+        className="relative flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-slate-700 bg-slate-900/50 p-4">
+        <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
           <h3 className="text-lg font-bold text-white">Add Enemy Pokémon</h3>
           <button onClick={onClose} className="text-slate-400 hover:text-white">
             <X size={24} />
           </button>
         </div>
 
-        <div className="border-b border-slate-700 p-4">
+        <div className="border-b border-white/5 p-4">
           <div className="relative">
             <input
               type="text"
               autoFocus
-              className="w-full rounded-lg border border-slate-600 bg-slate-900 p-3 pl-10 text-white outline-none focus:border-pink-500"
+              className="w-full rounded-lg border border-white/10 bg-[#1e2025] p-3 pl-10 text-white outline-none focus:border-blue-500"
               placeholder="Search Pokémon..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearchTerm(value);
+                startTransition(() => {
+                  setDeferredSearchTerm(value);
+                });
+              }}
             />
             <Search
               className="absolute top-3.5 left-3 text-slate-500"
@@ -60,7 +69,11 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
           </div>
         </div>
 
-        <div className="custom-scrollbar flex-1 overflow-y-auto p-2">
+        <div
+          className={`custom-scrollbar flex-1 overflow-y-auto p-2 transition-opacity duration-200 ${
+            isPending ? "opacity-50" : "opacity-100"
+          }`}
+        >
           {filteredPokemon.length > 0 ? (
             <div className="grid grid-cols-1 gap-1">
               {filteredPokemon.map((p) => (
@@ -70,7 +83,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
                     onAdd(p);
                     onClose();
                   }}
-                  className="group flex items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-slate-700"
+                  className="group flex items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-white/5"
                 >
                   <img
                     src={`https://img.pokemondb.net/sprites/black-white/anim/normal/${p.toLowerCase()}.gif`}
@@ -83,7 +96,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
                   </span>
                   <Plus
                     size={16}
-                    className="ml-auto text-slate-500 group-hover:text-pink-400"
+                    className="ml-auto text-slate-500 group-hover:text-blue-400"
                   />
                 </button>
               ))}

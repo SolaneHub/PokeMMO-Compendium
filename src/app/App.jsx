@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 
 import Home from "@/app/layout/Home";
 import Shell from "@/app/layout/Shell";
+import AdminApprovalsPage from "@/pages/admin/approvals/AdminApprovalsPage";
 import AuthPage from "@/pages/auth/AuthPage";
 import BossFightsPage from "@/pages/boss-fights/BossFightsPage";
 import BreedingPage from "@/pages/breeding/BreedingPage";
@@ -16,13 +17,16 @@ import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
 import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
-import AdminApprovalsPage from "@/pages/admin/approvals/AdminApprovalsPage";
+import ProtectedRoute from "@/shared/components/ProtectedRoute";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
 
 function App() {
   const location = useLocation();
   const currentPath = location.pathname;
+
+  const noPaddingRoutes = ["/editor"];
+  const shouldRemovePadding = noPaddingRoutes.includes(currentPath);
 
   const pages = [
     { path: "/", Component: Home, key: "home" },
@@ -58,7 +62,7 @@ function App() {
       <ToastProvider>
         {" "}
         {/* Wrap with ToastProvider */}
-        <Shell>
+        <Shell noPadding={shouldRemovePadding}>
           {pages.map(({ path, Component, key }) => {
             const isActive = currentPath === path;
             return (
@@ -81,7 +85,14 @@ function App() {
             <Route path="/signup" element={<AuthPage isSignup />} />
             <Route path="/my-teams" element={<MyTeamsPage />} />
             <Route path="/my-teams/:id" element={<UserTeamEditorPage />} />
-            <Route path="/admin/approvals" element={<AdminApprovalsPage />} />
+            <Route
+              path="/admin/approvals"
+              element={
+                <ProtectedRoute adminOnly>
+                  <AdminApprovalsPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Shell>
       </ToastProvider>

@@ -1,25 +1,17 @@
-import { Plus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Plus, Users } from "lucide-react";
+import { useActionState, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import PageTitle from "@/shared/components/PageTitle";
-import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
+import { updateTeamStatus } from "@/firebase/firestoreService";
 import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
 import TeamList from "@/pages/my-teams/components/TeamList";
-import { updateTeamStatus } from "@/firebase/firestoreService";
+import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
+import PageTitle from "@/shared/components/PageTitle";
 
 const MyTeamsPage = () => {
   const navigate = useNavigate();
-  const {
-    teams,
-    loading,
-    creating,
-    createTeam,
-    deleteTeam,
-    authLoading,
-    currentUser,
-    refreshTeams, // Assuming this exists or the hook updates automatically
-  } = useUserTeams();
+  const { teams, loading, createTeam, deleteTeam, authLoading, currentUser } =
+    useUserTeams();
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
@@ -28,8 +20,10 @@ const MyTeamsPage = () => {
     }
   }, [currentUser, authLoading, navigate]);
 
-  const handleCreateTeam = async (name) => {
-    if (!name.trim()) return;
+  const createTeamAction = async (prevState, formData) => {
+    const name = formData.get("teamName");
+    if (!name || !name.trim()) return;
+
     const teamId = await createTeam(name);
     if (teamId) {
       setShowCreateModal(false);
@@ -37,33 +31,42 @@ const MyTeamsPage = () => {
     }
   };
 
+  const [, submitAction] = useActionState(createTeamAction, null);
+
   const handleSubmitTeam = async (teamId) => {
-    if (window.confirm("Submit this team for admin approval? You won't be able to edit it while pending.")) {
-        await updateTeamStatus(currentUser.uid, teamId, "pending");
-        // We rely on the real-time listener in useUserTeams to update the UI
-        // If useUserTeams doesn't use onSnapshot, we might need to manually refresh.
-        // Assuming it does or we trigger a refresh.
-        // If not, we might need to force reload or update local state.
+    if (
+      window.confirm(
+        "Submit this team for admin approval? You won't be able to edit it while pending."
+      )
+    ) {
+      await updateTeamStatus(currentUser.uid, teamId, "pending");
+      // We rely on the real-time listener in useUserTeams to update the UI
+      // If useUserTeams doesn't use onSnapshot, we might need to manually refresh.
+      // Assuming it does or we trigger a refresh.
+      // If not, we might need to force reload or update local state.
     }
   };
 
   if (authLoading || loading)
-    return <div className="p-8 text-white">Loading...</div>;
+    return <div className="p-8 text-center text-slate-400">Loading...</div>;
 
   return (
-    <div className="animate-fade-in container mx-auto p-6 text-slate-200">
+    <div className="mx-auto max-w-7xl space-y-8 pb-24">
       <PageTitle title="My Elite Four Teams" />
 
-      <div className="mb-8 flex items-center justify-between border-b border-slate-700 pb-4">
-        <div>
-          <h1 className="text-3xl font-bold text-white">My Teams</h1>
-          <p className="mt-1 text-slate-400">
-            Manage your strategies for the Elite Four.
-          </p>
-        </div>
+      {/* Header */}
+      <div className="mb-8 flex flex-col items-center space-y-4 text-center">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+          <Users className="text-blue-500" size={32} />
+          My Teams
+        </h1>
+        <p className="max-w-2xl text-slate-400">
+          Create and manage your own custom strategies for the Elite Four.
+        </p>
+
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 rounded-lg bg-pink-600 px-4 py-2 text-white shadow-lg transition-all hover:bg-pink-700 hover:shadow-pink-900/20 active:scale-95"
+          className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-white shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-blue-900/40 active:scale-95"
         >
           <Plus size={20} />
           Create New Team
@@ -71,13 +74,13 @@ const MyTeamsPage = () => {
       </div>
 
       {teams.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-slate-600 bg-slate-800/50 py-20 text-center">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
           <p className="mb-4 text-xl text-slate-400">
             You haven&apos;t created any teams yet.
           </p>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="text-pink-400 hover:text-pink-300 hover:underline"
+            className="text-blue-400 hover:text-blue-300 hover:underline"
           >
             Create your first team now
           </button>
@@ -95,8 +98,7 @@ const MyTeamsPage = () => {
       {showCreateModal && (
         <CreateTeamModal
           onClose={() => setShowCreateModal(false)}
-          onCreate={handleCreateTeam}
-          creating={creating}
+          action={submitAction}
         />
       )}
     </div>

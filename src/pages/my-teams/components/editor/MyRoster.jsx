@@ -2,7 +2,7 @@ import { Edit, Plus, Users } from "lucide-react";
 
 const MyRoster = ({ members, onEditSlot }) => {
   return (
-    <div className="rounded-xl border border-slate-700 bg-slate-800 p-5">
+    <div className="rounded-xl border border-white/5 bg-[#1a1b20] p-5">
       <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-slate-400 uppercase">
         <Users size={16} />
         My Roster
@@ -11,7 +11,7 @@ const MyRoster = ({ members, onEditSlot }) => {
         {members.map((member, idx) => (
           <div
             key={idx}
-            className="group relative flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-slate-700 bg-slate-900/50 transition-colors hover:border-pink-500"
+            className="group relative flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-black/20 transition-all hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10"
             onClick={() => onEditSlot(idx)}
           >
             {member ? (
@@ -20,6 +20,7 @@ const MyRoster = ({ members, onEditSlot }) => {
                   member.sprite ||
                   `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId || 0}.png`
                 }
+                loading="lazy"
                 onError={(e) => {
                   e.target.src =
                     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png";
@@ -31,11 +32,11 @@ const MyRoster = ({ members, onEditSlot }) => {
             ) : (
               <Plus
                 size={20}
-                className="text-slate-600 group-hover:text-pink-400"
+                className="text-slate-600 transition-colors group-hover:text-blue-400"
               />
             )}
             {member && (
-              <div className="absolute -top-1 -right-1 rounded-full border border-slate-600 bg-slate-800 p-1 opacity-0 transition-opacity group-hover:opacity-100">
+              <div className="absolute -top-1 -right-1 rounded-full border border-white/10 bg-[#1a1b20] p-1 opacity-0 transition-opacity group-hover:opacity-100">
                 <Edit size={10} className="text-white" />
               </div>
             )}

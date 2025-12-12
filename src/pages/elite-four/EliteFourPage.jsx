@@ -1,16 +1,14 @@
 import { Crown } from "lucide-react";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { getAllApprovedTeams } from "@/firebase/firestoreService";
 import MemberSelection from "@/pages/elite-four/components/MemberSelection";
 import PokemonSelection from "@/pages/elite-four/components/PokemonSelection";
 import RegionSelection from "@/pages/elite-four/components/RegionSelection";
 import TeamSelection from "@/pages/elite-four/components/TeamSelection";
 import ViewTeamBuildButton from "@/pages/elite-four/components/ViewTeamBuildButton";
-import {
-  getAllEliteFourMembers,
-  getMembersByRegion,
-} from "@/pages/elite-four/data/eliteFourService";
-import { getAllApprovedTeams } from "@/firebase/firestoreService";
+import { getMembersByRegion } from "@/pages/elite-four/data/eliteFourService";
+import { useStrategyNavigation } from "@/pages/elite-four/hooks/useStrategyNavigation";
 import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
 import {
   getPokemonBackground,
@@ -33,8 +31,16 @@ function EliteFourPage() {
   // UI State
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [isTeamBuildVisible, setIsTeamBuildVisible] = useState(false);
-  const [currentStrategyView, setCurrentStrategyView] = useState([]);
-  const [strategyHistory, setStrategyHistory] = useState([]);
+
+  const {
+    currentStrategyView,
+    strategyHistory,
+    breadcrumbs,
+    initializeStrategy,
+    navigateToStep,
+    navigateBack,
+    resetStrategy,
+  } = useStrategyNavigation();
 
   // Fetch Teams on Mount
   useEffect(() => {
@@ -48,50 +54,48 @@ function EliteFourPage() {
   }, []);
 
   // Derived Data
-  const currentTeamData = useMemo(() => 
-    approvedTeams.find(t => t.id === selectedTeamId), 
+  const currentTeamData = useMemo(
+    () => approvedTeams.find((t) => t.id === selectedTeamId),
     [approvedTeams, selectedTeamId]
   );
 
   const currentTeamBuilds = useMemo(() => {
     if (!currentTeamData?.members) return [];
     // Map user team members to the format expected by TeamBuildModal/PlayerBuildCard
-    return currentTeamData.members.map(m => {
-      if (!m) return null;
-      return {
-        name: m.name,
-        item: m.item,
-        ability: m.ability,
-        nature: m.nature,
-        evs: m.evs, // Assuming string like "252 Atk / 252 Spe"
-        moves: [m.move1, m.move2, m.move3, m.move4].filter(Boolean)
-      };
-    }).filter(Boolean); // Filter out empty slots/nulls
+    return currentTeamData.members
+      .map((m) => {
+        if (!m) return null;
+        return {
+          name: m.name,
+          item: m.item,
+          ability: m.ability,
+          nature: m.nature,
+          evs: m.evs, // Assuming string like "252 Atk / 252 Spe"
+          moves: [m.move1, m.move2, m.move3, m.move4].filter(Boolean),
+        };
+      })
+      .filter(Boolean); // Filter out empty slots/nulls
   }, [currentTeamData]);
 
   const filteredEliteFour = getMembersByRegion(selectedRegion);
-  
+
   const pokemonNamesForSelectedTeam = useMemo(() => {
     if (!selectedMember || !currentTeamData?.enemyPools) return [];
     // Handle both string name (from selection) and object
-    const memberName = typeof selectedMember === 'object' ? selectedMember.name : selectedMember;
+    const memberName =
+      typeof selectedMember === "object" ? selectedMember.name : selectedMember;
     return currentTeamData.enemyPools[memberName] || [];
   }, [selectedMember, currentTeamData]);
 
   const currentPokemonObject = selectedPokemon
     ? getPokemonByName(selectedPokemon)
     : null;
-  
+
   const detailsTitleBackground = selectedPokemon
     ? getPokemonBackground(selectedPokemon)
     : "#333";
 
   // Actions
-  const resetStrategyStates = () => {
-    setCurrentStrategyView([]);
-    setStrategyHistory([]);
-  };
-
   const handleTeamClick = (teamId) => {
     setSelectedTeamId(teamId);
     setSelectedRegion(null);
@@ -99,7 +103,7 @@ function EliteFourPage() {
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     setIsTeamBuildVisible(false);
-    resetStrategyStates();
+    resetStrategy();
   };
 
   const handleRegionClick = (region) => {
@@ -109,7 +113,7 @@ function EliteFourPage() {
     setSelectedMember(null);
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
+    resetStrategy();
   };
 
   const handleMemberClick = (member) => {
@@ -118,7 +122,7 @@ function EliteFourPage() {
 
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
-    resetStrategyStates();
+    resetStrategy();
   };
 
   const handlePokemonCardClick = (pokemonName) => {
@@ -126,31 +130,15 @@ function EliteFourPage() {
     setIsPokemonDetailsVisible(true);
 
     // Strategy Retrieval logic for User Teams
-    const memberName = typeof selectedMember === 'object' ? selectedMember.name : selectedMember;
-    
+    const memberName =
+      typeof selectedMember === "object" ? selectedMember.name : selectedMember;
+
     let strategy = [];
     if (currentTeamData?.strategies?.[memberName]?.[pokemonName]) {
       strategy = currentTeamData.strategies[memberName][pokemonName];
     }
 
-    setCurrentStrategyView(strategy);
-    setStrategyHistory([]);
-  };
-
-  const handleStepClick = (item) => {
-    if (item?.steps && Array.isArray(item.steps)) {
-      setStrategyHistory((prev) => [...prev, currentStrategyView]);
-      setCurrentStrategyView(item.steps);
-      const modalContent = document.getElementById("pokemon-details-content");
-      if (modalContent) modalContent.scrollTop = 0;
-    }
-  };
-
-  const handleBackClick = () => {
-    if (strategyHistory.length > 0) {
-      setCurrentStrategyView(strategyHistory[strategyHistory.length - 1]);
-      setStrategyHistory((prev) => prev.slice(0, -1));
-    }
+    initializeStrategy(strategy);
   };
 
   return (
@@ -168,10 +156,13 @@ function EliteFourPage() {
 
       {/* Team Selection */}
       {loadingTeams ? (
-        <div className="text-center text-slate-400">Loading community teams...</div>
+        <div className="text-center text-slate-400">
+          Loading community teams...
+        </div>
       ) : approvedTeams.length === 0 ? (
         <div className="text-center text-slate-400">
-           No approved strategies available yet. Go to "My Teams" to create one!
+          No approved strategies available yet. Go to &quot;My Teams&quot; to
+          create one!
         </div>
       ) : (
         <TeamSelection
@@ -213,7 +204,7 @@ function EliteFourPage() {
 
       {isTeamBuildVisible && (
         <TeamBuildModal
-          teamName={currentTeamData?.name || 'Team'}
+          teamName={currentTeamData?.name || "Team"}
           builds={currentTeamBuilds}
           onClose={() => setIsTeamBuildVisible(false)}
         />
@@ -226,9 +217,10 @@ function EliteFourPage() {
           detailsTitleBackground={detailsTitleBackground}
           strategyHistory={strategyHistory}
           currentStrategyView={currentStrategyView}
+          breadcrumbs={breadcrumbs}
           onClose={() => setIsPokemonDetailsVisible(false)}
-          onBack={handleBackClick}
-          onStepClick={handleStepClick}
+          onBack={navigateBack}
+          onStepClick={navigateToStep}
         />
       )}
     </div>

@@ -12,7 +12,7 @@ const EnemyPool = ({
   if (!selectedMember) return null;
 
   return (
-    <div className="animate-fade-in mt-6 rounded-xl border border-slate-700 bg-slate-800 p-5">
+    <div className="animate-fade-in mt-6 rounded-xl border border-white/5 bg-[#1a1b20] p-5">
       <div className="mb-2 flex items-center justify-between">
         <h3 className="flex items-center gap-2 text-sm font-bold text-slate-400 uppercase">
           <Sword size={16} />
@@ -20,7 +20,7 @@ const EnemyPool = ({
         </h3>
         <button
           onClick={onAddEnemy}
-          className="flex items-center gap-1 rounded bg-slate-700 px-2 py-1 text-xs text-white transition-colors hover:bg-slate-600"
+          className="flex items-center gap-1 rounded border border-white/10 bg-[#1e2025] px-2 py-1 text-xs text-white transition-colors hover:bg-white/10"
         >
           <Plus size={12} /> Add
         </button>
@@ -43,13 +43,14 @@ const EnemyPool = ({
                   onClick={() => onSelectEnemy(pName)}
                   className={`flex flex-1 items-center gap-3 rounded-lg border p-2 text-left transition-all ${
                     selectedEnemyPokemon === pName
-                      ? "border-pink-500 bg-pink-900/30"
-                      : "border-slate-700 bg-slate-900/30 hover:bg-slate-800"
+                      ? "border-blue-500 bg-blue-900/20 shadow-[0_0_10px_rgba(59,130,246,0.1)]"
+                      : "border-white/5 bg-[#1e2025] hover:border-white/10 hover:bg-[#25272e]"
                   }`}
                 >
                   <div className="h-8 w-8 flex-shrink-0">
                     <img
                       src={`https://img.pokemondb.net/sprites/black-white/anim/normal/${pName.toLowerCase()}.gif`}
+                      loading="lazy"
                       onError={(e) => (e.target.style.display = "none")}
                       alt={pName}
                       className="h-full w-full object-contain"
@@ -57,7 +58,7 @@ const EnemyPool = ({
                   </div>
                   <div className="min-w-0 flex-1">
                     <div
-                      className={`truncate font-medium ${selectedEnemyPokemon === pName ? "text-pink-300" : "text-slate-200"}`}
+                      className={`truncate font-medium ${selectedEnemyPokemon === pName ? "text-blue-300" : "text-slate-200"}`}
                     >
                       {pName}
                     </div>
@@ -71,7 +72,7 @@ const EnemyPool = ({
                 </button>
                 <button
                   onClick={(e) => onRemoveEnemy(pName, e)}
-                  className="hidden items-center justify-center rounded-lg border border-slate-700 bg-slate-800 px-2 text-slate-500 transition-all group-hover/item:flex hover:border-red-500 hover:text-red-500"
+                  className="hidden items-center justify-center rounded-lg border border-white/10 bg-[#1e2025] px-2 text-slate-500 transition-all group-hover/item:flex hover:border-red-500 hover:text-red-500"
                 >
                   <Trash2 size={16} />
                 </button>

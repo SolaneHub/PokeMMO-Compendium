@@ -1,6 +1,7 @@
 import {
   BookOpen,
   Calculator,
+  CheckCircle,
   ChevronLeft,
   ChevronRight,
   Crown,
@@ -19,6 +20,7 @@ import {
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
+import { isAdmin } from "@/shared/constants/admin";
 import { useAuth } from "@/shared/context/AuthContext";
 
 function Sidebar({ isOpen, setIsOpen }) {
@@ -44,6 +46,13 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   if (currentUser) {
     navigation.push({ name: "My Teams", path: "/my-teams", icon: User });
+    if (isAdmin(currentUser.email)) {
+      navigation.push({
+        name: "Admin Approvals",
+        path: "/admin/approvals",
+        icon: CheckCircle,
+      });
+    }
   } else {
     navigation.push({ name: "Login", path: "/login", icon: LogIn });
   }
@@ -163,7 +172,7 @@ function Sidebar({ isOpen, setIsOpen }) {
           >
             {currentUser ? (
               <>
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-pink-600 text-xs font-bold text-white">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
                   {currentUser.email[0].toUpperCase()}
                 </div>
                 {!isCollapsed && (

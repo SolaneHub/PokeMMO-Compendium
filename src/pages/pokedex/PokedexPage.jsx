@@ -1,5 +1,5 @@
 import { BookOpen } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import PokemonGrid from "@/pages/pokedex/components/PokemonGrid";
 import { getPokedexMainList } from "@/pages/pokedex/data/pokemonService";
@@ -11,12 +11,21 @@ const MAIN_POKEMON_LIST = getPokedexMainList();
 
 function PokedexPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
+  const [isPending, startTransition] = useTransition();
   const [selectedPokemon, setSelectedPokemon] = useState(null);
 
-  const filteredPokemon = !searchTerm
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    startTransition(() => {
+      setDeferredSearchTerm(value);
+    });
+  };
+
+  const filteredPokemon = !deferredSearchTerm
     ? MAIN_POKEMON_LIST
     : MAIN_POKEMON_LIST.filter((name) =>
-        name.toLowerCase().includes(searchTerm.toLowerCase())
+        name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
       );
 
   return (
@@ -36,15 +45,19 @@ function PokedexPage() {
 
       <SearchBar
         value={searchTerm}
-        onChange={setSearchTerm}
+        onChange={handleSearchChange}
         placeholder="Search Pokémon..."
       />
 
-      <PokemonGrid
-        pokemonList={filteredPokemon}
-        selectedPokemon={selectedPokemon}
-        onSelectPokemon={setSelectedPokemon}
-      />
+      <div
+        className={`w-full transition-opacity duration-300 ${isPending ? "opacity-50" : "opacity-100"}`}
+      >
+        <PokemonGrid
+          pokemonList={filteredPokemon}
+          selectedPokemon={selectedPokemon}
+          onSelectPokemon={setSelectedPokemon}
+        />
+      </div>
 
       {selectedPokemon && (
         <PokemonSummary
