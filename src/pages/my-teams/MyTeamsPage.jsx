@@ -47,6 +47,17 @@ const MyTeamsPage = () => {
     }
   };
 
+  const handleCancelSubmission = async (teamId) => {
+    if (
+      window.confirm(
+        "Cancel this team's submission? It will return to draft status."
+      )
+    ) {
+      await updateTeamStatus(currentUser.uid, teamId, "draft");
+      // UI will update via real-time listener in useUserTeams
+    }
+  };
+
   if (authLoading || loading)
     return <div className="p-8 text-center text-slate-400">Loading...</div>;
 
@@ -91,6 +102,7 @@ const MyTeamsPage = () => {
           onTeamClick={(id) => navigate(`/my-teams/${id}`)}
           onDeleteTeam={deleteTeam}
           onSubmitTeam={handleSubmitTeam}
+          onCancelSubmission={handleCancelSubmission}
         />
       )}
 

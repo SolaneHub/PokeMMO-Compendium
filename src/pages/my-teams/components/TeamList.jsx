@@ -1,6 +1,12 @@
 import TeamCard from "./TeamCard";
 
-const TeamList = ({ teams, onTeamClick, onDeleteTeam, onSubmitTeam }) => {
+const TeamList = ({
+  teams,
+  onTeamClick,
+  onDeleteTeam,
+  onSubmitTeam,
+  onCancelSubmission,
+}) => {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {teams.map((team) => (
@@ -10,6 +16,7 @@ const TeamList = ({ teams, onTeamClick, onDeleteTeam, onSubmitTeam }) => {
           onClick={() => onTeamClick(team.id)}
           onDelete={onDeleteTeam}
           onSubmit={onSubmitTeam}
+          onCancelSubmission={onCancelSubmission}
         />
       ))}
     </div>
