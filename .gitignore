@@ -52,4 +52,4 @@ gh-pages/
 
 # Sensitive files
 serviceAccountKey.json
-setAdmin.cjs
+make-admin.js
