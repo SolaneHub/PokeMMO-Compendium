@@ -53,7 +53,7 @@ export function useTeamEditor() {
       showToast("Team saved successfully!", "success");
       setTeam(teamToSave);
     } catch (error) {
-      showToast("Failed to save team", "error");    
+      showToast("Failed to save team", "error");
     } finally {
       setSaving(false);
     }

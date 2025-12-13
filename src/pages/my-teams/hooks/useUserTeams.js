@@ -76,7 +76,7 @@ export function useUserTeams() {
       showToast("Team deleted", "info");
       // Update actual state by refetching
       await _fetchTeams();
-    } catch (error){
+    } catch (error) {
       showToast("Failed to delete team", "error");
       // Re-fetch to sync state if failed
       await _fetchTeams();
