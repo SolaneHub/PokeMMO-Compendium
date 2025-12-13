@@ -1,4 +1,4 @@
-import React, { Activity, lazy, Suspense } from "react";
+import { Activity, lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Shell from "@/app/layout/Shell";

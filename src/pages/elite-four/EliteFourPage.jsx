@@ -21,6 +21,7 @@ function EliteFourPage() {
   // State for Community Teams
   const [approvedTeams, setApprovedTeams] = useState([]);
   const [loadingTeams, setLoadingTeams] = useState(true);
+  const [error, setError] = useState(null); // New error state
 
   // Selection State
   const [selectedTeamId, setSelectedTeamId] = useState(null);
@@ -46,9 +47,16 @@ function EliteFourPage() {
   useEffect(() => {
     const fetchTeams = async () => {
       setLoadingTeams(true);
-      const teams = await getAllApprovedTeams();
-      setApprovedTeams(teams);
-      setLoadingTeams(false);
+      setError(null); // Clear previous errors
+      try {
+        const teams = await getAllApprovedTeams();
+        setApprovedTeams(teams);
+      } catch (err) {
+        console.error("Failed to fetch approved teams:", err);
+        setError("Failed to load community strategies. Please try again later.");
+      } finally {
+        setLoadingTeams(false);
+      }
     };
     fetchTeams();
   }, []);
@@ -159,6 +167,8 @@ function EliteFourPage() {
         <div className="text-center text-slate-400">
           Loading community teams...
         </div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div>
       ) : approvedTeams.length === 0 ? (
         <div className="text-center text-slate-400">
           No approved strategies available yet. Go to &quot;My Teams&quot; to
