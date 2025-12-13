@@ -9,6 +9,15 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
+// CSP Middleware
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self' https://apis.google.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com"
+  );
+  next();
+});
+
 const DATA_DIR = path.join(process.cwd(), "src/data");
 
 const getFilePath = (fileName) => {

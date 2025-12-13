@@ -2,7 +2,6 @@ import { Crown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { getAllApprovedTeams } from "@/firebase/firestoreService";
-import { logger } from "@/shared/utils/logger";
 import MemberSelection from "@/pages/elite-four/components/MemberSelection";
 import PokemonSelection from "@/pages/elite-four/components/PokemonSelection";
 import RegionSelection from "@/pages/elite-four/components/RegionSelection";
@@ -17,6 +16,7 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
+import { logger } from "@/shared/utils/logger";
 
 function EliteFourPage() {
   // State for Community Teams
@@ -54,7 +54,9 @@ function EliteFourPage() {
         setApprovedTeams(teams);
       } catch (err) {
         logger.error("Failed to fetch approved teams:", err);
-        setError("Failed to load community strategies. Please try again later.");
+        setError(
+          "Failed to load community strategies. Please try again later."
+        );
       } finally {
         setLoadingTeams(false);
       }

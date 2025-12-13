@@ -7,9 +7,9 @@ import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
 import TeamList from "@/pages/my-teams/components/TeamList";
 import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
 import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
-import { logger } from "@/shared/utils/logger";
 import PageTitle from "@/shared/components/PageTitle";
 import { useToast } from "@/shared/components/ToastNotification"; // Import useToast
+import { logger } from "@/shared/utils/logger";
 
 const MyTeamsPage = () => {
   const navigate = useNavigate();

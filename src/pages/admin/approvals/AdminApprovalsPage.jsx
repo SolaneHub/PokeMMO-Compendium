@@ -219,18 +219,18 @@ const AdminTeamList = ({ status }) => {
 
 const AdminApprovalsPage = () => {
   const { currentUser, loading: authLoading } = useAuth();
-  const isAdmin = useAdminCheck();
+  const { isAdmin, loading: adminLoading } = useAdminCheck();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("pending");
 
   useEffect(() => {
-    if (authLoading || isAdmin === undefined) return;
+    if (authLoading || adminLoading) return;
 
     if (!currentUser || !isAdmin) {
       navigate("/"); // Or a dedicated 403 page
       return;
     }
-  }, [currentUser, authLoading, isAdmin, navigate]);
+  }, [currentUser, authLoading, isAdmin, adminLoading, navigate]);
 
   const tabs = [
     { id: "pending", label: "Pending" },
@@ -238,7 +238,7 @@ const AdminApprovalsPage = () => {
     { id: "rejected", label: "Rejected" },
   ];
 
-  if (authLoading || isAdmin === undefined) {
+  if (authLoading || adminLoading) {
     return (
       <div className="p-8 text-center text-white">
         Loading admin dashboard...

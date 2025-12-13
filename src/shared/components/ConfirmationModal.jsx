@@ -21,24 +21,27 @@ export const ConfirmationProvider = ({ children }) => {
 
   const resolveRef = useRef(null);
 
-  const confirm = useCallback(({ title, message, confirmText = "Confirm", cancelText = "Cancel" }) => {
-    return new Promise((resolve) => {
-      if (modalState.isOpen) {
-        logger.warn("Confirmation already pending");
-        resolve(false);
-        return;
-      }
+  const confirm = useCallback(
+    ({ title, message, confirmText = "Confirm", cancelText = "Cancel" }) => {
+      return new Promise((resolve) => {
+        if (modalState.isOpen) {
+          logger.warn("Confirmation already pending");
+          resolve(false);
+          return;
+        }
 
-      resolveRef.current = resolve;
-      setModalState({
-        isOpen: true,
-        title,
-        message,
-        confirmText,
-        cancelText,
+        resolveRef.current = resolve;
+        setModalState({
+          isOpen: true,
+          title,
+          message,
+          confirmText,
+          cancelText,
+        });
       });
-    });
-  }, [modalState.isOpen]);
+    },
+    [modalState.isOpen]
+  );
 
   const handleResponse = useCallback((response) => {
     if (resolveRef.current) {
