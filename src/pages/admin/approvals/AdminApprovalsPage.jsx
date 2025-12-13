@@ -1,4 +1,4 @@
-import { Check, CheckCircle, RotateCcw, Trash2, X } from "lucide-react";
+import { Check, CheckCircle, RotateCcw, Trash2, X, AlertTriangle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,18 +7,18 @@ import {
   getTeamsByStatus,
   updateTeamStatus,
 } from "@/firebase/firestoreService";
-import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
+import { useConfirm } from "@/shared/components/ConfirmationModal";
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
 import PageTitle from "@/shared/components/PageTitle";
 import { useAuth } from "@/shared/context/AuthContext";
-import { isAdmin } from "@/shared/utils/adminUtils"; // Updated import path
+import { isAdmin } from "@/shared/utils/adminUtils";
 
 const AdminTeamList = ({ status }) => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [processingId, setProcessingId] = useState(null);
-  const confirm = useConfirm(); // Initialize useConfirm
+  const confirm = useConfirm();
 
   useEffect(() => {
     let mounted = true;
@@ -111,12 +111,23 @@ const AdminTeamList = ({ status }) => {
       <div className="animate-fade-in rounded-xl border border-red-500/50 bg-red-900/20 p-6 text-center text-red-200">
         <h3 className="mb-2 text-lg font-bold">Error loading teams</h3>
         <p className="text-sm opacity-80">{error.message}</p>
+        <div className="mt-4 text-xs opacity-70">
+           Tip: If this is a "Missing or insufficient permissions" error, try logging out and back in to refresh your admin privileges.
+        </div>
         <button
           onClick={() => window.location.reload()}
           className="mt-4 rounded bg-red-600 px-4 py-2 text-sm font-bold hover:bg-red-700"
         >
           Retry
         </button>
+      </div>
+    );
+  }
+
+  if (teams.length === 0) {
+    return (
+      <div className="py-20 text-center text-slate-500 italic">
+        No {status} teams found.
       </div>
     );
   }
@@ -224,14 +235,23 @@ const AdminApprovalsPage = () => {
   const { currentUser, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("pending");
+  const [hasAdminClaim, setHasAdminClaim] = useState(true); // Default to true to avoid flash
 
   useEffect(() => {
     if (authLoading) return;
 
     if (!currentUser || !isAdmin(currentUser.email)) {
-      navigate("/"); // Or a dedicated 403 page
+      navigate("/"); 
       return;
     }
+
+    // Check specifically for the token claim
+    currentUser.getIdTokenResult().then((idTokenResult) => {
+      if (!idTokenResult.claims.admin) {
+        setHasAdminClaim(false);
+      }
+    }).catch(console.error);
+
   }, [currentUser, authLoading, navigate]);
 
   const tabs = [
@@ -258,6 +278,17 @@ const AdminApprovalsPage = () => {
           Admin Dashboard
         </h1>
         <p className="text-slate-400">Manage user-submitted strategies.</p>
+        
+        {!hasAdminClaim && (
+          <div className="mt-4 flex max-w-lg items-center gap-3 rounded-lg border border-yellow-500/50 bg-yellow-500/10 p-4 text-left text-sm text-yellow-200">
+             <AlertTriangle className="shrink-0 text-yellow-500" />
+             <div>
+               <strong>Permissions Out of Sync:</strong> You are listed as an admin, but your session doesn't have the required permissions yet. 
+               <br/>
+               <span className="underline">Please Logout and Log back in</span> to update your account claims.
+             </div>
+          </div>
+        )}
       </div>
 
       {/* Tabs */}
@@ -285,4 +316,3 @@ const AdminApprovalsPage = () => {
 };
 
 export default AdminApprovalsPage;
-

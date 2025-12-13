@@ -143,18 +143,52 @@ export async function getAllPendingTeams() {
 
 /**
  * Updates the approval status of a team.
+ * Automatically handles visibility: Approved teams become public.
  * @param {string} userId - The ID of the user who owns the team.
  * @param {string} teamId - The team ID.
- * @param {string} status - 'approved' | 'rejected' | 'draft'
+ * @param {string} status - 'approved' | 'rejected' | 'pending'
  */
 export async function updateTeamStatus(userId, teamId, status) {
-  return updateUserTeam(userId, teamId, { status });
+  const isPublic = status === 'approved';
+  return updateUserTeam(userId, teamId, { status, isPublic });
 }
 
 /**
- * Fetches all teams with status 'approved' to be displayed publicly.
+ * Fetches all teams with status 'approved' AND 'isPublic' == true.
+ * This is for the public gallery.
+ * Requires a Composite Index: status ASC, isPublic ASC (or similar).
  * @returns {Promise<Array>} List of approved teams.
  */
+export async function getPublicApprovedTeams() {
+  try {
+    const teamsQuery = query(
+      collectionGroup(db, TEAMS_COLLECTION),
+      where("status", "==", "approved"),
+      where("isPublic", "==", true)
+    );
+    
+    const querySnapshot = await getDocs(teamsQuery);
+    const teams = [];
+    
+    querySnapshot.forEach((doc) => {
+      const parentUser = doc.ref.parent.parent; 
+      teams.push({ 
+        id: doc.id, 
+        userId: parentUser ? parentUser.id : 'unknown',
+        ...doc.data() 
+      });
+    });
+    
+    return teams;
+  } catch (error) {
+    console.error("Error fetching public teams:", error);
+    throw error;
+  }
+}
+
+/**
+ * @deprecated Use getPublicApprovedTeams for public views or getTeamsByStatus('approved') for admin views.
+ */
 export async function getAllApprovedTeams() {
-  return getTeamsByStatus("approved");
+  return getPublicApprovedTeams();
 }
