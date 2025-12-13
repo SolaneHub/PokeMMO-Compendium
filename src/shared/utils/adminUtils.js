@@ -4,9 +4,7 @@
 // or managed via Firebase Custom Claims or a Firestore collection.
 
 const ADMIN_EMAILS = [
-  // Add admin emails here, e.g., "admin@example.com", "your.email@example.com"
-  // For now, it's an empty list to prevent accidental admin access.
-  // The user can populate this list with their admin emails.
+  "simonelostimolo@gmail.com",  // Replace with actual admin email(s)
 ];
 
 export const isAdmin = (email) => {
