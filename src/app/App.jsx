@@ -18,8 +18,10 @@ import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
 import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
 import { ConfirmationProvider } from "@/shared/components/ConfirmationModal";
+import ProtectedRoute from "@/shared/components/ProtectedRoute";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
+
 
 function App() {
   const location = useLocation();
@@ -28,7 +30,6 @@ function App() {
   const noPaddingRoutes = ["/editor"];
   const shouldRemovePadding = noPaddingRoutes.includes(currentPath);
 
-  
   const pages = [
     { path: "/", Component: Home, key: "home" },
     { path: "/elite-four", Component: EliteFourPage, key: "e4" },
@@ -52,11 +53,6 @@ function App() {
     { path: "/pokedex", Component: PokedexPage, key: "pokedex" },
     { path: "/pickup", Component: PickupPage, key: "pickup" },
     { path: "/breeding", Component: BreedingPage, key: "breeding" },
-    {
-      path: "/admin/approvals",
-      Component: AdminApprovalsPage,
-      key: "admin-approvals",
-    },
   ];
 
   if (!import.meta.env.PROD) {
@@ -65,12 +61,8 @@ function App() {
 
   return (
     <ConfirmationProvider>
-      {" "}
-      {/* Wrap with ConfirmationProvider */}
       <AuthProvider>
         <ToastProvider>
-          {" "}
-          {/* Wrap with ToastProvider */}
           <Shell noPadding={shouldRemovePadding}>
             {pages.map(({ path, Component, key, props }) => {
               const isActive = currentPath === path;
@@ -89,10 +81,38 @@ function App() {
             <Routes>
               {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
               <Route path="*" element={null} />
+
+              {/* Auth routes */}
               <Route path="/login" element={<AuthPage />} />
               <Route path="/signup" element={<AuthPage isSignup />} />
-              <Route path="/my-teams" element={<MyTeamsPage />} />
-              <Route path="/my-teams/:id" element={<UserTeamEditorPage />} />
+
+              {/* Protected user routes */}
+              <Route
+                path="/my-teams"
+                element={
+                  <ProtectedRoute>
+                    <MyTeamsPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/my-teams/:id"
+                element={
+                  <ProtectedRoute>
+                    <UserTeamEditorPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Protected admin routes */}
+              <Route
+                path="/admin/approvals"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <AdminApprovalsPage />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
           </Shell>
         </ToastProvider>
