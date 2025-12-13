@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 import { useEffect, useState } from "react";
 
 const SECRET_KEY = import.meta.env.VITE_STORAGE_SECRET_KEY;
@@ -8,7 +8,7 @@ export function usePersistentState(key, initialValue) {
     try {
       const saved = localStorage.getItem(key);
       if (!saved) return initialValue;
-      
+
       // Try to decrypt first
       try {
         const bytes = CryptoJS.AES.decrypt(saved, SECRET_KEY);
@@ -31,11 +31,13 @@ export function usePersistentState(key, initialValue) {
     try {
       // Cifra prima di salvare
       const encrypted = CryptoJS.AES.encrypt(
-        JSON.stringify(state), 
+        JSON.stringify(state),
         SECRET_KEY
       ).toString();
       localStorage.setItem(key, encrypted);
-    } catch { /* empty */ }
+    } catch {
+      /* empty */
+    }
   }, [key, state]);
 
   return [state, setState];

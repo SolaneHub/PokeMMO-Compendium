@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -21,10 +21,18 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 // Enable App Check
-// IMPORTANT: Replace 'YOUR_RECAPTCHA_SITE_KEY' with your actual reCAPTCHA v3 site key.
 if (import.meta.env.PROD) {
-  initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('YOUR_RECAPTCHA_SITE_KEY'),
-    isTokenAutoRefreshEnabled: true
-  });
+  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  if (!recaptchaSiteKey) {
+    console.error(
+      "VITE_RECAPTCHA_SITE_KEY is not defined. App Check will not be initialized."
+    );
+    // Optionally, you might want to throw an error or handle this more strictly
+    // throw new Error("VITE_RECAPTCHA_SITE_KEY is missing in production environment.");
+  } else {
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(recaptchaSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+  }
 }

@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 export function useAdminCheck() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -16,7 +16,7 @@ export function useAdminCheck() {
         setIsAdmin(false);
       }
     };
-    
+
     // Controlla al caricamento e ogni volta che cambia l'utente
     return auth.onAuthStateChanged(() => {
       checkAdmin();
