@@ -80,9 +80,10 @@ export async function getUserTeams(userId) {
  * @param {object} updates
  */
 export async function updateUserTeam(userId, teamId, updates) {
+  const validatedData = TeamSchema.partial().parse(updates);
   const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
   await updateDoc(teamRef, {
-    ...updates,
+    ...validatedData,
     updatedAt: new Date(),
   });
 }

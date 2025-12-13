@@ -11,7 +11,7 @@ import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import us
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
 import PageTitle from "@/shared/components/PageTitle";
 import { useAuth } from "@/shared/context/AuthContext";
-import { isAdmin } from "@/shared/utils/adminUtils"; // Updated import path
+import { useAdminCheck } from "@/shared/hooks/useAdminCheck";
 
 const AdminTeamList = ({ status }) => {
   const [teams, setTeams] = useState([]);
@@ -219,17 +219,18 @@ const AdminTeamList = ({ status }) => {
 
 const AdminApprovalsPage = () => {
   const { currentUser, loading: authLoading } = useAuth();
+  const isAdmin = useAdminCheck();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("pending");
 
   useEffect(() => {
-    if (authLoading) return;
+    if (authLoading || isAdmin === undefined) return;
 
-    if (!currentUser || !isAdmin(currentUser.email)) {
+    if (!currentUser || !isAdmin) {
       navigate("/"); // Or a dedicated 403 page
       return;
     }
-  }, [currentUser, authLoading, navigate]);
+  }, [currentUser, authLoading, isAdmin, navigate]);
 
   const tabs = [
     { id: "pending", label: "Pending" },
@@ -237,7 +238,7 @@ const AdminApprovalsPage = () => {
     { id: "rejected", label: "Rejected" },
   ];
 
-  if (authLoading) {
+  if (authLoading || isAdmin === undefined) {
     return (
       <div className="p-8 text-center text-white">
         Loading admin dashboard...
