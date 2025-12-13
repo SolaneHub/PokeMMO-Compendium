@@ -28,6 +28,7 @@ function App() {
   const noPaddingRoutes = ["/editor"];
   const shouldRemovePadding = noPaddingRoutes.includes(currentPath);
 
+  
   const pages = [
     { path: "/", Component: Home, key: "home" },
     { path: "/elite-four", Component: EliteFourPage, key: "e4" },
