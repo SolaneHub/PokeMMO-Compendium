@@ -24,7 +24,6 @@ const ItemImage = ({ item, className = "w-5 h-5 mr-2 object-contain" }) => {
       loading="lazy"
       className={className}
       onError={(e) => {
-        console.error("Failed to load image:", imgSrc, e);
         setImgSrc(null);
       }}
       style={imgSrc === null ? { display: "none" } : {}}

@@ -46,7 +46,8 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   if (currentUser) {
     navigation.push({ name: "My Teams", path: "/my-teams", icon: User });
-    if (isAdmin(currentUser.email)) { // Uncommented isAdmin check
+    if (isAdmin(currentUser.email)) {
+      // Uncommented isAdmin check
       navigation.push({
         name: "Admin Approvals",
         path: "/admin/approvals",
@@ -67,12 +68,8 @@ function Sidebar({ isOpen, setIsOpen }) {
   }
 
   const handleLogout = async () => {
-    try {
-      await logout();
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
+    await logout();
+    navigate("/login");
   };
 
   return (

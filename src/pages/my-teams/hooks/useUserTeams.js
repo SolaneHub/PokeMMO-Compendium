@@ -1,6 +1,10 @@
-import { useCallback,useEffect, useOptimistic, useState } from "react";
+import { useCallback, useEffect, useOptimistic, useState } from "react";
 
-import { createUserTeam, deleteUserTeam, getUserTeams } from "@/firebase/firestoreService";
+import {
+  createUserTeam,
+  deleteUserTeam,
+  getUserTeams,
+} from "@/firebase/firestoreService";
 import { useToast } from "@/shared/components/ToastNotification";
 import { useAuth } from "@/shared/context/AuthContext";
 
@@ -21,13 +25,12 @@ export function useUserTeams() {
       if (!authLoading) setLoading(false);
       return;
     }
-    
+
     setLoading(true);
     try {
       const userTeams = await getUserTeams(currentUser.uid);
       setTeams(userTeams);
     } catch (error) {
-      console.error(error);
       showToast("Failed to load teams", "error");
     } finally {
       setLoading(false);
@@ -46,25 +49,25 @@ export function useUserTeams() {
         region: null,
         members: Array(6).fill(null),
         strategies: {},
-        status: "draft", // Default status
+        enemyPools: {}, // ✅ Aggiungi questo
+        status: "draft",
       };
       const teamId = await createUserTeam(currentUser.uid, newTeam);
       showToast("Team created successfully!", "success");
-      
+
       // Refresh list
       await _fetchTeams();
-      
+
       return teamId;
     } catch (error) {
-        console.error(error);
-        showToast("Failed to create team", "error");
-        return null;
+      showToast("Failed to create team", "error");
+      return null;
     }
   };
 
   const deleteTeam = async (teamId) => {
     if (!currentUser) return;
-    
+
     // Optimistically update UI
     setOptimisticTeams(teamId);
 
@@ -73,21 +76,20 @@ export function useUserTeams() {
       showToast("Team deleted", "info");
       // Update actual state by refetching
       await _fetchTeams();
-    } catch (error) {
-      console.error(error);
+    } catch (error){
       showToast("Failed to delete team", "error");
       // Re-fetch to sync state if failed
       await _fetchTeams();
     }
   };
 
-  return { 
-    teams: optimisticTeams, 
-    loading: authLoading || loading, 
-    createTeam, 
-    deleteTeam, 
-    authLoading, 
+  return {
+    teams: optimisticTeams,
+    loading: authLoading || loading,
+    createTeam,
+    deleteTeam,
+    authLoading,
     currentUser,
-    refreshTeams: _fetchTeams // Expose the internal fetch function as refreshTeams
+    refreshTeams: _fetchTeams, // Expose the internal fetch function as refreshTeams
   };
 }

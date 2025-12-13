@@ -6,7 +6,8 @@ export function usePersistentState(key, initialValue) {
       const saved = localStorage.getItem(key);
       return saved ? JSON.parse(saved) : initialValue;
     } catch (error) {
-      console.error(`Error parsing localStorage key "${key}":`, error);
+      // If an error occurs, e.g., due to localStorage being unavailable,
+      // return the initial value.
       return initialValue;
     }
   });
@@ -15,7 +16,8 @@ export function usePersistentState(key, initialValue) {
     try {
       localStorage.setItem(key, JSON.stringify(state));
     } catch (error) {
-      console.error(`Error saving localStorage key "${key}":`, error);
+      // If an error occurs, e.g., due to localStorage being full or unavailable,
+      // log the error but don't prevent the component from functioning.
     }
   }, [key, state]);
 
