@@ -1,7 +1,7 @@
 import { Crown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import { getAllApprovedTeams } from "@/firebase/firestoreService";
+import { getPublicApprovedTeams } from "@/firebase/firestoreService";
 import MemberSelection from "@/pages/elite-four/components/MemberSelection";
 import PokemonSelection from "@/pages/elite-four/components/PokemonSelection";
 import RegionSelection from "@/pages/elite-four/components/RegionSelection";
@@ -46,9 +46,14 @@ function EliteFourPage() {
   useEffect(() => {
     const fetchTeams = async () => {
       setLoadingTeams(true);
-      const teams = await getAllApprovedTeams();
-      setApprovedTeams(teams);
-      setLoadingTeams(false);
+      try {
+        const teams = await getPublicApprovedTeams();
+        setApprovedTeams(teams);
+      } catch (error) {
+        console.error("Failed to load teams", error);
+      } finally {
+        setLoadingTeams(false);
+      }
     };
     fetchTeams();
   }, []);
