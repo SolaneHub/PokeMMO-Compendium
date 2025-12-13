@@ -87,7 +87,6 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await deleteUserTeam(team.userId, team.id);
-      setProcessingId(null); // Reset processingId immediately after successful deletion
       // Refresh list
       const updatedTeams = await getTeamsByStatus(status);
       setTeams(updatedTeams);
@@ -95,11 +94,7 @@ const AdminTeamList = ({ status }) => {
       console.error(err);
       alert("Failed to delete team.");
     } finally {
-      // If an error occurred, processingId might not have been reset by try block.
-      // However, it's safer to ensure it's always reset here if the try block doesn't explicitly.
-      // For this case, the specific reset above is sufficient on success.
-      // If an error occurs, processingId remains set until manual intervention or next action.
-      // For now, keeping the explicit setProcessingId(null) on success.
+      setProcessingId(null);
     }
   };
 

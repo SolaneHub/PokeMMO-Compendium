@@ -20,6 +20,11 @@ export const ConfirmationProvider = ({ children }) => {
       cancelText = "Cancel"
     ) => {
       return new Promise((resolve) => {
+        if (resolveRef.current) {
+          console.warn('Confirmation already pending');
+          resolve(false); // Auto-reject new request
+          return;
+        }
         resolveRef.current = resolve;
         setConfirmationState({ message, title, confirmText, cancelText });
       });

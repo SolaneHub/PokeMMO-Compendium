@@ -28,7 +28,7 @@ const EnemyPool = ({
 
       <div className="custom-scrollbar grid max-h-[300px] grid-cols-1 gap-2 overflow-y-auto pr-1">
         {enemyPool.length === 0 ? (
-          <div className="animate-fade-in p-4 text-center text-sm text-slate-500 italic">
+          <div className="p-4 text-center text-sm text-slate-500 italic">
             Use the &apos;Add&apos; button to define the Pokémon{" "}
             {selectedMember.name} uses against this team.
           </div>
