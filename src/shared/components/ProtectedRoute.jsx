@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 
-import { isAdmin } from "@/shared/constants/admin";
 import { useAuth } from "@/shared/context/AuthContext";
+import { isAdmin } from "@/shared/utils/adminUtils"; // Updated import path
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { currentUser, loading } = useAuth();
