@@ -17,7 +17,7 @@ const SubmitButton = () => {
 const CreateTeamModal = ({ onClose, action }) => {
   return (
     <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] shadow-2xl">
+      <div className="animate-fade-in w-full max-w-md overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] shadow-2xl">
         <div className="p-6">
           <h2 className="mb-4 text-2xl font-bold text-white">
             Create New Team

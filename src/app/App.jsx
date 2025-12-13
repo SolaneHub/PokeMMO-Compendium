@@ -17,7 +17,7 @@ import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
 import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
-import ProtectedRoute from "@/shared/components/ProtectedRoute";
+import { ConfirmationProvider } from "@/shared/components/ConfirmationModal"; // New import
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
 
@@ -51,6 +51,11 @@ function App() {
     { path: "/pokedex", Component: PokedexPage, key: "pokedex" },
     { path: "/pickup", Component: PickupPage, key: "pickup" },
     { path: "/breeding", Component: BreedingPage, key: "breeding" },
+    {
+      path: "/admin/approvals",
+      Component: AdminApprovalsPage,
+      key: "admin-approvals",
+    },
   ];
 
   if (!import.meta.env.PROD) {
@@ -58,45 +63,41 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <ToastProvider>
-        {" "}
-        {/* Wrap with ToastProvider */}
-        <Shell noPadding={shouldRemovePadding}>
-          {pages.map(({ path, Component, key }) => {
-            const isActive = currentPath === path;
-            return (
-              <Activity key={key} mode={isActive ? "visible" : "hidden"}>
-                <div
-                  className="h-full w-full"
-                  style={{ display: isActive ? "block" : "none" }}
-                >
-                  <Component />
-                </div>
-              </Activity>
-            );
-          })}
+    <ConfirmationProvider>
+      {" "}
+      {/* Wrap with ConfirmationProvider */}
+      <AuthProvider>
+        <ToastProvider>
+          {" "}
+          {/* Wrap with ToastProvider */}
+          <Shell noPadding={shouldRemovePadding}>
+            {pages.map(({ path, Component, key, props }) => {
+              const isActive = currentPath === path;
+              return (
+                <Activity key={key} mode={isActive ? "visible" : "hidden"}>
+                  <div
+                    className="h-full w-full"
+                    style={{ display: isActive ? "block" : "none" }}
+                  >
+                    {props ? <Component {...props} /> : <Component />}
+                  </div>
+                </Activity>
+              );
+            })}
 
-          <Routes>
-            {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
-            <Route path="*" element={null} />
+            <Routes>
+              {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
+              <Route path="*" element={null} />
 
-            <Route path="/login" element={<AuthPage />} />
-            <Route path="/signup" element={<AuthPage isSignup />} />
-            <Route path="/my-teams" element={<MyTeamsPage />} />
-            <Route path="/my-teams/:id" element={<UserTeamEditorPage />} />
-            <Route
-              path="/admin/approvals"
-              element={
-                <ProtectedRoute adminOnly>
-                  <AdminApprovalsPage />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-        </Shell>
-      </ToastProvider>
-    </AuthProvider>
+              <Route path="/login" element={<AuthPage />} />
+              <Route path="/signup" element={<AuthPage isSignup />} />
+              <Route path="/my-teams" element={<MyTeamsPage />} />
+              <Route path="/my-teams/:id" element={<UserTeamEditorPage />} />
+            </Routes>
+          </Shell>
+        </ToastProvider>
+      </AuthProvider>
+    </ConfirmationProvider>
   );
 }
 

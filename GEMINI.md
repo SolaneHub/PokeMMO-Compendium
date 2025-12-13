@@ -10,10 +10,10 @@ The project functions as a static web application deployed to GitHub Pages, but 
 
 ## Technical Stack
 
--   **Framework:** [React 19.2.1](https://react.dev/) (Experimental `Activity` API used for view management).
--   **Build Tool:** [Vite 7.2.6](https://vitejs.dev/).
--   **Styling:** [Tailwind CSS 4.1.17](https://tailwindcss.com/) (configured via `@import "tailwindcss"` in CSS and Vite plugin).
--   **Routing:** [React Router DOM 7](https://reactrouter.com/) (used for navigation state, now dynamically configured with `import.meta.env.BASE_URL` to handle both local development and GitHub Pages deployment).
+-   **Framework:** [React 19.2.3](https://react.dev/) (Experimental `Activity` API used for view management).
+-   **Build Tool:** [Vite 7.2.7](https://vitejs.dev/).
+-   **Styling:** [Tailwind CSS 4.1.18](https://tailwindcss.com/) (configured via `@import "tailwindcss"` in CSS and Vite plugin).
+-   **Routing:** [React Router DOM 7.10.1](https://reactrouter.com/) (used for navigation state, now dynamically configured with `import.meta.env.BASE_URL` to handle both local development and GitHub Pages deployment).
 -   **Backend (Local Only):** Node.js + [Express 5.2.1](https://expressjs.com/) (handles file system operations for `src/data/`).
 -   **Backend (Cloud):** [Firebase](https://firebase.google.com/) (Authentication & Firestore).
 -   **Deployment:** [GitHub Pages](https://pages.github.io/).

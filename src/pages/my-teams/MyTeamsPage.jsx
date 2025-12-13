@@ -1,4 +1,4 @@
-import { Plus, Users } from "lucide-react";
+import { Plus, User } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -6,13 +6,22 @@ import { updateTeamStatus } from "@/firebase/firestoreService";
 import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
 import TeamList from "@/pages/my-teams/components/TeamList";
 import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
+import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
 import PageTitle from "@/shared/components/PageTitle";
 
 const MyTeamsPage = () => {
   const navigate = useNavigate();
-  const { teams, loading, createTeam, deleteTeam, authLoading, currentUser } =
-    useUserTeams();
+  const {
+    teams,
+    loading,
+    createTeam,
+    deleteTeam,
+    authLoading,
+    currentUser,
+    refreshTeams,
+  } = useUserTeams();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const confirm = useConfirm();
 
   useEffect(() => {
     if (!authLoading && !currentUser) {
@@ -34,41 +43,52 @@ const MyTeamsPage = () => {
   const [, submitAction] = useActionState(createTeamAction, null);
 
   const handleSubmitTeam = async (teamId) => {
-    if (
-      window.confirm(
-        "Submit this team for admin approval? You won't be able to edit it while pending."
-      )
-    ) {
+    const confirmed = await confirm(
+      "Submit this team for admin approval? You won't be able to edit it while pending.",
+      "Submit Team"
+    );
+    if (confirmed) {
       await updateTeamStatus(currentUser.uid, teamId, "pending");
-      // We rely on the real-time listener in useUserTeams to update the UI
-      // If useUserTeams doesn't use onSnapshot, we might need to manually refresh.
-      // Assuming it does or we trigger a refresh.
-      // If not, we might need to force reload or update local state.
+      await refreshTeams(); // Explicitly refresh teams
     }
   };
 
   const handleCancelSubmission = async (teamId) => {
-    if (
-      window.confirm(
-        "Cancel this team's submission? It will return to draft status."
-      )
-    ) {
+    const confirmed = await confirm(
+      "Cancel this team's submission? It will return to draft status.",
+      "Cancel Submission"
+    );
+    if (confirmed) {
       await updateTeamStatus(currentUser.uid, teamId, "draft");
-      // UI will update via real-time listener in useUserTeams
+      await refreshTeams(); // Explicitly refresh teams
+    }
+  };
+
+  const handleDeleteTeam = async (teamId) => {
+    const confirmed = await confirm(
+      "Are you sure you want to delete this team? This action cannot be undone.",
+      "Delete Team"
+    );
+    if (confirmed) {
+      await deleteTeam(teamId);
     }
   };
 
   if (authLoading || loading)
-    return <div className="p-8 text-center text-slate-400">Loading...</div>;
+    return (
+      <div className="animate-fade-in p-8 text-center text-slate-400">
+        Loading...
+      </div>
+    );
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8 pb-24">
+    <div className="animate-fade-in mx-auto max-w-7xl space-y-8 pb-24">
       <PageTitle title="My Elite Four Teams" />
 
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-4 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Users className="text-blue-500" size={32} />
+          <User className="text-blue-500" size={32} />
           My Teams
         </h1>
         <p className="max-w-2xl text-slate-400">
@@ -85,7 +105,7 @@ const MyTeamsPage = () => {
       </div>
 
       {teams.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
+        <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
           <p className="mb-4 text-xl text-slate-400">
             You haven&apos;t created any teams yet.
           </p>
@@ -100,7 +120,7 @@ const MyTeamsPage = () => {
         <TeamList
           teams={teams}
           onTeamClick={(id) => navigate(`/my-teams/${id}`)}
-          onDeleteTeam={deleteTeam}
+          onDeleteTeam={handleDeleteTeam}
           onSubmitTeam={handleSubmitTeam}
           onCancelSubmission={handleCancelSubmission}
         />

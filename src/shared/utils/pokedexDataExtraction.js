@@ -62,3 +62,8 @@ export const extractPokedexData = () => {
     ),
   };
 };
+
+export const getPokemonIdByName = (name) => {
+  const pokemon = pokedexData.find((p) => p.name === name);
+  return pokemon ? pokemon.id : null;
+};

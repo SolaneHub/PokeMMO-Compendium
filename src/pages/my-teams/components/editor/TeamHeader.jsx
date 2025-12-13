@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const TeamHeader = ({ teamName, onSave, saving }) => {
   const navigate = useNavigate();
   return (
-    <div className="sticky top-4 z-40 mb-6 flex items-center justify-between rounded-xl border border-white/5 bg-[#1a1b20] p-4 shadow-xl backdrop-blur-sm">
+    <div className="animate-fade-in sticky top-4 z-40 mb-6 flex items-center justify-between rounded-xl border border-white/5 bg-[#1a1b20] p-4 shadow-xl backdrop-blur-sm">
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/my-teams")}

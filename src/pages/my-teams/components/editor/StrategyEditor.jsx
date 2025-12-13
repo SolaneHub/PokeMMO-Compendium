@@ -76,7 +76,7 @@ const StrategyEditor = ({
 
   if (!selectedEnemyPokemon) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-[#444] bg-[#1a1b20]/50 p-6 text-[#888]">
+      <div className="animate-fade-in flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-[#444] bg-[#1a1b20]/50 p-6 text-[#888]">
         <Sword size={48} className="mb-4 opacity-50" />
         <p className="text-lg font-medium">
           Select an Enemy Pokémon to plan a strategy.
@@ -86,7 +86,7 @@ const StrategyEditor = ({
   }
 
   return (
-    <div className="flex min-h-[600px] flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
+    <div className="animate-fade-in flex min-h-[600px] flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
       <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col">
         <div className="mb-6 flex items-center justify-between border-b-2 border-blue-500 pb-2.5">
           <div>
@@ -150,7 +150,7 @@ const StrategyEditor = ({
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#444] bg-black/10 p-10">
+          <div className="animate-fade-in flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#444] bg-black/10 p-10">
             <p className="mb-4 max-w-md text-center text-[#888]">
               How do you handle{" "}
               <span className="text-blue-400">{selectedEnemyPokemon}</span>?{" "}

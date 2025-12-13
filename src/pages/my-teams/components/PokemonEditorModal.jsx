@@ -108,7 +108,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
       onClick={onClose}
     >
       <div
-        className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
+        className="animate-fade-in relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
