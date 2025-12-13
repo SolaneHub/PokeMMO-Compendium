@@ -1,1 +1,0 @@
-import{r as a}from"./index-f5WWWHI4.js";function n(r,s){const[e,o]=a.useState(()=>{try{const t=localStorage.getItem(r);return t?JSON.parse(t):s}catch{return s}});return a.useEffect(()=>{try{localStorage.setItem(r,JSON.stringify(e))}catch{}},[r,e]),[e,o]}export{n as u};
