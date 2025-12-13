@@ -23,6 +23,7 @@ const AdminTeamList = ({ status }) => {
   useEffect(() => {
     let mounted = true;
 
+
     const fetchTeams = async () => {
       setLoading(true);
       setError(null);
@@ -56,10 +57,12 @@ const AdminTeamList = ({ status }) => {
         : newStatus === "rejected"
           ? "Reject"
           : "Reset to Pending";
-    const confirmed = await confirm(
-      `${action} "${team.name}"?`,
-      `${action} Confirmation`
-    );
+    const confirmed = await confirm({
+      message: `${action} "${team.name}"?`,
+      title: `${action} Confirmation`,
+      confirmText: action,
+      cancelText: "Cancel",
+    });
     if (!confirmed) return;
 
     setProcessingId(team.id);
@@ -76,10 +79,12 @@ const AdminTeamList = ({ status }) => {
   };
 
   const handleDeleteTeam = async (team) => {
-    const confirmed = await confirm(
-      `Are you sure you want to delete "${team.name}"? This action cannot be undone.`,
-      `Delete Confirmation`
-    );
+    const confirmed = await confirm({
+      message: `Are you sure you want to delete "${team.name}"? This action cannot be undone.`,
+      title: "Delete Confirmation",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
     if (!confirmed) return;
 
     setProcessingId(team.id);

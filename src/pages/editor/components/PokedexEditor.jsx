@@ -140,10 +140,12 @@ const PokedexEditor = ({ data, onChange }) => {
               <button
                 className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
                 onClick={async () => {
-                  const confirmed = await confirm(
-                    "Permanently delete?",
-                    "Delete Pokémon"
-                  );
+                  const confirmed = await confirm({
+                    message: "Permanently delete this Pokemon?",
+                    title: "Delete Pokémon",
+                    confirmText: "Delete",
+                    cancelText: "Cancel",
+                  });
                   if (confirmed) {
                     onChange(data.filter((p) => p.id !== selectedId));
                     setSelectedId(null);

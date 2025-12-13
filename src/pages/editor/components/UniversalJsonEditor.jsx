@@ -163,10 +163,12 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                       className="cursor-pointer rounded border-none bg-transparent px-1.5 text-lg leading-none text-[#555] transition-colors hover:bg-red-500/10 hover:text-[#ff6b6b]"
                       title="Delete"
                       onClick={async () => {
-                        const confirmed = await confirm(
-                          `Delete field "${key}"?`,
-                          "Delete Field"
-                        );
+                        const confirmed = await confirm({
+                          message: `Delete field "${key}"?`,
+                          title: "Delete Field",
+                          confirmText: "Delete",
+                          cancelText: "Cancel",
+                        });
                         if (confirmed) {
                           const newData = { ...data };
                           delete newData[key];
