@@ -18,23 +18,27 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 - **🧬 Breeding Planner**: Advanced calculator to determine the most efficient path for breeding 2x31, 3x31, or 5x31 competitive Pokémon, complete with cost visualization.
 - **🧮 Catch Calculator**: Real-time probability calculator supporting all ball types, status conditions, HP percentages, and special ball mechanics (Dream, Nest, Timer Ball).
 - **🔄 Trainer Reruns**: Optimized routes for Gym Runs and Trainer Reruns to maximize money making, including requirements and tips.
-- **📦 Pickup Guide**: searchable data on pickup items by region and location.
+- **📦 Pickup Guide**: Searchable data on pickup items by region and location.
 - **📚 Pokédex**: Fast, filterable database of Pokémon with sprites and basic info.
 
 ### ⚡ Technical Features
 
 - **📱 Mobile-First Design**: Clean, responsive interface that works perfectly on any device.
 - **✏️ Advanced Local CMS**: A radically improved "Editor" page allowing contributors to modify JSON data files (Strategies, Pokedex, etc.) via a rich UI with drag-and-drop support, smart inputs, and validation — running on a local Express backend.
+- **🔐 User Data (Firebase)**: A "My Teams" feature allows authenticated users to create, save, and manage their own custom teams and strategies using Firebase Firestore.
+- **✨ React 19 Activity API**: Utilizes React 19's experimental `Activity` component for view management, preserving state when navigating between sections.
+- **🌐 Dynamic Base URL Handling**: Supports different base URLs for local development and GitHub Pages deployment.
 
 ---
 
 ## ⚡ Status
 
-![React](https://img.shields.io/badge/React-19.2.1-00d8ff?logo=react&logoColor=white&style=flat)
-![Vite](https://img.shields.io/badge/Vite-7.2.6-646CFF?logo=vite&logoColor=white&style=flat)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.17-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
+![React](https://img.shields.io/badge/React-19.2.3-00d8ff?logo=react&logoColor=white&style=flat)
+![Vite](https://img.shields.io/badge/Vite-7.2.7-646CFF?logo=vite&logoColor=white&style=flat)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
 ![React Router](https://img.shields.io/badge/React_Router-7.10.1-CA4245?logo=react-router&logoColor=white&style=flat)
 ![dnd-kit](https://img.shields.io/badge/dnd--kit-6.3.1-007bff?style=flat)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black&style=flat)
 ![License](https://img.shields.io/badge/License-Unlicense-blue)
 
 ---
@@ -47,24 +51,69 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 
 ![Homepage Screenshot](./screenshots/homepage.png)
 
+### ⚔️ Battle Strategies & Walkthroughs
+
 #### 🏆 Elite Four Strategies
 
 ![Elite Four Section Screenshot](./screenshots/elite-four-section.png)
 _Interactive decision trees for every turn of the battle._
 ![Elite Four Strategy Tree](./screenshots/elite-four-strategy-tree-section.png)
 
+#### 💀 Boss Fights
+
+![Boss Fights Section Screenshot](./screenshots/boss-fights-section.png)
+_Detailed guides for major boss encounters._
+
+#### ⚔️ Super Trainers
+
+![Super Trainers Section Screenshot](./screenshots/super-trainers-section.png)
+_Strategies to defeat the toughest NPC trainers._
+
+#### 🤝 Raids
+
+![Raids Section Screenshot](./screenshots/raids-section.png)
+_Comprehensive raid guides with star-level filtering and role-based strategies._
+
+### 🧰 Tools & Calculators
+
 #### 🧬 Breeding Planner
 
 ![Breeding Section Screenshot](./screenshots/breeding-section.png)
+_Advanced calculator for breeding competitive Pokémon._
 
-#### ✏️ Strategy Editor (CMS)
+#### 🧮 Catch Calculator
+
+![Catch Calculator Section Screenshot](./screenshots/catch-calculator-section.png)
+_Real-time probability calculator for catching Pokémon._
+
+#### 🔄 Trainer Reruns
+
+![Trainer Reruns Section Screenshot](./screenshots/trainer-reruns-section.png)
+_Optimized routes for Gym Runs and Trainer Reruns._
+
+#### 📦 Pickup Guide
+
+![Pickup Guide Section Screenshot](./screenshots/pickup-guide-section.png)
+_Searchable data on pickup items by region and location._
+
+#### 📚 Pokédex
+
+![Pokedex Section Screenshot](./screenshots/pokedex-section.png)
+_Fast, filterable database of Pokémon with sprites and basic info._
+
+### ✨ User-Specific Features & CMS
+
+#### 🔐 My Teams (User-Specific Team Builder)
+
+![My Teams Page Screenshot](./screenshots/my-teams-page.png)
+_Create, save, and manage your own custom teams and strategies._
+![User Team Editor Page Screenshot](./screenshots/user-team-editor-page.png)
+_Advanced editor for building and refining user teams._
+
+#### ✏️ Strategy Editor (Local CMS)
 
 ![Editor Section Screenshot](./screenshots/editor-section.png)
 _A powerful local editor for managing game data without touching JSON directly._
-
-#### ⚔️ Boss Fights (Red)
-
-![Red Section Screenshot](./screenshots/red-section.png)
 
 ---
 
@@ -80,21 +129,20 @@ _A powerful local editor for managing game data without touching JSON directly._
 │   ├── app/            # Core app logic
 │   │   ├── App.jsx     # Main component & routing logic
 │   │   ├── index.css   # Global styles & Tailwind directives
+│   │   ├── main.jsx    # Entry point and Router configuration
 │   │   └── layout/     # Layout components (Navbar, Home, Shell)
 │   ├── data/           # JSON data files (The "Database")
-│   │   ├── bossFightsData.json
-│   │   ├── eliteFourData.json
-│   │   ├── pickupData.json
-│   │   ├── pokedex.json
-│   │   ├── raidsData.json
-│   │   ├── superTrainersData.json
-│   │   └── trainerRerunData.json
+│   ├── firebase/       # Firebase configuration and service layer
+│   │   ├── config.js   # App initialization
+│   │   └── firestoreService.js # CRUD operations for My Teams
 │   ├── pages/          # Feature-specific pages
+│   │   ├── auth/       # Authentication (Login/Signup)
 │   │   ├── boss-fights/      # Strategies for Bosses
 │   │   ├── breeding/         # Breeding Calculator
 │   │   ├── catch-calculator/ # Catch Rate Calculator
 │   │   ├── editor/           # CMS interface for editing JSON data
 │   │   ├── elite-four/       # Elite Four Strategies
+│   │   ├── my-teams/         # User-specific Team Builder
 │   │   ├── pickup/           # Pickup Item Guide
 │   │   ├── pokedex/          # Pokémon Database Viewer
 │   │   ├── raids/            # Raid Battle Strategies
@@ -102,6 +150,7 @@ _A powerful local editor for managing game data without touching JSON directly._
 │   │   └── trainer-rerun/    # Gym Run / Money Making Routes
 │   └── shared/         # Reusable components and utilities
 │       ├── components/ # Generic UI components
+│       ├── context/    # Global state (AuthContext)
 │       ├── hooks/      # Custom React hooks
 │       └── utils/      # Helper functions
 ├── .prettierrc         # Prettier configuration

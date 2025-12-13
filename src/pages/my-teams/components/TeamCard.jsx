@@ -1,5 +1,7 @@
 import { Check, Clock, Edit, Map, Send, Trash2, XCircle } from "lucide-react";
 
+import { getSpriteUrlByName } from "@/shared/utils/pokemonImageHelper";
+
 const TeamCard = ({
   team,
   onClick,
@@ -8,6 +10,7 @@ const TeamCard = ({
   onCancelSubmission,
 }) => {
   const status = team.status || "draft";
+  const isPending = status === "pending";
 
   const getStatusBadge = () => {
     switch (status) {
@@ -37,15 +40,27 @@ const TeamCard = ({
   return (
     <div
       onClick={onClick}
-      className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 transition-all duration-300 ${
+        isPending
+          ? "cursor-not-allowed opacity-50"
+          : "cursor-pointer hover:-translate-y-1 hover:shadow-xl"
+      }`}
     >
       {/* Hover Gradient Background (Blue/Cyan for My Teams) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div
+        className={`absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 transition-opacity duration-300 ${
+          isPending ? "opacity-0" : "group-hover:opacity-100"
+        }`}
+      />
 
       <div className="relative z-10 flex h-full flex-col">
         <div className="mb-4 flex items-start justify-between">
           <div>
-            <h3 className="text-xl font-bold text-slate-200 transition-colors group-hover:text-blue-400">
+            <h3
+              className={`text-xl font-bold text-slate-200 ${
+                isPending ? "" : "transition-colors group-hover:text-blue-400"
+              }`}
+            >
               {team.name}
             </h3>
             <div className="mt-1 flex items-center gap-2 text-sm text-slate-400">
@@ -76,14 +91,20 @@ const TeamCard = ({
                 key={idx}
                 className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5"
               >
-                {member ? (
+                {member?.name ? ( // Check for member.name existence
                   <img
-                    src={
-                      member.sprite ||
-                      `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId || 0}.png`
-                    }
-                    alt=""
-                    className="h-full w-full object-contain"
+                    src={getSpriteUrlByName(member.name)}
+                    alt={member.name}
+                    className="h-full w-full object-contain p-0.5"
+                    onError={(e) => {
+                      // Fallback to standard PokeAPI sprite if dream world fails
+                      if (member.dexId) {
+                        e.target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
+                      } else {
+                        // Fallback to a generic placeholder if dexId is also missing
+                        e.target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
+                      }
+                    }}
                   />
                 ) : (
                   <span className="text-xs text-slate-600">?</span>
@@ -101,10 +122,12 @@ const TeamCard = ({
         </div>
 
         <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-4">
-          <span className="flex items-center gap-1 text-sm font-medium text-blue-400 transition-colors group-hover:text-blue-300">
-            <Edit size={14} />
-            Edit Strategies
-          </span>
+          {!isPending && (
+            <span className="flex items-center gap-1 text-sm font-medium text-blue-400 transition-colors group-hover:text-blue-300">
+              <Edit size={14} />
+              Edit Strategies
+            </span>
+          )}
 
           {onSubmit && status === "draft" && (
             <button

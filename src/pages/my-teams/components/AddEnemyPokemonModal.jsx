@@ -36,7 +36,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
       onClick={onClose}
     >
       <div
-        className="relative flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] shadow-2xl"
+        className="animate-fade-in relative flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">

@@ -126,7 +126,7 @@ const UserTeamEditorPage = () => {
 
   if (loading)
     return (
-      <div className="flex h-screen items-center justify-center text-slate-400">
+      <div className="animate-fade-in flex h-screen items-center justify-center text-slate-400">
         Loading Team Editor...
       </div>
     );
@@ -138,7 +138,7 @@ const UserTeamEditorPage = () => {
   if (activeView === "settings") {
     // --- DASHBOARD VIEW ---
     mainContent = (
-      <div className="custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#0a0b0e] to-[#121317] p-8">
+      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#0a0b0e] to-[#121317] p-4 lg:p-8">
         <div className="mx-auto w-full max-w-6xl space-y-10">
           {/* Header Section */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -317,7 +317,7 @@ const UserTeamEditorPage = () => {
   } else if (activeView === "roster") {
     const memberData = team.members[activeId];
     mainContent = (
-      <div className="custom-scrollbar h-full overflow-y-auto p-8">
+      <div className="animate-fade-in custom-scrollbar h-full overflow-y-auto p-4 lg:p-8">
         <PokemonEditorView
           key={activeId}
           data={memberData}
@@ -331,8 +331,9 @@ const UserTeamEditorPage = () => {
     const memberObj = availableMembers.find((m) => m.name === activeContext);
 
     mainContent = (
-      <div className="custom-scrollbar h-full overflow-y-auto p-8">
+      <div className="animate-fade-in custom-scrollbar h-full overflow-y-auto p-4 lg:p-8">
         <StrategyEditor
+          key={activeId}
           selectedEnemyPokemon={activeId}
           selectedMember={memberObj}
           selectedRegion={memberObj?.region}
@@ -344,7 +345,7 @@ const UserTeamEditorPage = () => {
   }
 
   return (
-    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-[#0a0b0e]">
+    <div className="animate-fade-in flex h-[calc(100vh-64px)] overflow-hidden bg-[#0a0b0e]">
       {/* 1. Sidebar */}
       <EditorSidebar
         team={team}

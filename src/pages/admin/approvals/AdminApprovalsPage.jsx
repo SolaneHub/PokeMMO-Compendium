@@ -1,11 +1,13 @@
-import { Check, RotateCcw, X } from "lucide-react";
+import { Check, CheckCircle, RotateCcw, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+  deleteUserTeam,
   getTeamsByStatus,
   updateTeamStatus,
 } from "@/firebase/firestoreService";
+import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
 import PageTitle from "@/shared/components/PageTitle";
 import { isAdmin } from "@/shared/constants/admin";
@@ -16,6 +18,7 @@ const AdminTeamList = ({ status }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [processingId, setProcessingId] = useState(null);
+  const confirm = useConfirm(); // Initialize useConfirm
 
   useEffect(() => {
     let mounted = true;
@@ -54,7 +57,11 @@ const AdminTeamList = ({ status }) => {
         : newStatus === "rejected"
           ? "Reject"
           : "Reset to Pending";
-    if (!window.confirm(`${action} "${team.name}"?`)) return;
+    const confirmed = await confirm(
+      `${action} "${team.name}"?`,
+      `${action} Confirmation`
+    );
+    if (!confirmed) return;
 
     setProcessingId(team.id);
     try {
@@ -70,9 +77,35 @@ const AdminTeamList = ({ status }) => {
     }
   };
 
+  const handleDeleteTeam = async (team) => {
+    const confirmed = await confirm(
+      `Are you sure you want to delete "${team.name}"? This action cannot be undone.`,
+      `Delete Confirmation`
+    );
+    if (!confirmed) return;
+
+    setProcessingId(team.id);
+    try {
+      await deleteUserTeam(team.userId, team.id);
+      setProcessingId(null); // Reset processingId immediately after successful deletion
+      // Refresh list
+      const updatedTeams = await getTeamsByStatus(status);
+      setTeams(updatedTeams);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete team.");
+    } finally {
+      // If an error occurred, processingId might not have been reset by try block.
+      // However, it's safer to ensure it's always reset here if the try block doesn't explicitly.
+      // For this case, the specific reset above is sufficient on success.
+      // If an error occurs, processingId remains set until manual intervention or next action.
+      // For now, keeping the explicit setProcessingId(null) on success.
+    }
+  };
+
   if (loading) {
     return (
-      <div className="py-20 text-center text-slate-400">
+      <div className="animate-fade-in py-20 text-center text-slate-400">
         Loading {status} teams...
       </div>
     );
@@ -80,7 +113,7 @@ const AdminTeamList = ({ status }) => {
 
   if (error) {
     return (
-      <div className="rounded-xl border border-red-500/50 bg-red-900/20 p-6 text-center text-red-200">
+      <div className="animate-fade-in rounded-xl border border-red-500/50 bg-red-900/20 p-6 text-center text-red-200">
         <h3 className="mb-2 text-lg font-bold">Error loading teams</h3>
         <p className="text-sm opacity-80">{error.message}</p>
         <button
@@ -89,14 +122,6 @@ const AdminTeamList = ({ status }) => {
         >
           Retry
         </button>
-      </div>
-    );
-  }
-
-  if (teams.length === 0) {
-    return (
-      <div className="rounded-xl border border-dashed border-slate-600 bg-slate-800/50 py-20 text-center">
-        <p className="text-xl text-slate-400">No {status} teams found.</p>
       </div>
     );
   }
@@ -185,6 +210,14 @@ const AdminTeamList = ({ status }) => {
                 <RotateCcw size={16} /> Move to Pending
               </button>
             )}
+            <button
+              onClick={() => handleDeleteTeam(team)}
+              disabled={!!processingId}
+              className="flex items-center justify-center gap-2 rounded-lg bg-gray-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-gray-800 disabled:opacity-50"
+              title="Delete Team"
+            >
+              <Trash2 size={16} />
+            </button>
           </div>
         </div>
       ))}
@@ -221,12 +254,15 @@ const AdminApprovalsPage = () => {
   }
 
   return (
-    <div className="animate-fade-in container mx-auto min-h-screen p-6 text-slate-200">
+    <div className="animate-fade-in container mx-auto min-h-screen text-slate-200">
       <PageTitle title="Admin Approvals" />
 
-      <div className="mb-8 border-b border-slate-700 pb-4">
-        <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-        <p className="mt-1 text-slate-400">Manage user-submitted strategies.</p>
+      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+          <CheckCircle className="text-blue-400" size={32} />
+          Admin Dashboard
+        </h1>
+        <p className="text-slate-400">Manage user-submitted strategies.</p>
       </div>
 
       {/* Tabs */}

@@ -1,5 +1,7 @@
 import { useState, useTransition } from "react";
 
+import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
+
 const POKE_TEMPLATE = {
   id: 0,
   name: "New Mon",
@@ -29,6 +31,7 @@ const PokedexEditor = ({ data, onChange }) => {
   const [isPending, startTransition] = useTransition();
   const [selectedId, setSelectedId] = useState(null);
   const [activeTab, setActiveTab] = useState("info");
+  const confirm = useConfirm(); // Initialize useConfirm
 
   if (!data || !Array.isArray(data)) {
     return (
@@ -136,8 +139,12 @@ const PokedexEditor = ({ data, onChange }) => {
               </h2>
               <button
                 className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
-                onClick={() => {
-                  if (window.confirm("Permanently delete?")) {
+                onClick={async () => {
+                  const confirmed = await confirm(
+                    "Permanently delete?",
+                    "Delete Pokémon"
+                  );
+                  if (confirmed) {
                     onChange(data.filter((p) => p.id !== selectedId));
                     setSelectedId(null);
                   }

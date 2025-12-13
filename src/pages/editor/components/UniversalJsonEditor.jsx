@@ -1,7 +1,10 @@
 import { useState } from "react";
 
+import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
+
 const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const confirm = useConfirm(); // Initialize useConfirm
 
   const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
@@ -159,8 +162,12 @@ const UniversalJsonEditor = ({ data, onChange, label, suggestedKeys = [] }) => {
                     <button
                       className="cursor-pointer rounded border-none bg-transparent px-1.5 text-lg leading-none text-[#555] transition-colors hover:bg-red-500/10 hover:text-[#ff6b6b]"
                       title="Delete"
-                      onClick={() => {
-                        if (window.confirm(`Delete field "${key}"?`)) {
+                      onClick={async () => {
+                        const confirmed = await confirm(
+                          `Delete field "${key}"?`,
+                          "Delete Field"
+                        );
+                        if (confirmed) {
                           const newData = { ...data };
                           delete newData[key];
                           onChange(newData);

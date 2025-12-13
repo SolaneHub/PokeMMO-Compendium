@@ -1,4 +1,4 @@
-import { useEffect, useOptimistic, useState } from "react";
+import { useCallback,useEffect, useOptimistic, useState } from "react";
 
 import { createUserTeam, deleteUserTeam, getUserTeams } from "@/firebase/firestoreService";
 import { useToast } from "@/shared/components/ToastNotification";
@@ -16,29 +16,27 @@ export function useUserTeams() {
     (state, teamIdToDelete) => state.filter((t) => t.id !== teamIdToDelete)
   );
 
-  useEffect(() => {
-    let ignore = false;
-    async function fetchTeams() {
-      if (!currentUser) {
-        if (!authLoading) setLoading(false);
-        return;
-      }
-      
-      setLoading(true);
-      try {
-        const userTeams = await getUserTeams(currentUser.uid);
-        if (!ignore) setTeams(userTeams);
-      } catch (error) {
-        console.error(error);
-        if (!ignore) showToast("Failed to load teams", "error");
-      } finally {
-        if (!ignore) setLoading(false);
-      }
+  const _fetchTeams = useCallback(async () => {
+    if (!currentUser) {
+      if (!authLoading) setLoading(false);
+      return;
     }
-
-    fetchTeams();
-    return () => { ignore = true; };
+    
+    setLoading(true);
+    try {
+      const userTeams = await getUserTeams(currentUser.uid);
+      setTeams(userTeams);
+    } catch (error) {
+      console.error(error);
+      showToast("Failed to load teams", "error");
+    } finally {
+      setLoading(false);
+    }
   }, [currentUser, authLoading, showToast]);
+
+  useEffect(() => {
+    _fetchTeams();
+  }, [_fetchTeams]);
 
   const createTeam = async (teamName) => {
     if (!currentUser) return null;
@@ -48,13 +46,13 @@ export function useUserTeams() {
         region: null,
         members: Array(6).fill(null),
         strategies: {},
+        status: "draft", // Default status
       };
       const teamId = await createUserTeam(currentUser.uid, newTeam);
       showToast("Team created successfully!", "success");
       
       // Refresh list
-      const updatedTeams = await getUserTeams(currentUser.uid);
-      setTeams(updatedTeams);
+      await _fetchTeams();
       
       return teamId;
     } catch (error) {
@@ -73,14 +71,13 @@ export function useUserTeams() {
     try {
       await deleteUserTeam(currentUser.uid, teamId);
       showToast("Team deleted", "info");
-      // Update actual state
-      setTeams((prev) => prev.filter((t) => t.id !== teamId));
+      // Update actual state by refetching
+      await _fetchTeams();
     } catch (error) {
       console.error(error);
       showToast("Failed to delete team", "error");
       // Re-fetch to sync state if failed
-      const updatedTeams = await getUserTeams(currentUser.uid);
-      setTeams(updatedTeams);
+      await _fetchTeams();
     }
   };
 
@@ -90,6 +87,7 @@ export function useUserTeams() {
     createTeam, 
     deleteTeam, 
     authLoading, 
-    currentUser 
+    currentUser,
+    refreshTeams: _fetchTeams // Expose the internal fetch function as refreshTeams
   };
 }

@@ -2,6 +2,7 @@ import { Save, Search } from "lucide-react";
 import React, { memo, useState } from "react";
 
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
+import { getPokemonIdByName } from "@/shared/utils/pokedexDataExtraction";
 
 const NATURES = [
   "Adamant",
@@ -56,6 +57,7 @@ const getInitialFormData = (inputData) => {
         inputData.moves?.[2] || "",
         inputData.moves?.[3] || "",
       ],
+      dexId: inputData.dexId || null, // Initialize dexId
     };
   }
   return {
@@ -66,6 +68,7 @@ const getInitialFormData = (inputData) => {
     evs: "",
     ivs: "",
     moves: ["", "", "", ""],
+    dexId: null, // Initialize dexId
   };
 };
 
@@ -96,15 +99,17 @@ const PokemonEditorView = ({ data, onSave }) => {
     if (!formData.name.trim()) return;
 
     const cleanMoves = formData.moves.filter((m) => m.trim() !== "");
+    const pokemonDexId = getPokemonIdByName(formData.name);
 
     onSave({
       ...formData,
       moves: cleanMoves,
+      dexId: pokemonDexId, // Add dexId here
     });
   };
 
   return (
-    <div className="flex flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
+    <div className="animate-fade-in flex flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
       <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between border-b-2 border-blue-500 pb-2.5">

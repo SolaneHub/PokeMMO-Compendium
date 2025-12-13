@@ -85,7 +85,7 @@ const EditorSidebar = ({
     setExpandedMembers((prev) => ({ ...prev, [m]: !prev[m] }));
 
   return (
-    <div className="flex h-full w-80 flex-col border-r border-[#333] bg-[#121317]">
+    <div className="animate-fade-in flex h-full w-80 flex-col border-r border-[#333] bg-[#121317]">
       {/* Team Header Summary */}
       <div className="border-b border-[#333] p-4">
         <h2 className="truncate text-lg font-bold text-white">{team.name}</h2>

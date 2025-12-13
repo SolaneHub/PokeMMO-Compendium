@@ -9,7 +9,7 @@ const OpponentSelector = ({
   onSelectMember,
 }) => {
   return (
-    <div className="space-y-5 rounded-xl border border-white/5 bg-[#1a1b20] p-5">
+    <div className="animate-fade-in space-y-5 rounded-xl border border-white/5 bg-[#1a1b20] p-5">
       {/* Region Selector */}
       <div>
         <h3 className="mb-2 flex items-center gap-2 text-sm font-bold text-slate-400 uppercase">
