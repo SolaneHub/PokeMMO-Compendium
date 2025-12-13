@@ -22,7 +22,6 @@ import ProtectedRoute from "@/shared/components/ProtectedRoute";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
 
-
 function App() {
   const location = useLocation();
   const currentPath = location.pathname;
