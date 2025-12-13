@@ -46,10 +46,12 @@ const MyTeamsPage = () => {
   const [, submitAction] = useActionState(createTeamAction, null);
 
   const handleSubmitTeam = async (teamId) => {
-    const confirmed = await confirm(
-      "Submit this team for admin approval? You won't be able to edit it while pending.",
-      "Submit Team"
-    );
+    const confirmed = await confirm({
+      message:
+        "Submit this team for admin approval? You won't be able to edit it while pending.",
+      title: "Submit Team",
+      confirmText: "Submit",
+    });
     if (confirmed) {
       try {
         await updateTeamStatus(currentUser.uid, teamId, "pending");
@@ -63,10 +65,11 @@ const MyTeamsPage = () => {
   };
 
   const handleCancelSubmission = async (teamId) => {
-    const confirmed = await confirm(
-      "Cancel this team's submission? It will return to draft status.",
-      "Cancel Submission"
-    );
+    const confirmed = await confirm({
+      message: "Cancel this team's submission? It will return to draft status.",
+      title: "Cancel Submission",
+      confirmText: "Yes, Cancel",
+    });
     if (confirmed) {
       try {
         await updateTeamStatus(currentUser.uid, teamId, "draft");
@@ -80,10 +83,13 @@ const MyTeamsPage = () => {
   };
 
   const handleDeleteTeam = async (teamId) => {
-    const confirmed = await confirm(
-      "Are you sure you want to delete this team? This action cannot be undone.",
-      "Delete Team"
-    );
+    const confirmed = await confirm({
+      message:
+        "Are you sure you want to delete this team? This action cannot be undone.",
+      title: "Delete Team",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
     if (confirmed) {
       await deleteTeam(teamId);
     }

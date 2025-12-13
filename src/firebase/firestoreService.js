@@ -25,6 +25,8 @@ const TeamSchema = z
     members: z.array(z.any()).max(6),
     strategies: z.record(z.string().max(1000)).optional(),
     enemyPools: z.record(z.string().max(1000)).optional(),
+    status: z.enum(["draft", "pending", "approved", "rejected"]).optional(),
+    isPublic: z.boolean().optional(),
   })
   .refine((data) => JSON.stringify(data).length < 1000000, {
     message: "Team data too large",
