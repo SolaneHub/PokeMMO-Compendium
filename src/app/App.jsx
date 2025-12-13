@@ -17,7 +17,7 @@ import PokedexPage from "@/pages/pokedex/PokedexPage";
 import RaidsPage from "@/pages/raids/RaidsPage";
 import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
 import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
-import { ConfirmationProvider } from "@/shared/components/ConfirmationModal"; // New import
+import { ConfirmationProvider } from "@/shared/components/ConfirmationModal";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
 
@@ -88,7 +88,6 @@ function App() {
             <Routes>
               {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
               <Route path="*" element={null} />
-
               <Route path="/login" element={<AuthPage />} />
               <Route path="/signup" element={<AuthPage isSignup />} />
               <Route path="/my-teams" element={<MyTeamsPage />} />
