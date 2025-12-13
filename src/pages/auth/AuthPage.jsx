@@ -27,7 +27,6 @@ const AuthPage = ({ isSignup = false }) => {
       navigate("/my-teams");
       return { success: true };
     } catch (error) {
-      console.error(error);
       let message = error.message;
       if (error.code === "auth/email-already-in-use")
         message = "Email already in use.";
@@ -46,7 +45,6 @@ const AuthPage = ({ isSignup = false }) => {
       showToast("Logged in with Google!", "success");
       navigate("/my-teams");
     } catch (error) {
-      console.error(error);
       showToast("Google Sign In failed.", "error");
     }
   };

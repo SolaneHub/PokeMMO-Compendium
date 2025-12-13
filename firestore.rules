@@ -3,30 +3,33 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --- GLOBAL ADMIN RULE ---
-    // Allows admins to read/write ANY document in the database.
-    // This overrides/complements specific rules below.
-    match /{document=**} {
-      allow read, write: if request.auth != null && request.auth.token.admin == true;
-    }
-
     // Users collection: only the authenticated user can read/write their own data
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Elite Four Teams subcollection
-    match /users/{userId}/elite_four_teams/{teamId} {
-      allow read: if request.auth != null && (
-        request.auth.token.admin == true ||
-        request.auth.uid == userId ||
-        (resource.data.status == 'approved' && resource.data.isPublic == true)
-      );
-      allow write: if request.auth != null && (
-        request.auth.token.admin == true ||
-        request.auth.uid == userId
-      );
-    }
 
+    // Elite Four Teams subcollection: users can read/write their own teams,
+    // admins can read/write all teams, public can read approved and public teams
+    match /users/{userId}/elite_four_teams/{teamId} {
+      allow read: if
+        // Approved public teams are visible to everyone
+        (resource.data.status == 'approved' && resource.data.isPublic == true) ||
+        // Otherwise, if you are the owner or an admin
+        (request.auth != null && (
+          request.auth.uid == userId ||
+          request.auth.token.admin == true
+        ));
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if request.auth != null && (
+        request.auth.uid == userId ||
+        request.auth.token.admin == true
+      );
+
+      // Limit the number of teams retrieved in a listing query
+      allow list: if request.auth != null
+        && request.auth.uid == userId
+        && request.query.limit <= 100;
+    }
   }
 }

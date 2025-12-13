@@ -8,6 +8,8 @@ import TeamList from "@/pages/my-teams/components/TeamList";
 import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
 import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
 import PageTitle from "@/shared/components/PageTitle";
+import { useToast } from "@/shared/components/ToastNotification"; // Import useToast
+import { logger } from "@/shared/utils/logger";
 
 const MyTeamsPage = () => {
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ const MyTeamsPage = () => {
   } = useUserTeams();
   const [showCreateModal, setShowCreateModal] = useState(false);
   const confirm = useConfirm();
+  const showToast = useToast(); // Initialize useToast
 
   useEffect(() => {
     if (!authLoading && !currentUser) {
@@ -48,8 +51,14 @@ const MyTeamsPage = () => {
       "Submit Team"
     );
     if (confirmed) {
-      await updateTeamStatus(currentUser.uid, teamId, "pending");
-      await refreshTeams(); // Explicitly refresh teams
+      try {
+        await updateTeamStatus(currentUser.uid, teamId, "pending");
+        await refreshTeams(); // Explicitly refresh teams
+        showToast("Team submitted for approval!", "success");
+      } catch (error) {
+        logger.error("Error submitting team:", error);
+        showToast("Failed to submit team. Please try again.", "error");
+      }
     }
   };
 
@@ -59,8 +68,14 @@ const MyTeamsPage = () => {
       "Cancel Submission"
     );
     if (confirmed) {
-      await updateTeamStatus(currentUser.uid, teamId, "draft");
-      await refreshTeams(); // Explicitly refresh teams
+      try {
+        await updateTeamStatus(currentUser.uid, teamId, "draft");
+        await refreshTeams(); // Explicitly refresh teams
+        showToast("Team submission cancelled.", "info");
+      } catch (error) {
+        logger.error("Error cancelling submission:", error);
+        showToast("Failed to cancel submission. Please try again.", "error");
+      }
     }
   };
 

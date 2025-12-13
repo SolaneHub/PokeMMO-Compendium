@@ -1,7 +1,7 @@
 import { Crown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import { getPublicApprovedTeams } from "@/firebase/firestoreService";
+import { getAllApprovedTeams } from "@/firebase/firestoreService";
 import MemberSelection from "@/pages/elite-four/components/MemberSelection";
 import PokemonSelection from "@/pages/elite-four/components/PokemonSelection";
 import RegionSelection from "@/pages/elite-four/components/RegionSelection";
@@ -16,11 +16,13 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
+import { logger } from "@/shared/utils/logger";
 
 function EliteFourPage() {
   // State for Community Teams
   const [approvedTeams, setApprovedTeams] = useState([]);
   const [loadingTeams, setLoadingTeams] = useState(true);
+  const [error, setError] = useState(null); // New error state
 
   // Selection State
   const [selectedTeamId, setSelectedTeamId] = useState(null);
@@ -46,11 +48,15 @@ function EliteFourPage() {
   useEffect(() => {
     const fetchTeams = async () => {
       setLoadingTeams(true);
+      setError(null); // Clear previous errors
       try {
-        const teams = await getPublicApprovedTeams();
+        const teams = await getAllApprovedTeams();
         setApprovedTeams(teams);
-      } catch (error) {
-        console.error("Failed to load teams", error);
+      } catch (err) {
+        logger.error("Failed to fetch approved teams:", err);
+        setError(
+          "Failed to load community strategies. Please try again later."
+        );
       } finally {
         setLoadingTeams(false);
       }
@@ -164,6 +170,8 @@ function EliteFourPage() {
         <div className="text-center text-slate-400">
           Loading community teams...
         </div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div>
       ) : approvedTeams.length === 0 ? (
         <div className="text-center text-slate-400">
           No approved strategies available yet. Go to &quot;My Teams&quot; to
