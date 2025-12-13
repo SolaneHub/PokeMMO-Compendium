@@ -1,0 +1,1 @@
+import{a as s,r as c}from"./index-Dgi0ymTB.js";function n(l){const t=s.c(3),{title:e}=l;let o,r;return t[0]!==e?(o=()=>{document.title=e},r=[e],t[0]=e,t[1]=o,t[2]=r):(o=t[1],r=t[2]),c.useEffect(o,r),null}export{n as P};
