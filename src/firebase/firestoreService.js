@@ -1,20 +1,34 @@
-import { 
-  addDoc, 
-  collection, 
+import {
+  addDoc,
+  collection,
   collectionGroup,
-  deleteDoc, 
-  doc, 
-  getDocs, 
-  query, 
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
   updateDoc,
   where,
 } from "firebase/firestore";
+import { z } from "zod";
 
 import { db } from "./config";
 
 // --- Collection References ---
 const USERS_COLLECTION = "users";
 const TEAMS_COLLECTION = "elite_four_teams";
+
+// Aggiungi limiti nella validazione
+const TeamSchema = z
+  .object({
+    name: z.string().min(1).max(100),
+    region: z.string().max(50).nullable(),
+    members: z.array(z.any()).max(6),
+    strategies: z.record(z.string().max(1000)).optional(),
+    enemyPools: z.record(z.string().max(1000)).optional(),
+  })
+  .refine((data) => JSON.stringify(data).length < 1000000, {
+    message: "Team data too large",
+  });
 
 // Helper to get teams collection ref for a specific user
 const getUserTeamsRef = (userId) => {
@@ -28,20 +42,17 @@ const getUserTeamsRef = (userId) => {
  * @returns {Promise<string>} The new team ID.
  */
 export async function createUserTeam(userId, teamData) {
-  try {
-    const teamsRef = getUserTeamsRef(userId);
-    const docRef = await addDoc(teamsRef, {
-      ...teamData,
-      status: 'draft', // draft, pending, approved, rejected
-      isPublic: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    return docRef.id;
-  } catch (error) {
-    console.error("Error creating team:", error);
-    throw error;
-  }
+  const validatedData = TeamSchema.parse(teamData);
+
+  const teamsRef = getUserTeamsRef(userId);
+  const docRef = await addDoc(teamsRef, {
+    ...validatedData,
+    status: "draft",
+    isPublic: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+  return docRef.id;
 }
 
 /**
@@ -50,55 +61,40 @@ export async function createUserTeam(userId, teamData) {
  * @returns {Promise<Array>} List of teams with IDs.
  */
 export async function getUserTeams(userId) {
-  try {
-    const teamsRef = getUserTeamsRef(userId);
-    const q = query(teamsRef);
-    const querySnapshot = await getDocs(q);
-    
-    const teams = [];
-    querySnapshot.forEach((doc) => {
-      teams.push({ id: doc.id, ...doc.data() });
-    });
-    
-    return teams;
-  } catch (error) {
-    console.error("Error fetching user teams:", error);
-    throw error;
-  }
+  const teamsRef = getUserTeamsRef(userId);
+  const q = query(teamsRef);
+  const querySnapshot = await getDocs(q);
+
+  const teams = [];
+  querySnapshot.forEach((doc) => {
+    teams.push({ id: doc.id, ...doc.data() });
+  });
+
+  return teams;
 }
 
 /**
  * Updates an existing team.
- * @param {string} userId 
- * @param {string} teamId 
- * @param {object} updates 
+ * @param {string} userId
+ * @param {string} teamId
+ * @param {object} updates
  */
 export async function updateUserTeam(userId, teamId, updates) {
-  try {
-    const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
-    await updateDoc(teamRef, {
-      ...updates,
-      updatedAt: new Date(),
-    });
-  } catch (error) {
-    console.error("Error updating team:", error);
-    throw error;
-  }
+  const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
+  await updateDoc(teamRef, {
+    ...updates,
+    updatedAt: new Date(),
+  });
 }
 
 /**
  * Deletes a team.
- * @param {string} userId 
- * @param {string} teamId 
+ * @param {string} userId
+ * @param {string} teamId
  */
 export async function deleteUserTeam(userId, teamId) {
-  try {
-    const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
-    await deleteDoc(teamRef);
-  } catch (error) {
-    console.error("Error deleting team:", error);
-    throw error;
-  }
+  const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
+  await deleteDoc(teamRef);
 }
 
 // --- Admin / Approval Functions ---
@@ -108,29 +104,24 @@ export async function deleteUserTeam(userId, teamId) {
  * @param {string} status - 'pending' | 'approved' | 'rejected'
  */
 export async function getTeamsByStatus(status) {
-  try {
-    const teamsQuery = query(
-      collectionGroup(db, TEAMS_COLLECTION),
-      where("status", "==", status)
-    );
-    
-    const querySnapshot = await getDocs(teamsQuery);
-    const teams = [];
-    
-    querySnapshot.forEach((doc) => {
-      const parentUser = doc.ref.parent.parent; 
-      teams.push({ 
-        id: doc.id, 
-        userId: parentUser ? parentUser.id : 'unknown', // Handle edge case if parent is missing (unlikely in this structure)
-        ...doc.data() 
-      });
+  const teamsQuery = query(
+    collectionGroup(db, TEAMS_COLLECTION),
+    where("status", "==", status)
+  );
+
+  const querySnapshot = await getDocs(teamsQuery);
+  const teams = [];
+
+  querySnapshot.forEach((doc) => {
+    const parentUser = doc.ref.parent.parent;
+    teams.push({
+      id: doc.id,
+      userId: parentUser ? parentUser.id : "unknown", // Handle edge case if parent is missing (unlikely in this structure)
+      ...doc.data(),
     });
-    
-    return teams;
-  } catch (error) {
-    console.error(`Error fetching ${status} teams:`, error);
-    throw error;
-  }
+  });
+
+  return teams;
 }
 
 /**

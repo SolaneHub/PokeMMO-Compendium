@@ -4,7 +4,7 @@
 // or managed via Firebase Custom Claims or a Firestore collection.
 
 const ADMIN_EMAILS = [
-  "simonelostimolo@gmail.com",  // Replace with actual admin email(s)
+  "simonelostimolo@gmail.com", // Replace with actual admin email(s)
 ];
 
 export const isAdmin = (email) => {

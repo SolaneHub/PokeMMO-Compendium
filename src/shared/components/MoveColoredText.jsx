@@ -1,3 +1,4 @@
+import DOMPurify from "dompurify";
 import {
   ArrowDown,
   Backpack,
@@ -54,7 +55,9 @@ const MoveColoredText = ({ text }) => {
           return (
             <span
               key={index}
-              dangerouslySetInnerHTML={{ __html: htmlContent }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(htmlContent),
+              }}
             />
           );
         }

@@ -32,7 +32,6 @@ const AdminTeamList = ({ status }) => {
           setTeams(data);
         }
       } catch (err) {
-        console.error("Error fetching teams:", err);
         if (mounted) {
           setError(err);
         }
@@ -70,7 +69,6 @@ const AdminTeamList = ({ status }) => {
       const updatedTeams = await getTeamsByStatus(status);
       setTeams(updatedTeams);
     } catch (err) {
-      console.error(err);
       alert(`Failed to ${action.toLowerCase()} team.`);
     } finally {
       setProcessingId(null);
@@ -91,7 +89,6 @@ const AdminTeamList = ({ status }) => {
       const updatedTeams = await getTeamsByStatus(status);
       setTeams(updatedTeams);
     } catch (err) {
-      console.error(err);
       alert("Failed to delete team.");
     } finally {
       setProcessingId(null);
@@ -285,4 +282,3 @@ const AdminApprovalsPage = () => {
 };
 
 export default AdminApprovalsPage;
-
