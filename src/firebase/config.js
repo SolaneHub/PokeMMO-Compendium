@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -18,3 +19,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+// Enable App Check
+// IMPORTANT: Replace 'YOUR_RECAPTCHA_SITE_KEY' with your actual reCAPTCHA v3 site key.
+if (import.meta.env.PROD) {
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider('YOUR_RECAPTCHA_SITE_KEY'),
+    isTokenAutoRefreshEnabled: true
+  });
+}

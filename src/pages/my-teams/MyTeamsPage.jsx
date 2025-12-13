@@ -7,6 +7,7 @@ import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
 import TeamList from "@/pages/my-teams/components/TeamList";
 import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
 import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
+import { logger } from "@/shared/utils/logger";
 import PageTitle from "@/shared/components/PageTitle";
 import { useToast } from "@/shared/components/ToastNotification"; // Import useToast
 
@@ -55,7 +56,7 @@ const MyTeamsPage = () => {
         await refreshTeams(); // Explicitly refresh teams
         showToast("Team submitted for approval!", "success");
       } catch (error) {
-        console.error("Error submitting team:", error);
+        logger.error("Error submitting team:", error);
         showToast("Failed to submit team. Please try again.", "error");
       }
     }
@@ -72,7 +73,7 @@ const MyTeamsPage = () => {
         await refreshTeams(); // Explicitly refresh teams
         showToast("Team submission cancelled.", "info");
       } catch (error) {
-        console.error("Error cancelling submission:", error);
+        logger.error("Error cancelling submission:", error);
         showToast("Failed to cancel submission. Please try again.", "error");
       }
     }
