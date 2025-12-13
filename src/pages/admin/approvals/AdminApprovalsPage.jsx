@@ -10,8 +10,8 @@ import {
 import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
 import PageTitle from "@/shared/components/PageTitle";
-import { isAdmin } from "@/shared/constants/admin";
 import { useAuth } from "@/shared/context/AuthContext";
+import { isAdmin } from "@/shared/utils/adminUtils"; // Updated import path
 
 const AdminTeamList = ({ status }) => {
   const [teams, setTeams] = useState([]);
@@ -285,3 +285,4 @@ const AdminApprovalsPage = () => {
 };
 
 export default AdminApprovalsPage;
+

