@@ -1,7 +1,5 @@
 # Dependencies
 node_modules/
-
-# Optional: lockfiles (if you use multiple package managers)
 yarn.lock
 pnpm-lock.yaml
 
@@ -17,7 +15,7 @@ yarn-debug.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Local environment variables (never commit these)
+# Local environment variables
 .env
 .env.local
 .env.development.local
@@ -49,8 +47,8 @@ src/docs/
 .DS_Store
 Thumbs.db
 
-# Temporary folder for GitHub Pages
+# Deployment
 gh-pages/
 
-
+# Sensitive files
 serviceAccountKey.json
