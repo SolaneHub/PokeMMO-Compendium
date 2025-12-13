@@ -31,7 +31,6 @@ export function useTeamEditor() {
           navigate("/my-teams");
         }
       } catch (err) {
-        console.error(err);
         showToast("Error loading team", "error");
       } finally {
         setLoading(false);
@@ -52,9 +51,8 @@ export function useTeamEditor() {
         enemyPools: teamToSave.enemyPools,
       });
       showToast("Team saved successfully!", "success");
-      setTeam(teamToSave); 
+      setTeam(teamToSave);
     } catch (error) {
-      console.error(error);
       showToast("Failed to save team", "error");
     } finally {
       setSaving(false);

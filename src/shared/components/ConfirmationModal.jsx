@@ -6,48 +6,60 @@ import {
   useState,
 } from "react";
 
-const ConfirmationContext = createContext(null);
+import { logger } from "../utils/logger";
+
+const ConfirmationContext = createContext();
 
 export const ConfirmationProvider = ({ children }) => {
-  const [confirmationState, setConfirmationState] = useState(null);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    confirmText: "Confirm",
+    cancelText: "Cancel",
+  });
+
   const resolveRef = useRef(null);
 
   const confirm = useCallback(
-    (
-      message,
-      title = "Confirm Action",
-      confirmText = "Confirm",
-      cancelText = "Cancel"
-    ) => {
+    ({ title, message, confirmText = "Confirm", cancelText = "Cancel" }) => {
       return new Promise((resolve) => {
-        if (resolveRef.current) {
-          console.warn("Confirmation already pending");
-          resolve(false); // Auto-reject new request
+        if (modalState.isOpen) {
+          logger.warn("Confirmation already pending");
+          resolve(false);
           return;
         }
+
         resolveRef.current = resolve;
-        setConfirmationState({ message, title, confirmText, cancelText });
+        setModalState({
+          isOpen: true,
+          title,
+          message,
+          confirmText,
+          cancelText,
+        });
       });
     },
-    []
+    [modalState.isOpen]
   );
 
   const handleResponse = useCallback((response) => {
     if (resolveRef.current) {
       resolveRef.current(response);
+      resolveRef.current = null;
     }
-    setConfirmationState(null);
+    setModalState((prev) => ({ ...prev, isOpen: false }));
   }, []);
 
   return (
     <ConfirmationContext.Provider value={confirm}>
       {children}
-      {confirmationState && (
+      {modalState.isOpen && (
         <ConfirmationModal
-          message={confirmationState.message}
-          title={confirmationState.title}
-          confirmText={confirmationState.confirmText}
-          cancelText={confirmationState.cancelText}
+          message={modalState.message}
+          title={modalState.title}
+          confirmText={modalState.confirmText}
+          cancelText={modalState.cancelText}
           onConfirm={() => handleResponse(true)}
           onCancel={() => handleResponse(false)}
         />

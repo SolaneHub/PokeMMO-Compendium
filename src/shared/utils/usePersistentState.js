@@ -1,21 +1,42 @@
+import CryptoJS from "crypto-js";
 import { useEffect, useState } from "react";
+
+const SECRET_KEY = import.meta.env.VITE_STORAGE_SECRET_KEY;
 
 export function usePersistentState(key, initialValue) {
   const [state, setState] = useState(() => {
     try {
       const saved = localStorage.getItem(key);
-      return saved ? JSON.parse(saved) : initialValue;
-    } catch (error) {
-      console.error(`Error parsing localStorage key "${key}":`, error);
+      if (!saved) return initialValue;
+
+      // Try to decrypt first
+      try {
+        const bytes = CryptoJS.AES.decrypt(saved, SECRET_KEY);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        if (decrypted) {
+          return JSON.parse(decrypted);
+        }
+      } catch (e) {
+        // Decryption failed, proceed to fallback
+      }
+
+      // Fallback: Try to parse as plain JSON (migration support)
+      return JSON.parse(saved);
+    } catch {
       return initialValue;
     }
   });
 
   useEffect(() => {
     try {
-      localStorage.setItem(key, JSON.stringify(state));
-    } catch (error) {
-      console.error(`Error saving localStorage key "${key}":`, error);
+      // Cifra prima di salvare
+      const encrypted = CryptoJS.AES.encrypt(
+        JSON.stringify(state),
+        SECRET_KEY
+      ).toString();
+      localStorage.setItem(key, encrypted);
+    } catch {
+      /* empty */
     }
   }, [key, state]);
 

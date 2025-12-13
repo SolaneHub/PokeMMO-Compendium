@@ -1,26 +1,37 @@
-import { Activity } from "react";
+import { Activity, lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
-import Home from "@/app/layout/Home";
 import Shell from "@/app/layout/Shell";
-import AdminApprovalsPage from "@/pages/admin/approvals/AdminApprovalsPage";
-import AuthPage from "@/pages/auth/AuthPage";
-import BossFightsPage from "@/pages/boss-fights/BossFightsPage";
-import BreedingPage from "@/pages/breeding/BreedingPage";
-import CatchCalculatorPage from "@/pages/catch-calculator/CatchCalculatorPage";
-import EditorPage from "@/pages/editor/EditorPage";
-import EliteFourPage from "@/pages/elite-four/EliteFourPage";
-import MyTeamsPage from "@/pages/my-teams/MyTeamsPage";
-import UserTeamEditorPage from "@/pages/my-teams/UserTeamEditorPage";
-import PickupPage from "@/pages/pickup/PickupPage";
-import PokedexPage from "@/pages/pokedex/PokedexPage";
-import RaidsPage from "@/pages/raids/RaidsPage";
-import SuperTrainersPage from "@/pages/super-trainers/SuperTrainersPage";
-import TrainerRerunPage from "@/pages/trainer-rerun/TrainerRerunPage";
+const AdminApprovalsPage = lazy(
+  () => import("@/pages/admin/approvals/AdminApprovalsPage")
+);
+const AuthPage = lazy(() => import("@/pages/auth/AuthPage"));
+const MyTeamsPage = lazy(() => import("@/pages/my-teams/MyTeamsPage"));
+const UserTeamEditorPage = lazy(
+  () => import("@/pages/my-teams/UserTeamEditorPage")
+);
 import { ConfirmationProvider } from "@/shared/components/ConfirmationModal";
 import ProtectedRoute from "@/shared/components/ProtectedRoute";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
+
+const HomePage = lazy(() => import("@/app/layout/Home"));
+const EliteFourPage = lazy(() => import("@/pages/elite-four/EliteFourPage"));
+const BossFightsPage = lazy(() => import("@/pages/boss-fights/BossFightsPage"));
+const SuperTrainersPage = lazy(
+  () => import("@/pages/super-trainers/SuperTrainersPage")
+);
+const TrainerRerunPage = lazy(
+  () => import("@/pages/trainer-rerun/TrainerRerunPage")
+);
+const RaidsPage = lazy(() => import("@/pages/raids/RaidsPage"));
+const CatchCalculatorPage = lazy(
+  () => import("@/pages/catch-calculator/CatchCalculatorPage")
+);
+const PokedexPage = lazy(() => import("@/pages/pokedex/PokedexPage"));
+const PickupPage = lazy(() => import("@/pages/pickup/PickupPage"));
+const BreedingPage = lazy(() => import("@/pages/breeding/BreedingPage"));
+const EditorPage = lazy(() => import("@/pages/editor/EditorPage"));
 
 function App() {
   const location = useLocation();
@@ -30,7 +41,7 @@ function App() {
   const shouldRemovePadding = noPaddingRoutes.includes(currentPath);
 
   const pages = [
-    { path: "/", Component: Home, key: "home" },
+    { path: "/", Component: HomePage, key: "home" },
     { path: "/elite-four", Component: EliteFourPage, key: "e4" },
     { path: "/boss-fights", Component: BossFightsPage, key: "boss-fights" },
     {
@@ -71,48 +82,54 @@ function App() {
                     className="h-full w-full"
                     style={{ display: isActive ? "block" : "none" }}
                   >
-                    {props ? <Component {...props} /> : <Component />}
+                    {isActive ? (
+                      <Suspense fallback={<div>Loading page...</div>}>
+                        {props ? <Component {...props} /> : <Component />}
+                      </Suspense>
+                    ) : null}
                   </div>
                 </Activity>
               );
             })}
 
-            <Routes>
-              {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
-              <Route path="*" element={null} />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
+                <Route path="*" element={null} />
 
-              {/* Auth routes */}
-              <Route path="/login" element={<AuthPage />} />
-              <Route path="/signup" element={<AuthPage isSignup />} />
+                {/* Auth routes */}
+                <Route path="/login" element={<AuthPage />} />
+                <Route path="/signup" element={<AuthPage isSignup />} />
 
-              {/* Protected user routes */}
-              <Route
-                path="/my-teams"
-                element={
-                  <ProtectedRoute>
-                    <MyTeamsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/my-teams/:id"
-                element={
-                  <ProtectedRoute>
-                    <UserTeamEditorPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Protected user routes */}
+                <Route
+                  path="/my-teams"
+                  element={
+                    <ProtectedRoute>
+                      <MyTeamsPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/my-teams/:id"
+                  element={
+                    <ProtectedRoute>
+                      <UserTeamEditorPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* Protected admin routes */}
-              <Route
-                path="/admin/approvals"
-                element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminApprovalsPage />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
+                {/* Protected admin routes */}
+                <Route
+                  path="/admin/approvals"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminApprovalsPage />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </Suspense>
           </Shell>
         </ToastProvider>
       </AuthProvider>

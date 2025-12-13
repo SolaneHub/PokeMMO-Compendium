@@ -33,7 +33,6 @@ export function useEditorData() {
           if (defaultFile) setSelectedFileName(defaultFile);
         }
       } catch (err) {
-        console.error(err);
         setServerError("Error: Ensure the server (port 3001) is active.");
       }
     }
@@ -53,7 +52,6 @@ export function useEditorData() {
         const data = await res.json();
         if (!ignore) setFileData(data);
       } catch (err) {
-        console.error(err);
         if (!ignore) showToast("Error loading file.", "error");
       } finally {
         if (!ignore) setLoading(false);
@@ -83,7 +81,6 @@ export function useEditorData() {
           showToast("❌ Server error during save.", "error");
         }
       } catch (err) {
-        console.error(err);
         showToast("❌ Connection error.", "error");
       }
     });
