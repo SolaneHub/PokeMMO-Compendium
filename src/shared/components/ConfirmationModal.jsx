@@ -21,7 +21,7 @@ export const ConfirmationProvider = ({ children }) => {
     ) => {
       return new Promise((resolve) => {
         if (resolveRef.current) {
-          console.warn('Confirmation already pending');
+          console.warn("Confirmation already pending");
           resolve(false); // Auto-reject new request
           return;
         }
