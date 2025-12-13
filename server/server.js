@@ -10,10 +10,12 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
 // CSP Middleware
+// NOTE: This header applies only to local dev-server API responses.
+// It does not protect the production SPA on GitHub Pages (requires HTML meta or hosting config).
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; script-src 'self' https://apis.google.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com"
+    "default-src 'self'; script-src 'self' https://apis.google.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://firestore.googleapis.com https://*.googleapis.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
   );
   next();
 });
