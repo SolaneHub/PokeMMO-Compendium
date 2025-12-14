@@ -16,7 +16,7 @@ const RaidBuildsTab = ({
           </h3>
           {buildGroups ? (
             <>
-              <div className="mb-5 flex flex-wrap gap-2">
+              <div className="mb-3 flex flex-wrap gap-2">
                 {Object.keys(buildGroups)
                   .sort()
                   .map((groupName) => (

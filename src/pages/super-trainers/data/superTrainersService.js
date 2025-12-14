@@ -37,7 +37,7 @@ export const getPokemonListForTeam = (name, region, teamName) => {
   if (!trainer || !trainer.teams || !teamName) return [];
 
   const team = trainer.teams[teamName];
-  return team ? team.pokemonNames : [];
+  return team && team.pokemonNames ? team.pokemonNames : [];
 };
 
 export const getPokemonStrategy = (name, region, teamName, pokemonName) => {
