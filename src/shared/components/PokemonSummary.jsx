@@ -241,30 +241,36 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                 Base Stats
               </h4>
               {pokemon.baseStats &&
-                Object.entries(pokemon.baseStats).map(([key, val]) => (
-                  <div key={key} className="mb-1 flex items-center">
-                    <span className="w-10 text-xs font-bold text-slate-400 uppercase">
-                      {key}
-                    </span>
-                    <span className="mr-2.5 w-9 text-right text-sm font-bold text-white">
-                      {val}
-                    </span>
-                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-900">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${Math.min((val / 255) * 100, 100)}%`,
-                          background:
-                            val > 100
-                              ? "#00b894"
-                              : val > 60
-                                ? "#007bff"
-                                : "#ff7675",
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
+                ((statOrder) => {
+                  return statOrder.map((key) => {
+                    const val = pokemon.baseStats[key];
+                    if (val === undefined) return null; // Skip if stat doesn't exist
+                    return (
+                      <div key={key} className="mb-1 flex items-center">
+                        <span className="w-10 text-xs font-bold text-slate-400 uppercase">
+                          {key}
+                        </span>
+                        <span className="mr-2.5 w-9 text-right text-sm font-bold text-white">
+                          {val}
+                        </span>
+                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-900">
+                          <div
+                            className="h-full rounded-full"
+                            style={{
+                              width: `${Math.min((val / 255) * 100, 100)}%`,
+                              background:
+                                val > 100
+                                  ? "#00b894"
+                                  : val > 60
+                                    ? "#007bff"
+                                    : "#ff7675",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    );
+                  });
+                })(["hp", "atk", "def", "spa", "spd", "spe"])}
             </div>
 
             <div className="mt-5 flex flex-col gap-2.5">

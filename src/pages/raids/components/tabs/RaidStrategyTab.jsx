@@ -40,12 +40,12 @@ const RaidStrategyTab = ({
 
       <section className="rounded-lg bg-neutral-800 p-3">
         {rolesSource && roleOptions.length > 0 ? (
-          <div className="flex flex-col gap-3">
-            <h3 className="text-xs font-bold tracking-widest text-slate-200 uppercase">
+          <div className="flex flex-col">
+            <h3 className="mb-3 text-xs font-bold tracking-widest text-slate-200 uppercase">
               Player Roles
             </h3>
 
-            <div className="mb-2 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 mb-3">
               {roleOptions.map((roleKey) => (
                 <button
                   key={roleKey}

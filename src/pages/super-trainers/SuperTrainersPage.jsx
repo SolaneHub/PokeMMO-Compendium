@@ -37,17 +37,23 @@ function SuperTrainersPage() {
     trainerRegion,
     teamName
   ) => {
-    setSelectedPokemon(pokemonName);
-    setIsPokemonDetailsVisible(true);
-
     const strategy = getPokemonStrategy(
       trainerName,
       trainerRegion,
       teamName,
       pokemonName
     );
-    setCurrentStrategyView(strategy);
-    setStrategyHistory([]);
+
+    if (strategy && strategy.length > 0) {
+      setSelectedPokemon(pokemonName);
+      setIsPokemonDetailsVisible(true);
+      setCurrentStrategyView(strategy);
+      setStrategyHistory([]);
+    } else {
+      // Optionally, show a toast notification or some other feedback
+      // that no strategy is available. For now, simply do nothing.
+      setIsPokemonDetailsVisible(false); // Ensure modal is closed if no strategy
+    }
   };
 
   const handleStepClick = (item) => {
@@ -103,7 +109,7 @@ function SuperTrainersPage() {
       </div>
 
       {/* Strategy Modal */}
-      {isPokemonDetailsVisible && currentPokemonObject && (
+      {isPokemonDetailsVisible && currentPokemonObject && currentPokemonObject.id !== null && (
         <StrategyModal
           currentPokemonObject={currentPokemonObject}
           detailsTitleBackground={detailsTitleBackground}
