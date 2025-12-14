@@ -32,7 +32,7 @@ function Shell({ children, noPadding }) {
 
         {/* Scrollable Content */}
         <main className={mainClasses}>
-          <div className="mx-auto h-full max-w-7xl animate-[fade-in_0.3s_ease-out]">
+          <div className="h-full animate-[fade-in_0.3s_ease-out]">
             {children}
           </div>
         </main>
