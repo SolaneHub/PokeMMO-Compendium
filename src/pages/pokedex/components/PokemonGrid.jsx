@@ -35,9 +35,9 @@ const PokemonGrid = ({ pokemonList, selectedPokemon, onSelectPokemon }) => {
     return () => {
       if (current) observer.unobserve(current);
     };
-  }, [pokemonList, pokemonList?.length]);
+  }, [pokemonList]);
 
-  if (pokemonList.length === 0) {
+  if (!pokemonList || pokemonList.length === 0) {
     return (
       <p className="mt-10 text-center text-xl text-slate-400">
         No Pokémon found.
