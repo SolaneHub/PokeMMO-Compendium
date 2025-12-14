@@ -12,6 +12,7 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 
 function BossFightsPage() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -19,13 +20,15 @@ function BossFightsPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
+  const { pokemonMap, isLoading } = usePokedexData(); // Destructure pokemonMap and isLoading
+
   const allBossFights = getAllBossFights();
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon)
+    ? getPokemonByName(selectedPokemon, pokemonMap) // Pass pokemonMap
     : null;
   const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon)
+    ? getPokemonBackground(selectedPokemon, pokemonMap) // Pass pokemonMap
     : "#333";
 
   const handlePokemonCardClick = (
@@ -62,6 +65,15 @@ function BossFightsPage() {
     }
   };
 
+  if (isLoading) {
+    // Handle loading state
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        <p>Loading Boss Fights data...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-7xl space-y-8 pb-24">
       <PageTitle title="PokéMMO Compendium: Boss Fights" />
@@ -84,6 +96,7 @@ function BossFightsPage() {
             bossFight={bossFight}
             onPokemonCardClick={handlePokemonCardClick}
             selectedPokemon={selectedPokemon}
+            pokemonMap={pokemonMap} // Pass pokemonMap
           />
         ))}
       </div>

@@ -1,8 +1,8 @@
-import pokedex from "@/data/pokedex.json";
 import {
   generateDualTypeGradient,
   typeBackgrounds,
 } from "@/shared/utils/pokemonColors";
+// Removed: import { getAllPokemon } from "@/pages/pokedex/data/pokemonService";
 
 export const moveTypeMap = {
   Explosion: "Normal",
@@ -68,20 +68,29 @@ export const moveTypeMap = {
 
 export const pokemonColorMap = {};
 
-pokedex.forEach((pokemon) => {
-  const types = pokemon.types || [];
-
-  if (types.length >= 2) {
-    pokemonColorMap[pokemon.name] = generateDualTypeGradient(
-      types[0],
-      types[1]
-    );
-  } else if (types.length === 1) {
-    pokemonColorMap[pokemon.name] = typeBackgrounds[types[0]] || "#999999";
-  } else {
-    pokemonColorMap[pokemon.name] = "#999999";
+// Function to populate pokemonColorMap, now accepts pokedexData
+export function initializePokemonColorMap(pokedexData) {
+  if (!pokedexData || pokedexData.length === 0) {
+    console.warn("No Pokedex data provided for initializing pokemonColorMap.");
+    return;
   }
-});
+  pokedexData.forEach((pokemon) => {
+    const types = pokemon.types || [];
+
+    if (types.length >= 2) {
+      pokemonColorMap[pokemon.name] = generateDualTypeGradient(
+        types[0],
+        types[1]
+      );
+    } else if (types.length === 1) {
+      pokemonColorMap[pokemon.name] = typeBackgrounds[types[0]] || "#999999";
+    } else {
+      pokemonColorMap[pokemon.name] = "#999999";
+    }
+  });
+}
+
+// Removed the immediate call to initializePokemonColorMap()
 
 export const getMoveGradient = (moveName) => {
   const moveType = moveTypeMap[moveName];
@@ -104,7 +113,7 @@ export const colorTextElements = (text) => {
     (a, b) => b.length - a.length
   );
   moveNames.forEach((move) => {
-    const regex = new RegExp(`\\b${move}\\b`, "gi");
+    const regex = new RegExp(`\b${move}\b`, "gi");
     const gradient = getMoveGradient(move);
 
     result = result.replace(
@@ -118,7 +127,7 @@ export const colorTextElements = (text) => {
     (a, b) => b.length - a.length
   );
   pokemonNames.forEach((pokemon) => {
-    const regex = new RegExp(`\\b${pokemon}\\b`, "gi");
+    const regex = new RegExp(`\b${pokemon}\b`, "gi");
     const gradient = pokemonColorMap[pokemon];
 
     result = result.replace(

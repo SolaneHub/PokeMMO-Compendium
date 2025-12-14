@@ -1,60 +1,46 @@
 import { Activity, Fragment, useEffect, useState } from "react";
 
-import { getPokemonFullDetails } from "@/pages/pokedex/data/pokemonService";
-import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
+import {
+  getPokemonBackground,
+  getPokemonCardData,
+  getPokemonVariants,
+} from "@/shared/utils/pokemonHelpers";
 import { calculateDefenses } from "@/shared/utils/typeUtils";
-
-const initialLoadingState = { name: null, id: null };
 
 const getTypePillStyle = (typeName) => {
   const backgroundStyle = typeBackgrounds[typeName] || typeBackgrounds[""];
   return { background: backgroundStyle };
 };
 
-const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
-  const [prevName, setPrevName] = useState(pokemonName);
+const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
   const [activeTab, setActiveTab] = useState("Overview");
-  const [pokemonData, setPokemonData] = useState(initialLoadingState);
   const [moveSearch, setMoveSearch] = useState("");
-
-  if (pokemonName !== prevName) {
-    setPrevName(pokemonName);
-    setActiveTab("Overview");
-    setMoveSearch("");
-    setPokemonData(initialLoadingState);
-  }
-
-  const tabs = ["Overview", "Stats", "Moves", "Locations", "Evolutions"];
-
-  useEffect(() => {
-    if (!pokemonName) return;
-
-    const timer = setTimeout(() => {
-      const data = getPokemonFullDetails(pokemonName);
-      setPokemonData(data);
-    }, 50);
-
-    return () => clearTimeout(timer);
-  }, [pokemonName]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = "auto";
     };
   }, []);
 
-  const defenses =
-    pokemonData && pokemonData.types
-      ? calculateDefenses(pokemonData.types)
-      : null;
+  if (!pokemon) return null;
+
+  // Prepare data
+  const background = getPokemonBackground(pokemon);
+  const cardData = getPokemonCardData(pokemon);
+  const sprite = cardData.sprite;
+
+  const variants = getPokemonVariants(pokemon.name, allPokemon).filter(
+    (v) => v !== pokemon.name
+  );
+
+  const defenses = pokemon.types ? calculateDefenses(pokemon.types) : null;
 
   const filteredMoves = (() => {
-    if (!pokemonData || !pokemonData.moves) return [];
-    if (!moveSearch) return pokemonData.moves;
-    return pokemonData.moves.filter((m) =>
+    if (!pokemon.moves) return [];
+    if (!moveSearch) return pokemon.moves;
+    return pokemon.moves.filter((m) =>
       m.name.toLowerCase().includes(moveSearch.toLowerCase())
     );
   })();
@@ -73,52 +59,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
     return "???";
   };
 
-  if (pokemonData.name === null) {
-    return (
-      <div
-        className="fixed inset-0 z-[2000] flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
-        onClick={onClose}
-      >
-        <div
-          className="relative flex h-[85vh] w-full max-w-[480px] animate-[scale-in_0.4s_ease-out_forwards] items-center justify-center rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <p className="animate-pulse text-center text-blue-400">
-            Loading details for {pokemonName}...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (pokemonData.id === null) {
-    return (
-      <div
-        className="fixed inset-0 z-[2000] flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
-        onClick={onClose}
-      >
-        <div
-          className="relative flex h-[85vh] w-full max-w-[480px] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="z-10 flex items-center justify-between bg-slate-700 p-4 text-white shadow-sm">
-            <h2 className="text-xl font-bold">Pokémon Not Available</h2>
-            <button
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white transition-colors hover:bg-black/50"
-              onClick={onClose}
-            >
-              ×
-            </button>
-          </div>
-          <div className="flex flex-1 flex-col items-center justify-center p-8 text-center text-slate-400">
-            <p className="text-lg">
-              Full details for **{pokemonData.name}** are not available yet.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const tabs = ["Overview", "Stats", "Moves", "Locations", "Evolutions"];
 
   return (
     <div
@@ -132,13 +73,13 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
         {/* Header */}
         <div
           className="z-10 flex shrink-0 items-center justify-between p-4 text-white shadow-md"
-          style={{ background: pokemonData.background }}
+          style={{ background }}
         >
           <h2 className="flex items-center gap-2 text-xl font-bold drop-shadow-md">
             <span className="rounded-md bg-black/30 px-2 py-1 font-mono text-sm">
-              {formatPokedexId(pokemonData.id)}
+              {formatPokedexId(pokemon.id)}
             </span>
-            {pokemonData.name}
+            {pokemon.name}
           </h2>
           <button
             className="flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-2xl text-white transition-colors hover:bg-black/50"
@@ -155,12 +96,12 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           </button>
           <img
             className="mb-4 h-40 w-40 animate-[float_6s_infinite] object-contain drop-shadow-xl"
-            src={pokemonData.sprite}
-            alt={pokemonData.name}
+            src={sprite}
+            alt={pokemon.name}
           />
           <div className="flex flex-col items-center gap-2">
             <div className="flex gap-2">
-              {pokemonData.types.map((t) => (
+              {pokemon.types?.map((t) => (
                 <span
                   key={t}
                   className="rounded-full px-4 py-1.5 text-xs font-bold tracking-wide text-white uppercase shadow-sm"
@@ -171,7 +112,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
               ))}
             </div>
             <span className="text-sm font-medium text-slate-400 italic">
-              {pokemonData.category}
+              {pokemon.category}
             </span>
           </div>
         </div>
@@ -198,7 +139,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
           <Activity mode={activeTab === "Overview" ? "visible" : "hidden"}>
             <div className="flex flex-col gap-2.5">
               <p className="m-0 rounded-lg border-l-4 border-blue-500 bg-slate-700 p-3 text-sm leading-relaxed text-slate-200 italic">
-                {pokemonData.description}
+                {pokemon.description}
               </p>
             </div>
 
@@ -207,7 +148,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                 Abilities
               </h4>
               <div className="flex gap-2.5">
-                {pokemonData.abilities.main.map((a) => (
+                {pokemon.abilities?.main?.map((a) => (
                   <div
                     key={a}
                     className="flex-1 rounded-md border border-slate-700 bg-neutral-900 p-2 text-center text-sm text-slate-200"
@@ -215,9 +156,9 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                     {a}
                   </div>
                 ))}
-                {pokemonData.abilities.hidden && (
+                {pokemon.abilities?.hidden && (
                   <div className="flex-1 rounded-md border border-red-500/50 bg-red-900/10 p-2 text-center text-sm text-slate-200">
-                    {pokemonData.abilities.hidden}{" "}
+                    {pokemon.abilities.hidden}{" "}
                     <small className="mt-0.5 block text-[10px] text-slate-500">
                       Hidden
                     </small>
@@ -231,11 +172,11 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                 Breeding & Size
               </h4>
               <div className="grid grid-cols-2 gap-2">
-                <InfoCard label="Height" value={pokemonData.height} />
-                <InfoCard label="Weight" value={pokemonData.weight} />
+                <InfoCard label="Height" value={pokemon.height} />
+                <InfoCard label="Weight" value={pokemon.weight} />
                 <InfoCard
                   label="Egg Group"
-                  value={pokemonData.eggGroups.join(", ")}
+                  value={pokemon.eggGroups?.join(", ")}
                 />
                 <div className="flex flex-col justify-center rounded-lg border border-slate-600 bg-slate-700 p-2.5">
                   <span className="mb-1 text-[10px] font-bold text-slate-400 uppercase">
@@ -243,10 +184,10 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                   </span>
                   <span className="flex gap-2 text-sm font-semibold text-white">
                     <span className="text-blue-400">
-                      {pokemonData.genderRatio.m}% ♂
+                      {pokemon.genderRatio?.m}% ♂
                     </span>
                     <span className="text-orange-400">
-                      {pokemonData.genderRatio.f}% ♀
+                      {pokemon.genderRatio?.f}% ♀
                     </span>
                   </span>
                 </div>
@@ -258,12 +199,12 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                 Training
               </h4>
               <div className="grid grid-cols-2 gap-2">
-                <InfoCard label="Catch Rate" value={pokemonData.catchRate} />
-                <InfoCard label="Base Exp" value={pokemonData.baseExp} />
-                <InfoCard label="Growth Rate" value={pokemonData.growthRate} />
+                <InfoCard label="Catch Rate" value={pokemon.catchRate} />
+                <InfoCard label="Base Exp" value={pokemon.baseExp} />
+                <InfoCard label="Growth Rate" value={pokemon.growthRate} />
                 <InfoCard
                   label="EV Yield"
-                  value={pokemonData.evYield}
+                  value={pokemon.evYield}
                   valueClass="text-yellow-200"
                 />
               </div>
@@ -271,25 +212,23 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
 
             <div className="flex flex-col gap-2.5">
               <div className="grid grid-cols-2 gap-2">
-                {/* Held Item - Modified to match PvP Tier style */}
                 <div className="col-span-2 flex flex-row items-center justify-between rounded-lg border border-slate-600 bg-slate-700 p-2.5">
                   <span className="text-[10px] font-bold text-slate-400 uppercase">
                     Held Item
                   </span>
                   <span className="rounded bg-blue-500/10 px-2 py-0.5 text-sm font-bold text-blue-400">
-                    {Array.isArray(pokemonData.heldItems) &&
-                    pokemonData.heldItems.length > 0
-                      ? pokemonData.heldItems.join(", ")
+                    {Array.isArray(pokemon.heldItems) &&
+                    pokemon.heldItems.length > 0
+                      ? pokemon.heldItems.join(", ")
                       : "None"}
                   </span>
                 </div>
-                {/* PvP Tier - Original */}
                 <div className="col-span-2 flex flex-row items-center justify-between rounded-lg border border-slate-600 bg-slate-700 p-2.5">
                   <span className="text-[10px] font-bold text-slate-400 uppercase">
                     PvP Tier
                   </span>
                   <span className="rounded bg-blue-500/10 px-2 py-0.5 text-sm font-bold text-blue-400">
-                    {pokemonData.tier}
+                    {pokemon.tier}
                   </span>
                 </div>
               </div>
@@ -301,30 +240,31 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
               <h4 className="border-b border-slate-700 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
                 Base Stats
               </h4>
-              {Object.entries(pokemonData.baseStats).map(([key, val]) => (
-                <div key={key} className="mb-1 flex items-center">
-                  <span className="w-10 text-xs font-bold text-slate-400 uppercase">
-                    {key}
-                  </span>
-                  <span className="mr-2.5 w-9 text-right text-sm font-bold text-white">
-                    {val}
-                  </span>
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-900">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${Math.min((val / 255) * 100, 100)}%`,
-                        background:
-                          val > 100
-                            ? "#00b894"
-                            : val > 60
-                              ? "#007bff"
-                              : "#ff7675",
-                      }}
-                    ></div>
+              {pokemon.baseStats &&
+                Object.entries(pokemon.baseStats).map(([key, val]) => (
+                  <div key={key} className="mb-1 flex items-center">
+                    <span className="w-10 text-xs font-bold text-slate-400 uppercase">
+                      {key}
+                    </span>
+                    <span className="mr-2.5 w-9 text-right text-sm font-bold text-white">
+                      {val}
+                    </span>
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-900">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${Math.min((val / 255) * 100, 100)}%`,
+                          background:
+                            val > 100
+                              ? "#00b894"
+                              : val > 60
+                                ? "#007bff"
+                                : "#ff7675",
+                        }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
 
             <div className="mt-5 flex flex-col gap-2.5">
@@ -412,7 +352,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                           {move.name}
                         </span>
                         <span
-                          className={`text-[10px] font-bold uppercase opacity-80 type-text-${move.type.toLowerCase()}`}
+                          className={`text-[10px] font-bold uppercase opacity-80 type-text-${move.type?.toLowerCase()}`}
                         >
                           {move.type}
                         </span>
@@ -427,7 +367,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                                 : "bg-neutral-400"
                           }`}
                         >
-                          {move.cat.substring(0, 4)}
+                          {move.cat?.substring(0, 4)}
                         </span>
                       </div>
                       <div className="w-10 text-center text-sm text-slate-300">
@@ -452,7 +392,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
               <h4 className="border-b border-slate-700 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
                 Wild Locations
               </h4>
-              {pokemonData.locations.length > 0 ? (
+              {pokemon.locations && pokemon.locations.length > 0 ? (
                 <div className="flex flex-col overflow-hidden rounded-lg border border-slate-700 bg-neutral-800">
                   <div className="flex border-b border-slate-700 bg-slate-700 p-2.5 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
                     <span className="w-[70px] text-center">Method</span>
@@ -461,7 +401,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                     <span className="w-[70px] text-center">Levels</span>
                     <span className="w-[70px] text-center">Rarity</span>
                   </div>
-                  {pokemonData.locations.map((loc, i) => (
+                  {pokemon.locations.map((loc, i) => (
                     <div
                       key={i}
                       className="flex items-center border-b border-slate-700/50 p-2 transition-colors last:border-b-0 hover:bg-slate-700/50"
@@ -494,19 +434,25 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
 
           <Activity mode={activeTab === "Evolutions" ? "visible" : "hidden"}>
             <div className="flex flex-col gap-5">
-              {pokemonData.variants.length > 0 && (
+              {variants.length > 0 && (
                 <div className="flex flex-col gap-2.5">
                   <h4 className="border-b border-slate-700 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
                     Alternative Forms
                   </h4>
                   <div className="scrollbar-thin scrollbar-thumb-slate-700 flex items-center gap-0.5 overflow-x-auto rounded-lg border border-slate-700 bg-neutral-900 p-4">
-                    {pokemonData.variants.map((variantName) => {
-                      const variantCardData = getPokemonCardData(variantName);
+                    {variants.map((variantName) => {
+                      // Lookup variant in allPokemon
+                      const variantObj = allPokemon.find(
+                        (p) => p.name === variantName
+                      );
+                      const variantCardData = getPokemonCardData(variantObj);
+                      if (!variantObj) return null;
+
                       return (
                         <div
                           key={variantName}
                           className="flex min-w-[80px] flex-1 cursor-pointer flex-col items-center justify-center rounded-lg border border-transparent p-1.5 transition-all hover:-translate-y-0.5 hover:border-blue-500 hover:bg-slate-700"
-                          onClick={() => onSelectPokemon(variantName)}
+                          onClick={() => onSelectPokemon(variantObj)}
                         >
                           <div className="mb-1.5 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-800 bg-black/20">
                             <img
@@ -532,15 +478,19 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                 <h4 className="border-b border-slate-700 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
                   Evolution Tree
                 </h4>
-                {pokemonData.evolutions.length > 0 ? (
+                {pokemon.evolutions && pokemon.evolutions.length > 0 ? (
                   <div className="scrollbar-thin scrollbar-thumb-slate-700 flex items-center justify-center gap-0.5 overflow-x-auto rounded-lg border border-slate-700 bg-neutral-900 p-4">
-                    {pokemonData.evolutions.map((evo, index) => {
-                      const evoCardData = getPokemonCardData(evo.name);
+                    {pokemon.evolutions.map((evo, index) => {
+                      const evoObj = allPokemon.find(
+                        (p) => p.name === evo.name
+                      );
+                      const evoCardData = getPokemonCardData(evoObj);
+
                       return (
                         <Fragment key={evo.name}>
                           <div
                             className="flex min-w-[80px] flex-1 cursor-pointer flex-col items-center justify-center rounded-lg border border-transparent p-1.5 transition-all hover:-translate-y-0.5 hover:border-blue-500 hover:bg-slate-700"
-                            onClick={() => onSelectPokemon(evo.name)}
+                            onClick={() => evoObj && onSelectPokemon(evoObj)}
                           >
                             <div className="mb-1.5 flex h-16 w-16 items-center justify-center rounded-full border border-neutral-800 bg-black/20">
                               <img
@@ -556,7 +506,7 @@ const PokemonSummary = ({ pokemonName, onClose, onSelectPokemon }) => {
                               {evo.level}
                             </span>
                           </div>
-                          {index < pokemonData.evolutions.length - 1 && (
+                          {index < pokemon.evolutions.length - 1 && (
                             <div className="mx-0.5 shrink-0 text-lg font-bold text-blue-500 opacity-80">
                               ➜
                             </div>

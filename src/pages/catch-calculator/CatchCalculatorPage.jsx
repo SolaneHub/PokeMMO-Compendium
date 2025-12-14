@@ -11,28 +11,47 @@ import { useCatchProbability } from "@/pages/catch-calculator/hooks/useCatchProb
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 import PageTitle from "@/shared/components/PageTitle";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
+import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 const CatchCalculatorPage = () => {
-  const { allPokemonData } = usePokedexData();
+  const { allPokemonData, pokemonMap, isLoading } = usePokedexData();
 
-  // -- State --
-  const [targetHpPercentage, setTargetHpPercentage] = useState(100);
-  const [statusCondition, setStatusCondition] = useState("None");
-  const [ballType, setBallType] = useState("Poké Ball");
-  const [dreamBallTurns, setDreamBallTurns] = useState(0);
-  const [targetLevel, setTargetLevel] = useState(50);
-  const [turnsPassed, setTurnsPassed] = useState(1);
-  const [repeatBallCaptures, setRepeatBallCaptures] = useState(0);
+  // -- State (Persisted) --
+  const [targetHpPercentage, setTargetHpPercentage] = usePersistentState(
+    "calc_hp",
+    100
+  );
+  const [statusCondition, setStatusCondition] = usePersistentState(
+    "calc_status",
+    "None"
+  );
+  const [ballType, setBallType] = usePersistentState("calc_ball", "Poké Ball");
+  const [dreamBallTurns, setDreamBallTurns] = usePersistentState(
+    "calc_dream_turns",
+    0
+  );
+  const [targetLevel, setTargetLevel] = usePersistentState("calc_level", 50);
+  const [turnsPassed, setTurnsPassed] = usePersistentState("calc_turns", 1);
+  const [repeatBallCaptures, setRepeatBallCaptures] = usePersistentState(
+    "calc_repeat_captures",
+    0
+  );
+  const [selectedPokemonName, setSelectedPokemonName] = usePersistentState(
+    "calc_pokemon",
+    ""
+  );
 
-  // Search State
+  // Initialize pokemon name if empty and data available
+  useEffect(() => {
+    if (!selectedPokemonName && allPokemonData && allPokemonData.length > 0) {
+      setSelectedPokemonName(allPokemonData[0].name);
+    }
+  }, [allPokemonData, selectedPokemonName, setSelectedPokemonName]);
+
+  // Search State (Ephemeral)
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
   const [isPending, startTransition] = useTransition();
-  const [selectedPokemonName, setSelectedPokemonName] = useState(() => {
-    return allPokemonData && allPokemonData.length > 0
-      ? allPokemonData[0].name
-      : "";
-  });
 
   // Ref for Pokemon Search
   const searchRef = useRef(null);
@@ -50,18 +69,20 @@ const CatchCalculatorPage = () => {
 
   // -- Derived Data --
   const filteredPokemon = (() => {
-    if (!allPokemonData) return [];
+    if (isLoading) return []; // Handle loading state
     if (!deferredSearchTerm) return allPokemonData;
     return allPokemonData.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
     );
   })();
 
-  const selectedPokemon = allPokemonData?.find(
-    (p) => p.name === selectedPokemonName
-  );
+  const selectedPokemon = pokemonMap.get(selectedPokemonName); // Use pokemonMap
   const baseCatchRate = selectedPokemon ? selectedPokemon.catchRate : 0;
-  const { sprite, background } = getPokemonCardData(selectedPokemonName);
+  // Pass pokemonMap to getPokemonCardData
+  const { sprite, background } = getPokemonCardData(
+    selectedPokemonName,
+    pokemonMap
+  );
 
   const catchProbability = useCatchProbability({
     selectedPokemon,
@@ -73,6 +94,15 @@ const CatchCalculatorPage = () => {
     turnsPassed,
     repeatBallCaptures,
   });
+
+  // Add loading indicator
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        <p>Loading Pokémon data...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full pb-20">
@@ -324,26 +354,19 @@ const CatchCalculatorPage = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-1 rounded-lg border border-slate-700 bg-[#15161a] p-1">
-                  <button
-                    onClick={() => setTurnsPassed(1)}
-                    className={`rounded py-1.5 text-xs font-bold transition-all ${
-                      turnsPassed === 1
-                        ? "bg-blue-600 text-white shadow-sm"
-                        : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
-                    } `}
-                  >
-                    First Turn
-                  </button>
-                  <button
-                    onClick={() => setTurnsPassed(2)}
-                    className={`rounded py-1.5 text-xs font-bold transition-all ${
-                      turnsPassed !== 1
-                        ? "bg-blue-600 text-white shadow-sm"
-                        : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
-                    } `}
-                  >
-                    Later Turns
-                  </button>
+                  {[0, 1, 2].map((turn) => (
+                    <button
+                      key={turn}
+                      onClick={() => setTurnsPassed(turn)}
+                      className={`rounded py-1.5 text-xs font-bold transition-all ${
+                        turnsPassed === turn
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+                      } `}
+                    >
+                      {turn === 1 ? "First Turn" : "Later Turns"}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}

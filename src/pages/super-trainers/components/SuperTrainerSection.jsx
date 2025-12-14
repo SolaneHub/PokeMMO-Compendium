@@ -12,6 +12,7 @@ const SuperTrainerSection = ({
   trainer,
   onPokemonCardClick,
   selectedPokemon,
+  pokemonMap, // Accept pokemonMap as a prop
 }) => {
   const [activeTeam, setActiveTeam] = useState(
     Object.keys(trainer.teams || {})[0]
@@ -82,8 +83,10 @@ const SuperTrainerSection = ({
               </h3>
               <div className="flex flex-wrap justify-center gap-4">
                 {pokemonNamesForSelectedTeam.map((pokemonName) => {
-                  const { sprite, background } =
-                    getPokemonCardData(pokemonName);
+                  const { sprite, background } = getPokemonCardData(
+                    pokemonName,
+                    pokemonMap
+                  ); // Pass pokemonMap
                   return (
                     <PokemonCard
                       key={pokemonName}

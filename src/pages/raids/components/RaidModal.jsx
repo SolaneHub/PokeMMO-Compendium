@@ -12,7 +12,8 @@ import RaidLocationsTab from "./tabs/RaidLocationsTab";
 import RaidMechanicsTab from "./tabs/RaidMechanicsTab";
 import RaidStrategyTab from "./tabs/RaidStrategyTab";
 
-const RaidModal = ({ raidName, onClose }) => {
+const RaidModal = ({ raidName, onClose, pokemonMap }) => {
+  // Accept pokemonMap here
   const [activeTab, setActiveTab] = useState("Strategy");
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedTurnIndex, setSelectedTurnIndex] = useState(0);
@@ -27,7 +28,7 @@ const RaidModal = ({ raidName, onClose }) => {
   const rolesSource = activeTeamStrategy?.roles || null;
   const recommendedList = activeTeamStrategy?.recommended || [];
   const detailsTitleBackground = currentRaid
-    ? getPokemonBackground(currentRaid.name)
+    ? getPokemonBackground(currentRaid.name, pokemonMap) // Pass pokemonMap
     : typeBackgrounds[""];
 
   const buildGroups = (() => {
@@ -143,6 +144,7 @@ const RaidModal = ({ raidName, onClose }) => {
               buildGroups={buildGroups}
               effectiveBuildGroupKey={effectiveBuildGroupKey}
               setSelectedBuildGroup={setSelectedBuildGroup}
+              pokemonMap={pokemonMap} // Pass pokemonMap
             />
           </Activity>
 

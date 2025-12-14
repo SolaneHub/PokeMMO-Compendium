@@ -16,6 +16,7 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 import { logger } from "@/shared/utils/logger";
 
 function EliteFourPage() {
@@ -34,6 +35,7 @@ function EliteFourPage() {
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [isTeamBuildVisible, setIsTeamBuildVisible] = useState(false);
 
+  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData(); // Destructure pokemonMap and isLoading
   const {
     currentStrategyView,
     strategyHistory,
@@ -99,11 +101,11 @@ function EliteFourPage() {
   }, [selectedMember, currentTeamData]);
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon)
+    ? getPokemonByName(selectedPokemon, pokemonMap) // Pass pokemonMap
     : null;
 
   const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon)
+    ? getPokemonBackground(selectedPokemon, pokemonMap) // Pass pokemonMap
     : "#333";
 
   // Actions
@@ -151,6 +153,15 @@ function EliteFourPage() {
 
     initializeStrategy(strategy);
   };
+
+  if (isLoadingPokedex) {
+    // Handle loading state for Pokedex data
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        <p>Loading Pokedex data...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-7xl space-y-8 pb-24">
@@ -212,6 +223,7 @@ function EliteFourPage() {
           pokemonNames={pokemonNamesForSelectedTeam}
           selectedPokemon={selectedPokemon}
           onPokemonClick={handlePokemonCardClick}
+          pokemonMap={pokemonMap} // Pass pokemonMap
         />
       )}
 
@@ -220,6 +232,7 @@ function EliteFourPage() {
           teamName={currentTeamData?.name || "Team"}
           builds={currentTeamBuilds}
           onClose={() => setIsTeamBuildVisible(false)}
+          pokemonMap={pokemonMap} // Pass pokemonMap
         />
       )}
 
