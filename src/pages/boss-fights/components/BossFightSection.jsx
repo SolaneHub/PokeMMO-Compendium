@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import {
-  getPokemonListForBossFight,
+  getPokemonListForTeam,
   getTeamNamesForBossFight,
 } from "@/pages/boss-fights/data/bossFightsService";
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
@@ -18,7 +18,7 @@ const BossFightSection = ({
     Object.keys(bossFight.teams || {})[0] ?? null
   );
   const teamNames = getTeamNamesForBossFight(bossFight.name, bossFight.region);
-  const pokemonNamesForSelectedTeam = getPokemonListForBossFight(
+  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
     bossFight.name,
     bossFight.region,
     activeTeam
