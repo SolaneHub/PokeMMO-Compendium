@@ -149,7 +149,7 @@ const CatchCalculatorPage = () => {
                   isPending ? "opacity-50" : "opacity-100"
                 }`}
               >
-                {filteredPokemon.slice(0, 50).map((p) => (
+                {filteredPokemon.map((p) => (
                   <button
                     key={p.name}
                     onClick={() => {
