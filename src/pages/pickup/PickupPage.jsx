@@ -7,10 +7,22 @@ import PickupInfoSection from "@/pages/pickup/components/PickupInfoSection";
 import PickupRegionSection from "@/pages/pickup/components/PickupRegionSection";
 import { pickupPokemonBuilds } from "@/pages/pickup/data/pickupBuilds";
 import PageTitle from "@/shared/components/PageTitle";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 
 function PickupPage() {
   const [isPickupPokemonModalOpen, setIsPickupPokemonModalOpen] =
     useState(false);
+
+  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData(); // Destructure pokemonMap and isLoading
+
+  if (isLoadingPokedex) {
+    // Handle loading state for Pokedex data
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        <p>Loading Pokedex data...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto space-y-8 pb-24">
@@ -37,11 +49,12 @@ function PickupPage() {
         ))}
       </div>
 
-      {isPickupPokemonModalOpen && (
+      {isPickupPokemonModalOpen && pokemonMap && (
         <TeamBuildModal
           teamName="Pickup Pokémon"
           builds={pickupPokemonBuilds}
           onClose={() => setIsPickupPokemonModalOpen(false)}
+          pokemonMap={pokemonMap} // Pass pokemonMap
         />
       )}
     </div>
