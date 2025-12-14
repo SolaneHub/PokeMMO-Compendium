@@ -71,7 +71,10 @@ const EditorSidebar = ({
                     ? "bg-blue-600 text-white shadow-lg"
                     : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
                 }`}
-                onClick={() => onSelectPokedex(true)}
+                onClick={() => {
+                  onSelectFile(null);
+                  onSelectPokedex(true);
+                }}
               >
                 <FaBook className="text-xl" />
                 Pokedex
@@ -88,7 +91,10 @@ const EditorSidebar = ({
                         ? "bg-blue-600 text-white shadow-lg"
                         : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
                     }`}
-                    onClick={() => onSelectFile(item.fileName)}
+                    onClick={() => {
+                      onSelectPokedex(false);
+                      onSelectFile(item.fileName);
+                    }}
                   >
                     {item.icon}
                     {item.label}
@@ -109,7 +115,10 @@ const EditorSidebar = ({
                         ? "bg-blue-600 text-white shadow-lg"
                         : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
                     }`}
-                    onClick={() => onSelectFile(file)}
+                    onClick={() => {
+                      onSelectPokedex(false);
+                      onSelectFile(file);
+                    }}
                   >
                     <FaList className="text-xl" />
                     {file.replace(".json", "")} (Universal)

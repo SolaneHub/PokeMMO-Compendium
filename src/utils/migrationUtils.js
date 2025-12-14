@@ -65,17 +65,24 @@ export async function migratePokedexToFirestore(sourcePokedexData) {
       const chunk = chunks[i];
       const batch = writeBatch(db);
 
+      let chunkMigrated = 0;
       chunk.forEach((pokemon) => {
         if (pokemon.id) {
           const docRef = doc(db, "pokedex", pokemon.id.toString());
           // Remove any undefined values as Firestore doesn't like them
           const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
           batch.set(docRef, cleanPokemon);
+          chunkMigrated++;
+        } else {
+          console.warn(
+            "Pokémon senza ID trovato durante la migrazione, saltato:",
+            pokemon
+          );
         }
       });
 
       await batch.commit();
-      totalMigrated += chunk.length;
+      totalMigrated += chunkMigrated;
       console.log(
         `Batch ${i + 1}/${chunks.length} completato. Totale migrati: ${totalMigrated}`
       );
