@@ -36,14 +36,32 @@ export async function getPokedexData() {
   return pokedex;
 }
 
+// Define a schema for a single strategy step (recursive)
+const StrategyStepSchema = z.object({
+  id: z.string(),
+  type: z.string(), // "main", "note", "variation_step" etc.
+  player: z.string().optional(),
+  warning: z.string().optional(),
+  variations: z.array(z.lazy(() => StrategyVariationSchema)).optional(), // Using z.lazy for recursion
+});
+
+// Define a schema for a variation within a strategy step (recursive)
+const StrategyVariationSchema = z.object({
+  type: z.string(), // e.g., "step"
+  name: z.string().optional(),
+  steps: z.array(StrategyStepSchema).optional(), // This will be an array of StrategyStepSchema
+});
+
 // Aggiungi limiti nella validazione
 const TeamSchema = z
   .object({
     name: z.string().min(1).max(100),
     region: z.string().max(50).nullable(),
     members: z.array(z.any()).max(6),
-    strategies: z.record(z.string().max(1000)).optional(),
-    enemyPools: z.record(z.string().max(1000)).optional(),
+    strategies: z
+      .record(z.string(), z.record(z.string(), z.array(StrategyStepSchema)))
+      .optional(), // Nested object: memberName -> enemyName -> array of StrategyStepSchema
+    enemyPools: z.record(z.string(), z.array(z.string())).optional(), // Nested object: memberName -> array of enemy pokemon names
     status: z.enum(["draft", "pending", "approved", "rejected"]).optional(),
     isPublic: z.boolean().optional(),
   })
@@ -101,7 +119,20 @@ export async function getUserTeams(userId) {
  * @param {object} updates
  */
 export async function updateUserTeam(userId, teamId, updates) {
-  const validatedData = TeamSchema.partial().parse(updates);
+  let validatedData;
+  try {
+    validatedData = TeamSchema.partial().parse(updates);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.error(
+        "Zod validation error during updateUserTeam:",
+        error.errors
+      );
+    } else {
+      console.error("Error during updateUserTeam validation:", error);
+    }
+    throw error; // Re-throw to propagate the error to the calling function (useTeamEditor)
+  }
   const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
   await updateDoc(teamRef, {
     ...validatedData,

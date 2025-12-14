@@ -34,14 +34,26 @@ const EXAMPLE_STEP = {
   ],
 };
 
-const addIdsToStep = (step) => ({
-  ...step,
-  id: crypto.randomUUID(),
-  variations: step.variations?.map((v) => ({
-    ...v,
-    steps: v.steps ? v.steps.map(addIdsToStep) : [],
-  })),
-});
+const addIdsToStep = (step, parentId = "root") => {
+  console.log(`[addIdsToStep] Processing step (parentId: ${parentId}):`, step);
+  const newStep = {
+    ...step,
+    id: step.id || crypto.randomUUID(), // Ensure ID is present
+  };
+  console.log(
+    `[addIdsToStep] Assigned ID to step (type: ${newStep.type}): ${newStep.id}`
+  );
+
+  if (newStep.variations && newStep.variations.length > 0) {
+    newStep.variations = newStep.variations.map((v) => ({
+      ...v,
+      steps: v.steps
+        ? v.steps.map((nestedStep) => addIdsToStep(nestedStep, newStep.id))
+        : [],
+    }));
+  }
+  return newStep;
+};
 
 const createNewStepTemplate = () => ({
   type: "main",
