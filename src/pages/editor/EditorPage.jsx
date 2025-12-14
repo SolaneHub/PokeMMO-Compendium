@@ -12,7 +12,6 @@ import PageTitle from "@/shared/components/PageTitle";
 const EDITOR_MAPPING = {
   "eliteFourData.json": EliteFourEditor,
   "raidsData.json": RaidsEditor,
-  "pokedex.json": PokedexEditor,
   "pickupData.json": PickupEditor,
   "redData.json": RedEditor,
   "bossFightsData.json": EliteFourEditor,
@@ -24,6 +23,8 @@ const EditorPage = () => {
     fileList,
     selectedFileName,
     setSelectedFileName,
+    selectedPokedex,
+    setSelectedPokedex,
     fileData,
     setFileData,
     loading,
@@ -36,8 +37,9 @@ const EditorPage = () => {
     return <ServerErrorState error={serverError} />;
   }
 
-  const SpecificEditor =
-    EDITOR_MAPPING[selectedFileName] || UniversalJsonEditor;
+  const SpecificEditor = selectedPokedex
+    ? PokedexEditor
+    : EDITOR_MAPPING[selectedFileName] || UniversalJsonEditor;
 
   return (
     <div className="flex h-screen overflow-hidden bg-[#121212] font-sans text-slate-200">
@@ -48,6 +50,8 @@ const EditorPage = () => {
         fileList={fileList}
         selectedFileName={selectedFileName}
         onSelectFile={setSelectedFileName}
+        selectedPokedex={selectedPokedex}
+        onSelectPokedex={setSelectedPokedex}
         onSave={handleSave}
         loading={isSaving}
       />

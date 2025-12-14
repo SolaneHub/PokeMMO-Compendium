@@ -8,6 +8,7 @@ import {
   query,
   updateDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 import { z } from "zod";
 
@@ -16,6 +17,24 @@ import { db } from "./config";
 // --- Collection References ---
 const USERS_COLLECTION = "users";
 const TEAMS_COLLECTION = "elite_four_teams";
+const POKEDEX_COLLECTION = "pokedex";
+
+/**
+ * Fetches all Pokemon data from the 'pokedex' collection.
+ * @returns {Promise<Array>} List of all Pokemon.
+ */
+export async function getPokedexData() {
+  const pokedexRef = collection(db, POKEDEX_COLLECTION);
+  const q = query(pokedexRef);
+  const querySnapshot = await getDocs(q);
+
+  const pokedex = [];
+  querySnapshot.forEach((doc) => {
+    pokedex.push({ id: doc.id, ...doc.data() });
+  });
+
+  return pokedex;
+}
 
 // Aggiungi limiti nella validazione
 const TeamSchema = z
@@ -128,6 +147,41 @@ export async function getTeamsByStatus(status) {
 }
 
 /**
+ * Updates an array of Pokemon data in the 'pokedex' collection.
+ * Each Pokemon document is identified by its 'id' field.
+ * Uses a batch write for efficiency.
+ * @param {Array<Object>} pokedexArray - An array of Pokemon objects to update.
+ */
+export async function updatePokedexData(pokedexArray) {
+  if (!pokedexArray || pokedexArray.length === 0) {
+    console.warn("No Pokedex data provided for update.");
+    return;
+  }
+
+  const batch = writeBatch(db);
+
+  pokedexArray.forEach((pokemon) => {
+    if (pokemon.id) {
+      const docRef = doc(db, POKEDEX_COLLECTION, pokemon.id.toString());
+      // Firestore doesn't like undefined values, so clean the object
+      const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
+      batch.set(docRef, cleanPokemon, { merge: true }); // Use merge to avoid overwriting entire documents if not all fields are present
+    } else {
+      console.warn("Pokemon object missing 'id' field, skipping:", pokemon);
+    }
+  });
+
+  try {
+    await batch.commit();
+    console.log(
+      `Pokedex data updated successfully for ${pokedexArray.length} items.`
+    );
+  } catch (error) {
+    console.error("Error updating Pokedex data:", error);
+    throw error;
+  }
+}
+/**
  * Fetches all teams with status 'pending' across ALL users.
  * Requires a Firestore Composite Index (CollectionGroup).
  */
@@ -143,7 +197,7 @@ export async function getAllPendingTeams() {
  * @param {string} status - 'approved' | 'rejected' | 'pending'
  */
 export async function updateTeamStatus(userId, teamId, status) {
-  const isPublic = status === 'approved';
+  const isPublic = status === "approved";
   return updateUserTeam(userId, teamId, { status, isPublic });
 }
 
@@ -160,19 +214,19 @@ export async function getPublicApprovedTeams() {
       where("status", "==", "approved"),
       where("isPublic", "==", true)
     );
-    
+
     const querySnapshot = await getDocs(teamsQuery);
     const teams = [];
-    
+
     querySnapshot.forEach((doc) => {
-      const parentUser = doc.ref.parent.parent; 
-      teams.push({ 
-        id: doc.id, 
-        userId: parentUser ? parentUser.id : 'unknown',
-        ...doc.data() 
+      const parentUser = doc.ref.parent.parent;
+      teams.push({
+        id: doc.id,
+        userId: parentUser ? parentUser.id : "unknown",
+        ...doc.data(),
       });
     });
-    
+
     return teams;
   } catch (error) {
     console.error("Error fetching public teams:", error);

@@ -1,5 +1,6 @@
 import { useEffect, useState, useTransition } from "react";
 
+import { getPokedexData, updatePokedexData } from "@/firebase/firestoreService"; // Import Firebase services
 import { useToast } from "@/shared/components/ToastNotification";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
@@ -12,12 +13,19 @@ export function useEditorData() {
     "editor_lastFile",
     ""
   );
+  const [selectedPokedex, setSelectedPokedex] = usePersistentState(
+    "editor_pokedexSelected",
+    false
+  );
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isSaving, startTransition] = useTransition();
   const [serverError, setServerError] = useState(null);
 
-  // Fetch File List
+  // Fetch File List (remains mostly the same, but should ideally exclude pokedex.json from local files)
+  // For now, I'll assume the file list from the server still returns 'pokedex.json' as a placeholder.
+  // A more robust solution might involve merging local file list with a hardcoded 'pokedex.json' if it's always available
+  // regardless of server response.
   useEffect(() => {
     async function fetchFiles() {
       try {
@@ -25,11 +33,12 @@ export function useEditorData() {
         if (!res.ok) throw new Error("Unable to connect to server");
 
         const data = await res.json();
-        setFileList(data);
+        const updatedFileList = Array.from(new Set([...data])); // No longer ensure pokedex.json is always in the list
+        setFileList(updatedFileList);
         setServerError(null);
 
-        if (!selectedFileName || !data.includes(selectedFileName)) {
-          const defaultFile = data.find((f) => f === "pokedex.json") || data[0];
+        if (!selectedFileName || !updatedFileList.includes(selectedFileName)) {
+          const defaultFile = updatedFileList[0];
           if (defaultFile) setSelectedFileName(defaultFile);
         }
       } catch (err) {
@@ -41,18 +50,28 @@ export function useEditorData() {
 
   // Fetch File Data
   useEffect(() => {
-    if (!selectedFileName) return;
+    if (!selectedFileName && !selectedPokedex) return;
 
     let ignore = false;
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
-        if (!res.ok) throw new Error("Error fetching data");
-        const data = await res.json();
+        let data;
+        if (selectedPokedex) {
+          data = await getPokedexData();
+          // Firestore returns objects with 'id' field.
+          // The PokedexEditor (and other parts) might expect the `id` property from the Firebase document.
+          // The `getPokedexData` already returns objects with `id` derived from `doc.id`.
+        } else {
+          const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
+          if (!res.ok) throw new Error("Error fetching data");
+          data = await res.json();
+        }
+
         if (!ignore) setFileData(data);
       } catch (err) {
         if (!ignore) showToast("Error loading file.", "error");
+        console.error("Error fetching editor data:", err);
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -61,35 +80,53 @@ export function useEditorData() {
     return () => {
       ignore = true;
     };
-  }, [selectedFileName, showToast]);
+  }, [selectedFileName, selectedPokedex, showToast]);
 
   // Save File Data
   const handleSave = () => {
-    if (!fileData || !selectedFileName) return;
+    if (!fileData || (!selectedFileName && !selectedPokedex)) return;
 
     startTransition(async () => {
       try {
-        const res = await fetch(`${API_URL}/data?file=${selectedFileName}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(fileData),
-        });
-        const result = await res.json();
-        if (result.success) {
-          showToast(`✅ ${selectedFileName} saved!`, "success");
+        if (selectedPokedex) {
+          await updatePokedexData(fileData);
+          showToast(`✅ Pokedex data saved to Firebase!`, "success");
         } else {
-          showToast("❌ Server error during save.", "error");
+          const res = await fetch(`${API_URL}/data?file=${selectedFileName}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(fileData),
+          });
+          const result = await res.json();
+          if (result.success) {
+            showToast(`✅ ${selectedFileName} saved!`, "success");
+          } else {
+            showToast("❌ Server error during save.", "error");
+          }
         }
       } catch (err) {
-        showToast("❌ Connection error.", "error");
+        showToast("❌ Connection error or Firebase save error.", "error");
+        console.error("Error saving editor data:", err);
       }
     });
+  };
+
+  const setSelectedFileNameAndClearPokedex = (fileName) => {
+    setSelectedPokedex(false);
+    setSelectedFileName(fileName);
+  };
+
+  const setSelectedPokedexAndClearFileName = (isPokedexSelected) => {
+    setSelectedFileName("");
+    setSelectedPokedex(isPokedexSelected);
   };
 
   return {
     fileList,
     selectedFileName,
-    setSelectedFileName,
+    setSelectedFileName: setSelectedFileNameAndClearPokedex,
+    selectedPokedex,
+    setSelectedPokedex: setSelectedPokedexAndClearFileName,
     fileData,
     setFileData,
     loading,

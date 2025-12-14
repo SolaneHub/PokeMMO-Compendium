@@ -84,12 +84,12 @@ const TeamCard = ({
           </button>
         </div>
 
-        <div className="mt-auto flex gap-2 overflow-hidden rounded-lg bg-black/20 p-3">
+        <div className="mt-auto flex justify-between gap-1 overflow-hidden rounded-lg bg-black/20 p-2">
           {team.members &&
             team.members.slice(0, 6).map((member, idx) => (
               <div
                 key={idx}
-                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5"
               >
                 {member?.name ? ( // Check for member.name existence
                   <img
@@ -115,7 +115,7 @@ const TeamCard = ({
             (_, idx) => (
               <div
                 key={`empty-${idx}`}
-                className="h-8 w-8 rounded-full border border-dashed border-white/10 bg-white/5 opacity-30"
+                className="h-11 w-11 shrink-0 rounded-full border border-dashed border-white/10 bg-white/5 opacity-30"
               ></div>
             )
           )}

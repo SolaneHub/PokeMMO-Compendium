@@ -1,4 +1,4 @@
-import { Activity, lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react"; // Import useEffect
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import Shell from "@/app/layout/Shell";
@@ -14,6 +14,8 @@ import { ConfirmationProvider } from "@/shared/components/ConfirmationModal";
 import ProtectedRoute from "@/shared/components/ProtectedRoute";
 import { ToastProvider } from "@/shared/components/ToastNotification";
 import { AuthProvider } from "@/shared/context/AuthContext";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
+import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors"; // Import initializePokemonColorMap
 
 const HomePage = lazy(() => import("@/app/layout/Home"));
 const EliteFourPage = lazy(() => import("@/pages/elite-four/EliteFourPage"));
@@ -37,65 +39,45 @@ function App() {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  const { allPokemonData, isLoading } = usePokedexData(); // Use usePokedexData
+
+  useEffect(() => {
+    if (!isLoading && allPokemonData.length > 0) {
+      initializePokemonColorMap(allPokemonData);
+    }
+  }, [allPokemonData, isLoading]);
+
   const noPaddingRoutes = ["/editor"];
-  const shouldRemovePadding = noPaddingRoutes.includes(currentPath);
-
-  const pages = [
-    { path: "/", Component: HomePage, key: "home" },
-    { path: "/elite-four", Component: EliteFourPage, key: "e4" },
-    { path: "/boss-fights", Component: BossFightsPage, key: "boss-fights" },
-    {
-      path: "/super-trainers",
-      Component: SuperTrainersPage,
-      key: "super-trainers",
-    },
-    {
-      path: "/trainer-rerun",
-      Component: TrainerRerunPage,
-      key: "trainer-rerun",
-    },
-    { path: "/raids", Component: RaidsPage, key: "raids" },
-    {
-      path: "/catch-calculator",
-      Component: CatchCalculatorPage,
-      key: "catch-calculator",
-    },
-    { path: "/pokedex", Component: PokedexPage, key: "pokedex" },
-    { path: "/pickup", Component: PickupPage, key: "pickup" },
-    { path: "/breeding", Component: BreedingPage, key: "breeding" },
-  ];
-
-  if (!import.meta.env.PROD) {
-    pages.push({ path: "/editor", Component: EditorPage, key: "editor" });
-  }
+  const shouldRemovePadding =
+    noPaddingRoutes.includes(currentPath) ||
+    currentPath.startsWith("/my-teams/");
 
   return (
     <ConfirmationProvider>
       <AuthProvider>
         <ToastProvider>
           <Shell noPadding={shouldRemovePadding}>
-            {pages.map(({ path, Component, key, props }) => {
-              const isActive = currentPath === path;
-              return (
-                <Activity key={key} mode={isActive ? "visible" : "hidden"}>
-                  <div
-                    className="h-full w-full"
-                    style={{ display: isActive ? "block" : "none" }}
-                  >
-                    {isActive ? (
-                      <Suspense fallback={<div>Loading page...</div>}>
-                        {props ? <Component {...props} /> : <Component />}
-                      </Suspense>
-                    ) : null}
-                  </div>
-                </Activity>
-              );
-            })}
-
             <Suspense fallback={<div>Loading...</div>}>
               <Routes>
-                {/* Catch-all route to silence "No routes matched" warning for Activity pages */}
-                <Route path="*" element={null} />
+                {/* Public Pages */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/elite-four" element={<EliteFourPage />} />
+                <Route path="/boss-fights" element={<BossFightsPage />} />
+                <Route path="/super-trainers" element={<SuperTrainersPage />} />
+                <Route path="/trainer-rerun" element={<TrainerRerunPage />} />
+                <Route path="/raids" element={<RaidsPage />} />
+                <Route
+                  path="/catch-calculator"
+                  element={<CatchCalculatorPage />}
+                />
+                <Route path="/pokedex" element={<PokedexPage />} />
+                <Route path="/pickup" element={<PickupPage />} />
+                <Route path="/breeding" element={<BreedingPage />} />
+
+                {/* Dev Only Routes */}
+                {!import.meta.env.PROD && (
+                  <Route path="/editor" element={<EditorPage />} />
+                )}
 
                 {/* Auth routes */}
                 <Route path="/login" element={<AuthPage />} />

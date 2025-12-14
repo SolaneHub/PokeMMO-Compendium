@@ -23,7 +23,6 @@ const AdminTeamList = ({ status }) => {
   useEffect(() => {
     let mounted = true;
 
-
     const fetchTeams = async () => {
       setLoading(true);
       setError(null);

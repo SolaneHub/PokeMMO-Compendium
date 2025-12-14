@@ -1,6 +1,14 @@
-import pokedexData from "@/data/pokedex.json";
+// pokedexData is now passed as an argument to avoid static import
+export const extractPokedexData = (pokedexData) => {
+  if (!pokedexData)
+    return {
+      pokemonNames: [],
+      moveNames: [],
+      abilityNames: [],
+      itemNames: [],
+      allPokemonData: [],
+    };
 
-export const extractPokedexData = () => {
   const pokemonNames = new Set();
   const moveNames = new Set();
   const abilityNames = new Set();
@@ -63,7 +71,8 @@ export const extractPokedexData = () => {
   };
 };
 
-export const getPokemonIdByName = (name) => {
+export const getPokemonIdByName = (name, pokedexData) => {
+  if (!pokedexData) return null;
   const pokemon = pokedexData.find((p) => p.name === name);
   return pokemon ? pokemon.id : null;
 };

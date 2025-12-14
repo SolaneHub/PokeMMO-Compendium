@@ -125,23 +125,27 @@ function Sidebar({ isOpen, setIsOpen }) {
                 key={item.name}
                 to={item.path}
                 onClick={() => setIsOpen(false)}
-                className={`group group relative flex items-center rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                className={`group relative flex items-center rounded-xl px-4 py-2.5 transition-all duration-200 ${
                   isActive
                     ? "bg-blue-600/10 text-blue-400"
                     : "text-slate-400 hover:bg-white/5 hover:text-slate-100"
                 } `}
               >
-                <Icon
-                  size={22}
-                  className={`transition-colors ${
-                    isActive
-                      ? "text-blue-400"
-                      : "text-slate-500 group-hover:text-slate-300"
-                  }`}
-                />
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center">
+                  <Icon
+                    size={22}
+                    className={`transition-colors ${
+                      isActive
+                        ? "text-blue-400"
+                        : "text-slate-500 group-hover:text-slate-300"
+                    }`}
+                  />
+                </div>
 
                 <span
-                  className={`ml-3 font-medium whitespace-nowrap transition-all duration-300 ${isCollapsed ? "lg:w-0 lg:overflow-hidden lg:opacity-0" : "opacity-100"} `}
+                  className={`overflow-hidden font-medium whitespace-nowrap transition-[width,opacity,margin] duration-300 ease-in-out ${
+                    isCollapsed ? "ml-0 w-0 opacity-0" : "ml-3 w-32 opacity-100" // Fixed width for text allows smoother transition than 'w-auto'
+                  }`}
                 >
                   {item.name}
                 </span>

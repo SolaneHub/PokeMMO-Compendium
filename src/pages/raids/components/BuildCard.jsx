@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 import ItemImage from "@/shared/components/ItemImage";
 
-const BuildCard = ({ buildData }) => {
+const BuildCard = ({ buildData, pokemonMap }) => {
+  // Accept pokemonMap here
   const [activeBuild, setActiveBuild] = useState(buildData);
 
   const allVariants = (() => {
@@ -25,7 +26,7 @@ const BuildCard = ({ buildData }) => {
     setActiveBuild(buildData);
   }, [buildData]);
 
-  const { sprite } = getPokemonCardData(activeBuild.name);
+  const { sprite } = getPokemonCardData(activeBuild.name, pokemonMap); // Pass pokemonMap here
 
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-slate-700 bg-neutral-900 shadow-sm transition-colors hover:border-slate-500">

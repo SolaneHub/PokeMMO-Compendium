@@ -1,4 +1,3 @@
-import pokedex from "@/data/pokedex.json";
 import {
   generateDualTypeGradient,
   getDualShadow,
@@ -6,7 +5,7 @@ import {
 } from "@/shared/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/shared/utils/pokemonImageHelper";
 
-const pokemonMap = new Map(pokedex.map((p) => [p.name, p]));
+// Removed: Firebase import and module-level state
 
 const PREFIX_VARIANTS = [
   "Heat Rotom",
@@ -42,26 +41,32 @@ const fallbackFullDetails = (name) => ({
   variants: [],
 });
 
-export const getPokemonFullDetails = (name) => {
-  const pokemonBase = getPokemonByName(name);
+// All functions now accept pokedexData (array) and pokemonMap (Map) as arguments
+// or are called with these arguments from their consumers.
+
+export const getPokemonFullDetails = (name, pokemonMap) => {
+  const pokemonBase = getPokemonByName(name, pokemonMap);
 
   const isBasePokemon = pokemonBase && pokemonBase.id !== null;
 
   const variants = isBasePokemon
-    ? getPokemonVariants(name).filter((v) => v !== name)
+    ? getPokemonVariants(name, Array.from(pokemonMap.values())).filter(
+        (v) => v !== name
+      )
     : [];
 
   if (!pokemonBase) {
     const fallback = fallbackFullDetails(name);
     return {
       ...fallback,
-      sprite: getPokemonCardData(name).sprite,
+      sprite: getPokemonCardData(name, pokemonMap).sprite,
       background: "#3a3b3d",
     };
   }
 
-  const background = getPokemonBackground(name);
-  const sprite = pokemonBase.sprite || getPokemonCardData(name).sprite;
+  const background = getPokemonBackground(name, pokemonMap);
+  const sprite =
+    pokemonBase.sprite || getPokemonCardData(name, pokemonMap).sprite;
 
   const data = {
     ...fallbackFullDetails(name),
@@ -94,14 +99,14 @@ const getFamilyName = (name) => {
   return name;
 };
 
-export const getAllPokemonNames = () => {
-  return pokedex.map((p) => p.name);
+export const getAllPokemonNames = (pokedexData) => {
+  return pokedexData.map((p) => p.name);
 };
 
-export const getPokedexMainList = () => {
+export const getPokedexMainList = (pokedexData) => {
   const familyGroups = new Map();
 
-  pokedex.forEach((p) => {
+  pokedexData.forEach((p) => {
     const family = getFamilyName(p.name);
 
     if (!familyGroups.has(family)) {
@@ -113,7 +118,7 @@ export const getPokedexMainList = () => {
   const mainList = [];
   const processedFamilies = new Set();
 
-  pokedex.forEach((p) => {
+  pokedexData.forEach((p) => {
     const family = getFamilyName(p.name);
     if (processedFamilies.has(family)) return;
 
@@ -132,19 +137,19 @@ export const getPokedexMainList = () => {
   return mainList;
 };
 
-export const getPokemonVariants = (selectedName) => {
+export const getPokemonVariants = (selectedName, pokedexData) => {
   const targetFamily = getFamilyName(selectedName);
 
-  return pokedex
+  return pokedexData
     .filter((p) => getFamilyName(p.name) === targetFamily)
     .map((p) => p.name);
 };
 
-export const getAllPokemon = () => {
-  return pokedex;
+export const getAllPokemon = (pokedexData) => {
+  return pokedexData;
 };
 
-export const getPokemonByName = (name) => {
+export const getPokemonByName = (name, pokemonMap) => {
   return (
     pokemonMap.get(name) || {
       id: null,
@@ -155,12 +160,12 @@ export const getPokemonByName = (name) => {
   );
 };
 
-export const getPokemonBackground = (name) => {
+export const getPokemonBackground = (name, pokemonMap) => {
   if (typeBackgrounds[name]) {
     return typeBackgrounds[name];
   }
 
-  const pokemon = getPokemonByName(name);
+  const pokemon = getPokemonByName(name, pokemonMap);
   const types = pokemon.types || [];
 
   if (types.length >= 2) {
@@ -174,14 +179,14 @@ export const getPokemonBackground = (name) => {
   return typeBackgrounds[""];
 };
 
-export const getPokemonShadow = (name) => {
-  const background = getPokemonBackground(name);
+export const getPokemonShadow = (name, pokemonMap) => {
+  const background = getPokemonBackground(name, pokemonMap);
   return getDualShadow(background);
 };
 
-export const getPokemonCardData = (name) => {
-  const pokemon = getPokemonByName(name);
-  const background = getPokemonBackground(name);
+export const getPokemonCardData = (name, pokemonMap) => {
+  const pokemon = getPokemonByName(name, pokemonMap);
+  const background = getPokemonBackground(name, pokemonMap);
   const sprite = pokemon.sprite || getSpriteUrlByName(name);
 
   return {

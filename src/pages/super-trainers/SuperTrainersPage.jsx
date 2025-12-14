@@ -12,6 +12,7 @@ import {
 } from "@/pages/super-trainers/data/superTrainersService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 
 function SuperTrainersPage() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -19,13 +20,15 @@ function SuperTrainersPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
+  const { pokemonMap, isLoading } = usePokedexData(); // Destructure pokemonMap and isLoading
+
   const allSuperTrainers = getAllSuperTrainers();
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon)
+    ? getPokemonByName(selectedPokemon, pokemonMap) // Pass pokemonMap
     : null;
   const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon)
+    ? getPokemonBackground(selectedPokemon, pokemonMap) // Pass pokemonMap
     : "#333";
 
   const handlePokemonCardClick = (
@@ -63,6 +66,15 @@ function SuperTrainersPage() {
     }
   };
 
+  if (isLoading) {
+    // Handle loading state
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        <p>Loading Super Trainers data...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-7xl space-y-8 pb-24">
       <PageTitle title="PokéMMO Compendium: Super Trainers" />
@@ -85,6 +97,7 @@ function SuperTrainersPage() {
             trainer={trainer}
             onPokemonCardClick={handlePokemonCardClick}
             selectedPokemon={selectedPokemon}
+            pokemonMap={pokemonMap} // Pass pokemonMap
           />
         ))}
       </div>

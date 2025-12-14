@@ -345,7 +345,7 @@ const UserTeamEditorPage = () => {
   }
 
   return (
-    <div className="animate-fade-in flex h-[calc(100vh-64px)] overflow-hidden bg-[#0a0b0e]">
+    <div className="animate-fade-in flex h-full overflow-hidden bg-[#0a0b0e]">
       {/* 1. Sidebar */}
       <EditorSidebar
         team={team}

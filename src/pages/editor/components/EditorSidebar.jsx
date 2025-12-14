@@ -21,11 +21,6 @@ const editorNavigationItems = [
     icon: <FaBolt className="text-xl" />,
   },
   {
-    fileName: "pokedex.json",
-    label: "Pokedex",
-    icon: <FaBook className="text-xl" />,
-  },
-  {
     fileName: "pickupData.json",
     label: "Pickup",
     icon: <FaEgg className="text-xl" />,
@@ -51,6 +46,8 @@ const EditorSidebar = ({
   fileList,
   selectedFileName,
   onSelectFile,
+  selectedPokedex,
+  onSelectPokedex,
   onSave,
   loading,
 }) => {
@@ -66,13 +63,28 @@ const EditorSidebar = ({
         </label>
         <nav>
           <ul className="flex flex-col gap-2">
+            {/* Pokedex Editor Item */}
+            <li>
+              <button
+                className={`flex w-full items-center gap-3 rounded-md p-2.5 text-sm font-medium transition-colors ${
+                  selectedPokedex
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
+                }`}
+                onClick={() => onSelectPokedex(true)}
+              >
+                <FaBook className="text-xl" />
+                Pokedex
+              </button>
+            </li>
+            {/* Other File Editors */}
             {editorNavigationItems
               .filter((item) => fileList.includes(item.fileName))
               .map((item) => (
                 <li key={item.fileName}>
                   <button
                     className={`flex w-full items-center gap-3 rounded-md p-2.5 text-sm font-medium transition-colors ${
-                      selectedFileName === item.fileName
+                      selectedFileName === item.fileName && !selectedPokedex
                         ? "bg-blue-600 text-white shadow-lg"
                         : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
                     }`}
@@ -93,7 +105,7 @@ const EditorSidebar = ({
                 <li key={file}>
                   <button
                     className={`flex w-full items-center gap-3 rounded-md p-2.5 text-sm font-medium transition-colors ${
-                      selectedFileName === file
+                      selectedFileName === file && !selectedPokedex
                         ? "bg-blue-600 text-white shadow-lg"
                         : "text-slate-300 hover:bg-[#2c2c2c] hover:text-white"
                     }`}
@@ -111,16 +123,18 @@ const EditorSidebar = ({
       <div className="mt-5 text-xs text-[#888]">
         Editor:{" "}
         <strong className="text-blue-500">
-          {selectedFileName &&
-          editorNavigationItems.some(
-            (item) => item.fileName === selectedFileName
-          )
-            ? "Custom"
-            : "Universal"}
+          {selectedPokedex
+            ? "Pokedex (Firebase)"
+            : selectedFileName &&
+                editorNavigationItems.some(
+                  (item) => item.fileName === selectedFileName
+                )
+              ? "Custom"
+              : "Universal"}
         </strong>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <button
           className="flex w-full items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-blue-700 active:translate-y-[1px] disabled:cursor-not-allowed disabled:opacity-50"
           onClick={onSave}

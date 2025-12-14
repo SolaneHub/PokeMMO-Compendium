@@ -8,6 +8,7 @@ import {
 } from "@/pages/raids/data/raidsService";
 import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 
 import RaidCard from "./components/RaidCard";
 import RaidModal from "./components/RaidModal";
@@ -16,6 +17,8 @@ function RaidsPage() {
   const [selectedStar, setSelectedStar] = useState();
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
+
+  const { pokemonMap, isLoading } = usePokedexData(); // Destructure pokemonMap and isLoading
 
   const starLevels = getStarLevels();
   const filteredRaids = getRaidsByStars(selectedStar);
@@ -34,6 +37,15 @@ function RaidsPage() {
     setSelectedPokemon(pokemonName);
     setIsPokemonDetailsVisible(true);
   };
+
+  if (isLoading) {
+    // Handle loading state
+    return (
+      <div className="flex h-screen items-center justify-center text-white">
+        <p>Loading Raids data...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-7xl pb-24">
@@ -66,7 +78,10 @@ function RaidsPage() {
       {selectedStar && filteredRaids.length > 0 && (
         <div className="mb-8 flex flex-wrap justify-center gap-4">
           {filteredRaids.map((raid) => {
-            const { sprite, background } = getPokemonCardData(raid.name);
+            const { sprite, background } = getPokemonCardData(
+              raid.name,
+              pokemonMap
+            ); // Pass pokemonMap
             return (
               <PokemonCard
                 key={raid.name}
@@ -82,7 +97,11 @@ function RaidsPage() {
       )}
 
       {isPokemonDetailsVisible && selectedPokemon && (
-        <RaidModal raidName={selectedPokemon} onClose={closePokemonDetails} />
+        <RaidModal
+          raidName={selectedPokemon}
+          onClose={closePokemonDetails}
+          pokemonMap={pokemonMap}
+        /> // Pass pokemonMap
       )}
     </div>
   );
