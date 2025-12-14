@@ -101,6 +101,13 @@ const VariationForm = ({ variation, onChange }) => {
           onChange={(e) => handleFieldChange("name", e.target.value)}
           className="mt-1.5 w-full rounded border border-[#333] bg-black/20 p-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
         />
+        <p className="mt-1 text-xs text-slate-500">
+          Use icons: <span className="font-mono text-blue-400">[SWITCH]</span>,{" "}
+          <span className="font-mono text-blue-400">[ATTACK]</span>,{" "}
+          <span className="font-mono text-blue-400">[STAY]</span>,{" "}
+          <span className="font-mono text-blue-400">[LOCK]</span>,{" "}
+          <span className="font-mono text-blue-400">[BAIT]</span>
+        </p>
       </label>
 
       <div className="mt-4">
