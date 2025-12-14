@@ -235,7 +235,7 @@ function EliteFourPage() {
         />
       )}
 
-      {isTeamBuildVisible && (
+      {pokemonMap && isTeamBuildVisible && (
         <TeamBuildModal
           teamName={currentTeamData?.name || "Team"}
           builds={currentTeamBuilds}
