@@ -15,7 +15,7 @@ const BossFightSection = ({
   pokemonMap, // Accept pokemonMap as a prop
 }) => {
   const [activeTeam, setActiveTeam] = useState(
-    Object.keys(bossFight.teams || {})[0]
+    Object.keys(bossFight.teams || {})[0] ?? null
   );
   const teamNames = getTeamNamesForBossFight(bossFight.name, bossFight.region);
   const pokemonNamesForSelectedTeam = getPokemonListForBossFight(
@@ -57,7 +57,7 @@ const BossFightSection = ({
         </div>
       </div>
 
-      {teamNames.length > 0 && (
+      {teamNames.length > 0 && activeTeam && (
         <div className="mb-4">
           <h3 className="mb-3 text-center text-xl font-semibold text-slate-300 md:text-left">
             Teams

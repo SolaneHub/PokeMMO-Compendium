@@ -354,7 +354,7 @@ const CatchCalculatorPage = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-1 rounded-lg border border-slate-700 bg-[#15161a] p-1">
-                  {[0, 1, 2].map((turn) => (
+                  {[1, 2].map((turn) => (
                     <button
                       key={turn}
                       onClick={() => setTurnsPassed(turn)}

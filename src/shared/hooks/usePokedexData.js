@@ -40,7 +40,10 @@ export const usePokedexData = () => {
       try {
         console.log("usePokedexData: Fetching data from Firestore...");
         const querySnapshot = await getDocs(collection(db, "pokedex"));
-        console.log("usePokedexData: querySnapshot.empty:", querySnapshot.empty);
+        console.log(
+          "usePokedexData: querySnapshot.empty:",
+          querySnapshot.empty
+        );
         console.log("usePokedexData: querySnapshot.size:", querySnapshot.size);
         const rawData = querySnapshot.docs.map((doc) => doc.data());
         console.log("usePokedexData: rawData fetched:", rawData);
@@ -54,6 +57,7 @@ export const usePokedexData = () => {
         const finalData = {
           ...processed,
           allPokemonData: rawData, // Store the raw data for general use
+          fullList: rawData, // Add fullList property for consumers like PokedexPage
           pokemonMap: pokemonMap, // Expose the map
           isLoading: false,
         };

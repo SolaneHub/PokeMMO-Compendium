@@ -1,31 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
 import PokemonCard from "@/shared/components/PokemonCard";
-import {
-  generateDualTypeGradient,
-  typeBackgrounds,
-} from "@/shared/utils/pokemonColors";
+import { getPokemonBackground } from "@/shared/utils/pokemonHelpers";
 import { getSpriteUrlByName } from "@/shared/utils/pokemonImageHelper";
 
 const PAGE_SIZE = 40;
-
-const getPokemonBackground = (pokemon) => {
-  if (typeBackgrounds[pokemon.name]) {
-    return typeBackgrounds[pokemon.name];
-  }
-
-  const types = pokemon.types || [];
-
-  if (types.length >= 2) {
-    return generateDualTypeGradient(types[0], types[1]);
-  }
-
-  if (types.length === 1) {
-    return typeBackgrounds[types[0]] || typeBackgrounds[""];
-  }
-
-  return typeBackgrounds[""];
-};
 
 const PokemonGrid = ({ pokemonList, selectedPokemon, onSelectPokemon }) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -33,6 +12,8 @@ const PokemonGrid = ({ pokemonList, selectedPokemon, onSelectPokemon }) => {
 
   // Infinite scroll observer
   useEffect(() => {
+    if (!pokemonList) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -54,7 +35,7 @@ const PokemonGrid = ({ pokemonList, selectedPokemon, onSelectPokemon }) => {
     return () => {
       if (current) observer.unobserve(current);
     };
-  }, [pokemonList.length]);
+  }, [pokemonList, pokemonList?.length]);
 
   if (pokemonList.length === 0) {
     return (

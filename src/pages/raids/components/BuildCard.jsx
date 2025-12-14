@@ -26,7 +26,9 @@ const BuildCard = ({ buildData, pokemonMap }) => {
     setActiveBuild(buildData);
   }, [buildData]);
 
-  const { sprite } = getPokemonCardData(activeBuild.name, pokemonMap); // Pass pokemonMap here
+  const { sprite } = pokemonMap
+    ? getPokemonCardData(activeBuild.name, pokemonMap)
+    : { sprite: "" }; // Pass pokemonMap here
 
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-slate-700 bg-neutral-900 shadow-sm transition-colors hover:border-slate-500">

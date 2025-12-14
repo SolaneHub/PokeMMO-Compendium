@@ -445,8 +445,8 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                       const variantObj = allPokemon.find(
                         (p) => p.name === variantName
                       );
-                      const variantCardData = getPokemonCardData(variantObj);
                       if (!variantObj) return null;
+                      const variantCardData = getPokemonCardData(variantObj);
 
                       return (
                         <div
@@ -484,6 +484,7 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                       const evoObj = allPokemon.find(
                         (p) => p.name === evo.name
                       );
+                      if (!evoObj) return null; // Add this null guard
                       const evoCardData = getPokemonCardData(evoObj);
 
                       return (
