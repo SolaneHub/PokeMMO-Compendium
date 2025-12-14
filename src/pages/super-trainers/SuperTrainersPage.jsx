@@ -109,17 +109,19 @@ function SuperTrainersPage() {
       </div>
 
       {/* Strategy Modal */}
-      {isPokemonDetailsVisible && currentPokemonObject && currentPokemonObject.id !== null && (
-        <StrategyModal
-          currentPokemonObject={currentPokemonObject}
-          detailsTitleBackground={detailsTitleBackground}
-          strategyHistory={strategyHistory}
-          currentStrategyView={currentStrategyView}
-          onClose={() => setIsPokemonDetailsVisible(false)}
-          onBack={handleBackClick}
-          onStepClick={handleStepClick}
-        />
-      )}
+      {isPokemonDetailsVisible &&
+        currentPokemonObject &&
+        currentPokemonObject.id !== null && (
+          <StrategyModal
+            currentPokemonObject={currentPokemonObject}
+            detailsTitleBackground={detailsTitleBackground}
+            strategyHistory={strategyHistory}
+            currentStrategyView={currentStrategyView}
+            onClose={() => setIsPokemonDetailsVisible(false)}
+            onBack={handleBackClick}
+            onStepClick={handleStepClick}
+          />
+        )}
     </div>
   );
 }

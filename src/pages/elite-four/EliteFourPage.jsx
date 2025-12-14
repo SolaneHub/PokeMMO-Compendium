@@ -18,6 +18,7 @@ import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
 import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 import { logger } from "@/shared/utils/logger";
+import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors"; // Import the function
 
 function EliteFourPage() {
   // State for Community Teams
@@ -65,6 +66,13 @@ function EliteFourPage() {
     };
     fetchTeams();
   }, []);
+
+  // Initialize Pokemon color map when pokedexData is available
+  useEffect(() => {
+    if (pokemonMap && Object.keys(pokemonMap).length > 0) {
+      initializePokemonColorMap(Object.values(pokemonMap));
+    }
+  }, [pokemonMap]);
 
   // Derived Data
   const currentTeamData = useMemo(

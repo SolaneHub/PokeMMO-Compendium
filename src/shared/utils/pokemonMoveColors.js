@@ -2,7 +2,6 @@ import {
   generateDualTypeGradient,
   typeBackgrounds,
 } from "@/shared/utils/pokemonColors";
-// Removed: import { getAllPokemon } from "@/pages/pokedex/data/pokemonService";
 
 export const moveTypeMap = {
   Explosion: "Normal",
@@ -66,31 +65,28 @@ export const moveTypeMap = {
   "X Speed": "Ice",
 };
 
-export const pokemonColorMap = {};
-
-// Function to populate pokemonColorMap, now accepts pokedexData
+// Function to populate and return pokemonColorMap
 export function initializePokemonColorMap(pokedexData) {
+  const newPokemonColorMap = {};
   if (!pokedexData || pokedexData.length === 0) {
-    console.warn("No Pokedex data provided for initializing pokemonColorMap.");
-    return;
+    return newPokemonColorMap;
   }
   pokedexData.forEach((pokemon) => {
     const types = pokemon.types || [];
 
     if (types.length >= 2) {
-      pokemonColorMap[pokemon.name] = generateDualTypeGradient(
+      newPokemonColorMap[pokemon.name] = generateDualTypeGradient(
         types[0],
         types[1]
       );
     } else if (types.length === 1) {
-      pokemonColorMap[pokemon.name] = typeBackgrounds[types[0]] || "#999999";
+      newPokemonColorMap[pokemon.name] = typeBackgrounds[types[0]] || "#999999";
     } else {
-      pokemonColorMap[pokemon.name] = "#999999";
+      newPokemonColorMap[pokemon.name] = "#999999";
     }
   });
+  return newPokemonColorMap;
 }
-
-// Removed the immediate call to initializePokemonColorMap()
 
 export const getMoveGradient = (moveName) => {
   const moveType = moveTypeMap[moveName];
@@ -100,11 +96,11 @@ export const getMoveGradient = (moveName) => {
   return typeBackgrounds[""];
 };
 
-export const getPokemonGradient = (pokemonName) => {
+export const getPokemonGradient = (pokemonName, pokemonColorMap) => {
   return pokemonColorMap[pokemonName] || typeBackgrounds[""];
 };
 
-export const colorTextElements = (text) => {
+export const colorTextElements = (text, pokemonColorMap) => {
   if (!text) return text;
 
   let result = text;
@@ -113,7 +109,7 @@ export const colorTextElements = (text) => {
     (a, b) => b.length - a.length
   );
   moveNames.forEach((move) => {
-    const regex = new RegExp(`\b${move}\b`, "gi");
+    const regex = new RegExp(`\\b${move}\\b`, "gi");
     const gradient = getMoveGradient(move);
 
     result = result.replace(
@@ -127,7 +123,7 @@ export const colorTextElements = (text) => {
     (a, b) => b.length - a.length
   );
   pokemonNames.forEach((pokemon) => {
-    const regex = new RegExp(`\b${pokemon}\b`, "gi");
+    const regex = new RegExp(`\\b${pokemon}\\b`, "gi");
     const gradient = pokemonColorMap[pokemon];
 
     result = result.replace(

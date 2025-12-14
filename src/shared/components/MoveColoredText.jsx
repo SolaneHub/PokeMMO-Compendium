@@ -8,10 +8,18 @@ import {
   Swords,
 } from "lucide-react";
 
+import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 import { colorTextElements } from "@/shared/utils/pokemonMoveColors";
 
 const MoveColoredText = ({ text }) => {
+  const { pokemonColorMap, isLoading } = usePokedexData(); // Use the hook
+
   if (!text) return null;
+
+  // Render nothing or a loading indicator if data is still loading
+  if (isLoading) {
+    return null; // Or <span className="text-slate-500">Loading...</span>
+  }
 
   // Define our token mapping
   const tokenMap = {
@@ -50,8 +58,8 @@ const MoveColoredText = ({ text }) => {
           );
         } else if (part) {
           // This part is regular text (or contains colored moves)
-          // We process it with colorTextElements
-          const htmlContent = colorTextElements(part);
+          // We process it with colorTextElements, passing pokemonColorMap
+          const htmlContent = colorTextElements(part, pokemonColorMap);
           return (
             <span
               key={index}
