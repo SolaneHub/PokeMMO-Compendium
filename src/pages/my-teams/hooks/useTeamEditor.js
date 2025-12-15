@@ -37,7 +37,7 @@ export function useTeamEditor() {
       }
     }
     load();
-  }, [currentUser, teamId, navigate, showToast]);
+  }, [currentUser?.uid, teamId, navigate, showToast]);
 
   const saveTeam = async (updatedTeam) => {
     const teamToSave = updatedTeam || team;

@@ -1,6 +1,7 @@
 // functions/index.js
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const axios = require('axios');
 admin.initializeApp();
 
 // Funzione per impostare admin claim (chiamata solo da super-admin)
@@ -42,6 +43,49 @@ exports.setAdminClaim = functions.https.onCall(async (data, context) => {
       'internal',
       'Errore durante l\'impostazione dei permessi admin',
       error.message
+    );
+  }
+});
+
+// Funzione per verificare il token reCAPTCHA
+exports.verifyRecaptcha = functions.https.onCall(async (data, context) => {
+  const token = data.token;
+  const secretKey = functions.config().recaptcha?.secret;
+
+  if (!token) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'Il token reCAPTCHA è mancante.'
+    );
+  }
+
+  if (!secretKey) {
+    throw new functions.https.HttpsError(
+      'failed-precondition',
+      'La chiave segreta reCAPTCHA non è configurata.'
+    );
+  }
+
+  try {
+    const response = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`
+    );
+
+    const { success } = response.data;
+
+    if (!success) {
+      throw new functions.https.HttpsError(
+        'permission-denied',
+        'Verifica reCAPTCHA fallita.'
+      );
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('Errore durante la verifica reCAPTCHA:', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      'Errore interno durante la verifica reCAPTCHA.'
     );
   }
 });
