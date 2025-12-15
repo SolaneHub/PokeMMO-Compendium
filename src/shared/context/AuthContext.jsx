@@ -21,11 +21,19 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // Auth functions
-  function signup(email, password) {
+  async function signup(email, password, recaptchaToken) {
+    if (!recaptchaToken) {
+      throw new Error("reCAPTCHA verification failed. Please try again.");
+    }
+    // Client-side reCAPTCHA check is active. Server-side verification is disabled.
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
-  function login(email, password) {
+  async function login(email, password, recaptchaToken) {
+    if (!recaptchaToken) {
+      throw new Error("reCAPTCHA verification failed. Please try again.");
+    }
+    // Client-side reCAPTCHA check is active. Server-side verification is disabled.
     return signInWithEmailAndPassword(auth, email, password);
   }
 

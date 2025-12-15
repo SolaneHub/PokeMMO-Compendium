@@ -1,6 +1,6 @@
 import { Loader2, Lock, Mail } from "lucide-react";
 
-const AuthForm = ({ action, isPending, isSignup }) => {
+const AuthForm = ({ action, isPending, isSignup, recaptchaToken }) => {
   return (
     <form action={action} className="flex flex-col gap-5">
       <div className="space-y-1.5">
@@ -40,7 +40,7 @@ const AuthForm = ({ action, isPending, isSignup }) => {
       </div>
       <button
         type="submit"
-        disabled={isPending}
+        disabled={isPending || !recaptchaToken}
         className="mt-2 flex w-full items-center justify-center rounded-lg bg-blue-600 py-2.5 font-bold text-white shadow-lg shadow-blue-900/20 transition-all hover:bg-blue-700 hover:shadow-blue-900/40 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isPending ? (

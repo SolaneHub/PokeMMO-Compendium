@@ -1,4 +1,5 @@
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Link, useNavigate } from "react-router-dom";
 
 import AuthForm from "@/pages/auth/components/AuthForm";
@@ -11,6 +12,7 @@ const AuthPage = ({ isSignup = false }) => {
   const navigate = useNavigate();
   const showToast = useToast();
   const { signup, login, googleSignIn } = useAuth();
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
 
   const handleAuth = async (previousState, formData) => {
     const email = formData.get("email");
@@ -18,10 +20,10 @@ const AuthPage = ({ isSignup = false }) => {
 
     try {
       if (isSignup) {
-        await signup(email, password);
+        await signup(email, password, recaptchaToken);
         showToast("Account created successfully!", "success");
       } else {
-        await login(email, password);
+        await login(email, password, recaptchaToken);
         showToast("Logged in successfully!", "success");
       }
       navigate("/my-teams");
@@ -69,7 +71,22 @@ const AuthPage = ({ isSignup = false }) => {
           action={formAction}
           isPending={isPending}
           isSignup={isSignup}
+          recaptchaToken={recaptchaToken}
         />
+
+        <div className="mt-4 flex justify-center">
+          <div
+            className="overflow-hidden rounded bg-[#222] shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
+            style={{ lineHeight: 0 }}
+          >
+            <ReCAPTCHA
+              sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+              onChange={setRecaptchaToken}
+              hl="en"
+              theme="dark"
+            />
+          </div>
+        </div>
 
         <div className="my-6 flex items-center">
           <div className="flex-grow border-t border-white/10"></div>
