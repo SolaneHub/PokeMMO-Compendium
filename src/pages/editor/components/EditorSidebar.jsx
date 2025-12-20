@@ -1,7 +1,6 @@
 import {
   FaBolt,
   FaBook,
-  FaDragon,
   FaEgg,
   FaHatWizard,
   FaList,

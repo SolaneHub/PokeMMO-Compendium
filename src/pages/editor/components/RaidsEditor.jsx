@@ -27,6 +27,14 @@ const RaidsEditor = ({ data, onChange }) => {
   const [idx, setIdx] = useState(null);
   const [activeTab, setActiveTab] = useState("info");
 
+  if (!data || !Array.isArray(data)) {
+    return (
+      <div className="p-5 text-center text-[#ff6b81]">
+        ⚠️ Invalid Raids Data. Expected an array.
+      </div>
+    );
+  }
+
   const handleRaidChange = (field, value) => {
     if (idx === null) return;
     const newData = [...data];

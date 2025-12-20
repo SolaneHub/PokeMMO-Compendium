@@ -2,13 +2,13 @@ import { ArrowLeft, Save } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { eliteFourMembers } from "@/shared/utils/eliteFourMembers";
 import AddEnemyPokemonModal from "@/pages/my-teams/components/AddEnemyPokemonModal";
 import EditorSidebar from "@/pages/my-teams/components/editor/EditorSidebar";
 import StrategyEditor from "@/pages/my-teams/components/editor/StrategyEditor";
 import PokemonEditorView from "@/pages/my-teams/components/editor/views/PokemonEditorView";
 import { useTeamEditor } from "@/pages/my-teams/hooks/useTeamEditor";
 import { useToast } from "@/shared/components/ToastNotification";
+import { eliteFourMembers } from "@/shared/utils/eliteFourMembers";
 
 const REGIONS = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova"];
 
