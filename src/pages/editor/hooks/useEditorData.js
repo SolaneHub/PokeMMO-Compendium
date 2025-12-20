@@ -111,9 +111,7 @@ export function useEditorData() {
 
   const setSelectedFileNameAndClearPokedex = (fileName) => {
     if (!fileName) {
-      console.warn(
-        "setSelectedFileNameAndClearPokedex called with falsy fileName"
-      );
+      showToast("Invalid file selection", "error");
       return;
     }
     setSelectedPokedex(false);

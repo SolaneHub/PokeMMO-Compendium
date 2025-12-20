@@ -1,5 +1,5 @@
 import { Check, CheckCircle, Edit, RotateCcw, Trash2, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -25,6 +25,23 @@ const AdminTeamList = ({ status }) => {
   const [retryTrigger, setRetryTrigger] = useState(0);
   const navigate = useNavigate();
 
+  const fetchAllTeams = useCallback(async () => {
+    let allTeams = [];
+    let nextPageToken = null;
+    do {
+      const result =
+        status === "all"
+          ? await getAllUserTeams({ limit: 100, startAfter: nextPageToken })
+          : await getTeamsByStatus(status, {
+              limit: 100,
+              startAfter: nextPageToken,
+            });
+      allTeams = allTeams.concat(result.teams);
+      nextPageToken = result.nextPageToken;
+    } while (nextPageToken);
+    return allTeams;
+  }, [status]);
+
   useEffect(() => {
     let mounted = true;
 
@@ -32,10 +49,7 @@ const AdminTeamList = ({ status }) => {
       setLoading(true);
       setError(null);
       try {
-        const data =
-          status === "all"
-            ? await getAllUserTeams()
-            : await getTeamsByStatus(status);
+        const data = await fetchAllTeams();
         if (mounted) {
           setTeams(data);
         }
@@ -55,7 +69,7 @@ const AdminTeamList = ({ status }) => {
     return () => {
       mounted = false;
     };
-  }, [status, retryTrigger]);
+  }, [fetchAllTeams, retryTrigger]);
 
   const handleStatusChange = async (team, newStatus) => {
     const action =
@@ -75,10 +89,7 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await updateTeamStatus(team.userId, team.id, newStatus);
-      const updatedData =
-        status === "all"
-          ? await getAllUserTeams()
-          : await getTeamsByStatus(status);
+      const updatedData = await fetchAllTeams();
       setTeams(updatedData);
       showToast(
         `Team "${team.name}" ${action.toLowerCase()}ed successfully.`,
@@ -103,10 +114,7 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await deleteUserTeam(team.userId, team.id);
-      const updatedData =
-        status === "all"
-          ? await getAllUserTeams()
-          : await getTeamsByStatus(status);
+      const updatedData = await fetchAllTeams();
       setTeams(updatedData);
       showToast(`Team "${team.name}" deleted successfully.`, "success");
     } catch (err) {

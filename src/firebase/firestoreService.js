@@ -5,7 +5,10 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  limit as firestoreLimit,
+  orderBy,
   query,
+  startAfter as firestoreStartAfter,
   updateDoc,
   where,
   writeBatch,
@@ -142,34 +145,34 @@ export async function deleteUserTeam(userId, teamId) {
 /**
  * Fetches all teams with a specific status across ALL users.
  * @param {string} status - 'pending' | 'approved' | 'rejected'
+ * @param {Object} options - Pagination options.
+ * @param {number} options.limit - Number of teams to fetch.
+ * @param {Object} options.startAfter - { userId, teamId } of the last team from previous page.
+ * @returns {Promise<Object>} { teams, nextPageToken } where nextPageToken is { userId, teamId } or null.
  */
-export async function getTeamsByStatus(status) {
-  const teamsQuery = query(
+export async function getTeamsByStatus(
+  status,
+  { limit = 50, startAfter } = {}
+) {
+  let teamsQuery = query(
     collectionGroup(db, TEAMS_COLLECTION),
-    where("status", "==", status)
+    where("status", "==", status),
+    orderBy("status"),
+    orderBy("__name__")
   );
 
-  const querySnapshot = await getDocs(teamsQuery);
-  const teams = [];
+  if (startAfter) {
+    const startDocRef = doc(
+      db,
+      USERS_COLLECTION,
+      startAfter.userId,
+      TEAMS_COLLECTION,
+      startAfter.teamId
+    );
+    teamsQuery = query(teamsQuery, firestoreStartAfter(startDocRef));
+  }
 
-  querySnapshot.forEach((doc) => {
-    const parentUser = doc.ref.parent.parent;
-    teams.push({
-      id: doc.id,
-      userId: parentUser ? parentUser.id : "unknown", // Handle edge case if parent is missing (unlikely in this structure)
-      ...doc.data(),
-    });
-  });
-
-  return teams;
-}
-
-/**
- * Fetches ALL teams across ALL users.
- * Requires a Firestore Composite Index (CollectionGroup).
- */
-export async function getAllUserTeams() {
-  const teamsQuery = query(collectionGroup(db, TEAMS_COLLECTION));
+  teamsQuery = query(teamsQuery, firestoreLimit(limit + 1)); // +1 to check if there are more
 
   const querySnapshot = await getDocs(teamsQuery);
   const teams = [];
@@ -183,7 +186,67 @@ export async function getAllUserTeams() {
     });
   });
 
-  return teams;
+  let nextPageToken = null;
+  if (teams.length > limit) {
+    teams.pop(); // remove the extra one
+    nextPageToken = {
+      userId: teams[teams.length - 1].userId,
+      teamId: teams[teams.length - 1].id,
+    };
+  }
+
+  return { teams, nextPageToken };
+}
+
+/**
+ * Fetches ALL teams across ALL users with pagination support.
+ * Requires a Firestore Composite Index (CollectionGroup).
+ * @param {Object} options - Pagination options.
+ * @param {number} options.limit - Number of teams to fetch.
+ * @param {Object} options.startAfter - { userId, teamId } of the last team from previous page.
+ * @returns {Promise<Object>} { teams, nextPageToken } where nextPageToken is { userId, teamId } or null.
+ */
+export async function getAllUserTeams({ limit = 50, startAfter } = {}) {
+  let teamsQuery = query(
+    collectionGroup(db, TEAMS_COLLECTION),
+    orderBy("__name__")
+  );
+
+  if (startAfter) {
+    const startDocRef = doc(
+      db,
+      USERS_COLLECTION,
+      startAfter.userId,
+      TEAMS_COLLECTION,
+      startAfter.teamId
+    );
+    teamsQuery = query(teamsQuery, firestoreStartAfter(startDocRef));
+  }
+
+  teamsQuery = query(teamsQuery, firestoreLimit(limit + 1)); // +1 to check if there are more
+
+  const querySnapshot = await getDocs(teamsQuery);
+  const teams = [];
+
+  querySnapshot.forEach((doc) => {
+    const parentUser = doc.ref.parent.parent;
+    teams.push({
+      id: doc.id,
+      userId: parentUser ? parentUser.id : "unknown",
+      ...doc.data(),
+    });
+  });
+
+  let nextPageToken = null;
+  if (teams.length > limit) {
+    teams.pop(); // remove the extra one
+    nextPageToken = {
+      userId: teams[teams.length - 1].userId,
+      teamId: teams[teams.length - 1].id,
+    };
+  }
+
+  return { teams, nextPageToken };
 }
 
 /**
@@ -238,15 +301,37 @@ export async function updateTeamStatus(userId, teamId, status) {
 /**
  * Fetches all teams with status 'approved' AND 'isPublic' == true.
  * This is for the public gallery.
- * Requires a Composite Index: status ASC, isPublic ASC (or similar).
- * @returns {Promise<Array>} List of approved teams.
+ * Requires a Composite Index: status ASC, isPublic ASC, __name__ ASC.
+ * @param {Object} options - Pagination options.
+ * @param {number} options.limit - Number of teams to fetch. If not provided, fetches all.
+ * @param {Object} options.startAfter - { userId, teamId } of the last team from previous page.
+ * @returns {Promise<Object>} { teams, nextPageToken } where nextPageToken is { userId, teamId } or null.
  */
-export async function getPublicApprovedTeams() {
-  const teamsQuery = query(
+export async function getPublicApprovedTeams(options = {}) {
+  const { limit, startAfter } = options;
+  let teamsQuery = query(
     collectionGroup(db, TEAMS_COLLECTION),
     where("status", "==", "approved"),
-    where("isPublic", "==", true)
+    where("isPublic", "==", true),
+    orderBy("status"),
+    orderBy("isPublic"),
+    orderBy("__name__")
   );
+
+  if (startAfter) {
+    const startDocRef = doc(
+      db,
+      USERS_COLLECTION,
+      startAfter.userId,
+      TEAMS_COLLECTION,
+      startAfter.teamId
+    );
+    teamsQuery = query(teamsQuery, firestoreStartAfter(startDocRef));
+  }
+
+  if (limit) {
+    teamsQuery = query(teamsQuery, firestoreLimit(limit + 1)); // +1 to check if there are more
+  }
 
   const querySnapshot = await getDocs(teamsQuery);
   const teams = [];
@@ -260,12 +345,22 @@ export async function getPublicApprovedTeams() {
     });
   });
 
-  return teams;
+  let nextPageToken = null;
+  if (limit && teams.length > limit) {
+    teams.pop(); // remove the extra one
+    nextPageToken = {
+      userId: teams[teams.length - 1].userId,
+      teamId: teams[teams.length - 1].id,
+    };
+  }
+
+  return { teams, nextPageToken };
 }
 
 /**
- * @deprecated Use getPublicApprovedTeams for public views or getTeamsByStatus('approved') for admin views.
+ * @deprecated Since v1.0 - will be removed in v2.0. Use getPublicApprovedTeams for public views or getTeamsByStatus('approved') for admin views.
  */
 export async function getAllApprovedTeams() {
-  return getPublicApprovedTeams();
+  const result = await getPublicApprovedTeams();
+  return result.teams;
 }
