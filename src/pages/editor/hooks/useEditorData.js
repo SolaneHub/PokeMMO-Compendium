@@ -110,17 +110,24 @@ export function useEditorData() {
   };
 
   const setSelectedFileNameAndClearPokedex = (fileName) => {
+    if (!fileName) {
+      console.warn(
+        "setSelectedFileNameAndClearPokedex called with falsy fileName"
+      );
+      return;
+    }
     setSelectedPokedex(false);
     setSelectedFileName(fileName);
     setFileData(null);
-    setLoading(true);
   };
 
   const setSelectedPokedexAndClearFileName = (isPokedexSelected) => {
     setSelectedFileName("");
     setSelectedPokedex(isPokedexSelected);
     setFileData(null);
-    setLoading(true);
+    if (isPokedexSelected) {
+      setLoading(true);
+    }
   };
 
   return {
