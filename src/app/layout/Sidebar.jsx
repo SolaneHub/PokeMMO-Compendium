@@ -49,8 +49,8 @@ function Sidebar({ isOpen, setIsOpen }) {
     if (isAdmin(currentUser.email)) {
       // Uncommented isAdmin check
       navigation.push({
-        name: "Admin Approvals",
-        path: "/admin/approvals",
+        name: "Admin Dashboard",
+        path: "/admin/dashboard",
         icon: CheckCircle,
       });
     }

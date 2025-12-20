@@ -3,29 +3,38 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Helper function to check if user is admin
+    // Checks if the 'admin' key exists in the token AND is true
+    function isAdmin() {
+      return request.auth != null && 'admin' in request.auth.token && request.auth.token.admin == true;
+    }
+
+    // Helper to check if user is the owner
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
     // Users collection: only the authenticated user can read/write their own data
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isOwner(userId);
     }
 
     // Elite Four Teams subcollection (User-scoped access)
     match /users/{userId}/elite_four_teams/{teamId} {
-      // Owner Access: Allow all operations
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-
-      // Admin Access: Allow all operations
-      allow read, write: if request.auth != null && request.auth.token.admin == true;
+      // Allow if user is the Owner OR is an Admin
+      // Short-circuit logic: if isOwner() is true, isAdmin() shouldn't cause issues
+      allow read, write: if isOwner(userId) || isAdmin();
     }
 
     // Collection Group query for public/admin reading of teams
     match /{path=**}/elite_four_teams/{teamId} {
-      allow read: if resource.data.status == 'approved' || (request.auth != null && request.auth.token.admin == true);
+      allow read: if resource.data.status == 'approved' || isAdmin();
     }
 
     // Pokedex collection: public read, admin write
     match /pokedex/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.admin == true;
+      allow write: if isAdmin();
     }
   }
 }

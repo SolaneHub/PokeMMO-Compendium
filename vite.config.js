@@ -14,6 +14,11 @@ export default defineConfig(({ command }) => ({
     }),
   ],
   base: command === "serve" ? "/" : "/PokeMMO-Compendium/",
+  server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+    },
+  },
   build: {
     outDir: "dist",
     chunkSizeWarningLimit: 1600,

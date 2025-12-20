@@ -3,7 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "@/app/layout/Home";
 import Shell from "@/app/layout/Shell";
-import AdminApprovalsPage from "@/pages/admin/approvals/AdminApprovalsPage";
+import AdminDashboardPage from "@/pages/admin/dashboard/AdminDashboardPage";
 import AuthPage from "@/pages/auth/AuthPage";
 import BossFightsPage from "@/pages/boss-fights/BossFightsPage";
 import BreedingPage from "@/pages/breeding/BreedingPage";
@@ -91,10 +91,10 @@ function App() {
 
               {/* Protected admin routes */}
               <Route
-                path="/admin/approvals"
+                path="/admin/dashboard"
                 element={
                   <ProtectedRoute adminOnly={true}>
-                    <AdminApprovalsPage />
+                    <AdminDashboardPage />
                   </ProtectedRoute>
                 }
               />
