@@ -1,8 +1,10 @@
-import { Check, CheckCircle, RotateCcw, Trash2, X } from "lucide-react";
+import { Check, CheckCircle, Edit, RotateCcw, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   deleteUserTeam,
+  getAllUserTeams,
   getTeamsByStatus,
   updateTeamStatus,
 } from "@/firebase/firestoreService";
@@ -21,6 +23,7 @@ const AdminTeamList = ({ status }) => {
   const confirm = useConfirm();
   const { showToast } = useToast();
   const [retryTrigger, setRetryTrigger] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let mounted = true;
@@ -29,7 +32,10 @@ const AdminTeamList = ({ status }) => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getTeamsByStatus(status);
+        const data =
+          status === "all"
+            ? await getAllUserTeams()
+            : await getTeamsByStatus(status);
         if (mounted) {
           setTeams(data);
         }
@@ -69,8 +75,11 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await updateTeamStatus(team.userId, team.id, newStatus);
-      const updatedTeams = await getTeamsByStatus(status);
-      setTeams(updatedTeams);
+      const updatedData =
+        status === "all"
+          ? await getAllUserTeams()
+          : await getTeamsByStatus(status);
+      setTeams(updatedData);
       showToast(
         `Team "${team.name}" ${action.toLowerCase()}ed successfully.`,
         "success"
@@ -94,8 +103,11 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await deleteUserTeam(team.userId, team.id);
-      const updatedTeams = await getTeamsByStatus(status);
-      setTeams(updatedTeams);
+      const updatedData =
+        status === "all"
+          ? await getAllUserTeams()
+          : await getTeamsByStatus(status);
+      setTeams(updatedData);
       showToast(`Team "${team.name}" deleted successfully.`, "success");
     } catch (err) {
       showToast(`Failed to delete team.`, "error");
@@ -137,17 +149,28 @@ const AdminTeamList = ({ status }) => {
           <div className="mb-4 flex-1">
             <div className="mb-2 flex items-center justify-between">
               <h3 className="text-lg font-bold text-white">{team.name}</h3>
-              <span
-                className={`rounded px-2 py-0.5 text-xs font-bold uppercase ${
-                  team.status === "approved"
-                    ? "bg-green-500/20 text-green-400"
-                    : team.status === "rejected"
-                      ? "bg-red-500/20 text-red-400"
-                      : "bg-amber-500/20 text-amber-400"
-                }`}
-              >
-                {team.status || "draft"}
-              </span>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`rounded px-2 py-0.5 text-xs font-bold uppercase ${
+                    team.status === "approved"
+                      ? "bg-green-500/20 text-green-400"
+                      : team.status === "rejected"
+                        ? "bg-red-500/20 text-red-400"
+                        : "bg-amber-500/20 text-amber-400"
+                  }`}
+                >
+                  {team.status || "draft"}
+                </span>
+                <button
+                  onClick={() =>
+                    navigate(`/admin/edit-team/${team.userId}/${team.id}`)
+                  }
+                  className="rounded bg-blue-600 p-1.5 text-white transition-colors hover:bg-blue-700"
+                  title="Edit Team"
+                >
+                  <Edit size={14} />
+                </button>
+              </div>
             </div>
             <p className="text-xs text-slate-500">By User ID: {team.userId}</p>
             {Array.isArray(team.members) && team.members.length > 0 && (
@@ -164,7 +187,8 @@ const AdminTeamList = ({ status }) => {
           </div>
 
           <div className="mt-4 flex gap-2 border-t border-slate-700 pt-4">
-            {status === "pending" && (
+            {(status === "pending" ||
+              (status === "all" && team.status === "pending")) && (
               <>
                 <button
                   onClick={() => handleStatusChange(team, "approved")}
@@ -183,7 +207,8 @@ const AdminTeamList = ({ status }) => {
               </>
             )}
 
-            {status === "approved" && (
+            {(status === "approved" ||
+              (status === "all" && team.status === "approved")) && (
               <button
                 onClick={() => handleStatusChange(team, "rejected")}
                 disabled={!!processingId}
@@ -193,7 +218,8 @@ const AdminTeamList = ({ status }) => {
               </button>
             )}
 
-            {status === "rejected" && (
+            {(status === "rejected" ||
+              (status === "all" && team.status === "rejected")) && (
               <button
                 onClick={() => handleStatusChange(team, "pending")}
                 disabled={!!processingId}
@@ -202,6 +228,17 @@ const AdminTeamList = ({ status }) => {
                 <RotateCcw size={16} /> Move to Pending
               </button>
             )}
+
+            {status === "all" && (!team.status || team.status === "draft") && (
+              <button
+                onClick={() => handleStatusChange(team, "pending")}
+                disabled={!!processingId}
+                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 py-2 text-sm font-bold text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+              >
+                <Check size={16} /> Publish
+              </button>
+            )}
+
             <button
               onClick={() => handleDeleteTeam(team)}
               disabled={!!processingId}
@@ -219,9 +256,10 @@ const AdminTeamList = ({ status }) => {
 
 const AdminDashboardPage = () => {
   const { loading: authLoading } = useAuth();
-  const [activeTab, setActiveTab] = useState("pending");
+  const [activeTab, setActiveTab] = useState("all");
 
   const tabs = [
+    { id: "all", label: "All Teams" },
     { id: "pending", label: "Pending" },
     { id: "approved", label: "Approved" },
     { id: "rejected", label: "Rejected" },

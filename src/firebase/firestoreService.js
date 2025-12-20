@@ -165,6 +165,28 @@ export async function getTeamsByStatus(status) {
 }
 
 /**
+ * Fetches ALL teams across ALL users.
+ * Requires a Firestore Composite Index (CollectionGroup).
+ */
+export async function getAllUserTeams() {
+  const teamsQuery = query(collectionGroup(db, TEAMS_COLLECTION));
+
+  const querySnapshot = await getDocs(teamsQuery);
+  const teams = [];
+
+  querySnapshot.forEach((doc) => {
+    const parentUser = doc.ref.parent.parent;
+    teams.push({
+      id: doc.id,
+      userId: parentUser ? parentUser.id : "unknown",
+      ...doc.data(),
+    });
+  });
+
+  return teams;
+}
+
+/**
  * Updates an array of Pokemon data in the 'pokedex' collection.
  * Each Pokemon document is identified by its 'id' field.
  * Uses a batch write for efficiency.

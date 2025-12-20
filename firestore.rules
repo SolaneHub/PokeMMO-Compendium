@@ -21,9 +21,19 @@ service cloud.firestore {
 
     // Elite Four Teams subcollection (User-scoped access)
     match /users/{userId}/elite_four_teams/{teamId} {
-      // Allow if user is the Owner OR is an Admin
-      // Short-circuit logic: if isOwner() is true, isAdmin() shouldn't cause issues
-      allow read, write: if isOwner(userId) || isAdmin();
+      allow read: if isOwner(userId) || isAdmin();
+      
+      allow create: if isOwner(userId) && 
+        request.resource.data.status in ['draft', 'pending'] &&
+        request.resource.data.isPublic == false;
+      
+      allow update: if isAdmin() || (
+        isOwner(userId) && 
+        request.resource.data.status in ['draft', 'pending'] &&
+        request.resource.data.isPublic == false
+      );
+      
+      allow delete: if isOwner(userId) || isAdmin();
     }
 
     // Collection Group query for public/admin reading of teams

@@ -39,7 +39,8 @@ function App() {
   const noPaddingRoutes = ["/editor"];
   const shouldRemovePadding =
     noPaddingRoutes.includes(currentPath) ||
-    currentPath.startsWith("/my-teams/");
+    currentPath.startsWith("/my-teams/") ||
+    currentPath.startsWith("/admin/edit-team/");
 
   return (
     <ConfirmationProvider>
@@ -95,6 +96,14 @@ function App() {
                 element={
                   <ProtectedRoute adminOnly={true}>
                     <AdminDashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/edit-team/:userId/:id"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <UserTeamEditorPage />
                   </ProtectedRoute>
                 }
               />
