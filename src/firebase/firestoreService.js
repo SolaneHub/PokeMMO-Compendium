@@ -180,7 +180,9 @@ export async function updatePokedexData(pokedexArray) {
 
   pokedexArray.forEach((pokemon) => {
     if (pokemon.id) {
-      const docRef = doc(db, POKEDEX_COLLECTION, pokemon.id.toString());
+      // Use zero-padding for document ID to ensure correct lexicographical order in Firestore console
+      const docId = pokemon.id.toString().padStart(3, "0");
+      const docRef = doc(db, POKEDEX_COLLECTION, docId);
       // Firestore doesn't like undefined values, so clean the object
       const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
       batch.set(docRef, cleanPokemon, { merge: true }); // Use merge to avoid overwriting entire documents if not all fields are present

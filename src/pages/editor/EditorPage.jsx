@@ -10,7 +10,6 @@ import { useEditorData } from "@/pages/editor/hooks/useEditorData";
 import PageTitle from "@/shared/components/PageTitle";
 
 const EDITOR_MAPPING = {
-  "eliteFourData.json": EliteFourEditor,
   "raidsData.json": RaidsEditor,
   "pickupData.json": PickupEditor,
   "redData.json": RedEditor,

@@ -1,54 +1,44 @@
-import eliteFourData from "@/data/eliteFourData.json";
+import { eliteFourMembers } from "@/shared/utils/eliteFourMembers";
 
-const membersMap = new Map(eliteFourData.map((m) => [m.name, m]));
+const membersMap = new Map(eliteFourMembers.map((m) => [m.name, m]));
 
 export const getAllEliteFourMembers = () => {
-  return eliteFourData;
+  return eliteFourMembers;
 };
 
 export const getMembersByRegion = (regionName) => {
   if (!regionName) return [];
-  return eliteFourData.filter((m) => m.region === regionName);
+  return eliteFourMembers.filter((m) => m.region === regionName);
 };
 
 export const getMemberByName = (memberName) => {
   return membersMap.get(memberName) || null;
 };
 
+/**
+ * @deprecated Strategy logic moved to Firestore. Use TeamSelection and currentTeamData in EliteFourPage.
+ */
 export const getTeamNamesForMember = (memberName) => {
-  const member = getMemberByName(memberName);
-  if (!member || !member.teams) return [];
-  return Object.keys(member.teams).sort();
+  return [];
 };
 
+/**
+ * @deprecated Strategy logic moved to Firestore.
+ */
 export const getPokemonListForTeam = (memberName, teamName) => {
-  const member = getMemberByName(memberName);
-  if (!member || !member.teams || !teamName) return [];
-
-  const team = member.teams[teamName];
-  return team ? team.pokemonNames : [];
+  return [];
 };
 
+/**
+ * @deprecated Strategy logic moved to Firestore.
+ */
 export const getPokemonStrategy = (memberName, teamName, pokemonName) => {
-  const member = getMemberByName(memberName);
-  if (!member || !member.teams || !teamName) return [];
-
-  const team = member.teams[teamName];
-  if (!team || !team.pokemonStrategies) return [];
-
-  return team.pokemonStrategies[pokemonName] || [];
+  return [];
 };
 
+/**
+ * @deprecated Strategy logic moved to Firestore.
+ */
 export const getTeamBuilds = (teamName) => {
-  if (!teamName) return [];
-
-  const memberWithTeam = eliteFourData.find(
-    (m) => m.teams && m.teams[teamName]
-  );
-
-  if (memberWithTeam && memberWithTeam.teams[teamName].builds) {
-    return memberWithTeam.teams[teamName].builds;
-  }
-
   return [];
 };
