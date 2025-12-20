@@ -35,7 +35,7 @@ export function useUserTeams() {
     } finally {
       setLoading(false);
     }
-  }, [currentUser?.uid, authLoading, showToast]);
+  }, [currentUser, authLoading, showToast]);
 
   useEffect(() => {
     _fetchTeams();

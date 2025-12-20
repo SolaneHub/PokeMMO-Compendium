@@ -29,6 +29,22 @@ const EliteFourEditor = ({ data, onChange }) => {
   const [memberIndex, setMemberIndex] = useState(null);
   const [teamKey, setTeamKey] = useState(null);
   const [pokemon, setPokemon] = useState(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  if (!data || !Array.isArray(data)) {
+    return (
+      <div className="p-5 text-center text-[#ff6b81]">
+        ⚠️ Invalid Elite Four Data. Expected an array.
+      </div>
+    );
+  }
+
   const currentMember = memberIndex !== null ? data?.[memberIndex] : null;
   const currentTeam = currentMember?.teams?.[teamKey];
   const steps = currentTeam?.pokemonStrategies?.[pokemon];
@@ -41,13 +57,6 @@ const EliteFourEditor = ({ data, onChange }) => {
       onChange(newData);
     }
   };
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   function handleDragEnd(event) {
     const { active, over } = event;

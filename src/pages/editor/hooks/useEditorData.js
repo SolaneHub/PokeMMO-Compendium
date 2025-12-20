@@ -112,11 +112,15 @@ export function useEditorData() {
   const setSelectedFileNameAndClearPokedex = (fileName) => {
     setSelectedPokedex(false);
     setSelectedFileName(fileName);
+    setFileData(null);
+    setLoading(true);
   };
 
   const setSelectedPokedexAndClearFileName = (isPokedexSelected) => {
     setSelectedFileName("");
     setSelectedPokedex(isPokedexSelected);
+    setFileData(null);
+    setLoading(true);
   };
 
   return {
