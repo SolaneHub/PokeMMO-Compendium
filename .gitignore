@@ -53,3 +53,6 @@ gh-pages/
 # Sensitive files
 serviceAccountKey.json
 make-admin.js
+
+.gemini/
+gha-creds-*.json

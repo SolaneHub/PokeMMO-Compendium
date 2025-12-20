@@ -18,10 +18,8 @@ export async function verifyPokedexMigration() {
     const snapshot = await getCountFromServer(coll);
     const serverCount = snapshot.data().count;
 
-    console.log(`Verifica Pokedex: Firestore (${serverCount}) documenti`);
     alert(`✅ Verifica completata!\nFirestore: ${serverCount} documenti.`);
   } catch (error) {
-    console.error("Errore durante la verifica:", error);
     alert(`Errore verifica: ${error.message}`);
   }
 }
@@ -50,7 +48,6 @@ export async function migratePokedexToFirestore(sourcePokedexData) {
     return;
   }
 
-  console.log("Inizio migrazione Pokedex...");
   const batchSize = 450; // Firestore limit is 500
   let totalMigrated = 0;
 
@@ -83,15 +80,11 @@ export async function migratePokedexToFirestore(sourcePokedexData) {
 
       await batch.commit();
       totalMigrated += chunkMigrated;
-      console.log(
-        `Batch ${i + 1}/${chunks.length} completato. Totale migrati: ${totalMigrated}`
-      );
     }
     alert(
       `Migrazione completata! ${totalMigrated} Pokémon aggiunti al database.`
     );
   } catch (error) {
-    console.error("Errore durante la migrazione:", error);
     alert(`Errore durante la migrazione: ${error.message}`);
   }
 }

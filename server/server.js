@@ -26,7 +26,6 @@ app.get("/api/files", (req, res) => {
       .filter((file) => file.endsWith(".json"));
     res.json(files);
   } catch (err) {
-    console.error("Errore lettura directory:", err);
     res.status(500).json({ error: "Impossibile leggere la directory" });
   }
 });
@@ -46,7 +45,6 @@ app.get("/api/data", (req, res) => {
     const data = JSON.parse(rawData);
     res.json(data);
   } catch (err) {
-    console.error(`Errore lettura ${fileName}:`, err);
     res.status(500).json({ error: "Impossibile leggere il file" });
   }
 });
@@ -67,7 +65,6 @@ app.post("/api/data", (req, res) => {
       message: `File ${fileName} salvato con successo`,
     });
   } catch (err) {
-    console.error(`Errore salvataggio ${fileName}:`, err);
     res.status(500).json({ error: "Impossibile salvare il file" });
   }
 });
@@ -93,12 +90,9 @@ app.get("/api/proxy-image", async (req, res) => {
     const buffer = Buffer.from(arrayBuffer);
     res.send(buffer);
   } catch (error) {
-    console.error("Proxy error:", error);
     res.status(500).send("Proxy error");
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Backend avviato su http://localhost:${PORT}`);
-  console.log(`📂 Cartella dati: ${DATA_DIR}`);
 });

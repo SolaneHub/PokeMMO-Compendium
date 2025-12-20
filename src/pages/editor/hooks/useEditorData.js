@@ -71,7 +71,6 @@ export function useEditorData() {
         if (!ignore) setFileData(data);
       } catch (err) {
         if (!ignore) showToast("Error loading file.", "error");
-        console.error("Error fetching editor data:", err);
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -106,7 +105,6 @@ export function useEditorData() {
         }
       } catch (err) {
         showToast("❌ Connection error or Firebase save error.", "error");
-        console.error("Error saving editor data:", err);
       }
     });
   };

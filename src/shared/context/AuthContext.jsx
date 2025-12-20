@@ -1,8 +1,6 @@
 import {
-  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
@@ -21,21 +19,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // Auth functions
-  async function signup(email, password, recaptchaToken) {
-    if (!recaptchaToken) {
-      throw new Error("reCAPTCHA verification failed. Please try again.");
-    }
-    // Client-side reCAPTCHA check is active. Server-side verification is disabled.
-    return createUserWithEmailAndPassword(auth, email, password);
-  }
-
-  async function login(email, password, recaptchaToken) {
-    if (!recaptchaToken) {
-      throw new Error("reCAPTCHA verification failed. Please try again.");
-    }
-    // Client-side reCAPTCHA check is active. Server-side verification is disabled.
-    return signInWithEmailAndPassword(auth, email, password);
-  }
 
   function logout() {
     return signOut(auth);
@@ -59,8 +42,6 @@ export function AuthProvider({ children }) {
     () => ({
       currentUser,
       loading,
-      signup,
-      login,
       logout,
       googleSignIn,
     }),

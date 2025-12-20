@@ -119,20 +119,7 @@ export async function getUserTeams(userId) {
  * @param {object} updates
  */
 export async function updateUserTeam(userId, teamId, updates) {
-  let validatedData;
-  try {
-    validatedData = TeamSchema.partial().parse(updates);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error(
-        "Zod validation error during updateUserTeam:",
-        error.errors
-      );
-    } else {
-      console.error("Error during updateUserTeam validation:", error);
-    }
-    throw error; // Re-throw to propagate the error to the calling function (useTeamEditor)
-  }
+  const validatedData = TeamSchema.partial().parse(updates);
   const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
   await updateDoc(teamRef, {
     ...validatedData,
@@ -202,15 +189,7 @@ export async function updatePokedexData(pokedexArray) {
     }
   });
 
-  try {
-    await batch.commit();
-    console.log(
-      `Pokedex data updated successfully for ${pokedexArray.length} items.`
-    );
-  } catch (error) {
-    console.error("Error updating Pokedex data:", error);
-    throw error;
-  }
+  await batch.commit();
 }
 /**
  * Fetches all teams with status 'pending' across ALL users.
@@ -239,30 +218,25 @@ export async function updateTeamStatus(userId, teamId, status) {
  * @returns {Promise<Array>} List of approved teams.
  */
 export async function getPublicApprovedTeams() {
-  try {
-    const teamsQuery = query(
-      collectionGroup(db, TEAMS_COLLECTION),
-      where("status", "==", "approved"),
-      where("isPublic", "==", true)
-    );
+  const teamsQuery = query(
+    collectionGroup(db, TEAMS_COLLECTION),
+    where("status", "==", "approved"),
+    where("isPublic", "==", true)
+  );
 
-    const querySnapshot = await getDocs(teamsQuery);
-    const teams = [];
+  const querySnapshot = await getDocs(teamsQuery);
+  const teams = [];
 
-    querySnapshot.forEach((doc) => {
-      const parentUser = doc.ref.parent.parent;
-      teams.push({
-        id: doc.id,
-        userId: parentUser ? parentUser.id : "unknown",
-        ...doc.data(),
-      });
+  querySnapshot.forEach((doc) => {
+    const parentUser = doc.ref.parent.parent;
+    teams.push({
+      id: doc.id,
+      userId: parentUser ? parentUser.id : "unknown",
+      ...doc.data(),
     });
+  });
 
-    return teams;
-  } catch (error) {
-    console.error("Error fetching public teams:", error);
-    throw error;
-  }
+  return teams;
 }
 
 /**

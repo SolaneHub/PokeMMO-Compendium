@@ -16,7 +16,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
@@ -24,9 +24,6 @@ export const db = getFirestore(app);
 if (import.meta.env.PROD) {
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
   if (!recaptchaSiteKey) {
-    console.error(
-      "VITE_RECAPTCHA_SITE_KEY is not defined. App Check will not be initialized."
-    );
     // Optionally, you might want to throw an error or handle this more strictly
     // throw new Error("VITE_RECAPTCHA_SITE_KEY is missing in production environment.");
   } else {

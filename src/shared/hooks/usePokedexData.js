@@ -65,7 +65,6 @@ export const usePokedexData = () => {
           setData(finalData); // Update component state
         }
       } catch (err) {
-        console.error("Failed to load Pokedex data from Firestore:", err);
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };
