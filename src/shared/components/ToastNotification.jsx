@@ -1,4 +1,4 @@
-import { createContext, useCallback,useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 const ToastContext = createContext();
 
@@ -15,7 +15,7 @@ export const ToastProvider = ({ children }) => {
   }, []);
 
   return (
-    <ToastContext value={showToast}>
+    <ToastContext.Provider value={showToast}>
       {children}
       <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end space-y-2">
         {toasts.map((toast) => (
@@ -27,7 +27,7 @@ export const ToastProvider = ({ children }) => {
           </div>
         ))}
       </div>
-    </ToastContext>
+    </ToastContext.Provider>
   );
 };
 

@@ -35,14 +35,10 @@ const EXAMPLE_STEP = {
 };
 
 const addIdsToStep = (step, parentId = "root") => {
-  console.log(`[addIdsToStep] Processing step (parentId: ${parentId}):`, step);
   const newStep = {
     ...step,
     id: step.id || crypto.randomUUID(), // Ensure ID is present
   };
-  console.log(
-    `[addIdsToStep] Assigned ID to step (type: ${newStep.type}): ${newStep.id}`
-  );
 
   if (newStep.variations && newStep.variations.length > 0) {
     newStep.variations = newStep.variations.map((v) => ({

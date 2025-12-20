@@ -8,28 +8,24 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-
-    // Elite Four Teams subcollection: users can read/write their own teams,
-    // admins can read/write all teams, public can read approved and public teams
+    // Elite Four Teams subcollection (User-scoped access)
     match /users/{userId}/elite_four_teams/{teamId} {
-      allow read: if
-        // Approved public teams are visible to everyone
-        (resource.data.status == 'approved' && resource.data.isPublic == true) ||
-        // Otherwise, if you are the owner or an admin
-        (request.auth != null && (
-          request.auth.uid == userId ||
-          request.auth.token.admin == true
-        ));
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update, delete: if request.auth != null && (
-        request.auth.uid == userId ||
-        request.auth.token.admin == true
-      );
+      // Owner Access: Allow all operations
+      allow read, write: if request.auth != null && request.auth.uid == userId;
 
-      // Limit the number of teams retrieved in a listing query
-      allow list: if request.auth != null
-        && request.auth.uid == userId
-        && request.query.limit <= 100;
+      // Admin Access: Allow all operations
+      allow read, write: if request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Collection Group query for public/admin reading of teams
+    match /{path=**}/elite_four_teams/{teamId} {
+      allow read: if resource.data.status == 'approved' || (request.auth != null && request.auth.token.admin == true);
+    }
+
+    // Pokedex collection: public read, admin write
+    match /pokedex/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.token.admin == true;
     }
   }
 }

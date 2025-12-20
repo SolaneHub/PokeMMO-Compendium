@@ -3,12 +3,17 @@ import { useEffect, useState } from "react";
 
 import { logger } from "@/shared/utils/logger";
 
-export function useAdminCheck() {
+export function useAdminCheck(enabled = true) {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(enabled);
   const auth = getAuth();
 
   useEffect(() => {
+    if (!enabled) {
+      setLoading(false);
+      return;
+    }
+
     const checkAdmin = async () => {
       setLoading(true);
       try {
@@ -32,7 +37,7 @@ export function useAdminCheck() {
     return auth.onAuthStateChanged(() => {
       checkAdmin();
     });
-  }, [auth]);
+  }, [auth, enabled]);
 
   return { isAdmin, loading };
 }

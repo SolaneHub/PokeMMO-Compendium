@@ -10,6 +10,7 @@ import {
 import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
 import PageTitle from "@/shared/components/PageTitle";
+import PokemonSpriteCircle from "@/shared/components/PokemonSpriteCircle"; // Import the new component
 import { useAuth } from "@/shared/context/AuthContext";
 import { useAdminCheck } from "@/shared/hooks/useAdminCheck";
 
@@ -147,22 +148,11 @@ const AdminTeamList = ({ status }) => {
             <p className="text-xs text-slate-500">By User ID: {team.userId}</p>
             <div className="mt-3 flex gap-2">
               {team.members?.slice(0, 6).map((m, i) => (
-                <div
+                <PokemonSpriteCircle
                   key={i}
-                  className="h-8 w-8 overflow-hidden rounded-full border border-slate-600 bg-slate-700"
-                >
-                  {m?.sprite ? (
-                    <img
-                      src={m.sprite}
-                      alt=""
-                      className="h-full w-full object-contain"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-xs text-slate-500">
-                      ?
-                    </div>
-                  )}
-                </div>
+                  spriteUrl={m?.sprite}
+                  pokemonName={m?.name}
+                />
               ))}
             </div>
           </div>

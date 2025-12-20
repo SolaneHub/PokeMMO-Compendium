@@ -16,6 +16,7 @@ export default defineConfig(({ command }) => ({
   base: command === "serve" ? "/" : "/PokeMMO-Compendium/",
   build: {
     outDir: "dist",
+    chunkSizeWarningLimit: 1600,
   },
   resolve: {
     alias: {
