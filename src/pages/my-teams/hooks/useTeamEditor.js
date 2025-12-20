@@ -73,7 +73,7 @@ const sanitizeTeam = (teamData) => {
 };
 
 export function useTeamEditor() {
-  const { id: teamId } = useParams();
+  const { id: teamId, userId: paramUserId } = useParams();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const showToast = useToast();
@@ -82,18 +82,21 @@ export function useTeamEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  // Determine which user ID to use (paramUserId for admin editing, or currentUser.uid)
+  const targetUserId = paramUserId || currentUser?.uid;
+
   useEffect(() => {
     async function load() {
-      if (!currentUser) return;
+      if (!targetUserId) return;
       try {
-        const teams = await getUserTeams(currentUser.uid);
+        const teams = await getUserTeams(targetUserId);
         const found = teams.find((t) => t.id === teamId);
         if (found) {
           const sanitized = sanitizeTeam(found);
           setTeam(sanitized);
         } else {
           showToast("Team not found", "error");
-          navigate("/my-teams");
+          navigate(paramUserId ? "/admin/dashboard" : "/my-teams");
         }
       } catch (err) {
         console.error("[useTeamEditor] Error loading team:", err);
@@ -103,11 +106,11 @@ export function useTeamEditor() {
       }
     }
     load();
-  }, [currentUser, teamId, navigate, showToast]);
+  }, [targetUserId, teamId, navigate, showToast, paramUserId]);
 
   const saveTeam = async (updatedTeam) => {
     const teamToSave = updatedTeam || team;
-    if (!teamToSave) return;
+    if (!teamToSave || !targetUserId) return;
     setSaving(true);
 
     // Sanitize before saving
@@ -115,7 +118,7 @@ export function useTeamEditor() {
 
     try {
       // Use the service to update Firestore
-      await updateUserTeam(currentUser.uid, teamId, {
+      await updateUserTeam(targetUserId, teamId, {
         name: sanitizedToSave.name,
         region: sanitizedToSave.region,
         members: sanitizedToSave.members,

@@ -1,6 +1,6 @@
 import { ArrowLeft, Save } from "lucide-react";
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import AddEnemyPokemonModal from "@/pages/my-teams/components/AddEnemyPokemonModal";
 import EditorSidebar from "@/pages/my-teams/components/editor/EditorSidebar";
@@ -14,6 +14,7 @@ const REGIONS = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova"];
 
 const UserTeamEditorPage = () => {
   const navigate = useNavigate();
+  const { userId: paramUserId } = useParams();
   const showToast = useToast();
   const { team, setTeam, loading, saving, saveTeam } = useTeamEditor();
 
@@ -364,11 +365,13 @@ const UserTeamEditorPage = () => {
         {/* Top Bar for Context/Actions */}
         <div className="flex h-14 items-center justify-between border-b border-white/5 bg-[#121317] px-6">
           <button
-            onClick={() => navigate("/my-teams")}
+            onClick={() =>
+              navigate(paramUserId ? "/admin/dashboard" : "/my-teams")
+            }
             className="flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
           >
             <ArrowLeft size={16} />
-            Back to My Teams
+            {paramUserId ? "Back to Admin Dashboard" : "Back to My Teams"}
           </button>
 
           <div className="flex items-center gap-3">
