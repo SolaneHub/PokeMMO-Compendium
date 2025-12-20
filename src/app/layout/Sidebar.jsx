@@ -21,12 +21,11 @@ import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/shared/context/AuthContext";
-import { isAdmin } from "@/shared/utils/adminUtils"; // Updated import path
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, isAdmin: isUserAdmin } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const baseNavigation = [
@@ -46,8 +45,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   if (currentUser) {
     navigation.push({ name: "My Teams", path: "/my-teams", icon: User });
-    if (isAdmin(currentUser.email)) {
-      // Uncommented isAdmin check
+    if (isUserAdmin) {
       navigation.push({
         name: "Admin Dashboard",
         path: "/admin/dashboard",

@@ -1,25 +1,26 @@
 import { Check, CheckCircle, RotateCcw, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import {
   deleteUserTeam,
   getTeamsByStatus,
   updateTeamStatus,
 } from "@/firebase/firestoreService";
-import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
+import { useConfirm } from "@/shared/components/ConfirmationModal";
 import ErrorBoundary from "@/shared/components/ErrorBoundary";
 import PageTitle from "@/shared/components/PageTitle";
-import PokemonSpriteCircle from "@/shared/components/PokemonSpriteCircle"; // Import the new component
+import PokemonSpriteCircle from "@/shared/components/PokemonSpriteCircle";
+import { useToast } from "@/shared/components/ToastNotification";
 import { useAuth } from "@/shared/context/AuthContext";
-import { useAdminCheck } from "@/shared/hooks/useAdminCheck";
 
 const AdminTeamList = ({ status }) => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [processingId, setProcessingId] = useState(null);
-  const confirm = useConfirm(); // Initialize useConfirm
+  const confirm = useConfirm();
+  const { showToast } = useToast();
+  const [retryTrigger, setRetryTrigger] = useState(0);
 
   useEffect(() => {
     let mounted = true;
@@ -48,7 +49,7 @@ const AdminTeamList = ({ status }) => {
     return () => {
       mounted = false;
     };
-  }, [status]);
+  }, [status, retryTrigger]);
 
   const handleStatusChange = async (team, newStatus) => {
     const action =
@@ -68,11 +69,14 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await updateTeamStatus(team.userId, team.id, newStatus);
-      // Refresh list
       const updatedTeams = await getTeamsByStatus(status);
       setTeams(updatedTeams);
+      showToast(
+        `Team "${team.name}" ${action.toLowerCase()}ed successfully.`,
+        "success"
+      );
     } catch (err) {
-      alert(`Failed to ${action.toLowerCase()} team.`);
+      showToast(`Failed to ${action.toLowerCase()} team.`, "error");
     } finally {
       setProcessingId(null);
     }
@@ -90,11 +94,11 @@ const AdminTeamList = ({ status }) => {
     setProcessingId(team.id);
     try {
       await deleteUserTeam(team.userId, team.id);
-      // Refresh list
       const updatedTeams = await getTeamsByStatus(status);
       setTeams(updatedTeams);
+      showToast(`Team "${team.name}" deleted successfully.`, "success");
     } catch (err) {
-      alert("Failed to delete team.");
+      showToast(`Failed to delete team.`, "error");
     } finally {
       setProcessingId(null);
     }
@@ -114,7 +118,7 @@ const AdminTeamList = ({ status }) => {
         <h3 className="mb-2 text-lg font-bold">Error loading teams</h3>
         <p className="text-sm opacity-80">{error.message}</p>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => setRetryTrigger((prev) => prev + 1)}
           className="mt-4 rounded bg-red-600 px-4 py-2 text-sm font-bold hover:bg-red-700"
         >
           Retry
@@ -146,15 +150,17 @@ const AdminTeamList = ({ status }) => {
               </span>
             </div>
             <p className="text-xs text-slate-500">By User ID: {team.userId}</p>
-            <div className="mt-3 flex gap-2">
-              {team.members?.slice(0, 6).map((m, i) => (
-                <PokemonSpriteCircle
-                  key={i}
-                  spriteUrl={m?.sprite}
-                  pokemonName={m?.name}
-                />
-              ))}
-            </div>
+            {Array.isArray(team.members) && team.members.length > 0 && (
+              <div className="mt-3 flex gap-2">
+                {team.members.slice(0, 6).map((m, i) => (
+                  <PokemonSpriteCircle
+                    key={i}
+                    spriteUrl={m?.sprite}
+                    pokemonName={m?.name}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="mt-4 flex gap-2 border-t border-slate-700 pt-4">
@@ -212,19 +218,8 @@ const AdminTeamList = ({ status }) => {
 };
 
 const AdminDashboardPage = () => {
-  const { currentUser, loading: authLoading } = useAuth();
-  const { isAdmin, loading: adminLoading } = useAdminCheck();
-  const navigate = useNavigate();
+  const { loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState("pending");
-
-  useEffect(() => {
-    if (authLoading || adminLoading) return;
-
-    if (!currentUser || !isAdmin) {
-      navigate("/"); // Or a dedicated 403 page
-      return;
-    }
-  }, [currentUser, authLoading, isAdmin, adminLoading, navigate]);
 
   const tabs = [
     { id: "pending", label: "Pending" },
@@ -232,18 +227,13 @@ const AdminDashboardPage = () => {
     { id: "rejected", label: "Rejected" },
   ];
 
-  if (authLoading || adminLoading) {
-    return (
-      <div className="p-8 text-center text-white">
-        Loading admin dashboard...
-      </div>
-    );
+  if (authLoading) {
+    return <div className="p-8 text-center text-white">Loading...</div>;
   }
 
   return (
     <div className="animate-fade-in container mx-auto min-h-screen text-slate-200">
       <PageTitle title="Admin Dashboard" />
-
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
           <CheckCircle className="text-blue-400" size={32} />
