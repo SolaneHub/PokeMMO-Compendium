@@ -7,6 +7,7 @@ import {
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { auth } from "@/firebase/config";
+import { logger } from "@/shared/utils/logger";
 
 const AuthContext = createContext();
 
@@ -16,9 +17,9 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Auth functions
+  const [adminLoading, setAdminLoading] = useState(false);
 
   function logout() {
     return signOut(auth);
@@ -30,9 +31,30 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    let abortController = new AbortController();
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      abortController.abort();
+      abortController = new AbortController();
       setCurrentUser(user);
-      setLoading(false);
+
+      if (user) {
+        setAdminLoading(true);
+        try {
+          // Force refresh to get latest claims
+          const tokenResult = await user.getIdTokenResult(true);
+          setIsAdmin(!!tokenResult.claims.admin);
+        } catch (error) {
+          logger.error("Error checking admin claim in AuthContext:", error);
+          setIsAdmin(false);
+        } finally {
+          setAdminLoading(false);
+          setLoading(false);
+        }
+      } else {
+        setIsAdmin(false);
+        setAdminLoading(false);
+        setLoading(false);
+      }
     });
 
     return unsubscribe;
@@ -41,16 +63,13 @@ export function AuthProvider({ children }) {
   const value = useMemo(
     () => ({
       currentUser,
-      loading,
+      isAdmin,
+      loading: loading || adminLoading,
       logout,
       googleSignIn,
     }),
-    [currentUser, loading]
+    [currentUser, isAdmin, loading, adminLoading]
   );
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
