@@ -11,11 +11,6 @@ import {
 
 const editorNavigationItems = [
   {
-    fileName: "eliteFourData.json",
-    label: "Elite Four",
-    icon: <FaDragon className="text-xl" />,
-  },
-  {
     fileName: "raidsData.json",
     label: "Raids",
     icon: <FaBolt className="text-xl" />,

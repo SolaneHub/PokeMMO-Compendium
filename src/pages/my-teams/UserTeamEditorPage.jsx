@@ -2,7 +2,7 @@ import { ArrowLeft, Save } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import eliteFourData from "@/data/eliteFourData.json";
+import { eliteFourMembers } from "@/shared/utils/eliteFourMembers";
 import AddEnemyPokemonModal from "@/pages/my-teams/components/AddEnemyPokemonModal";
 import EditorSidebar from "@/pages/my-teams/components/editor/EditorSidebar";
 import StrategyEditor from "@/pages/my-teams/components/editor/StrategyEditor";
@@ -31,8 +31,8 @@ const UserTeamEditorPage = () => {
 
   // --- Derived Data ---
   const availableMembers = useMemo(() => {
-    // Flatten all E4 members from all regions
-    return eliteFourData;
+    // Use the static members list
+    return eliteFourMembers;
   }, []);
 
   // --- Handlers ---

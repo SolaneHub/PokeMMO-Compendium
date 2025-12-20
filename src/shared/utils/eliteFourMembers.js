@@ -1,0 +1,152 @@
+export const eliteFourMembers = [
+  {
+    "name": "Lorelei",
+    "region": "Kanto",
+    "type": "Ice",
+    "image": "LoreleiLGPE.png"
+  },
+  {
+    "name": "Bruno",
+    "region": "Kanto",
+    "type": "Fighting",
+    "image": "BrunoLGPE.png"
+  },
+  {
+    "name": "Agatha",
+    "region": "Kanto",
+    "type": "Ghost",
+    "image": "AgathaLGPE.png"
+  },
+  {
+    "name": "Lance",
+    "region": "Kanto",
+    "type": "Dragon",
+    "image": "LanceLGPE.png"
+  },
+  {
+    "name": "Blue",
+    "region": "Kanto",
+    "type": "Various",
+    "image": "BluLGPE.png"
+  },
+  {
+    "name": "Will",
+    "region": "Johto",
+    "type": "Psychic",
+    "image": "WillHGSS.png"
+  },
+  {
+    "name": "Koga",
+    "region": "Johto",
+    "type": "Poison",
+    "image": "KogaLGPE.png"
+  },
+  {
+    "name": "Bruno",
+    "region": "Johto",
+    "type": "Fighting",
+    "image": "BrunoLGPE.png"
+  },
+  {
+    "name": "Karen",
+    "region": "Johto",
+    "type": "Dark",
+    "image": "KarenHGSS.png"
+  },
+  {
+    "name": "Lance",
+    "region": "Johto",
+    "type": "Dragon",
+    "image": "LanceLGPE.png"
+  },
+  {
+    "name": "Sidney",
+    "region": "Hoenn",
+    "type": "Dark",
+    "image": "SidneyROZA.png"
+  },
+  {
+    "name": "Phoebe",
+    "region": "Hoenn",
+    "type": "Ghost",
+    "image": "PhoebeROZA.png"
+  },
+  {
+    "name": "Glacia",
+    "region": "Hoenn",
+    "type": "Ice",
+    "image": "GlaciaROZA.png"
+  },
+  {
+    "name": "Drake",
+    "region": "Hoenn",
+    "type": "Dragon",
+    "image": "DrakeROZA.png"
+  },
+  {
+    "name": "Wallace",
+    "region": "Hoenn",
+    "type": "Water",
+    "image": "WallaceROZA.png"
+  },
+  {
+    "name": "Aaron",
+    "region": "Sinnoh",
+    "type": "Bug",
+    "image": "AaronDP.png"
+  },
+  {
+    "name": "Bertha",
+    "region": "Sinnoh",
+    "type": "Ground",
+    "image": "BerthaDP.png"
+  },
+  {
+    "name": "Flint",
+    "region": "Sinnoh",
+    "type": "Fire",
+    "image": "FlintDP.png"
+  },
+  {
+    "name": "Lucian",
+    "region": "Sinnoh",
+    "type": "Psychic",
+    "image": "LucianDP.png"
+  },
+  {
+    "name": "Cynthia",
+    "region": "Sinnoh",
+    "type": "Various",
+    "image": "CynthiaDP.png"
+  },
+  {
+    "name": "Shauntal",
+    "region": "Unova",
+    "type": "Ghost",
+    "image": "ShauntalNB.png"
+  },
+  {
+    "name": "Grimsley",
+    "region": "Unova",
+    "type": "Dark",
+    "image": "GrimsleyNB.png"
+  },
+  {
+    "name": "Caitlin",
+    "region": "Unova",
+    "type": "Psychic",
+    "image": "CaitlinNB.png"
+  },
+  {
+    "name": "Marshal",
+    "region": "Unova",
+    "type": "Fighting",
+    "image": "MarshalNB.png"
+  },
+  {
+    "name": "Alder",
+    "region": "Unova",
+    "type": "Various",
+    "image": "AlderNB.png"
+  }
+];
