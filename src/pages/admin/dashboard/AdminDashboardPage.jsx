@@ -211,7 +211,7 @@ const AdminTeamList = ({ status }) => {
   );
 };
 
-const AdminApprovalsPage = () => {
+const AdminDashboardPage = () => {
   const { currentUser, loading: authLoading } = useAuth();
   const { isAdmin, loading: adminLoading } = useAdminCheck();
   const navigate = useNavigate();
@@ -242,7 +242,7 @@ const AdminApprovalsPage = () => {
 
   return (
     <div className="animate-fade-in container mx-auto min-h-screen text-slate-200">
-      <PageTitle title="Admin Approvals" />
+      <PageTitle title="Admin Dashboard" />
 
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
@@ -276,4 +276,4 @@ const AdminApprovalsPage = () => {
   );
 };
 
-export default AdminApprovalsPage;
+export default AdminDashboardPage;
