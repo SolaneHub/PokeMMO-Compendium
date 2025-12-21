@@ -6,6 +6,7 @@
   "homepage": "https://solanehub.github.io/PokeMMO-Compendium/",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"vite\"",
+    "emulators": "firebase emulators:start --import=./firebase-data --export-on-exit",
     "server": "node server/server.js",
     "preview": "vite preview",
     "format": "prettier \"src/**/*.{jsx,js}\" --write",

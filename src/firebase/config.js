@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -19,6 +19,11 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+if (import.meta.env.DEV) {
+  connectFirestoreEmulator(db, "localhost", 8080);
+  console.log("🔥 Connected to Firestore Emulator on localhost:8080");
+}
 
 // Enable App Check
 if (import.meta.env.PROD) {
