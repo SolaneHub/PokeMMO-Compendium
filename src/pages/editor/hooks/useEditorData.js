@@ -1,13 +1,13 @@
 import { useEffect, useState, useTransition } from "react";
 
 import {
-  getAllSuperTrainers,
   getPickupData,
   getPokedexData,
+  getSuperTrainers,
   updatePickupCollection,
   updatePokedexData,
   updateSuperTrainersCollection,
-} from "@/firebase/firestoreService"; // Import Firebase services
+} from "@/firebase/firestoreService";
 import { useToast } from "@/shared/components/ToastNotification";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
@@ -65,11 +65,13 @@ export function useEditorData() {
           data = await getPokedexData();
         } else if (selectedFileName === "superTrainersData.json") {
           // Fetch Super Trainers from Firestore
-          data = await getAllSuperTrainers();
+          data = await getSuperTrainers();
 
           // FALLBACK: If Firestore is empty, load from local server
           if (!data || data.length === 0) {
-            console.log("Firestore super_trainers collection is empty. Falling back to local JSON.");
+            console.log(
+              "Firestore super_trainers collection is empty. Falling back to local JSON."
+            );
             const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
             if (res.ok) {
               data = await res.json();
@@ -78,7 +80,7 @@ export function useEditorData() {
 
           // Sort by name
           if (data && Array.isArray(data)) {
-            data.sort((a, b) => a.name.localeCompare(b.name));
+            data.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
           }
         } else if (selectedFileName === "pickupData.json") {
           // Fetch Pickup regions from Firestore

@@ -10,7 +10,7 @@ export const getActiveStrategyFromRaid = (raid, strategyIndex = 0) => {
   if (raid.teamStrategies && raid.teamStrategies.length > 0) {
     return raid.teamStrategies[strategyIndex] || raid.teamStrategies[0];
   }
-  
+
   // Fallback for older data structure if any
   return {
     roles: raid.roles,

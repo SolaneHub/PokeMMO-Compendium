@@ -28,7 +28,10 @@ export const usePickupData = () => {
     const fetchData = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "pickup"));
-        const regions = querySnapshot.docs.map((doc) => doc.data());
+        const regions = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
 
         // Sort regions by name
         regions.sort((a, b) => (a.name || "").localeCompare(b.name || ""));

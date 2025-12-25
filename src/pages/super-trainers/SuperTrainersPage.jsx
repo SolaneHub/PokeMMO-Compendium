@@ -18,7 +18,8 @@ function SuperTrainersPage() {
   const [strategyHistory, setStrategyHistory] = useState([]);
 
   const { pokemonMap, isLoading: pokedexLoading } = usePokedexData();
-  const { superTrainersData, isLoading: trainersLoading } = useSuperTrainersData();
+  const { superTrainersData, isLoading: trainersLoading } =
+    useSuperTrainersData();
 
   const isLoading = pokedexLoading || trainersLoading;
 
@@ -35,7 +36,9 @@ function SuperTrainersPage() {
     trainerRegion,
     teamName
   ) => {
-    const trainer = superTrainersData.find(t => t.name === trainerName && t.region === trainerRegion);
+    const trainer = superTrainersData.find(
+      (t) => t.name === trainerName && t.region === trainerRegion
+    );
     const team = trainer?.teams?.[teamName];
     const strategy = team?.pokemonStrategies?.[pokemonName] || [];
 
