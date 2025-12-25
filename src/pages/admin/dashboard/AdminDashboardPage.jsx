@@ -1,4 +1,12 @@
-import { Check, CheckCircle, Database, Edit, RotateCcw, Trash2, X } from "lucide-react";
+import {
+  Check,
+  CheckCircle,
+  Database,
+  Edit,
+  RotateCcw,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

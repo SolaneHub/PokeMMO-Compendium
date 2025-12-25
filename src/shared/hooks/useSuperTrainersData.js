@@ -1,7 +1,6 @@
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-import { db } from "@/firebase/config";
+import { getSuperTrainers } from "@/firebase/firestoreService";
 
 let cachedSuperTrainersData = null;
 
@@ -27,11 +26,14 @@ export const useSuperTrainersData = () => {
 
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "super_trainers"));
-        const rawData = querySnapshot.docs.map((doc) => doc.data());
+        const rawData = await getSuperTrainers();
 
         // Sort by name
-        rawData.sort((a, b) => a.name.localeCompare(b.name));
+        rawData.sort((a, b) => {
+          const nameA = a.name || "";
+          const nameB = b.name || "";
+          return nameA.localeCompare(nameB);
+        });
 
         const finalData = {
           superTrainersData: rawData,

@@ -62,7 +62,7 @@ export async function updatePickupCollection(regionsArray) {
 /**
  * Fetches all Super Trainers data from Firestore.
  */
-export async function getAllSuperTrainers() {
+export async function getSuperTrainers() {
   const collRef = collection(db, SUPER_TRAINERS_COLLECTION);
   const q = query(collRef);
   const querySnapshot = await getDocs(q);

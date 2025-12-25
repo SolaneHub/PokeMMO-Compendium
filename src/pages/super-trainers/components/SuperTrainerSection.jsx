@@ -11,11 +11,12 @@ const SuperTrainerSection = ({
   pokemonMap, // Accept pokemonMap as a prop
 }) => {
   const [activeTeam, setActiveTeam] = useState(
-    Object.keys(trainer.teams || {})[0]
+    Object.keys(trainer.teams || {})[0] || null
   );
-  
+
   const teamNames = Object.keys(trainer.teams || {}).sort();
-  const pokemonNamesForSelectedTeam = trainer.teams?.[activeTeam]?.pokemonNames || [];
+  const pokemonNamesForSelectedTeam =
+    trainer.teams?.[activeTeam]?.pokemonNames || [];
 
   const trainerBackground =
     typeBackgrounds[trainer.type] || typeBackgrounds[""];

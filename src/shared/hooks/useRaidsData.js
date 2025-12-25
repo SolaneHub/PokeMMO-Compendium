@@ -39,7 +39,9 @@ export const useRaidsData = () => {
         });
 
         const raidsMap = new Map(rawData.map((r) => [r.name, r]));
-        const starLevels = [...new Set(rawData.map((r) => r.stars))].sort((a, b) => a - b);
+        const starLevels = [...new Set(rawData.map((r) => r.stars))].sort(
+          (a, b) => a - b
+        );
 
         const finalData = {
           raidsData: rawData,
@@ -53,6 +55,7 @@ export const useRaidsData = () => {
           setData(finalData);
         }
       } catch (err) {
+        console.error("Failed to fetch raids data:", err);
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };
