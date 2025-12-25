@@ -28,6 +28,10 @@ service cloud.firestore {
 
       // CREATE: L'utente può creare il profilo ma NON può settare ruoli o flag admin
       allow create: if isOwner(userId) &&
+        request.resource.data.keys().hasAll(['displayName', 'email', 'createdAt']) &&
+        request.resource.data.displayName is string &&
+        request.resource.data.email is string &&
+        request.resource.data.createdAt is timestamp &&
         !('admin' in request.resource.data) &&
         !('role' in request.resource.data) &&
         !('isSuperUser' in request.resource.data);
@@ -48,7 +52,8 @@ service cloud.firestore {
         request.resource.data.status in ['draft', 'pending'] &&
         request.resource.data.isPublic == false;
       
-      allow update: if isAdmin() || (
+    allow update: if (isAdmin() && 
+        request.resource.data.status in ['draft', 'pending', 'approved', 'rejected']) || (
         isOwner(userId) && 
         resource.data.status != 'approved' &&
         request.resource.data.status in ['draft', 'pending'] &&
