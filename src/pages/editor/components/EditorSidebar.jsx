@@ -1,5 +1,4 @@
 import {
-  FaBolt,
   FaBook,
   FaEgg,
   FaHatWizard,
@@ -9,11 +8,6 @@ import {
 } from "react-icons/fa";
 
 const editorNavigationItems = [
-  {
-    fileName: "raidsData.json",
-    label: "Raids",
-    icon: <FaBolt className="text-xl" />,
-  },
   {
     fileName: "pickupData.json",
     label: "Pickup",

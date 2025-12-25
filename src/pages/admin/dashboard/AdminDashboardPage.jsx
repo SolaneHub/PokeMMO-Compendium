@@ -1,4 +1,4 @@
-import { Check, CheckCircle, Edit, RotateCcw, Trash2, X } from "lucide-react";
+import { Check, CheckCircle, Database, Edit, RotateCcw, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -271,6 +271,7 @@ const AdminDashboardPage = () => {
     { id: "pending", label: "Pending" },
     { id: "approved", label: "Approved" },
     { id: "rejected", label: "Rejected" },
+    { id: "system", label: "System" },
   ];
 
   if (authLoading) {
@@ -306,7 +307,21 @@ const AdminDashboardPage = () => {
       </div>
 
       <ErrorBoundary>
-        <AdminTeamList status={activeTab} />
+        {activeTab === "system" ? (
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-lg">
+              <div className="mb-4 flex items-center gap-3 text-blue-400">
+                <Database size={24} />
+                <h3 className="text-xl font-bold text-white">System Tools</h3>
+              </div>
+              <p className="mb-6 text-slate-400">
+                No system tools currently available.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <AdminTeamList status={activeTab} />
+        )}
       </ErrorBoundary>
     </div>
   );

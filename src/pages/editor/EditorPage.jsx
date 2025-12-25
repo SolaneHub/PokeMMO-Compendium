@@ -2,7 +2,6 @@ import EditorSidebar from "@/pages/editor/components/EditorSidebar";
 import EliteFourEditor from "@/pages/editor/components/EliteFourEditor";
 import PickupEditor from "@/pages/editor/components/PickupEditor";
 import PokedexEditor from "@/pages/editor/components/PokedexEditor";
-import RaidsEditor from "@/pages/editor/components/RaidsEditor";
 import RedEditor from "@/pages/editor/components/RedEditor";
 import ServerErrorState from "@/pages/editor/components/ServerErrorState";
 import UniversalJsonEditor from "@/pages/editor/components/UniversalJsonEditor";
@@ -10,7 +9,6 @@ import { useEditorData } from "@/pages/editor/hooks/useEditorData";
 import PageTitle from "@/shared/components/PageTitle";
 
 const EDITOR_MAPPING = {
-  "raidsData.json": RaidsEditor,
   "pickupData.json": PickupEditor,
   "redData.json": RedEditor,
   "bossFightsData.json": EliteFourEditor,
@@ -58,7 +56,7 @@ const EditorPage = () => {
       {/* MAIN AREA */}
       <div className="scrollbar-thin scrollbar-thumb-[#444] scrollbar-track-[#1a1a1a] flex-1 overflow-y-auto bg-[#121212] p-8">
         {loading && <p className="text-slate-400">Loading...</p>}
-        {!loading && fileData && (
+        {!loading && (selectedPokedex || fileData) && (
           <SpecificEditor data={fileData} onChange={setFileData} />
         )}
       </div>

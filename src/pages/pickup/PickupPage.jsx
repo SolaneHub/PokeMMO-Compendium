@@ -1,12 +1,12 @@
 import { Package } from "lucide-react";
 import React, { useState } from "react";
 
-import pickupData from "@/data/pickupData.json";
 import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
 import PickupInfoSection from "@/pages/pickup/components/PickupInfoSection";
 import PickupRegionSection from "@/pages/pickup/components/PickupRegionSection";
 import { pickupPokemonBuilds } from "@/pages/pickup/data/pickupBuilds";
 import PageTitle from "@/shared/components/PageTitle";
+import { usePickupData } from "@/shared/hooks/usePickupData";
 import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
 
 function PickupPage() {
@@ -14,12 +14,13 @@ function PickupPage() {
     useState(false);
 
   const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData(); // Destructure pokemonMap and isLoading
+  const { regions, isLoading: isLoadingPickup } = usePickupData();
 
-  if (isLoadingPokedex) {
+  if (isLoadingPokedex || isLoadingPickup) {
     // Handle loading state for Pokedex data
     return (
       <div className="flex h-screen items-center justify-center text-white">
-        <p>Loading Pokedex data...</p>
+        <p>Loading data...</p>
       </div>
     );
   }
@@ -44,7 +45,7 @@ function PickupPage() {
       />
 
       <div className="space-y-8">
-        {pickupData.regions?.map((region, regionIndex) => (
+        {regions?.map((region, regionIndex) => (
           <PickupRegionSection key={regionIndex} region={region} />
         ))}
       </div>

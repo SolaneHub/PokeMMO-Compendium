@@ -47,5 +47,23 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+
+    // Raids collection: public read, admin write
+    match /raids/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Super Trainers collection: public read, admin write
+    match /super_trainers/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Pickup collection: public read, admin write
+    match /pickup/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

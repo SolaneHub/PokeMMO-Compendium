@@ -1,10 +1,7 @@
 import { Activity, useState } from "react";
 
 import { getPokemonBackground } from "@/pages/pokedex/data/pokemonService";
-import {
-  getActiveStrategy,
-  getRaidByName,
-} from "@/pages/raids/data/raidsService";
+import { getActiveStrategyFromRaid } from "@/pages/raids/data/raidsService";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
 
 import RaidBuildsTab from "./tabs/RaidBuildsTab";
@@ -12,8 +9,7 @@ import RaidLocationsTab from "./tabs/RaidLocationsTab";
 import RaidMechanicsTab from "./tabs/RaidMechanicsTab";
 import RaidStrategyTab from "./tabs/RaidStrategyTab";
 
-const RaidModal = ({ raidName, onClose, pokemonMap }) => {
-  // Accept pokemonMap here
+const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
   const [activeTab, setActiveTab] = useState("Strategy");
   const [selectedRole, setSelectedRole] = useState(null);
   const [selectedTurnIndex, setSelectedTurnIndex] = useState(0);
@@ -22,13 +18,15 @@ const RaidModal = ({ raidName, onClose, pokemonMap }) => {
 
   const tabs = ["Strategy", "Builds", "Mechanics", "Locations"];
 
-  const currentRaid = getRaidByName(raidName);
-  const activeTeamStrategy = getActiveStrategy(raidName, selectedStrategyIndex);
+  const activeTeamStrategy = getActiveStrategyFromRaid(
+    currentRaid,
+    selectedStrategyIndex
+  );
 
   const rolesSource = activeTeamStrategy?.roles || null;
   const recommendedList = activeTeamStrategy?.recommended || [];
   const detailsTitleBackground = currentRaid
-    ? getPokemonBackground(currentRaid.name, pokemonMap) // Pass pokemonMap
+    ? getPokemonBackground(currentRaid.name, pokemonMap)
     : typeBackgrounds[""];
 
   const buildGroups = (() => {
@@ -144,7 +142,7 @@ const RaidModal = ({ raidName, onClose, pokemonMap }) => {
               buildGroups={buildGroups}
               effectiveBuildGroupKey={effectiveBuildGroupKey}
               setSelectedBuildGroup={setSelectedBuildGroup}
-              pokemonMap={pokemonMap} // Pass pokemonMap
+              pokemonMap={pokemonMap}
             />
           </Activity>
 

@@ -2,13 +2,10 @@ import { Users } from "lucide-react";
 import { useState } from "react";
 
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
-import {
-  getRaidsByStars,
-  getStarLevels,
-} from "@/pages/raids/data/raidsService";
 import PageTitle from "@/shared/components/PageTitle";
 import PokemonCard from "@/shared/components/PokemonCard";
-import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
+import { usePokedexData } from "@/shared/hooks/usePokedexData";
+import { useRaidsData } from "@/shared/hooks/useRaidsData";
 
 import RaidCard from "./components/RaidCard";
 import RaidModal from "./components/RaidModal";
@@ -18,10 +15,19 @@ function RaidsPage() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
 
-  const { pokemonMap, isLoading } = usePokedexData(); // Destructure pokemonMap and isLoading
+  const { pokemonMap, isLoading: isPokedexLoading } = usePokedexData();
+  const {
+    raidsData,
+    raidsMap,
+    starLevels,
+    isLoading: isRaidsLoading,
+  } = useRaidsData();
 
-  const starLevels = getStarLevels();
-  const filteredRaids = getRaidsByStars(selectedStar);
+  const isLoading = isPokedexLoading || isRaidsLoading;
+
+  const filteredRaids = selectedStar
+    ? raidsData.filter((r) => r.stars === selectedStar)
+    : [];
 
   const closePokemonDetails = () => {
     setSelectedPokemon(null);
@@ -39,7 +45,6 @@ function RaidsPage() {
   };
 
   if (isLoading) {
-    // Handle loading state
     return (
       <div className="flex h-screen items-center justify-center text-white">
         <p>Loading Raids data...</p>
@@ -81,7 +86,7 @@ function RaidsPage() {
             const { sprite, background } = getPokemonCardData(
               raid.name,
               pokemonMap
-            ); // Pass pokemonMap
+            );
             return (
               <PokemonCard
                 key={raid.name}
@@ -101,7 +106,8 @@ function RaidsPage() {
           raidName={selectedPokemon}
           onClose={closePokemonDetails}
           pokemonMap={pokemonMap}
-        /> // Pass pokemonMap
+          currentRaid={raidsMap.get(selectedPokemon)}
+        />
       )}
     </div>
   );
