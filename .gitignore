@@ -50,14 +50,9 @@ Thumbs.db
 # Deployment
 gh-pages/
 
-# Firestore data exports
-firebase-data/
-firebase-export-*/
-
 # Sensitive files
 serviceAccountKey.json
 make-admin.js
-download-prod-data.js
 
 .gemini/
 gha-creds-*.json

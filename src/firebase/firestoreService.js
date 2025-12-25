@@ -21,6 +21,77 @@ import { db } from "./config";
 const USERS_COLLECTION = "users";
 const TEAMS_COLLECTION = "elite_four_teams";
 const POKEDEX_COLLECTION = "pokedex";
+const SUPER_TRAINERS_COLLECTION = "super_trainers";
+const PICKUP_COLLECTION = "pickup";
+
+/**
+ * Fetches all Pickup data from Firestore.
+ */
+export async function getPickupData() {
+  const collRef = collection(db, PICKUP_COLLECTION);
+  const q = query(collRef);
+  const querySnapshot = await getDocs(q);
+
+  const regions = [];
+  querySnapshot.forEach((doc) => {
+    regions.push(doc.data());
+  });
+
+  return regions;
+}
+
+/**
+ * Updates Pickup collection.
+ * @param {Array} regionsArray - Array of region objects.
+ */
+export async function updatePickupCollection(regionsArray) {
+  if (!regionsArray || regionsArray.length === 0) return;
+
+  const batch = writeBatch(db);
+  regionsArray.forEach((region) => {
+    if (region.name) {
+      const docId = region.name.toLowerCase();
+      const docRef = doc(db, PICKUP_COLLECTION, docId);
+      const cleanData = JSON.parse(JSON.stringify(region));
+      batch.set(docRef, cleanData);
+    }
+  });
+  await batch.commit();
+}
+
+/**
+ * Fetches all Super Trainers data from Firestore.
+ */
+export async function getAllSuperTrainers() {
+  const collRef = collection(db, SUPER_TRAINERS_COLLECTION);
+  const q = query(collRef);
+  const querySnapshot = await getDocs(q);
+
+  const trainers = [];
+  querySnapshot.forEach((doc) => {
+    trainers.push(doc.data());
+  });
+
+  return trainers;
+}
+
+/**
+ * Updates Super Trainers collection.
+ */
+export async function updateSuperTrainersCollection(trainersArray) {
+  if (!trainersArray || trainersArray.length === 0) return;
+
+  const batch = writeBatch(db);
+  trainersArray.forEach((trainer) => {
+    if (trainer.name) {
+      const docId = trainer.name.toLowerCase();
+      const docRef = doc(db, SUPER_TRAINERS_COLLECTION, docId);
+      const cleanData = JSON.parse(JSON.stringify(trainer));
+      batch.set(docRef, cleanData);
+    }
+  });
+  await batch.commit();
+}
 
 /**
  * Fetches all Pokemon data from the 'pokedex' collection.

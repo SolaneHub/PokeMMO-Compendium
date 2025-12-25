@@ -1,13 +1,20 @@
 import { useEffect, useState, useTransition } from "react";
 
-import { getPokedexData, updatePokedexData } from "@/firebase/firestoreService"; // Import Firebase services
+import {
+  getAllSuperTrainers,
+  getPickupData,
+  getPokedexData,
+  updatePickupCollection,
+  updatePokedexData,
+  updateSuperTrainersCollection,
+} from "@/firebase/firestoreService"; // Import Firebase services
 import { useToast } from "@/shared/components/ToastNotification";
 import { usePersistentState } from "@/shared/utils/usePersistentState";
 
 const API_URL = "http://localhost:3001/api";
 
 export function useEditorData() {
-  const showToast = useToast();
+  const { showToast } = useToast();
   const [fileList, setFileList] = useState([]);
   const [selectedFileName, setSelectedFileName] = usePersistentState(
     "editor_lastFile",
@@ -22,10 +29,7 @@ export function useEditorData() {
   const [isSaving, startTransition] = useTransition();
   const [serverError, setServerError] = useState(null);
 
-  // Fetch File List (remains mostly the same, but should ideally exclude pokedex.json from local files)
-  // For now, I'll assume the file list from the server still returns 'pokedex.json' as a placeholder.
-  // A more robust solution might involve merging local file list with a hardcoded 'pokedex.json' if it's always available
-  // regardless of server response.
+  // Fetch File List
   useEffect(() => {
     async function fetchFiles() {
       try {
@@ -33,7 +37,7 @@ export function useEditorData() {
         if (!res.ok) throw new Error("Unable to connect to server");
 
         const data = await res.json();
-        const updatedFileList = Array.from(new Set([...data])); // No longer ensure pokedex.json is always in the list
+        const updatedFileList = Array.from(new Set([...data]));
         setFileList(updatedFileList);
         setServerError(null);
 
@@ -59,9 +63,27 @@ export function useEditorData() {
         let data;
         if (selectedPokedex) {
           data = await getPokedexData();
-          // Firestore returns objects with 'id' field.
-          // The PokedexEditor (and other parts) might expect the `id` property from the Firebase document.
-          // The `getPokedexData` already returns objects with `id` derived from `doc.id`.
+        } else if (selectedFileName === "superTrainersData.json") {
+          // Fetch Super Trainers from Firestore
+          data = await getAllSuperTrainers();
+
+          // FALLBACK: If Firestore is empty, load from local server
+          if (!data || data.length === 0) {
+            console.log("Firestore super_trainers collection is empty. Falling back to local JSON.");
+            const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
+            if (res.ok) {
+              data = await res.json();
+            }
+          }
+
+          // Sort by name
+          if (data && Array.isArray(data)) {
+            data.sort((a, b) => a.name.localeCompare(b.name));
+          }
+        } else if (selectedFileName === "pickupData.json") {
+          // Fetch Pickup regions from Firestore
+          const regions = await getPickupData();
+          data = { regions };
         } else {
           const res = await fetch(`${API_URL}/data?file=${selectedFileName}`);
           if (!res.ok) throw new Error("Error fetching data");
@@ -90,6 +112,14 @@ export function useEditorData() {
         if (selectedPokedex) {
           await updatePokedexData(fileData);
           showToast(`✅ Pokedex data saved to Firebase!`, "success");
+        } else if (selectedFileName === "superTrainersData.json") {
+          await updateSuperTrainersCollection(fileData);
+          showToast(`✅ Super Trainers data saved to Firebase!`, "success");
+        } else if (selectedFileName === "pickupData.json") {
+          if (fileData.regions) {
+            await updatePickupCollection(fileData.regions);
+            showToast(`✅ Pickup data saved to Firebase!`, "success");
+          }
         } else {
           const res = await fetch(`${API_URL}/data?file=${selectedFileName}`, {
             method: "POST",

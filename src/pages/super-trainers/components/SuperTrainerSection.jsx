@@ -1,10 +1,6 @@
 import { useState } from "react";
 
 import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
-import {
-  getPokemonListForTeam,
-  getTeamNamesForSuperTrainer,
-} from "@/pages/super-trainers/data/superTrainersService";
 import PokemonCard from "@/shared/components/PokemonCard";
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
 
@@ -17,12 +13,9 @@ const SuperTrainerSection = ({
   const [activeTeam, setActiveTeam] = useState(
     Object.keys(trainer.teams || {})[0]
   );
-  const teamNames = getTeamNamesForSuperTrainer(trainer.name, trainer.region);
-  const pokemonNamesForSelectedTeam = getPokemonListForTeam(
-    trainer.name,
-    trainer.region,
-    activeTeam
-  );
+  
+  const teamNames = Object.keys(trainer.teams || {}).sort();
+  const pokemonNamesForSelectedTeam = trainer.teams?.[activeTeam]?.pokemonNames || [];
 
   const trainerBackground =
     typeBackgrounds[trainer.type] || typeBackgrounds[""];

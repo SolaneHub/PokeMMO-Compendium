@@ -6,13 +6,10 @@ import {
   getPokemonByName,
 } from "@/pages/pokedex/data/pokemonService";
 import SuperTrainerSection from "@/pages/super-trainers/components/SuperTrainerSection";
-import {
-  getAllSuperTrainers,
-  getPokemonStrategy,
-} from "@/pages/super-trainers/data/superTrainersService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
 import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
+import { useSuperTrainersData } from "@/shared/hooks/useSuperTrainersData";
 
 function SuperTrainersPage() {
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -20,9 +17,10 @@ function SuperTrainersPage() {
   const [currentStrategyView, setCurrentStrategyView] = useState([]);
   const [strategyHistory, setStrategyHistory] = useState([]);
 
-  const { pokemonMap, isLoading } = usePokedexData(); // Destructure pokemonMap and isLoading
+  const { pokemonMap, isLoading: pokedexLoading } = usePokedexData();
+  const { superTrainersData, isLoading: trainersLoading } = useSuperTrainersData();
 
-  const allSuperTrainers = getAllSuperTrainers();
+  const isLoading = pokedexLoading || trainersLoading;
 
   const currentPokemonObject = selectedPokemon
     ? getPokemonByName(selectedPokemon, pokemonMap) // Pass pokemonMap
@@ -37,12 +35,9 @@ function SuperTrainersPage() {
     trainerRegion,
     teamName
   ) => {
-    const strategy = getPokemonStrategy(
-      trainerName,
-      trainerRegion,
-      teamName,
-      pokemonName
-    );
+    const trainer = superTrainersData.find(t => t.name === trainerName && t.region === trainerRegion);
+    const team = trainer?.teams?.[teamName];
+    const strategy = team?.pokemonStrategies?.[pokemonName] || [];
 
     if (strategy && strategy.length > 0) {
       setSelectedPokemon(pokemonName);
@@ -97,7 +92,7 @@ function SuperTrainersPage() {
       </div>
 
       <div className="flex flex-col gap-8">
-        {allSuperTrainers.map((trainer) => (
+        {superTrainersData.map((trainer) => (
           <SuperTrainerSection
             key={trainer.name}
             trainer={trainer}
