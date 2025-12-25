@@ -3,23 +3,44 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper function to check if user is admin
-    // Checks if the 'admin' key exists in the token AND is true
+    // --- FUNZIONI HELPER ---
+
+    // Verifica token admin (Sicuro: controlla il claim nel token JWT, non nel documento)
     function isAdmin() {
       return request.auth != null && 'admin' in request.auth.token && request.auth.token.admin == true;
     }
 
-    // Helper to check if user is the owner
+    // Verifica ownership di base
     function isOwner(userId) {
       return request.auth != null && request.auth.uid == userId;
     }
 
-    // Users collection: only the authenticated user can read/write their own data
-    match /users/{userId} {
-      allow read, write: if isOwner(userId);
+    // Verifica che l'utente non stia modificando campi sensibili/immutabili
+    function notUpdating(protectedFields) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasAny(protectedFields) == false;
     }
 
-    // Elite Four Teams subcollection (User-scoped access)
+    // --- REGOLE COLLEZIONI ---
+
+    // 1. Users Collection
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+
+      // CREATE: L'utente può creare il profilo ma NON può settare ruoli o flag admin
+      allow create: if isOwner(userId) &&
+        !('admin' in request.resource.data) &&
+        !('role' in request.resource.data) &&
+        !('isSuperUser' in request.resource.data);
+
+      // UPDATE: L'utente può aggiornare solo campi specifici
+      allow update: if isOwner(userId) &&
+        notUpdating(['admin', 'role', 'permissions', 'createdAt', 'banned']);
+
+      // DELETE: Solo l'utente stesso o un admin
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // 2. Elite Four Teams (User-scoped)
     match /users/{userId}/elite_four_teams/{teamId} {
       allow read: if isOwner(userId) || isAdmin();
       
@@ -29,39 +50,43 @@ service cloud.firestore {
       
       allow update: if isAdmin() || (
         isOwner(userId) && 
+        resource.data.status != 'approved' &&
         request.resource.data.status in ['draft', 'pending'] &&
-        (resource.data.status == 'draft' || request.resource.data.status != 'draft') &&
-        request.resource.data.isPublic == false
+        request.resource.data.isPublic == false &&
+        notUpdating(['createdAt', 'ownerId', 'adminNotes', 'approvedBy'])
       );
       
       allow delete: if isOwner(userId) || isAdmin();
     }
 
-    // Collection Group query for public/admin reading of teams
+    // 3. Collection Group Query (Public Feed)
     match /{path=**}/elite_four_teams/{teamId} {
       allow read: if resource.data.status == 'approved' || isAdmin();
     }
 
-    // Pokedex collection: public read, admin write
+    // --- STATIC DATA COLLECTIONS (Game Data) ---
+    
     match /pokedex/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Raids collection: public read, admin write
     match /raids/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Super Trainers collection: public read, admin write
     match /super_trainers/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Pickup collection: public read, admin write
     match /pickup/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /boss_fights/{document=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
