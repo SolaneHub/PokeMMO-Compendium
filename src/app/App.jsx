@@ -8,7 +8,6 @@ import AuthPage from "@/pages/auth/AuthPage";
 import BossFightsPage from "@/pages/boss-fights/BossFightsPage";
 import BreedingPage from "@/pages/breeding/BreedingPage";
 import CatchCalculatorPage from "@/pages/catch-calculator/CatchCalculatorPage";
-import EditorPage from "@/pages/editor/EditorPage";
 import EliteFourPage from "@/pages/elite-four/EliteFourPage";
 import MyTeamsPage from "@/pages/my-teams/MyTeamsPage";
 import UserTeamEditorPage from "@/pages/my-teams/UserTeamEditorPage";
@@ -36,9 +35,7 @@ function App() {
     }
   }, [allPokemonData, isLoading]);
 
-  const noPaddingRoutes = ["/editor"];
   const shouldRemovePadding =
-    noPaddingRoutes.includes(currentPath) ||
     currentPath.startsWith("/my-teams/") ||
     currentPath.startsWith("/admin/edit-team/");
 
@@ -62,11 +59,6 @@ function App() {
               <Route path="/pokedex" element={<PokedexPage />} />
               <Route path="/pickup" element={<PickupPage />} />
               <Route path="/breeding" element={<BreedingPage />} />
-
-              {/* Dev Only Routes */}
-              {!import.meta.env.PROD && (
-                <Route path="/editor" element={<EditorPage />} />
-              )}
 
               {/* Auth routes */}
               <Route path="/login" element={<AuthPage />} />

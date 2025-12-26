@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 
-import StepForm from "@/pages/editor/components/StepForm";
+import StepForm from "./StepForm";
 
 export function SortableStepItem({ step, id, index, onChange, onRemove }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
