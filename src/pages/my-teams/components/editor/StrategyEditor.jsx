@@ -13,7 +13,7 @@ import {
 } from "@dnd-kit/sortable";
 import { Sword } from "lucide-react";
 
-import { SortableStepItem } from "@/pages/editor/components/SortableStepItem";
+import { SortableStepItem } from "./SortableStepItem";
 
 const EXAMPLE_STEP = {
   type: "main",

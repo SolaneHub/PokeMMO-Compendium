@@ -1,4 +1,4 @@
-import VariationForm from "@/pages/editor/components/VariationForm";
+import VariationForm from "./VariationForm";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const StepForm = ({ step, onChange }) => {

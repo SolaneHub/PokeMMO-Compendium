@@ -12,7 +12,7 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 
-import { SortableNestedStepItem } from "@/pages/editor/components/SortableNestedStepItem";
+import { SortableNestedStepItem } from "./SortableNestedStepItem";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const createNewNestedStepTemplate = () => ({

@@ -56,15 +56,6 @@ function Sidebar({ isOpen, setIsOpen }) {
     navigation.push({ name: "Login", path: "/login", icon: LogIn });
   }
 
-  if (!import.meta.env.PROD) {
-    navigation.push({
-      name: "Editor",
-      path: "/editor",
-      icon: Edit3,
-      admin: true,
-    });
-  }
-
   const handleLogout = async () => {
     await logout();
     navigate("/login");
