@@ -8,10 +8,10 @@ const RaidBuildsTab = ({
   pokemonMap, // Accept pokemonMap here
 }) => {
   return (
-    <section className="rounded-lg bg-neutral-800 p-3">
+    <section className="rounded-lg bg-white/5 p-3">
       {recommendedList.length > 0 ? (
         <>
-          <h3 className="mb-3 text-xs font-bold tracking-widest text-slate-200 uppercase">
+          <h3 className="mb-3 text-xs font-bold tracking-widest text-slate-400 uppercase">
             Recommended Setup
           </h3>
           {buildGroups ? (
@@ -22,7 +22,7 @@ const RaidBuildsTab = ({
                   .map((groupName) => (
                     <button
                       key={groupName}
-                      className={`min-w-[80px] flex-1 cursor-pointer rounded-md border border-slate-700 bg-neutral-900 px-1.5 py-2.5 text-sm font-semibold text-slate-400 transition-all hover:bg-slate-700 hover:text-slate-200 ${effectiveBuildGroupKey === groupName ? "border-blue-500 bg-blue-500/15 text-blue-500 shadow-[0_0_0_1px_rgba(59,130,246,0.2)]" : ""} `}
+                      className={`min-w-[80px] flex-1 cursor-pointer rounded-md border border-white/5 bg-[#0f1014] px-1.5 py-2.5 text-sm font-semibold text-slate-400 transition-all hover:bg-white/10 hover:text-slate-200 ${effectiveBuildGroupKey === groupName ? "border-blue-500/50 bg-blue-600/20 text-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.1)]" : ""} `}
                       onClick={() => setSelectedBuildGroup(groupName)}
                     >
                       {groupName}
@@ -48,7 +48,7 @@ const RaidBuildsTab = ({
               {recommendedList.map((rec, i) => (
                 <li
                   key={i}
-                  className="rounded border border-slate-700 bg-neutral-900 p-2 text-sm text-slate-300"
+                  className="rounded border border-white/5 bg-[#0f1014] p-2 text-sm text-slate-300"
                 >
                   {rec}
                 </li>

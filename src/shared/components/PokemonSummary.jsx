@@ -1,4 +1,4 @@
-import { Activity, Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import { typeBackgrounds } from "@/shared/utils/pokemonColors";
 import {
@@ -136,7 +136,10 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
 
         {/* Body Content */}
         <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto bg-slate-800 p-5">
-          <Activity mode={activeTab === "Overview" ? "visible" : "hidden"}>
+          <div
+            className="flex flex-col gap-5"
+            style={{ display: activeTab === "Overview" ? "flex" : "none" }}
+          >
             <div className="flex flex-col gap-2.5">
               <p className="m-0 rounded-lg border-l-4 border-blue-500 bg-slate-700 p-3 text-sm leading-relaxed text-slate-200 italic">
                 {pokemon.description}
@@ -233,9 +236,12 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                 </div>
               </div>
             </div>
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Stats" ? "visible" : "hidden"}>
+          <div
+            className="flex flex-col gap-5"
+            style={{ display: activeTab === "Stats" ? "flex" : "none" }}
+          >
             <div className="flex flex-col gap-2.5">
               <h4 className="border-b border-slate-700 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
                 Base Stats
@@ -318,9 +324,12 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                 </div>
               )}
             </div>
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Moves" ? "visible" : "hidden"}>
+          <div
+            className="flex flex-col gap-5"
+            style={{ display: activeTab === "Moves" ? "flex" : "none" }}
+          >
             <div className="flex flex-col gap-2.5">
               <div className="mb-2 flex items-center justify-between border-b border-slate-700 pb-2">
                 <h4 className="m-0 border-none p-0 text-xs font-bold tracking-widest text-slate-500 uppercase">
@@ -391,9 +400,12 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                 )}
               </div>
             </div>
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Locations" ? "visible" : "hidden"}>
+          <div
+            className="flex flex-col gap-5"
+            style={{ display: activeTab === "Locations" ? "flex" : "none" }}
+          >
             <div className="flex flex-col gap-2.5">
               <h4 className="border-b border-slate-700 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
                 Wild Locations
@@ -436,9 +448,12 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                 </p>
               )}
             </div>
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Evolutions" ? "visible" : "hidden"}>
+          <div
+            className="flex flex-col gap-5"
+            style={{ display: activeTab === "Evolutions" ? "flex" : "none" }}
+          >
             <div className="flex flex-col gap-5">
               {variants.length > 0 && (
                 <div className="flex flex-col gap-2.5">
@@ -529,7 +544,7 @@ const PokemonSummary = ({ pokemon, allPokemon, onClose, onSelectPokemon }) => {
                 )}
               </div>
             </div>
-          </Activity>
+          </div>
         </div>
       </div>
     </div>

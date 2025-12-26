@@ -46,7 +46,7 @@ function RaidsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center text-white">
+      <div className="flex h-screen items-center justify-center text-slate-200">
         <p>Loading Raids data...</p>
       </div>
     );
@@ -58,8 +58,8 @@ function RaidsPage() {
 
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Users className="text-purple-400" size={32} />
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-200">
+          <Users className="text-blue-400" size={32} />
           Raid Strategies
         </h1>
         <p className="text-slate-400">

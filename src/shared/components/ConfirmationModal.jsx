@@ -127,7 +127,7 @@ const ConfirmationModal = ({
         <div className="flex justify-end gap-3 border-t border-white/5 p-4">
           <button
             onClick={onCancel}
-            className="rounded-lg bg-slate-700 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-slate-600"
+            className="rounded-lg bg-white/5 px-4 py-2 text-sm font-bold text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
           >
             {cancelText}
           </button>

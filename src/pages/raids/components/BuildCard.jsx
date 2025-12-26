@@ -31,13 +31,13 @@ const BuildCard = ({ buildData, pokemonMap }) => {
     : { sprite: "" }; // Pass pokemonMap here
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-slate-700 bg-neutral-900 shadow-sm transition-colors hover:border-slate-500">
+    <div className="flex flex-col overflow-hidden rounded-lg border border-white/5 bg-[#0f1014] shadow-sm transition-colors hover:border-white/20">
       {allVariants.length > 1 && (
-        <div className="scrollbar-hide flex overflow-x-auto border-b border-slate-700 bg-neutral-900">
+        <div className="scrollbar-hide flex overflow-x-auto border-b border-white/5 bg-[#0f1014]">
           {allVariants.map((variant, idx) => (
             <button
               key={idx}
-              className={`flex-1 cursor-pointer border-r border-none border-slate-700 bg-transparent px-2.5 py-2 text-xs font-bold whitespace-nowrap text-slate-500 uppercase transition-colors last:border-r-0 hover:bg-slate-800 hover:text-slate-300 ${activeBuild.name === variant.name ? "bg-slate-800 text-blue-500 shadow-[inset_0_-2px_0_#3b82f6]" : ""}`}
+              className={`flex-1 cursor-pointer border-r border-none border-white/5 bg-transparent px-2.5 py-2 text-xs font-bold whitespace-nowrap text-slate-500 uppercase transition-colors last:border-r-0 hover:bg-white/5 hover:text-slate-200 ${activeBuild.name === variant.name ? "bg-white/5 text-blue-400 shadow-[inset_0_-2px_0_#2563eb]" : ""}`}
               onClick={() => setActiveBuild(variant)}
             >
               {variant.name}
@@ -46,7 +46,7 @@ const BuildCard = ({ buildData, pokemonMap }) => {
         </div>
       )}
 
-      <div className="flex items-center justify-between border-b border-slate-700 bg-slate-800 p-2.5">
+      <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-2.5">
         <div className="flex items-center gap-3">
           <img
             src={sprite}
@@ -54,12 +54,12 @@ const BuildCard = ({ buildData, pokemonMap }) => {
             className="h-10 w-10 object-contain drop-shadow-md"
           />
           <div className="flex flex-col">
-            <span className="text-sm leading-tight font-bold text-white">
+            <span className="text-sm leading-tight font-bold text-slate-200">
               {activeBuild.name}
             </span>
             <div className="mt-0.5 flex items-center gap-1.5 text-xs font-bold uppercase">
               {activeBuild.order && (
-                <span className="text-yellow-400">
+                <span className="text-yellow-500/90">
                   Pokemon {activeBuild.order}
                 </span>
               )}
@@ -78,7 +78,7 @@ const BuildCard = ({ buildData, pokemonMap }) => {
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2.5 border-b border-slate-700 bg-neutral-800 px-2.5 py-1.5 text-xs">
+      <div className="flex flex-wrap gap-x-4 gap-y-1.5 border-b border-white/5 bg-white/[0.02] px-2.5 py-1.5 text-xs">
         {activeBuild.ability && (
           <span className="text-slate-400">
             Ability:{" "}
@@ -110,11 +110,11 @@ const BuildCard = ({ buildData, pokemonMap }) => {
       </div>
 
       {activeBuild.moves && (
-        <div className="flex flex-wrap gap-1.5 bg-neutral-900 p-2.5">
+        <div className="flex flex-wrap gap-1.5 bg-[#0f1014] p-2.5">
           {activeBuild.moves.map((m, k) => (
             <span
               key={k}
-              className="rounded border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-xs text-slate-300"
+              className="rounded border border-white/5 bg-white/5 px-1.5 py-0.5 text-xs text-slate-300"
             >
               {m}
             </span>

@@ -109,21 +109,21 @@ const PokemonEditorView = ({ data, onSave }) => {
   };
 
   return (
-    <div className="animate-fade-in flex flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
+    <div className="animate-fade-in flex flex-col rounded-xl border border-white/5 bg-[#111216] p-6 shadow-sm">
       <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col">
         {/* Header */}
-        <div className="mb-6 flex items-center justify-between border-b-2 border-blue-500 pb-2.5">
+        <div className="mb-6 flex items-center justify-between border-b-2 border-blue-600 pb-2.5">
           <div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-slate-200">
               {data?.name ? `Editing ${data.name}` : "Edit Pokémon Slot"}
             </h2>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-slate-500">
               Configure stats, moves, and held item.
             </p>
           </div>
           <button
             onClick={handleSubmit}
-            className="flex cursor-pointer items-center gap-2 rounded border-none bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-blue-700 active:translate-y-[1px]"
+            className="flex cursor-pointer items-center gap-2 rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
           >
             <Save size={16} />
             Apply
@@ -147,7 +147,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                     list="pokemon-list"
                     type="text"
                     required
-                    className="w-full rounded-lg border border-[#333] bg-black/20 p-3 pl-10 text-white transition-colors focus:border-blue-500 focus:outline-none"
+                    className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-3 text-slate-200 transition-colors focus:border-blue-400 focus:outline-none"
                     placeholder="e.g. Garchomp"
                     value={formData.name}
                     onChange={(e) => handleChange("name", e.target.value)}
@@ -169,7 +169,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                 <input
                   list="items-list"
                   type="text"
-                  className="w-full rounded-lg border border-[#333] bg-black/20 p-3 text-white transition-colors focus:border-blue-500 focus:outline-none"
+                  className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-3 text-slate-200 transition-colors focus:border-blue-400 focus:outline-none"
                   placeholder="e.g. Choice Scarf"
                   value={formData.item}
                   onChange={(e) => handleChange("item", e.target.value)}
@@ -181,7 +181,7 @@ const PokemonEditorView = ({ data, onSave }) => {
             </div>
           </div>
 
-          <div className="h-px bg-[#333]" />
+          <div className="h-px bg-white/5" />
 
           {/* Section: Stats */}
           <div>
@@ -196,7 +196,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                 <input
                   list="natures-list"
                   type="text"
-                  className="w-full rounded-lg border border-[#333] bg-black/20 p-2.5 text-white focus:border-blue-500 focus:outline-none"
+                  className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-slate-200 focus:border-blue-400 focus:outline-none"
                   value={formData.nature}
                   onChange={(e) => handleChange("nature", e.target.value)}
                 />
@@ -212,7 +212,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                 <input
                   list="abilities-list"
                   type="text"
-                  className="w-full rounded-lg border border-[#333] bg-black/20 p-2.5 text-white focus:border-blue-500 focus:outline-none"
+                  className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-slate-200 focus:border-blue-400 focus:outline-none"
                   value={formData.ability}
                   onChange={(e) => handleChange("ability", e.target.value)}
                 />
@@ -228,7 +228,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-lg border border-[#333] bg-black/20 p-2.5 text-white focus:border-blue-500 focus:outline-none"
+                    className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-slate-200 focus:border-blue-400 focus:outline-none"
                     placeholder="e.g. 6 HP / 252 Atk / 252 Spe"
                     value={formData.evs}
                     onChange={(e) => handleChange("evs", e.target.value)}
@@ -241,7 +241,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                   </label>
                   <input
                     type="text"
-                    className="w-full rounded-lg border border-[#333] bg-black/20 p-2.5 text-white focus:border-blue-500 focus:outline-none"
+                    className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-slate-200 focus:border-blue-400 focus:outline-none"
                     placeholder="e.g. 5x31/4x31/3x31/2x31/1x31/0"
                     value={formData.ivs}
                     onChange={(e) => handleChange("ivs", e.target.value)}
@@ -251,7 +251,7 @@ const PokemonEditorView = ({ data, onSave }) => {
             </div>
           </div>
 
-          <div className="h-px bg-[#333]" />
+          <div className="h-px bg-white/5" />
 
           {/* Section: Moves */}
           <div>
@@ -267,7 +267,7 @@ const PokemonEditorView = ({ data, onSave }) => {
                   <input
                     list="moves-list"
                     type="text"
-                    className="w-full rounded-lg border border-[#333] bg-black/20 p-2.5 pl-8 text-white focus:border-blue-500 focus:outline-none"
+                    className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 pl-8 text-slate-200 focus:border-blue-400 focus:outline-none"
                     placeholder="Select move..."
                     value={move}
                     onChange={(e) => handleMoveChange(idx, e.target.value)}

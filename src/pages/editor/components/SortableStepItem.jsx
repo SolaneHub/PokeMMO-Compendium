@@ -1,5 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
 
 import StepForm from "@/pages/editor/components/StepForm";
 
@@ -18,22 +19,26 @@ export function SortableStepItem({ step, id, index, onChange, onRemove }) {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="relative mb-4 rounded-md border border-l-[3px] border-[#333] border-l-blue-500 bg-[#1e1e1e] p-5 shadow-sm"
+      className="relative overflow-hidden rounded-xl border border-l-[5px] border-white/5 border-l-blue-500 bg-[#1a1b20] p-6 shadow-lg transition-shadow hover:shadow-blue-900/5"
     >
-      <div className="mb-2.5 flex justify-between">
-        <strong className="text-blue-500">Step {index + 1}</strong>
+      <div className="mb-4 flex items-center justify-between border-b border-white/5 pb-3">
+        <div className="flex items-center gap-3">
+          <div
+            className="cursor-grab text-slate-600 transition-colors hover:text-blue-400 active:cursor-grabbing"
+            {...listeners}
+          >
+            <GripVertical size={20} />
+          </div>
+          <h4 className="text-sm font-black tracking-widest text-blue-400 uppercase">
+            Step {index + 1}
+          </h4>
+        </div>
         <button
-          className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
+          className="rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-1.5 text-xs font-bold text-red-400 transition-all hover:bg-red-600 hover:text-white"
           onClick={onRemove}
         >
           Remove Step
         </button>
-      </div>
-      <div
-        className="absolute top-2 left-2 cursor-grab text-gray-500"
-        {...listeners}
-      >
-        ⠿
       </div>
       <StepForm step={step} onChange={onChange} />
     </div>

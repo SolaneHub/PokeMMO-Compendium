@@ -5,7 +5,7 @@ const SearchBar = ({ value, onChange, placeholder = "Search..." }) => {
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="mb-8 w-full max-w-[400px] rounded-full border-2 border-slate-700 bg-slate-800 px-5 py-3 text-base text-slate-200 transition-all duration-200 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:shadow-[0_0_8px_rgba(59,130,246,0.4)]"
+      className="mb-8 w-full max-w-[400px] rounded-full border-2 border-white/5 bg-[#0f1014] px-5 py-3 text-base text-slate-200 transition-all duration-200 outline-none placeholder:text-slate-500 focus:border-blue-500 focus:shadow-[0_0_8px_rgba(59,130,246,0.4)]"
     />
   );
 };

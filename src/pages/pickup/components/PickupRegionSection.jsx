@@ -2,17 +2,22 @@ import ItemImage from "@/shared/components/ItemImage";
 
 const PickupRegionSection = ({ region }) => {
   return (
-    <div className="rounded-lg bg-[#1a1b20] p-6 shadow-lg">
-      <h4 className="mb-4 border-b border-gray-700 pb-2 text-2xl font-bold text-slate-200">
+    <div className="rounded-lg border border-white/5 bg-[#1a1b20] p-6 shadow-lg">
+      <h4 className="mb-4 border-b border-white/5 pb-2 text-2xl font-bold text-slate-200">
         Region: <span className="text-blue-400">{region.name}</span>
       </h4>
-      {region.note && <p className="mb-4 text-yellow-300">{region.note}</p>}
+      {region.note && (
+        <p className="mb-4 font-medium text-yellow-500/90">{region.note}</p>
+      )}
 
       {region.locations?.length > 0 ? (
         <div className="space-y-6">
           {region.locations?.map((location, locationIndex) => (
-            <div key={locationIndex} className="rounded-md bg-[#1e2025] p-4">
-              <h5 className="mb-3 border-b border-gray-600 pb-1 text-xl font-semibold text-slate-200">
+            <div
+              key={locationIndex}
+              className="rounded-md border border-white/5 bg-[#0f1014] p-4"
+            >
+              <h5 className="mb-3 border-b border-white/5 pb-1 text-xl font-semibold text-slate-200">
                 Location:{" "}
                 <span className="text-green-400">{location.name}</span>
               </h5>
@@ -22,7 +27,7 @@ const PickupRegionSection = ({ region }) => {
                     items?.length > 0 && (
                       <div
                         key={categoryIndex}
-                        className="rounded-md bg-[#2a2c30] p-3"
+                        className="rounded-md bg-white/5 p-3"
                       >
                         <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
                           {category.replace(/([A-Z])/g, " $1").trim()}:

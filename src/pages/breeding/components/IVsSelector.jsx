@@ -11,7 +11,7 @@ function IVsSelector({
     <div className="space-y-6">
       {/* IV Count Selector */}
       <div className="space-y-3">
-        <label className="ml-1 text-sm font-medium text-slate-400">
+        <label className="ml-1 text-sm font-medium text-slate-500">
           Desired Perfect IVs
         </label>
         <div className="grid grid-cols-5 gap-2">
@@ -22,7 +22,7 @@ function IVsSelector({
               className={`relative flex h-12 flex-col items-center justify-center rounded-xl text-lg font-bold transition-all duration-200 ${
                 option === selectedIvCount
                   ? "scale-105 bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                  : "border border-transparent bg-[#25272e] text-slate-400 hover:border-white/10 hover:bg-[#2d3038] hover:text-slate-200"
+                  : "border border-white/5 bg-[#0f1014] text-slate-400 hover:border-white/10 hover:bg-white/5 hover:text-slate-200"
               } `}
             >
               <span className="leading-none">{option}</span>
@@ -37,8 +37,8 @@ function IVsSelector({
         <div
           className={`group relative cursor-pointer rounded-xl border p-4 transition-all duration-300 ${
             nature
-              ? "border-emerald-500/50 bg-emerald-500/10"
-              : "border-white/5 bg-[#25272e] hover:border-white/10"
+              ? "border-blue-500/50 bg-blue-600/10"
+              : "border-white/5 bg-[#0f1014] hover:border-white/10 hover:bg-white/5"
           } `}
           onClick={() => setNature(!nature)}
         >
@@ -47,8 +47,8 @@ function IVsSelector({
               <div
                 className={`rounded-lg p-2 transition-colors ${
                   nature
-                    ? "bg-emerald-500 text-white"
-                    : "bg-slate-700 text-slate-400"
+                    ? "bg-blue-600 text-white"
+                    : "bg-white/10 text-slate-400"
                 }`}
               >
                 <Leaf size={20} />
@@ -56,7 +56,7 @@ function IVsSelector({
               <div className="flex flex-col">
                 <span
                   className={`font-semibold ${
-                    nature ? "text-emerald-400" : "text-slate-300"
+                    nature ? "text-blue-400" : "text-slate-300"
                   }`}
                 >
                   Nature Breeding
@@ -68,7 +68,7 @@ function IVsSelector({
             </div>
 
             <div
-              className={`flex h-6 w-6 items-center justify-center rounded-full transition-all duration-300 ${nature ? "rotate-0 bg-emerald-500 text-white" : "-rotate-90 bg-slate-700 text-slate-400"} `}
+              className={`flex h-6 w-6 items-center justify-center rounded-full transition-all duration-300 ${nature ? "rotate-0 bg-blue-600 text-white" : "-rotate-90 bg-white/10 text-slate-400"} `}
             >
               {nature ? <Check size={14} strokeWidth={3} /> : <X size={14} />}
             </div>

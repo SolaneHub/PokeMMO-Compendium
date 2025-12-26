@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useOptimistic, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   createUserTeam,
@@ -14,12 +14,7 @@ export function useUserTeams() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Optimistic UI for deletions
-  const [optimisticTeams, setOptimisticTeams] = useOptimistic(
-    teams,
-    (state, teamIdToDelete) => state.filter((t) => t.id !== teamIdToDelete)
-  );
-
+  // FETCH TEAMS
   const _fetchTeams = useCallback(async () => {
     if (!currentUser) {
       if (!authLoading) setLoading(false);
@@ -31,6 +26,7 @@ export function useUserTeams() {
       const userTeams = await getUserTeams(currentUser.uid);
       setTeams(userTeams);
     } catch (error) {
+      console.error(error); // Keep simple console log for debug
       showToast("Failed to load teams", "error");
     } finally {
       setLoading(false);
@@ -41,6 +37,7 @@ export function useUserTeams() {
     _fetchTeams();
   }, [_fetchTeams]);
 
+  // CREATE TEAM
   const createTeam = async (teamName) => {
     if (!currentUser) return null;
     try {
@@ -49,7 +46,7 @@ export function useUserTeams() {
         region: null,
         members: Array(6).fill(null),
         strategies: {},
-        enemyPools: {}, // ✅ Aggiungi questo
+        enemyPools: {},
         status: "draft",
       };
       const teamId = await createUserTeam(currentUser.uid, newTeam);
@@ -65,31 +62,34 @@ export function useUserTeams() {
     }
   };
 
+  // DELETE TEAM (Manual Optimistic UI)
   const deleteTeam = async (teamId) => {
     if (!currentUser) return;
 
-    // Optimistically update UI
-    setOptimisticTeams(teamId);
+    // 1. Optimistic Update: Remove locally immediately
+    const previousTeams = [...teams];
+    setTeams((prev) => prev.filter((t) => t.id !== teamId));
 
     try {
+      // 2. Perform actual deletion
       await deleteUserTeam(currentUser.uid, teamId);
       showToast("Team deleted", "info");
-      // Update actual state by refetching
+      // 3. Confirm with fresh fetch (optional, but good for consistency)
       await _fetchTeams();
     } catch (error) {
+      // 4. Rollback on failure
+      setTeams(previousTeams);
       showToast("Failed to delete team", "error");
-      // Re-fetch to sync state if failed
-      await _fetchTeams();
     }
   };
 
   return {
-    teams: optimisticTeams,
+    teams, // Return the standard state (which we manage optimistically manually)
     loading: authLoading || loading,
     createTeam,
     deleteTeam,
     authLoading,
     currentUser,
-    refreshTeams: _fetchTeams, // Expose the internal fetch function as refreshTeams
+    refreshTeams: _fetchTeams,
   };
 }

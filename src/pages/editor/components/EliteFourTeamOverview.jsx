@@ -7,9 +7,11 @@ const EliteFourTeamOverview = ({
   onSelectPokemon,
 }) => {
   return (
-    <div className="mb-5 rounded-md border border-t-4 border-[#333] border-t-blue-500 bg-[#252526] p-5 shadow-md">
-      <h4 className="text-md mb-3 font-semibold text-white">Team: {teamKey}</h4>
-      <div className="flex flex-wrap gap-4">
+    <div className="mb-6 rounded-xl border border-t-4 border-white/5 border-t-blue-500 bg-[#1a1b20] p-6 shadow-xl">
+      <h4 className="mb-4 ml-1 text-xs font-black tracking-widest text-slate-500 uppercase">
+        Team Roster: <span className="text-blue-400">{teamKey}</span>
+      </h4>
+      <div className="flex flex-wrap gap-3">
         {(team.pokemonNames || []).map((pokemonName) => {
           const spriteUrl = getSpriteUrlByName(pokemonName);
           const isPokemonSelected = selectedPokemon === pokemonName;
@@ -17,28 +19,32 @@ const EliteFourTeamOverview = ({
           return (
             <button
               key={pokemonName}
-              className={`relative flex flex-col items-center rounded-lg border-2 p-2 transition-all duration-200 ease-in-out ${isPokemonSelected ? "border-green-500 bg-green-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-green-500 hover:bg-gray-700"} focus:ring-opacity-50 focus:ring-2 focus:ring-green-500 focus:outline-none`}
+              className={`relative flex flex-col items-center rounded-xl border-2 p-3 transition-all duration-200 ease-in-out ${
+                isPokemonSelected
+                  ? "border-green-500 bg-green-600/10 shadow-lg shadow-green-900/20"
+                  : "border-white/5 bg-[#0f1014] hover:border-white/20 hover:bg-white/5"
+              } focus:ring-2 focus:ring-green-500/50 focus:outline-none`}
               onClick={() => onSelectPokemon(pokemonName)}
             >
               {spriteUrl ? (
                 <img
                   src={spriteUrl}
                   alt={pokemonName}
-                  className="mb-1 h-16 w-16 object-contain"
+                  className="mb-2 h-16 w-16 object-contain drop-shadow-md"
                 />
               ) : (
-                <div className="mb-1 flex h-16 w-16 items-center justify-center rounded bg-gray-600 text-xs text-gray-300">
+                <div className="mb-2 flex h-16 w-16 items-center justify-center rounded-lg bg-white/5 text-[10px] font-bold tracking-tighter text-slate-500 uppercase">
                   No Sprite
                 </div>
               )}
               <span
-                className={`text-xs font-medium ${isPokemonSelected ? "text-green-300" : "text-white"}`}
+                className={`text-xs font-bold ${isPokemonSelected ? "text-green-400" : "text-slate-300"}`}
               >
                 {pokemonName}
               </span>
               {isPokemonSelected && (
-                <div className="absolute top-0 right-0 rounded-bl-lg bg-green-900/50 px-1 py-0.5 text-xs font-bold text-green-400">
-                  ✓
+                <div className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-white shadow-sm">
+                  <span className="text-[10px] font-black">✓</span>
                 </div>
               )}
             </button>

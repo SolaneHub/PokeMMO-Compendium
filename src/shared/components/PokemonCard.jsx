@@ -12,10 +12,10 @@ const PokemonCard = ({
 
   return (
     <div
-      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1e2025] transition-all duration-300 ${
+      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] transition-all duration-300 ${
         isSelected
           ? "z-10 scale-105 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
-          : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-[#25272e] hover:shadow-xl"
+          : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-white/5 hover:shadow-xl"
       } `}
       onClick={onClick}
     >

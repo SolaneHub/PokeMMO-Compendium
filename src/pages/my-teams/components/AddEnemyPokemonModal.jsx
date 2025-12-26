@@ -40,18 +40,23 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
-          <h3 className="text-lg font-bold text-white">Add Enemy Pokémon</h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-white">
+          <h3 className="text-lg font-bold text-slate-100">
+            Add Enemy Pokémon
+          </h3>
+          <button
+            onClick={onClose}
+            className="text-slate-400 transition-colors hover:text-white"
+          >
             <X size={24} />
           </button>
         </div>
 
-        <div className="border-b border-white/5 p-4">
+        <div className="border-b border-white/5 bg-[#0f1014]/30 p-4">
           <div className="relative">
             <input
               type="text"
               autoFocus
-              className="w-full rounded-lg border border-white/10 bg-[#1e2025] p-3 pl-10 text-white outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-3 pl-10 text-slate-100 transition-colors outline-none focus:border-blue-500"
               placeholder="Search Pokémon..."
               value={searchTerm}
               onChange={(e) => {
@@ -70,7 +75,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
         </div>
 
         <div
-          className={`custom-scrollbar flex-1 overflow-y-auto p-2 transition-opacity duration-200 ${
+          className={`custom-scrollbar flex-1 overflow-y-auto bg-[#1a1b20] p-2 transition-opacity duration-200 ${
             isPending ? "opacity-50" : "opacity-100"
           }`}
         >
@@ -91,7 +96,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
                     className="h-8 w-8 object-contain"
                     alt=""
                   />
-                  <span className="font-medium text-slate-200 group-hover:text-white">
+                  <span className="font-medium text-slate-300 group-hover:text-slate-100">
                     {p}
                   </span>
                   <Plus
@@ -102,7 +107,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
               ))}
             </div>
           ) : (
-            <div className="py-8 text-center text-slate-500">
+            <div className="py-12 text-center font-medium text-slate-500">
               No Pokémon found.
             </div>
           )}

@@ -110,7 +110,7 @@ const CatchCalculatorPage = () => {
 
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
           <Trophy className="text-yellow-400" size={32} />
           Catch Calculator
         </h1>
@@ -119,7 +119,7 @@ const CatchCalculatorPage = () => {
 
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 lg:grid-cols-3">
         {/* --- COLUMN 1: TARGET POKEMON --- */}
-        <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+        <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
           <div className="flex items-center gap-2 border-b border-white/5 pb-2">
             <Search className="text-blue-400" size={20} />
             <h2 className="text-lg font-bold text-slate-200">Target</h2>
@@ -140,12 +140,12 @@ const CatchCalculatorPage = () => {
                 });
                 setIsSearchOpen(true);
               }}
-              className="w-full rounded-lg border border-slate-700 bg-[#15161a] px-4 py-3 text-slate-200 transition-colors placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
+              className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-3 text-slate-200 transition-colors placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
             />
             {/* Dropdown List */}
             {isSearchOpen && (
               <div
-                className={`scrollbar-thin scrollbar-thumb-slate-700 absolute top-full right-0 left-0 z-50 mt-2 max-h-48 overflow-y-auto rounded-lg border border-slate-700 bg-[#15161a] shadow-xl transition-opacity duration-200 ${
+                className={`scrollbar-thin scrollbar-thumb-slate-700 absolute top-full right-0 left-0 z-50 mt-2 max-h-48 overflow-y-auto rounded-lg border border-white/5 bg-[#0f1014] shadow-xl transition-opacity duration-200 ${
                   isPending ? "opacity-50" : "opacity-100"
                 }`}
               >
@@ -176,7 +176,7 @@ const CatchCalculatorPage = () => {
 
           {/* Selected Preview */}
           {selectedPokemon && (
-            <div className="relative flex min-h-[200px] flex-grow flex-col items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#15161a] p-6">
+            <div className="relative flex min-h-[200px] flex-grow flex-col items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#0f1014] p-6">
               {/* Background Glow */}
               <div
                 className="absolute inset-0 opacity-20 blur-xl transition-colors duration-500"
@@ -187,7 +187,7 @@ const CatchCalculatorPage = () => {
                 alt={selectedPokemonName}
                 className="rendering-pixelated relative z-10 h-32 w-32 object-contain drop-shadow-md"
               />
-              <h3 className="relative z-10 mt-2 text-xl font-bold text-white">
+              <h3 className="relative z-10 mt-2 text-xl font-bold text-slate-100">
                 {selectedPokemonName}
               </h3>
               <div className="relative z-10 mt-1 rounded bg-black/40 px-2 py-1 font-mono text-xs text-slate-400">
@@ -198,7 +198,7 @@ const CatchCalculatorPage = () => {
           )}
         </div>
         {/* --- COLUMN 2: CONDITIONS --- */}
-        <div className="flex flex-col gap-8 rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+        <div className="flex flex-col gap-8 rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
           <div className="flex items-center gap-2 border-b border-white/5 pb-2">
             <Zap className="text-yellow-400" size={20} />
             <h2 className="text-lg font-bold text-slate-200">Conditions</h2>
@@ -212,7 +212,7 @@ const CatchCalculatorPage = () => {
 
           {/* Status Conditions */}
           <div className="space-y-3">
-            <label className="text-sm font-bold text-slate-300">
+            <label className="text-sm font-bold text-slate-500">
               Status Condition
             </label>
             <div className="grid grid-cols-2 gap-3">
@@ -229,7 +229,7 @@ const CatchCalculatorPage = () => {
                   className={`rounded-lg border-2 px-3 py-3 text-sm font-bold transition-all ${
                     statusCondition === status.name
                       ? "scale-105 border-white text-white shadow-lg text-shadow-sm"
-                      : "border-slate-700 bg-[#15161a] text-slate-400 hover:border-slate-500 hover:bg-slate-800"
+                      : "border-white/5 bg-[#0f1014] text-slate-400 hover:border-white/10 hover:bg-white/5 hover:text-slate-200"
                   } `}
                 >
                   <span
@@ -246,7 +246,7 @@ const CatchCalculatorPage = () => {
         </div>
 
         {/* --- COLUMN 3: CAPTURE --- */}
-        <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+        <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
           <div className="flex items-center gap-2 border-b border-white/5 pb-2">
             <Trophy className="text-green-400" size={20} />
             <h2 className="text-lg font-bold text-slate-200">Capture</h2>
@@ -254,7 +254,7 @@ const CatchCalculatorPage = () => {
 
           {/* Ball Selection */}
           <div className="space-y-3">
-            <label className="text-sm font-bold text-slate-300">
+            <label className="text-sm font-bold text-slate-500">
               Select Poké Ball
             </label>
             <BallSelector selectedBall={ballType} onSelect={setBallType} />
@@ -262,7 +262,7 @@ const CatchCalculatorPage = () => {
             {/* Dream Ball Special Logic */}
             {ballType === "Dream Ball" && (
               <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
-                <div className="flex items-center justify-between text-xs font-bold text-slate-400">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-500">
                   <span>Turns Asleep</span>
                   <span className="text-blue-400">
                     {dreamBallTurns >= 3
@@ -275,7 +275,7 @@ const CatchCalculatorPage = () => {
                     Rate
                   </span>
                 </div>
-                <div className="grid grid-cols-4 gap-1 rounded-lg border border-slate-700 bg-[#15161a] p-1">
+                <div className="grid grid-cols-4 gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-1">
                   {[0, 1, 2, 3].map((turn) => (
                     <button
                       key={turn}
@@ -343,7 +343,7 @@ const CatchCalculatorPage = () => {
             {/* Quick Ball Special Logic */}
             {ballType === "Quick Ball" && (
               <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
-                <div className="flex items-center justify-between text-xs font-bold text-slate-400">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-500">
                   <span>Combat Turn</span>
                   <span className="text-blue-400">
                     {turnsPassed === 1
@@ -353,7 +353,7 @@ const CatchCalculatorPage = () => {
                       : "1x Rate"}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-1 rounded-lg border border-slate-700 bg-[#15161a] p-1">
+                <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-1">
                   {[1, 2].map((turn) => (
                     <button
                       key={turn}
@@ -374,7 +374,7 @@ const CatchCalculatorPage = () => {
 
           {/* Result Display */}
           <div className="flex flex-1 flex-col justify-center">
-            <div className="group relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-slate-700 bg-[#15161a] p-8 transition-colors hover:border-slate-600">
+            <div className="group relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-white/5 bg-[#0f1014] p-8 transition-colors hover:border-white/10">
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-green-500/10" />
 
               <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">

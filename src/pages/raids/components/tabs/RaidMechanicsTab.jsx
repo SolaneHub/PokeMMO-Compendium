@@ -2,14 +2,14 @@ const RaidMechanicsTab = ({ currentRaid }) => {
   if (!currentRaid.mechanics) return <div />;
 
   return (
-    <section className="flex flex-col gap-4 rounded-lg bg-neutral-800 p-3">
+    <section className="flex flex-col gap-4 rounded-lg bg-white/5 p-3">
       <div>
-        <h3 className="mb-2 text-xs font-bold tracking-widest text-slate-200 uppercase">
+        <h3 className="mb-2 text-xs font-bold tracking-widest text-slate-400 uppercase">
           Boss Info
         </h3>
         <div className="grid grid-cols-2 gap-2.5">
           {currentRaid.mechanics.ability && (
-            <div className="flex flex-col gap-1 rounded-lg border border-slate-700 bg-neutral-900 p-2.5">
+            <div className="flex flex-col gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-2.5">
               <strong className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
                 Ability
               </strong>
@@ -19,7 +19,7 @@ const RaidMechanicsTab = ({ currentRaid }) => {
             </div>
           )}
           {currentRaid.mechanics.heldItem && (
-            <div className="flex flex-col gap-1 rounded-lg border border-slate-700 bg-neutral-900 p-2.5">
+            <div className="flex flex-col gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-2.5">
               <strong className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
                 Item
               </strong>
@@ -29,7 +29,7 @@ const RaidMechanicsTab = ({ currentRaid }) => {
             </div>
           )}
           {currentRaid.mechanics.notes && (
-            <div className="col-span-2 flex flex-col gap-1 rounded-lg border border-slate-700 bg-neutral-900 p-2.5">
+            <div className="col-span-2 flex flex-col gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-2.5">
               <strong className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
                 Notes
               </strong>
@@ -43,7 +43,7 @@ const RaidMechanicsTab = ({ currentRaid }) => {
 
       {currentRaid.mechanics.thresholds && (
         <div className="flex flex-col gap-2">
-          <h3 className="text-xs font-bold tracking-widest text-slate-200 uppercase">
+          <h3 className="text-xs font-bold tracking-widest text-slate-400 uppercase">
             HP Thresholds
           </h3>
           <ul className="flex list-none flex-col gap-1 p-0">
@@ -52,7 +52,7 @@ const RaidMechanicsTab = ({ currentRaid }) => {
               .map(([hp, info]) => (
                 <li
                   key={hp}
-                  className="flex items-center rounded-md border border-slate-700 bg-neutral-900 p-2 transition-colors hover:bg-slate-700/50"
+                  className="flex items-center rounded-md border border-white/5 bg-[#0f1014] p-2 transition-colors hover:bg-white/5"
                 >
                   <span className="mr-3 min-w-[55px] rounded border border-red-500/30 bg-red-500/10 py-0.5 text-center font-mono text-xs font-bold text-red-400">
                     {hp}% HP
@@ -68,7 +68,7 @@ const RaidMechanicsTab = ({ currentRaid }) => {
 
       {currentRaid.moves && (
         <div className="flex flex-col gap-2">
-          <h3 className="text-xs font-bold tracking-widest text-slate-200 uppercase">
+          <h3 className="text-xs font-bold tracking-widest text-slate-400 uppercase">
             Known Moves
           </h3>
           <ul className="flex list-none flex-wrap gap-1.5 p-0">

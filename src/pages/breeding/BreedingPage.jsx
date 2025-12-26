@@ -24,7 +24,7 @@ function BreedingPage() {
 
       {/* Header Section */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
           <Calculator className="text-blue-500" size={32} />
           Breeding Planner
         </h1>
@@ -37,7 +37,7 @@ function BreedingPage() {
       <div className="grid animate-[fade-in_0.3s_ease-out] grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Configuration Panel */}
         <div className="space-y-6 lg:col-span-1">
-          <div className="rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+          <div className="rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
             <div className="mb-6 flex items-center gap-2 border-b border-white/5 pb-4 font-semibold text-slate-200">
               <Settings2 size={20} className="text-blue-400" />
               <span>Configuration</span>
@@ -52,7 +52,7 @@ function BreedingPage() {
             />
           </div>
 
-          <div className="rounded-2xl border border-white/5 bg-[#1e2025] p-6 shadow-xl">
+          <div className="rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
             <div className="mb-6 flex items-center gap-2 border-b border-white/5 pb-4 font-semibold text-slate-200">
               <Dna size={20} className="text-purple-400" />
               <span>Stat Priority</span>
@@ -68,7 +68,7 @@ function BreedingPage() {
         </div>
 
         {/* Tree Visualization */}
-        <div className="flex min-h-[600px] flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#1e2025] shadow-xl lg:col-span-2">
+        <div className="flex min-h-[600px] flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] shadow-xl lg:col-span-2">
           <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
             <span className="text-sm font-medium tracking-wider text-slate-400 uppercase">
               Breeding Tree

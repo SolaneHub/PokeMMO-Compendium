@@ -1,14 +1,14 @@
 import { Plus, User } from "lucide-react";
-import { useActionState, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { updateTeamStatus } from "@/firebase/firestoreService";
 import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
 import TeamList from "@/pages/my-teams/components/TeamList";
 import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
-import { useConfirm } from "@/shared/components/ConfirmationModal"; // Import useConfirm
+import { useConfirm } from "@/shared/components/ConfirmationModal";
 import PageTitle from "@/shared/components/PageTitle";
-import { useToast } from "@/shared/components/ToastNotification"; // Import useToast
+import { useToast } from "@/shared/components/ToastNotification";
 import { logger } from "@/shared/utils/logger";
 
 const MyTeamsPage = () => {
@@ -23,8 +23,9 @@ const MyTeamsPage = () => {
     refreshTeams,
   } = useUserTeams();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const confirm = useConfirm();
-  const showToast = useToast(); // Initialize useToast
+  const showToast = useToast();
 
   useEffect(() => {
     if (!authLoading && !currentUser) {
@@ -32,18 +33,21 @@ const MyTeamsPage = () => {
     }
   }, [currentUser, authLoading, navigate]);
 
-  const createTeamAction = async (prevState, formData) => {
+  const handleCreateTeam = async (formData) => {
     const name = formData.get("teamName");
     if (!name || !name.trim()) return;
 
-    const teamId = await createTeam(name);
-    if (teamId) {
-      setShowCreateModal(false);
-      navigate(`/my-teams/${teamId}`);
+    setIsCreating(true);
+    try {
+      const teamId = await createTeam(name);
+      if (teamId) {
+        setShowCreateModal(false);
+        navigate(`/my-teams/${teamId}`);
+      }
+    } finally {
+      setIsCreating(false);
     }
   };
-
-  const [, submitAction] = useActionState(createTeamAction, null);
 
   const handleSubmitTeam = async (teamId) => {
     const confirmed = await confirm({
@@ -108,8 +112,8 @@ const MyTeamsPage = () => {
 
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-4 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <User className="text-blue-500" size={32} />
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
+          <User className="text-blue-400" size={32} />
           My Teams
         </h1>
         <p className="max-w-2xl text-slate-400">
@@ -151,7 +155,8 @@ const MyTeamsPage = () => {
       {showCreateModal && (
         <CreateTeamModal
           onClose={() => setShowCreateModal(false)}
-          action={submitAction}
+          onSubmit={handleCreateTeam}
+          isLoading={isCreating}
         />
       )}
     </div>

@@ -39,7 +39,7 @@ const EliteFourEditor = ({ data, onChange }) => {
 
   if (!data || !Array.isArray(data)) {
     return (
-      <div className="p-5 text-center text-[#ff6b81]">
+      <div className="rounded-2xl border border-red-600/20 bg-red-600/10 p-12 text-center font-bold text-red-400">
         ⚠️ Invalid Elite Four Data. Expected an array.
       </div>
     );
@@ -70,18 +70,24 @@ const EliteFourEditor = ({ data, onChange }) => {
   }
 
   return (
-    <div>
-      <title>Editor: Elite Four</title>
-      <h3 className="mb-5 border-b-2 border-blue-500 pb-2.5 text-lg font-semibold text-white">
-        🏰 E4 Editor
-      </h3>
+    <div className="flex animate-[fade-in_0.3s_ease-out] flex-col gap-8">
+      <div className="flex items-center justify-between border-b border-white/5 pb-6">
+        <div>
+          <h2 className="text-2xl font-black tracking-tight text-slate-100 uppercase">
+            Elite Four Editor
+          </h2>
+          <p className="mt-1 text-sm font-medium text-slate-500 italic">
+            Configure strategies for E4 members across all regions.
+          </p>
+        </div>
+      </div>
 
       {/* Elite Four Member Selection */}
-      <div className="mb-8">
-        <h4 className="text-md mb-3 font-semibold text-white">
-          Select Member:
+      <section className="space-y-4">
+        <h4 className="ml-1 text-xs font-black tracking-widest text-slate-500 uppercase">
+          Select Member
         </h4>
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {Array.isArray(data) &&
             data.map((member, i) => (
               <EliteFourMemberCard
@@ -96,38 +102,40 @@ const EliteFourEditor = ({ data, onChange }) => {
               />
             ))}
         </div>
-      </div>
+      </section>
 
       {/* Team Selection for Selected Member */}
       {currentMember && (
-        <div className="mb-8 animate-[fade-in_0.3s_ease-out]">
-          <h4 className="text-md mb-3 font-semibold text-white">
-            Select Team for {currentMember.name}:
+        <section className="animate-[fade-in_0.3s_ease-out] space-y-4">
+          <h4 className="ml-1 text-xs font-black tracking-widest text-slate-500 uppercase">
+            Teams for {currentMember.name}
           </h4>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             {Object.keys(currentMember.teams).map((key) => (
               <button
                 key={key}
-                className={`min-w-[150px] flex-1 rounded-lg border-2 p-3 text-center transition-all duration-200 ease-in-out ${teamKey === key ? "border-blue-500 bg-blue-900/30 shadow-lg" : "border-gray-700 bg-gray-800 hover:border-blue-500 hover:bg-gray-700"} focus:ring-opacity-50 focus:ring-2 focus:ring-blue-500 focus:outline-none`}
+                className={`min-w-[120px] rounded-xl border-2 p-4 text-center transition-all duration-200 ease-in-out ${
+                  teamKey === key
+                    ? "border-blue-500 bg-blue-600/10 shadow-lg shadow-blue-900/20"
+                    : "border-white/5 bg-[#1a1b20] text-slate-400 hover:border-white/20 hover:bg-white/5 hover:text-slate-100"
+                } focus:ring-2 focus:ring-blue-500/50 focus:outline-none`}
                 onClick={() => {
                   setTeamKey(key);
                   setPokemon(null);
                 }}
               >
-                <span
-                  className={`text-lg font-semibold ${teamKey === key ? "text-blue-300" : "text-white"}`}
-                >
+                <span className="text-sm font-black tracking-wider uppercase">
                   {key}
                 </span>
               </button>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Pokémon Selection for Selected Team */}
       {currentTeam && (
-        <div className="mb-8 animate-[fade-in_0.3s_ease-out]">
+        <div className="animate-[fade-in_0.3s_ease-out]">
           <EliteFourTeamOverview
             teamKey={teamKey}
             team={currentTeam}
@@ -138,13 +146,14 @@ const EliteFourEditor = ({ data, onChange }) => {
       )}
 
       {steps && pokemon ? (
-        <div className="animate-[fade-in_0.3s_ease-out]">
-          <div className="my-5 flex items-center justify-between border-b border-[#444] pb-2.5">
-            <h4 className="m-0 font-bold text-blue-500">
-              Strategy for: <span className="text-white">{pokemon}</span>
+        <div className="flex animate-[fade-in_0.3s_ease-out] flex-col gap-6">
+          <div className="flex items-center justify-between border-b border-white/5 pb-2">
+            <h4 className="m-0 text-xl font-bold text-slate-100">
+              Strategy vs{" "}
+              <span className="font-black text-blue-400">{pokemon}</span>
             </h4>
             <button
-              className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
+              className="rounded-xl bg-blue-600 px-6 py-2.5 font-bold text-white shadow-lg shadow-blue-900/20 transition-all hover:bg-blue-500 active:scale-95"
               onClick={() =>
                 updateStrategies([...steps, createNewStepTemplate()])
               }
@@ -159,38 +168,45 @@ const EliteFourEditor = ({ data, onChange }) => {
             onDragEnd={handleDragEnd}
           >
             <SortableContext items={steps.map((s) => s.id)}>
-              {steps.map((step, i) => (
-                <SortableStepItem
-                  key={step.id}
-                  id={step.id}
-                  index={i}
-                  step={step}
-                  onChange={(updatedStep) => {
-                    const newSteps = [...steps];
-                    newSteps[i] = updatedStep;
-                    updateStrategies(newSteps);
-                  }}
-                  onRemove={() =>
-                    updateStrategies(steps.filter((_, idx) => idx !== i))
-                  }
-                />
-              ))}
+              <div className="space-y-4">
+                {steps.map((step, i) => (
+                  <SortableStepItem
+                    key={step.id}
+                    id={step.id}
+                    index={i}
+                    step={step}
+                    onChange={(updatedStep) => {
+                      const newSteps = [...steps];
+                      newSteps[i] = updatedStep;
+                      updateStrategies(newSteps);
+                    }}
+                    onRemove={() =>
+                      updateStrategies(steps.filter((_, idx) => idx !== i))
+                    }
+                  />
+                ))}
+              </div>
             </SortableContext>
           </DndContext>
         </div>
       ) : pokemon ? (
-        <div className="mt-5 rounded-lg border-2 border-dashed border-[#444] p-10 text-center text-[#888]">
-          No steps configured for this Pokémon.
+        <div className="mt-8 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/10 bg-[#1a1b20]/30 py-20">
+          <p className="font-medium text-slate-500 italic">
+            No steps configured for this Pokémon.
+          </p>
           <button
-            className="mt-4 cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
+            className="mt-4 rounded-xl bg-green-600 px-6 py-2.5 font-bold text-white shadow-lg transition-all hover:bg-green-700 active:scale-95"
             onClick={() => updateStrategies([createNewStepTemplate()])}
           >
-            + Add First Step
+            + Create First Step
           </button>
         </div>
       ) : (
-        <div className="mt-5 rounded-lg border-2 border-dashed border-[#444] p-10 text-center text-[#888]">
-          Select a Member, a Team, and a Pokémon to edit strategy.
+        <div className="mt-8 flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-white/10 bg-[#1a1b20]/30 py-20">
+          <p className="px-6 text-center font-medium text-slate-500 italic">
+            Select a Member, a Team, and a Pokémon above to start editing
+            strategies.
+          </p>
         </div>
       )}
     </div>
