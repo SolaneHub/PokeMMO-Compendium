@@ -1,4 +1,4 @@
-import { Activity, useState } from "react";
+import { useState } from "react";
 
 import { getPokemonBackground } from "@/pages/pokedex/data/pokemonService";
 import { getActiveStrategyFromRaid } from "@/pages/raids/data/raidsService";
@@ -87,7 +87,7 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
       onClick={onClose}
     >
       <div
-        className="relative flex max-h-[90vh] w-[500px] max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-slate-800 shadow-2xl"
+        className="relative flex max-h-[90vh] w-[500px] max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -102,14 +102,14 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
           </p>
         </div>
 
-        <div className="scrollbar-hide z-10 flex shrink-0 overflow-x-auto border-b border-slate-700 bg-slate-900">
+        <div className="scrollbar-hide z-10 flex shrink-0 overflow-x-auto border-b border-white/5 bg-[#0f1014]">
           {tabs.map((tab) => (
             <button
               key={tab}
               className={`relative min-w-[80px] flex-1 py-3.5 text-sm font-semibold tracking-wide whitespace-nowrap uppercase transition-colors ${
                 activeTab === tab
-                  ? "bg-slate-800 text-blue-500 after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-blue-500 after:content-['']"
-                  : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                  ? "bg-[#1a1b20] text-blue-400 after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-blue-600 after:content-['']"
+                  : "text-slate-500 hover:bg-white/5 hover:text-slate-200"
               }`}
               onClick={() => setActiveTab(tab)}
             >
@@ -118,8 +118,8 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
           ))}
         </div>
 
-        <div className="flex flex-1 flex-col gap-5 overflow-y-auto bg-slate-800 p-5">
-          <Activity mode={activeTab === "Strategy" ? "visible" : "hidden"}>
+        <div className="flex flex-1 flex-col gap-5 overflow-y-auto bg-[#1a1b20] p-5">
+          <div style={{ display: activeTab === "Strategy" ? "block" : "none" }}>
             <RaidStrategyTab
               currentRaid={currentRaid}
               selectedStrategyIndex={selectedStrategyIndex}
@@ -134,9 +134,9 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
               movesForSelectedRole={movesForSelectedRole}
               selectedTurnIndex={selectedTurnIndex}
             />
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Builds" ? "visible" : "hidden"}>
+          <div style={{ display: activeTab === "Builds" ? "block" : "none" }}>
             <RaidBuildsTab
               recommendedList={recommendedList}
               buildGroups={buildGroups}
@@ -144,15 +144,19 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
               setSelectedBuildGroup={setSelectedBuildGroup}
               pokemonMap={pokemonMap}
             />
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Mechanics" ? "visible" : "hidden"}>
+          <div
+            style={{ display: activeTab === "Mechanics" ? "block" : "none" }}
+          >
             <RaidMechanicsTab currentRaid={currentRaid} />
-          </Activity>
+          </div>
 
-          <Activity mode={activeTab === "Locations" ? "visible" : "hidden"}>
+          <div
+            style={{ display: activeTab === "Locations" ? "block" : "none" }}
+          >
             <RaidLocationsTab currentRaid={currentRaid} />
-          </Activity>
+          </div>
         </div>
       </div>
     </div>

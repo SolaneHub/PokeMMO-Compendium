@@ -68,7 +68,7 @@ function BossFightsPage() {
   if (isLoading) {
     // Handle loading state
     return (
-      <div className="flex h-screen items-center justify-center text-white">
+      <div className="flex h-screen items-center justify-center text-slate-200">
         <p>Loading Boss Fights data...</p>
       </div>
     );
@@ -80,8 +80,8 @@ function BossFightsPage() {
 
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Skull className="text-red-500" size={32} />
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
+          <Skull className="text-red-400" size={32} />
           Boss Fights Strategies
         </h1>
         <p className="text-slate-400">

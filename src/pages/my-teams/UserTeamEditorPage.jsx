@@ -139,17 +139,17 @@ const UserTeamEditorPage = () => {
   if (activeView === "settings") {
     // --- DASHBOARD VIEW ---
     mainContent = (
-      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#0a0b0e] to-[#121317] p-4 lg:p-8">
+      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#0f1014] to-[#1a1b20] p-4 lg:p-8">
         <div className="mx-auto w-full max-w-6xl space-y-10">
           {/* Header Section */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="space-y-2">
-              <label className="text-xs font-bold tracking-wider text-blue-500 uppercase">
+              <label className="text-xs font-bold tracking-wider text-blue-400 uppercase">
                 Team Name
               </label>
               <input
                 type="text"
-                className="w-full min-w-[300px] border-b-2 border-white/10 bg-transparent px-0 py-2 text-4xl font-black text-white transition-colors placeholder:text-white/20 focus:border-blue-500 focus:outline-none"
+                className="w-full min-w-[300px] border-b-2 border-white/5 bg-transparent px-0 py-2 text-4xl font-black text-slate-200 transition-colors placeholder:text-white/20 focus:border-blue-400 focus:outline-none"
                 value={team.name}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="Untitled Team"
@@ -170,8 +170,8 @@ const UserTeamEditorPage = () => {
 
           {/* Roster Grid */}
           <div>
-            <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
-              <span className="h-6 w-1 rounded-full bg-blue-500" />
+            <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-200">
+              <span className="h-6 w-1 rounded-full bg-blue-600" />
               Active Roster
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -184,13 +184,13 @@ const UserTeamEditorPage = () => {
                     onClick={() => handleNavigate("roster", idx)}
                     className={`group relative cursor-pointer overflow-hidden rounded-xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                       isEmpty
-                        ? "border-dashed border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
-                        : "border-white/10 bg-[#1a1b20] hover:border-blue-500/50 hover:shadow-blue-500/10"
+                        ? "border-dashed border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10"
+                        : "border-white/5 bg-[#111216] hover:border-blue-400/50 hover:shadow-blue-400/10"
                     }`}
                   >
                     {/* Background decoration */}
                     {!isEmpty && (
-                      <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br from-blue-500/10 to-transparent blur-2xl transition-all group-hover:from-blue-500/20" />
+                      <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br from-blue-400/10 to-transparent blur-2xl transition-all group-hover:from-blue-400/20" />
                     )}
 
                     <div className="relative z-10 flex h-full flex-col justify-between gap-4">
@@ -200,14 +200,14 @@ const UserTeamEditorPage = () => {
                             Slot 0{idx + 1}
                           </div>
                           <div
-                            className={`mt-1 text-xl font-bold ${isEmpty ? "text-slate-600 italic" : "text-white"}`}
+                            className={`mt-1 text-xl font-bold ${isEmpty ? "text-slate-500 italic" : "text-slate-200"}`}
                           >
                             {isEmpty ? "Empty Slot" : member.name}
                           </div>
                         </div>
                         {/* Placeholder Icon */}
                         {isEmpty ? (
-                          <div className="rounded-full bg-white/5 p-2 text-slate-600 group-hover:text-slate-400">
+                          <div className="rounded-full bg-white/5 p-2 text-slate-500 group-hover:text-slate-400">
                             <Save size={20} className="rotate-45" />
                           </div>
                         ) : (
@@ -225,8 +225,8 @@ const UserTeamEditorPage = () => {
                             <span
                               className={
                                 member.item
-                                  ? "text-blue-200"
-                                  : "text-slate-600 italic"
+                                  ? "text-blue-400"
+                                  : "text-slate-500 italic"
                               }
                             >
                               {member.item || "None"}
@@ -237,8 +237,8 @@ const UserTeamEditorPage = () => {
                             <span
                               className={
                                 member.nature
-                                  ? "text-yellow-200"
-                                  : "text-slate-600 italic"
+                                  ? "text-yellow-400"
+                                  : "text-slate-500 italic"
                               }
                             >
                               {member.nature || "Neutral"}
@@ -261,8 +261,8 @@ const UserTeamEditorPage = () => {
 
           {/* Strategy Coverage Overview */}
           <div>
-            <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-white">
-              <span className="h-6 w-1 rounded-full bg-purple-500" />
+            <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-slate-200">
+              <span className="h-6 w-1 rounded-full bg-purple-600" />
               Strategy Coverage
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -293,12 +293,12 @@ const UserTeamEditorPage = () => {
                       <div className="text-xs font-bold text-slate-500 uppercase">
                         {region}
                       </div>
-                      <div className="mt-1 text-2xl font-black text-white">
+                      <div className="mt-1 text-2xl font-black text-slate-200">
                         {percent}%
                       </div>
                       <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
                         <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-1000"
+                          className="h-full bg-gradient-to-r from-blue-400 to-purple-400 transition-all duration-1000"
                           style={{ width: `${percent}%` }}
                         />
                       </div>
@@ -346,7 +346,7 @@ const UserTeamEditorPage = () => {
   }
 
   return (
-    <div className="animate-fade-in flex h-full overflow-hidden bg-[#0a0b0e]">
+    <div className="animate-fade-in flex h-full overflow-hidden bg-[#0f1014]">
       {/* 1. Sidebar */}
       <EditorSidebar
         team={team}
@@ -361,9 +361,9 @@ const UserTeamEditorPage = () => {
       />
 
       {/* 2. Main Content Area */}
-      <div className="relative flex flex-1 flex-col overflow-hidden bg-[#0a0b0e]">
+      <div className="relative flex flex-1 flex-col overflow-hidden bg-[#0f1014]">
         {/* Top Bar for Context/Actions */}
-        <div className="flex h-14 items-center justify-between border-b border-white/5 bg-[#121317] px-6">
+        <div className="flex h-14 items-center justify-between border-b border-white/5 bg-[#1a1b20] px-6">
           <button
             onClick={() =>
               navigate(paramUserId ? "/admin/dashboard" : "/my-teams")
@@ -382,7 +382,7 @@ const UserTeamEditorPage = () => {
             )}
             <button
               onClick={() => saveTeam(team)}
-              className="flex items-center gap-2 rounded-md bg-white/5 px-3 py-1.5 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2 rounded-md bg-white/5 px-3 py-1.5 text-sm font-medium text-slate-200 hover:bg-white/10 hover:text-white"
             >
               <Save size={14} />
               Save

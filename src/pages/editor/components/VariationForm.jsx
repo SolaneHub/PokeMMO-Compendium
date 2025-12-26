@@ -23,7 +23,7 @@ const createNewNestedStepTemplate = () => ({
   id: `nested-step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
 });
 
-const VariationForm = ({ variation, onChange }) => {
+const VariationForm = ({ variation, onChange, onRemove }) => {
   usePokedexData();
 
   const handleFieldChange = (field, value) => {
@@ -73,45 +73,64 @@ const VariationForm = ({ variation, onChange }) => {
   const currentNestedSteps = variation.steps || [];
 
   return (
-    <div className="relative my-4 rounded-r-md border-l-[3px] border-blue-500 bg-[#1a1b20] p-4">
-      <h4 className="mt-0 mb-2.5 text-sm font-semibold tracking-wide text-blue-500 uppercase">
-        Variation Details
-      </h4>
-
-      <label className="mt-4 block text-xs font-bold text-slate-400">
-        Type:
-        <select
-          value={variation.type || ""}
-          onChange={(e) =>
-            handleFieldChange("type", e.target.value || undefined)
-          }
-          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
+    <div className="relative my-4 rounded-xl border border-l-[5px] border-white/5 border-l-purple-500 bg-[#1a1b20] p-5 shadow-lg">
+      <div className="mb-4 flex items-center justify-between border-b border-white/5 pb-2">
+        <h4 className="m-0 text-xs font-black tracking-[0.2em] text-purple-400 uppercase">
+          Variation Logic
+        </h4>
+        <button
+          onClick={onRemove}
+          className="text-slate-500 transition-colors hover:text-red-400"
         >
-          <option value="">Default (Undefined)</option>
-          <option value="step">Step</option>
-        </select>
-      </label>
+          Remove Variation
+        </button>
+      </div>
 
-      <label className="mt-4 block text-xs font-bold text-slate-400">
-        Name / Trigger:
-        <input
-          type="text"
-          value={variation.name || ""}
-          placeholder="e.g. Leftovers, Earthquake..."
-          onChange={(e) => handleFieldChange("name", e.target.value)}
-          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 p-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
-        />
-        <p className="mt-1 text-xs text-slate-500">
-          Use icons: <span className="font-mono text-blue-400">[SWITCH]</span>,{" "}
-          <span className="font-mono text-blue-400">[ATTACK]</span>,{" "}
-          <span className="font-mono text-blue-400">[STAY]</span>,{" "}
-          <span className="font-mono text-blue-400">[LOCK]</span>,{" "}
-          <span className="font-mono text-blue-400">[BAIT]</span>
-        </p>
-      </label>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <label className="block space-y-1.5">
+          <span className="ml-1 text-[10px] font-black tracking-widest text-slate-500 uppercase">
+            Logic Type
+          </span>
+          <select
+            value={variation.type || ""}
+            onChange={(e) =>
+              handleFieldChange("type", e.target.value || undefined)
+            }
+            className="w-full rounded-xl border border-white/10 bg-[#0f1014] px-4 py-2 text-sm font-bold text-slate-100 transition-all outline-none focus:border-purple-500"
+          >
+            <option value="">Default (Undefined)</option>
+            <option value="step">Step-based Variation</option>
+          </select>
+        </label>
 
-      <div className="mt-4">
-        <h5 className="mb-2.5 font-semibold text-white">Nested Steps:</h5>
+        <label className="block space-y-1.5">
+          <span className="ml-1 text-[10px] font-black tracking-widest text-slate-500 uppercase">
+            Trigger Name
+          </span>
+          <input
+            type="text"
+            value={variation.name || ""}
+            placeholder="e.g. If Leftovers active..."
+            onChange={(e) => handleFieldChange("name", e.target.value)}
+            className="w-full rounded-xl border border-white/10 bg-[#0f1014] px-4 py-2 text-sm font-bold text-slate-100 transition-all outline-none focus:border-purple-500"
+          />
+        </label>
+      </div>
+
+      <div className="mt-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h5 className="ml-1 text-[10px] font-black tracking-widest text-slate-500 uppercase">
+            Execution Steps:
+          </h5>
+          <button
+            type="button"
+            className="text-[10px] font-black tracking-widest text-blue-400 uppercase transition-colors hover:text-blue-300"
+            onClick={addStep}
+          >
+            + Add Sub-Step
+          </button>
+        </div>
+
         {currentNestedSteps.length > 0 ? (
           <DndContext
             sensors={sensors}
@@ -119,34 +138,31 @@ const VariationForm = ({ variation, onChange }) => {
             onDragEnd={handleDragEnd}
           >
             <SortableContext items={currentNestedSteps.map((s) => s.id)}>
-              {currentNestedSteps.map((step, i) => (
-                <SortableNestedStepItem
-                  key={step.id}
-                  id={step.id}
-                  index={i}
-                  step={step}
-                  onChange={(updated) => {
-                    const newSteps = [...currentNestedSteps];
-                    newSteps[i] = updated;
-                    updateNestedSteps(newSteps);
-                  }}
-                  onRemove={() => removeStep(step.id)}
-                />
-              ))}
+              <div className="space-y-3">
+                {currentNestedSteps.map((step, i) => (
+                  <SortableNestedStepItem
+                    key={step.id}
+                    id={step.id}
+                    index={i}
+                    step={step}
+                    onChange={(updated) => {
+                      const newSteps = [...currentNestedSteps];
+                      newSteps[i] = updated;
+                      updateNestedSteps(newSteps);
+                    }}
+                    onRemove={() => removeStep(step.id)}
+                  />
+                ))}
+              </div>
             </SortableContext>
           </DndContext>
         ) : (
-          <p className="text-[#888] italic">No nested steps defined yet.</p>
+          <div className="rounded-xl border-2 border-dashed border-white/10 bg-black/10 py-8 text-center">
+            <p className="text-xs font-medium text-slate-500 italic">
+              No nested steps defined yet.
+            </p>
+          </div>
         )}
-
-        <div className="mt-2.5 flex justify-end gap-2.5">
-          <button
-            className="flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
-            onClick={addStep}
-          >
-            ➕ Add Nested Step
-          </button>
-        </div>
       </div>
     </div>
   );

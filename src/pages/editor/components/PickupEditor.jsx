@@ -9,13 +9,15 @@ const RegionEditor = ({
   onUpdateLocation,
 }) => {
   return (
-    <div className="mb-4 overflow-hidden rounded-md border border-l-[5px] border-[#333] border-l-blue-500 bg-[#1e1e1e] p-0 shadow-sm">
-      <div className="flex items-center justify-between border-b border-[#333] bg-[#252526] px-5 py-2.5">
-        <div className="flex items-center gap-2">
-          <strong className="text-[1.1em] text-blue-400">Region:</strong>
+    <div className="mb-6 overflow-hidden rounded-xl border border-l-[5px] border-white/5 border-l-blue-500 bg-[#1a1b20] p-0 shadow-lg">
+      <div className="flex items-center justify-between border-b border-white/5 bg-white/5 px-5 py-3">
+        <div className="flex items-center gap-3">
+          <strong className="text-sm font-bold tracking-wider text-blue-400 uppercase">
+            Region:
+          </strong>
           <input
             type="text"
-            className="w-48 rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-1 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
+            className="w-48 rounded-lg border border-white/10 bg-[#0f1014] px-3 py-1.5 text-slate-100 transition-colors outline-none focus:border-blue-500"
             value={region.name || ""}
             onChange={(e) => onChange({ ...region, name: e.target.value })}
           />
@@ -81,58 +83,70 @@ const LocationEditor = ({ location, onChange, onRemove }) => {
   };
 
   return (
-    <div className="rounded-md border border-[#444] bg-[#2a2c30] p-4">
-      <div className="mb-3 flex items-center justify-between border-b border-gray-600 pb-2">
-        <label className="block text-sm font-bold text-slate-300 uppercase">
-          Location Name:
-        </label>
-        <input
-          type="text"
-          className="w-2/3 rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-1 text-slate-200 transition-colors outline-none focus:border-blue-500 focus:bg-[#222]"
-          value={location.name || ""}
-          onChange={(e) => onChange({ ...location, name: e.target.value })}
-        />
+    <div className="rounded-xl border border-white/5 bg-[#0f1014]/50 p-5">
+      <div className="mb-4 flex items-center justify-between border-b border-white/5 pb-3">
+        <div className="flex items-center gap-3">
+          <label className="text-xs font-black tracking-widest text-slate-500 uppercase">
+            Location Name
+          </label>
+          <input
+            type="text"
+            className="w-64 rounded-lg border border-white/10 bg-[#0f1014] px-3 py-1.5 text-sm font-bold text-slate-100 transition-colors outline-none focus:border-blue-500"
+            value={location.name || ""}
+            onChange={(e) => onChange({ ...location, name: e.target.value })}
+          />
+        </div>
         <button
-          className="cursor-pointer rounded border-none bg-red-600 px-2 py-1 text-xs font-medium text-white transition-all hover:bg-red-700"
+          className="rounded-lg bg-red-600/10 px-3 py-1.5 text-xs font-bold text-red-400 transition-all hover:bg-red-600 hover:text-white"
           onClick={onRemove}
         >
           Remove Location
         </button>
       </div>
 
-      {Object.entries(location.items || {}).map(([category, items]) => (
-        <div key={category} className="mb-3">
-          <h6 className="mb-1 text-sm font-bold text-blue-400 capitalize">
-            {category.replace(/([A-Z])/g, " $1").trim()}:
-          </h6>
-          <div className="space-y-1">
-            {items.map((item, itemIndex) => (
-              <div key={itemIndex} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  className="w-full rounded border border-[#3a3b3d] bg-[#1a1a1a] px-2.5 py-1 text-sm text-slate-200"
-                  value={item}
-                  onChange={(e) =>
-                    handleItemChange(category, itemIndex, e.target.value)
-                  }
-                />
-                <button
-                  className="rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600"
-                  onClick={() => handleRemoveItem(category, itemIndex)}
-                >
-                  −
-                </button>
-              </div>
-            ))}
-            <button
-              className="mt-1 rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600"
-              onClick={() => handleAddItem(category)}
-            >
-              Add Item
-            </button>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {Object.entries(location.items || {}).map(([category, items]) => (
+          <div
+            key={category}
+            className="flex flex-col gap-2 rounded-lg border border-white/5 bg-white/5 p-3"
+          >
+            <div className="flex items-center justify-between">
+              <h6 className="text-[10px] font-black tracking-widest text-blue-400 uppercase">
+                {category.replace(/([A-Z])/g, " $1").trim()}
+              </h6>
+              <span className="text-[10px] font-bold text-slate-500">
+                {items.length} Items
+              </span>
+            </div>
+            <div className="space-y-1.5">
+              {items.map((item, itemIndex) => (
+                <div key={itemIndex} className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    className="w-full rounded border border-white/10 bg-[#0f1014] px-2.5 py-1 text-xs text-slate-200 transition-colors outline-none focus:border-blue-500"
+                    value={item}
+                    onChange={(e) =>
+                      handleItemChange(category, itemIndex, e.target.value)
+                    }
+                  />
+                  <button
+                    className="flex h-6 w-6 items-center justify-center rounded bg-red-600/20 text-red-400 transition-all hover:bg-red-600 hover:text-white"
+                    onClick={() => handleRemoveItem(category, itemIndex)}
+                  >
+                    −
+                  </button>
+                </div>
+              ))}
+              <button
+                className="mt-1 w-full rounded border border-dashed border-blue-500/30 bg-blue-600/5 py-1.5 text-[10px] font-black tracking-widest text-blue-400 uppercase transition-all hover:bg-blue-600/10"
+                onClick={() => handleAddItem(category)}
+              >
+                + Add Item
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
@@ -147,8 +161,10 @@ const PickupEditor = ({ data, onChange }) => {
   };
 
   const handleRemoveRegion = (regionIndex) => {
-    const newRegions = safeData.regions.filter((_, i) => i !== regionIndex);
-    onChange({ ...safeData, regions: newRegions });
+    if (window.confirm("Are you sure you want to remove this region?")) {
+      const newRegions = safeData.regions.filter((_, i) => i !== regionIndex);
+      onChange({ ...safeData, regions: newRegions });
+    }
   };
 
   const handleAddRegion = () => {
@@ -171,12 +187,10 @@ const PickupEditor = ({ data, onChange }) => {
       {
         name: "New Location",
         items: {
-          pokeballs: [],
-          potions: [],
-          repellents: [],
-          berries: [],
-          seeds: [],
-          misc: [],
+          common: [],
+          uncommon: [],
+          rare: [],
+          veryRare: [],
         },
       },
     ];
@@ -205,26 +219,25 @@ const PickupEditor = ({ data, onChange }) => {
   };
 
   return (
-    <div>
-      <title>Editor: Pickup</title>
-      <div className="mb-5 flex items-center justify-between border-b-2 border-[#ebcb8b] pb-4">
+    <div className="flex animate-[fade-in_0.3s_ease-out] flex-col gap-8">
+      <div className="flex items-center justify-between border-b border-white/5 pb-6">
         <div>
-          <h3 className="m-0 text-lg font-bold text-white">
-            🎒 Editor Pickup (Regions)
-          </h3>
-          <span className="text-sm text-[#888]">
-            Manage drop tables by region and category.
-          </span>
+          <h2 className="text-2xl font-black tracking-tight text-slate-100 uppercase">
+            Pickup Data Editor
+          </h2>
+          <p className="mt-1 text-sm font-medium text-slate-500 italic">
+            Configure pickup loot tables across all regions.
+          </p>
         </div>
         <button
-          className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
+          className="rounded-xl bg-blue-600 px-6 py-2.5 font-bold text-white shadow-lg shadow-blue-900/20 transition-all hover:bg-blue-500 active:scale-95"
           onClick={handleAddRegion}
         >
-          ➕ Add Region
+          + Add New Region
         </button>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         {safeData?.regions?.map((region, regionIndex) => (
           <RegionEditor
             key={regionIndex}

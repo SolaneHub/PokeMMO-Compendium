@@ -85,10 +85,12 @@ const EditorSidebar = ({
     setExpandedMembers((prev) => ({ ...prev, [m]: !prev[m] }));
 
   return (
-    <div className="animate-fade-in flex h-full w-80 flex-col border-r border-[#333] bg-[#121317]">
+    <div className="animate-fade-in flex h-full w-80 flex-col border-r border-white/5 bg-[#0a0b0e]">
       {/* Team Header Summary */}
-      <div className="border-b border-[#333] p-4">
-        <h2 className="truncate text-lg font-bold text-white">{team.name}</h2>
+      <div className="border-b border-white/5 p-4">
+        <h2 className="truncate text-lg font-bold text-slate-200">
+          {team.name}
+        </h2>
         <p className="text-xs text-slate-500">
           {team.members.filter((m) => m && m.name).length} / 6 Members
         </p>
@@ -118,11 +120,11 @@ const EditorSidebar = ({
               <div className="flex items-center gap-2">
                 {/* Placeholder dot or sprite */}
                 <div
-                  className={`h-2 w-2 rounded-full ${member?.name ? "bg-green-500" : "bg-slate-700"}`}
+                  className={`h-2 w-2 rounded-full ${member?.name ? "bg-green-500" : "bg-slate-800"}`}
                 />
                 <span
                   className={
-                    member?.name ? "text-slate-200" : "text-slate-600 italic"
+                    member?.name ? "text-slate-200" : "text-slate-500 italic"
                   }
                 >
                   {member?.name || "Empty Slot"}
@@ -147,12 +149,12 @@ const EditorSidebar = ({
                 ) : (
                   <ChevronRight size={14} />
                 )}
-                <Map size={14} />
+                <Map size={14} className="text-slate-500" />
                 {region}
               </div>
 
               {expandedRegions[region] && (
-                <div className="ml-4 border-l border-[#333] pl-2">
+                <div className="ml-4 border-l border-white/5 pl-2">
                   {availableMembers
                     .filter((m) => m.region === region)
                     .map((member) => (
@@ -166,12 +168,12 @@ const EditorSidebar = ({
                           ) : (
                             <ChevronRight size={14} />
                           )}
-                          <Shield size={14} />
+                          <Shield size={14} className="text-slate-500" />
                           {member.name}
                         </div>
 
                         {expandedMembers[member.name] && (
-                          <div className="ml-4 border-l border-[#333] pl-2">
+                          <div className="ml-4 border-l border-white/5 pl-2">
                             {/* Button to Add Enemy */}
                             <button
                               onClick={() => onAddEnemy(member)}

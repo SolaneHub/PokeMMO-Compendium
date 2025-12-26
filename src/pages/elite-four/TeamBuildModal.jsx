@@ -8,15 +8,15 @@ function PlayerBuildCard({ build, pokemonMap }) {
   const { sprite } = getPokemonCardData(build.name, pokemonMap); // Pass pokemonMap here
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg border border-slate-700 bg-neutral-900 shadow-sm transition-colors hover:border-slate-500">
-      <div className="flex items-center justify-between border-b border-slate-700 bg-slate-800 p-2.5">
+    <div className="flex flex-col overflow-hidden rounded-lg border border-white/5 bg-[#0f1014] shadow-sm transition-colors hover:border-white/20">
+      <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-2.5">
         <div className="flex items-center gap-3">
           <img
             src={sprite}
             alt={build.name}
             className="h-10 w-10 object-contain drop-shadow-md"
           />
-          <span className="text-sm font-bold text-white">{build.name}</span>
+          <span className="text-sm font-bold text-slate-200">{build.name}</span>
         </div>
 
         {build.item && (
@@ -30,7 +30,7 @@ function PlayerBuildCard({ build, pokemonMap }) {
         )}
       </div>
 
-      <div className="flex flex-wrap gap-3 border-b border-slate-700 bg-neutral-800 px-2.5 py-1.5 text-xs">
+      <div className="flex flex-wrap gap-x-4 gap-y-1.5 border-b border-white/5 bg-white/[0.02] px-2.5 py-1.5 text-xs">
         {build.ability && (
           <span className="text-slate-400">
             Ability:{" "}
@@ -51,11 +51,11 @@ function PlayerBuildCard({ build, pokemonMap }) {
       </div>
 
       {build.moves && (
-        <div className="flex flex-wrap gap-1.5 bg-neutral-900 p-2.5">
+        <div className="flex flex-wrap gap-1.5 bg-[#0f1014] p-2.5">
           {build.moves.map((m, k) => (
             <span
               key={k}
-              className="rounded border border-slate-700 bg-slate-800 px-1.5 py-0.5 text-xs text-slate-300"
+              className="rounded border border-white/5 bg-white/5 px-1.5 py-0.5 text-xs text-slate-300"
             >
               {m}
             </span>
@@ -81,19 +81,19 @@ export default function TeamBuildModal({
       onClick={onClose}
     >
       <div
-        className="relative flex max-h-[85vh] w-full max-w-[480px] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-slate-700 bg-slate-800 shadow-2xl"
+        className="relative flex max-h-[85vh] w-full max-w-[480px] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="z-10 flex flex-col bg-slate-700 p-4 shadow-md">
-          <h2 className="m-0 text-xl font-bold text-white drop-shadow-md">
+        <div className="z-10 flex flex-col border-b border-white/5 bg-white/5 p-4 shadow-md">
+          <h2 className="m-0 text-xl font-bold text-slate-100 drop-shadow-md">
             {teamName} Setup
           </h2>
-          <p className="m-0 text-sm text-slate-300 opacity-80">
+          <p className="m-0 text-sm text-slate-400 opacity-80">
             Player Team Configuration
           </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto bg-slate-800 p-4">
+        <div className="flex-1 overflow-y-auto bg-[#1a1b20] p-4">
           <div className="flex animate-[fade-in_0.3s_ease-out_forwards] flex-col gap-3">
             {builds.map((build, idx) => (
               <PlayerBuildCard

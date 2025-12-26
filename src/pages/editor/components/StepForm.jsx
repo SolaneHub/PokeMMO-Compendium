@@ -2,86 +2,134 @@ import VariationForm from "@/pages/editor/components/VariationForm";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 const StepForm = ({ step, onChange }) => {
+  // Se usePokedexData serve a caricare dati in background, va bene lasciarlo così.
+  // Se doveva restituire dati (es. elenco mosse), dovresti assegnarlo: const { moves } = usePokedexData();
   usePokedexData();
+
   const update = (field, value) => onChange({ ...step, [field]: value });
 
+  // Funzione per inserire i tag nella textarea quando cliccati
+  const handleInsertTag = (tag) => {
+    const currentText = step.player || "";
+    // Aggiunge uno spazio se il testo non è vuoto e non finisce già con uno spazio
+    const separator =
+      currentText.length > 0 && !currentText.endsWith(" ") ? " " : "";
+    update("player", currentText + separator + tag);
+  };
+
+  const instructionTags = [
+    "[SWITCH]",
+    "[ATTACK]",
+    "[STAY]",
+    "[LOCK]",
+    "[BAIT]",
+  ];
+
   return (
-    <div className="mt-2.5 border-l-[3px] border-blue-500 bg-[#1e1e1e] p-2.5 px-4">
-      <label className="mt-4 block text-xs font-bold text-slate-400 first:mt-0">
-        Type:{" "}
-        <select
-          value={step.type || ""}
-          onChange={(e) => update("type", e.target.value || undefined)}
-          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
-        >
-          <option value="">Default (Undefined)</option>
-          <option value="main">Main</option>
-        </select>
-      </label>
-      <label className="mt-4 block text-xs font-bold text-slate-400">
-        Player Action:{" "}
-        <input
-          type="text"
+    <div className="mt-2 rounded-xl border border-white/5 bg-[#0f1014]/30 p-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Step Type Selector */}
+        <label className="block space-y-1.5">
+          <span className="ml-1 text-[10px] font-black tracking-widest text-slate-500 uppercase">
+            Step Type
+          </span>
+          <select
+            value={step.type || ""}
+            onChange={(e) => update("type", e.target.value || undefined)}
+            className="w-full appearance-none rounded-xl border border-white/10 bg-[#0f1014] px-4 py-2.5 text-sm font-bold text-slate-100 transition-all outline-none focus:border-blue-500"
+          >
+            <option value="">Default (Undefined)</option>
+            <option value="main">Main Strategy</option>
+          </select>
+        </label>
+
+        {/* Warning Input */}
+        <label className="block space-y-1.5">
+          <span className="ml-1 text-[10px] font-black tracking-widest text-slate-500 uppercase">
+            Optional Warning
+          </span>
+          <input
+            type="text"
+            placeholder="e.g. Danger: Speed Tie"
+            value={step.warning || ""}
+            onChange={(e) => update("warning", e.target.value)}
+            className="w-full rounded-xl border border-white/10 bg-[#0f1014] px-4 py-2.5 text-sm font-bold text-red-400 transition-all outline-none placeholder:text-slate-700 focus:border-red-500"
+          />
+        </label>
+      </div>
+
+      {/* Instructions Textarea */}
+      <div className="mt-4 block space-y-1.5">
+        <span className="ml-1 text-[10px] font-black tracking-widest text-slate-500 uppercase">
+          Player Instructions
+        </span>
+        <textarea
+          rows={2}
           value={step.player || ""}
           onChange={(e) => update("player", e.target.value)}
-          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
+          className="w-full resize-y rounded-xl border border-white/10 bg-[#0f1014] px-4 py-3 text-sm font-medium text-slate-200 transition-all outline-none focus:border-blue-500"
+          placeholder="Use [ATTACK] Waterfall, then [SWITCH] to Blissey..."
         />
-        <p className="mt-1 text-xs text-slate-500">
-          Use icons: <span className="font-mono text-blue-400">[SWITCH]</span>,{" "}
-          <span className="font-mono text-blue-400">[ATTACK]</span>,{" "}
-          <span className="font-mono text-blue-400">[STAY]</span>,{" "}
-          <span className="font-mono text-blue-400">[LOCK]</span>,{" "}
-          <span className="font-mono text-blue-400">[BAIT]</span>
-        </p>
-      </label>
-      <label className="mt-4 block text-xs font-bold text-slate-400">
-        Warning (Optional):{" "}
-        <input
-          type="text"
-          value={step.warning || ""}
-          onChange={(e) => update("warning", e.target.value)}
-          className="mt-1.5 w-full rounded border border-[#333] bg-black/20 px-3 py-2 text-[0.95rem] text-white transition-all focus:border-blue-500 focus:bg-[#333] focus:ring-2 focus:ring-blue-500/10 focus:outline-none"
-        />
-      </label>
 
-      <div className="mt-5 border-t border-[#333] pt-4">
-        <h4 className="mb-2.5 font-semibold text-white">Variations</h4>
-        {step.variations?.map((variation, i) => (
-          <div key={i}>
-            <VariationForm
-              variation={variation}
-              onChange={(upd) => {
-                const newVars = [...step.variations];
-                newVars[i] = upd;
-                update("variations", newVars);
-              }}
-            />
+        {/* Interactive Tags */}
+        <div className="flex flex-wrap gap-2 px-1">
+          {instructionTags.map((tag) => (
             <button
-              className="mt-2 flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-red-600 px-3 py-1.5 text-xs font-medium text-white transition-all hover:bg-red-700 active:translate-y-[1px]"
-              onClick={() =>
-                update(
-                  "variations",
-                  step.variations.filter((_, idx) => idx !== i)
-                )
-              }
+              key={tag}
+              type="button"
+              onClick={() => handleInsertTag(tag)}
+              className="cursor-pointer rounded border border-blue-400/20 bg-blue-400/5 px-1.5 py-0.5 font-mono text-[9px] font-black text-blue-400 transition-all hover:border-blue-400/40 hover:bg-blue-400/10"
             >
-              Remove
+              {tag}
             </button>
-          </div>
-        ))}
-        <button
-          className="mt-4 flex cursor-pointer items-center justify-center gap-2 rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
-          onClick={() =>
-            update("variations", [
-              ...(step.variations || []),
-              { type: "", name: "", steps: [] },
-            ])
-          }
-        >
-          + Variation
-        </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Nested Variations Section */}
+      <div className="mt-6 space-y-4 border-t border-white/5 pt-4">
+        <div className="flex items-center justify-between">
+          <h4 className="text-[10px] font-black tracking-[0.2em] text-purple-400 uppercase">
+            Nested Variations
+          </h4>
+          <button
+            type="button"
+            className="cursor-pointer text-[10px] font-black tracking-widest text-blue-400 uppercase transition-colors hover:text-blue-300"
+            onClick={() => {
+              const variations = step.variations || [];
+              update("variations", [
+                ...variations,
+                { type: "step", name: "", steps: [] },
+              ]);
+            }}
+          >
+            + Add Variation
+          </button>
+        </div>
+
+        <div className="space-y-3">
+          {step.variations?.map((variation, i) => (
+            <div key={i} className="animate-[fade-in_0.3s_ease-out]">
+              <VariationForm
+                variation={variation}
+                onChange={(upd) => {
+                  const nv = [...(step.variations || [])];
+                  nv[i] = upd;
+                  update("variations", nv);
+                }}
+                onRemove={() => {
+                  update(
+                    "variations",
+                    step.variations.filter((_, idx) => idx !== i)
+                  );
+                }}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
+
 export default StepForm;

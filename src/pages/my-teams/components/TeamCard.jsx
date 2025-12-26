@@ -43,7 +43,7 @@ const TeamCard = ({
       className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 transition-all duration-300 ${
         isPending
           ? "cursor-not-allowed opacity-50"
-          : "cursor-pointer hover:-translate-y-1 hover:shadow-xl"
+          : "cursor-pointer hover:-translate-y-1 hover:border-white/10 hover:shadow-xl"
       }`}
     >
       {/* Hover Gradient Background (Blue/Cyan for My Teams) */}
@@ -57,7 +57,7 @@ const TeamCard = ({
         <div className="mb-4 flex items-start justify-between">
           <div>
             <h3
-              className={`text-xl font-bold text-slate-200 ${
+              className={`text-xl font-bold text-slate-100 ${
                 isPending ? "" : "transition-colors group-hover:text-blue-400"
               }`}
             >
@@ -84,7 +84,7 @@ const TeamCard = ({
           </button>
         </div>
 
-        <div className="mt-auto flex justify-between gap-1 overflow-hidden rounded-lg bg-black/20 p-2">
+        <div className="mt-auto flex justify-between gap-1 overflow-hidden rounded-lg bg-[#0f1014] p-2">
           {team.members &&
             team.members.slice(0, 6).map((member, idx) => (
               <div
@@ -135,7 +135,7 @@ const TeamCard = ({
                 e.stopPropagation();
                 onSubmit(team.id);
               }}
-              className="flex items-center gap-1 rounded bg-slate-700/50 px-3 py-1 text-xs font-bold text-slate-300 hover:bg-slate-600 hover:text-white"
+              className="flex items-center gap-1 rounded border border-white/5 bg-white/5 px-3 py-1.5 text-xs font-bold text-slate-300 transition-colors hover:bg-white/10 hover:text-slate-100"
             >
               <Send size={12} /> Submit
             </button>
@@ -147,7 +147,7 @@ const TeamCard = ({
                 e.stopPropagation();
                 onCancelSubmission(team.id);
               }}
-              className="flex items-center gap-1 rounded bg-red-700/50 px-3 py-1 text-xs font-bold text-red-300 hover:bg-red-600 hover:text-white"
+              className="flex items-center gap-1 rounded border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 transition-colors hover:bg-red-500/20 hover:text-red-300"
             >
               <XCircle size={12} /> Cancel Submission
             </button>

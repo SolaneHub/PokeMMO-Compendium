@@ -28,7 +28,7 @@ const BossFightSection = ({
     typeBackgrounds[bossFight.type] || typeBackgrounds[""];
 
   return (
-    <div className="animate-[fade-in_0.4s_ease-out] rounded-2xl border border-white/5 bg-[#1e2025] p-4 shadow-lg md:p-6">
+    <div className="animate-[fade-in_0.4s_ease-out] rounded-2xl border border-white/5 bg-[#1a1b20] p-4 shadow-lg md:p-6">
       <div className="mb-6 flex flex-col items-center gap-4 md:flex-row">
         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full border-4 border-blue-500 shadow-md md:h-32 md:w-32">
           <img
@@ -42,7 +42,7 @@ const BossFightSection = ({
           />
         </div>
         <div className="text-center md:text-left">
-          <h2 className="m-0 text-3xl font-bold text-white">
+          <h2 className="m-0 text-3xl font-bold text-slate-100">
             {bossFight.name}
           </h2>
           <p className="m-0 text-lg text-blue-400">{bossFight.region}</p>
@@ -69,7 +69,7 @@ const BossFightSection = ({
                 className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                   activeTeam === teamName
                     ? "bg-blue-600 text-white shadow-md"
-                    : "bg-slate-700 text-slate-300 hover:bg-slate-600 hover:text-white"
+                    : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-slate-200"
                 } `}
                 onClick={() => setActiveTeam(teamName)}
               >

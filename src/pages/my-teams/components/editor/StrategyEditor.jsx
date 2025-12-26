@@ -84,7 +84,7 @@ const StrategyEditor = ({
 
   if (!selectedEnemyPokemon) {
     return (
-      <div className="animate-fade-in flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-[#444] bg-[#1a1b20]/50 p-6 text-[#888]">
+      <div className="animate-fade-in flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-white/5 bg-[#0a0b0e]/50 p-6 text-slate-500">
         <Sword size={48} className="mb-4 opacity-50" />
         <p className="text-lg font-medium">
           Select an Enemy Pokémon to plan a strategy.
@@ -94,15 +94,15 @@ const StrategyEditor = ({
   }
 
   return (
-    <div className="animate-fade-in flex min-h-[600px] flex-col rounded-xl border border-[#333] bg-[#1a1b20] p-6 shadow-sm">
+    <div className="animate-fade-in flex min-h-[600px] flex-col rounded-xl border border-white/5 bg-[#111216] p-6 shadow-sm">
       <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col">
-        <div className="mb-6 flex items-center justify-between border-b-2 border-blue-500 pb-2.5">
+        <div className="mb-6 flex items-center justify-between border-b-2 border-blue-600 pb-2.5">
           <div>
-            <h2 className="text-xl font-bold text-white">
+            <h2 className="text-xl font-bold text-slate-200">
               Strategy vs{" "}
               <span className="text-blue-400">{selectedEnemyPokemon}</span>
             </h2>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-slate-500">
               {selectedRegion} • {selectedMember?.name}
             </p>
           </div>
@@ -140,7 +140,7 @@ const StrategyEditor = ({
                     }
                   />
                 ))}
-                <div className="mt-8 border-t border-[#333] pt-4">
+                <div className="mt-8 border-t border-white/5 pt-4">
                   <p className="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
                     Examples
                   </p>
@@ -158,8 +158,8 @@ const StrategyEditor = ({
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="animate-fade-in flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-[#444] bg-black/10 p-10">
-            <p className="mb-4 max-w-md text-center text-[#888]">
+          <div className="animate-fade-in flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/5 bg-[#0a0b0e]/50 p-10">
+            <p className="mb-4 max-w-md text-center text-slate-400">
               How do you handle{" "}
               <span className="text-blue-400">{selectedEnemyPokemon}</span>?{" "}
               <br />
@@ -167,14 +167,14 @@ const StrategyEditor = ({
             </p>
             <div className="flex gap-4">
               <button
-                className="cursor-pointer rounded border-none bg-[#1e2025] px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-[#252830] hover:text-blue-300"
+                className="cursor-pointer rounded border-none bg-white/5 px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-white/10 hover:text-blue-300"
                 onClick={() => onUpdateSteps([createNewStepTemplate()])}
               >
                 Create first step
               </button>
 
               <button
-                className="cursor-pointer rounded border-none bg-[#1e2025] px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-[#252830] hover:text-blue-300"
+                className="cursor-pointer rounded border-none bg-white/5 px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-white/10 hover:text-blue-300"
                 onClick={() => onUpdateSteps([addIdsToStep(EXAMPLE_STEP)])}
               >
                 Load Example
