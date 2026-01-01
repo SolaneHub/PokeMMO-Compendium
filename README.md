@@ -26,17 +26,16 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 - **📱 Mobile-First Design**: Clean, responsive interface that works perfectly on any device.
 - **✏️ Advanced Local CMS**: A radically improved "Editor" page allowing contributors to modify JSON data files (Strategies, Pokedex, etc.) via a rich UI with drag-and-drop support, smart inputs, and validation — running on a local Express backend.
 - **🔐 User Data (Firebase)**: A "My Teams" feature allows authenticated users to create, save, and manage their own custom teams and strategies using Firebase Firestore.
-- **✨ React 19 Activity API**: Utilizes React 19's experimental `Activity` component for view management, preserving state when navigating between sections.
 - **🌐 Dynamic Base URL Handling**: Supports different base URLs for local development and GitHub Pages deployment.
 
 ---
 
 ## ⚡ Status
 
-![React](https://img.shields.io/badge/React-19.2.3-00d8ff?logo=react&logoColor=white&style=flat)
-![Vite](https://img.shields.io/badge/Vite-7.2.7-646CFF?logo=vite&logoColor=white&style=flat)
+![React](https://img.shields.io/badge/React-18.3.1-00d8ff?logo=react&logoColor=white&style=flat)
+![Vite](https://img.shields.io/badge/Vite-6.2.0-646CFF?logo=vite&logoColor=white&style=flat)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
-![React Router](https://img.shields.io/badge/React_Router-7.10.1-CA4245?logo=react-router&logoColor=white&style=flat)
+![React Router](https://img.shields.io/badge/React_Router-7.11.0-CA4245?logo=react-router&logoColor=white&style=flat)
 ![dnd-kit](https://img.shields.io/badge/dnd--kit-6.3.1-007bff?style=flat)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black&style=flat)
 ![License](https://img.shields.io/badge/License-Unlicense-blue)

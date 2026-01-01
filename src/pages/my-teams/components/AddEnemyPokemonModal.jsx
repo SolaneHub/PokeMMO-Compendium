@@ -1,5 +1,5 @@
 import { Plus, Search, X } from "lucide-react";
-import React, { useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
@@ -11,15 +11,11 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
 
   if (!isOpen) return null;
 
-  // Simple filtering
   const filteredPokemon = pokemonNames
     .filter((p) => {
-      // 1. Match search term
       if (!p.toLowerCase().includes(deferredSearchTerm.toLowerCase()))
         return false;
 
-      // 2. Filter out alternative forms (containing parentheses)
-      // unless they are specific exceptions that have no base form (Wormadam, Deerling, Sawsbuck).
       if (p.includes("(")) {
         const exceptions = ["Wormadam", "Deerling", "Sawsbuck"];
         const isException = exceptions.some((ex) => p.startsWith(ex));
@@ -28,7 +24,7 @@ const AddEnemyPokemonModal = ({ isOpen, onClose, onAdd }) => {
 
       return true;
     })
-    .slice(0, 2000); // Limit results for performance
+    .slice(0, 2000);
 
   return (
     <div

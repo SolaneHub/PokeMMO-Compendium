@@ -12,7 +12,7 @@ const BossFightSection = ({
   bossFight,
   onPokemonCardClick,
   selectedPokemon,
-  pokemonMap, // Accept pokemonMap as a prop
+  pokemonMap,
 }) => {
   const [activeTeam, setActiveTeam] = useState(
     Object.keys(bossFight.teams || {})[0] ?? null
@@ -88,7 +88,7 @@ const BossFightSection = ({
                   const { sprite, background } = getPokemonCardData(
                     pokemonName,
                     pokemonMap
-                  ); // Pass pokemonMap
+                  );
                   return (
                     <PokemonCard
                       key={pokemonName}

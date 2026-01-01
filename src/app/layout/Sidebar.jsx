@@ -1,11 +1,10 @@
 import {
   BookOpen,
   Calculator,
-  CheckCircle, // Re-added CheckCircle import
+  CheckCircle,
   ChevronLeft,
   ChevronRight,
   Crown,
-  Edit3,
   Home,
   LogIn,
   LogOut,
@@ -133,7 +132,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
                 <span
                   className={`overflow-hidden font-medium whitespace-nowrap transition-[width,opacity,margin] duration-300 ease-in-out ${
-                    isCollapsed ? "ml-0 w-0 opacity-0" : "ml-3 w-32 opacity-100" // Fixed width for text allows smoother transition than 'w-auto'
+                    isCollapsed ? "ml-0 w-0 opacity-0" : "ml-3 w-32 opacity-100"
                   }`}
                 >
                   {item.name}

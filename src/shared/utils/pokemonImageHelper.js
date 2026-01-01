@@ -706,7 +706,6 @@ export const formatItemNameForUrl = (itemName) => {
 
   let formatted = itemName;
 
-  // Specific overrides for known inconsistencies
   const overrides = {
     "Poké Ball": "Poké_Ball",
     "Poke Ball": "Poké_Ball",
@@ -722,15 +721,12 @@ export const formatItemNameForUrl = (itemName) => {
   if (overrides[itemName]) {
     formatted = overrides[itemName];
   } else {
-    // Remove special characters (only dots, keep apostrophes for King's Rock etc)
     formatted = formatted.replace(/[.]/g, "");
 
     if (!formatted.includes(" ")) {
-      // Split CamelCase (e.g. TinyMushroom -> Tiny_Mushroom) if no spaces exist
       formatted = formatted.replace(/([a-z])([A-Z])/g, "$1_$2");
     }
   }
 
-  // Replace spaces with underscores
   return formatted.trim().replace(/\s+/g, "_");
 };

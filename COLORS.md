@@ -1,24 +1,24 @@
 # PokeMMO Compendium - Color Palette
 
-Questo documento contiene la palette colori ufficiale e i riferimenti alle classi Tailwind utilizzate nel progetto.
+This document contains the official color palette and references to the Tailwind classes used in the project.
 
-## Colori Principali
+## Primary Colors
 
-| Nome Colore | Classe Tailwind | Codice HEX/RGB | Utilizzo Intuito |
+| Color Name | Tailwind Class | HEX/RGB Code | Intended Usage |
 | :--- | :--- | :--- | :--- |
-| **Background Deep** | `bg-[#0f1014]` | `#0F1014` | Sfondo principale dell'applicazione. |
-| **Surface/Sidebar** | `bg-[#1a1b20]` | `#1A1B20` | Sfondo della sidebar e dei pannelli elevati. |
-| **Primary Accent** | `bg-blue-600` / `text-blue-400` | `#2563EB` / `#60A5FA` | Colore primario per bottoni, stati attivi e icone. |
-| **Text Primary** | `text-slate-200` | `#E2E8F0` | Testo principale e titoli. |
-| **Text Secondary** | `text-slate-400` | `#94A3B8` | Testo secondario e icone inattive. |
-| **Text Muted** | `text-slate-500` | `#64748B` | Metadati e stati disabilitati. |
-| **Border Dark** | `border-white/5` | `rgba(255,255,255,0.05)` | Bordi sottili e separatori. |
-| **Brand Gradient** | `from-blue-400 to-purple-400` | `#60A5FA` → `#C084FC` | Logo e titoli di grande impatto. |
-| **Danger/Alert** | `text-red-400` | `#F87171` | Messaggi di errore o azioni distruttive. |
+| **Background Deep** | `bg-[#0f1014]` | `#0F1014` | Main application background. |
+| **Surface/Sidebar** | `bg-[#1a1b20]` | `#1A1B20` | Sidebar and elevated panels background. |
+| **Primary Accent** | `bg-blue-600` / `text-blue-400` | `#2563EB` / `#60A5FA` | Primary color for buttons, active states, and icons. |
+| **Text Primary** | `text-slate-200` | `#E2E8F0` | Main text and titles. |
+| **Text Secondary** | `text-slate-400` | `#94A3B8` | Secondary text and inactive icons. |
+| **Text Muted** | `text-slate-500` | `#64748B` | Metadata and disabled states. |
+| **Border Dark** | `border-white/5` | `rgba(255,255,255,0.05)` | Thin borders and separators. |
+| **Brand Gradient** | `from-blue-400 to-purple-400` | `#60A5FA` → `#C084FC` | Logo and high-impact titles. |
+| **Danger/Alert** | `text-red-400` | `#F87171` | Error messages or destructive actions. |
 
-## Note Tecniche (Tailwind v4)
-Il progetto utilizza i valori standard della scala **Slate** di Tailwind CSS per i grigi e la scala **Blue** per gli accenti. 
+## Technical Notes (Tailwind v4)
+The project uses the standard values of the **Slate** scale from Tailwind CSS for grays and the **Blue** scale for accents.
 
-- **Scrollbar:** Utilizza `slate-700` (`#334155`) per il thumb.
-- **Interattività:** Gli stati hover sulla sidebar usano solitamente `white/5` come background semi-trasparente.
-- **Dark Mode:** `color-scheme: dark` è forzato nel root CSS.
+- **Scrollbar:** Uses `slate-700` (`#334155`) for the thumb.
+- **Interactivity:** Hover states on the sidebar usually use `white/5` as a semi-transparent background.
+- **Dark Mode:** `color-scheme: dark` is forced in the root CSS.

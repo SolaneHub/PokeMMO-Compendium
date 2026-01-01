@@ -1,4 +1,4 @@
-import { useEffect } from "react"; // Remove lazy, Suspense
+import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import HomePage from "@/app/layout/Home";

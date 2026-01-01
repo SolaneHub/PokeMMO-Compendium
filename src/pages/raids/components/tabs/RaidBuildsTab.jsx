@@ -5,7 +5,7 @@ const RaidBuildsTab = ({
   buildGroups,
   effectiveBuildGroupKey,
   setSelectedBuildGroup,
-  pokemonMap, // Accept pokemonMap here
+  pokemonMap,
 }) => {
   return (
     <section className="rounded-lg bg-white/5 p-3">
@@ -38,7 +38,7 @@ const RaidBuildsTab = ({
                         key={i}
                         buildData={build}
                         pokemonMap={pokemonMap}
-                      /> // Pass pokemonMap here
+                      />
                     ))}
                   </div>
                 )}

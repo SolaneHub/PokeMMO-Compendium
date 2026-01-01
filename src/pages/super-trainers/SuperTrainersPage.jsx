@@ -8,7 +8,7 @@ import {
 import SuperTrainerSection from "@/pages/super-trainers/components/SuperTrainerSection";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
-import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
+import { usePokedexData } from "@/shared/hooks/usePokedexData";
 import { useSuperTrainersData } from "@/shared/hooks/useSuperTrainersData";
 
 function SuperTrainersPage() {
@@ -24,10 +24,10 @@ function SuperTrainersPage() {
   const isLoading = pokedexLoading || trainersLoading;
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon, pokemonMap) // Pass pokemonMap
+    ? getPokemonByName(selectedPokemon, pokemonMap)
     : null;
   const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon, pokemonMap) // Pass pokemonMap
+    ? getPokemonBackground(selectedPokemon, pokemonMap)
     : "#333";
 
   const handlePokemonCardClick = (
@@ -48,9 +48,7 @@ function SuperTrainersPage() {
       setCurrentStrategyView(strategy);
       setStrategyHistory([]);
     } else {
-      // Optionally, show a toast notification or some other feedback
-      // that no strategy is available. For now, simply do nothing.
-      setIsPokemonDetailsVisible(false); // Ensure modal is closed if no strategy
+      setIsPokemonDetailsVisible(false);
     }
   };
 
@@ -71,7 +69,6 @@ function SuperTrainersPage() {
   };
 
   if (isLoading) {
-    // Handle loading state
     return (
       <div className="flex h-screen items-center justify-center text-slate-200">
         <p>Loading Super Trainers data...</p>
@@ -101,7 +98,7 @@ function SuperTrainersPage() {
             trainer={trainer}
             onPokemonCardClick={handlePokemonCardClick}
             selectedPokemon={selectedPokemon}
-            pokemonMap={pokemonMap} // Pass pokemonMap
+            pokemonMap={pokemonMap}
           />
         ))}
       </div>

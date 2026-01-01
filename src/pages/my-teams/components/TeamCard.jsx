@@ -91,17 +91,15 @@ const TeamCard = ({
                 key={idx}
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5"
               >
-                {member?.name ? ( // Check for member.name existence
+                {member?.name ? (
                   <img
                     src={getSpriteUrlByName(member.name)}
                     alt={member.name}
                     className="h-full w-full object-contain p-0.5"
                     onError={(e) => {
-                      // Fallback to standard PokeAPI sprite if dream world fails
                       if (member.dexId) {
                         e.target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
                       } else {
-                        // Fallback to a generic placeholder if dexId is also missing
                         e.target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
                       }
                     }}

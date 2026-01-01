@@ -14,7 +14,6 @@ export function useUserTeams() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // FETCH TEAMS
   const _fetchTeams = useCallback(async () => {
     if (!currentUser) {
       if (!authLoading) setLoading(false);
@@ -26,7 +25,6 @@ export function useUserTeams() {
       const userTeams = await getUserTeams(currentUser.uid);
       setTeams(userTeams);
     } catch (error) {
-      console.error(error); // Keep simple console log for debug
       showToast("Failed to load teams", "error");
     } finally {
       setLoading(false);
@@ -37,54 +35,54 @@ export function useUserTeams() {
     _fetchTeams();
   }, [_fetchTeams]);
 
-  // CREATE TEAM
-  const createTeam = async (teamName) => {
-    if (!currentUser) return null;
-    try {
-      const newTeam = {
-        name: teamName,
-        region: null,
-        members: Array(6).fill(null),
-        strategies: {},
-        enemyPools: {},
-        status: "draft",
-      };
-      const teamId = await createUserTeam(currentUser.uid, newTeam);
-      showToast("Team created successfully!", "success");
+  const createTeam = useCallback(
+    async (teamName) => {
+      if (!currentUser) return null;
+      try {
+        const newTeam = {
+          name: teamName,
+          region: null,
+          members: Array(6).fill(null),
+          strategies: {},
+          enemyPools: {},
+          status: "draft",
+        };
+        const teamId = await createUserTeam(currentUser.uid, newTeam);
+        showToast("Team created successfully!", "success");
 
-      // Refresh list
-      await _fetchTeams();
+        _fetchTeams().catch(() => {
+          // Silently refresh or log - team was created successfully
+        });
 
-      return teamId;
-    } catch (error) {
-      showToast("Failed to create team", "error");
-      return null;
-    }
-  };
+        return teamId;
+      } catch (error) {
+        showToast("Failed to create team", "error");
+        return null;
+      }
+    },
+    [currentUser, showToast, _fetchTeams]
+  );
 
-  // DELETE TEAM (Manual Optimistic UI)
-  const deleteTeam = async (teamId) => {
-    if (!currentUser) return;
+  const deleteTeam = useCallback(
+    async (teamId) => {
+      if (!currentUser) return;
 
-    // 1. Optimistic Update: Remove locally immediately
-    const previousTeams = [...teams];
-    setTeams((prev) => prev.filter((t) => t.id !== teamId));
+      const previousTeams = teams;
+      setTeams((prev) => prev.filter((t) => t.id !== teamId));
 
-    try {
-      // 2. Perform actual deletion
-      await deleteUserTeam(currentUser.uid, teamId);
-      showToast("Team deleted", "info");
-      // 3. Confirm with fresh fetch (optional, but good for consistency)
-      await _fetchTeams();
-    } catch (error) {
-      // 4. Rollback on failure
-      setTeams(previousTeams);
-      showToast("Failed to delete team", "error");
-    }
-  };
+      try {
+        await deleteUserTeam(currentUser.uid, teamId);
+        showToast("Team deleted", "info");
+      } catch (error) {
+        setTeams(previousTeams);
+        showToast("Failed to delete team", "error");
+      }
+    },
+    [currentUser, showToast, teams]
+  );
 
   return {
-    teams, // Return the standard state (which we manage optimistically manually)
+    teams,
     loading: authLoading || loading,
     createTeam,
     deleteTeam,

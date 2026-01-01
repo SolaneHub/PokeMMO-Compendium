@@ -119,7 +119,7 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
         </div>
 
         <div className="flex flex-1 flex-col gap-5 overflow-y-auto bg-[#1a1b20] p-5">
-          <div style={{ display: activeTab === "Strategy" ? "block" : "none" }}>
+          <div className={activeTab !== "Strategy" ? "hidden" : ""}>
             <RaidStrategyTab
               currentRaid={currentRaid}
               selectedStrategyIndex={selectedStrategyIndex}
@@ -136,7 +136,7 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
             />
           </div>
 
-          <div style={{ display: activeTab === "Builds" ? "block" : "none" }}>
+          <div className={activeTab !== "Builds" ? "hidden" : ""}>
             <RaidBuildsTab
               recommendedList={recommendedList}
               buildGroups={buildGroups}
@@ -146,15 +146,11 @@ const RaidModal = ({ raidName, onClose, pokemonMap, currentRaid }) => {
             />
           </div>
 
-          <div
-            style={{ display: activeTab === "Mechanics" ? "block" : "none" }}
-          >
+          <div className={activeTab !== "Mechanics" ? "hidden" : ""}>
             <RaidMechanicsTab currentRaid={currentRaid} />
           </div>
 
-          <div
-            style={{ display: activeTab === "Locations" ? "block" : "none" }}
-          >
+          <div className={activeTab !== "Locations" ? "hidden" : ""}>
             <RaidLocationsTab currentRaid={currentRaid} />
           </div>
         </div>

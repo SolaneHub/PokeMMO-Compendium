@@ -10,14 +10,25 @@ const PokemonCard = ({
     e.target.src = `https://placehold.co/80x80/cccccc/333333?text=?`;
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      if (e.key === " ") e.preventDefault();
+      if (onClick) onClick();
+    }
+  };
+
   return (
     <div
-      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] transition-all duration-300 ${
+      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
         isSelected
-          ? "z-10 scale-105 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+          ? "z-10 scale-105 border-blue-600 shadow-[0_0_15px_rgba(37,99,235,0.3)]"
           : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-white/5 hover:shadow-xl"
       } `}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      aria-pressed={isSelected}
     >
       {pokemonName && (
         <div

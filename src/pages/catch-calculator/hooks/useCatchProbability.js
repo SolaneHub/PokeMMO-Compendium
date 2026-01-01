@@ -16,7 +16,7 @@ export function useCatchProbability({
     if (!selectedPokemon) return 0;
 
     const baseCatchRate = selectedPokemon.catchRate;
-    const maxHp = 100; // Simplified
+    const maxHp = 100;
     const currentHp = maxHp * (targetHpPercentage / 100);
     const rate = baseCatchRate;
 

@@ -10,7 +10,24 @@ import {
 } from "lucide-react";
 import React, { useState } from "react";
 
-// Simple accordion component for the sidebar
+import { getSpriteUrlByName } from "@/shared/utils/pokemonImageHelper";
+
+const PokemonIcon = ({ size = 16, pokemonName, className }) => {
+  const src = getSpriteUrlByName(pokemonName);
+  if (!src) return null;
+  return (
+    <img
+      src={src}
+      alt={pokemonName}
+      className={className}
+      style={{ width: size, height: size }}
+      onError={(e) => {
+        e.target.src = `${import.meta.env.BASE_URL}assets/placeholder-pokemon.png`;
+      }}
+    />
+  );
+};
+
 const SidebarSection = ({
   title,
   icon: Icon,
@@ -71,11 +88,11 @@ const EditorSidebar = ({
   onNavigate,
   regions,
   availableMembers,
-  enemyPools, // { [memberName]: [enemy1, enemy2] }
-  onAddEnemy, // (memberName) => void
-  onRemoveEnemy, // (memberName, enemyName) => void
+  enemyPools,
+  onAddEnemy,
+  onRemoveEnemy,
+  className = "",
 }) => {
-  // Local state for expanding regions/members in the strategy tree
   const [expandedRegions, setExpandedRegions] = useState({});
   const [expandedMembers, setExpandedMembers] = useState({});
 
@@ -85,7 +102,9 @@ const EditorSidebar = ({
     setExpandedMembers((prev) => ({ ...prev, [m]: !prev[m] }));
 
   return (
-    <div className="animate-fade-in flex h-full w-80 flex-col border-r border-white/5 bg-[#0a0b0e]">
+    <div
+      className={`animate-fade-in flex h-full w-full flex-col border-r border-white/5 bg-[#1a1b20] ${className}`}
+    >
       {/* Team Header Summary */}
       <div className="border-b border-white/5 p-4">
         <h2 className="truncate text-lg font-bold text-slate-200">
@@ -115,13 +134,15 @@ const EditorSidebar = ({
               key={idx}
               active={activeView === "roster" && activeId === idx}
               onClick={() => onNavigate("roster", idx)}
-              icon={null} // TODO: Add Pokemon Icon/Sprite here if available
+              icon={
+                member?.name
+                  ? (props) => (
+                      <PokemonIcon {...props} pokemonName={member.name} />
+                    )
+                  : null
+              }
             >
               <div className="flex items-center gap-2">
-                {/* Placeholder dot or sprite */}
-                <div
-                  className={`h-2 w-2 rounded-full ${member?.name ? "bg-green-500" : "bg-slate-800"}`}
-                />
                 <span
                   className={
                     member?.name ? "text-slate-200" : "text-slate-500 italic"

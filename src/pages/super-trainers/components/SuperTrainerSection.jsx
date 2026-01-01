@@ -8,7 +8,7 @@ const SuperTrainerSection = ({
   trainer,
   onPokemonCardClick,
   selectedPokemon,
-  pokemonMap, // Accept pokemonMap as a prop
+  pokemonMap,
 }) => {
   const [activeTeam, setActiveTeam] = useState(
     Object.keys(trainer.teams || {})[0] || null
@@ -82,7 +82,7 @@ const SuperTrainerSection = ({
                   const { sprite, background } = getPokemonCardData(
                     pokemonName,
                     pokemonMap
-                  ); // Pass pokemonMap
+                  );
                   return (
                     <PokemonCard
                       key={pokemonName}

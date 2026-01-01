@@ -9,7 +9,6 @@ import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
 import { useConfirm } from "@/shared/components/ConfirmationModal";
 import PageTitle from "@/shared/components/PageTitle";
 import { useToast } from "@/shared/components/ToastNotification";
-import { logger } from "@/shared/utils/logger";
 
 const MyTeamsPage = () => {
   const navigate = useNavigate();
@@ -43,7 +42,11 @@ const MyTeamsPage = () => {
       if (teamId) {
         setShowCreateModal(false);
         navigate(`/my-teams/${teamId}`);
+      } else {
+        showToast("Failed to create team. Please try again.", "error");
       }
+    } catch (error) {
+      showToast("Failed to create team. Please try again.", "error");
     } finally {
       setIsCreating(false);
     }
@@ -59,10 +62,9 @@ const MyTeamsPage = () => {
     if (confirmed) {
       try {
         await updateTeamStatus(currentUser.uid, teamId, "pending");
-        await refreshTeams(); // Explicitly refresh teams
+        await refreshTeams();
         showToast("Team submitted for approval!", "success");
       } catch (error) {
-        logger.error("Error submitting team:", error);
         showToast("Failed to submit team. Please try again.", "error");
       }
     }
@@ -77,10 +79,9 @@ const MyTeamsPage = () => {
     if (confirmed) {
       try {
         await updateTeamStatus(currentUser.uid, teamId, "draft");
-        await refreshTeams(); // Explicitly refresh teams
+        await refreshTeams();
         showToast("Team submission cancelled.", "info");
       } catch (error) {
-        logger.error("Error cancelling submission:", error);
         showToast("Failed to cancel submission. Please try again.", "error");
       }
     }
@@ -95,7 +96,12 @@ const MyTeamsPage = () => {
       cancelText: "Cancel",
     });
     if (confirmed) {
-      await deleteTeam(teamId);
+      try {
+        await deleteTeam(teamId);
+        showToast("Team deleted successfully.", "success");
+      } catch (error) {
+        showToast("Failed to delete team. Please try again.", "error");
+      }
     }
   };
 

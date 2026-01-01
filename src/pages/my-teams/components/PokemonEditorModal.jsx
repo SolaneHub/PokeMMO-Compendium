@@ -2,6 +2,7 @@ import { Save, Search, X } from "lucide-react";
 import React, { useState } from "react";
 
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
+import { getPokemonIdByName } from "@/shared/utils/pokedexDataExtraction";
 
 const NATURES = [
   "Adamant",
@@ -56,6 +57,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
           data.moves?.[2] || "",
           data.moves?.[3] || "",
         ],
+        dexId: data.dexId || null,
       };
     }
     return {
@@ -66,6 +68,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
       evs: "",
       ivs: "",
       moves: ["", "", "", ""],
+      dexId: null,
     };
   };
 
@@ -78,25 +81,25 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
   };
 
   const handleMoveChange = (index, value) => {
-    const newMoves = [...formData.moves];
-    newMoves[index] = value;
-    setFormData((prev) => ({ ...prev, moves: newMoves }));
+    setFormData((prev) => {
+      const newMoves = [...prev.moves];
+      newMoves[index] = value;
+      return { ...prev, moves: newMoves };
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validate generic name at least
+
     if (!formData.name.trim()) return;
 
-    // Filter out empty moves
     const cleanMoves = formData.moves.filter((m) => m.trim() !== "");
+    const pokemonDexId = getPokemonIdByName(formData.name);
 
-    // Construct final object
-    // Assuming we might want to fetch dexId or sprite url if possible, but for now name is key.
-    // The parent component handles sprite logic based on name usually.
     onSave({
       ...formData,
       moves: cleanMoves,
+      dexId: pokemonDexId,
     });
   };
 
@@ -238,7 +241,7 @@ const PokemonEditorModal = ({ isOpen, onClose, initialData, onSave }) => {
                 />
               </div>
             </div>
-            {/* Row 3: Moves */}{" "}
+            {/* Row 3: Moves */}
             <div>
               <label className="mb-2 block text-sm font-medium text-slate-400">
                 Moveset

@@ -10,7 +10,6 @@ const PokemonGrid = ({ pokemonList, selectedPokemon, onSelectPokemon }) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const loadMoreRef = useRef(null);
 
-  // Infinite scroll observer
   useEffect(() => {
     if (!pokemonList) return;
 

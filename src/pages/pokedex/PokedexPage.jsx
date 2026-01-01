@@ -63,8 +63,8 @@ function PokedexPage() {
       <PageTitle title="PokéMMO Compendium: Pokédex" />
 
       <div className="flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <BookOpen className="text-blue-500" size={32} />
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-200">
+          <BookOpen className="text-blue-400" size={32} />
           Pokédex
         </h1>
         <p className="text-slate-400">
@@ -80,7 +80,7 @@ function PokedexPage() {
 
       {isLoading ? (
         <div className="mt-20 flex flex-col items-center gap-4">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-700 border-t-blue-500"></div>
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-800 border-t-blue-400"></div>
           <p className="text-slate-400">Loading Pokémon data...</p>
         </div>
       ) : (

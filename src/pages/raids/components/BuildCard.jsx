@@ -4,7 +4,6 @@ import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 import ItemImage from "@/shared/components/ItemImage";
 
 const BuildCard = ({ buildData, pokemonMap }) => {
-  // Accept pokemonMap here
   const [activeBuild, setActiveBuild] = useState(buildData);
 
   const allVariants = (() => {
@@ -28,7 +27,7 @@ const BuildCard = ({ buildData, pokemonMap }) => {
 
   const { sprite } = pokemonMap
     ? getPokemonCardData(activeBuild.name, pokemonMap)
-    : { sprite: "" }; // Pass pokemonMap here
+    : { sprite: "" };
 
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-white/5 bg-[#0f1014] shadow-sm transition-colors hover:border-white/20">

@@ -3,7 +3,7 @@ import { Plus, Sword, Trash2 } from "lucide-react";
 const EnemyPool = ({
   selectedMember,
   enemyPool,
-  teamStrategies, // To check if strategy exists
+  teamStrategies,
   selectedEnemyPokemon,
   onSelectEnemy,
   onAddEnemy,

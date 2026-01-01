@@ -5,7 +5,6 @@ import {
   writeBatch,
 } from "firebase/firestore";
 
-// Removed: import pokedexData from "../data/pokedex.json";
 import { db } from "../firebase/config";
 
 /**
@@ -48,10 +47,9 @@ export async function migratePokedexToFirestore(sourcePokedexData) {
     return;
   }
 
-  const batchSize = 450; // Firestore limit is 500
+  const batchSize = 450;
   let totalMigrated = 0;
 
-  // Split data into chunks
   const chunks = [];
   for (let i = 0; i < sourcePokedexData.length; i += batchSize) {
     chunks.push(sourcePokedexData.slice(i, i + batchSize));
@@ -66,15 +64,9 @@ export async function migratePokedexToFirestore(sourcePokedexData) {
       chunk.forEach((pokemon) => {
         if (pokemon.id) {
           const docRef = doc(db, "pokedex", pokemon.id.toString());
-          // Remove any undefined values as Firestore doesn't like them
           const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
           batch.set(docRef, cleanPokemon);
           chunkMigrated++;
-        } else {
-          console.warn(
-            "Pokémon senza ID trovato durante la migrazione, saltato:",
-            pokemon
-          );
         }
       });
 

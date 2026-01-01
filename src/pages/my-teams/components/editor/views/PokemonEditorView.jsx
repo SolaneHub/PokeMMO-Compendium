@@ -57,7 +57,7 @@ const getInitialFormData = (inputData) => {
         inputData.moves?.[2] || "",
         inputData.moves?.[3] || "",
       ],
-      dexId: inputData.dexId || null, // Initialize dexId
+      dexId: inputData.dexId || null,
     };
   }
   return {
@@ -68,7 +68,7 @@ const getInitialFormData = (inputData) => {
     evs: "",
     ivs: "",
     moves: ["", "", "", ""],
-    dexId: null, // Initialize dexId
+    dexId: null,
   };
 };
 
@@ -104,7 +104,7 @@ const PokemonEditorView = ({ data, onSave }) => {
     onSave({
       ...formData,
       moves: cleanMoves,
-      dexId: pokemonDexId, // Add dexId here
+      dexId: pokemonDexId,
     });
   };
 

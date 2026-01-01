@@ -65,7 +65,6 @@ export const moveTypeMap = {
   "X Speed": "Ice",
 };
 
-// Function to populate and return pokemonColorMap
 export function initializePokemonColorMap(pokedexData) {
   const newPokemonColorMap = {};
   if (!pokedexData || pokedexData.length === 0) {

@@ -16,7 +16,6 @@ const AuthPage = () => {
       showToast("Logged in with Google!", "success");
       navigate("/my-teams");
     } catch (error) {
-      console.error("Google Sign In Error:", error);
       showToast("Google Sign In failed.", "error");
     }
   };

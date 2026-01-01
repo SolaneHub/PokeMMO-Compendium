@@ -9,7 +9,6 @@ export function usePersistentState(key, initialValue) {
       const saved = localStorage.getItem(key);
       if (!saved) return initialValue;
 
-      // Try to decrypt first
       try {
         const bytes = CryptoJS.AES.decrypt(saved, SECRET_KEY);
         const decrypted = bytes.toString(CryptoJS.enc.Utf8);
@@ -20,7 +19,6 @@ export function usePersistentState(key, initialValue) {
         // Decryption failed, proceed to fallback
       }
 
-      // Fallback: Try to parse as plain JSON (migration support)
       return JSON.parse(saved);
     } catch {
       return initialValue;
@@ -29,7 +27,6 @@ export function usePersistentState(key, initialValue) {
 
   useEffect(() => {
     try {
-      // Cifra prima di salvare
       const encrypted = CryptoJS.AES.encrypt(
         JSON.stringify(state),
         SECRET_KEY

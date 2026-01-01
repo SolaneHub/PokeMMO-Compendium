@@ -14,7 +14,7 @@ const PickupRegionSection = ({ region }) => {
         <div className="space-y-6">
           {region.locations?.map((location, locationIndex) => (
             <div
-              key={locationIndex}
+              key={location.name}
               className="rounded-md border border-white/5 bg-[#0f1014] p-4"
             >
               <h5 className="mb-3 border-b border-white/5 pb-1 text-xl font-semibold text-slate-200">
@@ -25,16 +25,16 @@ const PickupRegionSection = ({ region }) => {
                 {Object.entries(location.items || {}).map(
                   ([category, items], categoryIndex) =>
                     items?.length > 0 && (
-                      <div
-                        key={categoryIndex}
-                        className="rounded-md bg-white/5 p-3"
-                      >
+                      <div key={category} className="rounded-md bg-white/5 p-3">
                         <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
                           {category.replace(/([A-Z])/g, " $1").trim()}:
                         </h6>
                         <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
                           {items?.map((item, itemIdx) => (
-                            <li key={itemIdx} className="flex items-center">
+                            <li
+                              key={`${category}-${item}-${itemIdx}`}
+                              className="flex items-center"
+                            >
                               <ItemImage item={item} />
                               {item}
                             </li>

@@ -18,7 +18,7 @@ export function SortableNestedStepItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: id });
+  } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -38,6 +38,8 @@ export function SortableNestedStepItem({
         <div className="flex items-center gap-3">
           <div
             className="cursor-grab text-slate-600 transition-colors hover:text-purple-400 active:cursor-grabbing"
+            role="button"
+            aria-label={`Drag to reorder nested step ${index + 1}`}
             {...listeners}
             {...attributes}
           >
@@ -48,6 +50,7 @@ export function SortableNestedStepItem({
           </h4>
         </div>
         <button
+          type="button"
           className="rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-1.5 text-xs font-bold text-red-400 transition-all hover:bg-red-600 hover:text-white"
           onClick={onRemove}
         >

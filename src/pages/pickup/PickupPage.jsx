@@ -1,5 +1,5 @@
 import { Package } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
 import PickupInfoSection from "@/pages/pickup/components/PickupInfoSection";
@@ -7,17 +7,16 @@ import PickupRegionSection from "@/pages/pickup/components/PickupRegionSection";
 import { pickupPokemonBuilds } from "@/pages/pickup/data/pickupBuilds";
 import PageTitle from "@/shared/components/PageTitle";
 import { usePickupData } from "@/shared/hooks/usePickupData";
-import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
+import { usePokedexData } from "@/shared/hooks/usePokedexData";
 
 function PickupPage() {
   const [isPickupPokemonModalOpen, setIsPickupPokemonModalOpen] =
     useState(false);
 
-  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData(); // Destructure pokemonMap and isLoading
+  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData();
   const { regions, isLoading: isLoadingPickup } = usePickupData();
 
   if (isLoadingPokedex || isLoadingPickup) {
-    // Handle loading state for Pokedex data
     return (
       <div className="flex h-screen items-center justify-center text-white">
         <p>Loading data...</p>
@@ -55,7 +54,7 @@ function PickupPage() {
           teamName="Pickup Pokémon"
           builds={pickupPokemonBuilds}
           onClose={() => setIsPickupPokemonModalOpen(false)}
-          pokemonMap={pokemonMap} // Pass pokemonMap
+          pokemonMap={pokemonMap}
         />
       )}
     </div>

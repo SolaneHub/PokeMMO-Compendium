@@ -11,45 +11,9 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import { Sword } from "lucide-react";
+import { Plus, Sword } from "lucide-react";
 
 import { SortableStepItem } from "./SortableStepItem";
-
-const EXAMPLE_STEP = {
-  type: "main",
-  player:
-    "Use Stealth Rock; facing Claydol, [SWITCH] switch to Chandelure, use 3x Calm Mind, give X Speed",
-  variations: [
-    {
-      type: "step",
-      name: "[SWITCH] Lapras",
-      steps: [
-        {
-          type: "main",
-          player:
-            "[SWITCH] switch to Blissey, [BAIT] baiting Lucario, use Trick, [SWITCH] switch to Chandelure, use 3x Calm Mind, give X Speed",
-        },
-      ],
-    },
-  ],
-};
-
-const addIdsToStep = (step, parentId = "root") => {
-  const newStep = {
-    ...step,
-    id: step.id || crypto.randomUUID(), // Ensure ID is present
-  };
-
-  if (newStep.variations && newStep.variations.length > 0) {
-    newStep.variations = newStep.variations.map((v) => ({
-      ...v,
-      steps: v.steps
-        ? v.steps.map((nestedStep) => addIdsToStep(nestedStep, newStep.id))
-        : [],
-    }));
-  }
-  return newStep;
-};
 
 const createNewStepTemplate = () => ({
   type: "main",
@@ -61,8 +25,6 @@ const createNewStepTemplate = () => ({
 
 const StrategyEditor = ({
   selectedEnemyPokemon,
-  selectedMember,
-  selectedRegion,
   steps,
   onUpdateSteps,
 }) => {
@@ -82,40 +44,44 @@ const StrategyEditor = ({
     }
   };
 
+  const addStep = () => {
+    onUpdateSteps([...(steps || []), createNewStepTemplate()]);
+  };
+
   if (!selectedEnemyPokemon) {
     return (
-      <div className="animate-fade-in flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed border-white/5 bg-[#0a0b0e]/50 p-6 text-slate-500">
-        <Sword size={48} className="mb-4 opacity-50" />
-        <p className="text-lg font-medium">
-          Select an Enemy Pokémon to plan a strategy.
+      <div className="animate-fade-in flex h-full flex-col items-center justify-center p-8 text-slate-500">
+        <div className="rounded-full bg-white/5 p-4">
+          <Sword size={32} className="opacity-50" />
+        </div>
+        <p className="mt-4 text-sm font-medium">
+          Select an Enemy Pokémon from the sidebar to start planning.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="animate-fade-in flex min-h-[600px] flex-col rounded-xl border border-white/5 bg-[#111216] p-6 shadow-sm">
-      <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col">
-        <div className="mb-6 flex items-center justify-between border-b-2 border-blue-600 pb-2.5">
-          <div>
-            <h2 className="text-xl font-bold text-slate-200">
-              Strategy vs{" "}
-              <span className="text-blue-400">{selectedEnemyPokemon}</span>
-            </h2>
-            <p className="mt-1 text-xs text-slate-500">
-              {selectedRegion} • {selectedMember?.name}
-            </p>
-          </div>
-          <button
-            className="cursor-pointer rounded border-none bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-green-700 active:translate-y-[1px]"
-            onClick={() =>
-              onUpdateSteps([...(steps || []), createNewStepTemplate()])
-            }
-          >
-            + Add Step
-          </button>
+    <div className="animate-fade-in flex h-full flex-col">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-200">
+            Vs. <span className="text-blue-400">{selectedEnemyPokemon}</span>
+          </h2>
+          <p className="text-xs text-slate-500">
+            Define your turn-by-turn strategy.
+          </p>
         </div>
+        <button
+          onClick={addStep}
+          className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white transition-all hover:bg-blue-500 active:translate-y-[1px]"
+        >
+          <Plus size={16} />
+          Add Step
+        </button>
+      </div>
 
+      <div className="flex-1 space-y-4">
         {steps && steps.length > 0 ? (
           <DndContext
             sensors={sensors}
@@ -123,7 +89,7 @@ const StrategyEditor = ({
             onDragEnd={handleDragEnd}
           >
             <SortableContext items={steps.map((s) => s.id)}>
-              <div className="space-y-4">
+              <div className="space-y-4 pb-20">
                 {steps.map((step, i) => (
                   <SortableStepItem
                     key={step.id}
@@ -140,46 +106,30 @@ const StrategyEditor = ({
                     }
                   />
                 ))}
-                <div className="mt-8 border-t border-white/5 pt-4">
-                  <p className="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-                    Examples
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      onUpdateSteps([...steps, addIdsToStep(EXAMPLE_STEP)])
-                    }
-                    className="text-xs text-blue-400 transition-colors hover:text-blue-300 hover:underline"
-                  >
-                    + Append Example Step (Articuno vs Lorelei)
-                  </button>
-                </div>
+                
+                {/* Bottom Add Button for convenience when list is long */}
+                <button
+                  onClick={addStep}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/10 py-4 text-sm font-medium text-slate-500 transition-colors hover:border-blue-500/30 hover:bg-blue-500/5 hover:text-blue-400"
+                >
+                  <Plus size={16} />
+                  Add Next Step
+                </button>
               </div>
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="animate-fade-in flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-white/5 bg-[#0a0b0e]/50 p-10">
-            <p className="mb-4 max-w-md text-center text-slate-400">
-              How do you handle{" "}
-              <span className="text-blue-400">{selectedEnemyPokemon}</span>?{" "}
-              <br />
-              Click below to define your strategy step-by-step.
+          <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-[#1a1b20]/50 py-16 text-center">
+            <p className="mb-4 max-w-sm text-sm text-slate-400">
+              No plan defined for <span className="text-blue-400">{selectedEnemyPokemon}</span> yet.
             </p>
-            <div className="flex gap-4">
-              <button
-                className="cursor-pointer rounded border-none bg-white/5 px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-white/10 hover:text-blue-300"
-                onClick={() => onUpdateSteps([createNewStepTemplate()])}
-              >
-                Create first step
-              </button>
-
-              <button
-                className="cursor-pointer rounded border-none bg-white/5 px-4 py-2 text-sm font-medium text-blue-400 transition-all hover:bg-white/10 hover:text-blue-300"
-                onClick={() => onUpdateSteps([addIdsToStep(EXAMPLE_STEP)])}
-              >
-                Load Example
-              </button>
-            </div>
+            <button
+              onClick={addStep}
+              className="flex cursor-pointer items-center gap-2 rounded-lg bg-white/5 px-6 py-3 text-sm font-bold text-slate-200 transition-all hover:bg-white/10 hover:text-white"
+            >
+              <Plus size={16} />
+              Create First Step
+            </button>
           </div>
         )}
       </div>

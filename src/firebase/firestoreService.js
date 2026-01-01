@@ -127,21 +127,24 @@ const StrategyVariationSchema = z.object({
 });
 
 // Aggiungi limiti nella validazione
-const TeamSchema = z
-  .object({
-    name: z.string().min(1).max(100),
-    region: z.string().max(50).nullable(),
-    members: z.array(z.any()).max(6),
-    strategies: z
-      .record(z.string(), z.record(z.string(), z.array(StrategyStepSchema)))
-      .optional(), // Nested object: memberName -> enemyName -> array of StrategyStepSchema
-    enemyPools: z.record(z.string(), z.array(z.string())).optional(), // Nested object: memberName -> array of enemy pokemon names
-    status: z.enum(["draft", "pending", "approved", "rejected"]).optional(),
-    isPublic: z.boolean().optional(),
-  })
-  .refine((data) => JSON.stringify(data).length < 1000000, {
+const BaseTeamSchema = z.object({
+  name: z.string().min(1).max(100),
+  region: z.string().max(50).nullable(),
+  members: z.array(z.any()).max(6),
+  strategies: z
+    .record(z.string(), z.record(z.string(), z.array(StrategyStepSchema)))
+    .optional(), // Nested object: memberName -> enemyName -> array of StrategyStepSchema
+  enemyPools: z.record(z.string(), z.array(z.string())).optional(), // Nested object: memberName -> array of enemy pokemon names
+  status: z.enum(["draft", "pending", "approved", "rejected"]).optional(),
+  isPublic: z.boolean().optional(),
+});
+
+const TeamSchema = BaseTeamSchema.refine(
+  (data) => JSON.stringify(data).length < 1000000,
+  {
     message: "Team data too large",
-  });
+  }
+);
 
 // Helper to get teams collection ref for a specific user
 const getUserTeamsRef = (userId) => {
@@ -328,7 +331,6 @@ export async function getAllUserTeams({ limit = 50, startAfter } = {}) {
  */
 export async function updatePokedexData(pokedexArray) {
   if (!pokedexArray || pokedexArray.length === 0) {
-    console.warn("No Pokedex data provided for update.");
     return;
   }
 
@@ -342,8 +344,6 @@ export async function updatePokedexData(pokedexArray) {
       // Firestore doesn't like undefined values, so clean the object
       const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
       batch.set(docRef, cleanPokemon, { merge: true }); // Use merge to avoid overwriting entire documents if not all fields are present
-    } else {
-      console.warn("Pokemon object missing 'id' field, skipping:", pokemon);
     }
   });
 

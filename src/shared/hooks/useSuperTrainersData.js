@@ -28,7 +28,6 @@ export const useSuperTrainersData = () => {
       try {
         const rawData = await getSuperTrainers();
 
-        // Sort by name
         rawData.sort((a, b) => {
           const nameA = a.name || "";
           const nameB = b.name || "";
@@ -45,7 +44,6 @@ export const useSuperTrainersData = () => {
           setData(finalData);
         }
       } catch (err) {
-        console.error("Error fetching super trainers:", err);
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };

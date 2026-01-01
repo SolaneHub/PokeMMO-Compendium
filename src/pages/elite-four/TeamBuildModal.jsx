@@ -4,8 +4,7 @@ import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
 import ItemImage from "@/shared/components/ItemImage";
 
 function PlayerBuildCard({ build, pokemonMap }) {
-  // Accept pokemonMap here
-  const { sprite } = getPokemonCardData(build.name, pokemonMap); // Pass pokemonMap here
+  const { sprite } = getPokemonCardData(build.name, pokemonMap);
 
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-white/5 bg-[#0f1014] shadow-sm transition-colors hover:border-white/20">
@@ -48,9 +47,14 @@ function PlayerBuildCard({ build, pokemonMap }) {
             EVs: <strong className="ml-1 text-slate-200">{build.evs}</strong>
           </span>
         )}
+        {build.ivs && (
+          <span className="text-slate-400">
+            IVs: <strong className="ml-1 text-slate-200">{build.ivs}</strong>
+          </span>
+        )}
       </div>
 
-      {build.moves && (
+      {build.moves && build.moves.length > 0 && (
         <div className="flex flex-wrap gap-1.5 bg-[#0f1014] p-2.5">
           {build.moves.map((m, k) => (
             <span
@@ -72,7 +76,6 @@ export default function TeamBuildModal({
   onClose,
   pokemonMap,
 }) {
-  // Accept pokemonMap here
   if (!builds || builds.length === 0) return null;
 
   return (
@@ -100,7 +103,7 @@ export default function TeamBuildModal({
                 key={idx}
                 build={build}
                 pokemonMap={pokemonMap}
-              /> // Pass pokemonMap here
+              />
             ))}
           </div>
         </div>
