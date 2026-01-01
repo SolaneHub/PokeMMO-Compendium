@@ -16,27 +16,21 @@ import {
 } from "@/pages/pokedex/data/pokemonService";
 import PageTitle from "@/shared/components/PageTitle";
 import StrategyModal from "@/shared/components/StrategyModal";
-import { usePokedexData } from "@/shared/hooks/usePokedexData"; // Import usePokedexData
-import { logger } from "@/shared/utils/logger";
-import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors"; // Import the function
+import { usePokedexData } from "@/shared/hooks/usePokedexData";
+import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors";
 
 function EliteFourPage() {
-  // State for Community Teams
   const [approvedTeams, setApprovedTeams] = useState([]);
   const [loadingTeams, setLoadingTeams] = useState(true);
-  const [error, setError] = useState(null); // New error state
-
-  // Selection State
+  const [error, setError] = useState(null);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [selectedMember, setSelectedMember] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
-
-  // UI State
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [isTeamBuildVisible, setIsTeamBuildVisible] = useState(false);
 
-  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData(); // Destructure pokemonMap and isLoading
+  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData();
   const {
     currentStrategyView,
     strategyHistory,
@@ -47,16 +41,14 @@ function EliteFourPage() {
     resetStrategy,
   } = useStrategyNavigation();
 
-  // Fetch Teams on Mount
   useEffect(() => {
     const fetchTeams = async () => {
       setLoadingTeams(true);
-      setError(null); // Clear previous errors
+      setError(null);
       try {
         const teams = await getAllApprovedTeams();
         setApprovedTeams(teams);
       } catch (err) {
-        logger.error("Failed to fetch approved teams:", err);
         setError(
           "Failed to load community strategies. Please try again later."
         );
@@ -67,14 +59,12 @@ function EliteFourPage() {
     fetchTeams();
   }, []);
 
-  // Initialize Pokemon color map when pokedexData is available
   useEffect(() => {
     if (pokemonMap && Object.keys(pokemonMap).length > 0) {
       initializePokemonColorMap(Object.values(pokemonMap));
     }
   }, [pokemonMap]);
 
-  // Derived Data
   const currentTeamData = useMemo(
     () => approvedTeams.find((t) => t.id === selectedTeamId),
     [approvedTeams, selectedTeamId]
@@ -82,41 +72,47 @@ function EliteFourPage() {
 
   const currentTeamBuilds = useMemo(() => {
     if (!currentTeamData?.members) return [];
-    // Map user team members to the format expected by TeamBuildModal/PlayerBuildCard
     return currentTeamData.members
       .map((m) => {
         if (!m) return null;
+
+        let moves = [];
+        if (Array.isArray(m.moves) && m.moves.length > 0) {
+          moves = m.moves;
+        } else {
+          moves = [m.move1, m.move2, m.move3, m.move4].filter(Boolean);
+        }
+
         return {
           name: m.name,
           item: m.item,
           ability: m.ability,
           nature: m.nature,
-          evs: m.evs, // Assuming string like "252 Atk / 252 Spe"
-          moves: [m.move1, m.move2, m.move3, m.move4].filter(Boolean),
+          evs: m.evs,
+          ivs: m.ivs,
+          moves: moves,
         };
       })
-      .filter(Boolean); // Filter out empty slots/nulls
+      .filter(Boolean);
   }, [currentTeamData]);
 
   const filteredEliteFour = getMembersByRegion(selectedRegion);
 
   const pokemonNamesForSelectedTeam = useMemo(() => {
     if (!selectedMember || !currentTeamData?.enemyPools) return [];
-    // Handle both string name (from selection) and object
     const memberName =
       typeof selectedMember === "object" ? selectedMember.name : selectedMember;
     return currentTeamData.enemyPools[memberName] || [];
   }, [selectedMember, currentTeamData]);
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon, pokemonMap) // Pass pokemonMap
+    ? getPokemonByName(selectedPokemon, pokemonMap)
     : null;
 
   const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon, pokemonMap) // Pass pokemonMap
+    ? getPokemonBackground(selectedPokemon, pokemonMap)
     : "#333";
 
-  // Actions
   const handleTeamClick = (teamId) => {
     setSelectedTeamId(teamId);
     setSelectedRegion(null);
@@ -150,7 +146,6 @@ function EliteFourPage() {
     setSelectedPokemon(pokemonName);
     setIsPokemonDetailsVisible(true);
 
-    // Strategy Retrieval logic for User Teams
     const memberName =
       typeof selectedMember === "object" ? selectedMember.name : selectedMember;
 
@@ -163,7 +158,6 @@ function EliteFourPage() {
   };
 
   if (isLoadingPokedex) {
-    // Handle loading state for Pokedex data
     return (
       <div className="flex h-screen items-center justify-center text-white">
         <p>Loading Pokedex data...</p>
@@ -231,7 +225,7 @@ function EliteFourPage() {
           pokemonNames={pokemonNamesForSelectedTeam}
           selectedPokemon={selectedPokemon}
           onPokemonClick={handlePokemonCardClick}
-          pokemonMap={pokemonMap} // Pass pokemonMap
+          pokemonMap={pokemonMap}
         />
       )}
 
@@ -240,7 +234,7 @@ function EliteFourPage() {
           teamName={currentTeamData?.name || "Team"}
           builds={currentTeamBuilds}
           onClose={() => setIsTeamBuildVisible(false)}
-          pokemonMap={pokemonMap} // Pass pokemonMap
+          pokemonMap={pokemonMap}
         />
       )}
 

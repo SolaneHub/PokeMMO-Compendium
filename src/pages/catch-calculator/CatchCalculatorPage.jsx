@@ -16,7 +16,6 @@ import { usePersistentState } from "@/shared/utils/usePersistentState";
 const CatchCalculatorPage = () => {
   const { allPokemonData, pokemonMap, isLoading } = usePokedexData();
 
-  // -- State (Persisted) --
   const [targetHpPercentage, setTargetHpPercentage] = usePersistentState(
     "calc_hp",
     100
@@ -41,19 +40,16 @@ const CatchCalculatorPage = () => {
     ""
   );
 
-  // Initialize pokemon name if empty and data available
   useEffect(() => {
     if (!selectedPokemonName && allPokemonData && allPokemonData.length > 0) {
       setSelectedPokemonName(allPokemonData[0].name);
     }
   }, [allPokemonData, selectedPokemonName, setSelectedPokemonName]);
 
-  // Search State (Ephemeral)
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
   const [isPending, startTransition] = useTransition();
 
-  // Ref for Pokemon Search
   const searchRef = useRef(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -67,18 +63,16 @@ const CatchCalculatorPage = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // -- Derived Data --
   const filteredPokemon = (() => {
-    if (isLoading) return []; // Handle loading state
+    if (isLoading) return [];
     if (!deferredSearchTerm) return allPokemonData;
     return allPokemonData.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
     );
   })();
 
-  const selectedPokemon = pokemonMap.get(selectedPokemonName); // Use pokemonMap
+  const selectedPokemon = pokemonMap.get(selectedPokemonName);
   const baseCatchRate = selectedPokemon ? selectedPokemon.catchRate : 0;
-  // Pass pokemonMap to getPokemonCardData
   const { sprite, background } = getPokemonCardData(
     selectedPokemonName,
     pokemonMap
@@ -95,7 +89,6 @@ const CatchCalculatorPage = () => {
     repeatBallCaptures,
   });
 
-  // Add loading indicator
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center text-white">

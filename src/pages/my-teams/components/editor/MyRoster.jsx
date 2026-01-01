@@ -14,23 +14,32 @@ const MyRoster = ({ members, onEditSlot }) => {
           <div
             key={idx}
             className="group relative flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#0f1014] transition-all hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10"
+            role="button"
+            tabIndex={0}
             onClick={() => onEditSlot(idx)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                if (e.key === " ") e.preventDefault();
+                onEditSlot(idx);
+              }
+            }}
+            aria-label={
+              member?.name ? `Edit ${member.name}` : "Add new Pokémon"
+            }
           >
-            {member?.name ? ( // Check for member.name existence
+            {member?.name ? (
               <img
                 src={getSpriteUrlByName(member.name)}
                 loading="lazy"
                 onError={(e) => {
-                  // Fallback to standard PokeAPI sprite if dream world fails
                   if (member.dexId) {
                     e.target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
                   } else {
-                    // Fallback to a generic placeholder if dexId is also missing
                     e.target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
                   }
                 }}
                 alt={member.name}
-                className="h-full w-full object-contain p-0.5" // Changed to h-full w-full and added p-0.5
+                className="h-full w-full object-contain p-0.5"
                 title={`${member.name} (${member.item || "No Item"})`}
               />
             ) : (

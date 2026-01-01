@@ -1,4 +1,4 @@
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Menu, Save } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -17,34 +17,24 @@ const UserTeamEditorPage = () => {
   const { userId: paramUserId } = useParams();
   const showToast = useToast();
   const { team, setTeam, loading, saving, saveTeam } = useTeamEditor();
-
-  // --- UI Navigation State ---
-  // view: "settings" | "roster" | "strategy"
   const [activeView, setActiveView] = useState("settings");
-  // id: index (for roster) or enemyName (for strategy)
   const [activeId, setActiveId] = useState(null);
-  // context: memberName (only for strategy view to know which team member owns the strat)
   const [activeContext, setActiveContext] = useState(null);
-
-  // Modal State
   const [showAddEnemyModal, setShowAddEnemyModal] = useState(false);
   const [targetMemberForAdd, setTargetMemberForAdd] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // --- Derived Data ---
   const availableMembers = useMemo(() => {
-    // Use the static members list
     return eliteFourMembers;
   }, []);
-
-  // --- Handlers ---
 
   const handleNavigate = (view, id = null, context = null) => {
     setActiveView(view);
     setActiveId(id);
     setActiveContext(context);
+    setIsSidebarOpen(false);
   };
 
-  // Roster Editing
   const handleUpdateMember = (newMemberData) => {
     const idx = activeId;
     if (idx === null || idx < 0 || idx >= team.members.length) return;
@@ -55,7 +45,6 @@ const UserTeamEditorPage = () => {
     showToast("Roster updated locally", "success");
   };
 
-  // Enemy Pool Management
   const openAddEnemyModal = (member) => {
     setTargetMemberForAdd(member);
     setShowAddEnemyModal(true);
@@ -69,7 +58,6 @@ const UserTeamEditorPage = () => {
       );
       setTeam({ ...team, enemyPools: newPools });
 
-      // If we were viewing this deleted enemy, go back to settings
       if (
         activeView === "strategy" &&
         activeId === pokemonName &&
@@ -94,25 +82,22 @@ const UserTeamEditorPage = () => {
     newPools[memberName] = [...currentList, pokemonName];
     setTeam({ ...team, enemyPools: newPools });
 
-    // Auto-navigate to the new strategy
     handleNavigate("strategy", pokemonName, memberName);
   };
 
-  // Strategy Management
   const getCurrentStrategies = () => {
     if (activeView !== "strategy" || !activeContext || !activeId) return null;
-    if (!team) return null; // Aggiunto il controllo per team
+    if (!team) return null;
     return team.strategies?.[activeContext]?.[activeId] || null;
   };
 
   const updateStrategies = (newSteps) => {
     if (activeView !== "strategy" || !activeContext || !activeId) return;
-    if (!team) return; // Add check for team
+    if (!team) return;
 
-    const memberName = activeContext; // e.g. "Lorelei"
-    const enemyName = activeId; // e.g. "Dewgong"
+    const memberName = activeContext;
+    const enemyName = activeId;
 
-    // Ensure team.strategies is an object before spreading
     const newStrategies = { ...(team.strategies || {}) };
     if (!newStrategies[memberName]) newStrategies[memberName] = {};
     newStrategies[memberName][enemyName] = newSteps;
@@ -120,7 +105,6 @@ const UserTeamEditorPage = () => {
     setTeam({ ...team, strategies: newStrategies });
   };
 
-  // Team Settings (Name)
   const handleNameChange = (newName) => {
     setTeam({ ...team, name: newName });
   };
@@ -133,13 +117,11 @@ const UserTeamEditorPage = () => {
     );
   if (!team) return null;
 
-  // --- Render Content Based on View ---
   let mainContent;
 
   if (activeView === "settings") {
-    // --- DASHBOARD VIEW ---
     mainContent = (
-      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#0f1014] to-[#1a1b20] p-4 lg:p-8">
+      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#1a1b20] to-[#25262b] p-4 lg:p-8">
         <div className="mx-auto w-full max-w-6xl space-y-10">
           {/* Header Section */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -267,8 +249,6 @@ const UserTeamEditorPage = () => {
             </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               {REGIONS.map((region) => {
-                // Calculate coverage for this region
-                // This is a rough estimation based on data structure
                 const totalMembers = availableMembers.filter(
                   (m) => m.region === region
                 ).length;
@@ -327,8 +307,6 @@ const UserTeamEditorPage = () => {
       </div>
     );
   } else if (activeView === "strategy") {
-    // activeId = enemyName, activeContext = memberName (e.g. Lorelei)
-    // We need the member object for the prop
     const memberObj = availableMembers.find((m) => m.name === activeContext);
 
     mainContent = (
@@ -346,33 +324,58 @@ const UserTeamEditorPage = () => {
   }
 
   return (
-    <div className="animate-fade-in flex h-full overflow-hidden bg-[#0f1014]">
+    <div className="animate-fade-in flex h-full overflow-hidden bg-[#1a1b20]">
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* 1. Sidebar */}
-      <EditorSidebar
-        team={team}
-        activeView={activeView}
-        activeId={activeId}
-        onNavigate={handleNavigate}
-        regions={REGIONS}
-        availableMembers={availableMembers}
-        enemyPools={team.enemyPools || {}}
-        onAddEnemy={openAddEnemyModal}
-        onRemoveEnemy={handleRemoveEnemyPokemon}
-      />
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-80 transform transition-transform duration-300 lg:static lg:h-full lg:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <EditorSidebar
+          team={team}
+          activeView={activeView}
+          activeId={activeId}
+          onNavigate={handleNavigate}
+          regions={REGIONS}
+          availableMembers={availableMembers}
+          enemyPools={team.enemyPools || {}}
+          onAddEnemy={openAddEnemyModal}
+          onRemoveEnemy={handleRemoveEnemyPokemon}
+          className="h-full w-full"
+        />
+      </div>
 
       {/* 2. Main Content Area */}
-      <div className="relative flex flex-1 flex-col overflow-hidden bg-[#0f1014]">
+      <div className="relative flex flex-1 flex-col overflow-hidden bg-[#1a1b20]">
         {/* Top Bar for Context/Actions */}
         <div className="flex h-14 items-center justify-between border-b border-white/5 bg-[#1a1b20] px-6">
-          <button
-            onClick={() =>
-              navigate(paramUserId ? "/admin/dashboard" : "/my-teams")
-            }
-            className="flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
-          >
-            <ArrowLeft size={16} />
-            {paramUserId ? "Back to Admin Dashboard" : "Back to My Teams"}
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="text-slate-400 hover:text-white lg:hidden"
+            >
+              <Menu size={20} />
+            </button>
+            <button
+              onClick={() =>
+                navigate(paramUserId ? "/admin/dashboard" : "/my-teams")
+              }
+              className="flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-white"
+            >
+              <ArrowLeft size={16} />
+              <span className="hidden sm:inline">
+                {paramUserId ? "Back to Admin Dashboard" : "Back to My Teams"}
+              </span>
+            </button>
+          </div>
 
           <div className="flex items-center gap-3">
             {saving && (

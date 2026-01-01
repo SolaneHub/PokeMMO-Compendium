@@ -13,7 +13,6 @@ import { useCallback, useLayoutEffect, useRef } from "react";
 export function useEffectEvent(handler) {
   const handlerRef = useRef(null);
 
-  // Use useLayoutEffect to ensure the ref is updated before any effects run
   useLayoutEffect(() => {
     handlerRef.current = handler;
   });

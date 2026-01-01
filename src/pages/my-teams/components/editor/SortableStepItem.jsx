@@ -25,6 +25,7 @@ export function SortableStepItem({ step, id, index, onChange, onRemove }) {
         <div className="flex items-center gap-3">
           <div
             className="cursor-grab text-slate-600 transition-colors hover:text-blue-400 active:cursor-grabbing"
+            aria-label="Drag to reorder step"
             {...listeners}
           >
             <GripVertical size={20} />
@@ -35,6 +36,7 @@ export function SortableStepItem({ step, id, index, onChange, onRemove }) {
         </div>
         <button
           className="rounded-lg border border-red-600/20 bg-red-600/10 px-3 py-1.5 text-xs font-bold text-red-400 transition-all hover:bg-red-600 hover:text-white"
+          aria-label={`Remove step ${index + 1}`}
           onClick={onRemove}
         >
           Remove Step

@@ -33,7 +33,6 @@ export const usePickupData = () => {
           id: doc.id,
         }));
 
-        // Sort regions by name
         regions.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
 
         const finalData = {
@@ -46,7 +45,6 @@ export const usePickupData = () => {
           setData(finalData);
         }
       } catch (err) {
-        console.error("Error fetching pickup data:", err);
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };

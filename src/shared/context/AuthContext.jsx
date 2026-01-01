@@ -7,7 +7,6 @@ import {
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { auth } from "@/firebase/config";
-import { logger } from "@/shared/utils/logger";
 
 const AuthContext = createContext();
 
@@ -40,11 +39,9 @@ export function AuthProvider({ children }) {
       if (user) {
         setAdminLoading(true);
         try {
-          // Force refresh to get latest claims
           const tokenResult = await user.getIdTokenResult(true);
           setIsAdmin(!!tokenResult.claims.admin);
         } catch (error) {
-          logger.error("Error checking admin claim in AuthContext:", error);
           setIsAdmin(false);
         } finally {
           setAdminLoading(false);

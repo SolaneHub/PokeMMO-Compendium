@@ -12,15 +12,16 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 
-import { SortableNestedStepItem } from "./SortableNestedStepItem";
 import { usePokedexData } from "@/shared/hooks/usePokedexData";
+
+import { SortableNestedStepItem } from "./SortableNestedStepItem";
 
 const createNewNestedStepTemplate = () => ({
   type: "main",
   player: "",
   warning: "",
   variations: [],
-  id: `nested-step-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+  id: `nested-step-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
 });
 
 const VariationForm = ({ variation, onChange, onRemove }) => {

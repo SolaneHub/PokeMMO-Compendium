@@ -32,7 +32,6 @@ export const useRaidsData = () => {
         const querySnapshot = await getDocs(collection(db, "raids"));
         const rawData = querySnapshot.docs.map((doc) => doc.data());
 
-        // Sort by stars and name
         rawData.sort((a, b) => {
           if (a.stars !== b.stars) return a.stars - b.stars;
           return a.name.localeCompare(b.name);
@@ -55,7 +54,6 @@ export const useRaidsData = () => {
           setData(finalData);
         }
       } catch (err) {
-        console.error("Failed to fetch raids data:", err);
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };

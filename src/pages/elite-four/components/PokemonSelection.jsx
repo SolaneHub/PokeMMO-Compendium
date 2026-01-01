@@ -7,7 +7,6 @@ function PokemonSelection({
   onPokemonClick,
   pokemonMap,
 }) {
-  // Accept pokemonMap here
   return (
     <div className="animate-[fade-in_0.4s_ease-out] space-y-4">
       <h2 className="text-center text-xl font-semibold text-slate-300">
@@ -18,7 +17,7 @@ function PokemonSelection({
           const { sprite, background } = getPokemonCardData(
             pokemonName,
             pokemonMap
-          ); // Pass pokemonMap here
+          );
           return (
             <PokemonCard
               key={pokemonName}

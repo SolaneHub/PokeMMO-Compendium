@@ -19,7 +19,7 @@ export const typeBackgrounds = {
   Fairy: "linear-gradient(to right, #FFCDFF, #EF70EF)",
   Various:
     "linear-gradient(to right, #FF0000, #FF7F00, #F9CB00, #00CE00, #0000FF, #4B0082, #9400D3)",
-  "": "linear-gradient(to right, #cccccc, #999999)",
+  "": "linear-gradient(to right, #475569, #1e293b)",
 };
 
 const extractGradientColors = (gradientString) => {
@@ -36,12 +36,12 @@ const extractGradientColors = (gradientString) => {
 
 export const getPrimaryColor = (backgroundStyle) => {
   if (!backgroundStyle) {
-    return "#999999";
+    return "#475569";
   }
 
   if (backgroundStyle.startsWith("linear-gradient")) {
     const colors = extractGradientColors(backgroundStyle);
-    return colors.length > 0 ? colors[0] : "#999999";
+    return colors.length > 0 ? colors[0] : "#475569";
   } else {
     return backgroundStyle;
   }
@@ -49,7 +49,7 @@ export const getPrimaryColor = (backgroundStyle) => {
 
 export const getDualShadow = (backgroundStyle) => {
   if (!backgroundStyle) {
-    return `0 4px 10px #999999aa`;
+    return `0 4px 10px #475569aa`;
   }
 
   if (backgroundStyle.startsWith("linear-gradient")) {
@@ -79,7 +79,7 @@ export const getDualShadow = (backgroundStyle) => {
     return `0 4px 10px ${backgroundStyle}aa`;
   }
 
-  return `0 4px 10px #999999aa`;
+  return `0 4px 10px #475569aa`;
 };
 
 export const generateDualTypeGradient = (type1, type2) => {

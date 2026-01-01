@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import {
   createContext,
   useCallback,
@@ -5,8 +6,6 @@ import {
   useRef,
   useState,
 } from "react";
-
-import { logger } from "../utils/logger";
 
 const ConfirmationContext = createContext();
 
@@ -25,7 +24,6 @@ export const ConfirmationProvider = ({ children }) => {
     ({ title, message, confirmText = "Confirm", cancelText = "Cancel" }) => {
       return new Promise((resolve) => {
         if (modalState.isOpen) {
-          logger.warn("Confirmation already pending");
           resolve(false);
           return;
         }
@@ -100,21 +98,7 @@ const ConfirmationModal = ({
             onClick={onCancel}
             className="text-slate-400 transition-colors hover:text-white"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-x"
-            >
-              <path d="M18 6 6 18" />
-              <path d="m6 6 12 12" />
-            </svg>
+            <X size={24} />
           </button>
         </div>
 

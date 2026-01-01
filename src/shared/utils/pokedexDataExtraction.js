@@ -1,4 +1,3 @@
-// pokedexData is now passed as an argument to avoid static import
 export const extractPokedexData = (pokedexData) => {
   if (!pokedexData)
     return {
@@ -57,7 +56,6 @@ export const extractPokedexData = (pokedexData) => {
     "Mystic Water",
     "Rocky Helmet",
     "Water Gem",
-    // Add more items as needed, or implement a backend endpoint to list them dynamically
   ]);
 
   return {

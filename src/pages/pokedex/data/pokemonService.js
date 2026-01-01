@@ -5,8 +5,6 @@ import {
 } from "@/shared/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/shared/utils/pokemonImageHelper";
 
-// Removed: Firebase import and module-level state
-
 const PREFIX_VARIANTS = [
   "Heat Rotom",
   "Wash Rotom",
@@ -41,9 +39,6 @@ const fallbackFullDetails = (name) => ({
   variants: [],
 });
 
-// All functions now accept pokedexData (array) and pokemonMap (Map) as arguments
-// or are called with these arguments from their consumers.
-
 export const getPokemonFullDetails = (name, pokemonMap) => {
   const pokemonBase = getPokemonByName(name, pokemonMap);
 
@@ -60,7 +55,7 @@ export const getPokemonFullDetails = (name, pokemonMap) => {
     return {
       ...fallback,
       sprite: getPokemonCardData(name, pokemonMap).sprite,
-      background: "#3a3b3d",
+      background: "#1a1b20",
     };
   }
 

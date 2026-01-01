@@ -6,7 +6,6 @@ const ItemImage = ({ item, className = "w-5 h-5 mr-2 object-contain" }) => {
   const formattedName = formatItemNameForUrl(item);
   const dreamUrl = `https://archives.bulbagarden.net/wiki/Special:FilePath/Dream_${formattedName}_Sprite.png`;
 
-  // Use local proxy in development to bypass CORS, direct URL in production
   const finalUrl = import.meta.env.DEV
     ? `http://localhost:3001/api/proxy-image?url=${encodeURIComponent(dreamUrl)}`
     : dreamUrl;

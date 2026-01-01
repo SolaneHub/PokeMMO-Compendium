@@ -5,8 +5,6 @@ import { db } from "@/firebase/config";
 import { extractPokedexData } from "@/shared/utils/pokedexDataExtraction";
 import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors";
 
-// Simple in-memory cache to prevent re-fetching/re-processing
-// Since pokedex data is static for the session, this is safe and efficient.
 let cachedPokedexData = null;
 
 const initialEmptyState = {
@@ -14,9 +12,9 @@ const initialEmptyState = {
   moveNames: [],
   abilityNames: [],
   itemNames: [],
-  allPokemonData: [], // Now refers to the raw list fetched from Firestore
-  pokemonMap: new Map(), // New: Map for quick lookups
-  pokemonColorMap: {}, // Add this line
+  allPokemonData: [],
+  pokemonMap: new Map(),
+  pokemonColorMap: {},
   isLoading: true,
 };
 
@@ -29,13 +27,11 @@ export const usePokedexData = () => {
   });
 
   useEffect(() => {
-    // If we already have data in memory, return. This check is crucial for
-    // ensuring data is fetched only once per session or until cache is cleared.
     if (cachedPokedexData) {
       return;
     }
 
-    let isMounted = true; // To prevent setting state on unmounted component
+    let isMounted = true;
 
     const fetchData = async () => {
       try {
@@ -43,26 +39,25 @@ export const usePokedexData = () => {
 
         const rawData = querySnapshot.docs.map((doc) => doc.data());
 
-        // Sort by ID to ensure consistent order (Firestore doesn't guarantee order)
         rawData.sort((a, b) => (a.id || 0) - (b.id || 0));
 
-        const initializedPokemonColorMap = initializePokemonColorMap(rawData); // Call and store the returned map
+        const initializedPokemonColorMap = initializePokemonColorMap(rawData);
 
         const processed = extractPokedexData(rawData);
-        const pokemonMap = new Map(rawData.map((p) => [p.name, p])); // Create the map here
+        const pokemonMap = new Map(rawData.map((p) => [p.name, p]));
 
         const finalData = {
           ...processed,
-          allPokemonData: rawData, // Store the raw data for general use
-          fullList: rawData, // Add fullList property for consumers like PokedexPage
-          pokemonMap: pokemonMap, // Expose the map
-          pokemonColorMap: initializedPokemonColorMap, // Add the initialized map here
+          allPokemonData: rawData,
+          fullList: rawData,
+          pokemonMap: pokemonMap,
+          pokemonColorMap: initializedPokemonColorMap,
           isLoading: false,
         };
 
-        cachedPokedexData = finalData; // Cache the fetched data
+        cachedPokedexData = finalData;
         if (isMounted) {
-          setData(finalData); // Update component state
+          setData(finalData);
         }
       } catch (err) {
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
@@ -72,11 +67,8 @@ export const usePokedexData = () => {
     fetchData();
 
     return () => {
-      isMounted = false; // Cleanup for unmounted components
+      isMounted = false;
     };
   }, []);
-  // Removed `data` from dependencies to prevent infinite loops.
-  // The `cachedPokedexData` handles memoization across renders.
-
   return data;
 };
