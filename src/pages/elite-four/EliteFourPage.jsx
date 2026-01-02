@@ -102,7 +102,8 @@ function EliteFourPage() {
     if (!selectedMember || !currentTeamData?.enemyPools) return [];
     const memberName =
       typeof selectedMember === "object" ? selectedMember.name : selectedMember;
-    return currentTeamData.enemyPools[memberName] || [];
+    const pool = currentTeamData.enemyPools[memberName] || [];
+    return [...pool].sort((a, b) => a.localeCompare(b));
   }, [selectedMember, currentTeamData]);
 
   const currentPokemonObject = selectedPokemon
