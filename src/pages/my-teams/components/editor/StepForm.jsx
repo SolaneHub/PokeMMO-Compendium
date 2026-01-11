@@ -135,7 +135,8 @@ const StepForm = ({ step, onChange }) => {
           <div className="space-y-4">
             {step.variations?.length === 0 && (
               <p className="py-2 text-center text-xs text-slate-500 italic">
-                No branches added yet. Use this for "If X happens, do Y".
+                No branches added yet. Use this for &quot;If X happens, do
+                Y&quot;.
               </p>
             )}
             {step.variations?.map((variation, i) => (

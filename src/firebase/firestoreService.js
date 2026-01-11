@@ -8,6 +8,7 @@ import {
   limit as firestoreLimit,
   orderBy,
   query,
+  setDoc,
   startAfter as firestoreStartAfter,
   updateDoc,
   where,
@@ -23,6 +24,19 @@ const TEAMS_COLLECTION = "elite_four_teams";
 const POKEDEX_COLLECTION = "pokedex";
 const SUPER_TRAINERS_COLLECTION = "super_trainers";
 const PICKUP_COLLECTION = "pickup";
+
+// Helper function to normalize doc IDs for Pokedex entries
+function getPokemonDocId(id) {
+  if (typeof id === "number") {
+    return id.toString().padStart(3, "0");
+  }
+  // If it's a string that consists only of digits, pad it.
+  // Otherwise, use the string as is (e.g., "bulbasaur")
+  if (typeof id === "string" && /^\d+$/.test(id)) {
+    return id.padStart(3, "0");
+  }
+  return id; // Assume it's already a valid string ID
+}
 
 /**
  * Fetches all Pickup data from Firestore.
@@ -339,7 +353,7 @@ export async function updatePokedexData(pokedexArray) {
   pokedexArray.forEach((pokemon) => {
     if (pokemon.id) {
       // Use zero-padding for document ID to ensure correct lexicographical order in Firestore console
-      const docId = pokemon.id.toString().padStart(3, "0");
+      const docId = getPokemonDocId(pokemon.id);
       const docRef = doc(db, POKEDEX_COLLECTION, docId);
       // Firestore doesn't like undefined values, so clean the object
       const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
@@ -349,6 +363,48 @@ export async function updatePokedexData(pokedexArray) {
 
   await batch.commit();
 }
+
+/**
+ * Saves (creates or updates) a single Pokedex entry.
+ * @param {Object} pokemon - The pokemon object to save.
+ */
+export async function savePokedexEntry(pokemon) {
+  if (!pokemon.name) throw new Error("Pokemon name is required");
+
+  // Use zero-padding for document ID to ensure correct lexicographical order
+  // If ID is missing, we use name (fallback, though ID is preferred for Pokedex)
+  const docId = pokemon.id
+    ? getPokemonDocId(pokemon.id)
+    : pokemon.name.toLowerCase();
+
+  const docRef = doc(db, POKEDEX_COLLECTION, docId);
+  const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
+  // Remove merge: true to ensure the document matches exactly the form data.
+  // This will effectively delete fields like 'sprite' if they are not in the form.
+  await setDoc(docRef, cleanPokemon);
+}
+
+/**
+ * Updates specific fields of a Pokedex entry.
+ * @param {string|number} id - The ID of the pokemon to update.
+ * @param {Object} updates - The fields to update.
+ */
+export async function updatePokedexEntry(id, updates) {
+  const docId = getPokemonDocId(id);
+  const docRef = doc(db, POKEDEX_COLLECTION, docId);
+  await updateDoc(docRef, updates);
+}
+
+/**
+ * Deletes a Pokedex entry.
+ * @param {string|number} id - The ID of the pokemon to delete.
+ */
+export async function deletePokedexEntry(id) {
+  const docId = getPokemonDocId(id);
+  const docRef = doc(db, POKEDEX_COLLECTION, docId);
+  await deleteDoc(docRef);
+}
+
 /**
  * Fetches all teams with status 'pending' across ALL users.
  * Requires a Firestore Composite Index (CollectionGroup).

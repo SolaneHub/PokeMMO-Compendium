@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "@/app/layout/Home";
 import Shell from "@/app/layout/Shell";
 import AdminDashboardPage from "@/pages/admin/dashboard/AdminDashboardPage";
+import PokedexEditorPage from "@/pages/admin/pokedex-editor/PokedexEditorPage";
 import AuthPage from "@/pages/auth/AuthPage";
 import BossFightsPage from "@/pages/boss-fights/BossFightsPage";
 import BreedingPage from "@/pages/breeding/BreedingPage";
@@ -88,6 +89,14 @@ function App() {
                 element={
                   <ProtectedRoute adminOnly={true}>
                     <AdminDashboardPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/pokedex-editor"
+                element={
+                  <ProtectedRoute adminOnly={true}>
+                    <PokedexEditorPage />
                   </ProtectedRoute>
                 }
               />
