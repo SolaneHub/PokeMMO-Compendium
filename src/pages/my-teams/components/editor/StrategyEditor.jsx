@@ -23,11 +23,7 @@ const createNewStepTemplate = () => ({
   id: crypto.randomUUID(),
 });
 
-const StrategyEditor = ({
-  selectedEnemyPokemon,
-  steps,
-  onUpdateSteps,
-}) => {
+const StrategyEditor = ({ selectedEnemyPokemon, steps, onUpdateSteps }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -106,7 +102,7 @@ const StrategyEditor = ({
                     }
                   />
                 ))}
-                
+
                 {/* Bottom Add Button for convenience when list is long */}
                 <button
                   onClick={addStep}
@@ -121,7 +117,8 @@ const StrategyEditor = ({
         ) : (
           <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-[#1a1b20]/50 py-16 text-center">
             <p className="mb-4 max-w-sm text-sm text-slate-400">
-              No plan defined for <span className="text-blue-400">{selectedEnemyPokemon}</span> yet.
+              No plan defined for{" "}
+              <span className="text-blue-400">{selectedEnemyPokemon}</span> yet.
             </p>
             <button
               onClick={addStep}

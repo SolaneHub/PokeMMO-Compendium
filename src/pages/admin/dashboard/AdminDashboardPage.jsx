@@ -8,7 +8,7 @@ import {
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   deleteUserTeam,
@@ -29,7 +29,7 @@ const AdminTeamList = ({ status }) => {
   const [error, setError] = useState(null);
   const [processingId, setProcessingId] = useState(null);
   const confirm = useConfirm();
-  const { showToast } = useToast();
+  const showToast = useToast();
   const [retryTrigger, setRetryTrigger] = useState(0);
   const navigate = useNavigate();
 
@@ -322,9 +322,22 @@ const AdminDashboardPage = () => {
                 <Database size={24} />
                 <h3 className="text-xl font-bold text-white">System Tools</h3>
               </div>
-              <p className="mb-6 text-slate-400">
-                No system tools currently available.
-              </p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
+                  <div>
+                    <h4 className="font-bold text-white">Pokedex Editor</h4>
+                    <p className="text-sm text-slate-400">
+                      Manage Pokemon data
+                    </p>
+                  </div>
+                  <Link
+                    to="/admin/pokedex-editor"
+                    className="rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                  >
+                    Open
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
