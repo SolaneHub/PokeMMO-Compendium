@@ -59,10 +59,10 @@ function PokedexPage() {
   }, [mainPokemonList, deferredSearchTerm]);
 
   return (
-    <div className="box-border flex min-h-screen w-full flex-col items-center space-y-8 pb-24">
+    <div className="box-border flex w-full flex-1 animate-[fade-in_0.3s_ease-out] flex-col space-y-8 overflow-x-hidden overflow-y-auto scroll-smooth p-4 pb-24 lg:p-8">
       <PageTitle title="PokéMMO Compendium: Pokédex" />
 
-      <div className="flex flex-col items-center space-y-2 text-center">
+      <div className="flex w-full flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-200">
           <BookOpen className="text-blue-400" size={32} />
           Pokédex
@@ -72,11 +72,14 @@ function PokedexPage() {
         </p>
       </div>
 
-      <SearchBar
-        value={searchTerm}
-        onChange={handleSearchChange}
-        placeholder="Search Pokémon..."
-      />
+      <div className="flex w-full justify-center">
+        <SearchBar
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search Pokémon..."
+          className="max-w-2xl"
+        />
+      </div>
 
       {isLoading ? (
         <div className="mt-20 flex flex-col items-center gap-4">

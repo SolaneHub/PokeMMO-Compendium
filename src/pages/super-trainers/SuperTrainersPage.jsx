@@ -77,46 +77,48 @@ function SuperTrainersPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8 pb-24">
-      <PageTitle title="PokéMMO Compendium: Super Trainers" />
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="mx-auto w-full max-w-7xl flex-1 space-y-8 pb-24">
+        <PageTitle title="PokéMMO Compendium: Super Trainers" />
 
-      {/* Header */}
-      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
-          <Swords className="text-blue-400" size={32} />
-          Super Trainers Strategies
-        </h1>
-        <p className="text-slate-400">
-          Detailed strategies for defeating the Super Trainers.
-        </p>
+        {/* Header */}
+        <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
+            <Swords className="text-blue-400" size={32} />
+            Super Trainers Strategies
+          </h1>
+          <p className="text-slate-400">
+            Detailed strategies for defeating the Super Trainers.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-8">
+          {superTrainersData.map((trainer) => (
+            <SuperTrainerSection
+              key={trainer.name}
+              trainer={trainer}
+              onPokemonCardClick={handlePokemonCardClick}
+              selectedPokemon={selectedPokemon}
+              pokemonMap={pokemonMap}
+            />
+          ))}
+        </div>
+
+        {/* Strategy Modal */}
+        {isPokemonDetailsVisible &&
+          currentPokemonObject &&
+          currentPokemonObject.id !== null && (
+            <StrategyModal
+              currentPokemonObject={currentPokemonObject}
+              detailsTitleBackground={detailsTitleBackground}
+              strategyHistory={strategyHistory}
+              currentStrategyView={currentStrategyView}
+              onClose={() => setIsPokemonDetailsVisible(false)}
+              onBack={handleBackClick}
+              onStepClick={handleStepClick}
+            />
+          )}
       </div>
-
-      <div className="flex flex-col gap-8">
-        {superTrainersData.map((trainer) => (
-          <SuperTrainerSection
-            key={trainer.name}
-            trainer={trainer}
-            onPokemonCardClick={handlePokemonCardClick}
-            selectedPokemon={selectedPokemon}
-            pokemonMap={pokemonMap}
-          />
-        ))}
-      </div>
-
-      {/* Strategy Modal */}
-      {isPokemonDetailsVisible &&
-        currentPokemonObject &&
-        currentPokemonObject.id !== null && (
-          <StrategyModal
-            currentPokemonObject={currentPokemonObject}
-            detailsTitleBackground={detailsTitleBackground}
-            strategyHistory={strategyHistory}
-            currentStrategyView={currentStrategyView}
-            onClose={() => setIsPokemonDetailsVisible(false)}
-            onBack={handleBackClick}
-            onStepClick={handleStepClick}
-          />
-        )}
     </div>
   );
 }

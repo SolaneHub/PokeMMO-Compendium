@@ -324,7 +324,7 @@ const UserTeamEditorPage = () => {
   }
 
   return (
-    <div className="animate-fade-in flex h-full overflow-hidden bg-[#1a1b20]">
+    <div className="animate-fade-in flex h-full flex-1 overflow-hidden bg-[#1a1b20]">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
         <div

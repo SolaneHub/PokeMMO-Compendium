@@ -287,63 +287,65 @@ const AdminDashboardPage = () => {
   }
 
   return (
-    <div className="animate-fade-in container mx-auto min-h-screen text-slate-200">
-      <PageTitle title="Admin Dashboard" />
-      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <CheckCircle className="text-blue-400" size={32} />
-          Admin Dashboard
-        </h1>
-        <p className="text-slate-400">Manage user-submitted strategies.</p>
-      </div>
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="container mx-auto min-h-screen w-full flex-1 text-slate-200">
+        <PageTitle title="Admin Dashboard" />
+        <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+            <CheckCircle className="text-blue-400" size={32} />
+            Admin Dashboard
+          </h1>
+          <p className="text-slate-400">Manage user-submitted strategies.</p>
+        </div>
 
-      {/* Tabs */}
-      <div className="mb-6 flex gap-4 border-b border-slate-700">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`pb-3 text-sm font-bold transition-colors ${
-              activeTab === tab.id
-                ? "border-b-2 border-blue-500 text-blue-400"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+        {/* Tabs */}
+        <div className="mb-6 flex gap-4 border-b border-slate-700">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`pb-3 text-sm font-bold transition-colors ${
+                activeTab === tab.id
+                  ? "border-b-2 border-blue-500 text-blue-400"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
 
-      <ErrorBoundary>
-        {activeTab === "system" ? (
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-lg">
-              <div className="mb-4 flex items-center gap-3 text-blue-400">
-                <Database size={24} />
-                <h3 className="text-xl font-bold text-white">System Tools</h3>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
-                  <div>
-                    <h4 className="font-bold text-white">Pokedex Editor</h4>
-                    <p className="text-sm text-slate-400">
-                      Manage Pokemon data
-                    </p>
+        <ErrorBoundary>
+          {activeTab === "system" ? (
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-lg">
+                <div className="mb-4 flex items-center gap-3 text-blue-400">
+                  <Database size={24} />
+                  <h3 className="text-xl font-bold text-white">System Tools</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
+                    <div>
+                      <h4 className="font-bold text-white">Pokedex Editor</h4>
+                      <p className="text-sm text-slate-400">
+                        Manage Pokemon data
+                      </p>
+                    </div>
+                    <Link
+                      to="/admin/pokedex-editor"
+                      className="rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                    >
+                      Open
+                    </Link>
                   </div>
-                  <Link
-                    to="/admin/pokedex-editor"
-                    className="rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                  >
-                    Open
-                  </Link>
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <AdminTeamList status={activeTab} />
-        )}
-      </ErrorBoundary>
+          ) : (
+            <AdminTeamList status={activeTab} />
+          )}
+        </ErrorBoundary>
+      </div>
     </div>
   );
 };

@@ -21,8 +21,11 @@ export const usePokedexData = () => {
   const [data, setData] = useState(initialEmptyState);
 
   // Wrap fetchData in useCallback so it can be used as a refetch function
-  const fetchData = useCallback(async () => {
-    setData((prev) => ({ ...prev, isLoading: true })); // Set loading true on refetch
+  const fetchData = useCallback(async (shouldSetLoading = true) => {
+    await Promise.resolve();
+    if (shouldSetLoading) {
+      setData((prev) => ({ ...prev, isLoading: true })); // Set loading true on refetch
+    }
     try {
       const querySnapshot = await getDocs(collection(db, "pokedex"));
 
@@ -75,7 +78,7 @@ export const usePokedexData = () => {
   }, []);
 
   useEffect(() => {
-    fetchData();
+    fetchData(false);
   }, [fetchData]);
 
   return { ...data, refetch: fetchData };

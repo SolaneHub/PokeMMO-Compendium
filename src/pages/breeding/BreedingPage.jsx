@@ -19,7 +19,7 @@ function BreedingPage() {
   );
 
   return (
-    <div className="space-y-6 pb-24">
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col space-y-6 overflow-x-hidden overflow-y-auto scroll-smooth p-4 pb-24 lg:p-8">
       <PageTitle title="PokéMMO Compendium: Breeding Planner" />
 
       {/* Header Section */}

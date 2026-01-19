@@ -167,91 +167,95 @@ function EliteFourPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8 pb-24">
-      <PageTitle title="PokéMMO Compendium: Elite Four" />
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="mx-auto w-full max-w-7xl flex-1 space-y-8 pb-24">
+        <PageTitle title="PokéMMO Compendium: Elite Four" />
 
-      {/* Header */}
-      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Crown className="text-yellow-500" size={32} />
-          Elite Four Strategy
-        </h1>
-        <p className="text-slate-400">Select a community strategy to begin.</p>
+        {/* Header */}
+        <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+            <Crown className="text-yellow-500" size={32} />
+            Elite Four Strategy
+          </h1>
+          <p className="text-slate-400">
+            Select a community strategy to begin.
+          </p>
+        </div>
+
+        {/* Team Selection */}
+        {loadingTeams ? (
+          <div className="text-center text-slate-400">
+            Loading community teams...
+          </div>
+        ) : error ? (
+          <div className="text-center text-red-500">{error}</div>
+        ) : approvedTeams.length === 0 ? (
+          <div className="text-center text-slate-400">
+            No approved strategies available yet. Go to &quot;My Teams&quot; to
+            create one!
+          </div>
+        ) : (
+          <TeamSelection
+            teams={approvedTeams}
+            selectedTeamId={selectedTeamId}
+            onTeamClick={handleTeamClick}
+          />
+        )}
+
+        {selectedTeamId && currentTeamBuilds.length > 0 && (
+          <ViewTeamBuildButton
+            selectedTeam={currentTeamData?.name}
+            onOpen={() => setIsTeamBuildVisible(true)}
+          />
+        )}
+
+        {selectedTeamId && (
+          <RegionSelection
+            selectedRegion={selectedRegion}
+            onRegionClick={handleRegionClick}
+          />
+        )}
+
+        {selectedRegion && filteredEliteFour.length > 0 && (
+          <MemberSelection
+            filteredEliteFour={filteredEliteFour}
+            selectedMember={selectedMember}
+            onMemberClick={handleMemberClick}
+          />
+        )}
+
+        {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
+          <PokemonSelection
+            pokemonNames={pokemonNamesForSelectedTeam}
+            selectedPokemon={selectedPokemon}
+            onPokemonClick={handlePokemonCardClick}
+            pokemonMap={pokemonMap}
+          />
+        )}
+
+        {pokemonMap && isTeamBuildVisible && (
+          <TeamBuildModal
+            teamName={currentTeamData?.name || "Team"}
+            builds={currentTeamBuilds}
+            onClose={() => setIsTeamBuildVisible(false)}
+            pokemonMap={pokemonMap}
+          />
+        )}
+
+        {/* Strategy Modal */}
+        {isPokemonDetailsVisible && currentPokemonObject && (
+          <StrategyModal
+            currentPokemonObject={currentPokemonObject}
+            detailsTitleBackground={detailsTitleBackground}
+            strategyHistory={strategyHistory}
+            currentStrategyView={currentStrategyView}
+            breadcrumbs={breadcrumbs}
+            onClose={() => setIsPokemonDetailsVisible(false)}
+            onBack={navigateBack}
+            onStepClick={navigateToStep}
+          />
+        )}
       </div>
-
-      {/* Team Selection */}
-      {loadingTeams ? (
-        <div className="text-center text-slate-400">
-          Loading community teams...
-        </div>
-      ) : error ? (
-        <div className="text-center text-red-500">{error}</div>
-      ) : approvedTeams.length === 0 ? (
-        <div className="text-center text-slate-400">
-          No approved strategies available yet. Go to &quot;My Teams&quot; to
-          create one!
-        </div>
-      ) : (
-        <TeamSelection
-          teams={approvedTeams}
-          selectedTeamId={selectedTeamId}
-          onTeamClick={handleTeamClick}
-        />
-      )}
-
-      {selectedTeamId && currentTeamBuilds.length > 0 && (
-        <ViewTeamBuildButton
-          selectedTeam={currentTeamData?.name}
-          onOpen={() => setIsTeamBuildVisible(true)}
-        />
-      )}
-
-      {selectedTeamId && (
-        <RegionSelection
-          selectedRegion={selectedRegion}
-          onRegionClick={handleRegionClick}
-        />
-      )}
-
-      {selectedRegion && filteredEliteFour.length > 0 && (
-        <MemberSelection
-          filteredEliteFour={filteredEliteFour}
-          selectedMember={selectedMember}
-          onMemberClick={handleMemberClick}
-        />
-      )}
-
-      {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
-        <PokemonSelection
-          pokemonNames={pokemonNamesForSelectedTeam}
-          selectedPokemon={selectedPokemon}
-          onPokemonClick={handlePokemonCardClick}
-          pokemonMap={pokemonMap}
-        />
-      )}
-
-      {pokemonMap && isTeamBuildVisible && (
-        <TeamBuildModal
-          teamName={currentTeamData?.name || "Team"}
-          builds={currentTeamBuilds}
-          onClose={() => setIsTeamBuildVisible(false)}
-          pokemonMap={pokemonMap}
-        />
-      )}
-
-      {/* Strategy Modal */}
-      {isPokemonDetailsVisible && currentPokemonObject && (
-        <StrategyModal
-          currentPokemonObject={currentPokemonObject}
-          detailsTitleBackground={detailsTitleBackground}
-          strategyHistory={strategyHistory}
-          currentStrategyView={currentStrategyView}
-          breadcrumbs={breadcrumbs}
-          onClose={() => setIsPokemonDetailsVisible(false)}
-          onBack={navigateBack}
-          onStepClick={navigateToStep}
-        />
-      )}
     </div>
   );
 }
