@@ -324,490 +324,501 @@ const PokedexEditorPage = () => {
   };
 
   return (
-    <div className="container mx-auto min-h-screen p-6 text-slate-200">
-      <PageTitle title="Pokedex Editor" />
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-white">Pokedex Editor</h1>
-        <button
-          onClick={() => setSelectedPokemon(null)}
-          className="flex items-center gap-2 rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
-        >
-          <Plus size={20} /> New Pokemon
-        </button>
-      </div>
-
-      <div className="grid h-[calc(100vh-200px)] grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Sidebar List */}
-        <div className="flex flex-col rounded-xl border border-slate-700 bg-slate-800 p-4">
-          <div className="relative mb-4">
-            <Search
-              className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400"
-              size={18}
-            />
-            <input
-              type="text"
-              placeholder="Search Pokemon..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full rounded-lg border border-slate-600 bg-slate-700 py-2 pr-4 pl-10 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none"
-            />
-          </div>
-          <div className="flex-1 space-y-2 overflow-y-auto pr-2">
-            {isLoading ? (
-              <div className="text-center text-slate-400">Loading...</div>
-            ) : (
-              filteredList.map((p) => (
-                <button
-                  key={p.id || p.name}
-                  onClick={() => setSelectedPokemon(p)}
-                  className={`w-full rounded-lg p-3 text-left transition-colors ${
-                    selectedPokemon?.name === p.name
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-700/50 text-slate-300 hover:bg-slate-700"
-                  }`}
-                >
-                  <span className="mr-2 font-mono text-xs opacity-70">
-                    #{String(p.id).padStart(3, "0")}
-                  </span>
-                  <span className="font-bold">{p.name}</span>
-                </button>
-              ))
-            )}
-          </div>
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="container mx-auto min-h-screen w-full flex-1 text-slate-200">
+        <PageTitle title="Pokedex Editor" />
+        <div className="mb-6 flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-white">Pokedex Editor</h1>
+          <button
+            onClick={() => setSelectedPokemon(null)}
+            className="flex items-center gap-2 rounded bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700"
+          >
+            <Plus size={20} /> New Pokemon
+          </button>
         </div>
 
-        {/* Editor Form */}
-        <div className="flex flex-col overflow-y-auto rounded-xl border border-slate-700 bg-slate-800 p-6 lg:col-span-2">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-xl font-bold text-white">
-              {selectedPokemon
-                ? `Editing ${selectedPokemon.name}`
-                : "New Pokemon"}
-            </h2>
-            <div className="flex gap-2">
-              {selectedPokemon && (
-                <button
-                  onClick={handleDelete}
-                  disabled={isSaving}
-                  className="rounded bg-red-600 p-2 text-white hover:bg-red-700 disabled:opacity-50"
-                  title="Delete"
-                >
-                  <Trash2 size={20} />
-                </button>
+        <div className="grid h-[calc(100vh-200px)] grid-cols-1 gap-6 lg:grid-cols-3">
+          {/* Sidebar List */}
+          <div className="flex flex-col rounded-xl border border-slate-700 bg-slate-800 p-4">
+            <div className="relative mb-4">
+              <Search
+                className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400"
+                size={18}
+              />
+              <input
+                type="text"
+                placeholder="Search Pokemon..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-lg border border-slate-600 bg-slate-700 py-2 pr-4 pl-10 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+            <div className="flex-1 space-y-2 overflow-y-auto pr-2">
+              {isLoading ? (
+                <div className="text-center text-slate-400">Loading...</div>
+              ) : (
+                filteredList.map((p) => (
+                  <button
+                    key={p.id || p.name}
+                    onClick={() => setSelectedPokemon(p)}
+                    className={`w-full rounded-lg p-3 text-left transition-colors ${
+                      selectedPokemon?.name === p.name
+                        ? "bg-blue-600 text-white"
+                        : "bg-slate-700/50 text-slate-300 hover:bg-slate-700"
+                    }`}
+                  >
+                    <span className="mr-2 font-mono text-xs opacity-70">
+                      #{String(p.id).padStart(3, "0")}
+                    </span>
+                    <span className="font-bold">{p.name}</span>
+                  </button>
+                ))
               )}
-              <button
-                onClick={handleSave}
-                disabled={isSaving}
-                className="flex items-center gap-2 rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700 disabled:opacity-50"
-              >
-                <Save size={20} /> Save
-              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {/* Basic Info */}
-            <div className="space-y-4">
-              <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
-                Basic Info
-              </h3>
-              <div className="grid grid-cols-4 gap-4">
-                <div className="col-span-1">
-                  <label className="block text-xs text-slate-400">ID</label>
-                  <input
-                    type="number"
-                    name="id"
-                    value={formData.id || ""}
-                    onChange={handleInputChange}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                <div className="col-span-3">
-                  <label className="block text-xs text-slate-400">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name || ""}
-                    onChange={handleInputChange}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs text-slate-400">Category</label>
-                <input
-                  type="text"
-                  name="category"
-                  value={formData.category || ""}
-                  onChange={handleInputChange}
-                  className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs text-slate-400">
-                  Types (comma separated)
-                </label>
-                <input
-                  type="text"
-                  value={formData.types?.join(", ") || ""}
-                  onChange={(e) => handleArrayChange("types", e.target.value)}
-                  className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs text-slate-400">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description || ""}
-                  onChange={handleInputChange}
-                  rows={3}
-                  className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                />
+          {/* Editor Form */}
+          <div className="flex flex-col overflow-y-auto rounded-xl border border-slate-700 bg-slate-800 p-6 lg:col-span-2">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">
+                {selectedPokemon
+                  ? `Editing ${selectedPokemon.name}`
+                  : "New Pokemon"}
+              </h2>
+              <div className="flex gap-2">
+                {selectedPokemon && (
+                  <button
+                    onClick={handleDelete}
+                    disabled={isSaving}
+                    className="rounded bg-red-600 p-2 text-white hover:bg-red-700 disabled:opacity-50"
+                    title="Delete"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                )}
+                <button
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="flex items-center gap-2 rounded bg-green-600 px-4 py-2 font-bold text-white hover:bg-green-700 disabled:opacity-50"
+                >
+                  <Save size={20} /> Save
+                </button>
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="space-y-4">
-              <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
-                Base Stats
-              </h3>
-              <div className="grid grid-cols-3 gap-2">
-                {["hp", "atk", "def", "spa", "spd", "spe"].map((stat) => (
-                  <div key={stat}>
-                    <label className="block text-xs text-slate-400 uppercase">
-                      {stat}
-                    </label>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {/* Basic Info */}
+              <div className="space-y-4">
+                <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
+                  Basic Info
+                </h3>
+                <div className="grid grid-cols-4 gap-4">
+                  <div className="col-span-1">
+                    <label className="block text-xs text-slate-400">ID</label>
                     <input
                       type="number"
-                      value={formData.baseStats?.[stat] || 0}
-                      onChange={(e) =>
-                        handleNestedChange("baseStats", stat, e.target.value)
-                      }
+                      name="id"
+                      value={formData.id || ""}
+                      onChange={handleInputChange}
                       className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
                     />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Abilities */}
-            <div className="space-y-4 md:col-span-2">
-              <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
-                Abilities & Details
-              </h3>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="block text-xs text-slate-400">
-                    Main Abilities (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.abilities?.main?.join(", ") || ""}
-                    onChange={(e) => {
-                      const array = e.target.value
-                        .split(",")
-                        .map((item) => item.trim());
-                      setFormData((prev) => ({
-                        ...prev,
-                        abilities: { ...prev.abilities, main: array },
-                      }));
-                    }}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400">
-                    Hidden Ability
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.abilities?.hidden || ""}
-                    onChange={(e) => {
-                      setFormData((prev) => ({
-                        ...prev,
-                        abilities: {
-                          ...prev.abilities,
-                          hidden: e.target.value,
-                        },
-                      }));
-                    }}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                {/* New Fields */}
-                <div>
-                  <label className="block text-xs text-slate-400">
-                    Egg Groups (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.eggGroups?.join(", ") || ""}
-                    onChange={(e) =>
-                      handleArrayChange("eggGroups", e.target.value)
-                    }
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-xs text-slate-400">
-                      Gender Ratio (M%)
-                    </label>
+                  <div className="col-span-3">
+                    <label className="block text-xs text-slate-400">Name</label>
                     <input
-                      type="number"
-                      value={formData.genderRatio?.m || 0}
-                      onChange={(e) =>
-                        handleNestedChange(
-                          "genderRatio",
-                          "m",
-                          Number(e.target.value)
-                        )
-                      }
-                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-slate-400">
-                      Gender Ratio (F%)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.genderRatio?.f || 0}
-                      onChange={(e) =>
-                        handleNestedChange(
-                          "genderRatio",
-                          "f",
-                          Number(e.target.value)
-                        )
-                      }
+                      type="text"
+                      name="name"
+                      value={formData.name || ""}
+                      onChange={handleInputChange}
                       className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
                     />
                   </div>
                 </div>
+
                 <div>
                   <label className="block text-xs text-slate-400">
-                    Catch Rate
+                    Category
                   </label>
                   <input
                     type="text"
-                    name="catchRate"
-                    value={formData.catchRate || ""}
+                    name="category"
+                    value={formData.category || ""}
                     onChange={handleInputChange}
                     className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
                   />
                 </div>
+
                 <div>
                   <label className="block text-xs text-slate-400">
-                    Base EXP
+                    Types (comma separated)
                   </label>
                   <input
                     type="text"
-                    name="baseExp"
-                    value={formData.baseExp || ""}
-                    onChange={handleInputChange}
+                    value={formData.types?.join(", ") || ""}
+                    onChange={(e) => handleArrayChange("types", e.target.value)}
                     className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
                   />
                 </div>
+
                 <div>
                   <label className="block text-xs text-slate-400">
-                    Growth Rate
+                    Description
                   </label>
-                  <input
-                    type="text"
-                    name="growthRate"
-                    value={formData.growthRate || ""}
+                  <textarea
+                    name="description"
+                    value={formData.description || ""}
                     onChange={handleInputChange}
+                    rows={3}
                     className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
                   />
                 </div>
-                <div>
-                  <label className="block text-xs text-slate-400">
-                    EV Yield
-                  </label>
-                  <input
-                    type="text"
-                    name="evYield"
-                    value={formData.evYield || ""}
-                    onChange={handleInputChange}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400">
-                    Held Items (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.heldItems?.join(", ") || ""}
-                    onChange={(e) =>
-                      handleArrayChange("heldItems", e.target.value)
-                    }
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400">
-                    Tier (PvP)
-                  </label>
-                  <input
-                    type="text"
-                    name="tier"
-                    value={formData.tier || ""}
-                    onChange={handleInputChange}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                {/* Other Details - Existing fields */}
-                <div>
-                  <label className="block text-xs text-slate-400">Height</label>
-                  <input
-                    type="text"
-                    name="height"
-                    value={formData.height || ""}
-                    onChange={handleInputChange}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400">Weight</label>
-                  <input
-                    type="text"
-                    name="weight"
-                    value={formData.weight || ""}
-                    onChange={handleInputChange}
-                    className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
-                  />
-                </div>{" "}
               </div>
-            </div>
 
-            {/* Evolution Editor */}
-            <div className="space-y-4 md:col-span-2">
-              <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
-                Evolution Chain
-              </h3>
-              <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
-                <p className="mb-4 text-xs text-slate-400">
-                  Define the full evolution chain order (Base -{">"} Evo 1 -
-                  {">"} Evo 2).
-                </p>
-
-                <div className="space-y-2">
-                  {(formData.evolutions || []).map((evo, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 rounded bg-slate-800 p-2"
-                    >
-                      <span className="w-6 text-center text-xs text-slate-500">
-                        {index + 1}
-                      </span>
-
-                      <div className="flex-1">
-                        <div className="text-sm font-bold text-white">
-                          {evo.name}
-                        </div>
-                      </div>
-
-                      <div className="flex-1">
-                        <input
-                          type="text"
-                          placeholder="Level / Condition"
-                          value={evo.level || ""}
-                          onChange={(e) =>
-                            updateEvolution(index, "level", e.target.value)
-                          }
-                          className="w-full rounded bg-slate-700 px-2 py-1 text-xs text-white focus:outline-none"
-                        />
-                      </div>
-
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => moveEvolution(index, "up")}
-                          disabled={index === 0}
-                          className="rounded p-1 text-slate-400 hover:bg-slate-700 hover:text-white disabled:opacity-30"
-                        >
-                          <ArrowUp size={14} />
-                        </button>
-                        <button
-                          onClick={() => moveEvolution(index, "down")}
-                          disabled={
-                            index === (formData.evolutions?.length || 0) - 1
-                          }
-                          className="rounded p-1 text-slate-400 hover:bg-slate-700 hover:text-white disabled:opacity-30"
-                        >
-                          <ArrowDown size={14} />
-                        </button>
-                        <button
-                          onClick={() => removeEvolution(index)}
-                          className="rounded p-1 text-red-500 hover:bg-red-900/20"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
+              {/* Stats */}
+              <div className="space-y-4">
+                <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
+                  Base Stats
+                </h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {["hp", "atk", "def", "spa", "spd", "spe"].map((stat) => (
+                    <div key={stat}>
+                      <label className="block text-xs text-slate-400 uppercase">
+                        {stat}
+                      </label>
+                      <input
+                        type="number"
+                        value={formData.baseStats?.[stat] || 0}
+                        onChange={(e) =>
+                          handleNestedChange("baseStats", stat, e.target.value)
+                        }
+                        className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                      />
                     </div>
                   ))}
                 </div>
+              </div>
 
-                <div className="mt-4">
-                  <label className="mb-1 block text-xs text-slate-400">
-                    Add Pokemon to Chain
-                  </label>
-                  <PokemonSearchSelect
-                    allPokemon={fullList || []}
-                    onSelect={addEvolution}
-                    excludeNames={(formData.evolutions || []).map(
-                      (e) => e.name
-                    )}
-                  />
+              {/* Abilities */}
+              <div className="space-y-4 md:col-span-2">
+                <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
+                  Abilities & Details
+                </h3>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Main Abilities (comma separated)
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.abilities?.main?.join(", ") || ""}
+                      onChange={(e) => {
+                        const array = e.target.value
+                          .split(",")
+                          .map((item) => item.trim());
+                        setFormData((prev) => ({
+                          ...prev,
+                          abilities: { ...prev.abilities, main: array },
+                        }));
+                      }}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Hidden Ability
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.abilities?.hidden || ""}
+                      onChange={(e) => {
+                        setFormData((prev) => ({
+                          ...prev,
+                          abilities: {
+                            ...prev.abilities,
+                            hidden: e.target.value,
+                          },
+                        }));
+                      }}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  {/* New Fields */}
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Egg Groups (comma separated)
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.eggGroups?.join(", ") || ""}
+                      onChange={(e) =>
+                        handleArrayChange("eggGroups", e.target.value)
+                      }
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-xs text-slate-400">
+                        Gender Ratio (M%)
+                      </label>
+                      <input
+                        type="number"
+                        value={formData.genderRatio?.m || 0}
+                        onChange={(e) =>
+                          handleNestedChange(
+                            "genderRatio",
+                            "m",
+                            Number(e.target.value)
+                          )
+                        }
+                        className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-slate-400">
+                        Gender Ratio (F%)
+                      </label>
+                      <input
+                        type="number"
+                        value={formData.genderRatio?.f || 0}
+                        onChange={(e) =>
+                          handleNestedChange(
+                            "genderRatio",
+                            "f",
+                            Number(e.target.value)
+                          )
+                        }
+                        className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Catch Rate
+                    </label>
+                    <input
+                      type="text"
+                      name="catchRate"
+                      value={formData.catchRate || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Base EXP
+                    </label>
+                    <input
+                      type="text"
+                      name="baseExp"
+                      value={formData.baseExp || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Growth Rate
+                    </label>
+                    <input
+                      type="text"
+                      name="growthRate"
+                      value={formData.growthRate || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      EV Yield
+                    </label>
+                    <input
+                      type="text"
+                      name="evYield"
+                      value={formData.evYield || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Held Items (comma separated)
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.heldItems?.join(", ") || ""}
+                      onChange={(e) =>
+                        handleArrayChange("heldItems", e.target.value)
+                      }
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Tier (PvP)
+                    </label>
+                    <input
+                      type="text"
+                      name="tier"
+                      value={formData.tier || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  {/* Other Details - Existing fields */}
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Height
+                    </label>
+                    <input
+                      type="text"
+                      name="height"
+                      value={formData.height || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400">
+                      Weight
+                    </label>
+                    <input
+                      type="text"
+                      name="weight"
+                      value={formData.weight || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:outline-none"
+                    />
+                  </div>{" "}
                 </div>
               </div>
-            </div>
 
-            {/* Advanced / Raw JSON for specific fields */}
-            <div className="space-y-4 md:col-span-2">
-              <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
-                Advanced Data (JSON)
-              </h3>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-1 block text-xs text-slate-400">
-                    Moves
-                  </label>
-                  <textarea
-                    value={JSON.stringify(formData.moves, null, 2)}
-                    onChange={(e) => {
-                      try {
-                        const parsed = JSON.parse(e.target.value);
-                        setFormData((prev) => ({ ...prev, moves: parsed }));
-                      } catch (err) {
-                        // ignore parse error while typing
-                      }
-                    }}
-                    className="h-40 w-full rounded bg-slate-900 p-2 font-mono text-xs text-slate-300 focus:outline-none"
-                  />
+              {/* Evolution Editor */}
+              <div className="space-y-4 md:col-span-2">
+                <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
+                  Evolution Chain
+                </h3>
+                <div className="rounded-lg border border-slate-700 bg-slate-900/50 p-4">
+                  <p className="mb-4 text-xs text-slate-400">
+                    Define the full evolution chain order (Base -{">"} Evo 1 -
+                    {">"} Evo 2).
+                  </p>
+
+                  <div className="space-y-2">
+                    {(formData.evolutions || []).map((evo, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-2 rounded bg-slate-800 p-2"
+                      >
+                        <span className="w-6 text-center text-xs text-slate-500">
+                          {index + 1}
+                        </span>
+
+                        <div className="flex-1">
+                          <div className="text-sm font-bold text-white">
+                            {evo.name}
+                          </div>
+                        </div>
+
+                        <div className="flex-1">
+                          <input
+                            type="text"
+                            placeholder="Level / Condition"
+                            value={evo.level || ""}
+                            onChange={(e) =>
+                              updateEvolution(index, "level", e.target.value)
+                            }
+                            className="w-full rounded bg-slate-700 px-2 py-1 text-xs text-white focus:outline-none"
+                          />
+                        </div>
+
+                        <div className="flex gap-1">
+                          <button
+                            onClick={() => moveEvolution(index, "up")}
+                            disabled={index === 0}
+                            className="rounded p-1 text-slate-400 hover:bg-slate-700 hover:text-white disabled:opacity-30"
+                          >
+                            <ArrowUp size={14} />
+                          </button>
+                          <button
+                            onClick={() => moveEvolution(index, "down")}
+                            disabled={
+                              index === (formData.evolutions?.length || 0) - 1
+                            }
+                            className="rounded p-1 text-slate-400 hover:bg-slate-700 hover:text-white disabled:opacity-30"
+                          >
+                            <ArrowDown size={14} />
+                          </button>
+                          <button
+                            onClick={() => removeEvolution(index)}
+                            className="rounded p-1 text-red-500 hover:bg-red-900/20"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4">
+                    <label className="mb-1 block text-xs text-slate-400">
+                      Add Pokemon to Chain
+                    </label>
+                    <PokemonSearchSelect
+                      allPokemon={fullList || []}
+                      onSelect={addEvolution}
+                      excludeNames={(formData.evolutions || []).map(
+                        (e) => e.name
+                      )}
+                    />
+                  </div>
                 </div>
-                {/* Evolutions removed from here as it has its own UI now */}
-                <div>
-                  <label className="mb-1 block text-xs text-slate-400">
-                    Locations
-                  </label>
-                  <textarea
-                    value={JSON.stringify(formData.locations, null, 2)}
-                    onChange={(e) => {
-                      try {
-                        const parsed = JSON.parse(e.target.value);
-                        setFormData((prev) => ({ ...prev, locations: parsed }));
-                      } catch (err) {
-                        // ignore
-                      }
-                    }}
-                    className="h-40 w-full rounded bg-slate-900 p-2 font-mono text-xs text-slate-300 focus:outline-none"
-                  />
+              </div>
+
+              {/* Advanced / Raw JSON for specific fields */}
+              <div className="space-y-4 md:col-span-2">
+                <h3 className="border-b border-slate-700 pb-2 font-bold text-blue-400">
+                  Advanced Data (JSON)
+                </h3>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-xs text-slate-400">
+                      Moves
+                    </label>
+                    <textarea
+                      value={JSON.stringify(formData.moves, null, 2)}
+                      onChange={(e) => {
+                        try {
+                          const parsed = JSON.parse(e.target.value);
+                          setFormData((prev) => ({ ...prev, moves: parsed }));
+                        } catch (err) {
+                          // ignore parse error while typing
+                        }
+                      }}
+                      className="h-40 w-full rounded bg-slate-900 p-2 font-mono text-xs text-slate-300 focus:outline-none"
+                    />
+                  </div>
+                  {/* Evolutions removed from here as it has its own UI now */}
+                  <div>
+                    <label className="mb-1 block text-xs text-slate-400">
+                      Locations
+                    </label>
+                    <textarea
+                      value={JSON.stringify(formData.locations, null, 2)}
+                      onChange={(e) => {
+                        try {
+                          const parsed = JSON.parse(e.target.value);
+                          setFormData((prev) => ({
+                            ...prev,
+                            locations: parsed,
+                          }));
+                        } catch (err) {
+                          // ignore
+                        }
+                      }}
+                      className="h-40 w-full rounded bg-slate-900 p-2 font-mono text-xs text-slate-300 focus:outline-none"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

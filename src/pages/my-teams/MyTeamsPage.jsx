@@ -113,58 +113,60 @@ const MyTeamsPage = () => {
     );
 
   return (
-    <div className="animate-fade-in mx-auto max-w-7xl space-y-8 pb-24">
-      <PageTitle title="My Elite Four Teams" />
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="mx-auto w-full max-w-7xl flex-1 space-y-8 pb-24">
+        <PageTitle title="My Elite Four Teams" />
 
-      {/* Header */}
-      <div className="mb-8 flex flex-col items-center space-y-4 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
-          <User className="text-blue-400" size={32} />
-          My Teams
-        </h1>
-        <p className="max-w-2xl text-slate-400">
-          Create and manage your own custom strategies for the Elite Four.
-        </p>
-
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-white shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-blue-900/40 active:scale-95"
-        >
-          <Plus size={20} />
-          Create New Team
-        </button>
-      </div>
-
-      {teams.length === 0 ? (
-        <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
-          <p className="mb-4 text-xl text-slate-400">
-            You haven&apos;t created any teams yet.
+        {/* Header */}
+        <div className="mb-8 flex flex-col items-center space-y-4 text-center">
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
+            <User className="text-blue-400" size={32} />
+            My Teams
+          </h1>
+          <p className="max-w-2xl text-slate-400">
+            Create and manage your own custom strategies for the Elite Four.
           </p>
+
           <button
             onClick={() => setShowCreateModal(true)}
-            className="text-blue-400 hover:text-blue-300 hover:underline"
+            className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-white shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-blue-900/40 active:scale-95"
           >
-            Create your first team now
+            <Plus size={20} />
+            Create New Team
           </button>
         </div>
-      ) : (
-        <TeamList
-          teams={teams}
-          onTeamClick={(id) => navigate(`/my-teams/${id}`)}
-          onDeleteTeam={handleDeleteTeam}
-          onSubmitTeam={handleSubmitTeam}
-          onCancelSubmission={handleCancelSubmission}
-        />
-      )}
 
-      {/* Create Team Modal */}
-      {showCreateModal && (
-        <CreateTeamModal
-          onClose={() => setShowCreateModal(false)}
-          onSubmit={handleCreateTeam}
-          isLoading={isCreating}
-        />
-      )}
+        {teams.length === 0 ? (
+          <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
+            <p className="mb-4 text-xl text-slate-400">
+              You haven&apos;t created any teams yet.
+            </p>
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="text-blue-400 hover:text-blue-300 hover:underline"
+            >
+              Create your first team now
+            </button>
+          </div>
+        ) : (
+          <TeamList
+            teams={teams}
+            onTeamClick={(id) => navigate(`/my-teams/${id}`)}
+            onDeleteTeam={handleDeleteTeam}
+            onSubmitTeam={handleSubmitTeam}
+            onCancelSubmission={handleCancelSubmission}
+          />
+        )}
+
+        {/* Create Team Modal */}
+        {showCreateModal && (
+          <CreateTeamModal
+            onClose={() => setShowCreateModal(false)}
+            onSubmit={handleCreateTeam}
+            isLoading={isCreating}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import HomePage from "@/app/layout/Home";
 import Shell from "@/app/layout/Shell";
@@ -25,9 +25,6 @@ import { usePokedexData } from "@/shared/hooks/usePokedexData";
 import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors";
 
 function App() {
-  const location = useLocation();
-  const currentPath = location.pathname;
-
   const { allPokemonData, isLoading } = usePokedexData();
 
   useEffect(() => {
@@ -36,15 +33,11 @@ function App() {
     }
   }, [allPokemonData, isLoading]);
 
-  const shouldRemovePadding =
-    currentPath.startsWith("/my-teams/") ||
-    currentPath.startsWith("/admin/edit-team/");
-
   return (
     <ConfirmationProvider>
       <AuthProvider>
         <ToastProvider>
-          <Shell noPadding={shouldRemovePadding}>
+          <Shell>
             <Routes>
               {/* Public Pages */}
               <Route path="/" element={<HomePage />} />

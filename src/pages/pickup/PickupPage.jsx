@@ -25,38 +25,40 @@ function PickupPage() {
   }
 
   return (
-    <div className="container mx-auto space-y-8 pb-24">
-      <PageTitle title="PokéMMO Compendium: Pickup" />
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="container mx-auto w-full flex-1 space-y-8 pb-24">
+        <PageTitle title="PokéMMO Compendium: Pickup" />
 
-      {/* Header */}
-      <div className="flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-          <Package className="text-blue-400" size={32} />
-          Pickup
-        </h1>
-        <p className="text-slate-400">
-          Find items after battling wild Pokémon.
-        </p>
-      </div>
+        {/* Header */}
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
+            <Package className="text-blue-400" size={32} />
+            Pickup
+          </h1>
+          <p className="text-slate-400">
+            Find items after battling wild Pokémon.
+          </p>
+        </div>
 
-      <PickupInfoSection
-        onOpenModal={() => setIsPickupPokemonModalOpen(true)}
-      />
-
-      <div className="space-y-8">
-        {regions?.map((region, regionIndex) => (
-          <PickupRegionSection key={regionIndex} region={region} />
-        ))}
-      </div>
-
-      {isPickupPokemonModalOpen && pokemonMap && (
-        <TeamBuildModal
-          teamName="Pickup Pokémon"
-          builds={pickupPokemonBuilds}
-          onClose={() => setIsPickupPokemonModalOpen(false)}
-          pokemonMap={pokemonMap}
+        <PickupInfoSection
+          onOpenModal={() => setIsPickupPokemonModalOpen(true)}
         />
-      )}
+
+        <div className="space-y-8">
+          {regions?.map((region, regionIndex) => (
+            <PickupRegionSection key={regionIndex} region={region} />
+          ))}
+        </div>
+
+        {isPickupPokemonModalOpen && pokemonMap && (
+          <TeamBuildModal
+            teamName="Pickup Pokémon"
+            builds={pickupPokemonBuilds}
+            onClose={() => setIsPickupPokemonModalOpen(false)}
+            pokemonMap={pokemonMap}
+          />
+        )}
+      </div>
     </div>
   );
 }

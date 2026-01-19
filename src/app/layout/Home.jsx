@@ -101,7 +101,7 @@ function Home() {
   ];
 
   return (
-    <div className="space-y-10">
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col space-y-10 overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
       <PageTitle title="PokéMMO Compendium: Home" />
 
       {/* Hero Section */}

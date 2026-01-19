@@ -48,7 +48,7 @@ const PokemonGrid = ({ pokemonList, selectedPokemon, onSelectPokemon }) => {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="flex w-full max-w-[1400px] flex-wrap justify-center gap-5">
+      <div className="flex w-full flex-wrap justify-center gap-5">
         {visiblePokemon.map((pokemon, index) => {
           const sprite = pokemon.sprite || getSpriteUrlByName(pokemon.name);
           const background = getPokemonBackground(pokemon);

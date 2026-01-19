@@ -74,43 +74,45 @@ function BossFightsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl space-y-8 pb-24">
-      <PageTitle title="PokéMMO Compendium: Boss Fights" />
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
+      <div className="mx-auto w-full max-w-7xl flex-1 space-y-8 pb-24">
+        <PageTitle title="PokéMMO Compendium: Boss Fights" />
 
-      {/* Header */}
-      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
-          <Skull className="text-red-400" size={32} />
-          Boss Fights Strategies
-        </h1>
-        <p className="text-slate-400">
-          Detailed strategies for defeating the Boss Fights.
-        </p>
-      </div>
+        {/* Header */}
+        <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+          <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
+            <Skull className="text-red-400" size={32} />
+            Boss Fights Strategies
+          </h1>
+          <p className="text-slate-400">
+            Detailed strategies for defeating the Boss Fights.
+          </p>
+        </div>
 
-      <div className="flex flex-col gap-8">
-        {allBossFights.map((bossFight) => (
-          <BossFightSection
-            key={bossFight.name}
-            bossFight={bossFight}
-            onPokemonCardClick={handlePokemonCardClick}
-            selectedPokemon={selectedPokemon}
-            pokemonMap={pokemonMap}
+        <div className="flex flex-col gap-8">
+          {allBossFights.map((bossFight) => (
+            <BossFightSection
+              key={bossFight.name}
+              bossFight={bossFight}
+              onPokemonCardClick={handlePokemonCardClick}
+              selectedPokemon={selectedPokemon}
+              pokemonMap={pokemonMap}
+            />
+          ))}
+        </div>
+
+        {isPokemonDetailsVisible && currentPokemonObject && (
+          <StrategyModal
+            currentPokemonObject={currentPokemonObject}
+            detailsTitleBackground={detailsTitleBackground}
+            strategyHistory={strategyHistory}
+            currentStrategyView={currentStrategyView}
+            onClose={() => setIsPokemonDetailsVisible(false)}
+            onBack={handleBackClick}
+            onStepClick={handleStepClick}
           />
-        ))}
+        )}
       </div>
-
-      {isPokemonDetailsVisible && currentPokemonObject && (
-        <StrategyModal
-          currentPokemonObject={currentPokemonObject}
-          detailsTitleBackground={detailsTitleBackground}
-          strategyHistory={strategyHistory}
-          currentStrategyView={currentStrategyView}
-          onClose={() => setIsPokemonDetailsVisible(false)}
-          onBack={handleBackClick}
-          onStepClick={handleStepClick}
-        />
-      )}
     </div>
   );
 }

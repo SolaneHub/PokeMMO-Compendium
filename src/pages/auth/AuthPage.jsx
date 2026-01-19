@@ -21,7 +21,7 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-col items-center justify-center p-4 sm:p-8">
+    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col items-center justify-center overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
       <PageTitle title="Sign In" />
 
       <div className="animate-fade-in w-full max-w-md rounded-2xl border border-white/5 bg-[#1a1b20] p-8 shadow-2xl">

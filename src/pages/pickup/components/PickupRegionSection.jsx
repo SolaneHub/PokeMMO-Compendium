@@ -22,8 +22,44 @@ const PickupRegionSection = ({ region }) => {
                 <span className="text-green-400">{location.name}</span>
               </h5>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {Object.entries(location.items || {}).map(
-                  ([category, items], categoryIndex) =>
+                {Object.entries(location.items || {})
+                  .sort(([a], [b]) => {
+                    // Define the order with aliases for broader matching
+                    const categoryGroups = [
+                      ["pokeball", "ball"], // 1. Pokeballs
+                      ["potion", "pozion", "medicine", "healing"], // 2. Potions
+                      ["repel"], // 3. Repels
+                      ["misc", "other"], // 4. Misc
+                    ];
+
+                    const getCategoryIndex = (key) => {
+                      const lowerKey = key.toLowerCase();
+                      return categoryGroups.findIndex((group) =>
+                        group.some((alias) => lowerKey.includes(alias))
+                      );
+                    };
+
+                    const indexA = getCategoryIndex(a);
+                    const indexB = getCategoryIndex(b);
+
+                    // If both are found in the predefined groups
+                    if (indexA !== -1 && indexB !== -1) {
+                      return indexA - indexB;
+                    }
+
+                    // If only A is found, it comes first (unless it's Misc which is last in our list anyway)
+                    // Actually, if A is found (e.g. Repels) and B is not (Unknown), A should come first?
+                    // The requirement implies everything else is likely Misc or handled.
+                    // If 'misc' is in the group, it has index 3.
+                    // If an unknown key appears, let's treat it as "after everything else" or "misc".
+
+                    if (indexA !== -1) return -1; // A is a known category, B is unknown -> A first
+                    if (indexB !== -1) return 1; // B is a known category, A is unknown -> B first
+
+                    // Both unknown, sort alphabetically
+                    return a.localeCompare(b);
+                  })
+                  .map(([category, items]) =>
                     items?.length > 0 && (
                       <div key={category} className="rounded-md bg-white/5 p-3">
                         <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
