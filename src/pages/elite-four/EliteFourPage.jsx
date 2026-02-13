@@ -1,25 +1,27 @@
 import { Crown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
+import TeamSelection from "@/components/molecules/TeamSelection";
+import ViewTeamBuildButton from "@/components/molecules/ViewTeamBuildButton";
+import MemberSelection from "@/components/organisms/MemberSelection";
+import PokemonSelection from "@/components/organisms/PokemonSelection";
+import RegionSelection from "@/components/organisms/RegionSelection";
+import StrategyModal from "@/components/organisms/StrategyModal";
+import TeamBuildModal from "@/components/organisms/TeamBuildModal";
+import PageLayout from "@/components/templates/PageLayout";
 import { getAllApprovedTeams } from "@/firebase/firestoreService";
-import MemberSelection from "@/pages/elite-four/components/MemberSelection";
-import PokemonSelection from "@/pages/elite-four/components/PokemonSelection";
-import RegionSelection from "@/pages/elite-four/components/RegionSelection";
-import TeamSelection from "@/pages/elite-four/components/TeamSelection";
-import ViewTeamBuildButton from "@/pages/elite-four/components/ViewTeamBuildButton";
-import { getMembersByRegion } from "@/pages/elite-four/data/eliteFourService";
-import { useStrategyNavigation } from "@/pages/elite-four/hooks/useStrategyNavigation";
-import TeamBuildModal from "@/pages/elite-four/TeamBuildModal";
+import { usePokedexData } from "@/hooks/usePokedexData";
+import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
+import { getMembersByRegion } from "@/services/eliteFourService";
 import {
   getPokemonBackground,
   getPokemonByName,
-} from "@/pages/pokedex/data/pokemonService";
-import PageTitle from "@/shared/components/PageTitle";
-import StrategyModal from "@/shared/components/StrategyModal";
-import { usePokedexData } from "@/shared/hooks/usePokedexData";
-import { initializePokemonColorMap } from "@/shared/utils/pokemonMoveColors";
+} from "@/services/pokemonService";
+import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
 
 function EliteFourPage() {
+  const accentColor = FEATURE_CONFIG["elite-four"].color;
   const [approvedTeams, setApprovedTeams] = useState([]);
   const [loadingTeams, setLoadingTeams] = useState(true);
   const [error, setError] = useState(null);
@@ -138,6 +140,7 @@ function EliteFourPage() {
     const memberName = typeof member === "object" ? member.name : member;
     setSelectedMember((prev) => (prev === memberName ? null : memberName));
 
+    setSelectedMember(null);
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     resetStrategy();
@@ -160,103 +163,95 @@ function EliteFourPage() {
 
   if (isLoadingPokedex) {
     return (
-      <div className="flex h-screen items-center justify-center text-white">
+      <div className="flex h-screen items-center justify-center">
         <p>Loading Pokedex data...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
-      <div className="mx-auto w-full max-w-7xl flex-1 space-y-8 pb-24">
-        <PageTitle title="PokéMMO Compendium: Elite Four" />
-
-        {/* Header */}
-        <div className="mb-8 flex flex-col items-center space-y-2 text-center">
-          <h1 className="flex items-center gap-3 text-3xl font-bold text-white">
-            <Crown className="text-yellow-500" size={32} />
-            Elite Four Strategy
-          </h1>
-          <p className="text-slate-400">
-            Select a community strategy to begin.
-          </p>
-        </div>
-
-        {/* Team Selection */}
-        {loadingTeams ? (
-          <div className="text-center text-slate-400">
-            Loading community teams...
-          </div>
-        ) : error ? (
-          <div className="text-center text-red-500">{error}</div>
-        ) : approvedTeams.length === 0 ? (
-          <div className="text-center text-slate-400">
-            No approved strategies available yet. Go to &quot;My Teams&quot; to
-            create one!
-          </div>
-        ) : (
-          <TeamSelection
-            teams={approvedTeams}
-            selectedTeamId={selectedTeamId}
-            onTeamClick={handleTeamClick}
-          />
-        )}
-
-        {selectedTeamId && currentTeamBuilds.length > 0 && (
-          <ViewTeamBuildButton
-            selectedTeam={currentTeamData?.name}
-            onOpen={() => setIsTeamBuildVisible(true)}
-          />
-        )}
-
-        {selectedTeamId && (
-          <RegionSelection
-            selectedRegion={selectedRegion}
-            onRegionClick={handleRegionClick}
-          />
-        )}
-
-        {selectedRegion && filteredEliteFour.length > 0 && (
-          <MemberSelection
-            filteredEliteFour={filteredEliteFour}
-            selectedMember={selectedMember}
-            onMemberClick={handleMemberClick}
-          />
-        )}
-
-        {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
-          <PokemonSelection
-            pokemonNames={pokemonNamesForSelectedTeam}
-            selectedPokemon={selectedPokemon}
-            onPokemonClick={handlePokemonCardClick}
-            pokemonMap={pokemonMap}
-          />
-        )}
-
-        {pokemonMap && isTeamBuildVisible && (
-          <TeamBuildModal
-            teamName={currentTeamData?.name || "Team"}
-            builds={currentTeamBuilds}
-            onClose={() => setIsTeamBuildVisible(false)}
-            pokemonMap={pokemonMap}
-          />
-        )}
-
-        {/* Strategy Modal */}
-        {isPokemonDetailsVisible && currentPokemonObject && (
-          <StrategyModal
-            currentPokemonObject={currentPokemonObject}
-            detailsTitleBackground={detailsTitleBackground}
-            strategyHistory={strategyHistory}
-            currentStrategyView={currentStrategyView}
-            breadcrumbs={breadcrumbs}
-            onClose={() => setIsPokemonDetailsVisible(false)}
-            onBack={navigateBack}
-            onStepClick={navigateToStep}
-          />
-        )}
+    <PageLayout title="Elite Four" accentColor={accentColor}>
+      {/* Header */}
+      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
+        <h1 className="flex items-center gap-3 text-3xl font-bold">
+          <Crown style={{ color: accentColor }} size={32} />
+          Elite Four Strategy
+        </h1>
+        <p>Select a community strategy to begin.</p>
       </div>
-    </div>
+
+      {/* Team Selection */}
+      {loadingTeams ? (
+        <div className="text-center">Loading community teams...</div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div>
+      ) : approvedTeams.length === 0 ? (
+        <div className="text-center">
+          No approved strategies available yet. Go to &quot;My Teams&quot; to
+          create one!
+        </div>
+      ) : (
+        <TeamSelection
+          teams={approvedTeams}
+          selectedTeamId={selectedTeamId}
+          onTeamClick={handleTeamClick}
+        />
+      )}
+
+      {selectedTeamId && currentTeamBuilds.length > 0 && (
+        <ViewTeamBuildButton
+          selectedTeam={currentTeamData?.name}
+          onOpen={() => setIsTeamBuildVisible(true)}
+        />
+      )}
+
+      {selectedTeamId && (
+        <RegionSelection
+          selectedRegion={selectedRegion}
+          onRegionClick={handleRegionClick}
+        />
+      )}
+
+      {selectedRegion && filteredEliteFour.length > 0 && (
+        <MemberSelection
+          filteredEliteFour={filteredEliteFour}
+          selectedMember={selectedMember}
+          onMemberClick={handleMemberClick}
+        />
+      )}
+
+      {selectedMember && pokemonNamesForSelectedTeam.length > 0 && (
+        <PokemonSelection
+          pokemonNames={pokemonNamesForSelectedTeam}
+          selectedPokemon={selectedPokemon}
+          onPokemonClick={handlePokemonCardClick}
+          pokemonMap={pokemonMap}
+        />
+      )}
+
+      {pokemonMap && isTeamBuildVisible && (
+        <TeamBuildModal
+          teamName={currentTeamData?.name || "Team"}
+          builds={currentTeamBuilds}
+          onClose={() => setIsTeamBuildVisible(false)}
+          pokemonMap={pokemonMap}
+        />
+      )}
+
+      {/* Strategy Modal */}
+      {isPokemonDetailsVisible && currentPokemonObject && (
+        <StrategyModal
+          currentPokemonObject={currentPokemonObject}
+          detailsTitleBackground={detailsTitleBackground}
+          strategyHistory={strategyHistory}
+          currentStrategyView={currentStrategyView}
+          breadcrumbs={breadcrumbs}
+          onClose={() => setIsPokemonDetailsVisible(false)}
+          onBack={navigateBack}
+          onStepClick={navigateToStep}
+        />
+      )}
+    </PageLayout>
   );
 }
 

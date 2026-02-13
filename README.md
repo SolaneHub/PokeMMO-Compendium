@@ -147,11 +147,12 @@ _A powerful local editor for managing game data without touching JSON directly._
 │   │   ├── raids/            # Raid Battle Strategies
 │   │   ├── super-trainers/   # Super Trainer Strategies
 │   │   └── trainer-rerun/    # Gym Run / Money Making Routes
-│   └── shared/         # Reusable components and utilities
-│       ├── components/ # Generic UI components
-│       ├── context/    # Global state (AuthContext)
-│       ├── hooks/      # Custom React hooks
-│       └── utils/      # Helper functions
+│   ├── components/     # UI components (Atomic Design)
+│   ├── context/        # Global state and providers
+│   ├── hooks/          # Custom React hooks
+│   ├── services/       # API and data services
+│   ├── constants/      # App constants
+│   └── utils/          # Helper functions
 ├── .prettierrc         # Prettier configuration
 ├── eslint.config.js    # ESLint configuration
 ├── package.json        # Dependencies and scripts

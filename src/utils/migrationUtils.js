@@ -1,82 +1,8 @@
-import {
-  collection,
-  doc,
-  getCountFromServer,
-  writeBatch,
-} from "firebase/firestore";
+import { collection, doc, getCountFromServer, writeBatch,
+} from"firebase/firestore"; 
 
-import { db } from "../firebase/config";
-
-/**
- * Verifies the number of Pokedex documents in Firestore.
- * This function no longer compares against a local JSON file.
- */
-export async function verifyPokedexMigration() {
-  try {
-    const coll = collection(db, "pokedex");
-    const snapshot = await getCountFromServer(coll);
-    const serverCount = snapshot.data().count;
-
-    alert(`✅ Verifica completata!\nFirestore: ${serverCount} documenti.`);
-  } catch (error) {
-    alert(`Errore verifica: ${error.message}`);
-  }
-}
-
-/**
- * Migrates Pokedex data to Firestore.
- * This function is intended for initial population from a source like a JSON array.
- * It is NOT meant for regular operational updates.
- *
- * @param {Array<Object>} sourcePokedexData - The array of Pokemon objects to migrate.
- *                                           (e.g., loaded from a local JSON file).
- * Collection: 'pokedex'
- * Document ID: Pokemon ID
- */
-export async function migratePokedexToFirestore(sourcePokedexData) {
-  if (!sourcePokedexData || sourcePokedexData.length === 0) {
-    alert("Nessun dato Pokedex fornito per la migrazione.");
-    return;
-  }
-
-  if (
-    !window.confirm(
-      "Sei sicuro di voler migrare i dati del Pokedex su Firestore? Questa operazione potrebbe sovrascrivere i dati esistenti."
-    )
-  ) {
-    return;
-  }
-
-  const batchSize = 450;
-  let totalMigrated = 0;
-
-  const chunks = [];
-  for (let i = 0; i < sourcePokedexData.length; i += batchSize) {
-    chunks.push(sourcePokedexData.slice(i, i + batchSize));
-  }
-
-  try {
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i];
-      const batch = writeBatch(db);
-
-      let chunkMigrated = 0;
-      chunk.forEach((pokemon) => {
-        if (pokemon.id) {
-          const docRef = doc(db, "pokedex", pokemon.id.toString());
-          const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
-          batch.set(docRef, cleanPokemon);
-          chunkMigrated++;
-        }
-      });
-
-      await batch.commit();
-      totalMigrated += chunkMigrated;
-    }
-    alert(
-      `Migrazione completata! ${totalMigrated} Pokémon aggiunti al database.`
-    );
-  } catch (error) {
-    alert(`Errore durante la migrazione: ${error.message}`);
-  }
-}
+import { db } from"../firebase/config"; /** * Verifies the number of Pokedex documents in Firestore. * This function no longer compares against a local JSON file. */
+export async function verifyPokedexMigration() { try { const coll = collection(db,"pokedex"); const snapshot = await getCountFromServer(coll); const serverCount = snapshot.data().count; alert(`✅ Verifica completata!\nFirestore: ${serverCount} documenti.`); } catch (error) { alert(`Errore verifica: ${error.message}`); }
+} /** * Migrates Pokedex data to Firestore. * This function is intended for initial population from a source like a JSON array. * It is NOT meant for regular operational updates. * * @param {Array<Object>} sourcePokedexData - The array of Pokemon objects to migrate. * (e.g., loaded from a local JSON file). * Collection: 'pokedex' * Document ID: Pokemon ID */
+export async function migratePokedexToFirestore(sourcePokedexData) { if (!sourcePokedexData || sourcePokedexData.length === 0) { alert("Nessun dato Pokedex fornito per la migrazione."); return; } if ( !window.confirm("Sei sicuro di voler migrare i dati del Pokedex su Firestore? Questa operazione potrebbe sovrascrivere i dati esistenti." ) ) { return; } const batchSize = 450; let totalMigrated = 0; const chunks = []; for (let i = 0; i < sourcePokedexData.length; i += batchSize) { chunks.push(sourcePokedexData.slice(i, i + batchSize)); } try { for (let i = 0; i < chunks.length; i++) { const chunk = chunks[i]; const batch = writeBatch(db); let chunkMigrated = 0; chunk.forEach((pokemon) => { if (pokemon.id) { const docRef = doc(db,"pokedex", pokemon.id.toString()); const cleanPokemon = JSON.parse(JSON.stringify(pokemon)); batch.set(docRef, cleanPokemon); chunkMigrated++; } }); await batch.commit(); totalMigrated += chunkMigrated; } alert( `Migrazione completata! ${totalMigrated} Pokémon aggiunti al database.` ); } catch (error) { alert(`Errore durante la migrazione: ${error.message}`); }
+} 

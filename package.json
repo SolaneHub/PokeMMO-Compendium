@@ -6,7 +6,6 @@
   "homepage": "https://solanehub.github.io/PokeMMO-Compendium/",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"vite\"",
-    "emulators": "firebase emulators:start --import=./firebase-data --export-on-exit",
     "server": "node server/server.js",
     "preview": "vite preview",
     "format": "prettier \"src/**/*.{jsx,js}\" --write",
@@ -45,6 +44,7 @@
     "globals": "^17.0.0",
     "prettier": "^3.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }
