@@ -2,17 +2,7 @@
   "firestore": {
     "database": "(default)",
     "location": "eur3",
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "emulators": {
-    "firestore": {
-      "port": 8080
-    },
-    "ui": {
-      "enabled": true,
-      "port": 4000
-    },
-    "singleProjectMode": true
+    "rules": "config/firestore.rules",
+    "indexes": "config/firestore.indexes.json"
   }
 }

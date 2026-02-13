@@ -1,15 +1,17 @@
 import { BookOpen } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
 
-import PokemonGrid from "@/pages/pokedex/components/PokemonGrid";
-import PageTitle from "@/shared/components/PageTitle";
-import PokemonSummary from "@/shared/components/PokemonSummary";
-import SearchBar from "@/shared/components/SearchBar";
-import { usePokedexData } from "@/shared/hooks/usePokedexData";
-import { getFamilyName } from "@/shared/utils/pokemonHelpers";
+import SearchBar from "@/components/molecules/SearchBar";
+import PokemonGrid from "@/components/organisms/PokemonGrid";
+import PokemonSummary from "@/components/organisms/PokemonSummary";
+import PageLayout from "@/components/templates/PageLayout";
+import { usePokedexData } from "@/hooks/usePokedexData";
+import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { getFamilyName } from "@/utils/pokemonHelpers";
 
 function PokedexPage() {
   const { fullList, isLoading } = usePokedexData();
+  const accentColor = FEATURE_CONFIG.pokedex.color;
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -59,17 +61,13 @@ function PokedexPage() {
   }, [mainPokemonList, deferredSearchTerm]);
 
   return (
-    <div className="box-border flex w-full flex-1 animate-[fade-in_0.3s_ease-out] flex-col space-y-8 overflow-x-hidden overflow-y-auto scroll-smooth p-4 pb-24 lg:p-8">
-      <PageTitle title="PokéMMO Compendium: Pokédex" />
-
+    <PageLayout title="Pokédex" accentColor={accentColor}>
       <div className="flex w-full flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-200">
-          <BookOpen className="text-blue-400" size={32} />
+          <BookOpen style={{ color: accentColor }} size={32} />
           Pokédex
         </h1>
-        <p className="text-slate-400">
-          Search and view details for all Pokémon.
-        </p>
+        <p className="text-slate-400">Search and view details for all Pokémon.</p>
       </div>
 
       <div className="flex w-full justify-center">
@@ -110,7 +108,7 @@ function PokedexPage() {
           onSelectPokemon={setSelectedPokemon}
         />
       )}
-    </div>
+    </PageLayout>
   );
 }
 

@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { updateTeamStatus } from "@/firebase/firestoreService";
-import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
-import TeamList from "@/pages/my-teams/components/TeamList";
-import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
-import { useConfirm } from "@/shared/components/ConfirmationModal";
-import PageTitle from "@/shared/components/PageTitle";
-import { useToast } from "@/shared/components/ToastNotification";
+import Button from "@/components/atoms/Button";
+import { useConfirm } from "@/context/ConfirmationContext";
+import CreateTeamModal from "@/components/organisms/CreateTeamModal";
+import TeamList from "@/components/organisms/TeamList";
+import { useToast } from "@/context/ToastContext";
+import PageLayout from "@/components/templates/PageLayout";
+import { useUserTeams } from "@/hooks/useUserTeams";
+import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 const MyTeamsPage = () => {
+  const accentColor = FEATURE_CONFIG["my-teams"].color;
   const navigate = useNavigate();
   const {
     teams,
@@ -113,61 +116,58 @@ const MyTeamsPage = () => {
     );
 
   return (
-    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 lg:p-8">
-      <div className="mx-auto w-full max-w-7xl flex-1 space-y-8 pb-24">
-        <PageTitle title="My Elite Four Teams" />
+    <PageLayout title="My Teams" accentColor={accentColor}>
+      {/* Header */}
+      <div className="mb-8 flex flex-col items-center space-y-4 text-center">
+        <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
+          <User style={{ color: accentColor }} size={32} />
+          My Teams
+        </h1>
+        <p className="max-w-2xl text-slate-400">
+          Create and manage your own custom strategies for the Elite Four.
+        </p>
 
-        {/* Header */}
-        <div className="mb-8 flex flex-col items-center space-y-4 text-center">
-          <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
-            <User className="text-blue-400" size={32} />
-            My Teams
-          </h1>
-          <p className="max-w-2xl text-slate-400">
-            Create and manage your own custom strategies for the Elite Four.
+        <Button
+          onClick={() => setShowCreateModal(true)}
+          variant="primary"
+          size="md"
+          icon={Plus}
+        >
+          Create New Team
+        </Button>
+      </div>
+
+      {teams.length === 0 ? (
+        <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
+          <p className="mb-4 text-xl text-slate-400">
+            You haven&apos;t created any teams yet.
           </p>
-
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-white shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-blue-900/40 active:scale-95"
+            className="text-blue-400 hover:text-blue-300 hover:underline"
           >
-            <Plus size={20} />
-            Create New Team
+            Create your first team now
           </button>
         </div>
+      ) : (
+        <TeamList
+          teams={teams}
+          onTeamClick={(id) => navigate(`/my-teams/${id}`)}
+          onDeleteTeam={handleDeleteTeam}
+          onSubmitTeam={handleSubmitTeam}
+          onCancelSubmission={handleCancelSubmission}
+        />
+      )}
 
-        {teams.length === 0 ? (
-          <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center">
-            <p className="mb-4 text-xl text-slate-400">
-              You haven&apos;t created any teams yet.
-            </p>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="text-blue-400 hover:text-blue-300 hover:underline"
-            >
-              Create your first team now
-            </button>
-          </div>
-        ) : (
-          <TeamList
-            teams={teams}
-            onTeamClick={(id) => navigate(`/my-teams/${id}`)}
-            onDeleteTeam={handleDeleteTeam}
-            onSubmitTeam={handleSubmitTeam}
-            onCancelSubmission={handleCancelSubmission}
-          />
-        )}
-
-        {/* Create Team Modal */}
-        {showCreateModal && (
-          <CreateTeamModal
-            onClose={() => setShowCreateModal(false)}
-            onSubmit={handleCreateTeam}
-            isLoading={isCreating}
-          />
-        )}
-      </div>
-    </div>
+      {/* Create Team Modal */}
+      {showCreateModal && (
+        <CreateTeamModal
+          onClose={() => setShowCreateModal(false)}
+          onSubmit={handleCreateTeam}
+          isLoading={isCreating}
+        />
+      )}
+    </PageLayout>
   );
 };
 

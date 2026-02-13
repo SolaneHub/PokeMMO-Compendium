@@ -1,19 +1,18 @@
 import { Search, Trophy, Zap } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-import BallSelector from "@/pages/catch-calculator/components/BallSelector";
-import HpBarSlider from "@/pages/catch-calculator/components/HpBarSlider";
-import LevelSlider from "@/pages/catch-calculator/components/LevelSlider";
-import RepeatCapturesSlider from "@/pages/catch-calculator/components/RepeatCapturesSlider";
-import TurnsSlider from "@/pages/catch-calculator/components/TurnsSlider";
-import { STATUS_CONDITIONS } from "@/pages/catch-calculator/data/calculatorConstants";
-import { useCatchProbability } from "@/pages/catch-calculator/hooks/useCatchProbability";
-import { getPokemonCardData } from "@/pages/pokedex/data/pokemonService";
-import PageTitle from "@/shared/components/PageTitle";
-import { usePokedexData } from "@/shared/hooks/usePokedexData";
-import { usePersistentState } from "@/shared/utils/usePersistentState";
+import Slider from "@/components/atoms/Slider";
+import BallSelector from "@/components/molecules/BallSelector";
+import PageLayout from "@/components/templates/PageLayout";
+import { STATUS_CONDITIONS } from "@/constants/calculatorConstants";
+import { useCatchProbability } from "@/hooks/useCatchProbability";
+import { usePokedexData } from "@/hooks/usePokedexData";
+import { getPokemonCardData } from "@/services/pokemonService";
+import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { usePersistentState } from "@/utils/usePersistentState";
 
 const CatchCalculatorPage = () => {
+  const accentColor = FEATURE_CONFIG["catch-calculator"].color;
   const { allPokemonData, pokemonMap, isLoading } = usePokedexData();
 
   const [targetHpPercentage, setTargetHpPercentage] = usePersistentState(
@@ -37,7 +36,7 @@ const CatchCalculatorPage = () => {
   );
   const [selectedPokemonName, setSelectedPokemonName] = usePersistentState(
     "calc_pokemon",
-    ""
+    "Bulbasaur"
   );
 
   useEffect(() => {
@@ -91,20 +90,18 @@ const CatchCalculatorPage = () => {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center text-white">
+      <div className="flex h-screen items-center justify-center text-slate-400">
         <p>Loading Pokémon data...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex w-full flex-1 animate-[fade-in_0.3s_ease-out] flex-col overflow-x-hidden overflow-y-auto scroll-smooth p-4 pb-20 lg:p-8">
-      <PageTitle title="PokéMMO Compendium: Catch Calculator" />
-
+    <PageLayout title="Catch Calculator" accentColor={accentColor}>
       {/* Header */}
-      <div className="mb-8 flex flex-col items-center space-y-2">
+      <div className="mb-8 flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
-          <Trophy className="text-yellow-400" size={32} />
+          <Trophy style={{ color: accentColor }} size={32} />
           Catch Calculator
         </h1>
         <p className="text-slate-400">Optimize your capture strategy.</p>
@@ -139,7 +136,6 @@ const CatchCalculatorPage = () => {
                 }}
                 className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-3 text-slate-200 transition-colors placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
               />
-              {/* Dropdown List */}
               {isSearchOpen && (
                 <div
                   className={`scrollbar-thin scrollbar-thumb-slate-700 absolute top-full right-0 left-0 z-50 mt-2 max-h-48 overflow-y-auto rounded-lg border border-white/5 bg-[#0f1014] shadow-xl transition-opacity duration-200 ${
@@ -175,7 +171,6 @@ const CatchCalculatorPage = () => {
           {/* Selected Preview */}
           {selectedPokemon && (
             <div className="relative flex min-h-[200px] flex-grow flex-col items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#0f1014] p-6">
-              {/* Background Glow */}
               <div
                 className="absolute inset-0 opacity-20 blur-xl transition-colors duration-500"
                 style={{ background: background }}
@@ -195,6 +190,7 @@ const CatchCalculatorPage = () => {
             </div>
           )}
         </div>
+
         {/* --- COLUMN 2: CONDITIONS --- */}
         <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
           <div className="flex items-center gap-2 border-b border-white/5 pb-2">
@@ -203,12 +199,20 @@ const CatchCalculatorPage = () => {
           </div>
 
           {/* HP Slider */}
-          <div className="h-[5.5rem]">
-            <HpBarSlider
-              value={targetHpPercentage}
-              onChange={setTargetHpPercentage}
-            />
-          </div>
+          <Slider
+            label={`Remaining HP: ${targetHpPercentage}%`}
+            value={targetHpPercentage}
+            onChange={setTargetHpPercentage}
+            min={1}
+            max={100}
+            colorClass={
+              targetHpPercentage > 50
+                ? "bg-green-500"
+                : targetHpPercentage > 20
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
+            }
+          />
 
           {/* Status Conditions */}
           <div className="space-y-3">
@@ -254,16 +258,14 @@ const CatchCalculatorPage = () => {
 
           {/* Ball Selection */}
           <div className="space-y-3">
-            <div className="h-[5.5rem]">
-              <label className="mb-3 block text-sm font-bold text-slate-500">
-                Select Poké Ball
-              </label>
-              <BallSelector selectedBall={ballType} onSelect={setBallType} />
-            </div>
+            <label className="block text-sm font-bold text-slate-500">
+              Select Poké Ball
+            </label>
+            <BallSelector selectedBall={ballType} onSelectBall={setBallType} />
 
             {/* Dream Ball Special Logic */}
             {ballType === "Dream Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
+              <div className="animate-fade-in space-y-2 pt-2">
                 <div className="flex items-center justify-between text-xs font-bold text-slate-500">
                   <span>Turns Asleep</span>
                   <span className="text-blue-400">
@@ -297,8 +299,15 @@ const CatchCalculatorPage = () => {
 
             {/* Nest Ball Special Logic */}
             {ballType === "Nest Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 pt-2 duration-300">
-                <LevelSlider value={targetLevel} onChange={setTargetLevel} />
+              <div className="animate-fade-in pt-2">
+                <Slider
+                  label="Target Level"
+                  value={targetLevel}
+                  onChange={setTargetLevel}
+                  min={1}
+                  max={100}
+                  displayValue={`Lv. ${targetLevel}`}
+                />
                 <p className="mt-2 text-center text-xs text-slate-500">
                   {targetLevel <= 16
                     ? "Max Rate (4x)"
@@ -311,25 +320,36 @@ const CatchCalculatorPage = () => {
 
             {/* Timer Ball Special Logic */}
             {ballType === "Timer Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 pt-2 duration-300">
-                <TurnsSlider value={turnsPassed} onChange={setTurnsPassed} />
+              <div className="animate-fade-in pt-2">
+                <Slider
+                  label="Turns Passed"
+                  value={turnsPassed}
+                  onChange={setTurnsPassed}
+                  min={1}
+                  max={11}
+                  displayValue={`Turn ${turnsPassed}`}
+                />
                 <p className="mt-2 text-center text-xs text-slate-500">
                   Current:{" "}
                   <span className="text-orange-400">
                     x{Math.min(4, 1 + (turnsPassed - 1) * 0.3).toFixed(1)}
                   </span>{" "}
                   Rate
-                  {turnsPassed >= 11 && " (Maxed)"}
                 </p>
               </div>
             )}
 
             {/* Repeat Ball Special Logic */}
             {ballType === "Repeat Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 pt-2 duration-300">
-                <RepeatCapturesSlider
+              <div className="animate-fade-in pt-2">
+                <Slider
+                  label="Times Caught"
                   value={repeatBallCaptures}
                   onChange={setRepeatBallCaptures}
+                  min={0}
+                  max={15}
+                  displayValue={`${repeatBallCaptures} captures`}
+                  colorClass="bg-purple-500"
                 />
                 <p className="mt-2 text-center text-xs text-slate-500">
                   Current:{" "}
@@ -337,14 +357,13 @@ const CatchCalculatorPage = () => {
                     x{Math.min(2.5, 1 + repeatBallCaptures * 0.1).toFixed(1)}
                   </span>{" "}
                   Rate
-                  {repeatBallCaptures >= 15 && " (Maxed)"}
                 </p>
               </div>
             )}
 
             {/* Quick Ball Special Logic */}
             {ballType === "Quick Ball" && (
-              <div className="animate-in fade-in slide-in-from-top-2 space-y-2 pt-2 duration-300">
+              <div className="animate-fade-in space-y-2 pt-2">
                 <div className="flex items-center justify-between text-xs font-bold text-slate-500">
                   <span>Combat Turn</span>
                   <span className="text-blue-400">
@@ -407,7 +426,7 @@ const CatchCalculatorPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 

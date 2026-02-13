@@ -1,0 +1,2 @@
+import Button from"@/components/atoms/Button"; function TeamSelection({ teams, selectedTeamId, onTeamClick }) { return ( <div className="flex flex-wrap justify-center gap-4"> {teams.map((team) => ( <Button key={team.id} onClick={() => onTeamClick(team.id)} variant={selectedTeamId === team.id ?"primary" :"secondary"} size="lg" className="h-16 w-40" > {team.name} </Button> ))} </div> );
+} export default TeamSelection; 

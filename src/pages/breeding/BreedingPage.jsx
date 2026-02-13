@@ -1,13 +1,15 @@
 import { Calculator, Dna, Settings2 } from "lucide-react";
 
-import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
-import IVsSelector from "@/pages/breeding/components/IVsSelector";
-import TreeScheme from "@/pages/breeding/components/TreeScheme";
-import { IV_OPTIONS, IV_STATS } from "@/pages/breeding/data/breedingConstants";
-import PageTitle from "@/shared/components/PageTitle";
-import { usePersistentState } from "@/shared/utils/usePersistentState";
+import IVsDropdown from "@/components/molecules/IVsDropdown";
+import IVsSelector from "@/components/organisms/IVsSelector";
+import TreeScheme from "@/components/organisms/TreeScheme";
+import PageLayout from "@/components/templates/PageLayout";
+import { IV_OPTIONS, IV_STATS } from "@/constants/breedingConstants";
+import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { usePersistentState } from "@/utils/usePersistentState";
 
 function BreedingPage() {
+  const accentColor = FEATURE_CONFIG.breeding.color;
   const [selectedIvCount, setSelectedIvCount] = usePersistentState(
     "breeding_ivCount",
     3
@@ -19,13 +21,11 @@ function BreedingPage() {
   );
 
   return (
-    <div className="flex flex-1 animate-[fade-in_0.3s_ease-out] flex-col space-y-6 overflow-x-hidden overflow-y-auto scroll-smooth p-4 pb-24 lg:p-8">
-      <PageTitle title="PokéMMO Compendium: Breeding Planner" />
-
+    <PageLayout title="Breeding Planner" accentColor={accentColor}>
       {/* Header Section */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">
-          <Calculator className="text-blue-500" size={32} />
+          <Calculator style={{ color: accentColor }} size={32} />
           Breeding Planner
         </h1>
         <p className="text-slate-400">
@@ -90,7 +90,7 @@ function BreedingPage() {
           </div>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
 
