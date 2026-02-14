@@ -1,0 +1,29 @@
+interface CoverageCardProps {
+  region: string;
+  percent: number;
+}
+
+const CoverageCard = ({ region, percent }: CoverageCardProps) => {
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] p-4 text-white">
+      <div className="relative z-10">
+        <div className="text-xs font-bold text-slate-500 uppercase">
+          {region}
+        </div>
+        <div className="mt-1 text-2xl font-black">{percent}%</div>
+        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+          <div
+            className="h-full bg-gradient-to-r from-blue-400 to-purple-400 transition-all duration-1000"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+      </div>
+      {/* Decorative background number */}
+      <div className="absolute -right-2 -bottom-4 text-6xl font-black opacity-5 select-none">
+        {region.charAt(0)}
+      </div>
+    </div>
+  );
+};
+
+export default CoverageCard;

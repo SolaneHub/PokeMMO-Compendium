@@ -24,8 +24,7 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 ### ⚡ Technical Features
 
 - **📱 Mobile-First Design**: Clean, responsive interface that works perfectly on any device.
-- **✏️ Advanced Local CMS**: A radically improved "Editor" page allowing contributors to modify JSON data files (Strategies, Pokedex, etc.) via a rich UI with drag-and-drop support, smart inputs, and validation — running on a local Express backend.
-- **🔐 User Data (Firebase)**: A "My Teams" feature allows authenticated users to create, save, and manage their own custom teams and strategies using Firebase Firestore.
+- **🔐 User Data (Firebase)**: Features like "My Teams" allow authenticated users to create, save, and manage their own custom teams and strategies using Firebase Firestore. Data like Boss Fights and Pokédex are also managed via Firestore for easier updates.
 - **🌐 Dynamic Base URL Handling**: Supports different base URLs for local development and GitHub Pages deployment.
 
 ---
@@ -109,11 +108,6 @@ _Create, save, and manage your own custom teams and strategies._
 ![User Team Editor Page Screenshot](./screenshots/user-team-editor-page.png)
 _Advanced editor for building and refining user teams._
 
-#### ✏️ Strategy Editor (Local CMS)
-
-![Editor Section Screenshot](./screenshots/editor-section.png)
-_A powerful local editor for managing game data without touching JSON directly._
-
 ---
 
 ## 📁 Project Structure
@@ -122,24 +116,19 @@ _A powerful local editor for managing game data without touching JSON directly._
 /
 ├── dist/               # Production build output
 ├── public/             # Static assets (images, icons)
-├── server/             # Local backend for data editing
-│   └── server.js       # Express server (runs on port 3001)
 ├── src/
 │   ├── app/            # Core app logic
-│   │   ├── App.jsx     # Main component & routing logic
+│   │   ├── App.tsx     # Main component & routing logic
 │   │   ├── index.css   # Global styles & Tailwind directives
-│   │   ├── main.jsx    # Entry point and Router configuration
-│   │   └── layout/     # Layout components (Navbar, Home, Shell)
-│   ├── data/           # JSON data files (The "Database")
+│   │   ├── main.tsx    # Entry point and Router configuration
 │   ├── firebase/       # Firebase configuration and service layer
-│   │   ├── config.js   # App initialization
-│   │   └── firestoreService.js # CRUD operations for My Teams
+│   │   ├── config.ts   # App initialization
+│   │   └── firestoreService.ts # CRUD operations for My Teams and Game Data
 │   ├── pages/          # Feature-specific pages
 │   │   ├── auth/       # Authentication (Login/Signup)
 │   │   ├── boss-fights/      # Strategies for Bosses
 │   │   ├── breeding/         # Breeding Calculator
 │   │   ├── catch-calculator/ # Catch Rate Calculator
-│   │   ├── editor/           # CMS interface for editing JSON data
 │   │   ├── elite-four/       # Elite Four Strategies
 │   │   ├── my-teams/         # User-specific Team Builder
 │   │   ├── pickup/           # Pickup Item Guide
@@ -156,7 +145,7 @@ _A powerful local editor for managing game data without touching JSON directly._
 ├── .prettierrc         # Prettier configuration
 ├── eslint.config.js    # ESLint configuration
 ├── package.json        # Dependencies and scripts
-└── vite.config.js      # Vite configuration
+└── vite.config.ts      # Vite configuration
 ```
 
 ---
@@ -182,16 +171,11 @@ _A powerful local editor for managing game data without touching JSON directly._
 
 ### Running Development Environment
 
-To start the **React Frontend** and the **Express Backend** (for the Editor) concurrently:
-
 ```bash
 npm run dev
 ```
 
 - **Frontend**: `http://localhost:5173`
-- **Backend API**: `http://localhost:3001`
-
-> **Note:** The backend is only required if you intend to use the **Editor** page to modify data files.
 
 ### Building for Production
 

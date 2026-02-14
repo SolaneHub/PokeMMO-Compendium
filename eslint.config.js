@@ -1,17 +1,22 @@
 import js from "@eslint/js";
-import { defineConfig, globalIgnores } from "eslint/config";
+import { defineConfig } from "eslint/config";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  globalIgnores(["dist/**"]),
-
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
-    plugins: { js },
-    extends: ["js/recommended"],
+    ignores: ["dist/**"],
+  },
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.strict,
+      ...tseslint.configs.stylistic,
+    ],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -19,15 +24,18 @@ export default defineConfig([
       },
     },
     rules: {
-      "no-unused-vars": [
+      "no-unused-vars": "off", // Handled by TS
+      "@typescript-eslint/no-unused-vars": [
         "error",
         { args: "none", ignoreRestSiblings: true, caughtErrors: "none" },
       ],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-non-null-assertion": "error",
+      "no-console": ["error", { allow: ["warn", "error"] }],
     },
   },
-
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
+    files: ["**/*.{ts,tsx}"],
     plugins: {
       "simple-import-sort": simpleImportSort,
     },
@@ -36,11 +44,10 @@ export default defineConfig([
       "simple-import-sort/exports": "error",
     },
   },
-
   {
+    files: ["**/*.{ts,tsx}"],
     ...pluginReact.configs.flat.recommended,
     settings: {
-      ...(pluginReact.configs.flat.recommended.settings || {}),
       react: {
         version: "detect",
       },
@@ -51,9 +58,8 @@ export default defineConfig([
       "react/prop-types": "off",
     },
   },
-
   {
-    files: ["**/*.{js,mjs,cjs,jsx}"],
+    files: ["**/*.{ts,tsx}"],
     plugins: {
       "react-hooks": pluginReactHooks,
     },

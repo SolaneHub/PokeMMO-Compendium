@@ -11,6 +11,7 @@ node_modules/
 
 # Ignore Gemini specific files
 GEMINI.md
+AGENTS.md
 
 # Ignore screenshots
 screenshots/
