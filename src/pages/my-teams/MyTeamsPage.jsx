@@ -2,13 +2,13 @@ import { Plus, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { updateTeamStatus } from "@/firebase/firestoreService";
 import Button from "@/components/atoms/Button";
-import { useConfirm } from "@/context/ConfirmationContext";
 import CreateTeamModal from "@/components/organisms/CreateTeamModal";
 import TeamList from "@/components/organisms/TeamList";
-import { useToast } from "@/context/ToastContext";
 import PageLayout from "@/components/templates/PageLayout";
+import { useConfirm } from "@/context/ConfirmationContext";
+import { useToast } from "@/context/ToastContext";
+import { updateTeamStatus } from "@/firebase/firestoreService";
 import { useUserTeams } from "@/hooks/useUserTeams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 

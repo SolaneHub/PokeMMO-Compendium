@@ -18,7 +18,8 @@ const PickupRegionSection = ({ region }) => {
               className="rounded-md border border-white/5 bg-[#0f1014] p-4"
             >
               <h5 className="mb-3 border-b border-white/5 pb-1 text-xl font-semibold text-slate-200">
-                Location: <span className="text-green-400">{location.name}</span>
+                Location:{" "}
+                <span className="text-green-400">{location.name}</span>
               </h5>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {Object.entries(location.items || {})
@@ -42,25 +43,32 @@ const PickupRegionSection = ({ region }) => {
                     if (indexB !== -1) return 1;
                     return a.localeCompare(b);
                   })
-                  .map(([category, items]) =>
-                    items?.length > 0 && (
-                      <div key={category} className="rounded-md bg-white/5 p-3">
-                        <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
-                          {category.replace(/([A-Z])/g, " $1").trim()}:
-                        </h6>
-                        <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
-                          {items?.map((item, itemIdx) => (
-                            <li
-                              key={`${category}-${item}-${itemIdx}`}
-                              className="flex items-center gap-2"
-                            >
-                              <ItemImage itemName={item} className="h-4 w-4" />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )
+                  .map(
+                    ([category, items]) =>
+                      items?.length > 0 && (
+                        <div
+                          key={category}
+                          className="rounded-md bg-white/5 p-3"
+                        >
+                          <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
+                            {category.replace(/([A-Z])/g, " $1").trim()}:
+                          </h6>
+                          <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
+                            {items?.map((item, itemIdx) => (
+                              <li
+                                key={`${category}-${item}-${itemIdx}`}
+                                className="flex items-center gap-2"
+                              >
+                                <ItemImage
+                                  itemName={item}
+                                  className="h-4 w-4"
+                                />
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )
                   )}
               </div>
             </div>

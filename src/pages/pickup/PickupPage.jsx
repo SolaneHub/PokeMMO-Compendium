@@ -1,10 +1,10 @@
 import { Package } from "lucide-react";
 import { useState } from "react";
 
+import PageTitle from "@/components/atoms/PageTitle";
 import PickupInfoSection from "@/components/molecules/PickupInfoSection";
 import PickupRegionSection from "@/components/organisms/PickupRegionSection";
 import TeamBuildModal from "@/components/organisms/TeamBuildModal";
-import PageTitle from "@/components/atoms/PageTitle";
 import { pickupPokemonBuilds } from "@/constants/pickupBuilds";
 import { usePickupData } from "@/hooks/usePickupData";
 import { usePokedexData } from "@/hooks/usePokedexData";

@@ -1,3 +1,33 @@
-import { typeBackgrounds } from"@/utils/pokemonColors"; export const STATUS_CONDITIONS = [ { name:"None", gradient: typeBackgrounds[""], multiplier: 1 }, { name:"Poisoned", gradient: typeBackgrounds["Poison"], multiplier: 1.5 }, { name:"Burned", gradient: typeBackgrounds["Fire"], multiplier: 1.5 }, { name:"Paralyzed", gradient: typeBackgrounds["Electric"], multiplier: 1.5 }, { name:"Asleep", gradient: typeBackgrounds["Psychic"], multiplier: 2.5 }, { name:"Frozen", gradient: typeBackgrounds["Ice"], multiplier: 2.5 },
-]; export const BALL_TYPES = [ { name:"Poké Ball", multiplier: 1 }, { name:"Great Ball", multiplier: 1.5 }, { name:"Ultra Ball", multiplier: 2 }, { name:"Premier Ball", multiplier: 1.5 }, { name:"Dive Ball", multiplier: 1 }, { name:"Dream Ball", multiplier: 1 }, { name:"Dusk Ball", multiplier: 1 }, { name:"Fast Ball", multiplier: 1 }, { name:"Heal Ball", multiplier: 1.25 }, { name:"Heavy Ball", multiplier: 1 }, { name:"Level Ball", multiplier: 1 }, { name:"Love Ball", multiplier: 1 }, { name:"Lure Ball", multiplier: 1 }, { name:"Luxury Ball", multiplier: 1 }, { name:"Moon Ball", multiplier: 1 }, { name:"Nest Ball", multiplier: 1 }, { name:"Net Ball", multiplier: 1 }, { name:"Quick Ball", multiplier: 1 }, { name:"Repeat Ball", multiplier: 1 }, { name:"Timer Ball", multiplier: 1 }, { name:"Cherish Ball", multiplier: 2 }, { name:"Master Ball", multiplier: 255 },
-]; 
+import { typeBackgrounds } from "@/utils/pokemonColors";
+export const STATUS_CONDITIONS = [
+  { name: "None", gradient: typeBackgrounds[""], multiplier: 1 },
+  { name: "Poisoned", gradient: typeBackgrounds["Poison"], multiplier: 1.5 },
+  { name: "Burned", gradient: typeBackgrounds["Fire"], multiplier: 1.5 },
+  { name: "Paralyzed", gradient: typeBackgrounds["Electric"], multiplier: 1.5 },
+  { name: "Asleep", gradient: typeBackgrounds["Psychic"], multiplier: 2.5 },
+  { name: "Frozen", gradient: typeBackgrounds["Ice"], multiplier: 2.5 },
+];
+export const BALL_TYPES = [
+  { name: "Poké Ball", multiplier: 1 },
+  { name: "Great Ball", multiplier: 1.5 },
+  { name: "Ultra Ball", multiplier: 2 },
+  { name: "Premier Ball", multiplier: 1.5 },
+  { name: "Dive Ball", multiplier: 1 },
+  { name: "Dream Ball", multiplier: 1 },
+  { name: "Dusk Ball", multiplier: 1 },
+  { name: "Fast Ball", multiplier: 1 },
+  { name: "Heal Ball", multiplier: 1.25 },
+  { name: "Heavy Ball", multiplier: 1 },
+  { name: "Level Ball", multiplier: 1 },
+  { name: "Love Ball", multiplier: 1 },
+  { name: "Lure Ball", multiplier: 1 },
+  { name: "Luxury Ball", multiplier: 1 },
+  { name: "Moon Ball", multiplier: 1 },
+  { name: "Nest Ball", multiplier: 1 },
+  { name: "Net Ball", multiplier: 1 },
+  { name: "Quick Ball", multiplier: 1 },
+  { name: "Repeat Ball", multiplier: 1 },
+  { name: "Timer Ball", multiplier: 1 },
+  { name: "Cherish Ball", multiplier: 2 },
+  { name: "Master Ball", multiplier: 255 },
+];

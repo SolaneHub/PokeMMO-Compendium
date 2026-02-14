@@ -1,9 +1,6 @@
 import { useMemo } from "react";
 
-import {
-  BALL_TYPES,
-  STATUS_CONDITIONS,
-} from "@/constants/calculatorConstants";
+import { BALL_TYPES, STATUS_CONDITIONS } from "@/constants/calculatorConstants";
 
 export function useCatchProbability({
   selectedPokemon,
@@ -24,8 +21,7 @@ export function useCatchProbability({
     const rate = baseCatchRate;
 
     // Multipliers
-    let ballMult =
-      BALL_TYPES.find((b) => b.name === ballType)?.multiplier || 1;
+    let ballMult = BALL_TYPES.find((b) => b.name === ballType)?.multiplier || 1;
 
     // Dream Ball Custom Logic
     if (ballType === "Dream Ball") {

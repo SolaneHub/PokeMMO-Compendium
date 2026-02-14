@@ -1,9 +1,105 @@
-import { useEffect, useState } from"react";
-import { useNavigate, useParams } from"react-router-dom"; 
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { useAuth } from"@/context/AuthContext"; 
-import { useToast } from"@/context/ToastContext";
-import { getUserTeams, updateUserTeam } from"@/firebase/firestoreService";const ensureStepIds = (steps) => { if (!Array.isArray(steps)) return []; return steps.map((step) => { const newStep = { ...step, id: step.id || crypto.randomUUID(), type: step.type ||"main", }; if (newStep.variations && Array.isArray(newStep.variations)) { newStep.variations = newStep.variations.map((v) => ({ ...v, type: v.type ||"step", steps: ensureStepIds(v.steps || []), })); } else if (newStep.variations === null) { delete newStep.variations; } return newStep; });
-}; const sanitizeTeam = (teamData) => { if (!teamData) return null; const sanitized = JSON.parse(JSON.stringify(teamData)); if (!sanitized.strategies) sanitized.strategies = {}; if (!sanitized.enemyPools) sanitized.enemyPools = {}; if (!sanitized.members) sanitized.members = []; if (sanitized.region === undefined) sanitized.region = null; if (sanitized.strategies && typeof sanitized.strategies ==="object") { Object.keys(sanitized.strategies).forEach((memberName) => { const memberStrats = sanitized.strategies[memberName]; if (memberStrats && typeof memberStrats ==="object") { Object.keys(memberStrats).forEach((enemyName) => { memberStrats[enemyName] = ensureStepIds(memberStrats[enemyName]); }); } }); } if (sanitized.enemyPools && typeof sanitized.enemyPools ==="object") { Object.keys(sanitized.enemyPools).forEach((key) => { if (!Array.isArray(sanitized.enemyPools[key])) { sanitized.enemyPools[key] = []; } }); } return sanitized;
-}; export function useTeamEditor() { const { id: teamId, userId: paramUserId } = useParams(); const { currentUser } = useAuth(); const navigate = useNavigate(); const showToast = useToast(); const [team, setTeam] = useState(null); const [loading, setLoading] = useState(true); const [saving, setSaving] = useState(false); const targetUserId = paramUserId || currentUser?.uid; useEffect(() => { async function load() { if (!targetUserId) return; try { const teams = await getUserTeams(targetUserId); const found = teams.find((t) => t.id === teamId); if (found) { const sanitized = sanitizeTeam(found); setTeam(sanitized); } else { showToast("Team not found","error"); navigate(paramUserId ?"/admin/dashboard" :"/my-teams"); } } catch (err) { showToast("Error loading team","error"); } finally { setLoading(false); } } load(); }, [targetUserId, teamId, navigate, showToast, paramUserId]); const saveTeam = async (updatedTeam) => { const teamToSave = updatedTeam || team; if (!teamToSave || !targetUserId) return; setSaving(true); const sanitizedToSave = sanitizeTeam(teamToSave); try { await updateUserTeam(targetUserId, teamId, { name: sanitizedToSave.name, region: sanitizedToSave.region, members: sanitizedToSave.members, strategies: sanitizedToSave.strategies, enemyPools: sanitizedToSave.enemyPools, }); showToast("Team saved successfully!","success"); setTeam(sanitizedToSave); } catch (error) { showToast("Failed to save team. Data might be invalid.","error"); } finally { setSaving(false); } }; return { team, setTeam, loading, saving, saveTeam };
-} 
+import { useAuth } from "@/context/AuthContext";
+import { useToast } from "@/context/ToastContext";
+import { getUserTeams, updateUserTeam } from "@/firebase/firestoreService";
+const ensureStepIds = (steps) => {
+  if (!Array.isArray(steps)) return [];
+  return steps.map((step) => {
+    const newStep = {
+      ...step,
+      id: step.id || crypto.randomUUID(),
+      type: step.type || "main",
+    };
+    if (newStep.variations && Array.isArray(newStep.variations)) {
+      newStep.variations = newStep.variations.map((v) => ({
+        ...v,
+        type: v.type || "step",
+        steps: ensureStepIds(v.steps || []),
+      }));
+    } else if (newStep.variations === null) {
+      delete newStep.variations;
+    }
+    return newStep;
+  });
+};
+const sanitizeTeam = (teamData) => {
+  if (!teamData) return null;
+  const sanitized = JSON.parse(JSON.stringify(teamData));
+  if (!sanitized.strategies) sanitized.strategies = {};
+  if (!sanitized.enemyPools) sanitized.enemyPools = {};
+  if (!sanitized.members) sanitized.members = [];
+  if (sanitized.region === undefined) sanitized.region = null;
+  if (sanitized.strategies && typeof sanitized.strategies === "object") {
+    Object.keys(sanitized.strategies).forEach((memberName) => {
+      const memberStrats = sanitized.strategies[memberName];
+      if (memberStrats && typeof memberStrats === "object") {
+        Object.keys(memberStrats).forEach((enemyName) => {
+          memberStrats[enemyName] = ensureStepIds(memberStrats[enemyName]);
+        });
+      }
+    });
+  }
+  if (sanitized.enemyPools && typeof sanitized.enemyPools === "object") {
+    Object.keys(sanitized.enemyPools).forEach((key) => {
+      if (!Array.isArray(sanitized.enemyPools[key])) {
+        sanitized.enemyPools[key] = [];
+      }
+    });
+  }
+  return sanitized;
+};
+export function useTeamEditor() {
+  const { id: teamId, userId: paramUserId } = useParams();
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  const showToast = useToast();
+  const [team, setTeam] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const targetUserId = paramUserId || currentUser?.uid;
+  useEffect(() => {
+    async function load() {
+      if (!targetUserId) return;
+      try {
+        const teams = await getUserTeams(targetUserId);
+        const found = teams.find((t) => t.id === teamId);
+        if (found) {
+          const sanitized = sanitizeTeam(found);
+          setTeam(sanitized);
+        } else {
+          showToast("Team not found", "error");
+          navigate(paramUserId ? "/admin/dashboard" : "/my-teams");
+        }
+      } catch (err) {
+        showToast("Error loading team", "error");
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [targetUserId, teamId, navigate, showToast, paramUserId]);
+  const saveTeam = async (updatedTeam) => {
+    const teamToSave = updatedTeam || team;
+    if (!teamToSave || !targetUserId) return;
+    setSaving(true);
+    const sanitizedToSave = sanitizeTeam(teamToSave);
+    try {
+      await updateUserTeam(targetUserId, teamId, {
+        name: sanitizedToSave.name,
+        region: sanitizedToSave.region,
+        members: sanitizedToSave.members,
+        strategies: sanitizedToSave.strategies,
+        enemyPools: sanitizedToSave.enemyPools,
+      });
+      showToast("Team saved successfully!", "success");
+      setTeam(sanitizedToSave);
+    } catch (error) {
+      showToast("Failed to save team. Data might be invalid.", "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+  return { team, setTeam, loading, saving, saveTeam };
+}

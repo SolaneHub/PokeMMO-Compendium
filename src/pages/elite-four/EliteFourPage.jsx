@@ -140,7 +140,6 @@ function EliteFourPage() {
     const memberName = typeof member === "object" ? member.name : member;
     setSelectedMember((prev) => (prev === memberName ? null : memberName));
 
-    setSelectedMember(null);
     setSelectedPokemon(null);
     setIsPokemonDetailsVisible(false);
     resetStrategy();

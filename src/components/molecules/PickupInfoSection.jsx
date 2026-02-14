@@ -1,6 +1,6 @@
 const PickupInfoSection = ({ onOpenModal }) => {
   return (
-    <div className="mb-8 rounded-lg bg-[#1a1b20] p-6 leading-relaxed text-slate-300 shadow-lg border border-white/5">
+    <div className="mb-8 rounded-lg border border-white/5 bg-[#1a1b20] p-6 leading-relaxed text-slate-300 shadow-lg">
       <p className="mb-4">
         The <strong className="text-blue-400">Pickup</strong> ability allows a
         Pokémon to randomly find items after defeating wild Pokémon. The items

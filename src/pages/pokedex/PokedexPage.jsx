@@ -67,7 +67,9 @@ function PokedexPage() {
           <BookOpen style={{ color: accentColor }} size={32} />
           Pokédex
         </h1>
-        <p className="text-slate-400">Search and view details for all Pokémon.</p>
+        <p className="text-slate-400">
+          Search and view details for all Pokémon.
+        </p>
       </div>
 
       <div className="flex w-full justify-center">

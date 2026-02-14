@@ -25,7 +25,7 @@ const TrainerRerunPage = () => {
       </div>
 
       {intro.description.length > 1 && (
-        <section className="mb-8 mt-4">
+        <section className="mt-4 mb-8">
           {intro.description.slice(1).map((paragraph, index) => (
             <p key={index} className="mb-2 text-slate-300">
               {paragraph}
