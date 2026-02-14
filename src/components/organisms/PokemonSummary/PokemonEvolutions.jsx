@@ -1,5 +1,144 @@
-import { Fragment } from"react";
+import { ChevronRight } from "lucide-react";
+import { Fragment } from "react";
 
-import { getPokemonCardData } from"@/utils/pokemonHelpers"; const PokemonEvolutions = ({ pokemon, allPokemon, onSelectPokemon, variants,
-}) => { return ( <div className="flex flex-col gap-5"> {variants && variants.length > 0 && ( <div className="flex flex-col gap-2.5"> <h4 className="border-b border-white/5 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase"> Alternative Forms </h4> <div className="scrollbar-thin scrollbar-thumb-slate-700 flex items-center gap-0.5 overflow-x-auto rounded-lg border border-white/10 bg-[#0f1014] p-4"> {variants.map((variantName) => { const variantObj = allPokemon.find((p) => p.name === variantName); if (!variantObj) return null; const variantCardData = getPokemonCardData(variantObj); return ( <div key={variantName} className="flex min-w-[80px] flex-1 cursor-pointer flex-col items-center justify-center rounded-lg border border-transparent p-1.5 transition-all hover:-translate-y-0.5 hover:border-blue-600 hover:bg-white/5" onClick={() => onSelectPokemon(variantObj)} > <div className="mb-1.5 flex h-16 w-16 items-center justify-center rounded-full border border-white/5 bg-black/20"> <img src={variantCardData.sprite} alt={variantName} className="h-12 w-12 object-contain" /> </div> <span className="text-center text-sm font-bold whitespace-nowrap"> {variantName} </span> <span className="mt-0.5 text-center text-xs text-slate-500"> Variant </span> </div> ); })} </div> </div> )} <div className="flex flex-col gap-2.5"> <h4 className="border-b border-white/5 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase"> Evolution Tree </h4> {pokemon.evolutions && pokemon.evolutions.length > 0 ? ( <div className="scrollbar-thin scrollbar-thumb-slate-700 flex items-center justify-center gap-0.5 overflow-x-auto rounded-lg border border-white/10 bg-[#0f1014] p-4"> {pokemon.evolutions.map((evo, index) => { const evoObj = allPokemon.find((p) => p.name === evo.name); if (!evoObj) return null; const evoCardData = getPokemonCardData(evoObj); return ( <Fragment key={evo.name}> <div className="flex min-w-[80px] flex-1 cursor-pointer flex-col items-center justify-center rounded-lg border border-transparent p-1.5 transition-all hover:-translate-y-0.5 hover:border-blue-600 hover:bg-white/5" onClick={() => evoObj && onSelectPokemon(evoObj)} > <div className="mb-1.5 flex h-16 w-16 items-center justify-center rounded-full border border-white/5 bg-black/20"> <img src={evoCardData.sprite} alt={evo.name} className="h-12 w-12 object-contain" /> </div> <span className="text-center text-sm font-bold whitespace-nowrap"> {evo.name} </span> <span className="mt-0.5 text-center text-xs text-slate-500"> {evo.level} </span> </div> {index < pokemon.evolutions.length - 1 && ( <div className="mx-0.5 shrink-0 text-lg font-bold text-blue-400 opacity-80"> ➜ </div> )} </Fragment> ); })} </div> ) : ( <p className="p-5 text-center text-slate-500 italic"> Evolution data not available. </p> )} </div> </div> );
-}; export default PokemonEvolutions; 
+import { getPokemonCardData } from "@/utils/pokemonHelpers";
+
+const PokemonEvolutions = ({
+  pokemon,
+  allPokemon,
+  onSelectPokemon,
+  variants,
+}) => {
+  const EvolutionItem = ({ name, method, isCurrent }) => {
+    const evoObj = allPokemon.find((p) => p.name === name);
+    if (!evoObj) return null;
+    const cardData = getPokemonCardData(evoObj);
+
+    return (
+      <div
+        className={`group flex min-w-[90px] flex-1 cursor-pointer flex-col items-center gap-2 rounded-xl p-2 transition-all ${
+          isCurrent
+            ? "bg-blue-600/10 ring-1 ring-blue-500/50"
+            : "hover:bg-white/5"
+        }`}
+        onClick={() => !isCurrent && onSelectPokemon(evoObj)}
+      >
+        {" "}
+        <div
+          className={`relative flex h-20 w-20 items-center justify-center rounded-full border transition-transform group-hover:scale-110 ${
+            isCurrent
+              ? "border-blue-500 bg-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+              : "border-white/10 bg-black/40 shadow-inner"
+          }`}
+        >
+          {" "}
+          <img
+            src={cardData.sprite}
+            alt={name}
+            className="h-14 w-14 object-contain drop-shadow-md"
+          />{" "}
+          {isCurrent && (
+            <div className="absolute -top-1 -right-1 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white shadow-lg">
+              {" "}
+              ★{" "}
+            </div>
+          )}{" "}
+        </div>{" "}
+        <div className="flex flex-col items-center text-center">
+          {" "}
+          <span
+            className={`text-xs font-bold ${isCurrent ? "text-blue-400" : "text-slate-200"}`}
+          >
+            {" "}
+            {name}{" "}
+          </span>{" "}
+          <span className="text-[10px] font-medium tracking-tighter text-slate-500 uppercase">
+            {" "}
+            {method || "Base"}{" "}
+          </span>{" "}
+        </div>{" "}
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col gap-8 py-2">
+      {" "}
+      {/* Evolution Tree */}{" "}
+      <div className="flex flex-col gap-2.5">
+        {" "}
+        <h4 className="border-b border-white/5 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
+          {" "}
+          Evolution Tree{" "}
+        </h4>{" "}
+        {pokemon.evolutions && pokemon.evolutions.length > 0 ? (
+          <div className="scrollbar-hide flex items-center justify-between gap-1 overflow-x-auto rounded-2xl border border-white/5 bg-black/20 p-4">
+            {" "}
+            {pokemon.evolutions.map((evo, index) => (
+              <Fragment key={evo.name}>
+                {" "}
+                <EvolutionItem
+                  name={evo.name}
+                  method={evo.level}
+                  isCurrent={evo.name === pokemon.name}
+                />{" "}
+                {index < pokemon.evolutions.length - 1 && (
+                  <div className="flex shrink-0 items-center justify-center text-slate-700">
+                    {" "}
+                    <ChevronRight size={18} strokeWidth={3} />{" "}
+                  </div>
+                )}{" "}
+              </Fragment>
+            ))}{" "}
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-white/10 p-6 text-center text-sm text-slate-500 italic">
+            {" "}
+            No evolution data found for this Pokémon.{" "}
+          </div>
+        )}{" "}
+      </div>{" "}
+      {/* Alternative Forms */}{" "}
+      {variants && variants.length > 0 && (
+        <div className="flex flex-col gap-2.5">
+          {" "}
+          <h4 className="border-b border-white/5 pb-1 text-xs font-bold tracking-widest text-slate-500 uppercase">
+            {" "}
+            Alternative Forms{" "}
+          </h4>{" "}
+          <div className="scrollbar-hide flex items-center gap-3 overflow-x-auto p-1">
+            {" "}
+            {variants.map((variantName) => {
+              const variantObj = allPokemon.find((p) => p.name === variantName);
+              if (!variantObj) return null;
+              const cardData = getPokemonCardData(variantObj);
+              return (
+                <div
+                  key={variantName}
+                  className="group flex flex-col items-center gap-2"
+                  onClick={() => onSelectPokemon(variantObj)}
+                >
+                  {" "}
+                  <div className="cursor-pointer overflow-hidden rounded-xl border border-white/10 bg-white/5 p-2 transition-all hover:border-purple-500 hover:bg-purple-500/10 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                    {" "}
+                    <img
+                      src={cardData.sprite}
+                      alt={variantName}
+                      className="h-12 w-12 object-contain transition-transform group-hover:scale-110"
+                    />{" "}
+                  </div>{" "}
+                  <span className="max-w-[70px] truncate text-[10px] font-semibold text-slate-400 group-hover:text-slate-200">
+                    {" "}
+                    {variantName}{" "}
+                  </span>{" "}
+                </div>
+              );
+            })}{" "}
+          </div>{" "}
+        </div>
+      )}{" "}
+    </div>
+  );
+};
+
+export default PokemonEvolutions;

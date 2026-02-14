@@ -160,7 +160,9 @@ const PokedexEditorPage = () => {
   const handleDelete = async () => {
     if (!selectedPokemon) return;
     if (
-      !window.confirm(`Are you sure you want to delete ${selectedPokemon.name}?`)
+      !window.confirm(
+        `Are you sure you want to delete ${selectedPokemon.name}?`
+      )
     )
       return;
 
@@ -241,7 +243,7 @@ const PokedexEditorPage = () => {
                   }`}
                   onClick={() => setSelectedPokemon(p)}
                 >
-                  <span className="text-xs font-mono opacity-50">{p.id}</span>
+                  <span className="font-mono text-xs opacity-50">{p.id}</span>
                   <div className="font-bold">{p.name}</div>
                 </button>
               ))
@@ -252,7 +254,7 @@ const PokedexEditorPage = () => {
         {/* Right: Form */}
         <div className="space-y-6 lg:col-span-3">
           <div className="rounded-xl bg-slate-800 p-6 shadow-xl">
-            <h2 className="mb-6 text-xl font-bold border-b border-slate-700 pb-2">
+            <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
               Basic Information
             </h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -310,7 +312,7 @@ const PokedexEditorPage = () => {
           </div>
 
           <div className="rounded-xl bg-slate-800 p-6 shadow-xl">
-            <h2 className="mb-6 text-xl font-bold border-b border-slate-700 pb-2">
+            <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
               Base Stats
             </h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-6">
@@ -346,7 +348,10 @@ const PokedexEditorPage = () => {
                       onChange={(e) => {
                         const newEvos = [...formData.evolutions];
                         newEvos[idx].name = e.target.value;
-                        setFormData((prev) => ({ ...prev, evolutions: newEvos }));
+                        setFormData((prev) => ({
+                          ...prev,
+                          evolutions: newEvos,
+                        }));
                       }}
                     />
                     <input
@@ -355,7 +360,10 @@ const PokedexEditorPage = () => {
                       onChange={(e) => {
                         const newEvos = [...formData.evolutions];
                         newEvos[idx].level = e.target.value;
-                        setFormData((prev) => ({ ...prev, evolutions: newEvos }));
+                        setFormData((prev) => ({
+                          ...prev,
+                          evolutions: newEvos,
+                        }));
                       }}
                     />
                     <button
@@ -379,7 +387,10 @@ const PokedexEditorPage = () => {
               <h2 className="mb-4 text-xl font-bold">Locations</h2>
               <div className="space-y-4">
                 {formData.locations?.map((loc, idx) => (
-                  <div key={idx} className="relative rounded bg-slate-700/50 p-3">
+                  <div
+                    key={idx}
+                    className="relative rounded bg-slate-700/50 p-3"
+                  >
                     <button
                       onClick={() => removeLocation(idx)}
                       className="absolute top-2 right-2 text-red-400"
@@ -394,7 +405,10 @@ const PokedexEditorPage = () => {
                         onChange={(e) => {
                           const newLocs = [...formData.locations];
                           newLocs[idx].region = e.target.value;
-                          setFormData((prev) => ({ ...prev, locations: newLocs }));
+                          setFormData((prev) => ({
+                            ...prev,
+                            locations: newLocs,
+                          }));
                         }}
                       />
                       <input
@@ -404,7 +418,10 @@ const PokedexEditorPage = () => {
                         onChange={(e) => {
                           const newLocs = [...formData.locations];
                           newLocs[idx].area = e.target.value;
-                          setFormData((prev) => ({ ...prev, locations: newLocs }));
+                          setFormData((prev) => ({
+                            ...prev,
+                            locations: newLocs,
+                          }));
                         }}
                       />
                     </div>
