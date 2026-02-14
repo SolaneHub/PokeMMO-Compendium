@@ -1,0 +1,47 @@
+import { ReactNode } from "react";
+
+interface SliderProps {
+  label: ReactNode;
+  value: number;
+  onChange: (value: number) => void;
+  min?: number;
+  max?: number;
+  colorClass?: string;
+  displayValue?: ReactNode;
+}
+
+const Slider = ({
+  label,
+  value,
+  onChange,
+  min = 1,
+  max = 100,
+  colorClass = "bg-blue-500",
+  displayValue,
+}: SliderProps) => {
+  const percentage = Math.min(100, ((value - min) / (max - min)) * 100);
+  return (
+    <div className="w-full space-y-2">
+      <div className="flex justify-between text-sm font-bold">
+        <span>{label}</span>
+        <span>{displayValue || value}</span>
+      </div>
+      <div className="relative h-6 overflow-hidden rounded-full border border-slate-600 bg-slate-800 shadow-inner">
+        <div
+          className={`absolute top-0 left-0 h-full transition-all duration-200 ${colorClass}`}
+          style={{ width: `${percentage}%` }}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Slider;
