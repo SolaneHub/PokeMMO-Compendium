@@ -35,7 +35,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
 
 export default defineConfig(({ command }) => ({
   plugins: [tailwindcss(), react(), VitePWA(pwaConfig)],
-  base: "/",
+  base: process.env.VITE_BASE_PATH || "/",
   resolve: {
     alias: {
       "@": resolve(__dirname, "./src"),
