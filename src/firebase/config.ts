@@ -30,7 +30,8 @@ export const db = initializeFirestore(app, {
   }),
 });
 
-// Enable App Check
+// App Check is currently disabled
+/*
 if (import.meta.env.PROD) {
   const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
   if (!recaptchaSiteKey) {
@@ -43,3 +44,4 @@ if (import.meta.env.PROD) {
     });
   }
 }
+*/
