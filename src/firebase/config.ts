@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
 import {
   initializeFirestore,
@@ -29,19 +28,3 @@ export const db = initializeFirestore(app, {
     tabManager: persistentMultipleTabManager(),
   }),
 });
-
-// App Check is currently disabled
-/*
-if (import.meta.env.PROD) {
-  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
-  if (!recaptchaSiteKey) {
-    // Optionally, you might want to throw an error or handle this more strictly
-    // throw new Error("VITE_RECAPTCHA_SITE_KEY is missing in production environment.");
-  } else {
-    initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(recaptchaSiteKey),
-      isTokenAutoRefreshEnabled: true,
-    });
-  }
-}
-*/
