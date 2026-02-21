@@ -33,6 +33,9 @@ const INITIAL_POKEMON_STATE: Pokemon = {
   evolutions: [],
   locations: [],
   variants: [],
+  dexId: "",
+  sprite: "",
+  background: "",
 };
 
 const PokedexEditorPage = () => {
@@ -45,7 +48,12 @@ const PokedexEditorPage = () => {
 
   useEffect(() => {
     if (selectedPokemon) {
-      const pokemonData = JSON.parse(JSON.stringify(selectedPokemon));
+      const pokemonData = {
+        ...INITIAL_POKEMON_STATE,
+        ...JSON.parse(JSON.stringify(selectedPokemon)),
+      };
+
+      // Handle the string-to-array conversions
       if (typeof pokemonData.heldItems === "string") {
         pokemonData.heldItems = pokemonData.heldItems
           .split(",")
@@ -54,6 +62,7 @@ const PokedexEditorPage = () => {
       } else if (!Array.isArray(pokemonData.heldItems)) {
         pokemonData.heldItems = [];
       }
+
       if (typeof pokemonData.eggGroups === "string") {
         pokemonData.eggGroups = pokemonData.eggGroups
           .split(",")
@@ -62,6 +71,26 @@ const PokedexEditorPage = () => {
       } else if (!Array.isArray(pokemonData.eggGroups)) {
         pokemonData.eggGroups = [];
       }
+
+      // Ensure all required nested structures are properly initialized
+      pokemonData.baseStats = {
+        ...INITIAL_POKEMON_STATE.baseStats,
+        ...(pokemonData.baseStats || {}),
+      };
+      pokemonData.abilities = {
+        ...INITIAL_POKEMON_STATE.abilities,
+        ...(pokemonData.abilities || {}),
+      };
+      pokemonData.genderRatio = {
+        ...INITIAL_POKEMON_STATE.genderRatio,
+        ...(pokemonData.genderRatio || {}),
+      };
+      pokemonData.types = pokemonData.types || [];
+      pokemonData.moves = pokemonData.moves || [];
+      pokemonData.evolutions = pokemonData.evolutions || [];
+      pokemonData.locations = pokemonData.locations || [];
+      pokemonData.variants = pokemonData.variants || [];
+
       setFormData(pokemonData);
     } else {
       setFormData(INITIAL_POKEMON_STATE);
@@ -99,6 +128,21 @@ const PokedexEditorPage = () => {
     setFormData((prev) => ({ ...prev, [key]: array }));
   };
 
+  const handleNestedArrayChange = (
+    parent: keyof Pokemon,
+    key: string,
+    value: string
+  ) => {
+    const array = value.split(",").map((item) => item.trim());
+    setFormData((prev) => ({
+      ...prev,
+      [parent]: {
+        ...(prev[parent] as Record<string, unknown>),
+        [key]: array,
+      },
+    }));
+  };
+
   const addEvolution = (name: string) => {
     const newEvo: Evolution = { name, level: "Level ?" };
     setFormData((prev) => ({
@@ -114,13 +158,29 @@ const PokedexEditorPage = () => {
     }));
   };
 
-  const addLocation = (
-    region: string,
-    area: string,
-    rarity: string,
-    method: string
-  ) => {
-    const newLoc: Location = { region, area, rarity, method };
+  const addMove = () => {
+    const newMove = { name: "", type: "", level: "" };
+    setFormData((prev) => ({
+      ...prev,
+      moves: [...(prev.moves || []), newMove],
+    }));
+  };
+
+  const removeMove = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      moves: prev.moves.filter((_, i) => i !== index),
+    }));
+  };
+
+  const addLocation = () => {
+    const newLoc: Location = {
+      region: "",
+      area: "",
+      rarity: "",
+      method: "",
+      levels: "",
+    };
     setFormData((prev) => ({
       ...prev,
       locations: [...(prev.locations || []), newLoc],
@@ -212,41 +272,43 @@ const PokedexEditorPage = () => {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
         {/* Left: Search & List */}
         <div className="lg:col-span-1">
-          <div className="relative mb-4">
-            <Search
-              className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400"
-              size={18}
-            />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full rounded-lg border border-slate-600 bg-slate-700 py-2 pr-4 pl-10 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          <div className="sticky top-6 space-y-4">
+            <div className="relative">
+              <Search
+                className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-400"
+                size={18}
+              />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full rounded-lg border border-slate-600 bg-slate-700 py-2 pr-4 pl-10 text-white placeholder-slate-400 focus:border-blue-500 focus:outline-none"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
 
-          <div className="custom-scrollbar max-h-[700px] overflow-y-auto rounded-lg bg-slate-800 p-2">
-            {isLoading ? (
-              <div className="p-4 text-center text-white">Loading...</div>
-            ) : (
-              filteredList.map((p) => (
-                <button
-                  key={p.id}
-                  className={`mb-1 w-full rounded px-3 py-2 text-left text-white transition-colors ${
-                    selectedPokemon?.id === p.id
-                      ? "bg-blue-600"
-                      : "bg-slate-700/50 hover:bg-slate-700"
-                  }`}
-                  onClick={() => setSelectedPokemon(p)}
-                >
-                  <span className="font-mono text-[10px] opacity-50">
-                    {p.id}
-                  </span>
-                  <div className="font-bold">{p.name}</div>
-                </button>
-              ))
-            )}
+            <div className="custom-scrollbar max-h-[calc(100vh-200px)] overflow-y-auto rounded-lg bg-slate-800 p-2">
+              {isLoading ? (
+                <div className="p-4 text-center text-white">Loading...</div>
+              ) : (
+                filteredList.map((p) => (
+                  <button
+                    key={p.id}
+                    className={`mb-1 w-full rounded px-3 py-2 text-left text-white transition-colors ${
+                      selectedPokemon?.id === p.id
+                        ? "bg-blue-600"
+                        : "bg-slate-700/50 hover:bg-slate-700"
+                    }`}
+                    onClick={() => setSelectedPokemon(p)}
+                  >
+                    <span className="font-mono text-[10px] opacity-50">
+                      {p.id}
+                    </span>
+                    <div className="font-bold">{p.name}</div>
+                  </button>
+                ))
+              )}
+            </div>
           </div>
         </div>
 
@@ -256,10 +318,10 @@ const PokedexEditorPage = () => {
             <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
               Basic Information
             </h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               <div>
                 <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
-                  ID
+                  ID (Doc ID)
                 </label>
                 <input
                   name="id"
@@ -270,6 +332,17 @@ const PokedexEditorPage = () => {
               </div>
               <div>
                 <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Dex ID
+                </label>
+                <input
+                  name="dexId"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.dexId || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
                   Name
                 </label>
                 <input
@@ -279,6 +352,9 @@ const PokedexEditorPage = () => {
                   onChange={handleInputChange}
                 />
               </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
                 <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
                   Category
@@ -290,9 +366,6 @@ const PokedexEditorPage = () => {
                   onChange={handleInputChange}
                 />
               </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
                   Types (comma separated)
@@ -305,15 +378,214 @@ const PokedexEditorPage = () => {
               </div>
               <div>
                 <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
-                  Description
+                  Tier
                 </label>
-                <textarea
-                  name="description"
-                  rows={2}
+                <input
+                  name="tier"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                  value={formData.description}
+                  value={formData.tier || ""}
                   onChange={handleInputChange}
                 />
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Sprite URL
+                </label>
+                <input
+                  name="sprite"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.sprite || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Background Image URL
+                </label>
+                <input
+                  name="background"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.background || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                Description
+              </label>
+              <textarea
+                name="description"
+                rows={2}
+                className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                value={formData.description}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-slate-800 p-6 text-white shadow-xl">
+            <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
+              Training & Physical
+            </h2>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Height
+                </label>
+                <input
+                  name="height"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.height || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Weight
+                </label>
+                <input
+                  name="weight"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.weight || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Catch Rate
+                </label>
+                <input
+                  name="catchRate"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.catchRate || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Base Exp
+                </label>
+                <input
+                  name="baseExp"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.baseExp || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  Growth Rate
+                </label>
+                <input
+                  name="growthRate"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.growthRate || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  EV Yield
+                </label>
+                <input
+                  name="evYield"
+                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                  value={formData.evYield || ""}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-slate-800 p-6 text-white shadow-xl">
+            <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
+              Abilities & Breeding
+            </h2>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-4">
+                <div>
+                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                    Main Abilities (comma separated)
+                  </label>
+                  <input
+                    className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                    value={formData.abilities?.main?.join(", ") || ""}
+                    onChange={(e) =>
+                      handleNestedArrayChange("abilities", "main", e.target.value)
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                    Hidden Ability
+                  </label>
+                  <input
+                    className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                    value={formData.abilities?.hidden || ""}
+                    onChange={(e) =>
+                      handleNestedChange("abilities", "hidden", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                    Egg Groups (comma separated)
+                  </label>
+                  <input
+                    className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                    value={
+                      Array.isArray(formData.eggGroups)
+                        ? formData.eggGroups.join(", ")
+                        : formData.eggGroups || ""
+                    }
+                    onChange={(e) =>
+                      handleArrayChange("eggGroups", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                      Gender Ratio M (%)
+                    </label>
+                    <input
+                      type="number"
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                      value={formData.genderRatio?.m ?? 0}
+                      onChange={(e) =>
+                        handleNestedChange(
+                          "genderRatio",
+                          "m",
+                          parseFloat(e.target.value) || 0
+                        )
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                      Gender Ratio F (%)
+                    </label>
+                    <input
+                      type="number"
+                      className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                      value={formData.genderRatio?.f ?? 0}
+                      onChange={(e) =>
+                        handleNestedChange(
+                          "genderRatio",
+                          "f",
+                          parseFloat(e.target.value) || 0
+                        )
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -345,6 +617,78 @@ const PokedexEditorPage = () => {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="rounded-xl bg-slate-800 p-6 text-white shadow-xl">
+            <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
+              Other
+            </h2>
+            <div>
+              <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                Held Items (comma separated)
+              </label>
+              <input
+                className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                value={
+                  Array.isArray(formData.heldItems)
+                    ? formData.heldItems.join(", ")
+                    : formData.heldItems || ""
+                }
+                onChange={(e) => handleArrayChange("heldItems", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-slate-800 p-6 text-white shadow-xl">
+            <h2 className="mb-4 text-xl font-bold">Moves</h2>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+              {formData.moves?.map((move, idx) => (
+                <div key={idx} className="flex items-center gap-2 rounded bg-slate-700/30 p-2">
+                  <input
+                    placeholder="Move Name"
+                    className="flex-1 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.name}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].name = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  />
+                  <input
+                    placeholder="Type"
+                    className="w-20 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.type || ""}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].type = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  />
+                  <input
+                    placeholder="Lvl"
+                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.level || ""}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].level = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  />
+                  <button
+                    onClick={() => removeMove(idx)}
+                    className="text-red-400 hover:text-red-300"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={addMove}
+              className="mt-4 flex items-center gap-1 text-xs font-bold text-blue-400 uppercase hover:text-blue-300"
+            >
+              <Plus size={14} /> Add Move
+            </button>
           </div>
 
           <div className="grid grid-cols-1 gap-6 text-white md:grid-cols-2">
@@ -408,38 +752,81 @@ const PokedexEditorPage = () => {
                     >
                       <Trash2 size={14} />
                     </button>
-                    <div className="grid grid-cols-2 gap-2">
-                      <input
-                        placeholder="Region"
-                        className="rounded bg-slate-700 p-1 text-xs text-white"
-                        value={loc.region}
-                        onChange={(e) => {
-                          const newLocs = [...formData.locations];
-                          newLocs[idx].region = e.target.value;
-                          setFormData((prev) => ({
-                            ...prev,
-                            locations: newLocs,
-                          }));
-                        }}
-                      />
-                      <input
-                        placeholder="Area"
-                        className="rounded bg-slate-700 p-1 text-xs text-white"
-                        value={loc.area}
-                        onChange={(e) => {
-                          const newLocs = [...formData.locations];
-                          newLocs[idx].area = e.target.value;
-                          setFormData((prev) => ({
-                            ...prev,
-                            locations: newLocs,
-                          }));
-                        }}
-                      />
+                    <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          placeholder="Region"
+                          className="rounded bg-slate-700 p-1 text-xs text-white"
+                          value={loc.region}
+                          onChange={(e) => {
+                            const newLocs = [...formData.locations];
+                            newLocs[idx].region = e.target.value;
+                            setFormData((prev) => ({
+                              ...prev,
+                              locations: newLocs,
+                            }));
+                          }}
+                        />
+                        <input
+                          placeholder="Location (Area)"
+                          className="rounded bg-slate-700 p-1 text-xs text-white"
+                          value={loc.area}
+                          onChange={(e) => {
+                            const newLocs = [...formData.locations];
+                            newLocs[idx].area = e.target.value;
+                            setFormData((prev) => ({
+                              ...prev,
+                              locations: newLocs,
+                            }));
+                          }}
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <input
+                          placeholder="Method"
+                          className="rounded bg-slate-700 p-1 text-xs text-white"
+                          value={loc.method || ""}
+                          onChange={(e) => {
+                            const newLocs = [...formData.locations];
+                            newLocs[idx].method = e.target.value;
+                            setFormData((prev) => ({
+                              ...prev,
+                              locations: newLocs,
+                            }));
+                          }}
+                        />
+                        <input
+                          placeholder="Rarity"
+                          className="rounded bg-slate-700 p-1 text-xs text-white"
+                          value={loc.rarity || ""}
+                          onChange={(e) => {
+                            const newLocs = [...formData.locations];
+                            newLocs[idx].rarity = e.target.value;
+                            setFormData((prev) => ({
+                              ...prev,
+                              locations: newLocs,
+                            }));
+                          }}
+                        />
+                        <input
+                          placeholder="Levels"
+                          className="rounded bg-slate-700 p-1 text-xs text-white"
+                          value={loc.levels || ""}
+                          onChange={(e) => {
+                            const newLocs = [...formData.locations];
+                            newLocs[idx].levels = e.target.value;
+                            setFormData((prev) => ({
+                              ...prev,
+                              locations: newLocs,
+                            }));
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
                 <button
-                  onClick={() => addLocation("", "", "", "")}
+                  onClick={addLocation}
                   className="mt-2 flex items-center gap-1 text-xs font-bold text-blue-400 uppercase hover:text-blue-300"
                 >
                   <Plus size={14} /> Add Location
