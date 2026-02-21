@@ -16,7 +16,7 @@ function Shell({ children }: ShellProps) {
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       {/* Main Content Area */}
-      <div className="relative flex h-full flex-1 flex-col overflow-hidden">
+      <div className="relative flex h-full flex-1 flex-col">
         {/* Mobile Header */}
         <header className="z-30 flex h-14 shrink-0 items-center border-b border-white/5 bg-[#1a1b20] px-4 lg:hidden">
           <Button
@@ -32,7 +32,7 @@ function Shell({ children }: ShellProps) {
         </header>
 
         {/* Content */}
-        <main className="relative flex h-full flex-1 flex-col overflow-hidden">
+        <main className="relative flex h-full flex-1 flex-col overflow-y-auto">
           {children}
         </main>
       </div>
