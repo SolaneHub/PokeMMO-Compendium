@@ -1,10 +1,10 @@
 import {
+  getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged,
-  signInWithPopup,
+  signInWithRedirect,
   signOut,
   User,
-  UserCredential,
 } from "firebase/auth";
 import {
   createContext,
@@ -22,7 +22,7 @@ interface AuthContextType {
   isAdmin: boolean;
   loading: boolean;
   logout: () => Promise<void>;
-  googleSignIn: () => Promise<UserCredential>;
+  googleSignIn: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,10 +51,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   function googleSignIn() {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    provider.setCustomParameters({ prompt: "select_account" });
+    return signInWithRedirect(auth, provider);
   }
 
   useEffect(() => {
+    // Handle redirect result to capture sign-in error or success
+    getRedirectResult(auth).catch((error) => {
+      console.error("Redirect Sign In Error:", error);
+    });
+
     let abortController = new AbortController();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       abortController.abort();
