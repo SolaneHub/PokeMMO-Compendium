@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import GoogleSignInButton from "@/components/molecules/GoogleSignInButton";
@@ -12,8 +12,15 @@ interface AuthPageProps {
 const AuthPage = ({ isSignup = false }: AuthPageProps) => {
   const navigate = useNavigate();
   const showToast = useToast();
-  const { googleSignIn } = useAuth();
+  const { googleSignIn, currentUser, loading } = useAuth();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (!loading && currentUser) {
+      navigate("/my-teams");
+    }
+  }, [currentUser, loading, navigate]);
 
   const handleGoogleSignIn = async () => {
     if (isAuthenticating) return;
@@ -21,18 +28,24 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
     setIsAuthenticating(true);
     try {
       await googleSignIn();
-      showToast(
-        isSignup ? "Account created with Google!" : "Logged in with Google!",
-        "success"
-      );
-      navigate("/my-teams");
+      // Note: With redirect, the code below usually doesn't execute
     } catch (error) {
       console.error("Google Sign In Error:", error);
       showToast("Google Sign In failed.", "error");
-    } finally {
       setIsAuthenticating(false);
     }
   };
+
+  if (loading) {
+    return (
+      <PageLayout title="Checking authentication..." containerClassName="flex items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+          <p className="text-gray-400">Please wait...</p>
+        </div>
+      </PageLayout>
+    );
+  }
   return (
     <PageLayout
       title={isSignup ? "Sign Up" : "Sign In"}
