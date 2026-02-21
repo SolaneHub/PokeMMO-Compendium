@@ -12,15 +12,19 @@ interface AuthPageProps {
 const AuthPage = ({ isSignup = false }: AuthPageProps) => {
   const navigate = useNavigate();
   const showToast = useToast();
-  const { googleSignIn, currentUser, loading } = useAuth();
+  const { googleSignIn, currentUser, loading, isAdmin } = useAuth();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
     if (!loading && currentUser) {
-      navigate("/my-teams");
+      if (isAdmin) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/my-teams");
+      }
     }
-  }, [currentUser, loading, navigate]);
+  }, [currentUser, loading, isAdmin, navigate]);
 
   const handleGoogleSignIn = async () => {
     if (isAuthenticating) return;
@@ -28,8 +32,16 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
     setIsAuthenticating(true);
     try {
       await googleSignIn();
-      // Note: With redirect, the code below usually doesn't execute
+      showToast(
+        isSignup ? "Account created with Google!" : "Logged in with Google!",
+        "success"
+      );
     } catch (error) {
+      // Ignore cancelled popup error (user closed window)
+      if (error && (error as any).code === "auth/popup-closed-by-user") {
+        setIsAuthenticating(false);
+        return;
+      }
       console.error("Google Sign In Error:", error);
       showToast("Google Sign In failed.", "error");
       setIsAuthenticating(false);
