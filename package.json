@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://solanehub.github.io/PokeMMO-Compendium/",
+  "homepage": "https://pokemmo-compendium.web.app/",
   "scripts": {
     "dev": "vite",
     "type-check": "tsc --noEmit",
@@ -16,9 +16,7 @@
     "lint:style": "stylelint \"src/**/*.css\"",
     "lint:style:fix": "stylelint \"src/**/*.css\" --fix",
     "validate": "cross-env NODE_OPTIONS='--pending-deprecation' npm run type-check && npm run lint && npm run lint:style && npm run format:check",
-    "build": "npm run type-check && vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "build": "npm run type-check && vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\""
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
