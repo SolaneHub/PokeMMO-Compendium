@@ -1,8 +1,9 @@
 import {
-  getRedirectResult,
+  browserLocalPersistence,
   GoogleAuthProvider,
   onAuthStateChanged,
-  signInWithRedirect,
+  setPersistence,
+  signInWithPopup,
   signOut,
   User,
 } from "firebase/auth";
@@ -45,28 +46,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(true);
   const [adminLoading, setAdminLoading] = useState(false);
 
+  // Set persistence once
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence).catch((err) =>
+      console.error("Auth Persistence Error:", err)
+    );
+  }, []);
+
   function logout() {
     return signOut(auth);
   }
 
-  function googleSignIn() {
+  async function googleSignIn() {
+    console.log("Starting Google Sign In...");
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
-    return signInWithRedirect(auth, provider);
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("Sign in successful:", result.user.email);
+    } catch (error) {
+      console.error("Sign in Error Detail:", error);
+      throw error;
+    }
   }
 
   useEffect(() => {
-    // Handle redirect result to capture sign-in error or success
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result) {
-          console.log("Redirect sign-in successful:", result.user.email);
-        }
-      })
-      .catch((error) => {
-        console.error("Redirect Sign In Error:", error);
-      });
-
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       console.log("Auth state changed. User:", user ? user.email : "none");
       setCurrentUser(user);
