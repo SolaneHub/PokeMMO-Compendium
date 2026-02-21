@@ -58,31 +58,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function googleSignIn() {
-    console.log("Starting Google Sign In...");
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
     try {
-      const result = await signInWithPopup(auth, provider);
-      console.log("Sign in successful:", result.user.email);
+      await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error("Sign in Error Detail:", error);
       throw error;
     }
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("Auth state changed. User:", user ? user.email : "none");
       setCurrentUser(user);
       
       if (user) {
         setAdminLoading(true);
         try {
           const tokenResult = await user.getIdTokenResult(true);
-          console.log("Admin claim:", !!tokenResult.claims.admin);
           setIsAdmin(!!tokenResult.claims.admin);
         } catch (error) {
-          console.error("Error checking admin status:", error);
           setIsAdmin(false);
         } finally {
           setAdminLoading(false);
