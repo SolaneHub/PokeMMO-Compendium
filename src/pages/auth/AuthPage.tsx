@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import GoogleSignInButton from "@/components/molecules/GoogleSignInButton";
@@ -16,7 +17,7 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
 
   const handleGoogleSignIn = async () => {
     if (isAuthenticating) return;
-    
+
     setIsAuthenticating(true);
     try {
       await googleSignIn();
@@ -42,7 +43,7 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
         {" "}
         <div className="mb-8 text-center">
           {" "}
-          <h1 className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
+          <h1 className="bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-3xl font-bold text-transparent">
             {" "}
             {isSignup ? "Create Account" : "Welcome"}{" "}
           </h1>{" "}
