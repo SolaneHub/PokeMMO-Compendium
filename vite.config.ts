@@ -31,6 +31,9 @@ const pwaConfig: Partial<VitePWAOptions> = {
       },
     ],
   },
+  workbox: {
+    navigateFallbackDenylist: [/^\/__/],
+  },
 };
 
 export default defineConfig(({ command }) => ({
