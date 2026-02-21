@@ -36,6 +36,13 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
         isSignup ? "Account created with Google!" : "Logged in with Google!",
         "success"
       );
+      // Wait a moment for onAuthStateChanged to pick up the user before manual check
+      setTimeout(() => {
+        if (currentUser) {
+          if (isAdmin) navigate("/admin/dashboard");
+          else navigate("/my-teams");
+        }
+      }, 500);
     } catch (error) {
       // Ignore cancelled popup error (user closed window)
       if (error && (error as any).code === "auth/popup-closed-by-user") {
