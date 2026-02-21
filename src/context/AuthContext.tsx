@@ -57,21 +57,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     // Handle redirect result to capture sign-in error or success
-    getRedirectResult(auth).catch((error) => {
-      console.error("Redirect Sign In Error:", error);
-    });
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          console.log("Redirect sign-in successful:", result.user.email);
+        }
+      })
+      .catch((error) => {
+        console.error("Redirect Sign In Error:", error);
+      });
 
-    let abortController = new AbortController();
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      abortController.abort();
-      abortController = new AbortController();
+      console.log("Auth state changed. User:", user ? user.email : "none");
       setCurrentUser(user);
+      
       if (user) {
         setAdminLoading(true);
         try {
           const tokenResult = await user.getIdTokenResult(true);
+          console.log("Admin claim:", !!tokenResult.claims.admin);
           setIsAdmin(!!tokenResult.claims.admin);
         } catch (error) {
+          console.error("Error checking admin status:", error);
           setIsAdmin(false);
         } finally {
           setAdminLoading(false);
