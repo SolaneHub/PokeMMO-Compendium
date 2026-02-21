@@ -2,15 +2,21 @@ import Button from "@/components/atoms/Button";
 
 interface GoogleSignInButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
 }
 
-const GoogleSignInButton = ({ onClick }: GoogleSignInButtonProps) => {
+const GoogleSignInButton = ({
+  onClick,
+  disabled = false,
+}: GoogleSignInButtonProps) => {
   return (
     <Button
       onClick={onClick}
       variant="secondary"
       fullWidth
       className="gap-3 py-3"
+      disabled={disabled}
+      type="button"
     >
       <svg className="h-5 w-5" viewBox="0 0 24 24">
         <path

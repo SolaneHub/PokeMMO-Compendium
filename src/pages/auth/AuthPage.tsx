@@ -12,7 +12,12 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
   const navigate = useNavigate();
   const showToast = useToast();
   const { googleSignIn } = useAuth();
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+
   const handleGoogleSignIn = async () => {
+    if (isAuthenticating) return;
+    
+    setIsAuthenticating(true);
     try {
       await googleSignIn();
       showToast(
@@ -23,6 +28,8 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
     } catch (error) {
       console.error("Google Sign In Error:", error);
       showToast("Google Sign In failed.", "error");
+    } finally {
+      setIsAuthenticating(false);
     }
   };
   return (
@@ -48,7 +55,10 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
         </div>{" "}
         <div className="flex flex-col gap-4">
           {" "}
-          <GoogleSignInButton onClick={handleGoogleSignIn} />{" "}
+          <GoogleSignInButton
+            onClick={handleGoogleSignIn}
+            disabled={isAuthenticating}
+          />{" "}
         </div>{" "}
       </div>{" "}
     </PageLayout>
