@@ -22,6 +22,7 @@ export interface RaidBuild {
   ivs?: string;
   moves?: string[];
   order?: number;
+  variants?: RaidBuild[];
 }
 
 export interface RaidStrategy {

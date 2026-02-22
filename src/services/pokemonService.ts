@@ -42,7 +42,7 @@ const fallbackFullDetails = (name: string): Pokemon => ({
 export const getPokemonFullDetails = (
   name: string,
   pokemonMap: Map<string, Pokemon>
-): Pokemon => {
+): Pokemon & { sprite: string | null; background: string } => {
   const pokemonBase = getPokemonByName(name, pokemonMap);
   const isBasePokemon = pokemonBase && pokemonBase.id !== null;
   const variants = isBasePokemon
@@ -53,18 +53,19 @@ export const getPokemonFullDetails = (
 
   if (pokemonBase.id === null) {
     const fallback = fallbackFullDetails(name);
+    const cardData = getPokemonCardData(name, pokemonMap);
     return {
       ...fallback,
-      sprite: getPokemonCardData(name, pokemonMap).sprite,
+      sprite: cardData.sprite,
       background: "#1a1b20",
+      variants: [],
     };
   }
 
   const background = getPokemonBackground(name, pokemonMap);
-  const sprite =
-    pokemonBase.sprite || getPokemonCardData(name, pokemonMap).sprite;
+  const sprite = getSpriteUrlByName(name);
 
-  const data: Pokemon = {
+  const data = {
     ...fallbackFullDetails(name),
     ...pokemonBase,
     sprite,
@@ -147,7 +148,6 @@ export const getPokemonByName = (
       id: null,
       name: name,
       types: [],
-      sprite: null,
       abilities: { main: [], hidden: null },
       baseStats: { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
       moves: [],
@@ -194,6 +194,6 @@ export const getPokemonCardData = (
 ): PokemonCardData => {
   const pokemon = getPokemonByName(name, pokemonMap);
   const background = getPokemonBackground(name, pokemonMap);
-  const sprite = pokemon.sprite || getSpriteUrlByName(name);
+  const sprite = getSpriteUrlByName(name);
   return { ...pokemon, sprite, background };
 };

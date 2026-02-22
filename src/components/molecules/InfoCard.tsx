@@ -16,7 +16,7 @@ const InfoCard = ({
   valueClass = "",
 }: InfoCardProps) => (
   <div
-    className={`flex flex-col justify-center rounded-lg border border-white/10 bg-white/5 p-2.5 text-white ${className}`}
+    className={`flex flex-col justify-start rounded-lg border border-white/10 bg-white/5 p-2.5 text-white ${className}`}
   >
     <span
       className={`mb-1 text-[10px] font-bold text-slate-400 uppercase ${labelClass}`}

@@ -34,8 +34,6 @@ const INITIAL_POKEMON_STATE: Pokemon = {
   locations: [],
   variants: [],
   dexId: "",
-  sprite: "",
-  background: "",
 };
 
 const PokedexEditorPage = () => {
@@ -59,6 +57,15 @@ const PokedexEditorPage = () => {
           .split(",")
           .map((item: string) => item.trim())
           .filter((item: string) => item !== "");
+      } else if (
+        pokemonData.heldItems &&
+        typeof pokemonData.heldItems === "object" &&
+        !Array.isArray(pokemonData.heldItems)
+      ) {
+        // Convert object { "Item": "5%" } to array ["Item (5%)"] for the editor input
+        pokemonData.heldItems = Object.entries(
+          pokemonData.heldItems as Record<string, string>
+        ).map(([item, rate]) => (rate ? `${item} (${rate})` : item));
       } else if (!Array.isArray(pokemonData.heldItems)) {
         pokemonData.heldItems = [];
       }
@@ -202,7 +209,28 @@ const PokedexEditorPage = () => {
 
     setIsSaving(true);
     try {
-      await savePokedexEntry(formData);
+      const dataToSave = { ...formData };
+
+      // Convert heldItems array back to object if rates are detected in parentheses
+      if (Array.isArray(dataToSave.heldItems)) {
+        const hasRates = dataToSave.heldItems.some(
+          (item) => item.includes("(") && item.includes(")")
+        );
+        if (hasRates) {
+          const heldItemsObject: Record<string, string> = {};
+          dataToSave.heldItems.forEach((itemStr) => {
+            const match = itemStr.match(/(.+)\s*\((.+)\)/);
+            if (match) {
+              heldItemsObject[match[1].trim()] = match[2].trim();
+            } else if (itemStr.trim()) {
+              heldItemsObject[itemStr.trim()] = "";
+            }
+          });
+          dataToSave.heldItems = heldItemsObject;
+        }
+      }
+
+      await savePokedexEntry(dataToSave);
       showToast(`${formData.name} saved successfully!`, "success");
       refetch();
     } catch (error: unknown) {
@@ -389,31 +417,6 @@ const PokedexEditorPage = () => {
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
-                  Sprite URL
-                </label>
-                <input
-                  name="sprite"
-                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                  value={formData.sprite || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
-                  Background Image URL
-                </label>
-                <input
-                  name="background"
-                  className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                  value={formData.background || ""}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
-
             <div className="mt-4">
               <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
                 Description
@@ -516,7 +519,11 @@ const PokedexEditorPage = () => {
                     className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                     value={formData.abilities?.main?.join(", ") || ""}
                     onChange={(e) =>
-                      handleNestedArrayChange("abilities", "main", e.target.value)
+                      handleNestedArrayChange(
+                        "abilities",
+                        "main",
+                        e.target.value
+                      )
                     }
                   />
                 </div>
@@ -632,7 +639,9 @@ const PokedexEditorPage = () => {
                 value={
                   Array.isArray(formData.heldItems)
                     ? formData.heldItems.join(", ")
-                    : formData.heldItems || ""
+                    : typeof formData.heldItems === "string"
+                      ? formData.heldItems
+                      : ""
                 }
                 onChange={(e) => handleArrayChange("heldItems", e.target.value)}
               />
@@ -641,12 +650,25 @@ const PokedexEditorPage = () => {
 
           <div className="rounded-xl bg-slate-800 p-6 text-white shadow-xl">
             <h2 className="mb-4 text-xl font-bold">Moves</h2>
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <div className="flex flex-col gap-2">
               {formData.moves?.map((move, idx) => (
-                <div key={idx} className="flex items-center gap-2 rounded bg-slate-700/30 p-2">
+                <div
+                  key={idx}
+                  className="flex items-center gap-2 rounded bg-slate-700/30 p-2"
+                >
+                  <input
+                    placeholder="Lvl"
+                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.level || ""}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].level = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  />
                   <input
                     placeholder="Move Name"
-                    className="flex-1 rounded bg-slate-700 p-1 text-sm text-white"
+                    className="min-w-30 flex-1 rounded bg-slate-700 p-1 text-sm text-white"
                     value={move.name}
                     onChange={(e) => {
                       const newMoves = [...formData.moves];
@@ -664,13 +686,47 @@ const PokedexEditorPage = () => {
                       setFormData((prev) => ({ ...prev, moves: newMoves }));
                     }}
                   />
-                  <input
-                    placeholder="Lvl"
-                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
-                    value={move.level || ""}
+                  <select
+                    className="w-24 rounded bg-slate-700 p-1 text-sm text-white outline-none focus:ring-1 focus:ring-blue-500"
+                    value={move.category || ""}
                     onChange={(e) => {
                       const newMoves = [...formData.moves];
-                      newMoves[idx].level = e.target.value;
+                      newMoves[idx].category = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  >
+                    <option value="">Category</option>
+                    <option value="Physical">Physical</option>
+                    <option value="Special">Special</option>
+                    <option value="Status">Status</option>
+                  </select>
+                  <input
+                    placeholder="Pwr"
+                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.power || ""}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].power = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  />
+                  <input
+                    placeholder="PP"
+                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.pp || ""}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].pp = e.target.value;
+                      setFormData((prev) => ({ ...prev, moves: newMoves }));
+                    }}
+                  />
+                  <input
+                    placeholder="Acc"
+                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+                    value={move.accuracy || ""}
+                    onChange={(e) => {
+                      const newMoves = [...formData.moves];
+                      newMoves[idx].accuracy = e.target.value;
                       setFormData((prev) => ({ ...prev, moves: newMoves }));
                     }}
                   />

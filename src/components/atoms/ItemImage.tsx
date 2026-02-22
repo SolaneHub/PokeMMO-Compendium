@@ -22,7 +22,7 @@ const ItemImage = ({
 
   return (
     <img
-      src={imgSrc || ""}
+      src={imgSrc || undefined}
       alt={item}
       loading="lazy"
       className={className}

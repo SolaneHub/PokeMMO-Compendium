@@ -55,7 +55,7 @@ const PokemonGrid = ({
     <div className="flex w-full flex-col items-center">
       <div className="flex w-full flex-wrap justify-center gap-5">
         {visiblePokemon.map((pokemon, index) => {
-          const sprite = pokemon.sprite || getSpriteUrlByName(pokemon.name);
+          const sprite = getSpriteUrlByName(pokemon.name);
           const background = getPokemonBackground(pokemon);
           return (
             <PokemonCard

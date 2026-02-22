@@ -54,7 +54,7 @@ export interface Pokemon {
   baseExp?: string | number;
   growthRate?: string;
   evYield?: string;
-  heldItems?: string | string[];
+  heldItems?: string | string[] | Record<string, string>;
   tier?: string;
   abilities: PokemonAbilities;
   eggGroups?: string[] | string;
@@ -63,7 +63,5 @@ export interface Pokemon {
   evolutions: Evolution[];
   locations: Location[];
   variants?: (string | { name: string; category: string })[];
-  sprite?: string | null;
-  background?: string;
   dexId?: number | string | null;
 }

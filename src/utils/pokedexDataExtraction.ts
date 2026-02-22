@@ -23,6 +23,7 @@ export const extractPokedexData = (
   const pokemonNames = new Set<string>();
   const moveNames = new Set<string>();
   const abilityNames = new Set<string>();
+  const itemNames = new Set<string>();
   const pokemonCatchRates: { name: string; catchRate: string | number }[] = [];
 
   pokedexData.forEach((pokemon) => {
@@ -50,9 +51,22 @@ export const extractPokedexData = (
         }
       });
     }
+    if (pokemon.heldItems) {
+      if (Array.isArray(pokemon.heldItems)) {
+        pokemon.heldItems.forEach((item) => itemNames.add(item));
+      } else if (typeof pokemon.heldItems === "object") {
+        Object.keys(pokemon.heldItems).forEach((item) => itemNames.add(item));
+      } else if (
+        typeof pokemon.heldItems === "string" &&
+        pokemon.heldItems !== "None"
+      ) {
+        itemNames.add(pokemon.heldItems);
+      }
+    }
   });
 
-  const itemNames = new Set<string>([
+  // Keep some common items even if not in pokedex yet
+  const commonItems = [
     "Assault Vest",
     "Cheri Berry",
     "Choice Band",
@@ -66,7 +80,8 @@ export const extractPokedexData = (
     "Mystic Water",
     "Rocky Helmet",
     "Water Gem",
-  ]);
+  ];
+  commonItems.forEach((item) => itemNames.add(item));
 
   return {
     pokemonNames: Array.from(pokemonNames).sort(),

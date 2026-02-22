@@ -72,16 +72,14 @@ const RaidStrategyTab = ({
               {roleOptions.map((roleKey) => (
                 <button
                   key={roleKey}
-                  className={`min-w-[80px] flex-1 cursor-pointer rounded-md border border-white/5 bg-[#0f1014] px-1.5 py-2.5 text-sm font-semibold transition-all hover:bg-white/10 ${
+                  className={`min-w-20 flex-1 cursor-pointer rounded-md border border-white/5 bg-[#0f1014] px-1.5 py-2.5 text-sm font-semibold transition-all hover:bg-white/10 ${
                     effectiveSelectedRole === roleKey
                       ? "border-blue-500/50 bg-blue-600/20 text-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.1)]"
                       : ""
                   } `}
                   onClick={() => handleRoleChange(roleKey)}
                 >
-                  {roleKey === "player1"
-                    ? "Player 1"
-                    : roleKey.replace("player", "Player")}
+                  {roleKey.replace(/player(\d+)/i, "Player $1")}
                 </button>
               ))}
             </div>
@@ -149,7 +147,7 @@ const RaidStrategyTab = ({
                       onClick={() => setSelectedTurnIndex(idx)}
                     >
                       <span
-                        className={`mr-3 min-w-[25px] font-mono text-[10px] ${
+                        className={`mr-3 min-w-6.25 font-mono text-[10px] ${
                           idx === selectedTurnIndex
                             ? "font-bold text-blue-400"
                             : "text-slate-500"

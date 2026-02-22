@@ -12,6 +12,7 @@ interface CatchProbabilityProps {
   targetLevel: number;
   turnsPassed: number;
   repeatBallCaptures: number;
+  isNightOrCave: boolean;
 }
 
 export function useCatchProbability({
@@ -23,6 +24,7 @@ export function useCatchProbability({
   targetLevel,
   turnsPassed,
   repeatBallCaptures,
+  isNightOrCave,
 }: CatchProbabilityProps) {
   return useMemo(() => {
     if (!selectedPokemon || selectedPokemon.catchRate === undefined) return 0;
@@ -40,6 +42,16 @@ export function useCatchProbability({
 
     // Multipliers
     let ballMult = BALL_TYPES.find((b) => b.name === ballType)?.multiplier || 1;
+
+    // Dusk Ball Custom Logic
+    if (ballType === "Dusk Ball") {
+      ballMult = isNightOrCave ? 2.5 : 1;
+    }
+    // Fast Ball Custom Logic
+    if (ballType === "Fast Ball") {
+      const baseSpeed = selectedPokemon.baseStats.spe || 0;
+      ballMult = baseSpeed >= 100 ? 4 : 1;
+    }
 
     // Dream Ball Custom Logic
     if (ballType === "Dream Ball") {
@@ -113,5 +125,6 @@ export function useCatchProbability({
     targetLevel,
     turnsPassed,
     repeatBallCaptures,
+    isNightOrCave,
   ]);
 }
