@@ -1,3 +1,4 @@
+import { FirebaseError } from "firebase/app";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -45,7 +46,10 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
       }, 500);
     } catch (error) {
       // Ignore cancelled popup error (user closed window)
-      if (error && (error as any).code === "auth/popup-closed-by-user") {
+      if (
+        error instanceof FirebaseError &&
+        error.code === "auth/popup-closed-by-user"
+      ) {
         setIsAuthenticating(false);
         return;
       }
@@ -57,7 +61,10 @@ const AuthPage = ({ isSignup = false }: AuthPageProps) => {
 
   if (loading) {
     return (
-      <PageLayout title="Checking authentication..." containerClassName="flex items-center justify-center min-h-[60vh]">
+      <PageLayout
+        title="Checking authentication..."
+        containerClassName="flex items-center justify-center min-h-[60vh]"
+      >
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
           <p className="text-gray-400">Please wait...</p>

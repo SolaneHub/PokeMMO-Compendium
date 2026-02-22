@@ -60,17 +60,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function googleSignIn() {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      throw error;
-    }
+    await signInWithPopup(auth, provider);
   }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
-      
+
       if (user) {
         setAdminLoading(true);
         try {

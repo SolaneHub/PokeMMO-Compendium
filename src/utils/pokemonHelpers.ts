@@ -40,7 +40,7 @@ export const getPokemonBackground = (
 export const getPokemonCardData = (pokemon: Pokemon | null | undefined) => {
   if (!pokemon) return { sprite: null, background: typeBackgrounds[""] };
   const background = getPokemonBackground(pokemon);
-  const sprite = pokemon.sprite || getSpriteUrlByName(pokemon.name);
+  const sprite = getSpriteUrlByName(pokemon.name);
   return { ...pokemon, sprite, background };
 };
 

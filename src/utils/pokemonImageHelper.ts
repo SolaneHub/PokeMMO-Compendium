@@ -697,7 +697,10 @@ export const getSpriteUrlByName = (name: string): string | null => {
 
 export const formatItemNameForUrl = (itemName: string): string => {
   if (!itemName) return "";
-  let formatted = itemName;
+
+  // Remove anything in parentheses (like probabilities)
+  const formatted = itemName.replace(/\(.*\)/g, "").trim();
+
   const overrides: Record<string, string> = {
     "Poké Ball": "Poké_Ball",
     "Poke Ball": "Poké_Ball",
@@ -708,12 +711,26 @@ export const formatItemNameForUrl = (itemName: string): string => {
     DeepSeaScale: "Deep_Sea_Scale",
     DeepSeaTooth: "Deep_Sea_Tooth",
     Thunderstone: "Thunder_Stone",
+    "Choice Scarf": "Choice_Scarf",
+    "Choice Specs": "Choice_Specs",
+    "Choice Band": "Choice_Band",
   };
-  if (overrides[itemName]) {
-    formatted = overrides[itemName];
-  } else {
-    formatted = formatted.replace(/[.]/g, "");
-    formatted = formatted.replace(/([a-z])([A-Z])/g, "$1_$2");
+
+  // Case-insensitive override check
+  const lowerFormatted = formatted.toLowerCase();
+  const overrideKey = Object.keys(overrides).find(
+    (k) => k.toLowerCase() === lowerFormatted
+  );
+
+  if (overrideKey) {
+    return overrides[overrideKey];
   }
-  return formatted.trim().replace(/\s+/g, "_");
+
+  // Standard formatting: Title Case words and join with underscores
+  return formatted
+    .split(/[\s_]+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join("_")
+    .replace(/[.]/g, "")
+    .replace(/([a-z])([A-Z])/g, "$1_$2");
 };

@@ -1,3 +1,4 @@
+import ItemImage from "@/components/atoms/ItemImage";
 import InfoCard from "@/components/molecules/InfoCard";
 import { Pokemon } from "@/types/pokemon";
 
@@ -6,6 +7,63 @@ interface PokemonOverviewProps {
 }
 
 const PokemonOverview = ({ pokemon }: PokemonOverviewProps) => {
+  const renderHeldItems = () => {
+    if (!pokemon.heldItems || pokemon.heldItems === "None") return "None";
+
+    if (Array.isArray(pokemon.heldItems)) {
+      if (pokemon.heldItems.length === 0) return "None";
+      return (
+        <div className="mt-1 flex flex-wrap gap-2">
+          {pokemon.heldItems.map((item) => (
+            <div
+              key={item}
+              className="flex items-center rounded-md border border-white/5 bg-white/5 px-2 py-1 text-xs"
+            >
+              <ItemImage
+                item={item}
+                className="mr-1.5 h-4 w-4 object-contain"
+              />
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (typeof pokemon.heldItems === "object") {
+      const items = Object.entries(pokemon.heldItems);
+      if (items.length === 0) return "None";
+      return (
+        <div className="mt-1 flex flex-wrap gap-2">
+          {items.map(([item, rate]) => (
+            <div
+              key={item}
+              className="flex items-center rounded-md border border-white/5 bg-white/5 px-2 py-1 text-xs"
+            >
+              <ItemImage
+                item={item}
+                className="mr-1.5 h-4 w-4 object-contain"
+              />
+              <span>
+                {item} <span className="text-slate-400">({rate})</span>
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="mt-1 flex items-center rounded-md border border-white/5 bg-white/5 px-2 py-1 text-xs">
+        <ItemImage
+          item={pokemon.heldItems as string}
+          className="mr-1.5 h-4 w-4 object-contain"
+        />
+        <span>{pokemon.heldItems as string}</span>
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col gap-5 text-white">
       <div className="flex flex-col gap-2.5">
@@ -58,8 +116,12 @@ const PokemonOverview = ({ pokemon }: PokemonOverviewProps) => {
               Gender
             </span>
             <span className="flex gap-2 text-sm font-semibold">
-              <span className="text-blue-400">{pokemon.genderRatio?.m}% ♂</span>
-              <span className="text-red-400">{pokemon.genderRatio?.f}% ♀</span>
+              <span className="text-blue-400">
+                {pokemon.genderRatio?.m ?? 0}% ♂
+              </span>
+              <span className="text-red-400">
+                {pokemon.genderRatio?.f ?? 0}% ♀
+              </span>
             </span>
           </div>
         </div>
@@ -86,15 +148,7 @@ const PokemonOverview = ({ pokemon }: PokemonOverviewProps) => {
           Other Details
         </h4>
         <div className="grid grid-cols-2 gap-2">
-          <InfoCard
-            label="Held Item"
-            value={
-              Array.isArray(pokemon.heldItems) &&
-              (pokemon.heldItems as string[]).length > 0
-                ? (pokemon.heldItems as string[]).join(", ")
-                : (pokemon.heldItems as string) || "None"
-            }
-          />
+          <InfoCard label="Held Item" value={renderHeldItems()} />
           <InfoCard label="PvP Tier" value={pokemon.tier} />
         </div>
       </div>

@@ -227,7 +227,6 @@ export interface TeamMember {
   move3?: string;
   move4?: string;
   dexId?: number | string | null;
-  sprite?: string | null;
 }
 
 export interface Team {

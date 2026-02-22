@@ -48,9 +48,16 @@ const RaidModal = ({
     : typeBackgrounds[""];
 
   const buildGroups = (() => {
-    if (!recommendedList.length || typeof recommendedList[0] !== "object")
-      return null;
-    const groups = recommendedList.reduce(
+    if (!recommendedList.length) return null;
+
+    // Filter out strategy notes (strings) before grouping
+    const buildsOnly = recommendedList.filter(
+      (item): item is RaidBuild => typeof item === "object" && item !== null
+    );
+
+    if (buildsOnly.length === 0) return null;
+
+    const groups = buildsOnly.reduce(
       (acc: Record<string, RaidBuild[]>, build: RaidBuild) => {
         const groupName = build.player || "General";
         if (!acc[groupName]) acc[groupName] = [];
@@ -112,11 +119,11 @@ const RaidModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-[2000] flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
+      className="fixed inset-0 z-2000 flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="relative flex max-h-[90vh] w-[500px] max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] text-white shadow-2xl"
+        className="relative flex max-h-[90vh] w-125 max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] text-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div

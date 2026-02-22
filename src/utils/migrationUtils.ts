@@ -1,7 +1,10 @@
 import {
   collection,
+  deleteField,
   doc,
   getCountFromServer,
+  getDocs,
+  query,
   writeBatch,
 } from "firebase/firestore";
 
@@ -26,6 +29,52 @@ export async function verifyPokedexMigration() {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     alert(`Errore verifica: ${message}`);
+  }
+}
+
+/**
+ * Removes 'sprite' and 'background' fields from all Pokedex entries.
+ */
+export async function cleanupPokedexImages() {
+  if (
+    !window.confirm(
+      "Sei sicuro di voler eliminare i riferimenti alle immagini dal database? Questa operazione è irreversibile."
+    )
+  ) {
+    return;
+  }
+
+  try {
+    const pokedexRef = collection(db, "pokedex");
+    const q = query(pokedexRef);
+    const querySnapshot = await getDocs(q);
+
+    const batchSize = 450;
+    const docs = querySnapshot.docs;
+    let totalCleaned = 0;
+
+    for (let i = 0; i < docs.length; i += batchSize) {
+      const batch = writeBatch(db);
+      const chunk = docs.slice(i, i + batchSize);
+
+      chunk.forEach((document) => {
+        const docRef = doc(db, "pokedex", document.id);
+        batch.update(docRef, {
+          sprite: deleteField(),
+          background: deleteField(),
+        });
+        totalCleaned++;
+      });
+
+      await batch.commit();
+    }
+
+    alert(
+      `✅ Pulizia completata! Rimosse immagini da ${totalCleaned} Pokémon.`
+    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    alert(`Errore durante la pulizia: ${message}`);
   }
 }
 

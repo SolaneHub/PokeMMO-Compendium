@@ -33,13 +33,13 @@ const RaidBuildsTab = ({
                     <button
                       key={groupName}
                       onClick={() => setSelectedBuildGroup(groupName)}
-                      className={`min-w-[80px] flex-1 cursor-pointer rounded-md border px-1.5 py-2.5 text-sm font-semibold transition-all ${
+                      className={`min-w-20 flex-1 cursor-pointer rounded-md border px-1.5 py-2.5 text-sm font-semibold transition-all ${
                         effectiveBuildGroupKey === groupName
                           ? "border-blue-500/50 bg-blue-600/20 text-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.1)]"
                           : "border-white/5 bg-[#0f1014] text-slate-400 hover:bg-white/10 hover:text-slate-200"
                       }`}
                     >
-                      {groupName}
+                      {groupName.replace(/player(\d+)/i, "Player $1")}
                     </button>
                   ))}
               </div>

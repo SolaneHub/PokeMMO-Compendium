@@ -189,11 +189,7 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
             {Array.isArray(team.members) && team.members.length > 0 && (
               <div className="mt-3 flex gap-2">
                 {team.members.slice(0, 6).map((m, i) => (
-                  <PokemonSpriteCircle
-                    key={i}
-                    spriteUrl={m?.sprite}
-                    pokemonName={m?.name}
-                  />
+                  <PokemonSpriteCircle key={i} pokemonName={m?.name} />
                 ))}
               </div>
             )}

@@ -39,12 +39,30 @@ const CatchCalculatorPage = () => {
     "calc_pokemon",
     "Bulbasaur"
   );
+  const [isNightOrCave, setIsNightOrCave] = usePersistentState(
+    "calc_night_cave",
+    false
+  );
 
   useEffect(() => {
     if (!selectedPokemonName && allPokemonData && allPokemonData.length > 0) {
       setSelectedPokemonName(allPokemonData[0].name);
     }
   }, [allPokemonData, selectedPokemonName, setSelectedPokemonName]);
+
+  const selectedPokemon = (pokemonMap.get(selectedPokemonName) ||
+    null) as Pokemon | null;
+
+  useEffect(() => {
+    if (selectedPokemon && selectedPokemon.locations) {
+      const isCavePokemon = selectedPokemon.locations.some(
+        (loc) => loc.method && loc.method.toLowerCase().includes("cave")
+      );
+      if (isCavePokemon) {
+        setIsNightOrCave(true);
+      }
+    }
+  }, [selectedPokemon, setIsNightOrCave]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
@@ -74,8 +92,6 @@ const CatchCalculatorPage = () => {
     );
   })();
 
-  const selectedPokemon = (pokemonMap.get(selectedPokemonName) ||
-    null) as Pokemon | null;
   const baseCatchRateRaw = selectedPokemon ? selectedPokemon.catchRate : 0;
   const baseCatchRate =
     typeof baseCatchRateRaw === "string"
@@ -96,6 +112,7 @@ const CatchCalculatorPage = () => {
     targetLevel,
     turnsPassed,
     repeatBallCaptures,
+    isNightOrCave,
   });
 
   if (isLoading) {
@@ -117,7 +134,7 @@ const CatchCalculatorPage = () => {
         <p className="text-slate-400">Optimize your capture strategy.</p>
       </div>
 
-      <div className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-6 text-white lg:grid-cols-3">
+      <div className="mx-auto grid w-full max-w-400 grid-cols-1 gap-6 text-white lg:grid-cols-3">
         {/* --- COLUMN 1: TARGET POKEMON --- */}
         <div className="flex flex-col gap-6 rounded-2xl border border-white/5 bg-[#1a1b20] p-6 shadow-xl">
           <div className="flex items-center gap-2 border-b border-white/5 pb-2">
@@ -126,7 +143,7 @@ const CatchCalculatorPage = () => {
           </div>
 
           {/* Search */}
-          <div className="h-[5.5rem]">
+          <div className="h-22">
             <label className="mb-3 block text-sm font-bold text-slate-500">
               Search Pokémon
             </label>
@@ -180,7 +197,7 @@ const CatchCalculatorPage = () => {
 
           {/* Selected Preview */}
           {selectedPokemon && (
-            <div className="relative flex min-h-[200px] flex-grow flex-col items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#0f1014] p-6">
+            <div className="relative flex min-h-50 grow flex-col items-center justify-center overflow-hidden rounded-xl border border-white/5 bg-[#0f1014] p-6">
               <div
                 className="absolute inset-0 opacity-20 blur-xl transition-colors duration-500"
                 style={{ background: background }}
@@ -272,6 +289,33 @@ const CatchCalculatorPage = () => {
               Select Poké Ball
             </label>
             <BallSelector selectedBall={ballType} onSelect={setBallType} />
+
+            {/* Fast Ball Special Logic */}
+            {ballType === "Fast Ball" && (
+              <div className="animate-fade-in space-y-2 pt-2">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-500">
+                  <span>Base Speed</span>
+                  <span className="text-blue-400">
+                    {selectedPokemon?.baseStats.spe || 0}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs font-bold text-slate-500">
+                  <span>Multiplier</span>
+                  <span
+                    className={
+                      (selectedPokemon?.baseStats.spe || 0) >= 100
+                        ? "text-green-400"
+                        : "text-slate-400"
+                    }
+                  >
+                    {(selectedPokemon?.baseStats.spe || 0) >= 100 ? "4x" : "1x"}
+                  </span>
+                </div>
+                <p className="text-[10px] text-slate-500">
+                  4x rate if base Speed is 100 or more.
+                </p>
+              </div>
+            )}
 
             {/* Dream Ball Special Logic */}
             {ballType === "Dream Ball" && (
@@ -401,12 +445,42 @@ const CatchCalculatorPage = () => {
                 </div>
               </div>
             )}
+
+            {/* Dusk Ball Special Logic */}
+            {ballType === "Dusk Ball" && (
+              <div className="animate-fade-in space-y-2 pt-2">
+                <div className="flex items-center justify-between text-xs font-bold text-slate-500">
+                  <span>Environment</span>
+                  <span className="text-blue-400">
+                    {isNightOrCave ? "2.5x Rate" : "1x Rate"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-1">
+                  {[
+                    { label: "Day", value: false },
+                    { label: "Night/Cave", value: true },
+                  ].map((opt) => (
+                    <button
+                      key={opt.label}
+                      onClick={() => setIsNightOrCave(opt.value)}
+                      className={`rounded py-1.5 text-xs font-bold transition-all ${
+                        isNightOrCave === opt.value
+                          ? "bg-blue-600 text-white shadow-sm"
+                          : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+                      } `}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Result Display */}
           <div className="flex flex-1 flex-col justify-center">
             <div className="group relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-white/5 bg-[#0f1014] p-8 transition-colors hover:border-white/10">
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent to-green-500/10" />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-transparent to-green-500/10" />
 
               <span className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">
                 Probability
