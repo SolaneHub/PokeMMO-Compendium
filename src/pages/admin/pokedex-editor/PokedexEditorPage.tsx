@@ -1,4 +1,28 @@
-import { Plus, Save, Search, Trash2 } from "lucide-react";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  GripVertical,
+  Plus,
+  RefreshCw,
+  Save,
+  Search,
+  Trash2,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 import Button from "@/components/atoms/Button";
@@ -8,6 +32,7 @@ import { useToast } from "@/context/ToastContext";
 import {
   deletePokedexEntry,
   savePokedexEntry,
+  updatePokedexData,
 } from "@/firebase/firestoreService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import {
@@ -17,6 +42,11 @@ import {
   Pokemon,
   PokemonMove,
 } from "@/types/pokemon";
+
+// Extended interface for editor with temp IDs
+interface EditorMove extends PokemonMove {
+  tempId: string;
+}
 
 const INITIAL_POKEMON_STATE: Pokemon = {
   id: "",
@@ -43,6 +73,222 @@ const INITIAL_POKEMON_STATE: Pokemon = {
   dexId: "",
 };
 
+// Helper function to propagate moves from a base pokemon to its evolutions
+const propagateMovesToEvolutions = (
+  basePokemon: Pokemon,
+  allPokemon: Pokemon[],
+  visited: Set<string> = new Set()
+): Pokemon[] => {
+  const baseName = basePokemon.name.toLowerCase().trim();
+  if (!baseName || visited.has(baseName)) return [];
+  visited.add(baseName);
+
+  if (!basePokemon.evolutions || basePokemon.evolutions.length === 0) return [];
+
+  // Copy all move properties including level
+  const baseMoves = basePokemon.moves.map(({ name, ...rest }) => ({
+    name,
+    ...rest,
+  }));
+
+  const updates: Pokemon[] = [];
+
+  basePokemon.evolutions.forEach((evo) => {
+    // Find evolution in allPokemon list
+    const evoPokemon = allPokemon.find(
+      (p) => p.name.toLowerCase().trim() === evo.name.toLowerCase().trim()
+    );
+
+    if (evoPokemon) {
+      const evoName = evoPokemon.name.toLowerCase().trim();
+      // Avoid infinite loop if an evolution points back to a parent or itself
+      if (visited.has(evoName)) return;
+
+      const newMovesList: PokemonMove[] = [];
+      const evolutionExistingMoves = [...(evoPokemon.moves || [])];
+
+      // For each move in base pokemon, add to evolution's move list
+      baseMoves.forEach((bm) => {
+        const existingMoveInEvoIdx = evolutionExistingMoves.findIndex(
+          (m) => m.name.toLowerCase().trim() === bm.name.toLowerCase().trim()
+        );
+
+        if (existingMoveInEvoIdx !== -1) {
+          // Overwrite with base move data (including level) as requested
+          newMovesList.push({ ...bm });
+          // Remove from temporary list to track what's left
+          evolutionExistingMoves.splice(existingMoveInEvoIdx, 1);
+        } else {
+          // If it's a new move from base, add it with the base level
+          newMovesList.push({ ...bm });
+        }
+      });
+
+      // Add remaining moves that are unique to the evolution
+      newMovesList.push(...evolutionExistingMoves);
+
+      // Check if there was an actual change to avoid unnecessary updates
+      const isDifferent =
+        JSON.stringify(evoPokemon.moves) !== JSON.stringify(newMovesList);
+
+      const updatedEvo: Pokemon = { ...evoPokemon, moves: newMovesList };
+      if (isDifferent) {
+        updates.push(updatedEvo);
+      }
+
+      // Recursively propagate to the next levels of evolution
+      updates.push(
+        ...propagateMovesToEvolutions(updatedEvo, allPokemon, visited)
+      );
+    }
+  });
+
+  // Filter unique updates by ID
+  const uniqueUpdates: Record<string, Pokemon> = {};
+  updates.forEach((p) => {
+    if (p.id) uniqueUpdates[p.id.toString()] = p;
+  });
+
+  return Object.values(uniqueUpdates);
+};
+
+const SortableMoveItem = ({
+  move,
+  idx,
+  handleMoveNameChange,
+  removeMove,
+  setFormData,
+  masterMoves,
+}: {
+  move: EditorMove;
+  idx: number;
+  handleMoveNameChange: (idx: number, name: string) => void;
+  removeMove: (idx: number) => void;
+  setFormData: React.Dispatch<React.SetStateAction<Pokemon>>;
+  masterMoves: any[];
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: move.tempId });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : 0,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex items-center gap-2 rounded bg-slate-700/30 p-2"
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-grab p-1 text-slate-500 hover:text-slate-300"
+      >
+        <GripVertical size={16} />
+      </div>
+      <input
+        placeholder="Lvl"
+        className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+        value={move.level || ""}
+        onChange={(e) => {
+          setFormData((prev) => {
+            const newMoves = [...prev.moves];
+            newMoves[idx] = { ...newMoves[idx], level: e.target.value };
+            return { ...prev, moves: newMoves };
+          });
+        }}
+      />
+      <input
+        placeholder="Move Name"
+        className="min-w-30 flex-1 rounded bg-slate-700 p-1 text-sm text-white"
+        list="master-moves-list"
+        value={move.name}
+        onChange={(e) => handleMoveNameChange(idx, e.target.value)}
+      />
+      <input
+        placeholder="Type"
+        className="w-20 rounded bg-slate-700 p-1 text-sm text-white"
+        value={move.type || ""}
+        onChange={(e) => {
+          setFormData((prev) => {
+            const newMoves = [...prev.moves];
+            newMoves[idx] = { ...newMoves[idx], type: e.target.value };
+            return { ...prev, moves: newMoves };
+          });
+        }}
+      />
+      <select
+        className="w-24 rounded bg-slate-700 p-1 text-sm text-white outline-none focus:ring-1 focus:ring-blue-500"
+        value={move.category || ""}
+        onChange={(e) => {
+          setFormData((prev) => {
+            const newMoves = [...prev.moves];
+            newMoves[idx] = { ...newMoves[idx], category: e.target.value };
+            return { ...prev, moves: newMoves };
+          });
+        }}
+      >
+        <option value="">Category</option>
+        <option value="Physical">Physical</option>
+        <option value="Special">Special</option>
+        <option value="Status">Status</option>
+      </select>
+      <input
+        placeholder="Pwr"
+        className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+        value={move.power || ""}
+        onChange={(e) => {
+          setFormData((prev) => {
+            const newMoves = [...prev.moves];
+            newMoves[idx] = { ...newMoves[idx], power: e.target.value };
+            return { ...prev, moves: newMoves };
+          });
+        }}
+      />
+      <input
+        placeholder="PP"
+        className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+        value={move.pp || ""}
+        onChange={(e) => {
+          setFormData((prev) => {
+            const newMoves = [...prev.moves];
+            newMoves[idx] = { ...newMoves[idx], pp: e.target.value };
+            return { ...prev, moves: newMoves };
+          });
+        }}
+      />
+      <input
+        placeholder="Acc"
+        className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
+        value={move.accuracy || ""}
+        onChange={(e) => {
+          setFormData((prev) => {
+            const newMoves = [...prev.moves];
+            newMoves[idx] = { ...newMoves[idx], accuracy: e.target.value };
+            return { ...prev, moves: newMoves };
+          });
+        }}
+      />
+      <button
+        onClick={() => removeMove(idx)}
+        className="text-red-400 hover:text-red-300"
+      >
+        <Trash2 size={16} />
+      </button>
+    </div>
+  );
+};
+
 const PokedexEditorPage = () => {
   const { fullList, isLoading: pokedexLoading, refetch } = usePokedexData();
   const { moves: masterMoves, isLoading: movesLoading } = useMoves();
@@ -51,6 +297,17 @@ const PokedexEditorPage = () => {
   const [formData, setFormData] = useState<Pokemon>(INITIAL_POKEMON_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const showToast = useToast();
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   const isLoading = pokedexLoading || movesLoading;
 
@@ -103,7 +360,17 @@ const PokedexEditorPage = () => {
         ...(pokemonData.genderRatio || {}),
       };
       pokemonData.types = pokemonData.types || [];
-      pokemonData.moves = pokemonData.moves || [];
+
+      // Add temp IDs to moves for sorting
+      pokemonData.moves = (pokemonData.moves || []).map(
+        (m: any, i: number) => ({
+          ...m,
+          tempId:
+            m.tempId ||
+            `move-${i}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        })
+      );
+
       pokemonData.evolutions = pokemonData.evolutions || [];
       pokemonData.locations = pokemonData.locations || [];
       pokemonData.variants = pokemonData.variants || [];
@@ -176,7 +443,12 @@ const PokedexEditorPage = () => {
   };
 
   const addMove = () => {
-    const newMove: PokemonMove = { name: "", type: "", level: "" };
+    const newMove: EditorMove = {
+      name: "",
+      type: "",
+      level: "",
+      tempId: `new-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    };
     setFormData((prev) => ({
       ...prev,
       moves: [...(prev.moves || []), newMove],
@@ -211,6 +483,24 @@ const PokedexEditorPage = () => {
     setFormData((prev) => ({ ...prev, moves: newMoves }));
   };
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setFormData((prev) => {
+        const oldIndex = prev.moves.findIndex(
+          (m: any) => m.tempId === active.id
+        );
+        const newIndex = prev.moves.findIndex((m: any) => m.tempId === over.id);
+
+        return {
+          ...prev,
+          moves: arrayMove(prev.moves, oldIndex, newIndex),
+        };
+      });
+    }
+  };
+
   const addLocation = () => {
     const newLoc: Location = {
       region: "",
@@ -240,7 +530,11 @@ const PokedexEditorPage = () => {
 
     setIsSaving(true);
     try {
-      const dataToSave = { ...formData };
+      // Remove temp IDs before saving
+      const dataToSave = {
+        ...formData,
+        moves: formData.moves.map(({ tempId, ...rest }: any) => rest),
+      };
 
       // Convert heldItems array back to object if rates are detected in parentheses
       if (Array.isArray(dataToSave.heldItems)) {
@@ -262,6 +556,20 @@ const PokedexEditorPage = () => {
       }
 
       await savePokedexEntry(dataToSave);
+
+      // Sync moves to evolutions
+      const evolutionUpdates = propagateMovesToEvolutions(
+        dataToSave,
+        fullList || []
+      );
+      if (evolutionUpdates.length > 0) {
+        await updatePokedexData(evolutionUpdates);
+        showToast(
+          `Synced moves to ${evolutionUpdates.length} evolutions!`,
+          "info"
+        );
+      }
+
       showToast(`${formData.name} saved successfully!`, "success");
       refetch();
     } catch (error: unknown) {
@@ -271,6 +579,62 @@ const PokedexEditorPage = () => {
       setIsSaving(false);
     }
   };
+
+  const handleAlignAllEvolutions = async () => {
+    if (!fullList) return;
+    if (
+      !window.confirm(
+        "Are you sure you want to align moves for ALL evolutions in the Pokedex? This may take a while."
+      )
+    )
+      return;
+
+    setIsSaving(true);
+    try {
+      const allUpdates: Record<string, Pokemon> = {};
+
+      // We iterate through all pokemon and propagate moves
+      fullList.forEach((pokemon) => {
+        const updates = propagateMovesToEvolutions(pokemon, fullList);
+        updates.forEach((u) => {
+          if (u.id) allUpdates[u.id.toString()] = u;
+        });
+      });
+
+      const updateArray = Object.values(allUpdates);
+      if (updateArray.length > 0) {
+        await updatePokedexData(updateArray);
+        showToast(
+          `Aligned moves for ${updateArray.length} entries!`,
+          "success"
+        );
+        refetch();
+      } else {
+        showToast("All evolutions are already aligned!", "info");
+      }
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      showToast(`Error aligning: ${message}`, "error");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Robust check: Is this Pokemon an evolution of someone ELSE?
+  const currentName = formData.name.toLowerCase().trim();
+  const isEvolution =
+    !!currentName &&
+    (fullList || []).some((p) => {
+      const parentName = p.name.toLowerCase().trim();
+      // A Pokemon is NOT an evolution of ITSELF (avoid self-disabling)
+      if (parentName === currentName) return false;
+
+      return p.evolutions?.some(
+        (e) =>
+          e.name.toLowerCase().trim() === currentName &&
+          e.level?.toString().toLowerCase().trim() !== "base"
+      );
+    });
 
   const handleDelete = async () => {
     if (!selectedPokemon || !selectedPokemon.id) return;
@@ -302,6 +666,14 @@ const PokedexEditorPage = () => {
       <div className="mb-8 flex flex-col items-center justify-between gap-4 md:flex-row">
         <h1 className="text-3xl font-bold text-white">Pokedex Editor</h1>
         <div className="flex flex-wrap gap-4">
+          <Button
+            variant="secondary"
+            onClick={handleAlignAllEvolutions}
+            disabled={isSaving || isEvolution}
+            icon={RefreshCw}
+          >
+            Align Evolutions
+          </Button>
           <Button
             variant="secondary"
             onClick={() => {
@@ -687,90 +1059,31 @@ const PokedexEditorPage = () => {
                   <option key={m.id} value={m.name} />
                 ))}
               </datalist>
-              {formData.moves?.map((move, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-2 rounded bg-slate-700/30 p-2"
+
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={formData.moves.map((m: any) => m.tempId)}
+                  strategy={verticalListSortingStrategy}
                 >
-                  <input
-                    placeholder="Lvl"
-                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
-                    value={move.level || ""}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].level = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
-                  />
-                  <input
-                    placeholder="Move Name"
-                    className="min-w-30 flex-1 rounded bg-slate-700 p-1 text-sm text-white"
-                    list="master-moves-list"
-                    value={move.name}
-                    onChange={(e) => handleMoveNameChange(idx, e.target.value)}
-                  />
-                  <input
-                    placeholder="Type"
-                    className="w-20 rounded bg-slate-700 p-1 text-sm text-white"
-                    value={move.type || ""}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].type = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
-                  />
-                  <select
-                    className="w-24 rounded bg-slate-700 p-1 text-sm text-white outline-none focus:ring-1 focus:ring-blue-500"
-                    value={move.category || ""}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].category = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
-                  >
-                    <option value="">Category</option>
-                    <option value="Physical">Physical</option>
-                    <option value="Special">Special</option>
-                    <option value="Status">Status</option>
-                  </select>
-                  <input
-                    placeholder="Pwr"
-                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
-                    value={move.power || ""}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].power = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
-                  />
-                  <input
-                    placeholder="PP"
-                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
-                    value={move.pp || ""}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].pp = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
-                  />
-                  <input
-                    placeholder="Acc"
-                    className="w-12 rounded bg-slate-700 p-1 text-sm text-white"
-                    value={move.accuracy || ""}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].accuracy = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
-                  />
-                  <button
-                    onClick={() => removeMove(idx)}
-                    className="text-red-400 hover:text-red-300"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              ))}
+                  <div className="flex flex-col gap-2">
+                    {formData.moves?.map((move: any, idx) => (
+                      <SortableMoveItem
+                        key={move.tempId}
+                        move={move}
+                        idx={idx}
+                        handleMoveNameChange={handleMoveNameChange}
+                        removeMove={removeMove}
+                        setFormData={setFormData}
+                        masterMoves={masterMoves}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
             </div>
             <button
               onClick={addMove}
