@@ -3,13 +3,20 @@ import { useEffect, useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import PageTitle from "@/components/atoms/PageTitle";
+import { useMoves } from "@/context/MovesContext";
 import { useToast } from "@/context/ToastContext";
 import {
   deletePokedexEntry,
   savePokedexEntry,
 } from "@/firebase/firestoreService";
 import { usePokedexData } from "@/hooks/usePokedexData";
-import { BaseStats, Evolution, Location, Pokemon } from "@/types/pokemon";
+import {
+  BaseStats,
+  Evolution,
+  Location,
+  Pokemon,
+  PokemonMove,
+} from "@/types/pokemon";
 
 const INITIAL_POKEMON_STATE: Pokemon = {
   id: "",
@@ -37,12 +44,15 @@ const INITIAL_POKEMON_STATE: Pokemon = {
 };
 
 const PokedexEditorPage = () => {
-  const { fullList, isLoading, refetch } = usePokedexData();
+  const { fullList, isLoading: pokedexLoading, refetch } = usePokedexData();
+  const { moves: masterMoves, isLoading: movesLoading } = useMoves();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const [formData, setFormData] = useState<Pokemon>(INITIAL_POKEMON_STATE);
   const [isSaving, setIsSaving] = useState(false);
   const showToast = useToast();
+
+  const isLoading = pokedexLoading || movesLoading;
 
   useEffect(() => {
     if (selectedPokemon) {
@@ -166,7 +176,7 @@ const PokedexEditorPage = () => {
   };
 
   const addMove = () => {
-    const newMove = { name: "", type: "", level: "" };
+    const newMove: PokemonMove = { name: "", type: "", level: "" };
     setFormData((prev) => ({
       ...prev,
       moves: [...(prev.moves || []), newMove],
@@ -178,6 +188,27 @@ const PokedexEditorPage = () => {
       ...prev,
       moves: prev.moves.filter((_, i) => i !== index),
     }));
+  };
+
+  const handleMoveNameChange = (idx: number, name: string) => {
+    const newMoves = [...formData.moves];
+    const masterMove = masterMoves.find((m) => m.name === name);
+
+    if (masterMove) {
+      newMoves[idx] = {
+        ...newMoves[idx],
+        name: masterMove.name,
+        type: masterMove.type,
+        category: masterMove.category,
+        power: masterMove.power,
+        accuracy: masterMove.accuracy,
+        pp: masterMove.pp,
+      };
+    } else {
+      newMoves[idx].name = name;
+    }
+
+    setFormData((prev) => ({ ...prev, moves: newMoves }));
   };
 
   const addLocation = () => {
@@ -651,6 +682,11 @@ const PokedexEditorPage = () => {
           <div className="rounded-xl bg-slate-800 p-6 text-white shadow-xl">
             <h2 className="mb-4 text-xl font-bold">Moves</h2>
             <div className="flex flex-col gap-2">
+              <datalist id="master-moves-list">
+                {masterMoves.map((m) => (
+                  <option key={m.id} value={m.name} />
+                ))}
+              </datalist>
               {formData.moves?.map((move, idx) => (
                 <div
                   key={idx}
@@ -669,12 +705,9 @@ const PokedexEditorPage = () => {
                   <input
                     placeholder="Move Name"
                     className="min-w-30 flex-1 rounded bg-slate-700 p-1 text-sm text-white"
+                    list="master-moves-list"
                     value={move.name}
-                    onChange={(e) => {
-                      const newMoves = [...formData.moves];
-                      newMoves[idx].name = e.target.value;
-                      setFormData((prev) => ({ ...prev, moves: newMoves }));
-                    }}
+                    onChange={(e) => handleMoveNameChange(idx, e.target.value)}
                   />
                   <input
                     placeholder="Type"

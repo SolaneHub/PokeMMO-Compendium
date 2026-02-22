@@ -96,9 +96,15 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    match /trainer_rerun/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+        match /trainer_rerun/{document=**} {
+          allow read: if true;
+          allow write: if isAdmin();
+        }
+    
+        match /moves/{document=**} {
+          allow read: if true;
+          allow write: if isAdmin();
+        }
+      }
     }
-  }
-}
+    

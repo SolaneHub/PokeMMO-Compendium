@@ -1,4 +1,4 @@
-import { CheckCircle, Database, Trash2 } from "lucide-react";
+import { CheckCircle, Database, RefreshCw, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +7,11 @@ import ErrorBoundary from "@/components/atoms/ErrorBoundary";
 import AdminTeamList from "@/components/organisms/AdminTeamList";
 import PageLayout from "@/components/templates/PageLayout";
 import { useAuth } from "@/context/AuthContext";
-import { TeamStatus } from "@/firebase/firestoreService";
+import { useToast } from "@/context/ToastContext";
+import {
+  importMovesFromPokedex,
+  TeamStatus,
+} from "@/firebase/firestoreService";
 import { cleanupPokedexImages } from "@/utils/migrationUtils";
 
 const AdminDashboardPage = () => {
@@ -15,7 +19,9 @@ const AdminDashboardPage = () => {
   const [activeTab, setActiveTab] = useState<TeamStatus | "all" | "system">(
     "all"
   );
+  const [isImporting, setIsImporting] = useState(false);
   const navigate = useNavigate();
+  const showToast = useToast();
 
   const tabs: { id: TeamStatus | "all" | "system"; label: string }[] = [
     { id: "all", label: "All Teams" },
@@ -24,6 +30,26 @@ const AdminDashboardPage = () => {
     { id: "rejected", label: "Rejected" },
     { id: "system", label: "System" },
   ];
+
+  const handleImportMoves = async () => {
+    if (
+      !window.confirm(
+        "This will scan the Pokedex and add unique moves to the master list. Continue?"
+      )
+    )
+      return;
+
+    setIsImporting(true);
+    try {
+      const count = await importMovesFromPokedex();
+      showToast(`Import completed! ${count} moves synchronized.`, "success");
+    } catch (error) {
+      console.error(error);
+      showToast("Error importing moves.", "error");
+    } finally {
+      setIsImporting(false);
+    }
+  };
 
   if (authLoading) {
     return <div className="p-8 text-center text-white">Loading...</div>;
@@ -83,9 +109,41 @@ const AdminDashboardPage = () => {
 
                 <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
                   <div>
-                    <h4 className="font-bold text-red-400 text-white">
-                      Database Cleanup
-                    </h4>
+                    <h4 className="font-bold text-white">Move Editor</h4>
+                    <p className="text-sm text-slate-400">
+                      Manage Moves master list
+                    </p>
+                  </div>
+                  <Button
+                    onClick={() => navigate("/admin/move-editor")}
+                    variant="primary"
+                    size="sm"
+                  >
+                    Open
+                  </Button>
+                </div>
+
+                <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
+                  <div>
+                    <h4 className="font-bold text-white">Sync Moves</h4>
+                    <p className="text-sm text-slate-400">
+                      Extract moves from Pokedex to Master list
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleImportMoves}
+                    variant="secondary"
+                    size="sm"
+                    icon={RefreshCw}
+                    disabled={isImporting}
+                  >
+                    {isImporting ? "Syncing..." : "Sync Now"}
+                  </Button>
+                </div>
+
+                <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
+                  <div>
+                    <h4 className="font-bold text-white">Database Cleanup</h4>
                     <p className="text-sm text-slate-400">
                       Remove legacy image URLs from Pokedex
                     </p>

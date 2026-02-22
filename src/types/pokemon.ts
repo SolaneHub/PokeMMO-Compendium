@@ -25,6 +25,16 @@ export interface PokemonMove {
   level?: string | number;
 }
 
+export interface MoveMaster {
+  id?: string;
+  name: string;
+  type: string;
+  category: string;
+  power: number | string;
+  accuracy: number | string;
+  pp: number | string;
+}
+
 export interface Evolution {
   name: string;
   method?: string;

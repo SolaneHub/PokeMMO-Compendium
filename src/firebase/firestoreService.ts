@@ -22,7 +22,7 @@ import { z } from "zod";
 
 import { BossFight } from "../types/bossFights";
 import { PickupRegion } from "../types/pickup";
-import { Pokemon } from "../types/pokemon";
+import { MoveMaster, Pokemon } from "../types/pokemon";
 import { SuperTrainer } from "../types/superTrainers";
 import { TrainerRerunData } from "../types/trainerRerun";
 import { db } from "./config";
@@ -35,6 +35,7 @@ const SUPER_TRAINERS_COLLECTION = "super_trainers";
 const PICKUP_COLLECTION = "pickup";
 const BOSS_FIGHTS_COLLECTION = "boss_fights";
 const TRAINER_RERUN_COLLECTION = "trainer_rerun";
+const MOVES_COLLECTION = "moves";
 
 // Helper function to normalize doc IDs for Pokedex entries
 function getPokemonDocId(id: string | number) {
@@ -491,4 +492,82 @@ export async function getPublicApprovedTeams(options: PaginationOptions = {}) {
 export async function getAllApprovedTeams(): Promise<Team[]> {
   const result = await getPublicApprovedTeams();
   return result.teams;
+}
+
+/**
+ * Fetches all Moves from the master list.
+ */
+export async function getMoves(): Promise<MoveMaster[]> {
+  const movesRef = collection(db, MOVES_COLLECTION);
+  const q = query(movesRef, orderBy("name"));
+  const querySnapshot = await getDocs(q);
+  const moves: MoveMaster[] = [];
+  querySnapshot.forEach((doc) => {
+    moves.push({ id: doc.id, ...doc.data() } as MoveMaster);
+  });
+  return moves;
+}
+
+/**
+ * Saves a Move to the master list.
+ */
+export async function saveMove(move: MoveMaster) {
+  if (!move.name) throw new Error("Move name is required");
+  const docId = move.id || move.name.toLowerCase().replace(/\s+/g, "-");
+  const docRef = doc(db, MOVES_COLLECTION, docId);
+  const { id: _, ...dataToSave } = move;
+  await setDoc(docRef, dataToSave);
+}
+
+/**
+ * Deletes a Move from the master list.
+ */
+export async function deleteMove(id: string) {
+  const docRef = doc(db, MOVES_COLLECTION, id);
+  await deleteDoc(docRef);
+}
+
+/**
+ * Scans the entire Pokedex, extracts unique moves with their details,
+ * and saves them to the moves master list.
+ */
+export async function importMovesFromPokedex() {
+  const pokedex = await getPokedexData();
+  const movesMap = new Map<string, MoveMaster>();
+
+  pokedex.forEach((pokemon) => {
+    if (pokemon.moves) {
+      pokemon.moves.forEach((move) => {
+        if (move.name && !movesMap.has(move.name.toLowerCase())) {
+          // Create MoveMaster object from the move data in the Pokedex
+          const moveMaster: MoveMaster = {
+            name: move.name,
+            type: move.type || "",
+            category: move.category || "",
+            power: move.power || "",
+            accuracy: move.accuracy || "",
+            pp: move.pp || "",
+          };
+          movesMap.set(move.name.toLowerCase(), moveMaster);
+        }
+      });
+    }
+  });
+
+  const batch = writeBatch(db);
+  let count = 0;
+
+  movesMap.forEach((move) => {
+    const docId = move.name.toLowerCase().replace(/\s+/g, "-");
+    const docRef = doc(db, MOVES_COLLECTION, docId);
+    const { id: _, ...dataToSave } = move;
+    batch.set(docRef, dataToSave, { merge: true });
+    count++;
+  });
+
+  if (count > 0) {
+    await batch.commit();
+  }
+
+  return count;
 }
