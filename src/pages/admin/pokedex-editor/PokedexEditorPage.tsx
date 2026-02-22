@@ -557,24 +557,48 @@ const PokedexEditorPage = () => {
 
       await savePokedexEntry(dataToSave);
 
-      // Sync moves to evolutions
-      const evolutionUpdates = propagateMovesToEvolutions(
-        dataToSave,
-        fullList || []
-      );
-      if (evolutionUpdates.length > 0) {
-        await updatePokedexData(evolutionUpdates);
-        showToast(
-          `Synced moves to ${evolutionUpdates.length} evolutions!`,
-          "info"
-        );
-      }
-
       showToast(`${formData.name} saved successfully!`, "success");
       refetch();
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
       showToast(`Error saving: ${message}`, "error");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleSyncMovesToEvolutions = async () => {
+    if (!formData.name) {
+      showToast("Pokémon name is required!", "error");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      // Remove temp IDs before syncing
+      const dataToSync = {
+        ...formData,
+        moves: formData.moves.map(({ tempId, ...rest }: any) => rest),
+      };
+
+      const evolutionUpdates = propagateMovesToEvolutions(
+        dataToSync,
+        fullList || []
+      );
+
+      if (evolutionUpdates.length > 0) {
+        await updatePokedexData(evolutionUpdates);
+        showToast(
+          `Synced moves to ${evolutionUpdates.length} evolutions!`,
+          "success"
+        );
+        refetch();
+      } else {
+        showToast("No evolutions to sync or already up to date.", "info");
+      }
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      showToast(`Error syncing: ${message}`, "error");
     } finally {
       setIsSaving(false);
     }
@@ -668,11 +692,19 @@ const PokedexEditorPage = () => {
         <div className="flex flex-wrap gap-4">
           <Button
             variant="secondary"
+            onClick={handleSyncMovesToEvolutions}
+            disabled={isSaving || !selectedPokemon || isEvolution}
+            icon={RefreshCw}
+          >
+            Sync Evolutions
+          </Button>
+          <Button
+            variant="secondary"
             onClick={handleAlignAllEvolutions}
             disabled={isSaving || isEvolution}
             icon={RefreshCw}
           >
-            Align Evolutions
+            Align All
           </Button>
           <Button
             variant="secondary"
