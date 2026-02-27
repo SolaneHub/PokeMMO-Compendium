@@ -2,7 +2,6 @@ import { Pokemon } from "../types/pokemon";
 
 interface PokedexSummary {
   pokemonNames: string[];
-  moveNames: string[];
   abilityNames: string[];
   itemNames: string[];
   allPokemonData: { name: string; catchRate: string | number }[];
@@ -14,14 +13,12 @@ export const extractPokedexData = (
   if (!pokedexData)
     return {
       pokemonNames: [],
-      moveNames: [],
       abilityNames: [],
       itemNames: [],
       allPokemonData: [],
     };
 
   const pokemonNames = new Set<string>();
-  const moveNames = new Set<string>();
   const abilityNames = new Set<string>();
   const itemNames = new Set<string>();
   const pokemonCatchRates: { name: string; catchRate: string | number }[] = [];
@@ -43,13 +40,6 @@ export const extractPokedexData = (
       if (pokemon.abilities.hidden) {
         abilityNames.add(pokemon.abilities.hidden);
       }
-    }
-    if (pokemon.moves) {
-      pokemon.moves.forEach((move) => {
-        if (move?.name) {
-          moveNames.add(move.name);
-        }
-      });
     }
     if (pokemon.heldItems) {
       if (Array.isArray(pokemon.heldItems)) {
@@ -85,7 +75,6 @@ export const extractPokedexData = (
 
   return {
     pokemonNames: Array.from(pokemonNames).sort(),
-    moveNames: Array.from(moveNames).sort(),
     abilityNames: Array.from(abilityNames).sort(),
     itemNames: Array.from(itemNames).sort(),
     allPokemonData: pokemonCatchRates.sort((a, b) =>
