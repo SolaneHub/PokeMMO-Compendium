@@ -32,7 +32,9 @@ const PokemonSummary = ({
 }: PokemonSummaryProps) => {
   const [activeTab, setActiveTab] = useState("OVERVIEW");
   const { getPokemonDetails } = usePokedexContext();
-  const [fullPokemon, setFullPokemon] = useState<Pokemon | null>(initialPokemon);
+  const [fullPokemon, setFullPokemon] = useState<Pokemon | null>(
+    initialPokemon
+  );
   const [isFetchingFull, setIsFetchingFull] = useState(false);
 
   useEffect(() => {
@@ -147,7 +149,9 @@ const PokemonSummary = ({
             </div>
           ) : (
             <>
-              {activeTab === "OVERVIEW" && <PokemonOverview pokemon={pokemon} />}
+              {activeTab === "OVERVIEW" && (
+                <PokemonOverview pokemon={pokemon} />
+              )}
               {activeTab === "STATS" && (
                 <PokemonStats stats={pokemon.baseStats} defenses={defenses} />
               )}

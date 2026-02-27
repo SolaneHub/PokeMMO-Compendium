@@ -46,12 +46,20 @@ export async function getPokedexData(): Promise<Pokemon[]> {
 export async function getPokedexPaginated(
   pageSize: number,
   lastDoc?: QueryDocumentSnapshot<DocumentData>
-): Promise<{ data: Pokemon[]; lastDoc: QueryDocumentSnapshot<DocumentData> | null }> {
+): Promise<{
+  data: Pokemon[];
+  lastDoc: QueryDocumentSnapshot<DocumentData> | null;
+}> {
   const pokedexRef = collection(db, POKEDEX_COLLECTION);
   let q = query(pokedexRef, orderBy("dexId"), limit(pageSize));
 
   if (lastDoc) {
-    q = query(pokedexRef, orderBy("dexId"), startAfter(lastDoc), limit(pageSize));
+    q = query(
+      pokedexRef,
+      orderBy("dexId"),
+      startAfter(lastDoc),
+      limit(pageSize)
+    );
   }
 
   const querySnapshot = await getDocs(q);
@@ -64,7 +72,10 @@ export async function getPokedexPaginated(
 
   return {
     data: pokedex,
-    lastDoc: querySnapshot.docs.length > 0 ? querySnapshot.docs[querySnapshot.docs.length - 1] : null,
+    lastDoc:
+      querySnapshot.docs.length > 0
+        ? querySnapshot.docs[querySnapshot.docs.length - 1]
+        : null,
   };
 }
 
@@ -98,9 +109,15 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
 
   // Try to save summary for next time (might fail if not admin, but that's okay)
   try {
-    await setDoc(summaryRef, { pokemonList: summary, lastUpdated: new Date().toISOString() });
+    await setDoc(summaryRef, {
+      pokemonList: summary,
+      lastUpdated: new Date().toISOString(),
+    });
   } catch (e) {
-    console.warn("Failed to save pokedex summary metadata (ignore if not admin):", e);
+    console.warn(
+      "Failed to save pokedex summary metadata (ignore if not admin):",
+      e
+    );
   }
 
   return summary;
@@ -109,7 +126,9 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
 /**
  * Fetches a single Pokemon by ID.
  */
-export async function getPokemonById(id: string | number): Promise<Pokemon | null> {
+export async function getPokemonById(
+  id: string | number
+): Promise<Pokemon | null> {
   const docId = getPokemonDocId(id);
   const docRef = doc(db, POKEDEX_COLLECTION, docId);
   const docSnap = await getDoc(docRef);
@@ -138,7 +157,10 @@ export async function updatePokedexSummary(pokemonList: Pokemon[]) {
   }));
 
   const summaryRef = doc(db, POKEDEX_COLLECTION, POKEDEX_SUMMARY_DOC_ID);
-  await setDoc(summaryRef, { pokemonList: summary, lastUpdated: new Date().toISOString() });
+  await setDoc(summaryRef, {
+    pokemonList: summary,
+    lastUpdated: new Date().toISOString(),
+  });
 }
 
 /**

@@ -7,7 +7,10 @@ import {
   useState,
 } from "react";
 
-import { getPokedexSummary, getPokemonById } from "@/firebase/services/pokedexService";
+import {
+  getPokedexSummary,
+  getPokemonById,
+} from "@/firebase/services/pokedexService";
 import { Pokemon } from "@/types/pokemon";
 import { extractPokedexData } from "@/utils/pokedexDataExtraction";
 import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
@@ -44,7 +47,9 @@ interface PokedexProviderProps {
 
 export const PokedexProvider = ({ children }: PokedexProviderProps) => {
   const [data, setData] =
-    useState<Omit<PokedexContextType, "refetch" | "getPokemonDetails">>(initialEmptyState);
+    useState<Omit<PokedexContextType, "refetch" | "getPokemonDetails">>(
+      initialEmptyState
+    );
 
   const fetchData = useCallback(async (shouldSetLoading = true) => {
     // Only set loading if explicitly requested and not already loading
@@ -101,31 +106,37 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
   /**
    * Fetches full Pokemon details and caches them in the local map.
    */
-  const getPokemonDetails = useCallback(async (id: string | number) => {
-    const docId = id.toString();
-    const currentPokemon = data.pokemonMap.get(docId);
+  const getPokemonDetails = useCallback(
+    async (id: string | number) => {
+      const docId = id.toString();
+      const currentPokemon = data.pokemonMap.get(docId);
 
-    // If we already have the full data (e.g. moves or description exist)
-    if (currentPokemon && (currentPokemon.moves?.length > 0 || currentPokemon.description)) {
-      return currentPokemon;
-    }
-
-    try {
-      const fullData = await getPokemonById(id);
-      if (fullData) {
-        setData((prev) => {
-          const newMap = new Map(prev.pokemonMap);
-          newMap.set(fullData.name, fullData);
-          if (fullData.id) newMap.set(fullData.id.toString(), fullData);
-          return { ...prev, pokemonMap: newMap };
-        });
-        return fullData;
+      // If we already have the full data (e.g. moves or description exist)
+      if (
+        currentPokemon &&
+        (currentPokemon.moves?.length > 0 || currentPokemon.description)
+      ) {
+        return currentPokemon;
       }
-    } catch (err) {
-      console.error("Error fetching pokemon details:", err);
-    }
-    return null;
-  }, [data.pokemonMap]);
+
+      try {
+        const fullData = await getPokemonById(id);
+        if (fullData) {
+          setData((prev) => {
+            const newMap = new Map(prev.pokemonMap);
+            newMap.set(fullData.name, fullData);
+            if (fullData.id) newMap.set(fullData.id.toString(), fullData);
+            return { ...prev, pokemonMap: newMap };
+          });
+          return fullData;
+        }
+      } catch (err) {
+        console.error("Error fetching pokemon details:", err);
+      }
+      return null;
+    },
+    [data.pokemonMap]
+  );
 
   useEffect(() => {
     let isMounted = true;
