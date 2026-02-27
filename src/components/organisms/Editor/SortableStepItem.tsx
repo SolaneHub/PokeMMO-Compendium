@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 
-import { StrategyStep } from "@/firebase/firestoreService";
+import { StrategyStep } from "@/types/teams";
 
 import StepForm from "./StepForm";
 

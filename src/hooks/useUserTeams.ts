@@ -6,8 +6,8 @@ import {
   createUserTeam,
   deleteUserTeam,
   getUserTeams,
-  Team,
-} from "@/firebase/firestoreService";
+} from "@/firebase/services/teamsService";
+import { Team } from "@/types/teams";
 
 export function useUserTeams() {
   const { currentUser, loading: authLoading } = useAuth();

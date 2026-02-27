@@ -1,7 +1,6 @@
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-import { db } from "@/firebase/config";
+import { getPickupData } from "@/firebase/services/pickupService";
 import { PickupRegion } from "@/types/pickup";
 
 interface PickupData {
@@ -28,11 +27,7 @@ export const usePickupData = () => {
     let isMounted = true;
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "pickup"));
-        const regions = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        })) as PickupRegion[];
+        const regions = await getPickupData();
 
         regions.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
         const finalData = { regions, isLoading: false };

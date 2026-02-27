@@ -13,8 +13,8 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 
-import { StrategyStep, StrategyVariation } from "@/firebase/firestoreService";
 import { usePokedexData } from "@/hooks/usePokedexData";
+import { StrategyStep, StrategyVariation } from "@/types/teams";
 
 import { SortableNestedStepItem } from "./SortableNestedStepItem";
 

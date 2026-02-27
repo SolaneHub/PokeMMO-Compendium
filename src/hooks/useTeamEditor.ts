@@ -3,12 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
-import {
-  getUserTeams,
-  StrategyStep,
-  Team,
-  updateUserTeam,
-} from "@/firebase/firestoreService";
+import { getUserTeams, updateUserTeam } from "@/firebase/services/teamsService";
+import { StrategyStep, Team } from "@/types/teams";
 
 const ensureStepIds = (steps: StrategyStep[]): StrategyStep[] => {
   if (!Array.isArray(steps)) return [];

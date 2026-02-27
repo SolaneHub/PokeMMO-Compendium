@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import MoveColoredText from "@/components/molecules/MoveColoredText";
-import { StrategyStep, StrategyVariation } from "@/firebase/firestoreService";
+import { StrategyStep, StrategyVariation } from "@/types/teams";
 
 interface StrategyModalProps {
   currentPokemonObject: { name: string };

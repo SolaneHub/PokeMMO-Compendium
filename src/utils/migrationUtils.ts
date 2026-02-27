@@ -8,14 +8,12 @@ import {
   writeBatch,
 } from "firebase/firestore";
 
-import { db } from "../firebase/config";
-import {
-  updateBossFightsCollection,
-  updateTrainerRerun,
-} from "../firebase/firestoreService";
-import { BossFight } from "../types/bossFights";
-import { Pokemon } from "../types/pokemon";
-import { TrainerRerunData } from "../types/trainerRerun";
+import { db } from "@/firebase/config";
+import { updateBossFightsCollection } from "@/firebase/services/bossFightsService";
+import { updateTrainerRerun } from "@/firebase/services/trainerRerunService";
+import { BossFight } from "@/types/bossFights";
+import { Pokemon } from "@/types/pokemon";
+import { TrainerRerunData } from "@/types/trainerRerun";
 
 /**
  * Verifies the number of Pokedex documents in Firestore.

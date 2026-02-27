@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getTrainerRerun } from "@/firebase/firestoreService";
+import { getTrainerRerun } from "@/firebase/services/trainerRerunService";
 import { TrainerRerunData } from "@/types/trainerRerun";
 
 interface TrainerRerunState {
