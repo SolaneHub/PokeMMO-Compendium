@@ -15,7 +15,7 @@ import {
 import { Plus, Sword } from "lucide-react";
 
 import Button from "@/components/atoms/Button";
-import { StrategyStep } from "@/firebase/firestoreService";
+import { StrategyStep } from "@/types/teams";
 
 import { SortableStepItem } from "./SortableStepItem";
 

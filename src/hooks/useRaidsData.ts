@@ -1,7 +1,6 @@
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-import { db } from "@/firebase/config";
+import { getRaidsData } from "@/firebase/services/raidsService";
 import { Raid } from "@/types/raids";
 
 export type { Raid };
@@ -37,8 +36,7 @@ export const useRaidsData = () => {
     let isMounted = true;
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "raids"));
-        const rawData = querySnapshot.docs.map((doc) => doc.data()) as Raid[];
+        const rawData = await getRaidsData();
         rawData.sort((a, b) => {
           if (a.stars !== b.stars) return a.stars - b.stars;
           return a.name.localeCompare(b.name);

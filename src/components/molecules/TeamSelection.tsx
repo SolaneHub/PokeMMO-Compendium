@@ -1,4 +1,4 @@
-import { Team } from "@/firebase/firestoreService";
+import { Team } from "@/types/teams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 interface TeamSelectionProps {

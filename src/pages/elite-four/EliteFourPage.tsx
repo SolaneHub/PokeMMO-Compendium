@@ -9,8 +9,7 @@ import RegionSelection from "@/components/organisms/RegionSelection";
 import StrategyModal from "@/components/organisms/StrategyModal";
 import TeamBuildModal from "@/components/organisms/TeamBuildModal";
 import PageLayout from "@/components/templates/PageLayout";
-import { StrategyStep, TeamMember } from "@/firebase/firestoreService";
-import { getAllApprovedTeams, Team } from "@/firebase/firestoreService";
+import { getAllApprovedTeams } from "@/firebase/services/teamsService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import { getMembersByRegion } from "@/services/eliteFourService";
@@ -19,6 +18,7 @@ import {
   getPokemonByName,
 } from "@/services/pokemonService";
 import { Pokemon } from "@/types/pokemon";
+import { StrategyStep, Team, TeamMember } from "@/types/teams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
 

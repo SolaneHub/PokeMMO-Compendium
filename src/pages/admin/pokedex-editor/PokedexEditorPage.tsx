@@ -33,7 +33,7 @@ import {
   deletePokedexEntry,
   savePokedexEntry,
   updatePokedexData,
-} from "@/firebase/firestoreService";
+} from "@/firebase/services/pokedexService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import {
   BaseStats,

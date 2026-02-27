@@ -1,5 +1,6 @@
-import { StrategyStep } from "@/firebase/firestoreService";
 import { PokemonType } from "@/utils/pokemonColors";
+
+import { StrategyStep } from "./teams";
 
 export interface SuperTrainerTeam {
   pokemonNames: string[];
