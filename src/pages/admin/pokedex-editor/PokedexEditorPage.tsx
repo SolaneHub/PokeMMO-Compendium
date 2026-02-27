@@ -565,10 +565,10 @@ const PokedexEditorPage = () => {
       }
 
       await savePokedexEntry(dataToSave);
-      
+
       // Update summary metadata
       const newFullList = [...(fullList || [])];
-      const idx = newFullList.findIndex(p => p.id === dataToSave.id);
+      const idx = newFullList.findIndex((p) => p.id === dataToSave.id);
       if (idx !== -1) {
         newFullList[idx] = dataToSave;
       } else {
@@ -609,15 +609,15 @@ const PokedexEditorPage = () => {
 
       if (evolutionUpdates.length > 0) {
         await updatePokedexData(evolutionUpdates);
-        
+
         // Update summary metadata for all affected pokemon
         const newFullList = [...(fullList || [])];
-        evolutionUpdates.forEach(update => {
-          const idx = newFullList.findIndex(p => p.id === update.id);
+        evolutionUpdates.forEach((update) => {
+          const idx = newFullList.findIndex((p) => p.id === update.id);
           if (idx !== -1) newFullList[idx] = { ...newFullList[idx], ...update };
         });
         await updatePokedexSummary(newFullList);
-        
+
         showToast(
           `Synced moves to ${evolutionUpdates.length} evolutions!`,
           "success"
@@ -658,12 +658,12 @@ const PokedexEditorPage = () => {
       const updateArray = Object.values(allUpdates);
       if (updateArray.length > 0) {
         await updatePokedexData(updateArray);
-        
+
         // Update summary metadata
         const newFullList = [...(fullList || [])];
-        updateArray.forEach(update => {
-           const idx = newFullList.findIndex(p => p.id === update.id);
-           if (idx !== -1) newFullList[idx] = { ...newFullList[idx], ...update };
+        updateArray.forEach((update) => {
+          const idx = newFullList.findIndex((p) => p.id === update.id);
+          if (idx !== -1) newFullList[idx] = { ...newFullList[idx], ...update };
         });
         await updatePokedexSummary(newFullList);
 
@@ -711,9 +711,11 @@ const PokedexEditorPage = () => {
     setIsSaving(true);
     try {
       await deletePokedexEntry(selectedPokemon.id);
-      
+
       // Update summary metadata
-      const newFullList = (fullList || []).filter(p => p.id !== selectedPokemon.id);
+      const newFullList = (fullList || []).filter(
+        (p) => p.id !== selectedPokemon.id
+      );
       await updatePokedexSummary(newFullList);
 
       showToast("Pokémon deleted!", "info");
@@ -820,7 +822,7 @@ const PokedexEditorPage = () => {
                       selectedPokemon?.id === p.id
                         ? "bg-blue-600"
                         : "bg-slate-700/50 hover:bg-slate-700"
-                    } ${isFetchingFull ? "opacity-50 cursor-wait" : ""}`}
+                    } ${isFetchingFull ? "cursor-wait opacity-50" : ""}`}
                     onClick={() => handleSelectPokemon(p)}
                   >
                     <span className="font-mono text-[10px] opacity-50">
