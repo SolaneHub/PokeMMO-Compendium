@@ -2,6 +2,7 @@ import { Save, Search, X } from "lucide-react";
 import React, { useState } from "react";
 
 import Button from "@/components/atoms/Button";
+import { useMoves } from "@/context/MovesContext";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { getPokemonIdByName } from "@/utils/pokedexDataExtraction";
 
@@ -60,10 +61,11 @@ const PokemonEditorModal = ({
   const {
     pokemonNames: allPokemonNames = [],
     itemNames: allItems = [],
-    moveNames: allMoves = [],
     abilityNames: allAbilities = [],
     allPokemonData,
   } = usePokedexData();
+  const { moves: masterMoves } = useMoves();
+  const allMoves = masterMoves.map((m) => m.name).sort();
   const allNatures = NATURES;
 
   const getInitialFormData = (

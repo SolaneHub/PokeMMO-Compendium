@@ -28,11 +28,13 @@ import { useEffect, useState } from "react";
 import Button from "@/components/atoms/Button";
 import PageTitle from "@/components/atoms/PageTitle";
 import { useMoves } from "@/context/MovesContext";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { useToast } from "@/context/ToastContext";
 import {
   deletePokedexEntry,
   savePokedexEntry,
   updatePokedexData,
+  updatePokedexSummary,
 } from "@/firebase/services/pokedexService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import {
@@ -292,11 +294,13 @@ const SortableMoveItem = ({
 
 const PokedexEditorPage = () => {
   const { fullList, isLoading: pokedexLoading, refetch } = usePokedexData();
+  const { getPokemonDetails } = usePokedexContext();
   const { moves: masterMoves, isLoading: movesLoading } = useMoves();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const [formData, setFormData] = useState<Pokemon>(INITIAL_POKEMON_STATE);
   const [isSaving, setIsSaving] = useState(false);
+  const [isFetchingFull, setIsFetchingFull] = useState(false);
   const showToast = useToast();
 
   const sensors = useSensors(
@@ -310,7 +314,7 @@ const PokedexEditorPage = () => {
     })
   );
 
-  const isLoading = pokedexLoading || movesLoading;
+  const isLoading = pokedexLoading || movesLoading || isFetchingFull;
 
   useEffect(() => {
     if (selectedPokemon) {
@@ -562,6 +566,16 @@ const PokedexEditorPage = () => {
 
       await savePokedexEntry(dataToSave);
 
+      // Update summary metadata
+      const newFullList = [...(fullList || [])];
+      const idx = newFullList.findIndex((p) => p.id === dataToSave.id);
+      if (idx !== -1) {
+        newFullList[idx] = dataToSave;
+      } else {
+        newFullList.push(dataToSave);
+      }
+      await updatePokedexSummary(newFullList);
+
       showToast(`${formData.name} saved successfully!`, "success");
       refetch();
     } catch (error: unknown) {
@@ -595,6 +609,15 @@ const PokedexEditorPage = () => {
 
       if (evolutionUpdates.length > 0) {
         await updatePokedexData(evolutionUpdates);
+
+        // Update summary metadata for all affected pokemon
+        const newFullList = [...(fullList || [])];
+        evolutionUpdates.forEach((update) => {
+          const idx = newFullList.findIndex((p) => p.id === update.id);
+          if (idx !== -1) newFullList[idx] = { ...newFullList[idx], ...update };
+        });
+        await updatePokedexSummary(newFullList);
+
         showToast(
           `Synced moves to ${evolutionUpdates.length} evolutions!`,
           "success"
@@ -635,6 +658,15 @@ const PokedexEditorPage = () => {
       const updateArray = Object.values(allUpdates);
       if (updateArray.length > 0) {
         await updatePokedexData(updateArray);
+
+        // Update summary metadata
+        const newFullList = [...(fullList || [])];
+        updateArray.forEach((update) => {
+          const idx = newFullList.findIndex((p) => p.id === update.id);
+          if (idx !== -1) newFullList[idx] = { ...newFullList[idx], ...update };
+        });
+        await updatePokedexSummary(newFullList);
+
         showToast(
           `Aligned moves for ${updateArray.length} entries!`,
           "success"
@@ -679,6 +711,13 @@ const PokedexEditorPage = () => {
     setIsSaving(true);
     try {
       await deletePokedexEntry(selectedPokemon.id);
+
+      // Update summary metadata
+      const newFullList = (fullList || []).filter(
+        (p) => p.id !== selectedPokemon.id
+      );
+      await updatePokedexSummary(newFullList);
+
       showToast("Pokémon deleted!", "info");
       setSelectedPokemon(null);
       refetch();
@@ -687,6 +726,20 @@ const PokedexEditorPage = () => {
       showToast(`Error deleting: ${message}`, "error");
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleSelectPokemon = async (p: Pokemon) => {
+    if (!p.id) return;
+    setIsFetchingFull(true);
+    try {
+      const fullData = await getPokemonDetails(p.id);
+      setSelectedPokemon(fullData || p);
+    } catch (error) {
+      console.error("Error selecting pokemon:", error);
+      setSelectedPokemon(p);
+    } finally {
+      setIsFetchingFull(false);
     }
   };
 
@@ -764,12 +817,13 @@ const PokedexEditorPage = () => {
                 filteredList.map((p) => (
                   <button
                     key={p.id}
+                    disabled={isFetchingFull}
                     className={`mb-1 w-full rounded px-3 py-2 text-left text-white transition-colors ${
                       selectedPokemon?.id === p.id
                         ? "bg-blue-600"
                         : "bg-slate-700/50 hover:bg-slate-700"
-                    }`}
-                    onClick={() => setSelectedPokemon(p)}
+                    } ${isFetchingFull ? "cursor-wait opacity-50" : ""}`}
+                    onClick={() => handleSelectPokemon(p)}
                   >
                     <span className="font-mono text-[10px] opacity-50">
                       {p.id}

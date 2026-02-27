@@ -1,0 +1,39 @@
+# Dependencies and Build Artifacts
+node_modules/
+dist/
+build/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Version Control
+.git/
+
+# Sensitive Information
+.env
+.env.*
+serviceAccountKey.json
+make-admin.js
+
+# Logs and Caches
+*.log
+.vite/
+.eslintcache
+.npmrc
+
+# Firebase Metadata
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# System and IDE Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.sln
+
+# Large Assets (Optional: add if they cause context bloat)
+# public/trainers/
