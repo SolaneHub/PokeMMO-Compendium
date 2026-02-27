@@ -8,10 +8,8 @@ import AdminTeamList from "@/components/organisms/AdminTeamList";
 import PageLayout from "@/components/templates/PageLayout";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
-import {
-  importMovesFromPokedex,
-  TeamStatus,
-} from "@/firebase/firestoreService";
+import { importMovesFromPokedex } from "@/firebase/services/movesService";
+import { TeamStatus } from "@/types/teams";
 import { cleanupPokedexImages } from "@/utils/migrationUtils";
 
 const AdminDashboardPage = () => {

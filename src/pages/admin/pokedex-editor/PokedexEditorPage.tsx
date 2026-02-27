@@ -33,12 +33,13 @@ import {
   deletePokedexEntry,
   savePokedexEntry,
   updatePokedexData,
-} from "@/firebase/firestoreService";
+} from "@/firebase/services/pokedexService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import {
   BaseStats,
   Evolution,
   Location,
+  MoveMaster,
   Pokemon,
   PokemonMove,
 } from "@/types/pokemon";
@@ -165,7 +166,7 @@ const SortableMoveItem = ({
   handleMoveNameChange: (idx: number, name: string) => void;
   removeMove: (idx: number) => void;
   setFormData: React.Dispatch<React.SetStateAction<Pokemon>>;
-  masterMoves: any[];
+  masterMoves: MoveMaster[];
 }) => {
   const {
     attributes,
@@ -363,10 +364,10 @@ const PokedexEditorPage = () => {
 
       // Add temp IDs to moves for sorting
       pokemonData.moves = (pokemonData.moves || []).map(
-        (m: any, i: number) => ({
+        (m: PokemonMove, i: number) => ({
           ...m,
           tempId:
-            m.tempId ||
+            (m as EditorMove).tempId ||
             `move-${i}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         })
       );
@@ -488,10 +489,12 @@ const PokedexEditorPage = () => {
 
     if (over && active.id !== over.id) {
       setFormData((prev) => {
-        const oldIndex = prev.moves.findIndex(
-          (m: any) => m.tempId === active.id
+        const oldIndex = (prev.moves as EditorMove[]).findIndex(
+          (m) => m.tempId === active.id
         );
-        const newIndex = prev.moves.findIndex((m: any) => m.tempId === over.id);
+        const newIndex = (prev.moves as EditorMove[]).findIndex(
+          (m) => m.tempId === over.id
+        );
 
         return {
           ...prev,
@@ -533,7 +536,9 @@ const PokedexEditorPage = () => {
       // Remove temp IDs before saving
       const dataToSave = {
         ...formData,
-        moves: formData.moves.map(({ tempId, ...rest }: any) => rest),
+        moves: (formData.moves as EditorMove[]).map(
+          ({ tempId: _, ...rest }) => rest
+        ),
       };
 
       // Convert heldItems array back to object if rates are detected in parentheses
@@ -578,7 +583,9 @@ const PokedexEditorPage = () => {
       // Remove temp IDs before syncing
       const dataToSync = {
         ...formData,
-        moves: formData.moves.map(({ tempId, ...rest }: any) => rest),
+        moves: (formData.moves as EditorMove[]).map(
+          ({ tempId: _, ...rest }) => rest
+        ),
       };
 
       const evolutionUpdates = propagateMovesToEvolutions(
@@ -1098,11 +1105,11 @@ const PokedexEditorPage = () => {
                 onDragEnd={handleDragEnd}
               >
                 <SortableContext
-                  items={formData.moves.map((m: any) => m.tempId)}
+                  items={(formData.moves as EditorMove[]).map((m) => m.tempId)}
                   strategy={verticalListSortingStrategy}
                 >
                   <div className="flex flex-col gap-2">
-                    {formData.moves?.map((move: any, idx) => (
+                    {(formData.moves as EditorMove[]).map((move, idx) => (
                       <SortableMoveItem
                         key={move.tempId}
                         move={move}

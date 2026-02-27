@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import { getMoves } from "@/firebase/firestoreService";
+import { getMoves } from "@/firebase/services/movesService";
 import { MoveMaster } from "@/types/pokemon";
 
 interface MovesContextType {

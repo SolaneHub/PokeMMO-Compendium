@@ -11,10 +11,9 @@ import {
   deleteUserTeam,
   getAllUserTeams,
   getTeamsByStatus,
-  Team,
-  TeamStatus,
   updateTeamStatus,
-} from "@/firebase/firestoreService";
+} from "@/firebase/services/teamsService";
+import { Team, TeamStatus } from "@/types/teams";
 
 interface AdminTeamListProps {
   status: TeamStatus | "all";

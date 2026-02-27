@@ -1,8 +1,8 @@
 import { AlertTriangle, GitBranch, X } from "lucide-react";
 import { useState } from "react";
 
-import { StrategyStep, StrategyVariation } from "@/firebase/firestoreService";
 import { usePokedexData } from "@/hooks/usePokedexData";
+import { StrategyStep, StrategyVariation } from "@/types/teams";
 
 import VariationForm from "./VariationForm";
 

@@ -25,12 +25,13 @@
 - **`src/services/`**: API and data services.
 - **`src/utils/`**: Helper functions and utilities.
 - **`src/constants/`**: Application constants.
-- **`src/firebase/`**: Firebase configuration and `firestoreService.ts` (DAL).
+- **`src/firebase/`**: Firebase configuration and domain-specific services.
+- **`src/firebase/services/`**: Split services for Firestore operations (Teams, Pokedex, Moves, etc.).
 
 ## Key Files
 
 - **`src/app/App.tsx`**: Main application component containing the Routing logic.
-- **`src/firebase/firestoreService.ts`**: Centralized service for all Firestore operations (CRUD for Teams, Pokedex, Boss Fights, etc.).
+- **`src/firebase/services/`**: Collection of domain-specific Firestore services.
 - **`package.json`**: Dependencies and scripts.
 - **`vite.config.ts`**: Vite configuration (includes path aliases and base URL handling).
 
@@ -59,6 +60,6 @@
 - **Path Aliases:** Use `@/` to refer to the `src/` directory (configured in `vite.config.ts`).
 - **Styling:** Use Tailwind CSS utility classes.
 - **Data Handling:**
-  - **Game & User Data:** Stored in Firebase Firestore. Accessed via `src/firebase/firestoreService.ts`.
+  - **Game & User Data:** Stored in Firebase Firestore. Accessed via domain-specific services in `src/firebase/services/`.
 - **Routing:** All routes are defined in `App.tsx`. Protected routes are wrapped in `<ProtectedRoute>`.
 - **Component Structure:** Feature-based folder structure is preferred (`src/pages/<feature>/components`).

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { getBossFights } from "@/firebase/firestoreService";
+import { getBossFights } from "@/firebase/services/bossFightsService";
 import { BossFight } from "@/types/bossFights";
 
 interface BossFightsData {
