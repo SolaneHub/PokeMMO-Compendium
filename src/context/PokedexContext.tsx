@@ -7,14 +7,16 @@ import {
   useState,
 } from "react";
 
-import { getPokedexData } from "@/firebase/services/pokedexService";
+import {
+  getPokedexSummary,
+  getPokemonById,
+} from "@/firebase/services/pokedexService";
 import { Pokemon } from "@/types/pokemon";
 import { extractPokedexData } from "@/utils/pokedexDataExtraction";
 import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
 
 interface PokedexContextType {
   pokemonNames: string[];
-  moveNames: string[];
   abilityNames: string[];
   itemNames: string[];
   allPokemonData: Pokemon[];
@@ -23,13 +25,13 @@ interface PokedexContextType {
   isLoading: boolean;
   fullList: Pokemon[];
   refetch: (shouldSetLoading?: boolean) => Promise<void>;
+  getPokemonDetails: (id: string | number) => Promise<Pokemon | null>;
 }
 
 const PokedexContext = createContext<PokedexContextType | undefined>(undefined);
 
 const initialEmptyState = {
   pokemonNames: [],
-  moveNames: [],
   abilityNames: [],
   itemNames: [],
   allPokemonData: [],
@@ -45,7 +47,9 @@ interface PokedexProviderProps {
 
 export const PokedexProvider = ({ children }: PokedexProviderProps) => {
   const [data, setData] =
-    useState<Omit<PokedexContextType, "refetch">>(initialEmptyState);
+    useState<Omit<PokedexContextType, "refetch" | "getPokemonDetails">>(
+      initialEmptyState
+    );
 
   const fetchData = useCallback(async (shouldSetLoading = true) => {
     // Only set loading if explicitly requested and not already loading
@@ -54,7 +58,8 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
     }
 
     try {
-      const rawData = await getPokedexData();
+      // Use getPokedexSummary instead of fetching everything
+      const rawData = await getPokedexSummary();
 
       rawData.sort((a, b) => {
         const idA =
@@ -98,6 +103,41 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
     }
   }, []);
 
+  /**
+   * Fetches full Pokemon details and caches them in the local map.
+   */
+  const getPokemonDetails = useCallback(
+    async (id: string | number) => {
+      const docId = id.toString();
+      const currentPokemon = data.pokemonMap.get(docId);
+
+      // If we already have the full data (e.g. moves or description exist)
+      if (
+        currentPokemon &&
+        (currentPokemon.moves?.length > 0 || currentPokemon.description)
+      ) {
+        return currentPokemon;
+      }
+
+      try {
+        const fullData = await getPokemonById(id);
+        if (fullData) {
+          setData((prev) => {
+            const newMap = new Map(prev.pokemonMap);
+            newMap.set(fullData.name, fullData);
+            if (fullData.id) newMap.set(fullData.id.toString(), fullData);
+            return { ...prev, pokemonMap: newMap };
+          });
+          return fullData;
+        }
+      } catch (err) {
+        console.error("Error fetching pokemon details:", err);
+      }
+      return null;
+    },
+    [data.pokemonMap]
+  );
+
   useEffect(() => {
     let isMounted = true;
 
@@ -117,6 +157,7 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
   const value: PokedexContextType = {
     ...data,
     refetch: fetchData,
+    getPokemonDetails,
   };
 
   return (
