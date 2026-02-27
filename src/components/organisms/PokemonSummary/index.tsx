@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import TypeBadge from "@/components/atoms/TypeBadge";
 import Tabs from "@/components/molecules/Tabs";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { Pokemon } from "@/types/pokemon";
 import {
   getPokemonBackground,
@@ -24,12 +25,15 @@ interface PokemonSummaryProps {
 }
 
 const PokemonSummary = ({
-  pokemon,
+  pokemon: initialPokemon,
   allPokemon,
   onClose,
   onSelectPokemon,
 }: PokemonSummaryProps) => {
   const [activeTab, setActiveTab] = useState("OVERVIEW");
+  const { getPokemonDetails } = usePokedexContext();
+  const [fullPokemon, setFullPokemon] = useState<Pokemon | null>(initialPokemon);
+  const [isFetchingFull, setIsFetchingFull] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -38,7 +42,31 @@ const PokemonSummary = ({
     };
   }, []);
 
-  if (!pokemon) return null;
+  useEffect(() => {
+    const fetchFullData = async () => {
+      if (!initialPokemon || !initialPokemon.id) return;
+
+      // Check if we already have full data (moves or description)
+      if (initialPokemon.moves && initialPokemon.moves.length > 0) {
+        setFullPokemon(initialPokemon);
+        return;
+      }
+
+      setIsFetchingFull(true);
+      const details = await getPokemonDetails(initialPokemon.id);
+      if (details) {
+        setFullPokemon(details);
+      }
+      setIsFetchingFull(false);
+    };
+
+    fetchFullData();
+  }, [initialPokemon, getPokemonDetails]);
+
+  if (!initialPokemon) return null;
+
+  // Use fullPokemon if available, otherwise fallback to initialPokemon (summary)
+  const pokemon = fullPokemon || initialPokemon;
 
   const background = getPokemonBackground(pokemon);
   const cardData = getPokemonCardData(pokemon);
@@ -112,21 +140,30 @@ const PokemonSummary = ({
 
         {/* Tab Content */}
         <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto bg-[#1a1b20] p-5">
-          {activeTab === "OVERVIEW" && <PokemonOverview pokemon={pokemon} />}
-          {activeTab === "STATS" && (
-            <PokemonStats stats={pokemon.baseStats} defenses={defenses} />
-          )}
-          {activeTab === "MOVES" && <PokemonMoves moves={pokemon.moves} />}
-          {activeTab === "LOCATIONS" && (
-            <PokemonLocations locations={pokemon.locations} />
-          )}
-          {activeTab === "EVOLUTIONS" && (
-            <PokemonEvolutions
-              pokemon={pokemon}
-              allPokemon={allPokemon}
-              onSelectPokemon={onSelectPokemon}
-              variants={variants}
-            />
+          {isFetchingFull && activeTab !== "OVERVIEW" ? (
+            <div className="flex h-40 items-center justify-center text-slate-400">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-blue-500"></div>
+              <p className="ml-3">Fetching details...</p>
+            </div>
+          ) : (
+            <>
+              {activeTab === "OVERVIEW" && <PokemonOverview pokemon={pokemon} />}
+              {activeTab === "STATS" && (
+                <PokemonStats stats={pokemon.baseStats} defenses={defenses} />
+              )}
+              {activeTab === "MOVES" && <PokemonMoves moves={pokemon.moves} />}
+              {activeTab === "LOCATIONS" && (
+                <PokemonLocations locations={pokemon.locations} />
+              )}
+              {activeTab === "EVOLUTIONS" && (
+                <PokemonEvolutions
+                  pokemon={pokemon}
+                  allPokemon={allPokemon}
+                  onSelectPokemon={onSelectPokemon}
+                  variants={variants}
+                />
+              )}
+            </>
           )}
         </div>
       </div>
