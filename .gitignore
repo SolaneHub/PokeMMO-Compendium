@@ -46,15 +46,3 @@ src/docs/
 # System files
 .DS_Store
 Thumbs.db
-
-# Deployment
-gh-pages/
-
-# Gemini CLI Context
-.gemini/*
-!.gemini/.gitkeep
-!.gemini/GEMINI.md
-
-# Sensitive files
-serviceAccountKey.json
-make-admin.js

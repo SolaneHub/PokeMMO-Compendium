@@ -11,7 +11,10 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
-import { getPokemonDocId, POKEDEX_COLLECTION } from "@/firebase/services/common";
+import {
+  getPokemonDocId,
+  POKEDEX_COLLECTION,
+} from "@/firebase/services/common";
 import { Pokemon } from "@/types/pokemon";
 
 /**
