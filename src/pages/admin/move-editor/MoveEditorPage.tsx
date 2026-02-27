@@ -5,7 +5,7 @@ import Button from "@/components/atoms/Button";
 import PageTitle from "@/components/atoms/PageTitle";
 import { useMoves } from "@/context/MovesContext";
 import { useToast } from "@/context/ToastContext";
-import { deleteMove, saveMove } from "@/firebase/firestoreService";
+import { deleteMove, saveMove } from "@/firebase/services/movesService";
 import { MoveMaster } from "@/types/pokemon";
 
 const INITIAL_MOVE_STATE: MoveMaster = {

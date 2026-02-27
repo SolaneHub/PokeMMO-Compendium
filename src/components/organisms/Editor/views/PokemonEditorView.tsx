@@ -2,8 +2,8 @@ import { Save, Search } from "lucide-react";
 import React, { memo, useState } from "react";
 
 import Button from "@/components/atoms/Button";
-import { TeamMember } from "@/firebase/firestoreService";
 import { usePokedexData } from "@/hooks/usePokedexData";
+import { TeamMember } from "@/types/teams";
 import { getPokemonIdByName } from "@/utils/pokedexDataExtraction";
 
 const NATURES = [

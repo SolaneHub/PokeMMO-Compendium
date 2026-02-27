@@ -1,4 +1,3 @@
-import { collection, getDocs } from "firebase/firestore";
 import {
   createContext,
   ReactNode,
@@ -8,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import { db } from "@/firebase/config";
+import { getPokedexData } from "@/firebase/services/pokedexService";
 import { Pokemon } from "@/types/pokemon";
 import { extractPokedexData } from "@/utils/pokedexDataExtraction";
 import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
@@ -55,11 +54,7 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
     }
 
     try {
-      const querySnapshot = await getDocs(collection(db, "pokedex"));
-      const rawData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Pokemon[];
+      const rawData = await getPokedexData();
 
       rawData.sort((a, b) => {
         const idA =

@@ -2,7 +2,7 @@ import { Edit, Map, Send, Trash2, XCircle } from "lucide-react";
 
 import Button from "@/components/atoms/Button";
 import StatusBadge from "@/components/atoms/StatusBadge";
-import { Team } from "@/firebase/firestoreService";
+import { Team } from "@/types/teams";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 interface TeamCardProps {

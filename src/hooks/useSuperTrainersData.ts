@@ -1,7 +1,6 @@
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-import { db } from "@/firebase/config";
+import { getSuperTrainers } from "@/firebase/services/superTrainersService";
 import { SuperTrainer } from "@/types/superTrainers";
 
 interface SuperTrainersData {
@@ -31,10 +30,7 @@ export const useSuperTrainersData = () => {
     let isMounted = true;
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "super_trainers"));
-        const rawData = querySnapshot.docs.map((doc) =>
-          doc.data()
-        ) as SuperTrainer[];
+        const rawData = await getSuperTrainers();
 
         rawData.sort((a, b) => {
           const nameA = a.name || "";

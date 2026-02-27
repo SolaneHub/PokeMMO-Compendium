@@ -8,7 +8,7 @@ import TeamList from "@/components/organisms/TeamList";
 import PageLayout from "@/components/templates/PageLayout";
 import { useConfirm } from "@/context/ConfirmationContext";
 import { useToast } from "@/context/ToastContext";
-import { updateTeamStatus } from "@/firebase/firestoreService";
+import { updateTeamStatus } from "@/firebase/services/teamsService";
 import { useUserTeams } from "@/hooks/useUserTeams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 

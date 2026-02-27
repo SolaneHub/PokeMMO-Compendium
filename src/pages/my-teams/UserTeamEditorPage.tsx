@@ -10,8 +10,8 @@ import EditorSidebar from "@/components/organisms/Editor/EditorSidebar";
 import StrategyEditor from "@/components/organisms/Editor/StrategyEditor";
 import PokemonEditorView from "@/components/organisms/Editor/views/PokemonEditorView";
 import { useToast } from "@/context/ToastContext";
-import { StrategyStep, TeamMember } from "@/firebase/firestoreService";
 import { useTeamEditor } from "@/hooks/useTeamEditor";
+import { StrategyStep, TeamMember } from "@/types/teams";
 import { EliteFourMember, eliteFourMembers } from "@/utils/eliteFourMembers";
 
 const REGIONS = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova"];

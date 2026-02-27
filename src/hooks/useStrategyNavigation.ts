@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { StrategyStep, StrategyVariation } from "@/firebase/firestoreService";
+import { StrategyStep, StrategyVariation } from "@/types/teams";
 
 export function useStrategyNavigation() {
   const [currentStrategyView, setCurrentStrategyView] = useState<
