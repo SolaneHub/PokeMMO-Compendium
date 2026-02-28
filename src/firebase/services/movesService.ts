@@ -12,7 +12,12 @@ import {
 import { db } from "@/firebase/config";
 import { MOVES_COLLECTION } from "@/firebase/services/common";
 import { getPokedexData } from "@/firebase/services/pokedexService";
-import { MoveMaster, Pokemon, PokemonMove } from "@/types/pokemon";
+import {
+  MoveMaster,
+  MoveMasterSchema,
+  Pokemon,
+  PokemonMove,
+} from "@/types/pokemon";
 
 /**
  * Fetches all Moves from the master list.
@@ -23,7 +28,16 @@ export async function getMoves(): Promise<MoveMaster[]> {
   const querySnapshot = await getDocs(q);
   const moves: MoveMaster[] = [];
   querySnapshot.forEach((doc) => {
-    moves.push({ id: doc.id, ...doc.data() } as MoveMaster);
+    const data = { id: doc.id, ...doc.data() };
+    const result = MoveMasterSchema.safeParse(data);
+    if (result.success) {
+      moves.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Move data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return moves;
 }

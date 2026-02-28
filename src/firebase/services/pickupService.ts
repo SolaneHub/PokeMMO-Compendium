@@ -8,7 +8,7 @@ import {
 
 import { db } from "@/firebase/config";
 import { PICKUP_COLLECTION } from "@/firebase/services/common";
-import { PickupRegion } from "@/types/pickup";
+import { PickupRegion, PickupRegionSchema } from "@/types/pickup";
 
 /**
  * Fetches all Pickup data from Firestore.
@@ -19,7 +19,16 @@ export async function getPickupData(): Promise<PickupRegion[]> {
   const querySnapshot = await getDocs(q);
   const regions: PickupRegion[] = [];
   querySnapshot.forEach((doc) => {
-    regions.push({ ...doc.data(), id: doc.id } as PickupRegion);
+    const data = { ...doc.data(), id: doc.id };
+    const result = PickupRegionSchema.safeParse(data);
+    if (result.success) {
+      regions.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Pickup data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return regions;
 }

@@ -1,7 +1,7 @@
 import { collection, getDocs, query } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
-import { Raid } from "@/types/raids";
+import { Raid, RaidSchema } from "@/types/raids";
 
 /**
  * Fetches all Raids data from Firestore.
@@ -12,7 +12,16 @@ export async function getRaidsData(): Promise<Raid[]> {
   const querySnapshot = await getDocs(q);
   const raids: Raid[] = [];
   querySnapshot.forEach((doc) => {
-    raids.push(doc.data() as Raid);
+    const data = doc.data();
+    const result = RaidSchema.safeParse(data);
+    if (result.success) {
+      raids.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Raid data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return raids;
 }
