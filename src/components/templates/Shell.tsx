@@ -1,14 +1,11 @@
 import { Menu } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 
 import Button from "@/components/atoms/Button";
 import Sidebar from "@/components/organisms/Sidebar";
 
-interface ShellProps {
-  children: ReactNode;
-}
-
-function Shell({ children }: ShellProps) {
+function Shell() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <div className="flex h-screen w-full overflow-hidden bg-[#0f1014] font-sans text-white selection:bg-blue-500/30">
@@ -33,7 +30,7 @@ function Shell({ children }: ShellProps) {
 
         {/* Content */}
         <main className="relative flex h-full flex-1 flex-col overflow-y-auto">
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>

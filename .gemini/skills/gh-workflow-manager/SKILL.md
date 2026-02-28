@@ -58,32 +58,44 @@ Before finalizing the implementation, ensure all imports use the `@/` alias and 
 
 When the user indicates that the task is finished, follow this sequence:
 
-1.  **Commit Changes**:
-    Ensure all changes are staged and committed with a clear message.
-2.  **Push Branch**:
+1.  **Format Code**:
+    ALWAYS run the project's formatter before staging changes.
+    ```powershell
+    npm run format
+    ```
+2.  **Commit Changes**:
+    Stage all changes and commit with a clear, concise message.
+    ```powershell
+    git add .
+    git commit -m "<type>: <description>"
+    ```
+3.  **Push Branch**:
     ```powershell
     git push origin <branch-name>
     ```
-3.  **Create PR**:
+4.  **Create PR**:
     ```powershell
     gh pr create --title "[PR] <Title from Issue>" --body "Closes #<number>" --label "Type: <Label>" --project "PokeMMO-Compendium Tasks" --milestone "v1.1 - Refactoring & Performance"
     ```
 
 ## Strict Rules
 
-1.  **Branch Persistence**: Never delete branches unless explicitly asked.
-2.  **Linking**: Always include `Closes #<number>` in the PR body to automatically close the issue upon merge.
-3.  **Naming**: PR titles must follow the `[PR] <Description>` format.
+1.  **Formatting**: NEVER commit without running `npm run format` first.
+2.  **Language**: All issues, branch names, commit messages, and PR descriptions MUST be in **English**.
+3.  **Branch Persistence**: Never delete branches unless explicitly asked.
+4.  **Linking**: Always include `Closes #<number>` in the PR body to automatically close the issue upon merge.
+5.  **Naming**: PR titles must follow the `[PR] <Description>` format.
 
 ## Example Workflow
 
-**User**: "Implementa la ricerca dei pokemon."
+**User**: "Implement pokemon search."
 
 **AI Action**:
 
 1. `gh issue list` -> Found Issue #5: "Search Pokemon by Name".
 2. `git checkout -b issue-5-pokemon-search`
 3. [Implement search feature]
-4. **User**: "Abbiamo finito."
-5. `git add .`, `git commit -m "feat: implement pokemon search"`, `git push origin issue-5-pokemon-search`
-6. `gh pr create --title "[PR] Search Pokemon by Name" --body "Closes #5" ...`
+4. **User**: "I'm done."
+5. `npm run format`
+6. `git add .`, `git commit -m "feat: implement pokemon search"`, `git push origin issue-5-pokemon-search`
+7. `gh pr create --title "[PR] Search Pokemon by Name" --body "Closes #5" ...`

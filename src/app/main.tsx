@@ -2,10 +2,10 @@ import "@/app/index.css";
 
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { registerSW } from "virtual:pwa-register"; // Register service worker
 
-import App from "@/app/App";
+import { router } from "@/app/router";
 
 registerSW({ immediate: true });
 
@@ -14,10 +14,6 @@ if (!rootElement) throw new Error("Failed to find the root element");
 
 createRoot(rootElement).render(
   <StrictMode>
-    {" "}
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      {" "}
-      <App />{" "}
-    </BrowserRouter>{" "}
+    <RouterProvider router={router} />
   </StrictMode>
 );
