@@ -11,7 +11,9 @@ describe("ButtonSelect component", () => {
       <ButtonSelect
         options={options}
         value={3}
-        onChange={() => {}}
+        onChange={() => {
+          /* noop */
+        }}
         label="Select IV"
       />
     );
@@ -19,7 +21,15 @@ describe("ButtonSelect component", () => {
   });
 
   it("renders all options", () => {
-    render(<ButtonSelect options={options} value={3} onChange={() => {}} />);
+    render(
+      <ButtonSelect
+        options={options}
+        value={3}
+        onChange={() => {
+          /* noop */
+        }}
+      />
+    );
     options.forEach((opt) => {
       // Use exact text match for the number, ignoring the "IV" span text if needed
       expect(screen.getByText(opt.toString())).toBeInTheDocument();
@@ -37,7 +47,15 @@ describe("ButtonSelect component", () => {
   });
 
   it("highlights the currently selected value", () => {
-    render(<ButtonSelect options={options} value={2} onChange={() => {}} />);
+    render(
+      <ButtonSelect
+        options={options}
+        value={2}
+        onChange={() => {
+          /* noop */
+        }}
+      />
+    );
     // The button containing "2" should have active class "bg-blue-600"
     const activeBtn = screen.getByText("2").closest("button");
     const inactiveBtn = screen.getByText("5").closest("button");

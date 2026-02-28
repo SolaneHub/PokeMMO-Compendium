@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 import { Zap } from "lucide-react";
+import { describe, expect, it, vi } from "vitest";
 
 import ToggleCard from "./ToggleCard";
 
@@ -11,7 +11,9 @@ describe("ToggleCard component", () => {
         title="Night Mode"
         subtitle="Dark theme"
         isActive={false}
-        onClick={() => {}}
+        onClick={() => {
+          /* noop */
+        }}
         icon={Zap}
       />
     );
@@ -42,7 +44,9 @@ describe("ToggleCard component", () => {
         title="Night"
         subtitle="Mode"
         isActive={true}
-        onClick={() => {}}
+        onClick={() => {
+          /* noop */
+        }}
         activeBgClass="custom-bg-active"
         activeTextClass="custom-text-active"
       />

@@ -1,14 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import RegionCard from "./RegionCard";
 import { Region } from "@/utils/regionData";
+
+import RegionCard from "./RegionCard";
 
 const mockRegion: Region = {
   id: "kanto",
   name: "Kanto",
   bgColor: "#ff0000",
-  routes: [],
 };
 
 describe("RegionCard component", () => {
@@ -16,7 +16,9 @@ describe("RegionCard component", () => {
     const { container } = render(
       <RegionCard
         region={mockRegion}
-        onRegionClick={() => {}}
+        onRegionClick={() => {
+          /* noop */
+        }}
         isSelected={false}
       />
     );
@@ -47,7 +49,9 @@ describe("RegionCard component", () => {
     const { container } = render(
       <RegionCard
         region={mockRegion}
-        onRegionClick={() => {}}
+        onRegionClick={() => {
+          /* noop */
+        }}
         isSelected={true}
       />
     );

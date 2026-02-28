@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, expect, it, vi } from "vitest";
 
 import TeamHeader from "./TeamHeader";
 
@@ -21,7 +21,9 @@ describe("TeamHeader component", () => {
         <TeamHeader
           teamName="Alpha Squad"
           teamType="Gym Rerun"
-          onSave={() => {}}
+          onSave={() => {
+            /* noop */
+          }}
           saving={false}
         />
       </MemoryRouter>
@@ -45,7 +47,13 @@ describe("TeamHeader component", () => {
   it("disables save button when saving is true", () => {
     render(
       <MemoryRouter>
-        <TeamHeader teamName="Alpha Squad" onSave={() => {}} saving={true} />
+        <TeamHeader
+          teamName="Alpha Squad"
+          onSave={() => {
+            /* noop */
+          }}
+          saving={true}
+        />
       </MemoryRouter>
     );
 
@@ -56,7 +64,13 @@ describe("TeamHeader component", () => {
   it("navigates back when arrow button is clicked", () => {
     render(
       <MemoryRouter>
-        <TeamHeader teamName="Alpha Squad" onSave={() => {}} saving={false} />
+        <TeamHeader
+          teamName="Alpha Squad"
+          onSave={() => {
+            /* noop */
+          }}
+          saving={false}
+        />
       </MemoryRouter>
     );
 

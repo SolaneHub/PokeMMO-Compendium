@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import SuperTrainerSection from "./SuperTrainerSection";
-import { SuperTrainer } from "@/types/superTrainers";
 import { Pokemon } from "@/types/pokemon";
+import { SuperTrainer } from "@/types/superTrainers";
+
+import SuperTrainerSection from "./SuperTrainerSection";
 
 const mockTrainer: SuperTrainer = {
   name: "Red",
@@ -25,7 +26,9 @@ describe("SuperTrainerSection component", () => {
     render(
       <SuperTrainerSection
         trainer={mockTrainer}
-        onPokemonCardClick={() => {}}
+        onPokemonCardClick={() => {
+          /* noop */
+        }}
         selectedPokemon={null}
         pokemonMap={mockPokemonMap}
       />
@@ -39,7 +42,9 @@ describe("SuperTrainerSection component", () => {
     render(
       <SuperTrainerSection
         trainer={mockTrainer}
-        onPokemonCardClick={() => {}}
+        onPokemonCardClick={() => {
+          /* noop */
+        }}
         selectedPokemon={null}
         pokemonMap={mockPokemonMap}
       />
@@ -60,7 +65,12 @@ describe("SuperTrainerSection component", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("Pikachu").closest("div[role='button']")!);
+    const pikachuCard = screen
+      .getByText("Pikachu")
+      .closest("div[role='button']");
+    if (pikachuCard) {
+      fireEvent.click(pikachuCard);
+    }
     expect(handleClick).toHaveBeenCalledWith(
       "Pikachu",
       "Red",

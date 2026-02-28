@@ -10,7 +10,11 @@ describe("BulletList component", () => {
   });
 
   it("renders a list of items", () => {
-    const items = ["Item 1", "Item 2", <span>React Node Item</span>];
+    const items = [
+      "Item 1",
+      "Item 2",
+      <span key="react-node">React Node Item</span>,
+    ];
     render(<BulletList items={items} />);
 
     expect(screen.getByText("Item 1")).toBeInTheDocument();

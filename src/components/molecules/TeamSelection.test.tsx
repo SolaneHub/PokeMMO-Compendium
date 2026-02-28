@@ -1,8 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import TeamSelection from "./TeamSelection";
 import { Team } from "@/types/teams";
+
+import TeamSelection from "./TeamSelection";
 
 const mockTeams: Team[] = [
   { id: "team1", name: "Alpha Team", members: [], region: null },
@@ -15,7 +16,9 @@ describe("TeamSelection component", () => {
       <TeamSelection
         teams={mockTeams}
         selectedTeamId={undefined}
-        onTeamClick={() => {}}
+        onTeamClick={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText("Alpha Team")).toBeInTheDocument();
@@ -41,7 +44,9 @@ describe("TeamSelection component", () => {
       <TeamSelection
         teams={mockTeams}
         selectedTeamId="team2"
-        onTeamClick={() => {}}
+        onTeamClick={() => {
+          /* noop */
+        }}
       />
     );
 

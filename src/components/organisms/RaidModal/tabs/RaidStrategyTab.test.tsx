@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { Raid } from "@/types/raids";
+
 import RaidStrategyTab from "./RaidStrategyTab";
 
 const mockRaid = {
@@ -11,22 +13,22 @@ const mockRaid = {
     { id: "1", label: "Strategy A", roles: {}, recommended: [] },
     { id: "2", label: "Strategy B", roles: {}, recommended: [] },
   ],
-};
+} as unknown as Raid;
 
 describe("RaidStrategyTab component", () => {
   it("renders strategy selection buttons when multiple strategies exist", () => {
     render(
       <RaidStrategyTab
-        currentRaid={mockRaid as any}
+        currentRaid={mockRaid}
         selectedStrategyIndex={0}
-        setSelectedStrategyIndex={() => {}}
-        setSelectedRole={() => {}}
-        setSelectedTurnIndex={() => {}}
-        setSelectedBuildGroup={() => {}}
+        setSelectedStrategyIndex={vi.fn()}
+        setSelectedRole={vi.fn()}
+        setSelectedTurnIndex={vi.fn()}
+        setSelectedBuildGroup={vi.fn()}
         rolesSource={{}}
         roleOptions={[]}
         effectiveSelectedRole=""
-        handleRoleChange={() => {}}
+        handleRoleChange={vi.fn()}
         movesForSelectedRole={[]}
         selectedTurnIndex={0}
       />
@@ -40,16 +42,16 @@ describe("RaidStrategyTab component", () => {
   it("renders role buttons", () => {
     render(
       <RaidStrategyTab
-        currentRaid={mockRaid as any}
+        currentRaid={mockRaid}
         selectedStrategyIndex={0}
-        setSelectedStrategyIndex={() => {}}
-        setSelectedRole={() => {}}
-        setSelectedTurnIndex={() => {}}
-        setSelectedBuildGroup={() => {}}
+        setSelectedStrategyIndex={vi.fn()}
+        setSelectedRole={vi.fn()}
+        setSelectedTurnIndex={vi.fn()}
+        setSelectedBuildGroup={vi.fn()}
         rolesSource={{ "Player 1": [], "Player 2": [] }}
         roleOptions={["Player 1", "Player 2"]}
         effectiveSelectedRole="Player 1"
-        handleRoleChange={() => {}}
+        handleRoleChange={vi.fn()}
         movesForSelectedRole={[]}
         selectedTurnIndex={0}
       />
@@ -68,16 +70,16 @@ describe("RaidStrategyTab component", () => {
     const setTurnIndex = vi.fn();
     render(
       <RaidStrategyTab
-        currentRaid={mockRaid as any}
+        currentRaid={mockRaid}
         selectedStrategyIndex={0}
-        setSelectedStrategyIndex={() => {}}
-        setSelectedRole={() => {}}
+        setSelectedStrategyIndex={vi.fn()}
+        setSelectedRole={vi.fn()}
         setSelectedTurnIndex={setTurnIndex}
-        setSelectedBuildGroup={() => {}}
+        setSelectedBuildGroup={vi.fn()}
         rolesSource={{ "Player 1": ["Move A", "Move B", "Move C"] }}
         roleOptions={["Player 1"]}
         effectiveSelectedRole="Player 1"
-        handleRoleChange={() => {}}
+        handleRoleChange={vi.fn()}
         movesForSelectedRole={["Move A", "Move B", "Move C"]}
         selectedTurnIndex={0}
       />
@@ -98,18 +100,19 @@ describe("RaidStrategyTab component", () => {
   });
 
   it("handles fallback message when no roles are available", () => {
+    const emptyRaid = { teamStrategies: [] } as unknown as Raid;
     render(
       <RaidStrategyTab
-        currentRaid={{ teamStrategies: [] } as any}
+        currentRaid={emptyRaid}
         selectedStrategyIndex={0}
-        setSelectedStrategyIndex={() => {}}
-        setSelectedRole={() => {}}
-        setSelectedTurnIndex={() => {}}
-        setSelectedBuildGroup={() => {}}
+        setSelectedStrategyIndex={vi.fn()}
+        setSelectedRole={vi.fn()}
+        setSelectedTurnIndex={vi.fn()}
+        setSelectedBuildGroup={vi.fn()}
         rolesSource={null}
         roleOptions={[]}
         effectiveSelectedRole=""
-        handleRoleChange={() => {}}
+        handleRoleChange={vi.fn()}
         movesForSelectedRole={[]}
         selectedTurnIndex={0}
       />

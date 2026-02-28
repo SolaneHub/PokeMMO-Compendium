@@ -1,14 +1,16 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import PokemonEvolutions from "./PokemonEvolutions";
 import { Pokemon } from "@/types/pokemon";
 
+import PokemonEvolutions from "./PokemonEvolutions";
+
 const mockPokemon: Pokemon = {
+  id: 2,
   name: "Ivysaur",
   types: ["Grass", "Poison"],
   baseStats: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
-  abilities: { main: [] },
+  abilities: { main: [], hidden: null },
   moves: [],
   locations: [],
   evolutions: [
@@ -31,7 +33,9 @@ describe("PokemonEvolutions component", () => {
       <PokemonEvolutions
         pokemon={mockPokemon}
         allPokemon={allPokemonMock}
-        onSelectPokemon={() => {}}
+        onSelectPokemon={() => {
+          /* noop */
+        }}
         variants={[]}
       />
     );
@@ -56,7 +60,9 @@ describe("PokemonEvolutions component", () => {
       <PokemonEvolutions
         pokemon={{ ...mockPokemon, name: "Venusaur" }}
         allPokemon={allPokemonMock}
-        onSelectPokemon={() => {}}
+        onSelectPokemon={() => {
+          /* noop */
+        }}
         variants={["Mega Venusaur"]}
       />
     );
@@ -77,7 +83,10 @@ describe("PokemonEvolutions component", () => {
     );
 
     // Click on Venusaur container
-    fireEvent.click(screen.getByText("Venusaur").closest("div.group")!);
+    const venusaurBtn = screen.getByText("Venusaur").closest("div.group");
+    if (venusaurBtn) {
+      fireEvent.click(venusaurBtn);
+    }
 
     // Should call with Venusaur's pokemon object
     expect(handleSelect).toHaveBeenCalledWith(

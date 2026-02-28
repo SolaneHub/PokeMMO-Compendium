@@ -5,7 +5,15 @@ import Slider from "./Slider";
 
 describe("Slider component", () => {
   it("renders with label and value", () => {
-    render(<Slider label="Volume" value={50} onChange={() => {}} />);
+    render(
+      <Slider
+        label="Volume"
+        value={50}
+        onChange={() => {
+          /* noop */
+        }}
+      />
+    );
     expect(screen.getByText("Volume")).toBeInTheDocument();
     expect(screen.getByText("50")).toBeInTheDocument();
   });
@@ -16,7 +24,9 @@ describe("Slider component", () => {
         label="Volume"
         value={50}
         displayValue="50%"
-        onChange={() => {}}
+        onChange={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText("50%")).toBeInTheDocument();
@@ -35,7 +45,15 @@ describe("Slider component", () => {
   it("sets correct width percentage based on min and max", () => {
     // 50 out of 200 should be 25% width
     render(
-      <Slider label="Speed" value={50} min={0} max={200} onChange={() => {}} />
+      <Slider
+        label="Speed"
+        value={50}
+        min={0}
+        max={200}
+        onChange={() => {
+          /* noop */
+        }}
+      />
     );
 
     // We check the style of the inner div (which provides the colored bar)

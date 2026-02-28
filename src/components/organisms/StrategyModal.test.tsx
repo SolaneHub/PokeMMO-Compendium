@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { StrategyStep } from "@/types/teams";
+
 import StrategyModal from "./StrategyModal";
 
 vi.mock("@/hooks/usePokedexData", () => ({
@@ -14,7 +16,7 @@ vi.mock("@/context/PokedexContext", () => ({
   usePokedexContext: () => ({}),
 }));
 
-const mockHistory = [];
+const mockHistory: StrategyStep[][] = [];
 const mockView = [
   {
     id: "step1",
@@ -33,9 +35,15 @@ describe("StrategyModal component", () => {
         detailsTitleBackground="red"
         strategyHistory={mockHistory}
         currentStrategyView={mockView}
-        onClose={() => {}}
-        onBack={() => {}}
-        onStepClick={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onBack={() => {
+          /* noop */
+        }}
+        onStepClick={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText("Pikachu")).toBeInTheDocument();
@@ -48,9 +56,15 @@ describe("StrategyModal component", () => {
         detailsTitleBackground="red"
         strategyHistory={mockHistory}
         currentStrategyView={mockView}
-        onClose={() => {}}
-        onBack={() => {}}
-        onStepClick={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onBack={() => {
+          /* noop */
+        }}
+        onStepClick={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText("Use")).toBeInTheDocument();
@@ -68,9 +82,15 @@ describe("StrategyModal component", () => {
         detailsTitleBackground="red"
         strategyHistory={[]}
         currentStrategyView={[]}
-        onClose={() => {}}
-        onBack={() => {}}
-        onStepClick={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onBack={() => {
+          /* noop */
+        }}
+        onStepClick={() => {
+          /* noop */
+        }}
       />
     );
     expect(

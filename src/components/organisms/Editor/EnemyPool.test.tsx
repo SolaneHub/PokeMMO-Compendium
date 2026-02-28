@@ -1,12 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { EliteFourMember } from "@/utils/eliteFourMembers";
+import { PokemonType } from "@/utils/pokemonColors";
+
 import EnemyPool from "./EnemyPool";
 
-const mockMember = {
-  id: "lance",
+const mockMember: EliteFourMember = {
   name: "Lance",
-  type: "Dragon",
+  type: "Dragon" as PokemonType,
   image: "",
   region: "Kanto",
 };
@@ -19,9 +21,9 @@ describe("EnemyPool component", () => {
         enemyPool={[]}
         teamStrategies={{}}
         selectedEnemyPokemon={null}
-        onSelectEnemy={() => {}}
-        onAddEnemy={() => {}}
-        onRemoveEnemy={() => {}}
+        onSelectEnemy={vi.fn()}
+        onAddEnemy={vi.fn()}
+        onRemoveEnemy={vi.fn()}
       />
     );
     expect(
@@ -38,8 +40,8 @@ describe("EnemyPool component", () => {
         teamStrategies={{}}
         selectedEnemyPokemon={null}
         onSelectEnemy={handleSelect}
-        onAddEnemy={() => {}}
-        onRemoveEnemy={() => {}}
+        onAddEnemy={vi.fn()}
+        onRemoveEnemy={vi.fn()}
       />
     );
 
@@ -47,7 +49,10 @@ describe("EnemyPool component", () => {
     expect(screen.getByText("Gyarados")).toBeInTheDocument();
 
     // Select an enemy
-    fireEvent.click(screen.getByText("Dragonite").closest("button")!);
+    const btn = screen.getByText("Dragonite").closest("button");
+    if (btn) {
+      fireEvent.click(btn);
+    }
     expect(handleSelect).toHaveBeenCalledWith("Dragonite");
   });
 
@@ -59,9 +64,9 @@ describe("EnemyPool component", () => {
         enemyPool={[]}
         teamStrategies={{}}
         selectedEnemyPokemon={null}
-        onSelectEnemy={() => {}}
+        onSelectEnemy={vi.fn()}
         onAddEnemy={handleAdd}
-        onRemoveEnemy={() => {}}
+        onRemoveEnemy={vi.fn()}
       />
     );
 

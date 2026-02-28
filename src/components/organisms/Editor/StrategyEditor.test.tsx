@@ -9,7 +9,9 @@ describe("StrategyEditor component", () => {
       <StrategyEditor
         selectedEnemyPokemon={null}
         steps={[]}
-        onUpdateSteps={() => {}}
+        onUpdateSteps={() => {
+          /* noop */
+        }}
       />
     );
     expect(
@@ -22,7 +24,9 @@ describe("StrategyEditor component", () => {
       <StrategyEditor
         selectedEnemyPokemon="Charizard"
         steps={[]}
-        onUpdateSteps={() => {}}
+        onUpdateSteps={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText(/No plan defined for/)).toBeInTheDocument();

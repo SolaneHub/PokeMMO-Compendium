@@ -1,19 +1,20 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import PokemonSelection from "./PokemonSelection";
 import { Pokemon } from "@/types/pokemon";
+
+import PokemonSelection from "./PokemonSelection";
 
 const mockMap = new Map<string, Pokemon>();
 mockMap.set("Pikachu", {
   name: "Pikachu",
   types: ["Electric"],
   baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
-  abilities: { main: ["Static"] },
+  abilities: { main: ["Static"], hidden: null },
   moves: [],
   evolutions: [],
   locations: [],
-} as any);
+} as unknown as Pokemon);
 
 describe("PokemonSelection component", () => {
   it("renders the title", () => {
@@ -21,7 +22,7 @@ describe("PokemonSelection component", () => {
       <PokemonSelection
         pokemonNames={[]}
         selectedPokemon={null}
-        onPokemonClick={() => {}}
+        onPokemonClick={vi.fn()}
         pokemonMap={mockMap}
       />
     );
@@ -33,7 +34,7 @@ describe("PokemonSelection component", () => {
       <PokemonSelection
         pokemonNames={["Pikachu", "Raichu"]}
         selectedPokemon={null}
-        onPokemonClick={() => {}}
+        onPokemonClick={vi.fn()}
         pokemonMap={mockMap}
       />
     );

@@ -13,7 +13,7 @@ describe("IVsDropdown component", () => {
         ivStats={allStats}
         selectedIvCount={2}
         selectedIvStats={selectedStats}
-        setSelectedIvStats={() => {}}
+        setSelectedIvStats={vi.fn()}
       />
     );
     expect(screen.getByText("Atk")).toBeInTheDocument();
@@ -37,7 +37,9 @@ describe("IVsDropdown component", () => {
 
     // Click the "HP" option inside the dropdown menu
     const hpOption = screen.getByText("HP").closest("button");
-    fireEvent.click(hpOption!);
+    if (hpOption) {
+      fireEvent.click(hpOption);
+    }
 
     expect(handleSetStats).toHaveBeenCalledWith(["HP", "Spe"]);
   });

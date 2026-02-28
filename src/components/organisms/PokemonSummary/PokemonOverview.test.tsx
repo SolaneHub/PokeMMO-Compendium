@@ -1,10 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import PokemonOverview from "./PokemonOverview";
 import { Pokemon } from "@/types/pokemon";
 
+import PokemonOverview from "./PokemonOverview";
+
 const mockPokemon: Pokemon = {
+  id: 1,
   name: "Snorlax",
   description: "It sleeps constantly.",
   types: ["Normal"],

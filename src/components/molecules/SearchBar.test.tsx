@@ -6,7 +6,13 @@ import SearchBar from "./SearchBar";
 describe("SearchBar component", () => {
   it("renders an input with correct placeholder", () => {
     render(
-      <SearchBar value="" onChange={() => {}} placeholder="Find Pokemon..." />
+      <SearchBar
+        value=""
+        onChange={() => {
+          /* noop */
+        }}
+        placeholder="Find Pokemon..."
+      />
     );
     expect(screen.getByPlaceholderText("Find Pokemon...")).toBeInTheDocument();
   });
@@ -22,7 +28,14 @@ describe("SearchBar component", () => {
   });
 
   it("displays the current value", () => {
-    render(<SearchBar value="Bulbasaur" onChange={() => {}} />);
+    render(
+      <SearchBar
+        value="Bulbasaur"
+        onChange={() => {
+          /* noop */
+        }}
+      />
+    );
     const input = screen.getByRole("textbox") as HTMLInputElement;
     expect(input.value).toBe("Bulbasaur");
   });

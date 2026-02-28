@@ -1,24 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import MemberSelection from "./MemberSelection";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
+import MemberSelection from "./MemberSelection";
+
 const mockMembers: EliteFourMember[] = [
-  {
-    id: "lance",
-    name: "Lance",
-    type: "Dragon",
-    image: "Lance.png",
-    region: "Kanto",
-  },
-  {
-    id: "lorelei",
-    name: "Lorelei",
-    type: "Ice",
-    image: "Lorelei.png",
-    region: "Kanto",
-  },
+  { name: "Lance", type: "Dragon", image: "Lance.png", region: "Kanto" },
+  { name: "Lorelei", type: "Ice", image: "Lorelei.png", region: "Kanto" },
 ];
 
 describe("MemberSelection component", () => {
@@ -27,7 +16,7 @@ describe("MemberSelection component", () => {
       <MemberSelection
         filteredEliteFour={[]}
         selectedMember={null}
-        onMemberClick={() => {}}
+        onMemberClick={vi.fn()}
       />
     );
     expect(screen.getByText("Select Member")).toBeInTheDocument();
@@ -38,7 +27,7 @@ describe("MemberSelection component", () => {
       <MemberSelection
         filteredEliteFour={mockMembers}
         selectedMember={null}
-        onMemberClick={() => {}}
+        onMemberClick={vi.fn()}
       />
     );
     expect(screen.getByText("Lance")).toBeInTheDocument();
@@ -57,7 +46,9 @@ describe("MemberSelection component", () => {
 
     // We can use the closest container with group class that wraps the text inside EliteMemberCard
     const lanceCard = screen.getByText("Lance").closest(".group");
-    fireEvent.click(lanceCard!);
+    if (lanceCard) {
+      fireEvent.click(lanceCard);
+    }
 
     expect(handleClick).toHaveBeenCalledWith("Lance");
   });

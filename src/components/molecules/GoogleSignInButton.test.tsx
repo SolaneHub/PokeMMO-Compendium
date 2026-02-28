@@ -5,7 +5,13 @@ import GoogleSignInButton from "./GoogleSignInButton";
 
 describe("GoogleSignInButton component", () => {
   it("renders with correct text and icon", () => {
-    render(<GoogleSignInButton onClick={() => {}} />);
+    render(
+      <GoogleSignInButton
+        onClick={() => {
+          /* noop */
+        }}
+      />
+    );
     expect(screen.getByText("Continue with Google")).toBeInTheDocument();
     expect(document.querySelector("svg")).toBeInTheDocument(); // Google Logo SVG
   });
@@ -18,7 +24,14 @@ describe("GoogleSignInButton component", () => {
   });
 
   it("can be disabled", () => {
-    render(<GoogleSignInButton onClick={() => {}} disabled={true} />);
+    render(
+      <GoogleSignInButton
+        onClick={() => {
+          /* noop */
+        }}
+        disabled={true}
+      />
+    );
     expect(screen.getByRole("button")).toBeDisabled();
   });
 });

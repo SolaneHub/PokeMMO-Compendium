@@ -5,7 +5,13 @@ import PickupInfoSection from "./PickupInfoSection";
 
 describe("PickupInfoSection component", () => {
   it("renders static information text", () => {
-    render(<PickupInfoSection onOpenModal={() => {}} />);
+    render(
+      <PickupInfoSection
+        onOpenModal={() => {
+          /* noop */
+        }}
+      />
+    );
     expect(
       screen.getByText(/ability allows a Pokémon to randomly find items/i)
     ).toBeInTheDocument();

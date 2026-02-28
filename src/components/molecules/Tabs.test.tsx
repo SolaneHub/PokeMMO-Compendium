@@ -7,14 +7,30 @@ describe("Tabs component", () => {
   const tabs = ["Tab A", "Tab B", "Tab C"];
 
   it("renders all tabs", () => {
-    render(<Tabs tabs={tabs} activeTab="Tab A" onTabChange={() => {}} />);
+    render(
+      <Tabs
+        tabs={tabs}
+        activeTab="Tab A"
+        onTabChange={() => {
+          /* noop */
+        }}
+      />
+    );
     expect(screen.getByText("Tab A")).toBeInTheDocument();
     expect(screen.getByText("Tab B")).toBeInTheDocument();
     expect(screen.getByText("Tab C")).toBeInTheDocument();
   });
 
   it("highlights the active tab", () => {
-    render(<Tabs tabs={tabs} activeTab="Tab B" onTabChange={() => {}} />);
+    render(
+      <Tabs
+        tabs={tabs}
+        activeTab="Tab B"
+        onTabChange={() => {
+          /* noop */
+        }}
+      />
+    );
     const activeTab = screen.getByText("Tab B");
     const inactiveTab = screen.getByText("Tab A");
 

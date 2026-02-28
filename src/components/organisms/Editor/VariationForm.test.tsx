@@ -1,8 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import VariationForm from "./VariationForm";
 import { StrategyVariation } from "@/types/teams";
+
+import VariationForm from "./VariationForm";
 
 vi.mock("@/hooks/usePokedexData", () => ({
   usePokedexData: () => ({}),
@@ -19,8 +20,12 @@ describe("VariationForm component", () => {
     render(
       <VariationForm
         variation={mockVariation}
-        onChange={() => {}}
-        onRemove={() => {}}
+        onChange={() => {
+          /* noop */
+        }}
+        onRemove={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText("Variation Logic")).toBeInTheDocument();
@@ -35,7 +40,9 @@ describe("VariationForm component", () => {
       <VariationForm
         variation={mockVariation}
         onChange={handleChange}
-        onRemove={() => {}}
+        onRemove={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -52,7 +59,9 @@ describe("VariationForm component", () => {
     render(
       <VariationForm
         variation={mockVariation}
-        onChange={() => {}}
+        onChange={() => {
+          /* noop */
+        }}
         onRemove={handleRemove}
       />
     );
@@ -67,7 +76,9 @@ describe("VariationForm component", () => {
       <VariationForm
         variation={mockVariation}
         onChange={handleChange}
-        onRemove={() => {}}
+        onRemove={() => {
+          /* noop */
+        }}
       />
     );
 

@@ -6,7 +6,14 @@ import MyRoster from "./MyRoster";
 describe("MyRoster component", () => {
   it("renders empty slots", () => {
     const members = [null, null, null, null, null, null];
-    render(<MyRoster members={members} onEditSlot={() => {}} />);
+    render(
+      <MyRoster
+        members={members}
+        onEditSlot={() => {
+          /* noop */
+        }}
+      />
+    );
 
     // There are 6 slots, each should be a button role element
     const slots = screen.getAllByRole("button");
@@ -17,7 +24,14 @@ describe("MyRoster component", () => {
 
   it("renders member images when present", () => {
     const members = [{ name: "Pikachu", item: "Light Ball" }, null, null];
-    render(<MyRoster members={members} onEditSlot={() => {}} />);
+    render(
+      <MyRoster
+        members={members}
+        onEditSlot={() => {
+          /* noop */
+        }}
+      />
+    );
 
     const img = screen.getByAltText("Pikachu");
     expect(img).toBeInTheDocument();

@@ -5,7 +5,15 @@ import RosterSlotCard from "./RosterSlotCard";
 
 describe("RosterSlotCard component", () => {
   it("renders empty state correctly", () => {
-    render(<RosterSlotCard idx={0} member={null} onClick={() => {}} />);
+    render(
+      <RosterSlotCard
+        idx={0}
+        member={null}
+        onClick={() => {
+          /* noop */
+        }}
+      />
+    );
     expect(screen.getByText("Slot 01")).toBeInTheDocument();
     expect(screen.getByText("Empty Slot")).toBeInTheDocument();
     expect(screen.getByText("+ Click to Configure")).toBeInTheDocument();
@@ -16,7 +24,9 @@ describe("RosterSlotCard component", () => {
       <RosterSlotCard
         idx={1}
         member={{ name: "Garchomp", item: "Choice Scarf", nature: "Jolly" }}
-        onClick={() => {}}
+        onClick={() => {
+          /* noop */
+        }}
       />
     );
     expect(screen.getByText("Slot 02")).toBeInTheDocument();
@@ -27,7 +37,13 @@ describe("RosterSlotCard component", () => {
 
   it("handles missing item or nature for an existing member", () => {
     render(
-      <RosterSlotCard idx={2} member={{ name: "Snorlax" }} onClick={() => {}} />
+      <RosterSlotCard
+        idx={2}
+        member={{ name: "Snorlax" }}
+        onClick={() => {
+          /* noop */
+        }}
+      />
     );
     expect(screen.getByText("Snorlax")).toBeInTheDocument();
     expect(screen.getByText("None")).toBeInTheDocument(); // Default item

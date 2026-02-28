@@ -12,18 +12,14 @@ vi.mock("@/hooks/usePokedexData", () => ({
 describe("AddEnemyPokemonModal component", () => {
   it("renders null if not open", () => {
     const { container } = render(
-      <AddEnemyPokemonModal
-        isOpen={false}
-        onClose={() => {}}
-        onAdd={() => {}}
-      />
+      <AddEnemyPokemonModal isOpen={false} onClose={vi.fn()} onAdd={vi.fn()} />
     );
     expect(container).toBeEmptyDOMElement();
   });
 
   it("renders the modal when open", () => {
     render(
-      <AddEnemyPokemonModal isOpen={true} onClose={() => {}} onAdd={() => {}} />
+      <AddEnemyPokemonModal isOpen={true} onClose={vi.fn()} onAdd={vi.fn()} />
     );
     expect(screen.getByText("Add Enemy Pokémon")).toBeInTheDocument();
     expect(
@@ -33,7 +29,7 @@ describe("AddEnemyPokemonModal component", () => {
 
   it("renders the list of pokemon", () => {
     render(
-      <AddEnemyPokemonModal isOpen={true} onClose={() => {}} onAdd={() => {}} />
+      <AddEnemyPokemonModal isOpen={true} onClose={vi.fn()} onAdd={vi.fn()} />
     );
     expect(screen.getByText("Pikachu")).toBeInTheDocument();
     expect(screen.getByText("Bulbasaur")).toBeInTheDocument();
@@ -41,7 +37,7 @@ describe("AddEnemyPokemonModal component", () => {
 
   it("filters pokemon based on search input", () => {
     render(
-      <AddEnemyPokemonModal isOpen={true} onClose={() => {}} onAdd={() => {}} />
+      <AddEnemyPokemonModal isOpen={true} onClose={vi.fn()} onAdd={vi.fn()} />
     );
     const searchInput = screen.getByPlaceholderText("Search Pokémon...");
 
@@ -63,7 +59,10 @@ describe("AddEnemyPokemonModal component", () => {
       />
     );
 
-    fireEvent.click(screen.getByText("Pikachu").closest("button")!);
+    const btn = screen.getByText("Pikachu").closest("button");
+    if (btn) {
+      fireEvent.click(btn);
+    }
 
     expect(handleAdd).toHaveBeenCalledWith("Pikachu");
     expect(handleClose).toHaveBeenCalled();
