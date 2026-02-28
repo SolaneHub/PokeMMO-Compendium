@@ -1,16 +1,24 @@
+import { z } from "zod";
+
 import { PokemonType } from "@/utils/pokemonColors";
 
-import { StrategyStep } from "./teams";
+import { StrategyStepSchema } from "./teams";
 
-export interface SuperTrainerTeam {
-  pokemonNames: string[];
-  pokemonStrategies: Record<string, StrategyStep[]>;
-}
+export const SuperTrainerTeamSchema = z.object({
+  pokemonNames: z.array(z.string()),
+  pokemonStrategies: z.record(z.string(), z.array(StrategyStepSchema)),
+});
 
-export interface SuperTrainer {
-  name: string;
-  region: string;
-  type: PokemonType;
-  image: string;
-  teams: Record<string, SuperTrainerTeam>;
-}
+export const SuperTrainerSchema = z.object({
+  name: z.string(),
+  region: z.string(),
+  type: z.custom<PokemonType>(
+    (val) => typeof val === "string",
+    "Invalid PokemonType"
+  ),
+  image: z.string(),
+  teams: z.record(z.string(), SuperTrainerTeamSchema),
+});
+
+export type SuperTrainerTeam = z.infer<typeof SuperTrainerTeamSchema>;
+export type SuperTrainer = z.infer<typeof SuperTrainerSchema>;

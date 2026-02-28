@@ -8,7 +8,7 @@ import {
 
 import { db } from "@/firebase/config";
 import { SUPER_TRAINERS_COLLECTION } from "@/firebase/services/common";
-import { SuperTrainer } from "@/types/superTrainers";
+import { SuperTrainer, SuperTrainerSchema } from "@/types/superTrainers";
 
 /**
  * Fetches all Super Trainers data from Firestore.
@@ -19,7 +19,16 @@ export async function getSuperTrainers(): Promise<SuperTrainer[]> {
   const querySnapshot = await getDocs(q);
   const trainers: SuperTrainer[] = [];
   querySnapshot.forEach((doc) => {
-    trainers.push(doc.data() as SuperTrainer);
+    const data = doc.data();
+    const result = SuperTrainerSchema.safeParse(data);
+    if (result.success) {
+      trainers.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid SuperTrainer data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return trainers;
 }

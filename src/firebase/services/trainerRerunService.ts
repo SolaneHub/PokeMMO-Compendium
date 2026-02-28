@@ -2,7 +2,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
 import { TRAINER_RERUN_COLLECTION } from "@/firebase/services/common";
-import { TrainerRerunData } from "@/types/trainerRerun";
+import { TrainerRerunData, TrainerRerunDataSchema } from "@/types/trainerRerun";
 
 /**
  * Fetches Trainer Rerun data from Firestore.
@@ -12,7 +12,17 @@ export async function getTrainerRerun(): Promise<TrainerRerunData | null> {
   const docRef = doc(db, TRAINER_RERUN_COLLECTION, "main");
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
-  return docSnap.data() as TrainerRerunData;
+  const data = docSnap.data();
+  const result = TrainerRerunDataSchema.safeParse(data);
+  if (result.success) {
+    return result.data;
+  } else {
+    console.warn(
+      `[Zod Validation] Invalid Trainer Rerun data for doc ID: main`,
+      result.error
+    );
+    return null;
+  }
 }
 
 /**
