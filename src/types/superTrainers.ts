@@ -5,8 +5,10 @@ import { PokemonType } from "@/utils/pokemonColors";
 import { StrategyStepSchema } from "./teams";
 
 export const SuperTrainerTeamSchema = z.object({
-  pokemonNames: z.array(z.string()),
-  pokemonStrategies: z.record(z.string(), z.array(StrategyStepSchema)),
+  pokemonNames: z.array(z.string()).default([]),
+  pokemonStrategies: z
+    .record(z.string(), z.array(StrategyStepSchema))
+    .default({}),
 });
 
 export const SuperTrainerSchema = z.object({

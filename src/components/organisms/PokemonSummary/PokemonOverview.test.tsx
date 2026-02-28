@@ -43,4 +43,64 @@ describe("PokemonOverview component", () => {
     expect(screen.getByText("Monster")).toBeInTheDocument(); // Egg group
     expect(screen.getByText("Leftovers")).toBeInTheDocument(); // Held items
   });
+
+  describe("renderHeldItems logic", () => {
+    it("handles heldItems as 'None' or null", () => {
+      const p = { ...mockPokemon, heldItems: "None" };
+      const { rerender } = render(<PokemonOverview pokemon={p as Pokemon} />);
+      expect(screen.getAllByText("None").length).toBeGreaterThan(0);
+
+      rerender(
+        <PokemonOverview
+          pokemon={
+            { ...mockPokemon, heldItems: undefined } as unknown as Pokemon
+          }
+        />
+      );
+      expect(screen.getAllByText("None").length).toBeGreaterThan(0);
+    });
+
+    it("handles heldItems as empty array", () => {
+      const p = { ...mockPokemon, heldItems: [] };
+      render(<PokemonOverview pokemon={p as Pokemon} />);
+      expect(screen.getAllByText("None").length).toBeGreaterThan(0);
+    });
+
+    it("handles heldItems as an object/record", () => {
+      const p = {
+        ...mockPokemon,
+        heldItems: { "Choice Scarf": "5%", Leftovers: "1%" },
+      };
+      render(<PokemonOverview pokemon={p as Pokemon} />);
+      expect(screen.getByText(/Choice Scarf/)).toBeInTheDocument();
+      expect(screen.getByText("(5%)")).toBeInTheDocument();
+      expect(screen.getByText(/Leftovers/)).toBeInTheDocument();
+      expect(screen.getByText("(1%)")).toBeInTheDocument();
+    });
+
+    it("handles heldItems as an empty object", () => {
+      const p = { ...mockPokemon, heldItems: {} };
+      render(<PokemonOverview pokemon={p as Pokemon} />);
+      expect(screen.getAllByText("None").length).toBeGreaterThan(0);
+    });
+
+    it("handles heldItems as a plain string", () => {
+      const p = { ...mockPokemon, heldItems: "Choice Band" };
+      render(<PokemonOverview pokemon={p as Pokemon} />);
+      expect(screen.getByText("Choice Band")).toBeInTheDocument();
+    });
+  });
+
+  it("handles eggGroups as a plain string", () => {
+    const p = { ...mockPokemon, eggGroups: "Undiscovered" };
+    render(<PokemonOverview pokemon={p as Pokemon} />);
+    expect(screen.getByText("Undiscovered")).toBeInTheDocument();
+  });
+
+  it("handles gender ratio defaults", () => {
+    const p = { ...mockPokemon, genderRatio: undefined };
+    render(<PokemonOverview pokemon={p as Pokemon} />);
+    expect(screen.getByText("0% ♂")).toBeInTheDocument();
+    expect(screen.getByText("0% ♀")).toBeInTheDocument();
+  });
 });

@@ -26,6 +26,9 @@ lerna-debug.log*
 .vite/
 vite.config.ts.timestamp-*
 .eslintcache
+*.tsbuildinfo
+.next/
+.cache/
 
 # Test coverage and reports
 coverage/
