@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom/vitest";
+
 import { cleanup } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
 
@@ -18,7 +19,9 @@ vi.mock("firebase/auth", () => ({
   })),
   onAuthStateChanged: vi.fn((_auth, callback) => {
     callback(null);
-    return () => { /* noop */ };
+    return () => {
+      /* noop */
+    };
   }),
   setPersistence: vi.fn(() => Promise.resolve()),
   browserLocalPersistence: {},
