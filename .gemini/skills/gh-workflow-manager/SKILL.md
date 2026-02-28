@@ -58,33 +58,40 @@ Before finalizing the implementation, ensure all imports use the `@/` alias and 
 
 When the user indicates that the task is finished, follow this sequence:
 
-1.  **Format Code**:
+1.  **Final Validation**:
+    ALWAYS run the full validation pipeline and all tests to ensure the workspace is in a perfect state.
+    ```powershell
+    npm run validate
+    npm run test:run
+    ```
+2.  **Format Code**:
     ALWAYS run the project's formatter before staging changes.
     ```powershell
     npm run format
     ```
-2.  **Commit Changes**:
+3.  **Commit Changes**:
     Stage all changes and commit with a clear, concise message.
     ```powershell
     git add .
     git commit -m "<type>: <description>"
     ```
-3.  **Push Branch**:
+4.  **Push Branch**:
     ```powershell
     git push origin <branch-name>
     ```
-4.  **Create PR**:
+5.  **Create PR**:
     ```powershell
     gh pr create --title "[PR] <Title from Issue>" --body "Closes #<number>" --label "Type: <Label>" --project "PokeMMO-Compendium Tasks" --milestone "v1.1 - Refactoring & Performance"
     ```
 
 ## Strict Rules
 
-1.  **Formatting**: NEVER commit without running `npm run format` first.
-2.  **Language**: All issues, branch names, commit messages, and PR descriptions MUST be in **English**.
-3.  **Branch Persistence**: Never delete branches unless explicitly asked.
-4.  **Linking**: Always include `Closes #<number>` in the PR body to automatically close the issue upon merge.
-5.  **Naming**: PR titles must follow the `[PR] <Description>` format.
+1.  **Integrity**: NEVER commit or create a PR if `npm run validate` or `npm run test:run` fails. Fix all errors first.
+2.  **Formatting**: NEVER commit without running `npm run format` first.
+3.  **Language**: All issues, branch names, commit messages, and PR descriptions MUST be in **English**.
+4.  **Branch Persistence**: Never delete branches unless explicitly asked.
+5.  **Linking**: Always include `Closes #<number>` in the PR body to automatically close the issue upon merge.
+6.  **Naming**: PR titles must follow the `[PR] <Description>` format.
 
 ## Example Workflow
 
@@ -96,6 +103,8 @@ When the user indicates that the task is finished, follow this sequence:
 2. `git checkout -b issue-5-pokemon-search`
 3. [Implement search feature]
 4. **User**: "I'm done."
-5. `npm run format`
-6. `git add .`, `git commit -m "feat: implement pokemon search"`, `git push origin issue-5-pokemon-search`
-7. `gh pr create --title "[PR] Search Pokemon by Name" --body "Closes #5" ...`
+5. `npm run validate`
+6. `npm run test:run`
+7. `npm run format`
+8. `git add .`, `git commit -m "feat: implement pokemon search"`, `git push origin issue-5-pokemon-search`
+9. `gh pr create --title "[PR] Search Pokemon by Name" --body "Closes #5" ...`

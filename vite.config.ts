@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -47,5 +48,21 @@ export default defineConfig(({ command }) => ({
   build: {
     outDir: "dist",
     chunkSizeWarningLimit: 1600,
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
+    include: ["src/**/*.test.{ts,tsx}"],
+    reporters: ["default", "html", "json"],
+    outputFile: {
+      json: "./test-results.json",
+      html: "./test-report/index.html",
+    },
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      exclude: ["node_modules/", "src/test/", "src/vite-env.d.ts"],
+    },
   },
 }));

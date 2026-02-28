@@ -27,6 +27,11 @@ lerna-debug.log*
 vite.config.ts.timestamp-*
 .eslintcache
 
+# Test coverage and reports
+coverage/
+test-report/
+test-results.json
+
 # Unversioned documentation
 src/docs/
 
