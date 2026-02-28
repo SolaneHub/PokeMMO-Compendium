@@ -1,5 +1,5 @@
 import { Save, Search, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useActionState, useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import { useMoves } from "@/context/MovesContext";
@@ -43,6 +43,11 @@ interface PokemonEditorData {
   ivs: string;
   moves: string[];
   dexId?: string | number | null;
+}
+
+interface ActionResult {
+  success?: boolean;
+  error?: string;
 }
 
 interface PokemonEditorModalProps {
@@ -100,9 +105,16 @@ const PokemonEditorModal = ({
     };
   };
 
+  const [prevInitialData, setPrevInitialData] = useState(initialData);
   const [formData, setFormData] = useState<PokemonEditorData>(() =>
     getInitialFormData(initialData)
   );
+
+  // Adjust state when initialData changes (React 19 pattern instead of useEffect)
+  if (initialData !== prevInitialData) {
+    setPrevInitialData(initialData);
+    setFormData(getInitialFormData(initialData));
+  }
 
   const handleChange = (field: keyof PokemonEditorData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -116,13 +128,43 @@ const PokemonEditorModal = ({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name.trim()) return;
-    const cleanMoves = formData.moves.filter((m) => m.trim() !== "");
-    const pokemonDexId = getPokemonIdByName(formData.name, allPokemonData);
-    onSave({ ...formData, moves: cleanMoves, dexId: pokemonDexId });
+  const handleSaveAction = async (
+    _prevState: ActionResult | null,
+    formData: FormData
+  ): Promise<ActionResult> => {
+    const name = formData.get("name") as string;
+    if (!name || !name.trim()) return { error: "Pokémon name is required" };
+
+    const item = formData.get("item") as string;
+    const ability = formData.get("ability") as string;
+    const nature = formData.get("nature") as string;
+    const evs = formData.get("evs") as string;
+    const ivs = formData.get("ivs") as string;
+
+    const moves: string[] = [];
+    for (let i = 0; i < 4; i++) {
+      const move = formData.get(`move${i}`) as string;
+      if (move && move.trim()) moves.push(move);
+    }
+
+    const pokemonDexId = getPokemonIdByName(name, allPokemonData);
+
+    onSave({
+      name,
+      item,
+      ability,
+      nature,
+      evs,
+      ivs,
+      moves,
+      dexId: pokemonDexId,
+    });
+
+    onClose();
+    return { success: true };
   };
+
+  const [state, formAction] = useActionState(handleSaveAction, null);
 
   if (!isOpen) return null;
 
@@ -140,14 +182,20 @@ const PokemonEditorModal = ({
           <h2 className="flex items-center gap-2 text-xl font-bold">
             {initialData ? "Edit Pokémon" : "Add Pokémon"}
           </h2>
-          <Button variant="ghost" size="xs" onClick={onClose} icon={X}>
+          <Button
+            variant="ghost"
+            size="xs"
+            onClick={onClose}
+            icon={X}
+            type="button"
+          >
             {""}
           </Button>
         </div>
 
         {/* Body */}
         <div className="custom-scrollbar flex-1 overflow-y-auto p-6">
-          <form id="pokemon-form" onSubmit={handleSubmit} className="space-y-6">
+          <form id="pokemon-form" action={formAction} className="space-y-6">
             {/* Row 1: Name & Item */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="group">
@@ -157,6 +205,7 @@ const PokemonEditorModal = ({
                 <div className="relative">
                   <input
                     list="pokemon-list"
+                    name="name"
                     type="text"
                     required
                     className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-3 pl-10 text-white transition-colors focus:border-blue-500 focus:outline-none"
@@ -181,6 +230,7 @@ const PokemonEditorModal = ({
                 </label>
                 <input
                   list="items-list"
+                  name="item"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-3 text-white transition-colors focus:border-blue-500 focus:outline-none"
                   placeholder="e.g. Choice Scarf"
@@ -203,6 +253,7 @@ const PokemonEditorModal = ({
                 </label>
                 <input
                   list="abilities-list"
+                  name="ability"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   value={formData.ability}
@@ -218,6 +269,7 @@ const PokemonEditorModal = ({
                 <label className="mb-1 block text-sm font-medium">Nature</label>
                 <input
                   list="natures-list"
+                  name="nature"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   value={formData.nature}
@@ -232,6 +284,7 @@ const PokemonEditorModal = ({
               <div>
                 <label className="mb-1 block text-sm font-medium">EVs</label>
                 <input
+                  name="evs"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   placeholder="e.g. 6 HP / 252 Atk / 252 Spe"
@@ -242,6 +295,7 @@ const PokemonEditorModal = ({
               <div>
                 <label className="mb-1 block text-sm font-medium">IVs</label>
                 <input
+                  name="ivs"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
                   placeholder="e.g. 5x31/4x31/3x31/2x31/1x31/0"
@@ -262,6 +316,7 @@ const PokemonEditorModal = ({
                     </span>
                     <input
                       list="moves-list"
+                      name={`move${idx}`}
                       type="text"
                       className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 pl-10 text-white focus:border-blue-500 focus:outline-none"
                       placeholder="Select move..."
@@ -277,12 +332,15 @@ const PokemonEditorModal = ({
                 ))}
               </datalist>
             </div>
+            {state?.error && (
+              <p className="text-sm text-red-500">{state.error}</p>
+            )}
           </form>
         </div>
 
         {/* Footer */}
         <div className="flex justify-end gap-3 border-t border-white/5 bg-black/20 p-4">
-          <Button variant="ghost" size="md" onClick={onClose}>
+          <Button variant="ghost" size="md" onClick={onClose} type="button">
             Cancel
           </Button>
           <Button

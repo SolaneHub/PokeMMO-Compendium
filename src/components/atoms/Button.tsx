@@ -1,5 +1,6 @@
-import { LucideIcon } from "lucide-react";
+import { Loader2, LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
+import { useFormStatus } from "react-dom";
 
 interface ButtonProps {
   children: ReactNode;
@@ -20,6 +21,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   type?: "button" | "submit" | "reset";
   form?: string;
+  loading?: boolean;
 }
 
 const Button = ({
@@ -33,7 +35,11 @@ const Button = ({
   fullWidth = false,
   type = "button",
   form,
+  loading: manualLoading = false,
 }: ButtonProps) => {
+  const { pending } = useFormStatus();
+  const loading = manualLoading || (type === "submit" && pending);
+
   const baseStyles =
     "relative flex items-center justify-center gap-2 font-semibold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none text-white";
 
@@ -65,10 +71,14 @@ const Button = ({
       type={type}
       form={form}
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || loading}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${widthStyle} ${className}`}
     >
-      {Icon && <Icon size={18} />}
+      {loading ? (
+        <Loader2 className="animate-spin" size={18} />
+      ) : (
+        Icon && <Icon size={18} />
+      )}
       {children}
     </button>
   );
