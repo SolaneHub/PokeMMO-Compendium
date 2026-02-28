@@ -56,26 +56,30 @@ export const LocationSchema = z.object({
 export const PokemonSchema = z.object({
   id: z.union([z.string(), z.number()]).nullable(),
   name: z.string(),
-  category: z.string().optional(),
-  types: z.array(z.custom<PokemonType>((val) => typeof val === "string")),
-  description: z.string().optional(),
-  height: z.string().optional(),
-  weight: z.string().optional(),
-  genderRatio: z.object({ m: z.number(), f: z.number() }).optional(),
-  catchRate: z.union([z.string(), z.number()]).optional(),
-  baseExp: z.union([z.string(), z.number()]).optional(),
-  growthRate: z.string().optional(),
-  evYield: z.string().optional(),
+  category: z.string().optional().nullable(),
+  types: z
+    .array(z.custom<PokemonType>((val) => typeof val === "string"))
+    .optional()
+    .nullable(),
+  description: z.string().optional().nullable(),
+  height: z.string().optional().nullable(),
+  weight: z.string().optional().nullable(),
+  genderRatio: z.object({ m: z.number(), f: z.number() }).optional().nullable(),
+  catchRate: z.union([z.string(), z.number()]).optional().nullable(),
+  baseExp: z.union([z.string(), z.number()]).optional().nullable(),
+  growthRate: z.string().optional().nullable(),
+  evYield: z.string().optional().nullable(),
   heldItems: z
     .union([z.string(), z.array(z.string()), z.record(z.string(), z.string())])
-    .optional(),
-  tier: z.string().optional(),
-  abilities: PokemonAbilitiesSchema,
-  eggGroups: z.union([z.array(z.string()), z.string()]).optional(),
-  baseStats: BaseStatsSchema,
-  moves: z.array(PokemonMoveSchema),
-  evolutions: z.array(EvolutionSchema),
-  locations: z.array(LocationSchema),
+    .optional()
+    .nullable(),
+  tier: z.string().optional().nullable(),
+  abilities: PokemonAbilitiesSchema.optional().nullable(),
+  eggGroups: z.union([z.array(z.string()), z.string()]).optional().nullable(),
+  baseStats: BaseStatsSchema.optional().nullable(),
+  moves: z.array(PokemonMoveSchema).optional().nullable(),
+  evolutions: z.array(EvolutionSchema).optional().nullable(),
+  locations: z.array(LocationSchema).optional().nullable(),
   variants: z
     .array(
       z.union([
@@ -83,7 +87,8 @@ export const PokemonSchema = z.object({
         z.object({ name: z.string(), category: z.string() }),
       ])
     )
-    .optional(),
+    .optional()
+    .nullable(),
   dexId: z.union([z.number(), z.string()]).nullable().optional(),
 });
 

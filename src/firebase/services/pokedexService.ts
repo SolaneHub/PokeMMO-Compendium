@@ -132,10 +132,17 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
     types: p.types || [],
     dexId: p.dexId ?? null,
     catchRate: p.catchRate ?? null,
-    baseStats: p.baseStats || null,
-    abilities: p.abilities || null,
-    heldItems: p.heldItems || null,
-    eggGroups: p.eggGroups || null,
+    baseStats: p.baseStats || {
+      hp: 0,
+      atk: 0,
+      def: 0,
+      spa: 0,
+      spd: 0,
+      spe: 0,
+    },
+    abilities: p.abilities || { main: [], hidden: null },
+    heldItems: p.heldItems || "None",
+    eggGroups: p.eggGroups || [],
     // Add evolutions names for links
     evolutions: p.evolutions?.map((e) => ({ name: e.name })) || [],
     moves: [], // Empty for summary
@@ -194,11 +201,20 @@ export async function updatePokedexSummary(pokemonList: Pokemon[]) {
     types: p.types || [],
     dexId: p.dexId ?? null,
     catchRate: p.catchRate ?? null,
-    baseStats: p.baseStats || null,
-    abilities: p.abilities || null,
-    heldItems: p.heldItems || null,
-    eggGroups: p.eggGroups || null,
+    baseStats: p.baseStats || {
+      hp: 0,
+      atk: 0,
+      def: 0,
+      spa: 0,
+      spd: 0,
+      spe: 0,
+    },
+    abilities: p.abilities || { main: [], hidden: null },
+    heldItems: p.heldItems || "None",
+    eggGroups: p.eggGroups || [],
     evolutions: p.evolutions?.map((e) => ({ name: e.name })) || [],
+    moves: [],
+    locations: [],
   }));
 
   const summaryRef = doc(db, POKEDEX_COLLECTION, POKEDEX_SUMMARY_DOC_ID);
