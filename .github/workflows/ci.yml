@@ -58,4 +58,15 @@ jobs:
         run: npm ci
 
       - name: Test 🧪
-        run: npm run test:run
+        run: npm run test:coverage
+
+      - name: Upload Test Results & Coverage 📦
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            test-results.json
+            test-report/
+            coverage/
+          retention-days: 7
