@@ -57,10 +57,10 @@ export const PokemonSchema = z.object({
   id: z.union([z.string(), z.number()]).nullable(),
   name: z.string(),
   category: z.string().optional().nullable(),
-  types: z
-    .array(z.custom<PokemonType>((val) => typeof val === "string"))
-    .optional()
-    .nullable(),
+  types: z.preprocess(
+    (val) => val || [],
+    z.array(z.custom<PokemonType>((val) => typeof val === "string"))
+  ),
   description: z.string().optional().nullable(),
   height: z.string().optional().nullable(),
   weight: z.string().optional().nullable(),
@@ -74,12 +74,21 @@ export const PokemonSchema = z.object({
     .optional()
     .nullable(),
   tier: z.string().optional().nullable(),
-  abilities: PokemonAbilitiesSchema.optional().nullable(),
-  eggGroups: z.union([z.array(z.string()), z.string()]).optional().nullable(),
-  baseStats: BaseStatsSchema.optional().nullable(),
-  moves: z.array(PokemonMoveSchema).optional().nullable(),
-  evolutions: z.array(EvolutionSchema).optional().nullable(),
-  locations: z.array(LocationSchema).optional().nullable(),
+  abilities: z.preprocess(
+    (val) => val || { main: [], hidden: null },
+    PokemonAbilitiesSchema
+  ),
+  eggGroups: z
+    .union([z.array(z.string()), z.string()])
+    .optional()
+    .nullable(),
+  baseStats: z.preprocess(
+    (val) => val || { hp: 0, atk: 0, def: 0, spa: 0, spd: 0, spe: 0 },
+    BaseStatsSchema
+  ),
+  moves: z.preprocess((val) => val || [], z.array(PokemonMoveSchema)),
+  evolutions: z.preprocess((val) => val || [], z.array(EvolutionSchema)),
+  locations: z.preprocess((val) => val || [], z.array(LocationSchema)),
   variants: z
     .array(
       z.union([
@@ -87,9 +96,9 @@ export const PokemonSchema = z.object({
         z.object({ name: z.string(), category: z.string() }),
       ])
     )
-    .optional()
-    .nullable(),
+    .optional(),
   dexId: z.union([z.number(), z.string()]).nullable().optional(),
+  _isFullData: z.boolean().optional(),
 });
 
 export type BaseStats = z.infer<typeof BaseStatsSchema>;

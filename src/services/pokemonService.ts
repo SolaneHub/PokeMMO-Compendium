@@ -71,14 +71,6 @@ export const getPokemonFullDetails = (
     sprite,
     background,
     variants,
-    abilities: {
-      ...fallbackFullDetails(name).abilities,
-      ...(pokemonBase.abilities || {}),
-    },
-    baseStats: {
-      ...fallbackFullDetails(name).baseStats,
-      ...(pokemonBase.baseStats || {}),
-    },
   };
   return data;
 };
