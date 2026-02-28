@@ -4,63 +4,66 @@ import { describe, expect, it, vi } from "vitest";
 import MyRoster from "./MyRoster";
 
 describe("MyRoster component", () => {
-  it("renders empty slots", () => {
-    const members = [null, null, null, null, null, null];
-    render(
-      <MyRoster
-        members={members}
-        onEditSlot={() => {
-          /* noop */
-        }}
-      />
-    );
+  const members = [
+    { name: "Pikachu", item: "Light Ball", dexId: 25 },
+    { name: "MissingNo" }, // No dexId to test fallback
+    null,
+    null,
+  ];
 
-    // There are 6 slots, each should be a button role element
+  it("renders correct number of slots", () => {
+    render(<MyRoster members={members} onEditSlot={vi.fn()} />);
     const slots = screen.getAllByRole("button");
-    expect(slots.length).toBe(6);
-    // Since there are no members, images shouldn't be rendered
-    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+    expect(slots).toHaveLength(4);
   });
 
-  it("renders member images when present", () => {
-    const members = [{ name: "Pikachu", item: "Light Ball" }, null, null];
-    render(
-      <MyRoster
-        members={members}
-        onEditSlot={() => {
-          /* noop */
-        }}
-      />
-    );
-
-    const img = screen.getByAltText("Pikachu");
-    expect(img).toBeInTheDocument();
-  });
-
-  it("calls onEditSlot with correct index when clicked", () => {
+  it("calls onEditSlot when a slot is clicked or keyboard triggered", () => {
     const handleEdit = vi.fn();
-    const members = [null, { name: "Bulbasaur" }, null];
-    render(<MyRoster members={members} onEditSlot={handleEdit} />);
-
-    const slots = screen.getAllByRole("button");
-    // Click the second slot
-    fireEvent.click(slots[1]);
-    expect(handleEdit).toHaveBeenCalledWith(1);
-  });
-
-  it("handles keyboard events", () => {
-    const handleEdit = vi.fn();
-    const members = [null, null, null];
     render(<MyRoster members={members} onEditSlot={handleEdit} />);
 
     const slots = screen.getAllByRole("button");
 
-    // Press Space
-    fireEvent.keyDown(slots[0], { key: " ", code: "Space" });
+    // Click first slot
+    fireEvent.click(slots[0]);
     expect(handleEdit).toHaveBeenCalledWith(0);
 
-    // Press Enter
-    fireEvent.keyDown(slots[2], { key: "Enter", code: "Enter" });
+    // Keyboard Enter on second slot
+    fireEvent.keyDown(slots[1], { key: "Enter", code: "Enter" });
+    expect(handleEdit).toHaveBeenCalledWith(1);
+
+    // Keyboard Space on third slot
+    fireEvent.keyDown(slots[2], { key: " ", code: "Space" });
     expect(handleEdit).toHaveBeenCalledWith(2);
+
+    // Random key shouldn't trigger
+    fireEvent.keyDown(slots[3], { key: "A", code: "KeyA" });
+    expect(handleEdit).toHaveBeenCalledTimes(3); // Unchanged
+  });
+
+  it("handles image load errors and sets correct fallback src", () => {
+    render(<MyRoster members={members} onEditSlot={vi.fn()} />);
+
+    const pikaImg = screen.getByAltText("Pikachu");
+    const missingImg = screen.getByAltText("MissingNo");
+
+    fireEvent.error(pikaImg);
+    fireEvent.error(missingImg);
+
+    expect(pikaImg).toHaveAttribute(
+      "src",
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+    );
+    expect(missingImg).toHaveAttribute(
+      "src",
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png"
+    );
+  });
+
+  it("renders empty slots", () => {
+    const { container } = render(
+      <MyRoster members={[null]} onEditSlot={vi.fn()} />
+    );
+    // The lucide-react Plus icon renders an SVG
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 });

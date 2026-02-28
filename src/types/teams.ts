@@ -27,7 +27,13 @@ export const StrategyVariationSchema: z.ZodType<StrategyVariation> = z.lazy(
 
 export const StrategyStepSchema: z.ZodType<StrategyStep> = z.lazy(() =>
   z.object({
-    id: z.string(),
+    id: z
+      .string()
+      .default(() =>
+        typeof crypto !== "undefined"
+          ? crypto.randomUUID()
+          : Math.random().toString(36).substring(7)
+      ),
     type: z.string(),
     description: z.string().optional(),
     notes: z.string().optional(),

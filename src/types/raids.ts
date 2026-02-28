@@ -2,16 +2,16 @@ import { z } from "zod";
 
 export const RaidLocationSchema = z.object({
   area: z.string(),
-  requirements: z.array(z.string()).optional(),
+  requirements: z.array(z.string().nullable()).nullish(),
 });
 
 export const RaidMechanicsSchema = z.object({
-  ability: z.string().optional(),
-  heldItem: z.string().optional(),
-  notes: z.string().optional(),
+  ability: z.string().nullish(),
+  heldItem: z.string().nullish(),
+  notes: z.string().nullish(),
   thresholds: z
     .record(z.string(), z.union([z.string(), z.object({ effect: z.string() })]))
-    .optional(),
+    .nullish(),
 });
 
 export const RaidRoleSchema = z.record(z.string(), z.string());
@@ -39,7 +39,10 @@ export const RaidBuildSchema: z.ZodType<RaidBuild> = z.lazy(() =>
     evs: z.string().optional(),
     ivs: z.string().optional(),
     moves: z.array(z.string()).optional(),
-    order: z.number().optional(),
+    order: z.preprocess(
+      (val) => (typeof val === "string" ? parseInt(val, 10) : val),
+      z.number().optional()
+    ),
     variants: z.array(RaidBuildSchema).optional(),
   })
 );
@@ -47,19 +50,19 @@ export const RaidBuildSchema: z.ZodType<RaidBuild> = z.lazy(() =>
 export const RaidStrategySchema = z.object({
   id: z.string().optional(),
   label: z.string().optional(),
-  roles: z.record(z.string(), z.array(z.string())),
-  recommended: z.array(RaidBuildSchema),
+  roles: z.record(z.string(), z.array(z.string())).default({}),
+  recommended: z.array(RaidBuildSchema).default([]),
 });
 
 export const RaidSchema = z.object({
   name: z.string(),
   stars: z.number(),
-  moves: z.array(z.string()),
-  teamStrategies: z.array(RaidStrategySchema),
+  moves: z.array(z.string()).default([]),
+  teamStrategies: z.array(RaidStrategySchema).default([]),
   locations: z
-    .record(z.string(), z.union([RaidLocationSchema, z.string()]))
-    .optional(),
-  mechanics: RaidMechanicsSchema.optional(),
+    .record(z.string(), z.union([RaidLocationSchema, z.string()]).nullable())
+    .nullish(),
+  mechanics: RaidMechanicsSchema.nullish(),
 });
 
 export type RaidLocation = z.infer<typeof RaidLocationSchema>;
