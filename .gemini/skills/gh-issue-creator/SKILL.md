@@ -30,13 +30,14 @@ Before creating or editing an issue, always use these commands to ensure you hav
 
 ## Strict Rules
 
-1.  **Title Format**: `[TYPE] Title`
+1.  **Language**: All issues (titles and bodies) MUST be written in **English**.
+2.  **Title Format**: `[TYPE] Title`
     - `[Bug]`: For unexpected behavior.
     - `[Feature]`: For new functionality.
     - `[Test]`: For adding/fixing tests.
     - `[Refactor]`: For code quality improvements.
     - `[Docs]`: For documentation tasks.
-2.  **Standard Assignment**:
+3.  **Standard Assignment**:
     - **Project**: `"PokeMMO-Compendium Tasks"`.
     - **Milestone**: `"v1.1 - Refactoring & Performance"`.
 
@@ -56,12 +57,12 @@ gh issue edit <ID> --title "[TYPE] TITLE" --add-project "PokeMMO-Compendium Task
 
 ## Example Usage
 
-**User**: "Apri una issue per i test unitari."
+**User**: "Create an issue for unit tests."
 
 **AI Action**:
 
 1. Run `gh label list` to find `Type: Test`.
-2. Run `gh issue create --title "[Test] Setup Unit Tests" --body "..." --label "Type: Test" --project "PokeMMO-Compendium Tasks" --milestone "v1.1 - Refactoring & Performance"`
+2. Run `gh issue create --title "[Test] Setup Unit Tests" --body "Implement initial unit testing suite using Vitest." --label "Type: Test" --project "PokeMMO-Compendium Tasks" --milestone "v1.1 - Refactoring & Performance"`
 
 ## Best Practices
 
