@@ -11,8 +11,8 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
-    concurrency: ci-${{ github.ref }}
+  build:
+    name: Build & Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install Dependencies 🔧
         run: npm ci
@@ -41,6 +41,28 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_STORAGE_SECRET_KEY: ${{ secrets.VITE_STORAGE_SECRET_KEY }}
+
+      - name: Upload Build Artifact 📦
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  deploy:
+    name: Deploy to Firebase
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifact 📦
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
 
       - name: Deploy to Firebase Hosting 🚀
         uses: FirebaseExtended/action-hosting-deploy@v0
