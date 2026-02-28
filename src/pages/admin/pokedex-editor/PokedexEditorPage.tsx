@@ -886,7 +886,7 @@ const PokedexEditorPage = () => {
                 <input
                   name="category"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                  value={formData.category}
+                  value={formData.category || ""}
                   onChange={handleInputChange}
                 />
               </div>
@@ -921,7 +921,7 @@ const PokedexEditorPage = () => {
                 name="description"
                 rows={2}
                 className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                value={formData.description}
+                value={formData.description || ""}
                 onChange={handleInputChange}
               />
             </div>

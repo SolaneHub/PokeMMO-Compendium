@@ -27,7 +27,11 @@ export const extractPokedexData = (
     if (pokemon.name) {
       pokemonNames.add(pokemon.name);
     }
-    if (pokemon.name && pokemon.catchRate !== undefined) {
+    if (
+      pokemon.name &&
+      pokemon.catchRate !== undefined &&
+      pokemon.catchRate !== null
+    ) {
       pokemonCatchRates.push({
         name: pokemon.name,
         catchRate: pokemon.catchRate,

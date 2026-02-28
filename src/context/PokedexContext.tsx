@@ -82,7 +82,7 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
 
       const initializedPokemonColorMap = initializePokemonColorMap(rawData);
       const processed = extractPokedexData(rawData);
-      
+
       const pokemonMap = new Map<string, Pokemon>();
       rawData.forEach((p) => {
         pokemonMap.set(p.name, p);
@@ -120,9 +120,9 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
       // or if it has moves/description (legacy check)
       if (
         currentPokemon &&
-        ((currentPokemon as any)._isFullData || 
-         (currentPokemon.moves && currentPokemon.moves.length > 0) || 
-         currentPokemon.description)
+        (currentPokemon._isFullData ||
+          (currentPokemon.moves && currentPokemon.moves.length > 0) ||
+          currentPokemon.description)
       ) {
         return currentPokemon;
       }
@@ -134,7 +134,8 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
           setData((prev) => {
             const newMap = new Map(prev.pokemonMap);
             newMap.set(fullDataWithFlag.name, fullDataWithFlag);
-            if (fullDataWithFlag.id) newMap.set(fullDataWithFlag.id.toString(), fullDataWithFlag);
+            if (fullDataWithFlag.id)
+              newMap.set(fullDataWithFlag.id.toString(), fullDataWithFlag);
             return { ...prev, pokemonMap: newMap };
           });
           return fullDataWithFlag;
