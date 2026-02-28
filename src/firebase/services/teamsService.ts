@@ -12,47 +12,10 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { z } from "zod";
 
 import { db } from "@/firebase/config";
 import { TEAMS_COLLECTION, USERS_COLLECTION } from "@/firebase/services/common";
-import {
-  StrategyStep,
-  StrategyVariation,
-  Team,
-  TeamStatus,
-} from "@/types/teams";
-
-// Recursive Zod schema
-const StrategyStepSchema: z.ZodType<StrategyStep> = z.lazy(() =>
-  z.object({
-    id: z.string(),
-    type: z.string(),
-    player: z.string().optional(),
-    warning: z.string().optional(),
-    variations: z.array(StrategyVariationSchema).optional(),
-  })
-);
-
-const StrategyVariationSchema: z.ZodType<StrategyVariation> = z.lazy(() =>
-  z.object({
-    type: z.string(),
-    name: z.string().optional(),
-    steps: z.array(StrategyStepSchema).optional(),
-  })
-);
-
-const TeamSchema = z.object({
-  name: z.string().min(1).max(100),
-  region: z.string().max(50).nullable(),
-  members: z.array(z.record(z.string(), z.unknown()).nullable()).max(6),
-  strategies: z
-    .record(z.string(), z.record(z.string(), z.array(StrategyStepSchema)))
-    .optional(),
-  enemyPools: z.record(z.string(), z.array(z.string())).optional(),
-  status: z.enum(["draft", "pending", "approved", "rejected"]).optional(),
-  isPublic: z.boolean().optional(),
-});
+import { Team, TeamSchema, TeamStatus } from "@/types/teams";
 
 const getUserTeamsRef = (userId: string) => {
   return collection(db, USERS_COLLECTION, userId, TEAMS_COLLECTION);
@@ -77,7 +40,16 @@ export async function getUserTeams(userId: string): Promise<Team[]> {
   const querySnapshot = await getDocs(q);
   const teams: Team[] = [];
   querySnapshot.forEach((doc) => {
-    teams.push({ id: doc.id, ...doc.data() } as Team);
+    const data = { id: doc.id, ...doc.data() };
+    const result = TeamSchema.safeParse(data);
+    if (result.success) {
+      teams.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return teams;
 }
@@ -131,11 +103,20 @@ export async function getTeamsByStatus(
   const teams: Team[] = [];
   querySnapshot.forEach((doc) => {
     const parentUser = doc.ref.parent.parent;
-    teams.push({
+    const data = {
       id: doc.id,
       userId: parentUser ? parentUser.id : "unknown",
       ...doc.data(),
-    } as Team);
+    };
+    const result = TeamSchema.safeParse(data);
+    if (result.success) {
+      teams.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   let nextPageToken = null;
   if (teams.length > limit) {
@@ -170,11 +151,20 @@ export async function getAllUserTeams(options: PaginationOptions = {}) {
   const teams: Team[] = [];
   querySnapshot.forEach((doc) => {
     const parentUser = doc.ref.parent.parent;
-    teams.push({
+    const data = {
       id: doc.id,
       userId: parentUser ? parentUser.id : "unknown",
       ...doc.data(),
-    } as Team);
+    };
+    const result = TeamSchema.safeParse(data);
+    if (result.success) {
+      teams.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   let nextPageToken = null;
   if (teams.length > limit) {
@@ -228,11 +218,20 @@ export async function getPublicApprovedTeams(options: PaginationOptions = {}) {
   const teams: Team[] = [];
   querySnapshot.forEach((doc) => {
     const parentUser = doc.ref.parent.parent;
-    teams.push({
+    const data = {
       id: doc.id,
       userId: parentUser ? parentUser.id : "unknown",
       ...doc.data(),
-    } as Team);
+    };
+    const result = TeamSchema.safeParse(data);
+    if (result.success) {
+      teams.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   let nextPageToken = null;
   if (limit && teams.length > limit) {
