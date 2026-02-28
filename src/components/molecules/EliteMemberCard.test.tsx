@@ -17,9 +17,7 @@ describe("EliteMemberCard component", () => {
     render(
       <EliteMemberCard
         member={mockMember}
-        onMemberClick={() => {
-          /* noop */
-        }}
+        onMemberClick={vi.fn()}
         isSelected={false}
         background="#ffffff"
       />
@@ -32,6 +30,22 @@ describe("EliteMemberCard component", () => {
       "src",
       expect.stringContaining("LoreleiLGPE.png")
     );
+  });
+
+  it("handles image load errors and sets a placeholder", () => {
+    render(
+      <EliteMemberCard
+        member={mockMember}
+        onMemberClick={vi.fn()}
+        isSelected={false}
+        background="#ffffff"
+      />
+    );
+
+    const img = screen.getByAltText("Lorelei");
+    fireEvent.error(img);
+
+    expect(img).toHaveAttribute("src", expect.stringContaining("placehold.co"));
   });
 
   it("calls onMemberClick when clicked", () => {
@@ -57,9 +71,7 @@ describe("EliteMemberCard component", () => {
     render(
       <EliteMemberCard
         member={mockMember}
-        onMemberClick={() => {
-          /* noop */
-        }}
+        onMemberClick={vi.fn()}
         isSelected={true}
         background="#ffffff"
         shadowColor="0 0 15px red"
@@ -69,5 +81,19 @@ describe("EliteMemberCard component", () => {
     const card = screen.getByText("Lorelei").closest("div.group");
     expect(card).toHaveClass("scale-105");
     expect(card).toHaveStyle({ boxShadow: "0 0 15px red" });
+  });
+
+  it("applies default shadow when isSelected is true and no shadowColor is provided", () => {
+    render(
+      <EliteMemberCard
+        member={mockMember}
+        onMemberClick={vi.fn()}
+        isSelected={true}
+        background="#ffffff"
+      />
+    );
+
+    const card = screen.getByText("Lorelei").closest("div.group");
+    expect(card).toHaveStyle({ boxShadow: "0 0 15px rgba(255,255,255,0.2)" });
   });
 });

@@ -2,9 +2,13 @@ import { z } from "zod";
 
 import { PokemonType } from "@/utils/pokemonColors";
 
+import { StrategyStepSchema } from "./teams";
+
 export const BossFightTeamSchema = z.object({
-  pokemonNames: z.array(z.string()),
-  pokemonStrategies: z.record(z.string(), z.array(z.string())),
+  pokemonNames: z.array(z.string()).default([]),
+  pokemonStrategies: z
+    .record(z.string(), z.array(z.union([z.string(), StrategyStepSchema])))
+    .default({}),
 });
 
 export const BossFightSchema = z.object({

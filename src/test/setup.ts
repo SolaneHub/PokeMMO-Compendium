@@ -1,12 +1,20 @@
 import "@testing-library/jest-dom/vitest";
 
 import { cleanup } from "@testing-library/react";
-import { afterEach, vi } from "vitest";
+import { setupServer } from "msw/node";
+import { afterAll, afterEach, beforeAll, vi } from "vitest";
 
 // Automatically cleanup after each test
 afterEach(() => {
   cleanup();
 });
+
+// Setup MSW Server for network interception
+export const server = setupServer();
+
+beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 // Global Firebase Mocks
 vi.mock("firebase/app", () => ({
@@ -32,13 +40,32 @@ vi.mock("firebase/auth", () => ({
   signInWithPopup: vi.fn(() => Promise.resolve()),
 }));
 
+// Better Firestore Mock with internal state
+let mockDocs: unknown[] = [];
+export const setMockDocs = (docs: unknown[]) => {
+  mockDocs = docs;
+};
+
 vi.mock("firebase/firestore", () => ({
   initializeFirestore: vi.fn(() => ({})),
   getFirestore: vi.fn(() => ({})),
   collection: vi.fn(),
   doc: vi.fn(),
-  getDoc: vi.fn(),
-  getDocs: vi.fn(),
+  getDoc: vi.fn(async () => ({
+    exists: () => mockDocs.length > 0,
+    data: () => (mockDocs.length > 0 ? mockDocs[0] : null),
+  })),
+  getDocs: vi.fn(async () => ({
+    empty: mockDocs.length === 0,
+    docs: mockDocs.map((doc) => ({
+      id: (doc as { id?: string }).id || "1",
+      data: () => doc,
+    })),
+    forEach: (callback: (doc: { id: string; data: () => unknown }) => void) =>
+      mockDocs.forEach((doc: unknown) =>
+        callback({ id: (doc as { id?: string }).id || "1", data: () => doc })
+      ),
+  })),
   query: vi.fn(),
   where: vi.fn(),
   orderBy: vi.fn(),
