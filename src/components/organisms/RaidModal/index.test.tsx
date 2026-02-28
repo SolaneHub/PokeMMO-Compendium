@@ -1,8 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import RaidModal from "./index";
 import { Pokemon } from "@/types/pokemon";
+
+import RaidModal from "./index";
 
 const mockRaid = {
   name: "Rayquaza",
@@ -21,7 +22,9 @@ describe("RaidModal component", () => {
     const { container } = render(
       <RaidModal
         raidName="Rayquaza"
-        onClose={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
         currentRaid={null}
       />
@@ -33,7 +36,9 @@ describe("RaidModal component", () => {
     render(
       <RaidModal
         raidName="Rayquaza"
-        onClose={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
         currentRaid={mockRaid}
       />
@@ -46,7 +51,9 @@ describe("RaidModal component", () => {
     render(
       <RaidModal
         raidName="Rayquaza"
-        onClose={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
         currentRaid={mockRaid}
       />

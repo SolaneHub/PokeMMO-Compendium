@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 import React from "react";
+import { describe, expect, it, vi } from "vitest";
 
 import CreateTeamModal from "./CreateTeamModal";
 
@@ -18,7 +18,14 @@ vi.mock("react", async (importOriginal) => {
 
 describe("CreateTeamModal component", () => {
   it("renders correctly", () => {
-    render(<CreateTeamModal onClose={() => {}} onSubmit={async () => ({})} />);
+    render(
+      <CreateTeamModal
+        onClose={() => {
+          /* noop */
+        }}
+        onSubmit={async () => ({})}
+      />
+    );
     expect(screen.getByText("Create New Team")).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText("e.g. My Kanto Farm Team")

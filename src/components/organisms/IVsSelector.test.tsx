@@ -9,9 +9,13 @@ describe("IVsSelector component", () => {
       <IVsSelector
         ivOptions={[2, 3, 4]}
         selectedIvCount={3}
-        setSelectedIvCount={() => {}}
+        setSelectedIvCount={() => {
+          /* noop */
+        }}
         nature={true}
-        setNature={() => {}}
+        setNature={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -26,14 +30,19 @@ describe("IVsSelector component", () => {
       <IVsSelector
         ivOptions={[2, 3, 4]}
         selectedIvCount={3}
-        setSelectedIvCount={() => {}}
+        setSelectedIvCount={() => {
+          /* noop */
+        }}
         nature={false}
         setNature={handleSetNature}
       />
     );
 
     const toggleTitle = screen.getByText("Nature Breeding");
-    fireEvent.click(toggleTitle.closest("div.cursor-pointer")!);
+    const container = toggleTitle.closest("div.cursor-pointer");
+    if (container) {
+      fireEvent.click(container);
+    }
 
     expect(handleSetNature).toHaveBeenCalledWith(true);
   });

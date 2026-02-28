@@ -11,8 +11,12 @@ describe("ConfirmationModal component", () => {
         message="Are you sure you want to delete this team?"
         confirmText="Yes, delete"
         cancelText="No, cancel"
-        onConfirm={() => {}}
-        onCancel={() => {}}
+        onConfirm={() => {
+          /* noop */
+        }}
+        onCancel={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -33,7 +37,9 @@ describe("ConfirmationModal component", () => {
         confirmText="Confirm"
         cancelText="Cancel"
         onConfirm={handleConfirm}
-        onCancel={() => {}}
+        onCancel={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -49,7 +55,9 @@ describe("ConfirmationModal component", () => {
         message="Message"
         confirmText="Confirm"
         cancelText="Cancel"
-        onConfirm={() => {}}
+        onConfirm={() => {
+          /* noop */
+        }}
         onCancel={handleCancel}
       />
     );

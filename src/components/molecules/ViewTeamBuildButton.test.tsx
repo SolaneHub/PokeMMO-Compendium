@@ -5,7 +5,14 @@ import ViewTeamBuildButton from "./ViewTeamBuildButton";
 
 describe("ViewTeamBuildButton component", () => {
   it("renders button with correct team name", () => {
-    render(<ViewTeamBuildButton selectedTeam="Alpha" onOpen={() => {}} />);
+    render(
+      <ViewTeamBuildButton
+        selectedTeam="Alpha"
+        onOpen={() => {
+          /* noop */
+        }}
+      />
+    );
     expect(screen.getByText("📋 View Alpha Team Build")).toBeInTheDocument();
   });
 

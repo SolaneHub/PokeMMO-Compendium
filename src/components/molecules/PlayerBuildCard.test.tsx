@@ -1,8 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import PlayerBuildCard from "./PlayerBuildCard";
 import { Pokemon } from "@/types/pokemon";
+
+import PlayerBuildCard from "./PlayerBuildCard";
 
 // Create a mock pokemon map
 const mockPokemonMap = new Map<string, Pokemon>();
@@ -61,8 +62,12 @@ describe("PlayerBuildCard component", () => {
   });
 
   it("returns null if build is not provided", () => {
+    // Cast to unknown first to satisfy ESLint any rule
     const { container } = render(
-      <PlayerBuildCard build={undefined as any} pokemonMap={mockPokemonMap} />
+      <PlayerBuildCard
+        build={undefined as unknown as typeof mockBuild}
+        pokemonMap={mockPokemonMap}
+      />
     );
     expect(container).toBeEmptyDOMElement();
   });

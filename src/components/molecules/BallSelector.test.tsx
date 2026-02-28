@@ -5,13 +5,13 @@ import BallSelector from "./BallSelector";
 
 describe("BallSelector component", () => {
   it("renders the selected ball and its multiplier", () => {
-    render(<BallSelector selectedBall="Ultra Ball" onSelect={() => {}} />);
+    render(<BallSelector selectedBall="Ultra Ball" onSelect={vi.fn()} />);
     expect(screen.getByText("Ultra Ball")).toBeInTheDocument();
     expect(screen.getByText(/x2 rate/i)).toBeInTheDocument();
   });
 
   it("filters balls when typing in search input", () => {
-    render(<BallSelector selectedBall="Poké Ball" onSelect={() => {}} />);
+    render(<BallSelector selectedBall="Poké Ball" onSelect={vi.fn()} />);
 
     // Open dropdown
     fireEvent.click(screen.getByText("Poké Ball"));
@@ -35,7 +35,7 @@ describe("BallSelector component", () => {
   });
 
   it("displays 'No balls found' if search yields no results", () => {
-    render(<BallSelector selectedBall="Poké Ball" onSelect={() => {}} />);
+    render(<BallSelector selectedBall="Poké Ball" onSelect={vi.fn()} />);
     fireEvent.click(screen.getByText("Poké Ball"));
 
     const searchInput = screen.getByPlaceholderText("Find a ball...");

@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import BossFightSection from "./BossFightSection";
 import { BossFight } from "@/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
+
+import BossFightSection from "./BossFightSection";
 
 const mockBossFight: BossFight = {
   name: "Giovanni",
@@ -29,7 +30,7 @@ describe("BossFightSection component", () => {
     render(
       <BossFightSection
         bossFight={mockBossFight}
-        onPokemonCardClick={() => {}}
+        onPokemonCardClick={vi.fn()}
         selectedPokemon={null}
         pokemonMap={mockPokemonMap}
       />
@@ -43,7 +44,7 @@ describe("BossFightSection component", () => {
     render(
       <BossFightSection
         bossFight={mockBossFight}
-        onPokemonCardClick={() => {}}
+        onPokemonCardClick={vi.fn()}
         selectedPokemon={null}
         pokemonMap={mockPokemonMap}
       />
@@ -61,7 +62,7 @@ describe("BossFightSection component", () => {
     render(
       <BossFightSection
         bossFight={mockBossFight}
-        onPokemonCardClick={() => {}}
+        onPokemonCardClick={vi.fn()}
         selectedPokemon={null}
         pokemonMap={mockPokemonMap}
       />
@@ -85,7 +86,10 @@ describe("BossFightSection component", () => {
     );
 
     // Click on Rhydon card
-    fireEvent.click(screen.getByText("Rhydon").closest("div[role='button']")!);
+    const rhydonBtn = screen.getByText("Rhydon").closest("div[role='button']");
+    if (rhydonBtn) {
+      fireEvent.click(rhydonBtn);
+    }
 
     // pokemonName, bossName, region, teamName
     expect(handleClick).toHaveBeenCalledWith(

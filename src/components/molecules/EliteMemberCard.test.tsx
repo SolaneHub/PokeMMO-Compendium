@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import EliteMemberCard from "./EliteMemberCard";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
+import EliteMemberCard from "./EliteMemberCard";
+
 const mockMember: EliteFourMember = {
-  id: "lorelei",
   name: "Lorelei",
   type: "Ice",
   image: "LoreleiLGPE.png",
@@ -17,7 +17,9 @@ describe("EliteMemberCard component", () => {
     render(
       <EliteMemberCard
         member={mockMember}
-        onMemberClick={() => {}}
+        onMemberClick={() => {
+          /* noop */
+        }}
         isSelected={false}
         background="#ffffff"
       />
@@ -55,7 +57,9 @@ describe("EliteMemberCard component", () => {
     render(
       <EliteMemberCard
         member={mockMember}
-        onMemberClick={() => {}}
+        onMemberClick={() => {
+          /* noop */
+        }}
         isSelected={true}
         background="#ffffff"
         shadowColor="0 0 15px red"

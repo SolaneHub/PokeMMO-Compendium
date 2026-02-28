@@ -1,9 +1,11 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { User } from "firebase/auth";
 import { MemoryRouter } from "react-router-dom";
+import { describe, expect, it, vi } from "vitest";
+
+import * as AuthContext from "@/context/AuthContext";
 
 import Sidebar from "./Sidebar";
-import * as AuthContext from "@/context/AuthContext";
 
 describe("Sidebar component", () => {
   it("renders navigation links for a guest user", () => {
@@ -11,11 +13,11 @@ describe("Sidebar component", () => {
       currentUser: null,
       isAdmin: false,
       logout: vi.fn(),
-    } as any);
+    } as unknown as ReturnType<typeof AuthContext.useAuth>);
 
     render(
       <MemoryRouter>
-        <Sidebar isOpen={true} setIsOpen={() => {}} />
+        <Sidebar isOpen={true} setIsOpen={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -28,14 +30,14 @@ describe("Sidebar component", () => {
 
   it("renders user-specific links when logged in", () => {
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { email: "test@example.com" },
+      currentUser: { email: "test@example.com" } as unknown as User,
       isAdmin: false,
       logout: vi.fn(),
-    } as any);
+    } as unknown as ReturnType<typeof AuthContext.useAuth>);
 
     render(
       <MemoryRouter>
-        <Sidebar isOpen={true} setIsOpen={() => {}} />
+        <Sidebar isOpen={true} setIsOpen={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -46,14 +48,14 @@ describe("Sidebar component", () => {
 
   it("renders admin links when user is admin", () => {
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { email: "admin@example.com" },
+      currentUser: { email: "admin@example.com" } as unknown as User,
       isAdmin: true,
       logout: vi.fn(),
-    } as any);
+    } as unknown as ReturnType<typeof AuthContext.useAuth>);
 
     render(
       <MemoryRouter>
-        <Sidebar isOpen={true} setIsOpen={() => {}} />
+        <Sidebar isOpen={true} setIsOpen={vi.fn()} />
       </MemoryRouter>
     );
 
@@ -63,14 +65,14 @@ describe("Sidebar component", () => {
   it("calls logout when logout button is clicked", () => {
     const mockLogout = vi.fn();
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { email: "test@example.com" },
+      currentUser: { email: "test@example.com" } as unknown as User,
       isAdmin: false,
       logout: mockLogout,
-    } as any);
+    } as unknown as ReturnType<typeof AuthContext.useAuth>);
 
     render(
       <MemoryRouter>
-        <Sidebar isOpen={true} setIsOpen={() => {}} />
+        <Sidebar isOpen={true} setIsOpen={vi.fn()} />
       </MemoryRouter>
     );
 

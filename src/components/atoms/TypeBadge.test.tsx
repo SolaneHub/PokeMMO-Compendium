@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
+import { PokemonType, typeBackgrounds } from "@/utils/pokemonColors";
+
 import TypeBadge from "./TypeBadge";
-import { typeBackgrounds } from "@/utils/pokemonColors";
 
 describe("TypeBadge component", () => {
   it("renders the correct text", () => {
@@ -17,8 +18,9 @@ describe("TypeBadge component", () => {
   });
 
   it("applies the default background when type is unknown", () => {
-    // Cast to any to simulate an invalid type coming from API
-    render(<TypeBadge type={"UnknownType" as any} />);
+    // Cast via unknown to PokemonType to simulate an invalid type from API while satisfying ESLint
+    const unknownType = "UnknownType" as unknown as PokemonType;
+    render(<TypeBadge type={unknownType} />);
     const badge = screen.getByText("UnknownType");
     expect(badge).toHaveStyle({ background: typeBackgrounds[""] });
   });

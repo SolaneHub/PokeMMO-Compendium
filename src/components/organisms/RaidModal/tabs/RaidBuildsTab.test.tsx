@@ -1,8 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import RaidBuildsTab from "./RaidBuildsTab";
 import { Pokemon } from "@/types/pokemon";
+import { RaidBuild } from "@/types/raids";
+
+import RaidBuildsTab from "./RaidBuildsTab";
 
 const mockPokemonMap = new Map<string, Pokemon>();
 
@@ -13,7 +15,9 @@ describe("RaidBuildsTab component", () => {
         recommendedList={[]}
         buildGroups={null}
         effectiveBuildGroupKey={null}
-        setSelectedBuildGroup={() => {}}
+        setSelectedBuildGroup={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
       />
     );
@@ -23,12 +27,15 @@ describe("RaidBuildsTab component", () => {
   });
 
   it("renders recommended list as raw strings if no groups are provided", () => {
+    const mockBuild = { name: "Test Build" } as unknown as RaidBuild;
     render(
       <RaidBuildsTab
-        recommendedList={[{ name: "Test Build" } as any]}
+        recommendedList={[mockBuild]}
         buildGroups={null}
         effectiveBuildGroupKey={null}
-        setSelectedBuildGroup={() => {}}
+        setSelectedBuildGroup={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
       />
     );
@@ -37,16 +44,20 @@ describe("RaidBuildsTab component", () => {
   });
 
   it("renders group buttons and active group builds", () => {
-    const buildGroups = {
-      "Player 1": [{ name: "Pikachu", item: "Light Ball" }],
-      "Player 2": [{ name: "Raichu", item: "Choice Specs" }],
-    } as any;
+    const buildGroups: Record<string, RaidBuild[]> = {
+      "Player 1": [
+        { name: "Pikachu", item: "Light Ball" } as unknown as RaidBuild,
+      ],
+      "Player 2": [
+        { name: "Raichu", item: "Choice Specs" } as unknown as RaidBuild,
+      ],
+    };
 
     const handleSelect = vi.fn();
 
     render(
       <RaidBuildsTab
-        recommendedList={[{ name: "Pikachu" } as any]}
+        recommendedList={[{ name: "Pikachu" } as unknown as RaidBuild]}
         buildGroups={buildGroups}
         effectiveBuildGroupKey="Player 1"
         setSelectedBuildGroup={handleSelect}

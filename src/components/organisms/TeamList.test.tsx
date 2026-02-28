@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { MemoryRouter } from "react-router-dom";
+import { describe, expect, it } from "vitest";
+
+import { Team } from "@/types/teams";
 
 import TeamList from "./TeamList";
-import { Team } from "@/types/teams";
-import { MemoryRouter } from "react-router-dom";
 
 const mockTeams: Team[] = [
   {
@@ -28,10 +29,18 @@ describe("TeamList component", () => {
       <MemoryRouter>
         <TeamList
           teams={mockTeams}
-          onTeamClick={() => {}}
-          onDeleteTeam={() => {}}
-          onSubmitTeam={() => {}}
-          onCancelSubmission={() => {}}
+          onTeamClick={() => {
+            /* noop */
+          }}
+          onDeleteTeam={() => {
+            /* noop */
+          }}
+          onSubmitTeam={() => {
+            /* noop */
+          }}
+          onCancelSubmission={() => {
+            /* noop */
+          }}
         />
       </MemoryRouter>
     );
@@ -45,10 +54,18 @@ describe("TeamList component", () => {
       <MemoryRouter>
         <TeamList
           teams={[]}
-          onTeamClick={() => {}}
-          onDeleteTeam={() => {}}
-          onSubmitTeam={() => {}}
-          onCancelSubmission={() => {}}
+          onTeamClick={() => {
+            /* noop */
+          }}
+          onDeleteTeam={() => {
+            /* noop */
+          }}
+          onSubmitTeam={() => {
+            /* noop */
+          }}
+          onCancelSubmission={() => {
+            /* noop */
+          }}
         />
       </MemoryRouter>
     );

@@ -1,8 +1,9 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { useCatchProbability } from "./useCatchProbability";
 import { Pokemon } from "@/types/pokemon";
+
+import { useCatchProbability } from "./useCatchProbability";
 
 const mockPokemon = {
   id: 1,

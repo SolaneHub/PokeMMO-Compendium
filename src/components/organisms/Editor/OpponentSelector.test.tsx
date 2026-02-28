@@ -1,12 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import OpponentSelector from "./OpponentSelector";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
+import OpponentSelector from "./OpponentSelector";
+
 const mockMembers: EliteFourMember[] = [
-  { id: "lorelei", name: "Lorelei", type: "Ice", image: "", region: "Kanto" },
-  { id: "bruno", name: "Bruno", type: "Fighting", image: "", region: "Kanto" },
+  { name: "Lorelei", type: "Ice", image: "", region: "Kanto" },
+  { name: "Bruno", type: "Fighting", image: "", region: "Kanto" },
 ];
 
 describe("OpponentSelector component", () => {
@@ -15,10 +16,14 @@ describe("OpponentSelector component", () => {
       <OpponentSelector
         regions={["Kanto", "Johto"]}
         selectedRegion={null}
-        onSelectRegion={() => {}}
+        onSelectRegion={() => {
+          /* noop */
+        }}
         availableMembers={mockMembers}
         selectedMemberIndex={null}
-        onSelectMember={() => {}}
+        onSelectMember={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -37,7 +42,9 @@ describe("OpponentSelector component", () => {
         onSelectRegion={handleRegionSelect}
         availableMembers={mockMembers}
         selectedMemberIndex={null}
-        onSelectMember={() => {}}
+        onSelectMember={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -51,7 +58,9 @@ describe("OpponentSelector component", () => {
       <OpponentSelector
         regions={["Kanto"]}
         selectedRegion="Kanto"
-        onSelectRegion={() => {}}
+        onSelectRegion={() => {
+          /* noop */
+        }}
         availableMembers={mockMembers}
         selectedMemberIndex={null}
         onSelectMember={handleMemberSelect}
@@ -68,10 +77,14 @@ describe("OpponentSelector component", () => {
       <OpponentSelector
         regions={["Kanto", "Johto"]}
         selectedRegion="Johto"
-        onSelectRegion={() => {}}
+        onSelectRegion={() => {
+          /* noop */
+        }}
         availableMembers={mockMembers}
         selectedMemberIndex={0}
-        onSelectMember={() => {}}
+        onSelectMember={() => {
+          /* noop */
+        }}
       />
     );
 

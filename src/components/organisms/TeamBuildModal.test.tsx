@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import TeamBuildModal from "./TeamBuildModal";
 import { Pokemon } from "@/types/pokemon";
+
+import TeamBuildModal from "./TeamBuildModal";
 
 const mockPokemonMap = new Map<string, Pokemon>();
 
@@ -16,7 +17,9 @@ describe("TeamBuildModal component", () => {
       <TeamBuildModal
         teamName="Red Team"
         builds={[]}
-        onClose={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
       />
     );
@@ -28,7 +31,9 @@ describe("TeamBuildModal component", () => {
       <TeamBuildModal
         teamName="Red Team"
         builds={mockBuilds}
-        onClose={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
         pokemonMap={mockPokemonMap}
       />
     );

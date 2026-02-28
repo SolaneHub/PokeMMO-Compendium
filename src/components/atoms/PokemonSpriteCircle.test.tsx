@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import PokemonSpriteCircle from "./PokemonSpriteCircle";
-import * as ImageHelper from "@/utils/pokemonImageHelper";
 
 describe("PokemonSpriteCircle component", () => {
   it("renders the fallback '?' when no spriteUrl and no pokemonName are provided", () => {

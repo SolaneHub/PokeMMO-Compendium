@@ -1,8 +1,9 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import PokemonSummary from "./index";
 import { Pokemon } from "@/types/pokemon";
+
+import PokemonSummary from "./index";
 
 vi.mock("@/context/PokedexContext", () => ({
   usePokedexContext: () => ({
@@ -22,7 +23,7 @@ const mockPokemon: Pokemon = {
   types: ["Grass", "Poison"],
   category: "Seed Pokemon",
   baseStats: { hp: 45, atk: 49, def: 49, spa: 65, spd: 65, spe: 45 },
-  abilities: { main: ["Overgrow"] },
+  abilities: { main: ["Overgrow"], hidden: null },
   moves: [],
   evolutions: [],
   locations: [],
@@ -34,8 +35,12 @@ describe("PokemonSummary component", () => {
       <PokemonSummary
         pokemon={null}
         allPokemon={[]}
-        onClose={() => {}}
-        onSelectPokemon={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onSelectPokemon={() => {
+          /* noop */
+        }}
       />
     );
     expect(container).toBeEmptyDOMElement();
@@ -46,8 +51,12 @@ describe("PokemonSummary component", () => {
       <PokemonSummary
         pokemon={mockPokemon}
         allPokemon={[]}
-        onClose={() => {}}
-        onSelectPokemon={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onSelectPokemon={() => {
+          /* noop */
+        }}
       />
     );
     // Pokedex ID and name
@@ -67,8 +76,12 @@ describe("PokemonSummary component", () => {
       <PokemonSummary
         pokemon={mockPokemon}
         allPokemon={[]}
-        onClose={() => {}}
-        onSelectPokemon={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onSelectPokemon={() => {
+          /* noop */
+        }}
       />
     );
 
@@ -85,7 +98,9 @@ describe("PokemonSummary component", () => {
         pokemon={mockPokemon}
         allPokemon={[]}
         onClose={handleClose}
-        onSelectPokemon={() => {}}
+        onSelectPokemon={() => {
+          /* noop */
+        }}
       />
     );
 

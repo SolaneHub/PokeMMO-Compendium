@@ -1,9 +1,10 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
+import { describe, expect, it, vi } from "vitest";
+
+import * as TeamsService from "@/firebase/services/teamsService";
 
 import AdminTeamList from "./AdminTeamList";
-import * as TeamsService from "@/firebase/services/teamsService";
 
 vi.mock("@/context/ConfirmationContext", () => ({
   useConfirm: () => vi.fn().mockResolvedValue(true),

@@ -56,7 +56,14 @@ describe("StepForm component", () => {
   });
 
   it("toggles branching scenarios", () => {
-    render(<StepForm step={mockStep} onChange={() => {}} />);
+    render(
+      <StepForm
+        step={mockStep}
+        onChange={() => {
+          /* noop */
+        }}
+      />
+    );
 
     // Enable branching
     fireEvent.click(screen.getByText("Branching"));

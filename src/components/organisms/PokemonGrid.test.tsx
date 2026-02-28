@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it, vi, beforeAll, afterAll } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+
+import { Pokemon } from "@/types/pokemon";
 
 import PokemonGrid from "./PokemonGrid";
-import { Pokemon } from "@/types/pokemon";
 
 const mockPokemonList = Array.from(
   { length: 45 },
@@ -11,7 +12,7 @@ const mockPokemonList = Array.from(
       name: `Pokemon ${i + 1}`,
       types: ["Normal"],
       baseStats: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
-    }) as any as Pokemon
+    }) as unknown as Pokemon
 );
 
 describe("PokemonGrid component", () => {
@@ -22,7 +23,8 @@ describe("PokemonGrid component", () => {
       unobserve = vi.fn();
       disconnect = vi.fn();
     }
-    window.IntersectionObserver = MockIntersectionObserver as any;
+    window.IntersectionObserver =
+      MockIntersectionObserver as unknown as typeof IntersectionObserver;
   });
 
   afterAll(() => {
@@ -34,7 +36,7 @@ describe("PokemonGrid component", () => {
       <PokemonGrid
         pokemonList={[]}
         selectedPokemon={null}
-        onSelectPokemon={() => {}}
+        onSelectPokemon={vi.fn()}
       />
     );
     expect(screen.getByText("No Pokémon found.")).toBeInTheDocument();
@@ -45,7 +47,7 @@ describe("PokemonGrid component", () => {
       <PokemonGrid
         pokemonList={mockPokemonList}
         selectedPokemon={null}
-        onSelectPokemon={() => {}}
+        onSelectPokemon={vi.fn()}
       />
     );
 

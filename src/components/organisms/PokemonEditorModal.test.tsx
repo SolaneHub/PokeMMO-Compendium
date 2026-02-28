@@ -33,8 +33,12 @@ describe("PokemonEditorModal component", () => {
     const { container } = render(
       <PokemonEditorModal
         isOpen={false}
-        onClose={() => {}}
-        onSave={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onSave={() => {
+          /* noop */
+        }}
         initialData={null}
       />
     );
@@ -45,8 +49,12 @@ describe("PokemonEditorModal component", () => {
     render(
       <PokemonEditorModal
         isOpen={true}
-        onClose={() => {}}
-        onSave={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onSave={() => {
+          /* noop */
+        }}
         initialData={null}
       />
     );
@@ -67,8 +75,12 @@ describe("PokemonEditorModal component", () => {
     render(
       <PokemonEditorModal
         isOpen={true}
-        onClose={() => {}}
-        onSave={() => {}}
+        onClose={() => {
+          /* noop */
+        }}
+        onSave={() => {
+          /* noop */
+        }}
         initialData={initialData}
       />
     );
@@ -87,7 +99,9 @@ describe("PokemonEditorModal component", () => {
       <PokemonEditorModal
         isOpen={true}
         onClose={handleClose}
-        onSave={() => {}}
+        onSave={() => {
+          /* noop */
+        }}
         initialData={null}
       />
     );
