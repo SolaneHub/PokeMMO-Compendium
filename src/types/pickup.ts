@@ -1,11 +1,16 @@
-export interface PickupLocation {
-  name: string;
-  items: Record<string, string[]>;
-}
+import { z } from "zod";
 
-export interface PickupRegion {
-  id: string;
-  name: string;
-  note?: string;
-  locations: PickupLocation[];
-}
+export const PickupLocationSchema = z.object({
+  name: z.string(),
+  items: z.record(z.string(), z.array(z.string())),
+});
+
+export const PickupRegionSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  note: z.string().optional(),
+  locations: z.array(PickupLocationSchema),
+});
+
+export type PickupLocation = z.infer<typeof PickupLocationSchema>;
+export type PickupRegion = z.infer<typeof PickupRegionSchema>;

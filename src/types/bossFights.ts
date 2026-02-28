@@ -1,14 +1,22 @@
+import { z } from "zod";
+
 import { PokemonType } from "@/utils/pokemonColors";
 
-export interface BossFightTeam {
-  pokemonNames: string[];
-  pokemonStrategies: Record<string, string[]>;
-}
+export const BossFightTeamSchema = z.object({
+  pokemonNames: z.array(z.string()),
+  pokemonStrategies: z.record(z.string(), z.array(z.string())),
+});
 
-export interface BossFight {
-  name: string;
-  region: string;
-  type: PokemonType;
-  image?: string;
-  teams: Record<string, BossFightTeam>;
-}
+export const BossFightSchema = z.object({
+  name: z.string(),
+  region: z.string(),
+  type: z.custom<PokemonType>(
+    (val) => typeof val === "string",
+    "Invalid PokemonType"
+  ),
+  image: z.string().optional(),
+  teams: z.record(z.string(), BossFightTeamSchema),
+});
+
+export type BossFightTeam = z.infer<typeof BossFightTeamSchema>;
+export type BossFight = z.infer<typeof BossFightSchema>;
