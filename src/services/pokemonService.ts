@@ -73,11 +73,11 @@ export const getPokemonFullDetails = (
     variants,
     abilities: {
       ...fallbackFullDetails(name).abilities,
-      ...pokemonBase.abilities,
+      ...(pokemonBase.abilities || {}),
     },
     baseStats: {
       ...fallbackFullDetails(name).baseStats,
-      ...pokemonBase.baseStats,
+      ...(pokemonBase.baseStats || {}),
     },
   };
   return data;

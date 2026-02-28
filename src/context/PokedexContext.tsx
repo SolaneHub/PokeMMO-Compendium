@@ -82,7 +82,12 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
 
       const initializedPokemonColorMap = initializePokemonColorMap(rawData);
       const processed = extractPokedexData(rawData);
-      const pokemonMap = new Map(rawData.map((p) => [p.name, p]));
+      
+      const pokemonMap = new Map<string, Pokemon>();
+      rawData.forEach((p) => {
+        pokemonMap.set(p.name, p);
+        if (p.id) pokemonMap.set(p.id.toString(), p);
+      });
 
       const finalData = {
         ...processed,
@@ -111,10 +116,13 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
       const docId = id.toString();
       const currentPokemon = data.pokemonMap.get(docId);
 
-      // If we already have the full data (e.g. moves or description exist)
+      // If we already have the full data (we check if we already fetched it once)
+      // or if it has moves/description (legacy check)
       if (
         currentPokemon &&
-        (currentPokemon.moves?.length > 0 || currentPokemon.description)
+        ((currentPokemon as any)._isFullData || 
+         (currentPokemon.moves && currentPokemon.moves.length > 0) || 
+         currentPokemon.description)
       ) {
         return currentPokemon;
       }
@@ -122,13 +130,14 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
       try {
         const fullData = await getPokemonById(id);
         if (fullData) {
+          const fullDataWithFlag = { ...fullData, _isFullData: true };
           setData((prev) => {
             const newMap = new Map(prev.pokemonMap);
-            newMap.set(fullData.name, fullData);
-            if (fullData.id) newMap.set(fullData.id.toString(), fullData);
+            newMap.set(fullDataWithFlag.name, fullDataWithFlag);
+            if (fullDataWithFlag.id) newMap.set(fullDataWithFlag.id.toString(), fullDataWithFlag);
             return { ...prev, pokemonMap: newMap };
           });
-          return fullData;
+          return fullDataWithFlag;
         }
       } catch (err) {
         console.error("Error fetching pokemon details:", err);
