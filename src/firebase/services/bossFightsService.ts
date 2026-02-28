@@ -8,7 +8,7 @@ import {
 
 import { db } from "@/firebase/config";
 import { BOSS_FIGHTS_COLLECTION } from "@/firebase/services/common";
-import { BossFight } from "@/types/bossFights";
+import { BossFight, BossFightSchema } from "@/types/bossFights";
 
 /**
  * Fetches all Boss Fights data from Firestore.
@@ -19,7 +19,16 @@ export async function getBossFights(): Promise<BossFight[]> {
   const querySnapshot = await getDocs(q);
   const bossFights: BossFight[] = [];
   querySnapshot.forEach((doc) => {
-    bossFights.push(doc.data() as BossFight);
+    const data = doc.data();
+    const result = BossFightSchema.safeParse(data);
+    if (result.success) {
+      bossFights.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid BossFight data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return bossFights;
 }
