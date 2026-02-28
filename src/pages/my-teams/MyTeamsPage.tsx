@@ -14,6 +14,11 @@ import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 import { MyTeamsLoaderData } from "./myTeamsLoader";
 
+interface ActionResult {
+  success?: boolean;
+  error?: string;
+}
+
 const MyTeamsPage = () => {
   const accentColor = FEATURE_CONFIG["my-teams"].color;
   const navigate = useNavigate();
@@ -26,18 +31,23 @@ const MyTeamsPage = () => {
   const confirm = useConfirm();
   const showToast = useToast();
 
-  const handleCreateTeam = async (formData: FormData) => {
+  const handleCreateTeam = async (
+    _prevState: ActionResult | null,
+    formData: FormData
+  ): Promise<ActionResult> => {
     const name = formData.get("teamName") as string;
-    if (!name || !name.trim()) return;
+    if (!name || !name.trim()) return { error: "Team name is required" };
 
     try {
       const teamId = await createTeam(name);
       if (teamId) {
-        setShowCreateModal(false);
         navigate(`/my-teams/${teamId}`);
+        return { success: true };
+      } else {
+        return { error: "Failed to create team. Please try again." };
       }
     } catch (error) {
-      showToast("Failed to create team. Please try again.", "error");
+      return { error: "An unexpected error occurred." };
     }
   };
 
@@ -146,7 +156,6 @@ const MyTeamsPage = () => {
         <CreateTeamModal
           onClose={() => setShowCreateModal(false)}
           onSubmit={handleCreateTeam}
-          isLoading={revalidator.state === "loading"}
         />
       )}
     </PageLayout>
