@@ -4,6 +4,9 @@ dist/
 node_modules/
 .vite/
 *.log
+coverage/
+test-report/
+test-results.json
 
 # Ignore IDE/tooling configs:
 .idea/
