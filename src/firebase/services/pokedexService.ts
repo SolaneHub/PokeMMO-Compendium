@@ -20,7 +20,7 @@ import {
   getPokemonDocId,
   POKEDEX_COLLECTION,
 } from "@/firebase/services/common";
-import { Pokemon } from "@/types/pokemon";
+import { Pokemon, PokemonSchema } from "@/types/pokemon";
 
 const POKEDEX_SUMMARY_DOC_ID = "_summary";
 
@@ -35,7 +35,16 @@ export async function getPokedexData(): Promise<Pokemon[]> {
   querySnapshot.forEach((doc) => {
     // Ignore internal metadata documents
     if (doc.id.startsWith("_")) return;
-    pokedex.push({ id: doc.id, ...doc.data() } as Pokemon);
+    const data = { id: doc.id, ...doc.data() };
+    const result = PokemonSchema.safeParse(data);
+    if (result.success) {
+      pokedex.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Pokemon data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
   return pokedex;
 }
@@ -67,7 +76,16 @@ export async function getPokedexPaginated(
   querySnapshot.forEach((doc) => {
     // Ignore internal metadata documents
     if (doc.id.startsWith("_")) return;
-    pokedex.push({ id: doc.id, ...doc.data() } as Pokemon);
+    const data = { id: doc.id, ...doc.data() };
+    const result = PokemonSchema.safeParse(data);
+    if (result.success) {
+      pokedex.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Pokemon data for doc ID: ${doc.id}`,
+        result.error
+      );
+    }
   });
 
   return {
@@ -87,7 +105,22 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
   const summaryDoc = await getDoc(summaryRef);
 
   if (summaryDoc.exists()) {
-    return summaryDoc.data().pokemonList as Pokemon[];
+    const data = summaryDoc.data().pokemonList;
+    if (Array.isArray(data)) {
+      const pokedex: Pokemon[] = [];
+      data.forEach((p, index) => {
+        const result = PokemonSchema.safeParse(p);
+        if (result.success) {
+          pokedex.push(result.data);
+        } else {
+          console.warn(
+            `[Zod Validation] Invalid Pokemon in summary at index: ${index}`,
+            result.error
+          );
+        }
+      });
+      return pokedex;
+    }
   }
 
   // Fallback: Fetch everything and generate summary if it doesn't exist
@@ -105,6 +138,8 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
     eggGroups: p.eggGroups || null,
     // Add evolutions names for links
     evolutions: p.evolutions?.map((e) => ({ name: e.name })) || [],
+    moves: [], // Empty for summary
+    locations: [], // Empty for summary
   })) as Pokemon[];
 
   // Try to save summary for next time (might fail if not admin, but that's okay)
@@ -134,7 +169,17 @@ export async function getPokemonById(
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    return { id: docSnap.id, ...docSnap.data() } as Pokemon;
+    const data = { id: docSnap.id, ...docSnap.data() };
+    const result = PokemonSchema.safeParse(data);
+    if (result.success) {
+      return result.data;
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid Pokemon data for doc ID: ${docSnap.id}`,
+        result.error
+      );
+      return null;
+    }
   }
   return null;
 }
