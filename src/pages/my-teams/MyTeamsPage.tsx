@@ -12,6 +12,11 @@ import { updateTeamStatus } from "@/firebase/services/teamsService";
 import { useUserTeams } from "@/hooks/useUserTeams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
+interface ActionResult {
+  success?: boolean;
+  error?: string;
+}
+
 const MyTeamsPage = () => {
   const accentColor = FEATURE_CONFIG["my-teams"].color;
   const navigate = useNavigate();
@@ -25,7 +30,6 @@ const MyTeamsPage = () => {
     refreshTeams,
   } = useUserTeams();
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
   const confirm = useConfirm();
   const showToast = useToast();
 
@@ -35,23 +39,23 @@ const MyTeamsPage = () => {
     }
   }, [currentUser, authLoading, navigate]);
 
-  const handleCreateTeam = async (formData: FormData) => {
+  const handleCreateTeam = async (
+    _prevState: ActionResult | null,
+    formData: FormData
+  ): Promise<ActionResult> => {
     const name = formData.get("teamName") as string;
-    if (!name || !name.trim()) return;
+    if (!name || !name.trim()) return { error: "Team name is required" };
 
-    setIsCreating(true);
     try {
       const teamId = await createTeam(name);
       if (teamId) {
-        setShowCreateModal(false);
         navigate(`/my-teams/${teamId}`);
+        return { success: true };
       } else {
-        showToast("Failed to create team. Please try again.", "error");
+        return { error: "Failed to create team. Please try again." };
       }
     } catch (error) {
-      showToast("Failed to create team. Please try again.", "error");
-    } finally {
-      setIsCreating(false);
+      return { error: "An unexpected error occurred." };
     }
   };
 
@@ -166,7 +170,6 @@ const MyTeamsPage = () => {
         <CreateTeamModal
           onClose={() => setShowCreateModal(false)}
           onSubmit={handleCreateTeam}
-          isLoading={isCreating}
         />
       )}
     </PageLayout>
