@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import { redirect } from "react-router-dom";
 
 import { getCurrentUser } from "@/firebase/authUtils";
@@ -6,7 +7,7 @@ import { Team } from "@/types/teams";
 
 export interface MyTeamsLoaderData {
   teams: Team[];
-  user: any; // We can use User type from firebase
+  user: User;
 }
 
 export async function myTeamsLoader(): Promise<MyTeamsLoaderData | Response> {
