@@ -6,8 +6,9 @@ import RaidModal from "@/components/organisms/RaidModal";
 import PageLayout from "@/components/templates/PageLayout";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useRaidsData } from "@/hooks/useRaidsData";
-import { getPokemonCardData } from "@/services/pokemonService";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
+import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 function RaidsPage() {
   const accentColor = FEATURE_CONFIG.raids.color;
@@ -93,10 +94,10 @@ function RaidsPage() {
       {selectedStar && filteredRaids.length > 0 && (
         <div className="mb-8 flex flex-wrap justify-center gap-4">
           {filteredRaids.map((raid) => {
-            const { sprite, background } = getPokemonCardData(
-              raid.name,
-              pokemonMap
-            );
+            const pokemon = pokemonMap.get(raid.name);
+            const background = getPokemonBackgroundStyle(pokemon?.types || []);
+            const sprite = getSpriteUrlByName(raid.name);
+
             return (
               <PokemonCard
                 key={raid.name}

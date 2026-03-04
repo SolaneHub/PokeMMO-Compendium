@@ -47,7 +47,7 @@ export const typeBackgrounds: Record<PokemonType, string> = {
 const extractGradientColors = (gradientString: string): string[] => {
   const regex = /linear-gradient\(to right, (.+)\)/;
   const match = gradientString.match(regex);
-  if (match && match.length === 2) {
+  if (match && match[1]) {
     return match[1].split(",").map((color) => color.trim());
   }
   if (gradientString && !gradientString.startsWith("linear-gradient")) {
@@ -64,7 +64,7 @@ export const getPrimaryColor = (
   }
   if (backgroundStyle.startsWith("linear-gradient")) {
     const colors = extractGradientColors(backgroundStyle);
-    return colors.length > 0 ? colors[0] : "#475569";
+    return colors[0] || "#475569";
   } else {
     return backgroundStyle;
   }
@@ -136,4 +136,23 @@ export const generateDualTypeGradient = (
   }
 
   return typeBackgrounds[t1] || typeBackgrounds[t2] || typeBackgrounds[""];
+};
+
+/**
+ * Generates a background style based on Pokemon types.
+ */
+export const getPokemonBackgroundStyle = (types: string[]): string => {
+  if (!types || types.length === 0) {
+    return typeBackgrounds[""];
+  }
+  if (types.length >= 2) {
+    const t1 = types[0] || "";
+    const t2 = types[1] || "";
+    return generateDualTypeGradient(t1, t2);
+  }
+  return (
+    typeBackgrounds[types[0] as PokemonType] ||
+    typeBackgrounds["Normal"] ||
+    typeBackgrounds[""]
+  );
 };

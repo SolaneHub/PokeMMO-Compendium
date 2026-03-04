@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 import ItemImage from "@/components/atoms/ItemImage";
-import { getPokemonCardData } from "@/services/pokemonService";
 import { Pokemon } from "@/types/pokemon";
 import { RaidBuild } from "@/types/raids";
+import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 interface PlayerBuildCardProps {
   build: RaidBuild;
@@ -59,13 +59,12 @@ const MarqueeText = ({
 
 const BuildDetails = ({
   build,
-  pokemonMap,
 }: {
   build: RaidBuild;
   pokemonMap: Map<string, Pokemon>;
 }) => {
   if (!build || !build.name) return null;
-  const { sprite } = getPokemonCardData(build.name, pokemonMap);
+  const sprite = getSpriteUrlByName(build.name);
 
   return (
     <>

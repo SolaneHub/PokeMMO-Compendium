@@ -1,6 +1,5 @@
 import { Pokemon } from "../types/pokemon";
-import { generateDualTypeGradient, typeBackgrounds } from "./pokemonColors";
-import { getSpriteUrlByName } from "./pokemonImageHelper";
+import { Raid, RaidStrategy } from "../types/raids";
 
 const PREFIX_VARIANTS = [
   "Heat Rotom",
@@ -10,6 +9,23 @@ const PREFIX_VARIANTS = [
   "Mow Rotom",
 ];
 
+/**
+ * Gets the active strategy for a given raid object.
+ */
+export const getActiveStrategyFromRaid = (
+  raid: Raid | null,
+  strategyIndex = 0
+): RaidStrategy | null => {
+  if (!raid) return null;
+  if (raid.teamStrategies && raid.teamStrategies.length > 0) {
+    return raid.teamStrategies[strategyIndex] || raid.teamStrategies[0];
+  }
+  return null;
+};
+
+/**
+ * Gets the base family name of a Pokemon (e.g., "Rotom" for "Heat Rotom").
+ */
 export const getFamilyName = (name: string): string => {
   if (PREFIX_VARIANTS.includes(name)) {
     return "Rotom";
@@ -20,30 +36,9 @@ export const getFamilyName = (name: string): string => {
   return name;
 };
 
-export const getPokemonBackground = (
-  pokemon: Pokemon | null | undefined
-): string => {
-  if (!pokemon) return typeBackgrounds[""];
-  if (pokemon.name in typeBackgrounds) {
-    return (typeBackgrounds as Record<string, string>)[pokemon.name];
-  }
-  const types = pokemon.types || [];
-  if (types.length >= 2) {
-    return generateDualTypeGradient(types[0], types[1]);
-  }
-  if (types.length === 1) {
-    return typeBackgrounds[types[0]] || typeBackgrounds[""];
-  }
-  return typeBackgrounds[""];
-};
-
-export const getPokemonCardData = (pokemon: Pokemon | null | undefined) => {
-  if (!pokemon) return { sprite: null, background: typeBackgrounds[""] };
-  const background = getPokemonBackground(pokemon);
-  const sprite = getSpriteUrlByName(pokemon.name);
-  return { ...pokemon, sprite, background };
-};
-
+/**
+ * Gets all variants of a Pokemon based on its family name.
+ */
 export const getPokemonVariants = (
   selectedName: string,
   allPokemon: Pokemon[]
@@ -53,4 +48,35 @@ export const getPokemonVariants = (
   return allPokemon
     .filter((p) => getFamilyName(p.name) === targetFamily)
     .map((p) => p.name);
+};
+
+/**
+ * Filters a list of Pokemon to show only the main entry for each family.
+ */
+export const getPokedexMainList = (pokedexData: Pokemon[]): Pokemon[] => {
+  const familyGroups = new Map<string, Pokemon[]>();
+  pokedexData.forEach((p) => {
+    const family = getFamilyName(p.name);
+    if (!familyGroups.has(family)) {
+      familyGroups.set(family, []);
+    }
+    familyGroups.get(family)?.push(p);
+  });
+
+  const mainList: Pokemon[] = [];
+  const processedFamilies = new Set<string>();
+  pokedexData.forEach((p) => {
+    const family = getFamilyName(p.name);
+    if (processedFamilies.has(family)) return;
+    const variants = familyGroups.get(family);
+    if (!variants) return;
+
+    let mainEntry = variants.find((v) => v.name === family);
+    if (!mainEntry) {
+      mainEntry = variants[0];
+    }
+    mainList.push(mainEntry);
+    processedFamilies.add(family);
+  });
+  return mainList;
 };

@@ -7,7 +7,7 @@ import PageLayout from "@/components/templates/PageLayout";
 import { STATUS_CONDITIONS } from "@/constants/calculatorConstants";
 import { useCatchProbability } from "@/hooks/useCatchProbability";
 import { usePokedexData } from "@/hooks/usePokedexData";
-import { getPokemonCardData } from "@/services/pokemonService";
+import { usePokemonUI } from "@/hooks/usePokemonUI";
 import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { usePersistentState } from "@/utils/usePersistentState";
@@ -53,6 +53,8 @@ const CatchCalculatorPage = () => {
   const selectedPokemon = (pokemonMap.get(selectedPokemonName) ||
     null) as Pokemon | null;
 
+  const { sprite, background } = usePokemonUI(selectedPokemon);
+
   useEffect(() => {
     if (selectedPokemon && selectedPokemon.locations) {
       const isCavePokemon = selectedPokemon.locations.some(
@@ -97,11 +99,6 @@ const CatchCalculatorPage = () => {
     typeof baseCatchRateRaw === "string"
       ? parseInt(baseCatchRateRaw, 10)
       : baseCatchRateRaw || 0;
-
-  const { sprite, background } = getPokemonCardData(
-    selectedPokemonName,
-    pokemonMap
-  );
 
   const catchProbability = useCatchProbability({
     selectedPokemon,

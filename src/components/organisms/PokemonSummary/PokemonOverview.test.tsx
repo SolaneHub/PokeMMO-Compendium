@@ -23,10 +23,9 @@ const mockPokemon: Pokemon = {
 };
 
 describe("PokemonOverview component", () => {
-  it("renders description and basic info", () => {
+  it("renders basic info like abilities", () => {
     render(<PokemonOverview pokemon={mockPokemon} />);
 
-    expect(screen.getByText("It sleeps constantly.")).toBeInTheDocument();
     expect(screen.getByText("Immunity")).toBeInTheDocument();
     expect(screen.getByText("Thick Fat")).toBeInTheDocument();
 

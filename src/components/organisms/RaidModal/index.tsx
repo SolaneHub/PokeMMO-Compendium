@@ -2,11 +2,13 @@ import { useState } from "react";
 
 import Tabs from "@/components/molecules/Tabs";
 import { Raid } from "@/hooks/useRaidsData";
-import { getPokemonBackground } from "@/services/pokemonService";
-import { getActiveStrategyFromRaid } from "@/services/raidsService";
 import { Pokemon } from "@/types/pokemon";
 import { RaidBuild } from "@/types/raids";
-import { typeBackgrounds } from "@/utils/pokemonColors";
+import {
+  getPokemonBackgroundStyle,
+  typeBackgrounds,
+} from "@/utils/pokemonColors";
+import { getActiveStrategyFromRaid } from "@/utils/pokemonHelpers";
 
 import RaidBuildsTab from "./tabs/RaidBuildsTab";
 import RaidLocationsTab from "./tabs/RaidLocationsTab";
@@ -20,12 +22,7 @@ interface RaidModalProps {
   currentRaid: Raid | null;
 }
 
-const RaidModal = ({
-  raidName,
-  onClose,
-  pokemonMap,
-  currentRaid,
-}: RaidModalProps) => {
+const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
   const [activeTab, setActiveTab] = useState("STRATEGY");
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [selectedTurnIndex, setSelectedTurnIndex] = useState(0);
@@ -43,9 +40,11 @@ const RaidModal = ({
   const rolesSource = activeTeamStrategy?.roles || null;
   const recommendedList = activeTeamStrategy?.recommended || [];
 
-  const detailsTitleBackground = currentRaid
-    ? getPokemonBackground(currentRaid.name, pokemonMap)
-    : typeBackgrounds[""];
+  const detailsTitleBackground = (() => {
+    if (!currentRaid) return typeBackgrounds[""];
+    const pokemon = pokemonMap.get(currentRaid.name);
+    return getPokemonBackgroundStyle(pokemon?.types || []);
+  })();
 
   const buildGroups = (() => {
     if (!recommendedList.length) return null;
