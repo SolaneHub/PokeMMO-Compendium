@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Pokemon } from "@/types/pokemon";
 import {
   generateDualTypeGradient,
@@ -88,36 +90,79 @@ export const getPokemonGradient = (
   return pokemonColorMap[pokemonName] || typeBackgrounds[""];
 };
 
-export const colorTextElements = (
+/**
+ * Renders text with moves and pokemon names colored using React nodes instead of dangerouslySetInnerHTML.
+ */
+export const renderColoredText = (
   text: string,
   pokemonColorMap: Record<string, string>
-): string => {
+): React.ReactNode => {
   if (!text) return text;
-  let result = text;
+
   const moveNames = Object.keys(moveTypeMap).sort(
     (a, b) => b.length - a.length
   );
-  moveNames.forEach((move) => {
-    const regex = new RegExp(`\\b${move}\\b`, "gi");
-    const gradient = getMoveGradient(move);
-    result = result.replace(
-      regex,
-      (match) =>
-        `<span style="background: ${gradient}; background-clip: text; -webkit-background-clip: text; color: transparent; font-weight: bold;">${match}</span>`
-    );
-  });
-
   const pokemonNames = Object.keys(pokemonColorMap).sort(
     (a, b) => b.length - a.length
   );
-  pokemonNames.forEach((pokemon) => {
-    const regex = new RegExp(`\\b${pokemon}\\b`, "gi");
-    const gradient = pokemonColorMap[pokemon];
-    result = result.replace(
-      regex,
-      (match) =>
-        `<span style="background: ${gradient}; background-clip: text; -webkit-background-clip: text; color: transparent; font-weight: bold;">${match}</span>`
-    );
-  });
-  return result;
+
+  // Combine all names into one regex with word boundaries
+  const allNames = [...moveNames, ...pokemonNames];
+  if (allNames.length === 0) return text;
+
+  const pattern = new RegExp(
+    `\\b(${allNames
+      .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .join("|")})\\b`,
+    "gi"
+  );
+
+  const parts = text.split(pattern);
+  if (parts.length <= 1) return text;
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        // If it's a match (even indices are non-matches, odd indices are matches because of the capturing group in split)
+        // Actually, split with capturing group returns [non-match, match, non-match, match, ...]
+        if (i % 2 === 1) {
+          // Find if it's a move or a pokemon
+          let gradient = "";
+          // Check moveNames first (case-insensitive)
+          const matchedMove = moveNames.find(
+            (m) => m.toLowerCase() === part.toLowerCase()
+          );
+          if (matchedMove) {
+            gradient = getMoveGradient(matchedMove);
+          } else {
+            // Check pokemonNames
+            const matchedPokemon = pokemonNames.find(
+              (p) => p.toLowerCase() === part.toLowerCase()
+            );
+            if (matchedPokemon) {
+              gradient = pokemonColorMap[matchedPokemon];
+            }
+          }
+
+          if (gradient) {
+            return (
+              <span
+                key={i}
+                style={{
+                  background: gradient,
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  color: "transparent",
+                  fontWeight: "bold",
+                }}
+              >
+                {part}
+              </span>
+            );
+          }
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+      })}
+    </>
+  );
 };

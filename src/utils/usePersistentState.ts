@@ -1,8 +1,10 @@
 import CryptoJS from "crypto-js";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
+// Use a more robust fallback key. In a real app, this should be provided via environment variables.
 const SECRET_KEY =
-  import.meta.env.VITE_STORAGE_SECRET_KEY || "fallback-secret-key";
+  import.meta.env.VITE_STORAGE_SECRET_KEY ||
+  "pkm-cmp-v1-obfuscation-key-2024-secure-fallback";
 
 export function usePersistentState<T>(
   key: string,

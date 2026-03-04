@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { generateId } from "@/utils/idUtils";
+
 export interface StrategyVariation {
   type: string;
   name?: string;
@@ -27,13 +29,7 @@ export const StrategyVariationSchema: z.ZodType<StrategyVariation> = z.lazy(
 
 export const StrategyStepSchema: z.ZodType<StrategyStep> = z.lazy(() =>
   z.object({
-    id: z
-      .string()
-      .default(() =>
-        typeof crypto !== "undefined"
-          ? crypto.randomUUID()
-          : Math.random().toString(36).substring(7)
-      ),
+    id: z.string().default(() => generateId("step")),
     type: z.string(),
     description: z.string().optional(),
     notes: z.string().optional(),

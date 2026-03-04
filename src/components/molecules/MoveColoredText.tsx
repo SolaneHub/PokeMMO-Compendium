@@ -1,4 +1,3 @@
-import DOMPurify from "dompurify";
 import {
   ArrowDown,
   Backpack,
@@ -10,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { usePokedexData } from "@/hooks/usePokedexData";
-import { colorTextElements } from "@/utils/pokemonMoveColors";
+import { renderColoredText } from "@/utils/pokemonMoveColors";
 
 interface MoveColoredTextProps {
   text: string;
@@ -60,14 +59,8 @@ const MoveColoredText = ({ text }: MoveColoredTextProps) => {
             />
           );
         } else if (part) {
-          const htmlContent = colorTextElements(part, pokemonColorMap);
           return (
-            <span
-              key={index}
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(htmlContent),
-              }}
-            />
+            <span key={index}>{renderColoredText(part, pokemonColorMap)}</span>
           );
         }
         return null;
