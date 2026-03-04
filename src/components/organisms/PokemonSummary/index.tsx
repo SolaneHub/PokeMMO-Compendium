@@ -72,7 +72,11 @@ const PokemonSummary = ({
 
   const background = getPokemonBackground(pokemon);
   const cardData = getPokemonCardData(pokemon);
-  const sprite = cardData.sprite;
+  const sprite =
+    cardData.sprite ||
+    (pokemon.id
+      ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`
+      : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png");
   const variants = getPokemonVariants(pokemon.name, allPokemon).filter(
     (v) => v !== pokemon.name
   );
