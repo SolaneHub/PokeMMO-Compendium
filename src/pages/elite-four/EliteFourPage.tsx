@@ -13,13 +13,10 @@ import { getAllApprovedTeams } from "@/firebase/services/teamsService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import { getMembersByRegion } from "@/services/eliteFourService";
-import {
-  getPokemonBackground,
-  getPokemonByName,
-} from "@/services/pokemonService";
 import { Pokemon } from "@/types/pokemon";
 import { StrategyStep, Team, TeamMember } from "@/types/teams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
 
 function EliteFourPage() {
@@ -113,11 +110,11 @@ function EliteFourPage() {
   }, [selectedMember, currentTeamData]);
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon, pokemonMap)
+    ? pokemonMap.get(selectedPokemon)
     : null;
 
-  const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon, pokemonMap)
+  const detailsTitleBackground = currentPokemonObject
+    ? getPokemonBackgroundStyle(currentPokemonObject.types || [])
     : "#333";
 
   const handleTeamClick = (teamId: string) => {

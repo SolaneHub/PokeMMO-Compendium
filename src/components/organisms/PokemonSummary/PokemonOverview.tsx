@@ -67,12 +67,6 @@ const PokemonOverview = ({ pokemon }: PokemonOverviewProps) => {
   return (
     <div className="flex flex-col gap-5 text-white">
       <div className="flex flex-col gap-2.5">
-        <p className="m-0 rounded-lg border-l-4 border-blue-600 bg-white/5 p-3 text-sm leading-relaxed text-slate-300 italic">
-          {pokemon.description}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-2.5">
         <h4 className="border-b border-white/5 pb-1 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
           Abilities
         </h4>

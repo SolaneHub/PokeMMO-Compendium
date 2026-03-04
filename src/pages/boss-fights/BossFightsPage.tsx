@@ -7,11 +7,8 @@ import PageLayout from "@/components/templates/PageLayout";
 import { useBossFightsData } from "@/hooks/useBossFightsData";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
-import {
-  getPokemonBackground,
-  getPokemonByName,
-} from "@/services/pokemonService";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 
 function BossFightsPage() {
   const accentColor = FEATURE_CONFIG["boss-fights"].color;
@@ -31,10 +28,11 @@ function BossFightsPage() {
   } = useStrategyNavigation();
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon, pokemonMap)
+    ? pokemonMap.get(selectedPokemon)
     : null;
-  const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon, pokemonMap)
+
+  const detailsTitleBackground = currentPokemonObject
+    ? getPokemonBackgroundStyle(currentPokemonObject.types || [])
     : "#333";
 
   const handlePokemonCardClick = (
