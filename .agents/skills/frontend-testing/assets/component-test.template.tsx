@@ -16,8 +16,8 @@
  * RUN FIRST: pnpm analyze-component <path> to identify required test scenarios
  */
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 // import ComponentName from './index'
 
 // ============================================================================
@@ -89,65 +89,63 @@ import userEvent from '@testing-library/user-event'
 // Tests
 // ============================================================================
 
-describe('ComponentName', () => {
+describe("ComponentName", () => {
   // WHY beforeEach with clearAllMocks?
   // - Ensures each test starts with clean slate
   // - Prevents mock call history from leaking between tests
   // - MUST be beforeEach (not afterEach) to reset BEFORE assertions like toHaveBeenCalledTimes
   beforeEach(() => {
-    vi.clearAllMocks()
+    vi.clearAllMocks();
     // Reset shared mock state if used (CRITICAL for portal/dropdown tests)
     // mockOpenState = false
-  })
+  });
 
   // --------------------------------------------------------------------------
   // Rendering Tests (REQUIRED - Every component MUST have these)
   // --------------------------------------------------------------------------
   // WHY: Catches import errors, missing providers, and basic render issues
-  describe('Rendering', () => {
-    it('should render without crashing', () => {
+  describe("Rendering", () => {
+    it("should render without crashing", () => {
       // Arrange - Setup data and mocks
       // const props = createMockProps()
-
       // Act - Render the component
       // render(<ComponentName {...props} />)
-
       // Assert - Verify expected output
       // Prefer getByRole for accessibility; it's what users "see"
       // expect(screen.getByRole('...')).toBeInTheDocument()
-    })
+    });
 
-    it('should render with default props', () => {
+    it("should render with default props", () => {
       // WHY: Verifies component works without optional props
       // render(<ComponentName />)
       // expect(screen.getByText('...')).toBeInTheDocument()
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Props Tests (REQUIRED - Every component MUST test prop behavior)
   // --------------------------------------------------------------------------
   // WHY: Props are the component's API contract. Test them thoroughly.
-  describe('Props', () => {
-    it('should apply custom className', () => {
+  describe("Props", () => {
+    it("should apply custom className", () => {
       // WHY: Common pattern in Dify - components should merge custom classes
       // render(<ComponentName className="custom-class" />)
       // expect(screen.getByTestId('component')).toHaveClass('custom-class')
-    })
+    });
 
-    it('should use default values for optional props', () => {
+    it("should use default values for optional props", () => {
       // WHY: Verifies TypeScript defaults work at runtime
       // render(<ComponentName />)
       // expect(screen.getByRole('...')).toHaveAttribute('...', 'default-value')
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // User Interactions (if component has event handlers - on*, handle*)
   // --------------------------------------------------------------------------
   // WHY: Event handlers are core functionality. Test from user's perspective.
-  describe('User Interactions', () => {
-    it('should call onClick when clicked', async () => {
+  describe("User Interactions", () => {
+    it("should call onClick when clicked", async () => {
       // WHY userEvent over fireEvent?
       // - userEvent simulates real user behavior (focus, hover, then click)
       // - fireEvent is lower-level, doesn't trigger all browser events
@@ -158,9 +156,9 @@ describe('ComponentName', () => {
       // await user.click(screen.getByRole('button'))
       //
       // expect(handleClick).toHaveBeenCalledTimes(1)
-    })
+    });
 
-    it('should call onChange when value changes', async () => {
+    it("should call onChange when value changes", async () => {
       // const user = userEvent.setup()
       // const handleChange = vi.fn()
       // render(<ComponentName onChange={handleChange} />)
@@ -168,15 +166,15 @@ describe('ComponentName', () => {
       // await user.type(screen.getByRole('textbox'), 'new value')
       //
       // expect(handleChange).toHaveBeenCalled()
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // State Management (if component uses useState/useReducer)
   // --------------------------------------------------------------------------
   // WHY: Test state through observable UI changes, not internal state values
-  describe('State Management', () => {
-    it('should update state on interaction', async () => {
+  describe("State Management", () => {
+    it("should update state on interaction", async () => {
       // WHY test via UI, not state?
       // - State is implementation detail; UI is what users see
       // - If UI works correctly, state must be correct
@@ -191,15 +189,15 @@ describe('ComponentName', () => {
       //
       // // New state - verify UI updated
       // expect(screen.getByText('Updated')).toBeInTheDocument()
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Async Operations (if component fetches data - useQuery, fetch)
   // --------------------------------------------------------------------------
   // WHY: Async operations have 3 states users experience: loading, success, error
-  describe('Async Operations', () => {
-    it('should show loading state', () => {
+  describe("Async Operations", () => {
+    it("should show loading state", () => {
       // WHY never-resolving promise?
       // - Keeps component in loading state for assertion
       // - Alternative: use fake timers
@@ -207,9 +205,9 @@ describe('ComponentName', () => {
       // render(<ComponentName />)
       //
       // expect(screen.getByText(/loading/i)).toBeInTheDocument()
-    })
+    });
 
-    it('should show data on success', async () => {
+    it("should show data on success", async () => {
       // WHY waitFor?
       // - Component updates asynchronously after fetch resolves
       // - waitFor retries assertion until it passes or times out
@@ -219,17 +217,17 @@ describe('ComponentName', () => {
       // await waitFor(() => {
       //   expect(screen.getByText('Item 1')).toBeInTheDocument()
       // })
-    })
+    });
 
-    it('should show error on failure', async () => {
+    it("should show error on failure", async () => {
       // mockedApi.fetchData.mockRejectedValue(new Error('Network error'))
       // render(<ComponentName />)
       //
       // await waitFor(() => {
       //   expect(screen.getByText(/error/i)).toBeInTheDocument()
       // })
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Edge Cases (REQUIRED - Every component MUST handle edge cases)
@@ -238,56 +236,56 @@ describe('ComponentName', () => {
   // - Null/undefined from API failures or optional fields
   // - Empty arrays/strings from user clearing data
   // - Boundary values (0, MAX_INT, special characters)
-  describe('Edge Cases', () => {
-    it('should handle null value', () => {
+  describe("Edge Cases", () => {
+    it("should handle null value", () => {
       // WHY test null specifically?
       // - API might return null for missing data
       // - Prevents "Cannot read property of null" in production
       // render(<ComponentName value={null} />)
       // expect(screen.getByText(/no data/i)).toBeInTheDocument()
-    })
+    });
 
-    it('should handle undefined value', () => {
+    it("should handle undefined value", () => {
       // WHY test undefined separately from null?
       // - TypeScript treats them differently
       // - Optional props are undefined, not null
       // render(<ComponentName value={undefined} />)
       // expect(screen.getByText(/no data/i)).toBeInTheDocument()
-    })
+    });
 
-    it('should handle empty array', () => {
+    it("should handle empty array", () => {
       // WHY: Empty state often needs special UI (e.g., "No items yet")
       // render(<ComponentName items={[]} />)
       // expect(screen.getByText(/empty/i)).toBeInTheDocument()
-    })
+    });
 
-    it('should handle empty string', () => {
+    it("should handle empty string", () => {
       // WHY: Empty strings are truthy in JS but visually empty
       // render(<ComponentName text="" />)
       // expect(screen.getByText(/placeholder/i)).toBeInTheDocument()
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Accessibility (optional but recommended for Dify's enterprise users)
   // --------------------------------------------------------------------------
   // WHY: Dify has enterprise customers who may require accessibility compliance
-  describe('Accessibility', () => {
-    it('should have accessible name', () => {
+  describe("Accessibility", () => {
+    it("should have accessible name", () => {
       // WHY getByRole with name?
       // - Tests that screen readers can identify the element
       // - Enforces proper labeling practices
       // render(<ComponentName label="Test Label" />)
       // expect(screen.getByRole('button', { name: /test label/i })).toBeInTheDocument()
-    })
+    });
 
-    it('should support keyboard navigation', async () => {
+    it("should support keyboard navigation", async () => {
       // WHY: Some users can't use a mouse
       // const user = userEvent.setup()
       // render(<ComponentName />)
       //
       // await user.tab()
       // expect(screen.getByRole('button')).toHaveFocus()
-    })
-  })
-})
+    });
+  });
+});

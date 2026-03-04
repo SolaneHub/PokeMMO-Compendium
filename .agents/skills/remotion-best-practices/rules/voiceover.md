@@ -46,7 +46,7 @@ const response = await fetch(
         style: 0.3,
       },
     }),
-  },
+  }
 );
 
 const audioBuffer = Buffer.from(await response.arrayBuffer());
@@ -73,7 +73,7 @@ export const calculateMetadata: CalculateMetadataFunction<Props> = async ({
   props,
 }) => {
   const durations = await Promise.all(
-    SCENE_AUDIO_FILES.map((file) => getAudioDuration(staticFile(file))),
+    SCENE_AUDIO_FILES.map((file) => getAudioDuration(staticFile(file)))
   );
 
   const sceneDurations = durations.map((durationInSeconds) => {

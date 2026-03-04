@@ -59,7 +59,9 @@ describe("useBossFightsData", () => {
 
   it("handles fetch error", async () => {
     // @ts-expect-error - Mocking service
-    bossFightsService.getBossFights.mockRejectedValue(new Error("Fetch failed"));
+    bossFightsService.getBossFights.mockRejectedValue(
+      new Error("Fetch failed")
+    );
 
     const { result } = renderHook(() => useBossFightsData(), { wrapper });
 

@@ -63,7 +63,7 @@ export const usePokemonDetailsQuery = (id: string | number | undefined) => {
       const fullData = await getPokemonById(idStr);
       if (fullData) {
         const fullDataWithFlag = { ...fullData, _isFullData: true };
-        
+
         // Optionally update the summary map if we want consistent data everywhere
         // but for now, we rely on the specific query cache
         return fullDataWithFlag;

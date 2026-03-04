@@ -56,9 +56,12 @@ describe("PokedexContext", () => {
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
       // Wait for the data to load
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      }, { timeout: 2000 });
+      await waitFor(
+        () => {
+          expect(result.current.isLoading).toBe(false);
+        },
+        { timeout: 2000 }
+      );
 
       // Check if data is populated correctly
       expect(result.current.allPokemonData.length).toBe(2);

@@ -7,7 +7,7 @@
  * 3. Add/remove test sections based on hook features
  */
 
-import { renderHook, act, waitFor } from '@testing-library/react'
+import { renderHook, act, waitFor } from "@testing-library/react";
 // import { useHookName } from './use-hook-name'
 
 // ============================================================================
@@ -36,34 +36,34 @@ import { renderHook, act, waitFor } from '@testing-library/react'
 // Tests
 // ============================================================================
 
-describe('useHookName', () => {
+describe("useHookName", () => {
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
 
   // --------------------------------------------------------------------------
   // Initial State
   // --------------------------------------------------------------------------
-  describe('Initial State', () => {
-    it('should return initial state', () => {
+  describe("Initial State", () => {
+    it("should return initial state", () => {
       // const { result } = renderHook(() => useHookName())
       //
       // expect(result.current.value).toBe(initialValue)
       // expect(result.current.isLoading).toBe(false)
-    })
+    });
 
-    it('should accept initial value from props', () => {
+    it("should accept initial value from props", () => {
       // const { result } = renderHook(() => useHookName({ initialValue: 'custom' }))
       //
       // expect(result.current.value).toBe('custom')
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // State Updates
   // --------------------------------------------------------------------------
-  describe('State Updates', () => {
-    it('should update value when setValue is called', () => {
+  describe("State Updates", () => {
+    it("should update value when setValue is called", () => {
       // const { result } = renderHook(() => useHookName())
       //
       // act(() => {
@@ -71,9 +71,9 @@ describe('useHookName', () => {
       // })
       //
       // expect(result.current.value).toBe('new value')
-    })
+    });
 
-    it('should reset to initial value', () => {
+    it("should reset to initial value", () => {
       // const { result } = renderHook(() => useHookName({ initialValue: 'initial' }))
       //
       // act(() => {
@@ -85,14 +85,14 @@ describe('useHookName', () => {
       //   result.current.reset()
       // })
       // expect(result.current.value).toBe('initial')
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Async Operations
   // --------------------------------------------------------------------------
-  describe('Async Operations', () => {
-    it('should fetch data on mount', async () => {
+  describe("Async Operations", () => {
+    it("should fetch data on mount", async () => {
       // mockedApi.fetchData.mockResolvedValue({ data: 'test' })
       //
       // const { result } = renderHook(() => useHookName())
@@ -106,9 +106,9 @@ describe('useHookName', () => {
       // })
       //
       // expect(result.current.data).toEqual({ data: 'test' })
-    })
+    });
 
-    it('should handle fetch error', async () => {
+    it("should handle fetch error", async () => {
       // mockedApi.fetchData.mockRejectedValue(new Error('Network error'))
       //
       // const { result } = renderHook(() => useHookName())
@@ -118,9 +118,9 @@ describe('useHookName', () => {
       // })
       //
       // expect(result.current.error?.message).toBe('Network error')
-    })
+    });
 
-    it('should refetch when dependency changes', async () => {
+    it("should refetch when dependency changes", async () => {
       // mockedApi.fetchData.mockResolvedValue({ data: 'test' })
       //
       // const { result, rerender } = renderHook(
@@ -137,14 +137,14 @@ describe('useHookName', () => {
       // await waitFor(() => {
       //   expect(mockedApi.fetchData).toHaveBeenCalledWith('2')
       // })
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Side Effects
   // --------------------------------------------------------------------------
-  describe('Side Effects', () => {
-    it('should call callback when value changes', () => {
+  describe("Side Effects", () => {
+    it("should call callback when value changes", () => {
       // const callback = vi.fn()
       // const { result } = renderHook(() => useHookName({ onChange: callback }))
       //
@@ -153,9 +153,9 @@ describe('useHookName', () => {
       // })
       //
       // expect(callback).toHaveBeenCalledWith('new value')
-    })
+    });
 
-    it('should cleanup on unmount', () => {
+    it("should cleanup on unmount", () => {
       // const cleanup = vi.fn()
       // vi.spyOn(window, 'addEventListener')
       // vi.spyOn(window, 'removeEventListener')
@@ -167,20 +167,20 @@ describe('useHookName', () => {
       // unmount()
       //
       // expect(window.removeEventListener).toHaveBeenCalled()
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // Edge Cases
   // --------------------------------------------------------------------------
-  describe('Edge Cases', () => {
-    it('should handle null input', () => {
+  describe("Edge Cases", () => {
+    it("should handle null input", () => {
       // const { result } = renderHook(() => useHookName(null))
       //
       // expect(result.current.value).toBeNull()
-    })
+    });
 
-    it('should handle rapid updates', () => {
+    it("should handle rapid updates", () => {
       // const { result } = renderHook(() => useHookName())
       //
       // act(() => {
@@ -190,18 +190,18 @@ describe('useHookName', () => {
       // })
       //
       // expect(result.current.value).toBe('3')
-    })
-  })
+    });
+  });
 
   // --------------------------------------------------------------------------
   // With Context (if hook uses context)
   // --------------------------------------------------------------------------
-  describe('With Context', () => {
-    it('should use context value', () => {
+  describe("With Context", () => {
+    it("should use context value", () => {
       // const wrapper = createWrapper({ someValue: 'context-value' })
       // const { result } = renderHook(() => useHookName(), { wrapper })
       //
       // expect(result.current.contextValue).toBe('context-value')
-    })
-  })
-})
+    });
+  });
+});
