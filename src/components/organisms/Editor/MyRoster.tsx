@@ -39,13 +39,23 @@ const MyRoster = ({ members, onEditSlot }: MyRosterProps) => {
           >
             {member?.name ? (
               <img
-                src={getSpriteUrlByName(member.name) || ""}
+                src={
+                  getSpriteUrlByName(member.name) ||
+                  (member.dexId
+                    ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`
+                    : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png")
+                }
                 loading="lazy"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (member.dexId) {
+                  if (
+                    member.dexId &&
+                    !target.src.includes(`/pokemon/${member.dexId}.png`)
+                  ) {
                     target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
-                  } else {
+                  } else if (
+                    !target.src.includes("/pokemon/0.png")
+                  ) {
                     target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
                   }
                 }}

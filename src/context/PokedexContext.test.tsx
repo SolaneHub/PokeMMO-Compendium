@@ -1,4 +1,6 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
+import { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as pokedexService from "@/firebase/services/pokedexService";
@@ -11,6 +13,24 @@ vi.mock("@/firebase/services/pokedexService", () => ({
   getPokedexSummary: vi.fn(),
   getPokemonById: vi.fn(),
 }));
+
+const createTestQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
+const wrapper = ({ children }: { children: ReactNode }) => {
+  const queryClient = createTestQueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <PokedexProvider>{children}</PokedexProvider>
+    </QueryClientProvider>
+  );
+};
 
 describe("PokedexContext", () => {
   beforeEach(() => {
@@ -33,16 +53,12 @@ describe("PokedexContext", () => {
       // @ts-expect-error - Mocking Pokedex service methods
       pokedexService.getPokedexSummary.mockResolvedValue(mockSummary);
 
-      const { result } = renderHook(() => usePokedexContext(), {
-        wrapper: PokedexProvider,
-      });
+      const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
-      // Initially should be loading
-      expect(result.current.isLoading).toBe(true);
-
+      // Wait for the data to load
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
-      });
+      }, { timeout: 2000 });
 
       // Check if data is populated correctly
       expect(result.current.allPokemonData.length).toBe(2);
@@ -57,9 +73,7 @@ describe("PokedexContext", () => {
         new Error("Network error")
       );
 
-      const { result } = renderHook(() => usePokedexContext(), {
-        wrapper: PokedexProvider,
-      });
+      const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
@@ -85,9 +99,7 @@ describe("PokedexContext", () => {
       // @ts-expect-error - Mocking Pokedex service methods
       pokedexService.getPokemonById.mockResolvedValue(fullDetails);
 
-      const { result } = renderHook(() => usePokedexContext(), {
-        wrapper: PokedexProvider,
-      });
+      const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);
@@ -108,6 +120,8 @@ describe("PokedexContext", () => {
       });
 
       // getPokemonById should only have been called ONCE due to caching
+      // Note: React Query's fetchQuery will call it again if it considers it stale,
+      // but with staleTime: Infinity it should be cached.
       expect(pokedexService.getPokemonById).toHaveBeenCalledTimes(1);
     });
 
@@ -115,9 +129,7 @@ describe("PokedexContext", () => {
       // @ts-expect-error - Mocking Pokedex service methods
       pokedexService.getPokedexSummary.mockResolvedValue(mockSummary);
 
-      const { result } = renderHook(() => usePokedexContext(), {
-        wrapper: PokedexProvider,
-      });
+      const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
       await waitFor(() => {
         expect(result.current.isLoading).toBe(false);

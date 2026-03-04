@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { User } from "firebase/auth";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
@@ -62,8 +62,8 @@ describe("Sidebar component", () => {
     expect(screen.getByText("Admin Dashboard")).toBeInTheDocument();
   });
 
-  it("calls logout when logout button is clicked", () => {
-    const mockLogout = vi.fn();
+  it("calls logout when logout button is clicked", async () => {
+    const mockLogout = vi.fn().mockResolvedValue(undefined);
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
       currentUser: { email: "test@example.com" } as unknown as User,
       isAdmin: false,
@@ -76,7 +76,11 @@ describe("Sidebar component", () => {
       </MemoryRouter>
     );
 
-    fireEvent.click(screen.getByText("Logout"));
+    const logoutButton = screen.getByText("Logout");
+    await act(async () => {
+      fireEvent.click(logoutButton);
+    });
+
     expect(mockLogout).toHaveBeenCalled();
   });
 });
