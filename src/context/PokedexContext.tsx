@@ -1,5 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { createContext, ReactNode, useCallback, useContext, useMemo } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+} from "react";
 
 import { getPokemonById } from "@/firebase/services/pokedexService";
 import { usePokedexSummaryQuery } from "@/hooks/usePokedexData";
@@ -41,7 +47,7 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
   const getPokemonDetails = useCallback(
     async (id: string | number) => {
       const idStr = id.toString();
-      
+
       // Use queryClient to fetch or get from cache
       return queryClient.fetchQuery({
         queryKey: ["pokemon", idStr],
@@ -63,7 +69,7 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
       ...(data || emptyData),
       isLoading,
       refetch: async (shouldSetLoading?: boolean) => {
-        // TanStack Query handles loading state automatically, 
+        // TanStack Query handles loading state automatically,
         // but we keep the signature for compatibility
         await refetch();
       },

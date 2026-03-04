@@ -74,7 +74,9 @@ describe("PokemonSummary component", () => {
 
     // Wait for async description to confirm fetch finished
     expect(
-      await screen.findByText("A strange seed was planted on its back at birth.")
+      await screen.findByText(
+        "A strange seed was planted on its back at birth."
+      )
     ).toBeInTheDocument();
 
     // Overview tab should be active

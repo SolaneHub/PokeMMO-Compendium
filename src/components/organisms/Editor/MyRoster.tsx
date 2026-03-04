@@ -53,9 +53,7 @@ const MyRoster = ({ members, onEditSlot }: MyRosterProps) => {
                     !target.src.includes(`/pokemon/${member.dexId}.png`)
                   ) {
                     target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
-                  } else if (
-                    !target.src.includes("/pokemon/0.png")
-                  ) {
+                  } else if (!target.src.includes("/pokemon/0.png")) {
                     target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
                   }
                 }}

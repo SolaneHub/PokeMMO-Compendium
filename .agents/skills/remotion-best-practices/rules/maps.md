@@ -148,7 +148,7 @@ export const MyComposition = () => {
 
   const style: React.CSSProperties = useMemo(
     () => ({ width, height, position: "absolute" }),
-    [width, height],
+    [width, height]
   );
 
   return <AbsoluteFill ref={ref} style={style} />;
@@ -241,14 +241,14 @@ useEffect(() => {
       easing: Easing.inOut(Easing.sin),
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
-    },
+    }
   );
 
   const camera = map.getFreeCameraOptions();
 
   const alongRoute = turf.along(
     turf.lineString(lineCoordinates),
-    routeDistance * progress,
+    routeDistance * progress
   ).geometry.coordinates;
 
   camera.lookAtPoint({

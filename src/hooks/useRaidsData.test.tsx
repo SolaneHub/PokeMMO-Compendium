@@ -51,7 +51,7 @@ describe("useRaidsData", () => {
     });
 
     expect(result.current.raidsData.length).toBe(3);
-    
+
     // Check sorting: stars ASC, then name ASC
     expect(result.current.raidsData[0].name).toBe("Blastoise");
     expect(result.current.raidsData[1].name).toBe("Charizard");
@@ -59,7 +59,9 @@ describe("useRaidsData", () => {
 
     // Check raidsMap
     expect(result.current.raidsMap.has("Charizard")).toBe(true);
-    expect(result.current.raidsMap.get("Charizard")).toEqual(result.current.raidsData[1]);
+    expect(result.current.raidsMap.get("Charizard")).toEqual(
+      result.current.raidsData[1]
+    );
 
     // Check starLevels
     expect(result.current.starLevels).toEqual([4, 5]);

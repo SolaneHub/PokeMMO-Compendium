@@ -78,7 +78,10 @@ describe("pokedexService", () => {
 
     it("handles pagination with lastDoc", async () => {
       setMockDocs([validPokemonDoc]);
-      const lastDoc = { id: "1", data: () => validPokemonDoc } as any;
+      const lastDoc = {
+        id: "1",
+        data: () => validPokemonDoc,
+      } as unknown as firestore.DocumentSnapshot;
       const result = await getPokedexPaginated(10, lastDoc);
       expect(firestore.startAfter).toHaveBeenCalledWith(lastDoc);
       expect(result.data.length).toBe(1);
@@ -127,16 +130,18 @@ describe("pokedexService", () => {
 
     it("handles setDoc failure in summary generation", async () => {
       setMockDocs([validPokemonDoc]);
-      
+
       const originalGetDoc = firestore.getDoc;
       const originalSetDoc = firestore.setDoc;
-      
+
       // @ts-expect-error - Mocking firestore getDoc method
       firestore.getDoc = vi.fn().mockImplementationOnce(() => ({
         exists: () => false,
       }));
       // @ts-expect-error - Mocking firestore setDoc method
-      firestore.setDoc = vi.fn().mockRejectedValueOnce(new Error("Permission denied"));
+      firestore.setDoc = vi
+        .fn()
+        .mockRejectedValueOnce(new Error("Permission denied"));
 
       const result = await getPokedexSummary();
       expect(result.length).toBe(1);
@@ -190,7 +195,11 @@ describe("pokedexService", () => {
       const pokemonNoId = { ...validPokemonDoc, id: null };
       await savePokedexEntry(pokemonNoId as unknown as Pokemon);
       // getPokemonDocId should have been called with "bulbasaur" (mock implementation just stringifies)
-      expect(firestore.doc).toHaveBeenCalledWith(expect.anything(), "pokedex", "bulbasaur");
+      expect(firestore.doc).toHaveBeenCalledWith(
+        expect.anything(),
+        "pokedex",
+        "bulbasaur"
+      );
     });
 
     it("updatePokedexEntry calls updateDoc", async () => {
@@ -205,26 +214,35 @@ describe("pokedexService", () => {
 
     it("updatePokedexData skips pokemon without id", async () => {
       const pokemonNoId = { ...validPokemonDoc, id: null };
-      await updatePokedexData([pokemonNoId as unknown as Pokemon, validPokemonDoc as unknown as Pokemon]);
-      
+      await updatePokedexData([
+        pokemonNoId as unknown as Pokemon,
+        validPokemonDoc as unknown as Pokemon,
+      ]);
+
       const mockBatch = (
         firestore.writeBatch as unknown as {
-          mock: { results: { value: { set: any } }[] };
+          mock: { results: { value: { set: vi.Mock } }[] };
         }
       ).mock.results[0].value;
-      
+
       // Should only call set once for the valid one
       expect(mockBatch.set).toHaveBeenCalledTimes(1);
     });
 
     it("savePokedexEntry uses provided id if available", async () => {
       await savePokedexEntry(validPokemonDoc as unknown as Pokemon);
-      expect(firestore.doc).toHaveBeenCalledWith(expect.anything(), "pokedex", "1");
+      expect(firestore.doc).toHaveBeenCalledWith(
+        expect.anything(),
+        "pokedex",
+        "1"
+      );
     });
 
     it("savePokedexEntry throws if name is missing", async () => {
       const noName = { ...validPokemonDoc, name: "" };
-      await expect(savePokedexEntry(noName as unknown as Pokemon)).rejects.toThrow("Pokemon name is required");
+      await expect(
+        savePokedexEntry(noName as unknown as Pokemon)
+      ).rejects.toThrow("Pokemon name is required");
     });
 
     it("updatePokedexSummary calls setDoc with summary document", async () => {
@@ -232,7 +250,7 @@ describe("pokedexService", () => {
       expect(firestore.setDoc).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
-          pokemonList: expect.any(Array)
+          pokemonList: expect.any(Array),
         })
       );
     });
