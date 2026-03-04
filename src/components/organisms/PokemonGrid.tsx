@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import PokemonCard from "@/components/molecules/PokemonCard";
 import { Pokemon } from "@/types/pokemon";
-import { getPokemonBackground } from "@/utils/pokemonHelpers";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 const PAGE_SIZE = 40;
@@ -11,18 +11,21 @@ interface PokemonGridProps {
   pokemonList: Pokemon[];
   selectedPokemon: Pokemon | null;
   onSelectPokemon: (pokemon: Pokemon) => void;
+  isPending?: boolean;
 }
 
 const PokemonGrid = ({
-  pokemonList,
+  pokemonList = [],
   selectedPokemon,
   onSelectPokemon,
+  isPending = false,
 }: PokemonGridProps) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!pokemonList) return;
+    if (!pokemonList || pokemonList.length === 0) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -33,8 +36,10 @@ const PokemonGrid = ({
       },
       { root: null, rootMargin: "400px", threshold: 0.1 }
     );
+
     const current = loadMoreRef.current;
     if (current) observer.observe(current);
+
     return () => {
       if (current) observer.unobserve(current);
     };
@@ -42,21 +47,23 @@ const PokemonGrid = ({
 
   if (!pokemonList || pokemonList.length === 0) {
     return (
-      <p className="mt-10 text-center text-xl text-white">
-        {" "}
-        No Pokémon found.{" "}
-      </p>
+      <p className="mt-10 text-center text-xl text-white">No Pokémon found.</p>
     );
   }
 
-  const visiblePokemon = pokemonList.slice(0, visibleCount);
+  const visiblePokemon = (pokemonList || []).slice(0, visibleCount);
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="flex w-full flex-wrap justify-center gap-5">
+      <div
+        className={`flex w-full flex-wrap justify-center gap-5 transition-opacity duration-200 ${
+          isPending ? "opacity-50" : "opacity-100"
+        }`}
+      >
         {visiblePokemon.map((pokemon, index) => {
           const sprite = getSpriteUrlByName(pokemon.name);
-          const background = getPokemonBackground(pokemon);
+          const background = getPokemonBackgroundStyle(pokemon.types || []);
+
           return (
             <PokemonCard
               key={`${pokemon.name}-${index}`}
@@ -69,6 +76,7 @@ const PokemonGrid = ({
           );
         })}
       </div>
+
       {visibleCount < pokemonList.length && (
         <div
           ref={loadMoreRef}

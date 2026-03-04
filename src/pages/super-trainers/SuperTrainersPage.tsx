@@ -7,12 +7,9 @@ import PageLayout from "@/components/templates/PageLayout";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import { useSuperTrainersData } from "@/hooks/useSuperTrainersData";
-import {
-  getPokemonBackground,
-  getPokemonByName,
-} from "@/services/pokemonService";
 import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 
 function SuperTrainersPage() {
   const accentColor = FEATURE_CONFIG["super-trainers"].color;
@@ -34,10 +31,11 @@ function SuperTrainersPage() {
   const isLoading = pokedexLoading || trainersLoading;
 
   const currentPokemonObject = selectedPokemon
-    ? getPokemonByName(selectedPokemon, pokemonMap)
+    ? pokemonMap.get(selectedPokemon)
     : null;
-  const detailsTitleBackground = selectedPokemon
-    ? getPokemonBackground(selectedPokemon, pokemonMap)
+
+  const detailsTitleBackground = currentPokemonObject
+    ? getPokemonBackgroundStyle(currentPokemonObject.types || [])
     : "#333";
 
   const handlePokemonCardClick = (

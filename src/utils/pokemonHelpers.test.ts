@@ -1,13 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { Pokemon } from "../types/pokemon";
-import { typeBackgrounds } from "./pokemonColors";
-import {
-  getFamilyName,
-  getPokemonBackground,
-  getPokemonCardData,
-  getPokemonVariants,
-} from "./pokemonHelpers";
+import { getFamilyName, getPokemonVariants } from "./pokemonHelpers";
 
 describe("pokemonHelpers", () => {
   describe("getFamilyName", () => {
@@ -23,54 +17,6 @@ describe("pokemonHelpers", () => {
 
     it("returns name as is if not a variant", () => {
       expect(getFamilyName("Pikachu")).toBe("Pikachu");
-    });
-  });
-
-  describe("getPokemonBackground", () => {
-    it("returns default background for null pokemon", () => {
-      expect(getPokemonBackground(null)).toBe(typeBackgrounds[""]);
-    });
-
-    it("returns named background if it exists in map", () => {
-      // Assuming 'Fire' or similar might be in typeBackgrounds
-      expect(getPokemonBackground({ name: "Fire" } as Pokemon)).toBe(
-        typeBackgrounds["Fire"]
-      );
-    });
-
-    it("generates gradient for dual types", () => {
-      const pokemon = {
-        name: "Bulbasaur",
-        types: ["Grass", "Poison"],
-      } as Pokemon;
-      const bg = getPokemonBackground(pokemon);
-      expect(bg).toContain("linear-gradient");
-    });
-
-    it("returns single type background", () => {
-      const pokemon = { name: "Charmander", types: ["Fire"] } as Pokemon;
-      expect(getPokemonBackground(pokemon)).toBe(typeBackgrounds["Fire"]);
-    });
-
-    it("returns default if types array is empty", () => {
-      const pokemon = { name: "Unknown", types: [] } as Pokemon;
-      expect(getPokemonBackground(pokemon)).toBe(typeBackgrounds[""]);
-    });
-  });
-
-  describe("getPokemonCardData", () => {
-    it("returns null sprite for null pokemon", () => {
-      const result = getPokemonCardData(null);
-      expect(result.sprite).toBeNull();
-      expect(result.background).toBe(typeBackgrounds[""]);
-    });
-
-    it("returns full data including sprite for valid pokemon", () => {
-      const pokemon = { name: "Pikachu", types: ["Electric"] } as Pokemon;
-      const result = getPokemonCardData(pokemon);
-      expect(result.name).toBe("Pikachu");
-      expect(result.sprite).not.toBeNull();
-      expect(result.background).toBe(typeBackgrounds["Electric"]);
     });
   });
 

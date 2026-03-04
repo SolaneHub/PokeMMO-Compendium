@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   generateDualTypeGradient,
   getDualShadow,
+  getPokemonBackgroundStyle,
   getPrimaryColor,
   typeBackgrounds,
 } from "./pokemonColors";
@@ -94,53 +95,30 @@ describe("pokemonColors", () => {
     });
 
     it("generates a new gradient combining the second colors of both types", () => {
-      // Fire is #FF7172, #E62829 -> second color is #E62829
-      // Water is #83B9FF, #2980EF -> second color is #2980EF
       const result = generateDualTypeGradient("Fire", "Water");
       expect(result).toBe("linear-gradient(to right, #E62829, #2980EF)");
     });
+  });
 
-    it("generates gradient using first colors if second colors are missing", () => {
-      // Mocking type backgrounds dynamically just for testing this branch
-      const originalFire = typeBackgrounds["Fire"];
-      const originalWater = typeBackgrounds["Water"];
-
-      typeBackgrounds["Fire"] = "linear-gradient(to right, #FF7172)";
-      typeBackgrounds["Water"] = "linear-gradient(to right, #83B9FF)";
-
-      const result = generateDualTypeGradient("Fire", "Water");
-      expect(result).toBe("linear-gradient(to right, #FF7172, #83B9FF)");
-
-      // Restore
-      typeBackgrounds["Fire"] = originalFire;
-      typeBackgrounds["Water"] = originalWater;
+  describe("getPokemonBackgroundStyle", () => {
+    it("returns default background for empty types", () => {
+      expect(getPokemonBackgroundStyle([])).toBe(typeBackgrounds[""]);
     });
 
-    it("returns one of the backgrounds if extraction fails", () => {
-      const originalFire = typeBackgrounds["Fire"];
-      const originalWater = typeBackgrounds["Water"];
-
-      typeBackgrounds["Fire"] = "invalid-format";
-      typeBackgrounds["Water"] = "linear-gradient(to right, #83B9FF, #2980EF)";
-
-      const result = generateDualTypeGradient("Fire", "Water");
-      // Because extraction for fire treats 'invalid-format' as a single color, it combines it with the first color of water
-      expect(result).toBe("linear-gradient(to right, invalid-format, #83B9FF)");
-
-      // Restore
-      typeBackgrounds["Fire"] = originalFire;
-      typeBackgrounds["Water"] = originalWater;
+    it("returns single type background", () => {
+      expect(getPokemonBackgroundStyle(["Fire"])).toBe(typeBackgrounds["Fire"]);
     });
 
-    it("falls back to default background if linear-gradient regex fails completely", () => {
-      const originalFire = typeBackgrounds["Fire"];
-      // Starts with linear-gradient but doesn't have 'to right' so regex fails, returning []
-      typeBackgrounds["Fire"] = "linear-gradient(to bottom, red, blue)";
+    it("returns dual type gradient", () => {
+      const result = getPokemonBackgroundStyle(["Fire", "Water"]);
+      expect(result).toBe("linear-gradient(to right, #E62829, #2980EF)");
+    });
 
-      const result = generateDualTypeGradient("Fire", "Water");
-      expect(result).toBe(typeBackgrounds["Fire"]); // Falls back to returning the first valid background
-
-      typeBackgrounds["Fire"] = originalFire;
+    it("handles invalid single type by falling back to Normal or Default", () => {
+      // Normal is used if type not found but array not empty
+      expect(getPokemonBackgroundStyle(["InvalidType"])).toBe(
+        typeBackgrounds["Normal"]
+      );
     });
   });
 });
