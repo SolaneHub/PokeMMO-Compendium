@@ -15,7 +15,7 @@ function HomeFooter() {
             <a
               href="https://github.com/SolaneHub/PokeMMO-Compendium"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 transition-colors hover:text-blue-400"
             >
               <FaGithub size={18} /> <span>GitHub</span>
@@ -32,7 +32,7 @@ function HomeFooter() {
                 <a
                   href="https://www.youtube.com/@caav.pokemmo"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-blue-400 hover:underline"
                 >
                   Caav.PokéMMO
@@ -41,7 +41,7 @@ function HomeFooter() {
                 <a
                   href="https://discord.gg/gjSNmBmu4j"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-blue-400 hover:underline"
                 >
                   PokeMMO Raid Den Discord
@@ -57,7 +57,7 @@ function HomeFooter() {
                 <a
                   href="https://forums.pokemmo.com/index.php?/topic/106742-money-guide-community-pickup-guide-2nd-edition/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-blue-400 hover:underline"
                 >
                   Money Guide Community Pickup Guide
@@ -66,7 +66,7 @@ function HomeFooter() {
                 <a
                   href="https://forums.pokemmo.com/index.php?/topic/146969-optimal-pve-pickup-teddiursa-munchlax-meowth-and-pachirisu-with-leveling-strategies/"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="text-blue-400 hover:underline"
                 >
                   Optimal PvE Pickup Guide

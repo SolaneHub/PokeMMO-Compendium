@@ -15,6 +15,7 @@ import {
 
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { StrategyStep, StrategyVariation } from "@/types/teams";
+import { generateId } from "@/utils/idUtils";
 
 import { SortableNestedStepItem } from "./SortableNestedStepItem";
 
@@ -23,7 +24,7 @@ const createNewNestedStepTemplate = (): StrategyStep => ({
   player: "",
   warning: "",
   variations: [],
-  id: `nested-step-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`,
+  id: generateId("nested-step"),
 });
 
 interface VariationFormProps {
