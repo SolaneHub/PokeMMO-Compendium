@@ -53,4 +53,7 @@ src/docs/
 
 # System files
 .DS_Store
-Thumbs.db\n# Gemini secrets and settings\n.gemini/.gemini.env\n.gemini/settings.json
+Thumbs.db
+
+# Gemini secrets
+.gemini/.gemini.env
