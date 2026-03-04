@@ -27,6 +27,11 @@ const PokemonEvolutions = ({
     const evoObj = allPokemon.find((p) => p.name === name);
     if (!evoObj) return null;
     const cardData = getPokemonCardData(evoObj);
+    const sprite =
+      cardData.sprite ||
+      (evoObj.id
+        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${evoObj.id}.png`
+        : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png");
 
     return (
       <div
@@ -45,7 +50,7 @@ const PokemonEvolutions = ({
           }`}
         >
           <img
-            src={cardData.sprite || ""}
+            src={sprite}
             alt={name}
             className="h-14 w-14 object-contain drop-shadow-md"
           />
@@ -111,6 +116,12 @@ const PokemonEvolutions = ({
               const variantObj = allPokemon.find((p) => p.name === variantName);
               if (!variantObj) return null;
               const cardData = getPokemonCardData(variantObj);
+              const variantSprite =
+                cardData.sprite ||
+                (variantObj.id
+                  ? `https://raw.githubusercontent.com/PokeAPI/sprites/pokemon/${variantObj.id}.png`
+                  : "https://raw.githubusercontent.com/PokeAPI/sprites/pokemon/0.png");
+
               return (
                 <div
                   key={variantName}
@@ -119,7 +130,7 @@ const PokemonEvolutions = ({
                 >
                   <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-2 transition-all hover:border-purple-500 hover:bg-purple-500/10 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                     <img
-                      src={cardData.sprite || ""}
+                      src={variantSprite}
                       alt={variantName}
                       className="h-12 w-12 object-contain transition-transform group-hover:scale-110"
                     />

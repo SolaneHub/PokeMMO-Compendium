@@ -49,8 +49,8 @@ export const setMockDocs = (docs: unknown[]) => {
 vi.mock("firebase/firestore", () => ({
   initializeFirestore: vi.fn(() => ({})),
   getFirestore: vi.fn(() => ({})),
-  collection: vi.fn(),
-  doc: vi.fn(),
+  collection: vi.fn(() => ({ id: "mock-collection" })),
+  doc: vi.fn((_db, _coll, id) => ({ id: id || "mock-doc" })),
   getDoc: vi.fn(async () => ({
     exists: () => mockDocs.length > 0,
     data: () => (mockDocs.length > 0 ? mockDocs[0] : null),
