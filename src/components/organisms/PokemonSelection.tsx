@@ -1,6 +1,7 @@
 import PokemonCard from "@/components/molecules/PokemonCard";
-import { getPokemonCardData } from "@/services/pokemonService";
 import { Pokemon } from "@/types/pokemon";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
+import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 interface PokemonSelectionProps {
   pokemonNames: string[];
@@ -22,10 +23,10 @@ function PokemonSelection({
       </h2>
       <div className="flex flex-wrap justify-center gap-5">
         {pokemonNames.map((pokemonName) => {
-          const { sprite, background } = getPokemonCardData(
-            pokemonName,
-            pokemonMap
-          );
+          const pokemon = pokemonMap.get(pokemonName);
+          const background = getPokemonBackgroundStyle(pokemon?.types || []);
+          const sprite = getSpriteUrlByName(pokemonName);
+
           return (
             <PokemonCard
               key={pokemonName}

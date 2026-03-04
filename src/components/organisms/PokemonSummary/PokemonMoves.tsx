@@ -21,6 +21,7 @@ interface PokemonMovesProps {
 
 const PokemonMoves = ({ moves }: PokemonMovesProps) => {
   const [moveSearch, setMoveSearch] = useState("");
+
   const filteredMoves = (() => {
     if (!moves) return [];
     if (!moveSearch) return moves;
@@ -29,87 +30,119 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
     );
   })();
 
+  // Optimized grid template: strictly defined widths for technical data
+  // Min-width for entire table container to prevent columns from breaking on mobile
+  const gridTemplate = "grid-cols-[65px_1fr_80px_60px_70px_50px_50px]";
+  const minTableWidth = "min-w-[450px]";
+
   return (
     <div className="flex flex-col gap-2.5 text-white">
-      <div className="mb-2 flex items-center justify-between border-b border-white/5 pb-2">
+      <div className="mb-2 flex flex-col justify-between gap-2 border-b border-white/5 pb-2 sm:flex-row sm:items-center">
         <h4 className="m-0 border-none p-0 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
           Level Up Moves
         </h4>
         <input
           type="text"
-          className="w-44 rounded-md border border-white/10 bg-[#0f1014] px-3 py-1.5 text-sm text-white transition-all outline-none placeholder:text-slate-600 placeholder:italic focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
+          className="w-full rounded-md border border-white/10 bg-[#0f1014] px-3 py-1.5 text-xs text-white transition-all outline-none placeholder:text-slate-600 placeholder:italic focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 sm:w-44"
           placeholder="Search move..."
           value={moveSearch}
           onChange={(e) => setMoveSearch(e.target.value)}
         />
       </div>
-      <div className="flex flex-col overflow-hidden rounded-lg border border-white/10 bg-[#0f1014]">
-        <div className="sticky top-0 z-1 flex border-b border-white/5 bg-white/5 p-2.5 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-          <span className="w-10 text-center">LVL</span>
-          <span className="flex-1 text-center">MOVE</span>
-          <span className="w-16 text-center">TYPE</span>
-          <span className="w-12 text-center">CAT</span>
-          <span className="w-10 text-center">PWR</span>
-          <span className="w-10 text-center">PP</span>
-          <span className="w-10 text-center">ACC</span>
-        </div>
-        {filteredMoves.length > 0 ? (
-          filteredMoves.map((move, i) => {
-            const moveType = (move.type || "") as PokemonType;
-            const typeBg = typeBackgrounds[moveType] || typeBackgrounds[""];
-            const moveCat = move.cat || move.category || "";
 
-            return (
-              <div
-                key={i}
-                className="flex items-center border-b border-white/5 p-2 transition-colors last:border-b-0 hover:bg-white/10"
-              >
-                <div className="w-10 text-center">
-                  <span className="font-mono text-sm font-bold text-slate-400">
-                    {move.level}
-                  </span>
+      {/* Horizontal Scroll Container for Mobile */}
+      <div className="flex flex-col overflow-hidden rounded-lg border border-white/10 bg-[#0f1014]">
+        <div className="scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent max-h-[500px] overflow-x-auto overflow-y-auto">
+          <div className={minTableWidth}>
+            {/* Header */}
+            <div
+              className={`sticky top-0 z-20 grid ${gridTemplate} items-center justify-items-center border-b border-white/10 bg-[#16181d] px-3 py-2 text-[9px] font-black tracking-wider text-slate-400 uppercase`}
+            >
+              <div>LVL</div>
+              <div>MOVE</div>
+              <div>TYPE</div>
+              <div>CAT</div>
+              <div>PWR</div>
+              <div>PP</div>
+              <div>ACC</div>
+            </div>
+
+            {/* Rows */}
+            <div className="flex flex-col">
+              {filteredMoves.length > 0 ? (
+                filteredMoves.map((move, i) => {
+                  const moveType = (move.type || "") as PokemonType;
+                  const typeBg =
+                    typeBackgrounds[moveType] || typeBackgrounds[""];
+                  const moveCat = move.cat || move.category || "";
+
+                  return (
+                    <div
+                      key={i}
+                      className={`grid ${gridTemplate} items-center justify-items-center border-b border-white/5 px-3 py-2 transition-colors last:border-b-0 hover:bg-white/5`}
+                    >
+                      {/* LVL */}
+                      <div className="font-mono text-[10px] font-bold text-slate-400 uppercase">
+                        {move.level}
+                      </div>
+
+                      {/* MOVE */}
+                      <div className="w-full min-w-0 px-2 text-center">
+                        <span className="block truncate text-sm font-bold text-slate-100">
+                          {move.name}
+                        </span>
+                      </div>
+
+                      {/* TYPE */}
+                      <div>
+                        <span
+                          className="inline-block w-16 rounded-sm py-0.5 text-center text-[8px] font-black text-white uppercase shadow-sm"
+                          style={{ background: typeBg }}
+                        >
+                          {move.type}
+                        </span>
+                      </div>
+
+                      {/* CAT */}
+                      <div>
+                        <span
+                          className={`inline-block w-10 rounded-sm py-0.5 text-center text-[8px] font-black uppercase ${
+                            moveCat === "Physical"
+                              ? "bg-orange-500 text-white"
+                              : moveCat === "Special"
+                                ? "bg-sky-500 text-white"
+                                : "bg-slate-600 text-slate-200"
+                          }`}
+                        >
+                          {moveCat.substring(0, 4) || "-"}
+                        </span>
+                      </div>
+
+                      {/* PWR */}
+                      <div className="text-center font-mono text-xs whitespace-nowrap text-slate-300">
+                        {move.pwr || move.power || "---"}
+                      </div>
+
+                      {/* PP */}
+                      <div className="text-center font-mono text-xs text-slate-300">
+                        {move.pp || "-"}
+                      </div>
+
+                      {/* ACC */}
+                      <div className="text-center font-mono text-xs text-slate-300">
+                        {move.acc || move.accuracy || "-"}
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="p-10 text-center text-sm text-slate-500 italic">
+                  No moves found.
                 </div>
-                <div className="flex flex-1 flex-col justify-center text-center">
-                  <span className="text-sm leading-tight font-semibold">
-                    {move.name}
-                  </span>
-                </div>
-                <div className="flex w-16 justify-center">
-                  <span
-                    className="w-14 rounded-sm px-1.5 py-0.5 text-center text-[8px] font-bold text-white uppercase shadow-sm"
-                    style={{ background: typeBg }}
-                  >
-                    {move.type}
-                  </span>
-                </div>
-                <div className="flex w-12 justify-center">
-                  <span
-                    className={`w-10 rounded-sm py-0.5 text-center text-[8px] font-bold text-neutral-900 uppercase ${
-                      moveCat === "Physical"
-                        ? "bg-orange-400"
-                        : moveCat === "Special"
-                          ? "bg-sky-400"
-                          : "bg-neutral-400"
-                    }`}
-                  >
-                    {moveCat.substring(0, 4) || "-"}
-                  </span>
-                </div>
-                <div className="w-10 text-center text-sm">
-                  {move.pwr || move.power || "-"}
-                </div>
-                <div className="w-10 text-center text-sm">{move.pp || "-"}</div>
-                <div className="w-10 text-center text-sm">
-                  {move.acc || move.accuracy || "-"}
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          <div className="p-5 text-center text-sm text-slate-400 italic">
-            No moves found.
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

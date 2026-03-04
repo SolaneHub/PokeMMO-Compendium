@@ -2,10 +2,14 @@ import { useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import PokemonCard from "@/components/molecules/PokemonCard";
-import { getPokemonCardData } from "@/services/pokemonService";
 import { BossFight } from "@/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
-import { typeBackgrounds } from "@/utils/pokemonColors";
+import {
+  getPokemonBackgroundStyle,
+  PokemonType,
+  typeBackgrounds,
+} from "@/utils/pokemonColors";
+import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 interface BossFightSectionProps {
   bossFight: BossFight;
@@ -35,7 +39,7 @@ const BossFightSection = ({
     : [];
 
   const bossFightBackground =
-    typeBackgrounds[bossFight.type] || typeBackgrounds[""];
+    typeBackgrounds[bossFight.type as PokemonType] || typeBackgrounds[""];
 
   return (
     <div className="animate-[fade-in_0.4s_ease-out] rounded-2xl border border-white/5 bg-[#1a1b20] p-4 text-white shadow-lg md:p-6">
@@ -58,7 +62,7 @@ const BossFightSection = ({
           {bossFight.type && (
             <span
               className="mt-2 inline-block rounded-full px-3 py-1 text-sm font-semibold text-[#1a1b20]"
-              style={{ backgroundColor: bossFightBackground }}
+              style={{ background: bossFightBackground }}
             >
               {bossFight.type}
             </span>
@@ -92,10 +96,12 @@ const BossFightSection = ({
               </h3>
               <div className="flex flex-wrap justify-center gap-4">
                 {pokemonNamesForSelectedTeam.map((pokemonName) => {
-                  const { sprite, background } = getPokemonCardData(
-                    pokemonName,
-                    pokemonMap
+                  const pokemon = pokemonMap.get(pokemonName);
+                  const background = getPokemonBackgroundStyle(
+                    pokemon?.types || []
                   );
+                  const sprite = getSpriteUrlByName(pokemonName);
+
                   return (
                     <PokemonCard
                       key={pokemonName}

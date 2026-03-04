@@ -11,7 +11,7 @@ import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getFamilyName } from "@/utils/pokemonHelpers";
 
 function PokedexPage() {
-  const { fullList, isLoading } = usePokedexData();
+  const { fullList, pokemonMap, isLoading } = usePokedexData();
   const accentColor = FEATURE_CONFIG.pokedex.color;
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
@@ -91,16 +91,13 @@ function PokedexPage() {
           <p className="text-slate-400">Loading Pokémon data...</p>
         </div>
       ) : (
-        <div
-          className={`w-full transition-opacity duration-300 ${
-            isPending ? "opacity-50" : "opacity-100"
-          }`}
-        >
+        <div className="w-full">
           <PokemonGrid
             key={`${filteredPokemon.length}-${deferredSearchTerm}`}
             pokemonList={filteredPokemon}
             selectedPokemon={selectedPokemon}
             onSelectPokemon={setSelectedPokemon}
+            isPending={isPending}
           />
         </div>
       )}
@@ -110,6 +107,7 @@ function PokedexPage() {
           key={selectedPokemon.name}
           pokemon={selectedPokemon}
           allPokemon={fullList}
+          pokemonMap={pokemonMap}
           onClose={() => setSelectedPokemon(null)}
           onSelectPokemon={setSelectedPokemon}
         />
