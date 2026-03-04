@@ -45,6 +45,7 @@ import {
   Pokemon,
   PokemonMove,
 } from "@/types/pokemon";
+import { generateId } from "@/utils/idUtils";
 
 // Extended interface for editor with temp IDs
 interface EditorMove extends PokemonMove {
@@ -370,9 +371,7 @@ const PokedexEditorPage = () => {
       pokemonData.moves = (pokemonData.moves || []).map(
         (m: PokemonMove, i: number) => ({
           ...m,
-          tempId:
-            (m as EditorMove).tempId ||
-            `move-${i}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          tempId: (m as EditorMove).tempId || generateId(`move-${i}`),
         })
       );
 
@@ -452,7 +451,7 @@ const PokedexEditorPage = () => {
       name: "",
       type: "",
       level: "",
-      tempId: `new-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      tempId: generateId("new"),
     };
     setFormData((prev) => ({
       ...prev,
