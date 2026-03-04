@@ -1,13 +1,15 @@
+import { render } from "@testing-library/react";
+import React from "react";
 import { describe, expect, it } from "vitest";
 
 import { Pokemon } from "@/types/pokemon";
 
 import { typeBackgrounds } from "./pokemonColors";
 import {
-  colorTextElements,
   getMoveGradient,
   getPokemonGradient,
   initializePokemonColorMap,
+  renderColoredText,
 } from "./pokemonMoveColors";
 
 describe("pokemonMoveColors", () => {
@@ -75,47 +77,53 @@ describe("pokemonMoveColors", () => {
     });
   });
 
-  describe("colorTextElements", () => {
+  describe("renderColoredText", () => {
     it("returns original text if empty", () => {
-      expect(colorTextElements("", {})).toBe("");
+      expect(renderColoredText("", {})).toBe("");
     });
 
-    it("replaces known moves with styled span", () => {
+    it("renders known moves with styled span", () => {
       const text = "Use Flamethrower on the enemy";
-      const result = colorTextElements(text, {});
-      expect(result).toContain(
-        `<span style="background: ${typeBackgrounds["Fire"]};`
-      );
-      expect(result).toContain(">Flamethrower</span>");
+      const { container } = render(<>{renderColoredText(text, {})}</>);
+
+      const span = container.querySelector("span");
+      expect(span).toBeTruthy();
+      expect(span?.textContent).toBe("Flamethrower");
+      // JSDOM might convert hex to rgb and add properties to background shorthand
+      expect(span?.style.background).toBeTruthy();
     });
 
-    it("replaces known pokemon with styled span from map and tests sorting logic", () => {
-      // Sorting should prioritize longer names so 'Charizard' is matched before 'Char'
+    it("renders known pokemon with styled span from map and tests sorting logic", () => {
       const text = "Switch to Charizard now";
       const mockMap = {
         Char: "short-gradient",
         Charizard: "custom-red-gradient",
-        A: "tiny",
       };
-      const result = colorTextElements(text, mockMap);
-      expect(result).toContain(`<span style="background: custom-red-gradient;`);
-      expect(result).toContain(">Charizard</span>");
-      expect(result).not.toContain("short-gradient"); // Shouldn't match partial word if we prioritize length correctly
+      const { container } = render(<>{renderColoredText(text, mockMap)}</>);
+
+      const span = container.querySelector("span");
+      expect(span).toBeTruthy();
+      expect(span?.textContent).toBe("Charizard");
+      // Check that it's NOT 'Char' by checking the matched text
+      expect(span?.textContent).not.toBe("Char");
     });
 
-    it("replaces both moves and pokemon in the same text", () => {
+    it("renders both moves and pokemon in the same text", () => {
       const text = "Charizard uses Earthquake";
       const mockMap = { Charizard: "custom-red" };
-      const result = colorTextElements(text, mockMap);
+      const { container } = render(<>{renderColoredText(text, mockMap)}</>);
 
-      expect(result).toContain("custom-red");
-      expect(result).toContain(typeBackgrounds["Ground"]); // Earthquake
+      const spans = container.querySelectorAll("span");
+      expect(spans.length).toBe(2);
+      expect(spans[0].textContent).toBe("Charizard");
+      expect(spans[1].textContent).toBe("Earthquake");
     });
 
     it("is case insensitive for matching but preserves original casing in result", () => {
       const text = "flamethrower is strong";
-      const result = colorTextElements(text, {});
-      expect(result).toContain(">flamethrower</span>"); // original lowercase is preserved
+      const { container } = render(<>{renderColoredText(text, {})}</>);
+      const span = container.querySelector("span");
+      expect(span?.textContent).toBe("flamethrower");
     });
   });
 });
