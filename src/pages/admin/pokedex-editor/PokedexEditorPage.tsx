@@ -336,7 +336,7 @@ const PokedexEditorPage = () => {
     if (selectedPokemon) {
       const pokemonData = {
         ...INITIAL_POKEMON_STATE,
-        ...JSON.parse(JSON.stringify(selectedPokemon)),
+        ...structuredClone(selectedPokemon),
       };
 
       // Handle the string-to-array conversions
@@ -379,6 +379,8 @@ const PokedexEditorPage = () => {
       pokemonData.genderRatio = {
         ...INITIAL_POKEMON_STATE.genderRatio,
         ...(pokemonData.genderRatio || {}),
+        m: pokemonData.genderRatio?.m ?? 0,
+        f: pokemonData.genderRatio?.f ?? 0,
       };
       pokemonData.types = pokemonData.types || [];
 
@@ -668,7 +670,7 @@ const PokedexEditorPage = () => {
   const handleAlignAllEvolutions = async () => {
     if (!fullList) return;
     if (
-      !window.confirm(
+      !globalThis.confirm(
         "Are you sure you want to align moves for ALL evolutions in the Pokedex? This may take a while."
       )
     )
@@ -733,7 +735,7 @@ const PokedexEditorPage = () => {
   const handleDelete = async () => {
     if (!selectedPokemon || !selectedPokemon.id) return;
     if (
-      !window.confirm(
+      !globalThis.confirm(
         `Are you sure you want to delete ${selectedPokemon.name}?`
       )
     )
@@ -886,10 +888,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-dexId"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Dex ID
                 </label>
                 <input
+                  id="pokedex-dexId"
                   name="dexId"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.dexId || ""}
@@ -897,10 +903,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-name"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Name
                 </label>
                 <input
+                  id="pokedex-name"
                   name="name"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.name}
@@ -911,10 +921,14 @@ const PokedexEditorPage = () => {
 
             <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-category"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Category
                 </label>
                 <input
+                  id="pokedex-category"
                   name="category"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.category || ""}
@@ -932,10 +946,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-tier"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Tier
                 </label>
                 <input
+                  id="pokedex-tier"
                   name="tier"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.tier || ""}
@@ -945,10 +963,14 @@ const PokedexEditorPage = () => {
             </div>
 
             <div className="mt-4">
-              <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+              <label
+                htmlFor="pokedex-description"
+                className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+              >
                 Description
               </label>
               <textarea
+                id="pokedex-description"
                 name="description"
                 rows={2}
                 className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
@@ -964,10 +986,14 @@ const PokedexEditorPage = () => {
             </h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-height"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Height
                 </label>
                 <input
+                  id="pokedex-height"
                   name="height"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.height || ""}
@@ -975,10 +1001,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-weight"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Weight
                 </label>
                 <input
+                  id="pokedex-weight"
                   name="weight"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.weight || ""}
@@ -986,10 +1016,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-catchRate"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Catch Rate
                 </label>
                 <input
+                  id="pokedex-catchRate"
                   name="catchRate"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.catchRate || ""}

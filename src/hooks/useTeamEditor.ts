@@ -27,7 +27,7 @@ const ensureStepIds = (steps: StrategyStep[]): StrategyStep[] => {
 
 const sanitizeTeam = (teamData: Team | null): Team | null => {
   if (!teamData) return null;
-  const sanitized: Team = JSON.parse(JSON.stringify(teamData));
+  const sanitized: Team = structuredClone(teamData);
   if (!sanitized.strategies) sanitized.strategies = {};
   if (!sanitized.enemyPools) sanitized.enemyPools = {};
   if (!sanitized.members) sanitized.members = [];

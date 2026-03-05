@@ -239,7 +239,7 @@ export async function updatePokedexData(pokedexArray: Pokemon[]) {
     if (pokemon.id) {
       const docId = getPokemonDocId(pokemon.id);
       const docRef = doc(db, POKEDEX_COLLECTION, docId);
-      const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
+      const cleanPokemon = structuredClone(pokemon);
       batch.set(docRef, cleanPokemon, { merge: true });
     }
   });
@@ -255,7 +255,7 @@ export async function savePokedexEntry(pokemon: Pokemon) {
     ? getPokemonDocId(pokemon.id)
     : pokemon.name.toLowerCase();
   const docRef = doc(db, POKEDEX_COLLECTION, docId);
-  const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
+  const cleanPokemon = structuredClone(pokemon);
   await setDoc(docRef, cleanPokemon);
 }
 

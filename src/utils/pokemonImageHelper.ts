@@ -735,6 +735,6 @@ export const formatItemNameForUrl = (itemName: string): string => {
     .split(/[\s_]+/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join("_")
-    .replace(/[.]/g, "")
+    .replaceAll(".", "")
     .replace(/([a-z])([A-Z])/g, "$1_$2");
 };

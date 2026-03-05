@@ -145,12 +145,10 @@ describe("StrategyEditor component", () => {
 
     // Click top add button
     const firstAddBtn = addButtons[0];
-    if (firstAddBtn) {
-      fireEvent.click(firstAddBtn);
-    }
+    if (firstAddBtn) fireEvent.click(firstAddBtn);
     expect(handleUpdate).toHaveBeenCalledTimes(1);
     const firstCall = handleUpdate.mock.calls[0];
-    if (firstCall && firstCall[0]) {
+    if (firstCall?.[0]) {
       expect(firstCall[0].length).toBe(3); // 2 existing + 1 new
     }
   });
@@ -170,8 +168,8 @@ describe("StrategyEditor component", () => {
 
     // Verify first step was updated
     const firstCall = handleUpdate.mock.calls[0];
-    if (firstCall && firstCall[0]) {
-      const newSteps = firstCall[0];
+    const newSteps = firstCall?.[0];
+    if (newSteps) {
       expect(newSteps[0].player).toBe("UpdatedPlayer");
       expect(newSteps[1]).toEqual(mockSteps[1]); // second untouched
     }
@@ -192,8 +190,8 @@ describe("StrategyEditor component", () => {
 
     // Verify first step was removed
     const firstCall = handleUpdate.mock.calls[0];
-    if (firstCall && firstCall[0]) {
-      const newSteps = firstCall[0];
+    const newSteps = firstCall?.[0];
+    if (newSteps) {
       expect(newSteps.length).toBe(1);
       expect(newSteps[0].id).toBe("step2");
     }
@@ -214,8 +212,8 @@ describe("StrategyEditor component", () => {
 
     expect(handleUpdate).toHaveBeenCalledTimes(1);
     const firstCall = handleUpdate.mock.calls[0];
-    if (firstCall && firstCall[0]) {
-      const newSteps = firstCall[0];
+    const newSteps = firstCall?.[0];
+    if (newSteps) {
       // Due to active id step1 and over id step2, arrayMove should swap them
       expect(newSteps[0].id).toBe("step2");
       expect(newSteps[1].id).toBe("step1");

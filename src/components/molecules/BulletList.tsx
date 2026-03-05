@@ -13,7 +13,14 @@ const BulletList = ({ title, items, className = "" }: BulletListProps) => {
       {title && <h2 className="mb-3 text-2xl font-bold">{title}</h2>}
       <ul className="list-disc space-y-2 pl-5">
         {items.map((item, index) => (
-          <li key={index} className="leading-relaxed">
+          <li
+            key={
+              typeof item === "string"
+                ? `${index}-${item.substring(0, 10)}`
+                : index
+            }
+            className="leading-relaxed"
+          >
             {item}
           </li>
         ))}
