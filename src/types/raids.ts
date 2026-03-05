@@ -40,7 +40,7 @@ export const RaidBuildSchema: z.ZodType<RaidBuild> = z.lazy(() =>
     ivs: z.string().optional(),
     moves: z.array(z.string()).optional(),
     order: z.preprocess(
-      (val) => (typeof val === "string" ? parseInt(val, 10) : val),
+      (val) => (typeof val === "string" ? Number.parseInt(val, 10) : val),
       z.number().optional()
     ),
     variants: z.array(z.lazy(() => RaidBuildSchema)).optional(),

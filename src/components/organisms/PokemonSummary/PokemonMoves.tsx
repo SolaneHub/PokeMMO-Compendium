@@ -19,6 +19,12 @@ interface PokemonMovesProps {
   moves: Move[];
 }
 
+const getCategoryStyles = (cat: string) => {
+  if (cat === "Physical") return "bg-orange-500 text-white";
+  if (cat === "Special") return "bg-sky-500 text-white";
+  return "bg-slate-600 text-slate-200";
+};
+
 const PokemonMoves = ({ moves }: PokemonMovesProps) => {
   const [moveSearch, setMoveSearch] = useState("");
 
@@ -78,7 +84,7 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
 
                   return (
                     <div
-                      key={i}
+                      key={`${move.name}-${i}`}
                       className={`grid ${gridTemplate} items-center justify-items-center border-b border-white/5 px-3 py-2 transition-colors last:border-b-0 hover:bg-white/5`}
                     >
                       {/* LVL */}
@@ -106,13 +112,7 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
                       {/* CAT */}
                       <div>
                         <span
-                          className={`inline-block w-10 rounded-sm py-0.5 text-center text-[8px] font-black uppercase ${
-                            moveCat === "Physical"
-                              ? "bg-orange-500 text-white"
-                              : moveCat === "Special"
-                                ? "bg-sky-500 text-white"
-                                : "bg-slate-600 text-slate-200"
-                          }`}
+                          className={`inline-block w-10 rounded-sm py-0.5 text-center text-[8px] font-black uppercase ${getCategoryStyles(moveCat)}`}
                         >
                           {moveCat.substring(0, 4) || "-"}
                         </span>

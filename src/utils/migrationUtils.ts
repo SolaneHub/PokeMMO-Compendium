@@ -35,7 +35,7 @@ export async function verifyPokedexMigration() {
  */
 export async function cleanupPokedexImages() {
   if (
-    !window.confirm(
+    !globalThis.confirm(
       "Sei sicuro di voler eliminare i riferimenti alle immagini dal database? Questa operazione è irreversibile."
     )
   ) {
@@ -87,7 +87,7 @@ export async function migrateBossFightsToFirestore(
     return;
   }
 
-  if (!window.confirm("Migrare i Boss Fights su Firestore?")) return;
+  if (!globalThis.confirm("Migrare i Boss Fights su Firestore?")) return;
 
   try {
     await updateBossFightsCollection(bossFightsData);
@@ -102,7 +102,7 @@ export async function migrateBossFightsToFirestore(
  */
 export async function migrateTrainerRerunToFirestore(data: TrainerRerunData) {
   if (!data) return;
-  if (!window.confirm("Migrare Trainer Rerun su Firestore?")) return;
+  if (!globalThis.confirm("Migrare Trainer Rerun su Firestore?")) return;
 
   try {
     await updateTrainerRerun(data);
@@ -124,7 +124,7 @@ export async function migratePokedexToFirestore(sourcePokedexData: Pokemon[]) {
   }
 
   if (
-    !window.confirm(
+    !globalThis.confirm(
       "Sei sicuro di voler migrare i dati del Pokedex su Firestore? Questa operazione potrebbe sovrascrivere i dati esistenti."
     )
   ) {
@@ -147,7 +147,7 @@ export async function migratePokedexToFirestore(sourcePokedexData: Pokemon[]) {
       chunk.forEach((pokemon) => {
         if (pokemon.id) {
           const docRef = doc(db, "pokedex", pokemon.id.toString());
-          const cleanPokemon = JSON.parse(JSON.stringify(pokemon));
+          const cleanPokemon = structuredClone(pokemon);
           batch.set(docRef, cleanPokemon);
           chunkMigrated++;
         }

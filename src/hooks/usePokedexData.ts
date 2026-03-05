@@ -17,11 +17,11 @@ export const usePokedexSummaryQuery = () => {
       rawData.sort((a, b) => {
         const idA =
           typeof a.id === "string" && /^\d+$/.test(a.id)
-            ? parseInt(a.id, 10)
+            ? Number.parseInt(a.id, 10)
             : a.id;
         const idB =
           typeof b.id === "string" && /^\d+$/.test(b.id)
-            ? parseInt(b.id, 10)
+            ? Number.parseInt(b.id, 10)
             : b.id;
 
         if (typeof idA === "number" && typeof idB === "number") {

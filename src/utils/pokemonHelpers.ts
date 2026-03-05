@@ -16,8 +16,7 @@ export const getActiveStrategyFromRaid = (
   raid: Raid | null,
   strategyIndex = 0
 ): RaidStrategy | null => {
-  if (!raid || !raid.teamStrategies || raid.teamStrategies.length === 0)
-    return null;
+  if (!raid?.teamStrategies?.length) return null;
   const strategy = raid.teamStrategies[strategyIndex] ?? raid.teamStrategies[0];
   return strategy ?? null;
 };

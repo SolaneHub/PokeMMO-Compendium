@@ -51,7 +51,7 @@ describe("PokedexContext", () => {
 
     it("fetches data on mount and updates state correctly", async () => {
       vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue(
-        mockSummary as Pokemon[]
+        mockSummary as unknown as Pokemon[]
       );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
@@ -90,7 +90,7 @@ describe("PokedexContext", () => {
     it("getPokemonDetails fetches and caches detailed data", async () => {
       vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue([
         { id: "1", name: "Bulbasaur", types: ["Grass"] },
-      ] as Pokemon[]);
+      ] as unknown as Pokemon[]);
 
       const fullDetails = {
         id: "1",
@@ -130,7 +130,7 @@ describe("PokedexContext", () => {
 
     it("refetch re-triggers data fetching", async () => {
       vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue(
-        mockSummary as Pokemon[]
+        mockSummary as unknown as Pokemon[]
       );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
