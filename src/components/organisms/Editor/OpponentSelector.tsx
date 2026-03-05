@@ -51,7 +51,7 @@ const OpponentSelector = ({
         <div className="flex flex-wrap gap-2">
           {availableMembers.map((m, idx) => (
             <button
-              key={idx}
+              key={m.name}
               onClick={() => onSelectMember(idx)}
               className={`rounded border px-3 py-1.5 text-sm font-medium transition-all ${
                 selectedMemberIndex === idx

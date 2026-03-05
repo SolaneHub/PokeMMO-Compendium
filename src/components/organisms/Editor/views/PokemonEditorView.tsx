@@ -204,8 +204,14 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
             </h3>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium">Nature</label>
+                <label
+                  htmlFor="editor-nature"
+                  className="mb-2 block text-sm font-medium"
+                >
+                  Nature
+                </label>
                 <input
+                  id="editor-nature"
                   list="natures-list"
                   type="text"
                   className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-white focus:border-blue-400 focus:outline-none"
@@ -217,10 +223,14 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
                 </datalist>
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium">
+                <label
+                  htmlFor="editor-ability"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Ability
                 </label>
                 <input
+                  id="editor-ability"
                   list="abilities-list"
                   type="text"
                   className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-white focus:border-blue-400 focus:outline-none"
@@ -235,8 +245,14 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
               </div>
               <div className="grid grid-cols-1 gap-6 md:col-span-2 md:grid-cols-2">
                 <div>
-                  <label className="mb-2 block text-sm font-medium">EVs</label>
+                  <label
+                    htmlFor="editor-evs"
+                    className="mb-2 block text-sm font-medium"
+                  >
+                    EVs
+                  </label>
                   <input
+                    id="editor-evs"
                     type="text"
                     className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-white focus:border-blue-400 focus:outline-none"
                     placeholder="e.g. 6 HP / 252 Atk / 252 Spe"
@@ -245,8 +261,14 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium">IVs</label>
+                  <label
+                    htmlFor="editor-ivs"
+                    className="mb-2 block text-sm font-medium"
+                  >
+                    IVs
+                  </label>
                   <input
+                    id="editor-ivs"
                     type="text"
                     className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-2.5 text-white focus:border-blue-400 focus:outline-none"
                     placeholder="e.g. 5x31/4x31/3x31/2x31/1x31/0"

@@ -31,13 +31,15 @@ const EvolutionItem = ({
   const sprite = getSpriteUrlByName(name);
 
   return (
-    <div
+    <button
+      type="button"
       className={`group flex min-w-[90px] flex-1 cursor-pointer flex-col items-center gap-2 rounded-xl p-2 transition-all ${
         isCurrent
           ? "bg-blue-600/10 ring-1 ring-blue-500/50"
           : "hover:bg-white/5"
       }`}
       onClick={() => !isCurrent && onSelectPokemon(evoObj)}
+      disabled={isCurrent}
     >
       <div
         className={`relative flex h-20 w-20 items-center justify-center rounded-full border transition-transform group-hover:scale-110 ${
@@ -67,7 +69,7 @@ const EvolutionItem = ({
           {method || "Base"}
         </span>
       </div>
-    </div>
+    </button>
   );
 };
 
@@ -122,7 +124,8 @@ const PokemonEvolutions = ({
               if (!variantObj) return null;
               const sprite = getSpriteUrlByName(variantName);
               return (
-                <div
+                <button
+                  type="button"
                   key={variantName}
                   className="group flex cursor-pointer flex-col items-center gap-2"
                   onClick={() => onSelectPokemon(variantObj)}
@@ -137,7 +140,7 @@ const PokemonEvolutions = ({
                   <span className="max-w-[70px] truncate text-[10px] font-semibold text-slate-400 group-hover:text-slate-200">
                     {variantName}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
