@@ -15,6 +15,55 @@ interface PickupRegionSectionProps {
   region: PickupRegion;
 }
 
+const sortItemsByCategory = (a: string, b: string) => {
+  const categoryGroups = [
+    ["pokeball", "ball"],
+    ["potion", "pozion", "medicine", "healing"],
+    ["repel"],
+    ["misc", "other"],
+  ];
+  const getCategoryIndex = (key: string) => {
+    const lowerKey = key.toLowerCase();
+    return categoryGroups.findIndex((group) =>
+      group.some((alias) => lowerKey.includes(alias))
+    );
+  };
+  const indexA = getCategoryIndex(a);
+  const indexB = getCategoryIndex(b);
+  if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+  if (indexA !== -1) return -1;
+  if (indexB !== -1) return 1;
+  return a.localeCompare(b);
+};
+
+interface CategoryGroupProps {
+  category: string;
+  items: string[];
+}
+
+const CategoryGroup = ({ category, items }: CategoryGroupProps) => {
+  if (!items?.length) return null;
+
+  return (
+    <div key={category} className="rounded-md bg-white/5 p-3">
+      <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
+        {category.replace(/([A-Z])/g, " $1").trim()}:
+      </h6>
+      <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
+        {items.map((item, itemIdx) => (
+          <li
+            key={`${category}-${item}-${itemIdx}`}
+            className="flex items-center gap-2"
+          >
+            <ItemImage item={item} className="h-4 w-4" />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
 const PickupRegionSection = ({ region }: PickupRegionSectionProps) => {
   return (
     <div className="rounded-lg border border-white/5 bg-[#1a1b20] p-6 text-white shadow-lg">
@@ -38,50 +87,14 @@ const PickupRegionSection = ({ region }: PickupRegionSectionProps) => {
               </h5>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {Object.entries(location.items || {})
-                  .sort(([a], [b]) => {
-                    const categoryGroups = [
-                      ["pokeball", "ball"],
-                      ["potion", "pozion", "medicine", "healing"],
-                      ["repel"],
-                      ["misc", "other"],
-                    ];
-                    const getCategoryIndex = (key: string) => {
-                      const lowerKey = key.toLowerCase();
-                      return categoryGroups.findIndex((group) =>
-                        group.some((alias) => lowerKey.includes(alias))
-                      );
-                    };
-                    const indexA = getCategoryIndex(a);
-                    const indexB = getCategoryIndex(b);
-                    if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-                    if (indexA !== -1) return -1;
-                    if (indexB !== -1) return 1;
-                    return a.localeCompare(b);
-                  })
-                  .map(
-                    ([category, items]) =>
-                      (items as string[])?.length > 0 && (
-                        <div
-                          key={category}
-                          className="rounded-md bg-white/5 p-3"
-                        >
-                          <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
-                            {category.replace(/([A-Z])/g, " $1").trim()}:
-                          </h6>
-                          <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
-                            {(items as string[])?.map((item, itemIdx) => (
-                              <li
-                                key={`${category}-${item}-${itemIdx}`}
-                                className="flex items-center gap-2"
-                              >
-                                <ItemImage item={item} className="h-4 w-4" />
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )
-                  )}
+                  .sort(([a], [b]) => sortItemsByCategory(a, b))
+                  .map(([category, items]) => (
+                    <CategoryGroup
+                      key={category}
+                      category={category}
+                      items={items as string[]}
+                    />
+                  ))}
               </div>
             </div>
           ))}

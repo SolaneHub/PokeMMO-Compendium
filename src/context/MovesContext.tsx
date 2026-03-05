@@ -45,9 +45,7 @@ export const MovesProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <MovesContext.Provider value={value}>
-      {children}
-    </MovesContext.Provider>
+    <MovesContext.Provider value={value}>{children}</MovesContext.Provider>
   );
 };
 

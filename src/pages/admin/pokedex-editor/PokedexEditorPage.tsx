@@ -1191,19 +1191,25 @@ const PokedexEditorPage = () => {
             <h2 className="mb-6 border-b border-slate-700 pb-2 text-xl font-bold">
               Other
             </h2>
-            <div>
-              <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="held-items-input"
+                className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+              >
                 Held Items (comma separated)
               </label>
               <input
+                id="held-items-input"
                 className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                value={
-                  Array.isArray(formData.heldItems)
-                    ? formData.heldItems.join(", ")
-                    : typeof formData.heldItems === "string"
-                      ? formData.heldItems
-                      : ""
-                }
+                value={(() => {
+                  if (Array.isArray(formData.heldItems)) {
+                    return formData.heldItems.join(", ");
+                  }
+                  if (typeof formData.heldItems === "string") {
+                    return formData.heldItems;
+                  }
+                  return "";
+                })()}
                 onChange={(e) => handleArrayChange("heldItems", e.target.value)}
               />
             </div>
