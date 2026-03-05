@@ -133,7 +133,7 @@ const PokemonEditorModal = ({
     formData: FormData
   ): Promise<ActionResult> => {
     const name = formData.get("name") as string;
-    if (!name || !name.trim()) return { error: "Pokémon name is required" };
+    if (!name?.trim()) return { error: "Pokémon name is required" };
 
     const item = formData.get("item") as string;
     const ability = formData.get("ability") as string;
@@ -144,7 +144,7 @@ const PokemonEditorModal = ({
     const moves: string[] = [];
     for (let i = 0; i < 4; i++) {
       const move = formData.get(`move${i}`) as string;
-      if (move && move.trim()) moves.push(move);
+      if (move?.trim()) moves.push(move);
     }
 
     const pokemonDexId = getPokemonIdByName(name, allPokemonData);
@@ -248,10 +248,14 @@ const PokemonEditorModal = ({
             {/* Row 2: Ability, Nature, EVs, IVs */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="pokemon-ability"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Ability
                 </label>
                 <input
+                  id="pokemon-ability"
                   list="abilities-list"
                   name="ability"
                   type="text"
@@ -266,8 +270,14 @@ const PokemonEditorModal = ({
                 </datalist>
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium">Nature</label>
+                <label
+                  htmlFor="pokemon-nature"
+                  className="mb-1 block text-sm font-medium"
+                >
+                  Nature
+                </label>
                 <input
+                  id="pokemon-nature"
                   list="natures-list"
                   name="nature"
                   type="text"
@@ -282,8 +292,14 @@ const PokemonEditorModal = ({
                 </datalist>
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium">EVs</label>
+                <label
+                  htmlFor="pokemon-evs"
+                  className="mb-1 block text-sm font-medium"
+                >
+                  EVs
+                </label>
                 <input
+                  id="pokemon-evs"
                   name="evs"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
@@ -293,8 +309,14 @@ const PokemonEditorModal = ({
                 />
               </div>
               <div>
-                <label className="mb-1 block text-sm font-medium">IVs</label>
+                <label
+                  htmlFor="pokemon-ivs"
+                  className="mb-1 block text-sm font-medium"
+                >
+                  IVs
+                </label>
                 <input
+                  id="pokemon-ivs"
                   name="ivs"
                   type="text"
                   className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
@@ -307,14 +329,18 @@ const PokemonEditorModal = ({
 
             {/* Row 3: Moves */}
             <div>
-              <label className="mb-2 block text-sm font-medium">Moveset</label>
+              <span className="mb-2 block text-sm font-medium">Moveset</span>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 {formData.moves.map((move, idx) => (
-                  <div key={idx} className="relative">
-                    <span className="absolute top-3.5 left-3 font-mono text-[10px] font-bold text-slate-500 uppercase">
+                  <div key={`move-field-${idx}`} className="relative">
+                    <label
+                      htmlFor={`move-${idx}`}
+                      className="absolute top-3.5 left-3 font-mono text-[10px] font-bold text-slate-500 uppercase"
+                    >
                       #{idx + 1}
-                    </span>
+                    </label>
                     <input
+                      id={`move-${idx}`}
                       list="moves-list"
                       name={`move${idx}`}
                       type="text"

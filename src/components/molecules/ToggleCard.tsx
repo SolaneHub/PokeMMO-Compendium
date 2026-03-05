@@ -24,8 +24,9 @@ const ToggleCard = ({
   activeBgClass = "bg-blue-600/10",
 }: ToggleCardProps) => {
   return (
-    <div
-      className={`group relative cursor-pointer rounded-xl border p-4 text-white transition-all duration-300 ${
+    <button
+      type="button"
+      className={`group relative w-full text-left cursor-pointer rounded-xl border p-4 text-white transition-all duration-300 ${
         isActive
           ? `${activeBorderClass} ${activeBgClass}`
           : "border-white/5 bg-[#0f1014] hover:border-white/10 hover:bg-white/5"
@@ -85,7 +86,7 @@ const ToggleCard = ({
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 

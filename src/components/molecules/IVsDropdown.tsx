@@ -40,13 +40,13 @@ function IVsDropdown({
 
   return (
     <div className="space-y-3">
-      <label className="ml-1 text-sm font-medium text-white">
+      <span className="ml-1 block text-sm font-medium text-white">
         Stat Configuration
-      </label>
+      </span>
       <div className="grid grid-cols-2 gap-3">
         {Array.from({ length: selectedIvCount }, (_, index) => (
           <Dropdown
-            key={index}
+            key={`stat-select-${index}`}
             isOpen={openDropdownIndex === index}
             onOpenChange={(open) => setOpenDropdownIndex(open ? index : null)}
             className="z-20"

@@ -21,14 +21,28 @@ const ConfirmationModal = ({
     <div
       className="fixed inset-0 z-[100] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 backdrop-blur-sm"
       onClick={onCancel}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onCancel();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      aria-label="Close modal"
     >
       <div
         className="relative flex max-h-[85vh] w-[400px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
       >
         {/* Modal Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/5 p-4 text-white">
-          <h2 className="text-xl font-bold">{title}</h2>
+          <h2 id="modal-title" className="text-xl font-bold">
+            {title}
+          </h2>
           <button onClick={onCancel} className="hover: transition-colors">
             <X size={24} />
           </button>

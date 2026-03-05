@@ -36,7 +36,7 @@ const PokemonLocations = ({ locations }: PokemonLocationsProps) => {
           {/* Rows */}
           {locations.map((loc, i) => (
             <div
-              key={i}
+              key={`${loc.region}-${loc.location}-${loc.method}-${i}`}
               className={`grid ${gridTemplate} items-center border-b border-white/5 p-2 transition-colors last:border-b-0 hover:bg-white/10`}
             >
               <div className="flex justify-center">
