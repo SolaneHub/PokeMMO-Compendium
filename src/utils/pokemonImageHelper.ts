@@ -703,7 +703,7 @@ export const formatItemNameForUrl = (itemName: string): string => {
 
   // Remove anything in parentheses (like probabilities)
   // Use a safer regex to avoid ReDoS (negated character class instead of greedy dot)
-  const formatted = itemName.replace(/\([^)]*\)/g, "").trim();
+  const formatted = itemName.replaceAll(/\([^)]*\)/g, "").trim();
 
   const overrides: Record<string, string> = {
     "Poké Ball": "Poké_Ball",
@@ -736,5 +736,5 @@ export const formatItemNameForUrl = (itemName: string): string => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join("_")
     .replaceAll(".", "")
-    .replace(/([a-z])([A-Z])/g, "$1_$2");
+    .replaceAll(/([a-z])([A-Z])/g, "$1_$2");
 };

@@ -59,7 +59,7 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
     const groups = buildsOnly.reduce(
       (acc: Record<string, RaidBuild[]>, build: RaidBuild) => {
         const groupName = build.player || "General";
-        if (!acc[groupName]) acc[groupName] = [];
+        acc[groupName] ??= [];
         acc[groupName].push(build);
         return acc;
       },

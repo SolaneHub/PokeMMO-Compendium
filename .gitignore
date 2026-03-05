@@ -57,3 +57,6 @@ Thumbs.db
 
 # Gemini secrets
 .gemini/.gemini.env
+
+# Tool scripts
+get-sonar-issues.cjs

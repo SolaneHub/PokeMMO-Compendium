@@ -120,12 +120,11 @@ export const renderColoredText = (
   const allNames = [...moveNames, ...pokemonNames];
   if (allNames.length === 0) return text;
 
-  const pattern = new RegExp(
-    `\\b(${allNames
-      .map((name) => name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-      .join("|")})\\b`,
-    "gi"
-  );
+  const escapedNames = allNames
+    .map((name) => name.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`))
+    .join("|");
+
+  const pattern = new RegExp(String.raw`\b(${escapedNames})\b`, "gi");
 
   const parts = text.split(pattern);
   if (parts.length <= 1) return text;
@@ -170,13 +169,13 @@ export const renderColoredText = (
                 };
 
             return (
-              <span key={i} style={style}>
+              <span key={`${part}-${i}`} style={style}>
                 {part}
               </span>
             );
           }
         }
-        return <React.Fragment key={i}>{part}</React.Fragment>;
+        return <React.Fragment key={`${part}-${i}`}>{part}</React.Fragment>;
       })}
     </>
   );
