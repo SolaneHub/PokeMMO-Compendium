@@ -121,7 +121,7 @@ export async function getTeamsByStatus(
   let nextPageToken = null;
   if (teams.length > limit) {
     teams.pop();
-    const lastTeam = teams[teams.length - 1];
+    const lastTeam = teams.at(-1);
     nextPageToken = {
       userId: lastTeam?.userId ?? "unknown",
       teamId: lastTeam?.id ?? "unknown",
@@ -169,7 +169,7 @@ export async function getAllUserTeams(options: PaginationOptions = {}) {
   let nextPageToken = null;
   if (teams.length > limit) {
     teams.pop();
-    const lastTeam = teams[teams.length - 1];
+    const lastTeam = teams.at(-1);
     nextPageToken = {
       userId: lastTeam?.userId ?? "unknown",
       teamId: lastTeam?.id ?? "unknown",
@@ -236,7 +236,7 @@ export async function getPublicApprovedTeams(options: PaginationOptions = {}) {
   let nextPageToken = null;
   if (limit && teams.length > limit) {
     teams.pop();
-    const lastTeam = teams[teams.length - 1];
+    const lastTeam = teams.at(-1);
     nextPageToken = {
       userId: lastTeam?.userId ?? "unknown",
       teamId: lastTeam?.id ?? "unknown",

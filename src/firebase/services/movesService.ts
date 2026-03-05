@@ -47,7 +47,7 @@ export async function getMoves(): Promise<MoveMaster[]> {
  */
 export async function saveMove(move: MoveMaster) {
   if (!move.name) throw new Error("Move name is required");
-  const docId = move.id || move.name.toLowerCase().replace(/\s+/g, "-");
+  const docId = move.id || move.name.toLowerCase().replaceAll(/\s+/g, "-");
   const docRef = doc(db, MOVES_COLLECTION, docId);
   const { id: _, ...dataToSave } = move;
   await setDoc(docRef, dataToSave);
@@ -92,7 +92,7 @@ export async function importMovesFromPokedex() {
   let count = 0;
 
   movesMap.forEach((move) => {
-    const docId = move.name.toLowerCase().replace(/\s+/g, "-");
+    const docId = move.name.toLowerCase().replaceAll(/\s+/g, "-");
     const docRef = doc(db, MOVES_COLLECTION, docId);
     const { id: _, ...dataToSave } = move;
     batch.set(docRef, dataToSave, { merge: true });

@@ -47,9 +47,9 @@ function PickupPage() {
         />
 
         <div className="space-y-8">
-          {regions?.map((region, regionIndex) => (
+          {regions?.map((region) => (
             <PickupRegionSection
-              key={regionIndex}
+              key={region.id}
               region={{
                 ...region,
                 note: region.note || "",

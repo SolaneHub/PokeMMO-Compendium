@@ -59,9 +59,9 @@ const CatchCalculatorPage = () => {
   const { sprite, background } = usePokemonUI(selectedPokemon);
 
   useEffect(() => {
-    if (selectedPokemon && selectedPokemon.locations) {
-      const isCavePokemon = selectedPokemon.locations.some(
-        (loc) => loc.method && loc.method.toLowerCase().includes("cave")
+    if (selectedPokemon?.locations) {
+      const isCavePokemon = selectedPokemon.locations.some((loc) =>
+        loc.method?.toLowerCase().includes("cave")
       );
       if (isCavePokemon) {
         setIsNightOrCave(true);
@@ -114,6 +114,19 @@ const CatchCalculatorPage = () => {
     repeatBallCaptures,
     isNightOrCave,
   });
+
+  const getProbabilityColor = (prob: number) => {
+    if (prob >= 100) return "text-green-400";
+    if (prob > 50) return "text-blue-400";
+    if (prob > 20) return "text-yellow-400";
+    return "text-red-400";
+  };
+
+  const getProbabilityMessage = (prob: number) => {
+    if (prob < 1) return "Don't give up!";
+    if (prob > 50) return "It's in the bag!";
+    return "Keep trying!";
+  };
 
   if (isLoading) {
     return (
@@ -486,15 +499,9 @@ const CatchCalculatorPage = () => {
                 Probability
               </span>
               <span
-                className={`text-6xl font-black transition-colors duration-300 ${
-                  catchProbability >= 100
-                    ? "text-green-400"
-                    : catchProbability > 50
-                      ? "text-blue-400"
-                      : catchProbability > 20
-                        ? "text-yellow-400"
-                        : "text-red-400"
-                }`}
+                className={`text-6xl font-black transition-colors duration-300 ${getProbabilityColor(
+                  catchProbability
+                )}`}
               >
                 {catchProbability.toFixed(1)}%
               </span>
@@ -506,11 +513,7 @@ const CatchCalculatorPage = () => {
               ) : (
                 <div className="space-y-1 text-center">
                   <p className="text-sm font-medium text-slate-400">
-                    {catchProbability < 1
-                      ? "Don't give up!"
-                      : catchProbability > 50
-                        ? "It's in the bag!"
-                        : "Keep trying!"}
+                    {getProbabilityMessage(catchProbability)}
                   </p>
                 </div>
               )}

@@ -33,9 +33,9 @@ vi.mock("react", async (importOriginal) => {
         if (result) setState(result);
       };
 
-      // Expose dispatch on window for easy testing
+      // Expose dispatch on globalThis for easy testing
       (
-        window as unknown as { __testSubmitPokemonForm: unknown }
+        globalThis as unknown as { __testSubmitPokemonForm: unknown }
       ).__testSubmitPokemonForm = dispatch;
 
       return [state, dispatch, false];
@@ -206,7 +206,7 @@ describe("PokemonEditorModal component", () => {
       // We manually override one move to test empty move filtering
       formData.set("move1", "   ");
       await (
-        window as unknown as {
+        globalThis as unknown as {
           __testSubmitPokemonForm: (fd: FormData) => Promise<void>;
         }
       ).__testSubmitPokemonForm(formData);
@@ -239,7 +239,7 @@ describe("PokemonEditorModal component", () => {
       const formData = new FormData(form);
       formData.set("name", "   "); // Empty string or spaces
       await (
-        window as unknown as {
+        globalThis as unknown as {
           __testSubmitPokemonForm: (fd: FormData) => Promise<void>;
         }
       ).__testSubmitPokemonForm(formData);
