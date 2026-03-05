@@ -21,13 +21,12 @@ describe("AuthContext", () => {
   describe("with AuthProvider", () => {
     it("initializes with loading state and handles unauthenticated user", async () => {
       // Setup mock to return null immediately
-      // @ts-expect-error - Mocking Firebase Auth changed state callback
-      firebaseAuth.onAuthStateChanged = vi
-        .fn()
-        .mockImplementation((auth, callback) => {
-          callback(null);
+      vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
+        (_auth, callback) => {
+          (callback as (user: firebaseAuth.User | null) => void)(null);
           return vi.fn(); // unsubscribe
-        });
+        }
+      );
 
       const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
 
@@ -47,13 +46,12 @@ describe("AuthContext", () => {
           .mockResolvedValue({ claims: { admin: false } }),
       };
 
-      // @ts-expect-error - Mocking Firebase Auth changed state callback
-      firebaseAuth.onAuthStateChanged = vi
-        .fn()
-        .mockImplementation((auth, callback) => {
-          callback(mockUser);
+      vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
+        (_auth, callback) => {
+          (callback as (user: unknown) => void)(mockUser);
           return vi.fn();
-        });
+        }
+      );
 
       const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
 
@@ -73,13 +71,12 @@ describe("AuthContext", () => {
           .mockResolvedValue({ claims: { admin: true } }),
       };
 
-      // @ts-expect-error - Mocking Firebase Auth changed state callback
-      firebaseAuth.onAuthStateChanged = vi
-        .fn()
-        .mockImplementation((auth, callback) => {
-          callback(mockUser);
+      vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
+        (_auth, callback) => {
+          (callback as (user: unknown) => void)(mockUser);
           return vi.fn();
-        });
+        }
+      );
 
       const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
 
@@ -92,13 +89,12 @@ describe("AuthContext", () => {
     });
 
     it("calls googleSignIn correctly", async () => {
-      // @ts-expect-error - Mocking Firebase Auth changed state callback
-      firebaseAuth.onAuthStateChanged = vi
-        .fn()
-        .mockImplementation((auth, cb) => {
-          cb(null);
+      vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
+        (_auth, cb) => {
+          (cb as (user: null) => void)(null);
           return vi.fn();
-        });
+        }
+      );
 
       const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
 
@@ -110,13 +106,12 @@ describe("AuthContext", () => {
     });
 
     it("calls logout correctly", async () => {
-      // @ts-expect-error - Mocking Firebase Auth changed state callback
-      firebaseAuth.onAuthStateChanged = vi
-        .fn()
-        .mockImplementation((auth, cb) => {
-          cb(null);
+      vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
+        (_auth, cb) => {
+          (cb as (user: null) => void)(null);
           return vi.fn();
-        });
+        }
+      );
 
       const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
 

@@ -46,7 +46,10 @@ const CatchCalculatorPage = () => {
 
   useEffect(() => {
     if (!selectedPokemonName && allPokemonData && allPokemonData.length > 0) {
-      setSelectedPokemonName(allPokemonData[0].name);
+      const firstPokemon = allPokemonData[0];
+      if (firstPokemon) {
+        setSelectedPokemonName(firstPokemon.name);
+      }
     }
   }, [allPokemonData, selectedPokemonName, setSelectedPokemonName]);
 
@@ -121,7 +124,7 @@ const CatchCalculatorPage = () => {
   }
 
   return (
-    <PageLayout title="Catch Calculator" accentColor={accentColor}>
+    <PageLayout title="Catch Calculator">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">

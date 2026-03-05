@@ -8,7 +8,6 @@ interface PageLayoutProps {
   className?: string;
   containerClassName?: string;
   withTitle?: boolean;
-  accentColor?: string | null;
 }
 
 const PageLayout = ({
@@ -17,7 +16,6 @@ const PageLayout = ({
   className = "",
   containerClassName = "",
   withTitle = true,
-  accentColor = null,
 }: PageLayoutProps) => {
   return (
     <div

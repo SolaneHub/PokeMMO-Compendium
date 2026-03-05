@@ -39,8 +39,9 @@ describe("useBossFightsData", () => {
       { name: "Blue" },
       { name: "Alder" },
     ];
-    // @ts-expect-error - Mocking service
-    bossFightsService.getBossFights.mockResolvedValue(mockData);
+    vi.mocked(bossFightsService.getBossFights).mockResolvedValue(
+      mockData as BossFight[]
+    );
 
     const { result } = renderHook(() => useBossFightsData(), { wrapper });
 
@@ -52,14 +53,17 @@ describe("useBossFightsData", () => {
 
     expect(result.current.bossFightsData.length).toBe(3);
     // Should be sorted alphabetically
-    expect(result.current.bossFightsData[0].name).toBe("Alder");
-    expect(result.current.bossFightsData[1].name).toBe("Blue");
-    expect(result.current.bossFightsData[2].name).toBe("Cynthia");
+    const first = result.current.bossFightsData[0];
+    const second = result.current.bossFightsData[1];
+    const third = result.current.bossFightsData[2];
+
+    expect(first?.name).toBe("Alder");
+    expect(second?.name).toBe("Blue");
+    expect(third?.name).toBe("Cynthia");
   });
 
   it("handles fetch error", async () => {
-    // @ts-expect-error - Mocking service
-    bossFightsService.getBossFights.mockRejectedValue(
+    vi.mocked(bossFightsService.getBossFights).mockRejectedValue(
       new Error("Fetch failed")
     );
 

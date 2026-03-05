@@ -16,11 +16,10 @@ export const getActiveStrategyFromRaid = (
   raid: Raid | null,
   strategyIndex = 0
 ): RaidStrategy | null => {
-  if (!raid) return null;
-  if (raid.teamStrategies && raid.teamStrategies.length > 0) {
-    return raid.teamStrategies[strategyIndex] || raid.teamStrategies[0];
-  }
-  return null;
+  if (!raid || !raid.teamStrategies || raid.teamStrategies.length === 0)
+    return null;
+  const strategy = raid.teamStrategies[strategyIndex] ?? raid.teamStrategies[0];
+  return strategy ?? null;
 };
 
 /**
@@ -31,7 +30,8 @@ export const getFamilyName = (name: string): string => {
     return "Rotom";
   }
   if (name.includes(" (")) {
-    return name.split(" (")[0];
+    const splitName = name.split(" (")[0];
+    return splitName ?? name;
   }
   return name;
 };
@@ -69,14 +69,16 @@ export const getPokedexMainList = (pokedexData: Pokemon[]): Pokemon[] => {
     const family = getFamilyName(p.name);
     if (processedFamilies.has(family)) return;
     const variants = familyGroups.get(family);
-    if (!variants) return;
+    if (!variants || variants.length === 0) return;
 
     let mainEntry = variants.find((v) => v.name === family);
     if (!mainEntry) {
       mainEntry = variants[0];
     }
-    mainList.push(mainEntry);
-    processedFamilies.add(family);
+    if (mainEntry) {
+      mainList.push(mainEntry);
+      processedFamilies.add(family);
+    }
   });
   return mainList;
 };

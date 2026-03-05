@@ -1,10 +1,9 @@
 import { render } from "@testing-library/react";
-import React from "react";
 import { describe, expect, it } from "vitest";
 
 import { Pokemon } from "@/types/pokemon";
 
-import { typeBackgrounds } from "./pokemonColors";
+import { PokemonType, typeBackgrounds } from "./pokemonColors";
 import {
   getMoveGradient,
   getPokemonGradient,
@@ -16,8 +15,9 @@ describe("pokemonMoveColors", () => {
   describe("initializePokemonColorMap", () => {
     it("returns empty map if no pokemon data provided", () => {
       expect(initializePokemonColorMap([])).toEqual({});
-      // @ts-expect-error - Testing with null to trigger error handling testing null case
-      expect(initializePokemonColorMap(null)).toEqual({});
+      expect(initializePokemonColorMap(null as unknown as Pokemon[])).toEqual(
+        {}
+      );
     });
 
     it("maps dual types correctly", () => {
@@ -41,7 +41,7 @@ describe("pokemonMoveColors", () => {
 
     it("maps unknown types to default #999999", () => {
       const mockData: Partial<Pokemon>[] = [
-        { name: "Missingno", types: ["Glitched"] },
+        { name: "Missingno", types: ["Unknown" as unknown as PokemonType] },
       ];
       const result = initializePokemonColorMap(mockData as Pokemon[]);
       expect(result["Missingno"]).toBe("#999999");
@@ -115,8 +115,8 @@ describe("pokemonMoveColors", () => {
 
       const spans = container.querySelectorAll("span");
       expect(spans.length).toBe(2);
-      expect(spans[0].textContent).toBe("Charizard");
-      expect(spans[1].textContent).toBe("Earthquake");
+      expect(spans[0]?.textContent).toBe("Charizard");
+      expect(spans[1]?.textContent).toBe("Earthquake");
     });
 
     it("is case insensitive for matching but preserves original casing in result", () => {

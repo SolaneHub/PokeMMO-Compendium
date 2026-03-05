@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { getUserTeams, updateUserTeam } from "@/firebase/services/teamsService";
-import { StrategyStep, Team } from "@/types/teams";
+import { StrategyStep, StrategyVariation, Team } from "@/types/teams";
 
 const ensureStepIds = (steps: StrategyStep[]): StrategyStep[] => {
   if (!Array.isArray(steps)) return [];
@@ -15,7 +15,7 @@ const ensureStepIds = (steps: StrategyStep[]): StrategyStep[] => {
       type: step.type || "main",
     };
     if (newStep.variations && Array.isArray(newStep.variations)) {
-      newStep.variations = newStep.variations.map((v) => ({
+      newStep.variations = newStep.variations.map((v: StrategyVariation) => ({
         ...v,
         type: v.type || "step",
         steps: ensureStepIds(v.steps || []),
@@ -34,20 +34,25 @@ const sanitizeTeam = (teamData: Team | null): Team | null => {
   if (sanitized.region === undefined) sanitized.region = null;
 
   if (sanitized.strategies && typeof sanitized.strategies === "object") {
-    Object.keys(sanitized.strategies).forEach((memberName) => {
-      const memberStrats = sanitized.strategies?.[memberName];
+    const strategies = sanitized.strategies;
+    Object.keys(strategies).forEach((memberName) => {
+      const memberStrats = strategies[memberName];
       if (memberStrats && typeof memberStrats === "object") {
         Object.keys(memberStrats).forEach((enemyName) => {
-          memberStrats[enemyName] = ensureStepIds(memberStrats[enemyName]);
+          const steps = memberStrats[enemyName];
+          if (steps) {
+            memberStrats[enemyName] = ensureStepIds(steps);
+          }
         });
       }
     });
   }
 
   if (sanitized.enemyPools && typeof sanitized.enemyPools === "object") {
-    Object.keys(sanitized.enemyPools).forEach((key) => {
-      if (!Array.isArray(sanitized.enemyPools?.[key])) {
-        (sanitized.enemyPools as Record<string, string[]>)[key] = [];
+    const pools = sanitized.enemyPools;
+    Object.keys(pools).forEach((key) => {
+      if (!Array.isArray(pools[key])) {
+        (pools as Record<string, string[]>)[key] = [];
       }
     });
   }

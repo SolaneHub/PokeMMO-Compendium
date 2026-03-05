@@ -68,7 +68,7 @@ export const PokedexProvider = ({ children }: PokedexProviderProps) => {
     () => ({
       ...(data || emptyData),
       isLoading,
-      refetch: async (shouldSetLoading?: boolean) => {
+      refetch: async (_shouldSetLoading?: boolean) => {
         // TanStack Query handles loading state automatically,
         // but we keep the signature for compatibility
         await refetch();

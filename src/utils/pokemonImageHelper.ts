@@ -684,13 +684,16 @@ export const getSpriteUrlByName = (name: string): string | null => {
   if (variantIds[name]) {
     return `${baseUrl}/${variantIds[name]}.svg`;
   }
-  let cleanName = name.split(" (")[0];
+  let cleanName = name.split(" (")[0] || "";
   if (name === "Nidoran♀") cleanName = "Nidoran♀";
   if (name === "Nidoran♂") cleanName = "Nidoran♂";
   if (name === "Basculin (Red-Striped)") cleanName = "Basculin";
-  const index = standardPokemonList.indexOf(cleanName);
-  if (index !== -1) {
-    return `${baseUrl}/${index + 1}.svg`;
+
+  if (cleanName) {
+    const index = standardPokemonList.indexOf(cleanName);
+    if (index !== -1) {
+      return `${baseUrl}/${index + 1}.svg`;
+    }
   }
   return null;
 };
@@ -699,7 +702,8 @@ export const formatItemNameForUrl = (itemName: string): string => {
   if (!itemName) return "";
 
   // Remove anything in parentheses (like probabilities)
-  const formatted = itemName.replace(/\(.*\)/g, "").trim();
+  // Use a safer regex to avoid ReDoS (negated character class instead of greedy dot)
+  const formatted = itemName.replace(/\([^)]*\)/g, "").trim();
 
   const overrides: Record<string, string> = {
     "Poké Ball": "Poké_Ball",
@@ -723,7 +727,7 @@ export const formatItemNameForUrl = (itemName: string): string => {
   );
 
   if (overrideKey) {
-    return overrides[overrideKey];
+    return overrides[overrideKey] || "";
   }
 
   // Standard formatting: Title Case words and join with underscores

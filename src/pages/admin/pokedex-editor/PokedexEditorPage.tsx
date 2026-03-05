@@ -162,7 +162,6 @@ const SortableMoveItem = ({
   handleMoveNameChange,
   removeMove,
   setFormData,
-  masterMoves,
 }: {
   move: EditorMove;
   idx: number;
@@ -207,7 +206,10 @@ const SortableMoveItem = ({
         onChange={(e) => {
           setFormData((prev) => {
             const newMoves = [...prev.moves];
-            newMoves[idx] = { ...newMoves[idx], level: e.target.value };
+            const targetMove = newMoves[idx];
+            if (targetMove) {
+              newMoves[idx] = { ...targetMove, level: e.target.value };
+            }
             return { ...prev, moves: newMoves };
           });
         }}
@@ -226,7 +228,10 @@ const SortableMoveItem = ({
         onChange={(e) => {
           setFormData((prev) => {
             const newMoves = [...prev.moves];
-            newMoves[idx] = { ...newMoves[idx], type: e.target.value };
+            const targetMove = newMoves[idx];
+            if (targetMove) {
+              newMoves[idx] = { ...targetMove, type: e.target.value };
+            }
             return { ...prev, moves: newMoves };
           });
         }}
@@ -237,7 +242,10 @@ const SortableMoveItem = ({
         onChange={(e) => {
           setFormData((prev) => {
             const newMoves = [...prev.moves];
-            newMoves[idx] = { ...newMoves[idx], category: e.target.value };
+            const targetMove = newMoves[idx];
+            if (targetMove) {
+              newMoves[idx] = { ...targetMove, category: e.target.value };
+            }
             return { ...prev, moves: newMoves };
           });
         }}
@@ -254,7 +262,10 @@ const SortableMoveItem = ({
         onChange={(e) => {
           setFormData((prev) => {
             const newMoves = [...prev.moves];
-            newMoves[idx] = { ...newMoves[idx], power: e.target.value };
+            const targetMove = newMoves[idx];
+            if (targetMove) {
+              newMoves[idx] = { ...targetMove, power: e.target.value };
+            }
             return { ...prev, moves: newMoves };
           });
         }}
@@ -266,7 +277,10 @@ const SortableMoveItem = ({
         onChange={(e) => {
           setFormData((prev) => {
             const newMoves = [...prev.moves];
-            newMoves[idx] = { ...newMoves[idx], pp: e.target.value };
+            const targetMove = newMoves[idx];
+            if (targetMove) {
+              newMoves[idx] = { ...targetMove, pp: e.target.value };
+            }
             return { ...prev, moves: newMoves };
           });
         }}
@@ -278,7 +292,10 @@ const SortableMoveItem = ({
         onChange={(e) => {
           setFormData((prev) => {
             const newMoves = [...prev.moves];
-            newMoves[idx] = { ...newMoves[idx], accuracy: e.target.value };
+            const targetMove = newMoves[idx];
+            if (targetMove) {
+              newMoves[idx] = { ...targetMove, accuracy: e.target.value };
+            }
             return { ...prev, moves: newMoves };
           });
         }}
@@ -314,8 +331,6 @@ const PokedexEditorPage = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  const isLoading = pokedexLoading || movesLoading || isFetchingFull;
 
   useEffect(() => {
     if (selectedPokemon) {
@@ -422,13 +437,16 @@ const PokedexEditorPage = () => {
     value: string
   ) => {
     const array = value.split(",").map((item) => item.trim());
-    setFormData((prev) => ({
-      ...prev,
-      [parent]: {
-        ...(prev[parent] as Record<string, unknown>),
-        [key]: array,
-      },
-    }));
+    setFormData((prev) => {
+      const nested = (prev[parent] || {}) as Record<string, unknown>;
+      return {
+        ...prev,
+        [parent]: {
+          ...nested,
+          [key]: array,
+        },
+      };
+    });
   };
 
   const addEvolution = (name: string) => {
@@ -442,7 +460,7 @@ const PokedexEditorPage = () => {
   const removeEvolution = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      evolutions: prev.evolutions.filter((_, i) => i !== index),
+      evolutions: (prev.evolutions || []).filter((_, i) => i !== index),
     }));
   };
 
@@ -462,17 +480,20 @@ const PokedexEditorPage = () => {
   const removeMove = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      moves: prev.moves.filter((_, i) => i !== index),
+      moves: (prev.moves || []).filter((_, i) => i !== index),
     }));
   };
 
   const handleMoveNameChange = (idx: number, name: string) => {
     const newMoves = [...formData.moves];
+    const targetMove = newMoves[idx];
+    if (!targetMove) return;
+
     const masterMove = masterMoves.find((m) => m.name === name);
 
     if (masterMove) {
       newMoves[idx] = {
-        ...newMoves[idx],
+        ...targetMove,
         name: masterMove.name,
         type: masterMove.type,
         category: masterMove.category,
@@ -481,7 +502,7 @@ const PokedexEditorPage = () => {
         pp: masterMove.pp,
       };
     } else {
-      newMoves[idx].name = name;
+      newMoves[idx] = { ...targetMove, name };
     }
 
     setFormData((prev) => ({ ...prev, moves: newMoves }));
@@ -492,16 +513,13 @@ const PokedexEditorPage = () => {
 
     if (over && active.id !== over.id) {
       setFormData((prev) => {
-        const oldIndex = (prev.moves as EditorMove[]).findIndex(
-          (m) => m.tempId === active.id
-        );
-        const newIndex = (prev.moves as EditorMove[]).findIndex(
-          (m) => m.tempId === over.id
-        );
+        const moves = prev.moves as EditorMove[];
+        const oldIndex = moves.findIndex((m) => m.tempId === active.id);
+        const newIndex = moves.findIndex((m) => m.tempId === over.id);
 
         return {
           ...prev,
-          moves: arrayMove(prev.moves, oldIndex, newIndex),
+          moves: arrayMove(moves, oldIndex, newIndex),
         };
       });
     }
@@ -524,7 +542,7 @@ const PokedexEditorPage = () => {
   const removeLocation = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      locations: prev.locations.filter((_, i) => i !== index),
+      locations: (prev.locations || []).filter((_, i) => i !== index),
     }));
   };
 
@@ -540,7 +558,7 @@ const PokedexEditorPage = () => {
       const dataToSave = {
         ...formData,
         moves: (formData.moves as EditorMove[]).map(
-          ({ tempId: _, ...rest }) => rest
+          ({ tempId: _tempId, ...rest }) => rest
         ),
       };
 
@@ -552,9 +570,23 @@ const PokedexEditorPage = () => {
         if (hasRates) {
           const heldItemsObject: Record<string, string> = {};
           dataToSave.heldItems.forEach((itemStr) => {
-            const match = itemStr.match(/(.+)\s*\((.+)\)/);
-            if (match) {
-              heldItemsObject[match[1].trim()] = match[2].trim();
+            const lastParenOpen = itemStr.lastIndexOf("(");
+            const lastParenClose = itemStr.lastIndexOf(")");
+
+            if (
+              lastParenOpen !== -1 &&
+              lastParenClose > lastParenOpen &&
+              lastParenOpen > 0
+            ) {
+              const name = itemStr.substring(0, lastParenOpen).trim();
+              const rate = itemStr
+                .substring(lastParenOpen + 1, lastParenClose)
+                .trim();
+              if (name && rate) {
+                heldItemsObject[name] = rate;
+              } else if (itemStr.trim()) {
+                heldItemsObject[itemStr.trim()] = "";
+              }
             } else if (itemStr.trim()) {
               heldItemsObject[itemStr.trim()] = "";
             }
@@ -597,7 +629,7 @@ const PokedexEditorPage = () => {
       const dataToSync = {
         ...formData,
         moves: (formData.moves as EditorMove[]).map(
-          ({ tempId: _, ...rest }) => rest
+          ({ tempId: _tempId, ...rest }) => rest
         ),
       };
 
@@ -810,7 +842,7 @@ const PokedexEditorPage = () => {
             </div>
 
             <div className="custom-scrollbar max-h-[calc(100vh-200px)] overflow-y-auto rounded-lg bg-slate-800 p-2">
-              {isLoading ? (
+              {pokedexLoading || movesLoading ? (
                 <div className="p-4 text-center text-white">Loading...</div>
               ) : (
                 filteredList.map((p) => (
@@ -1196,23 +1228,29 @@ const PokedexEditorPage = () => {
                       value={evo.name}
                       onChange={(e) => {
                         const newEvos = [...formData.evolutions];
-                        newEvos[idx].name = e.target.value;
-                        setFormData((prev) => ({
-                          ...prev,
-                          evolutions: newEvos,
-                        }));
+                        const target = newEvos[idx];
+                        if (target) {
+                          target.name = e.target.value;
+                          setFormData((prev) => ({
+                            ...prev,
+                            evolutions: newEvos,
+                          }));
+                        }
                       }}
                     />
                     <input
                       className="w-24 rounded bg-slate-700 p-2 text-sm text-white"
-                      value={evo.level}
+                      value={evo.level || ""}
                       onChange={(e) => {
                         const newEvos = [...formData.evolutions];
-                        newEvos[idx].level = e.target.value;
-                        setFormData((prev) => ({
-                          ...prev,
-                          evolutions: newEvos,
-                        }));
+                        const target = newEvos[idx];
+                        if (target) {
+                          target.level = e.target.value;
+                          setFormData((prev) => ({
+                            ...prev,
+                            evolutions: newEvos,
+                          }));
+                        }
                       }}
                     />
                     <button
@@ -1254,11 +1292,14 @@ const PokedexEditorPage = () => {
                           value={loc.region}
                           onChange={(e) => {
                             const newLocs = [...formData.locations];
-                            newLocs[idx].region = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              locations: newLocs,
-                            }));
+                            const target = newLocs[idx];
+                            if (target) {
+                              target.region = e.target.value;
+                              setFormData((prev) => ({
+                                ...prev,
+                                locations: newLocs,
+                              }));
+                            }
                           }}
                         />
                         <input
@@ -1267,11 +1308,14 @@ const PokedexEditorPage = () => {
                           value={loc.area}
                           onChange={(e) => {
                             const newLocs = [...formData.locations];
-                            newLocs[idx].area = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              locations: newLocs,
-                            }));
+                            const target = newLocs[idx];
+                            if (target) {
+                              target.area = e.target.value;
+                              setFormData((prev) => ({
+                                ...prev,
+                                locations: newLocs,
+                              }));
+                            }
                           }}
                         />
                       </div>
@@ -1282,11 +1326,14 @@ const PokedexEditorPage = () => {
                           value={loc.method || ""}
                           onChange={(e) => {
                             const newLocs = [...formData.locations];
-                            newLocs[idx].method = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              locations: newLocs,
-                            }));
+                            const target = newLocs[idx];
+                            if (target) {
+                              target.method = e.target.value;
+                              setFormData((prev) => ({
+                                ...prev,
+                                locations: newLocs,
+                              }));
+                            }
                           }}
                         />
                         <input
@@ -1295,11 +1342,14 @@ const PokedexEditorPage = () => {
                           value={loc.rarity || ""}
                           onChange={(e) => {
                             const newLocs = [...formData.locations];
-                            newLocs[idx].rarity = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              locations: newLocs,
-                            }));
+                            const target = newLocs[idx];
+                            if (target) {
+                              target.rarity = e.target.value;
+                              setFormData((prev) => ({
+                                ...prev,
+                                locations: newLocs,
+                              }));
+                            }
                           }}
                         />
                         <input
@@ -1308,11 +1358,14 @@ const PokedexEditorPage = () => {
                           value={loc.levels || ""}
                           onChange={(e) => {
                             const newLocs = [...formData.locations];
-                            newLocs[idx].levels = e.target.value;
-                            setFormData((prev) => ({
-                              ...prev,
-                              locations: newLocs,
-                            }));
+                            const target = newLocs[idx];
+                            if (target) {
+                              target.levels = e.target.value;
+                              setFormData((prev) => ({
+                                ...prev,
+                                locations: newLocs,
+                              }));
+                            }
                           }}
                         />
                       </div>

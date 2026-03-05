@@ -37,7 +37,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
   },
 };
 
-export default defineConfig(({ command }) => ({
+export default defineConfig(() => ({
   plugins: [tailwindcss(), react(), VitePWA(pwaConfig)],
   base: "/",
   resolve: {

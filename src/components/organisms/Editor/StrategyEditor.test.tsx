@@ -144,9 +144,15 @@ describe("StrategyEditor component", () => {
     expect(addButtons.length).toBeGreaterThan(0);
 
     // Click top add button
-    fireEvent.click(addButtons[0]);
+    const firstAddBtn = addButtons[0];
+    if (firstAddBtn) {
+      fireEvent.click(firstAddBtn);
+    }
     expect(handleUpdate).toHaveBeenCalledTimes(1);
-    expect(handleUpdate.mock.calls[0][0].length).toBe(3); // 2 existing + 1 new
+    const firstCall = handleUpdate.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      expect(firstCall[0].length).toBe(3); // 2 existing + 1 new
+    }
   });
 
   it("handles onChange from SortableStepItem", () => {
@@ -163,9 +169,12 @@ describe("StrategyEditor component", () => {
     expect(handleUpdate).toHaveBeenCalledTimes(1);
 
     // Verify first step was updated
-    const newSteps = handleUpdate.mock.calls[0][0];
-    expect(newSteps[0].player).toBe("UpdatedPlayer");
-    expect(newSteps[1]).toEqual(mockSteps[1]); // second untouched
+    const firstCall = handleUpdate.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      const newSteps = firstCall[0];
+      expect(newSteps[0].player).toBe("UpdatedPlayer");
+      expect(newSteps[1]).toEqual(mockSteps[1]); // second untouched
+    }
   });
 
   it("handles onRemove from SortableStepItem", () => {
@@ -182,9 +191,12 @@ describe("StrategyEditor component", () => {
     expect(handleUpdate).toHaveBeenCalledTimes(1);
 
     // Verify first step was removed
-    const newSteps = handleUpdate.mock.calls[0][0];
-    expect(newSteps.length).toBe(1);
-    expect(newSteps[0].id).toBe("step2");
+    const firstCall = handleUpdate.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      const newSteps = firstCall[0];
+      expect(newSteps.length).toBe(1);
+      expect(newSteps[0].id).toBe("step2");
+    }
   });
 
   it("handles handleDragEnd array move logic", () => {
@@ -201,9 +213,12 @@ describe("StrategyEditor component", () => {
     fireEvent.click(screen.getByTestId("dnd-context"));
 
     expect(handleUpdate).toHaveBeenCalledTimes(1);
-    const newSteps = handleUpdate.mock.calls[0][0];
-    // Due to active id step1 and over id step2, arrayMove should swap them
-    expect(newSteps[0].id).toBe("step2");
-    expect(newSteps[1].id).toBe("step1");
+    const firstCall = handleUpdate.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      const newSteps = firstCall[0];
+      // Due to active id step1 and over id step2, arrayMove should swap them
+      expect(newSteps[0].id).toBe("step2");
+      expect(newSteps[1].id).toBe("step1");
+    }
   });
 });
