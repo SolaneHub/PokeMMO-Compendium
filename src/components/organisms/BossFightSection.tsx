@@ -33,7 +33,9 @@ const BossFightSection = ({
     Object.keys(bossFight.teams || {})[0] ?? null
   );
 
-  const teamNames = Object.keys(bossFight.teams || {}).sort();
+  const teamNames = Object.keys(bossFight.teams || {}).sort((a, b) =>
+    a.localeCompare(b)
+  );
   const pokemonNamesForSelectedTeam = activeTeam
     ? bossFight.teams[activeTeam]?.pokemonNames || []
     : [];
