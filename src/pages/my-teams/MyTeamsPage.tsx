@@ -108,7 +108,7 @@ const MyTeamsPage = () => {
   };
 
   return (
-    <PageLayout title="My Teams" accentColor={accentColor}>
+    <PageLayout title="My Teams">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-4 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">

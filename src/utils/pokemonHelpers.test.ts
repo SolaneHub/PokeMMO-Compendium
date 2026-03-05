@@ -36,8 +36,9 @@ describe("pokemonHelpers", () => {
     });
 
     it("returns empty array if allPokemon is missing", () => {
-      // @ts-expect-error - Testing with null to trigger error handling
-      expect(getPokemonVariants("Pikachu", null)).toEqual([]);
+      expect(
+        getPokemonVariants("Pikachu", null as unknown as Pokemon[])
+      ).toEqual([]);
     });
   });
 });

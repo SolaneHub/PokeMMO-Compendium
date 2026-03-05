@@ -50,11 +50,16 @@ function BossFightsPage() {
     const team = bossFight?.teams[teamName];
     const strategies = team?.pokemonStrategies[pokemonName] || [];
 
-    const formattedStrategy = strategies.map((s, index) => ({
-      id: `${pokemonName}-step-${index}`,
-      type: "text",
-      description: s,
-    }));
+    const formattedStrategy = strategies.map((s, index) => {
+      if (typeof s === "string") {
+        return {
+          id: `${pokemonName}-step-${index}`,
+          type: "text",
+          description: s,
+        };
+      }
+      return s;
+    });
 
     initializeStrategy(formattedStrategy);
   };
@@ -68,7 +73,7 @@ function BossFightsPage() {
   }
 
   return (
-    <PageLayout title="Boss Fights" accentColor={accentColor}>
+    <PageLayout title="Boss Fights">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-100">

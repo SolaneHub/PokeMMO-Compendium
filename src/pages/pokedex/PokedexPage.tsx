@@ -11,8 +11,8 @@ import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getFamilyName } from "@/utils/pokemonHelpers";
 
 function PokedexPage() {
-  const { fullList, pokemonMap, isLoading } = usePokedexData();
-  const accentColor = FEATURE_CONFIG.pokedex.color;
+  const { fullList, isLoading } = usePokedexData();
+  const accentColor = FEATURE_CONFIG["pokedex"].color;
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -49,8 +49,10 @@ function PokedexPage() {
 
       const mainEntry = variants.find((v) => v.name === family) ?? variants[0];
 
-      result.push(mainEntry);
-      processedFamilies.add(family);
+      if (mainEntry) {
+        result.push(mainEntry);
+        processedFamilies.add(family);
+      }
     });
 
     return result;
@@ -64,7 +66,7 @@ function PokedexPage() {
   }, [mainPokemonList, deferredSearchTerm]);
 
   return (
-    <PageLayout title="Pokédex" accentColor={accentColor}>
+    <PageLayout title="Pokédex">
       <div className="flex w-full flex-col items-center space-y-2 text-center">
         <h1 className="flex items-center gap-3 text-3xl font-bold text-slate-200">
           <BookOpen style={{ color: accentColor }} size={32} />
@@ -106,8 +108,7 @@ function PokedexPage() {
         <PokemonSummary
           key={selectedPokemon.name}
           pokemon={selectedPokemon}
-          allPokemon={fullList}
-          pokemonMap={pokemonMap}
+          allPokemon={filteredPokemon}
           onClose={() => setSelectedPokemon(null)}
           onSelectPokemon={setSelectedPokemon}
         />

@@ -7,10 +7,10 @@ interface Trainer {
 
 interface Route {
   name: string;
-  notes?: string[];
-  trainers?: Trainer[];
-  pp_cost?: number | string;
-  type?: string;
+  notes?: string[] | undefined;
+  trainers?: Trainer[] | undefined;
+  pp_cost?: number | string | undefined;
+  type?: string | undefined;
 }
 
 interface RegionRoute {

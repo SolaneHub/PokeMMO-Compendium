@@ -4,6 +4,7 @@ import BulletList from "@/components/molecules/BulletList";
 import RegionRoutes from "@/components/organisms/RegionRoutes";
 import PageLayout from "@/components/templates/PageLayout";
 import { useTrainerRerunData } from "@/hooks/useTrainerRerunData";
+import { RegionRoute } from "@/types/trainerRerun";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 const TrainerRerunPage = () => {
@@ -20,8 +21,23 @@ const TrainerRerunPage = () => {
 
   const { intro, requirements, tips_tricks, regions } = trainerRerunData;
 
+  // Adapt regions to match RegionRoute interface if needed
+  const adaptedRegions: RegionRoute[] = regions.map((region) => ({
+    name: region.name,
+    routes: region.routes.map((route) => {
+      const r: Record<string, unknown> = {
+        name: route.name,
+      };
+      if (route.notes) r["notes"] = route.notes;
+      if (route.trainers) r["trainers"] = route.trainers;
+      if (route.pp_cost !== undefined) r["pp_cost"] = route.pp_cost;
+      if (route.type !== undefined) r["type"] = route.type;
+      return r as unknown as RegionRoute["routes"][0];
+    }),
+  }));
+
   return (
-    <PageLayout title={intro.title} accentColor={accentColor}>
+    <PageLayout title={intro.title}>
       {/* Header */}
       <div className="flex flex-col items-center space-y-2 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">
@@ -47,7 +63,7 @@ const TrainerRerunPage = () => {
 
       <BulletList title={tips_tricks.title} items={tips_tricks.items} />
 
-      <RegionRoutes regions={regions} />
+      <RegionRoutes regions={adaptedRegions} />
     </PageLayout>
   );
 };

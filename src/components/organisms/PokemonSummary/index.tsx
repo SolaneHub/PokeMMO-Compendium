@@ -10,8 +10,8 @@ import { getPokemonVariants } from "@/utils/pokemonHelpers";
 import { calculateDefenses } from "@/utils/typeUtils";
 
 import PokemonEvolutions from "./PokemonEvolutions";
-import PokemonLocations from "./PokemonLocations";
-import PokemonMoves from "./PokemonMoves";
+import PokemonLocations, { Location } from "./PokemonLocations";
+import PokemonMoves, { Move } from "./PokemonMoves";
 import PokemonOverview from "./PokemonOverview";
 import PokemonStats from "./PokemonStats";
 
@@ -20,7 +20,6 @@ interface PokemonSummaryProps {
   allPokemon: Pokemon[];
   onClose: () => void;
   onSelectPokemon: (pokemon: Pokemon) => void;
-  pokemonMap: Map<string, Pokemon>;
 }
 
 const PokemonSummary = ({
@@ -28,7 +27,6 @@ const PokemonSummary = ({
   allPokemon,
   onClose,
   onSelectPokemon,
-  pokemonMap,
 }: PokemonSummaryProps) => {
   const [activeTab, setActiveTab] = useState("OVERVIEW");
   const { getPokemonDetails } = usePokedexContext();
@@ -189,10 +187,28 @@ const PokemonSummary = ({
                     />
                   )}
                   {activeTab === "MOVES" && (
-                    <PokemonMoves moves={pokemon.moves || []} />
+                    <PokemonMoves
+                      moves={
+                        (pokemon.moves || []).map((m) => {
+                          const moveObj: Record<string, unknown> = { ...m };
+                          if (moveObj["level"] === undefined)
+                            moveObj["level"] = 0;
+                          return moveObj;
+                        }) as unknown as Move[]
+                      }
+                    />
                   )}
                   {activeTab === "LOCATIONS" && (
-                    <PokemonLocations locations={pokemon.locations || []} />
+                    <PokemonLocations
+                      locations={
+                        (pokemon.locations || []).map((l) => {
+                          const locObj: Record<string, unknown> = { ...l };
+                          if (locObj["rarity"] === undefined)
+                            locObj["rarity"] = "";
+                          return locObj;
+                        }) as unknown as Location[]
+                      }
+                    />
                   )}
                   {activeTab === "EVOLUTIONS" && (
                     <PokemonEvolutions

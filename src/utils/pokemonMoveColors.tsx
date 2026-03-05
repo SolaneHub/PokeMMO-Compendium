@@ -61,13 +61,20 @@ export function initializePokemonColorMap(pokedexData: Pokemon[]) {
   pokedexData.forEach((pokemon) => {
     const types = pokemon.types || [];
     if (types.length >= 2) {
-      newPokemonColorMap[pokemon.name] = generateDualTypeGradient(
-        types[0],
-        types[1]
-      );
+      const type1 = types[0];
+      const type2 = types[1];
+      if (type1 && type2) {
+        newPokemonColorMap[pokemon.name] = generateDualTypeGradient(
+          type1,
+          type2
+        );
+      }
     } else if (types.length === 1) {
-      newPokemonColorMap[pokemon.name] =
-        (typeBackgrounds as Record<string, string>)[types[0]] || "#999999";
+      const type = types[0];
+      if (type) {
+        newPokemonColorMap[pokemon.name] =
+          (typeBackgrounds as Record<string, string>)[type] || "#999999";
+      }
     } else {
       newPokemonColorMap[pokemon.name] = "#999999";
     }
@@ -78,7 +85,10 @@ export function initializePokemonColorMap(pokedexData: Pokemon[]) {
 export const getMoveGradient = (moveName: string): string => {
   const moveType = moveTypeMap[moveName];
   if (moveType && moveType in typeBackgrounds) {
-    return (typeBackgrounds as Record<string, string>)[moveType];
+    return (
+      (typeBackgrounds as Record<string, string>)[moveType] ||
+      typeBackgrounds[""]
+    );
   }
   return typeBackgrounds[""];
 };
@@ -140,22 +150,27 @@ export const renderColoredText = (
               (p) => p.toLowerCase() === part.toLowerCase()
             );
             if (matchedPokemon) {
-              gradient = pokemonColorMap[matchedPokemon];
+              gradient = pokemonColorMap[matchedPokemon] || "";
             }
           }
 
           if (gradient) {
-            return (
-              <span
-                key={i}
-                style={{
-                  background: gradient,
+            const isGradient = gradient.startsWith("linear-gradient");
+            const style: React.CSSProperties = isGradient
+              ? {
+                  backgroundImage: gradient,
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   color: "transparent",
                   fontWeight: "bold",
-                }}
-              >
+                }
+              : {
+                  color: gradient,
+                  fontWeight: "bold",
+                };
+
+            return (
+              <span key={i} style={style}>
                 {part}
               </span>
             );

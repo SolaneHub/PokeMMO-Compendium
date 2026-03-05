@@ -68,7 +68,7 @@ function SuperTrainersPage() {
   }
 
   return (
-    <PageLayout title="Super Trainers" accentColor={accentColor}>
+    <PageLayout title="Super Trainers">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">

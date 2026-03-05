@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { PokemonType, typeBackgrounds } from "@/utils/pokemonColors";
 
-interface Move {
+export interface Move {
   level?: string | number;
   name: string;
   type?: string;

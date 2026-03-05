@@ -1,4 +1,4 @@
-const ADMIN_EMAILS = ((import.meta.env.VITE_ADMIN_EMAILS as string) || "")
+const ADMIN_EMAILS = ((import.meta.env["VITE_ADMIN_EMAILS"] as string) || "")
   .split(",")
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);

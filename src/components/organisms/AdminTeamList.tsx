@@ -33,19 +33,23 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
     let allTeams: Team[] = [];
     let nextPageToken: { userId: string; teamId: string } | null = null;
     do {
+      const options: {
+        limit: number;
+        startAfter?: { userId: string; teamId: string };
+      } = {
+        limit: 100,
+      };
+      if (nextPageToken) {
+        options.startAfter = nextPageToken;
+      }
+
       const result: {
         teams: Team[];
         nextPageToken: { userId: string; teamId: string } | null;
       } =
         status === "all"
-          ? await getAllUserTeams({
-              limit: 100,
-              startAfter: nextPageToken || undefined,
-            })
-          : await getTeamsByStatus(status as TeamStatus, {
-              limit: 100,
-              startAfter: nextPageToken || undefined,
-            });
+          ? await getAllUserTeams(options)
+          : await getTeamsByStatus(status as TeamStatus, options);
       allTeams = allTeams.concat(result.teams);
       nextPageToken = result.nextPageToken;
     } while (nextPageToken);

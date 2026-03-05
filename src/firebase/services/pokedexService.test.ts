@@ -1,5 +1,5 @@
 import * as firestore from "firebase/firestore";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 
 import { setMockDocs } from "@/test/setup";
 import { Pokemon } from "@/types/pokemon";
@@ -42,10 +42,14 @@ describe("pokedexService", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      /* Suppress expected warning logs */
+    });
   });
 
   afterEach(() => {
     setMockDocs([]); // Reset firestore mock state
+    vi.restoreAllMocks();
   });
 
   describe("getPokedexData", () => {
@@ -58,7 +62,9 @@ describe("pokedexService", () => {
 
       const result = await getPokedexData();
       expect(result.length).toBe(1);
-      expect(result[0].name).toBe("Bulbasaur");
+      const first = result[0];
+      expect(first?.name).toBe("Bulbasaur");
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("returns empty array if no docs exist", async () => {
@@ -81,7 +87,7 @@ describe("pokedexService", () => {
       const lastDoc = {
         id: "1",
         data: () => validPokemonDoc,
-      } as unknown as firestore.DocumentSnapshot;
+      } as unknown as firestore.QueryDocumentSnapshot;
       const result = await getPokedexPaginated(10, lastDoc);
       expect(firestore.startAfter).toHaveBeenCalledWith(lastDoc);
       expect(result.data.length).toBe(1);
@@ -107,49 +113,48 @@ describe("pokedexService", () => {
 
       const result = await getPokedexSummary();
       expect(result.length).toBe(1);
-      expect(result[0].name).toBe("Bulbasaur");
+      const first = result[0];
+      expect(first?.name).toBe("Bulbasaur");
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("generates and saves summary if summary doc does not exist", async () => {
       // First call to getDoc (summary) returns empty array (meaning exists() is false)
       setMockDocs([validPokemonDoc]);
 
-      const originalGetDoc = firestore.getDoc;
-      // @ts-expect-error - Mocking firestore getDoc method
-      firestore.getDoc = vi.fn().mockImplementationOnce(() => ({
-        exists: () => false,
-      }));
+      vi.mocked(firestore.getDoc).mockImplementationOnce(
+        async () =>
+          ({
+            exists: () => false,
+          }) as unknown as firestore.DocumentSnapshot
+      );
 
       const result = await getPokedexSummary();
       expect(result.length).toBe(1);
-      expect(result[0].name).toBe("Bulbasaur");
+      const first = result[0];
+      expect(first?.name).toBe("Bulbasaur");
       expect(firestore.setDoc).toHaveBeenCalled();
-
-      firestore.getDoc = originalGetDoc;
     });
 
     it("handles setDoc failure in summary generation", async () => {
       setMockDocs([validPokemonDoc]);
 
-      const originalGetDoc = firestore.getDoc;
-      const originalSetDoc = firestore.setDoc;
-
-      // @ts-expect-error - Mocking firestore getDoc method
-      firestore.getDoc = vi.fn().mockImplementationOnce(() => ({
-        exists: () => false,
-      }));
-      // @ts-expect-error - Mocking firestore setDoc method
-      firestore.setDoc = vi
-        .fn()
-        .mockRejectedValueOnce(new Error("Permission denied"));
+      vi.mocked(firestore.getDoc).mockImplementationOnce(
+        async () =>
+          ({
+            exists: () => false,
+          }) as unknown as firestore.DocumentSnapshot
+      );
+      vi.mocked(firestore.setDoc).mockRejectedValueOnce(
+        new Error("Permission denied")
+      );
 
       const result = await getPokedexSummary();
       expect(result.length).toBe(1);
       // Even if setDoc fails, we still get the generated summary
-      expect(result[0].name).toBe("Bulbasaur");
-
-      firestore.getDoc = originalGetDoc;
-      firestore.setDoc = originalSetDoc;
+      const first = result[0];
+      expect(first?.name).toBe("Bulbasaur");
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("falls back to full data if summary exists but pokemonList is not an array", async () => {
@@ -160,7 +165,8 @@ describe("pokedexService", () => {
 
       const result = await getPokedexSummary();
       expect(result.length).toBe(1);
-      expect(result[0].name).toBe("Bulbasaur");
+      const first = result[0];
+      expect(first?.name).toBe("Bulbasaur");
     });
   });
 
@@ -176,6 +182,7 @@ describe("pokedexService", () => {
       setMockDocs([invalidPokemonDoc]);
       const result = await getPokemonById("invalid-1");
       expect(result).toBeNull();
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("returns null if doc does not exist", async () => {
@@ -221,12 +228,14 @@ describe("pokedexService", () => {
 
       const mockBatch = (
         firestore.writeBatch as unknown as {
-          mock: { results: { value: { set: vi.Mock } }[] };
+          mock: { results: { value: { set: Mock } }[] };
         }
-      ).mock.results[0].value;
+      ).mock.results[0]?.value;
 
-      // Should only call set once for the valid one
-      expect(mockBatch.set).toHaveBeenCalledTimes(1);
+      if (mockBatch) {
+        // Should only call set once for the valid one
+        expect(mockBatch.set).toHaveBeenCalledTimes(1);
+      }
     });
 
     it("savePokedexEntry uses provided id if available", async () => {

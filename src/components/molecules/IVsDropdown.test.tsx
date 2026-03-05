@@ -33,7 +33,10 @@ describe("IVsDropdown component", () => {
 
     // Open the first dropdown ("Atk")
     const triggers = screen.getAllByRole("button");
-    fireEvent.click(triggers[0]);
+    const firstTrigger = triggers[0];
+    if (firstTrigger) {
+      fireEvent.click(firstTrigger);
+    }
 
     // Click the "HP" option inside the dropdown menu
     const hpOption = screen.getByText("HP").closest("button");

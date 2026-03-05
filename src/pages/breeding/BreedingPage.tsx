@@ -9,7 +9,7 @@ import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { usePersistentState } from "@/utils/usePersistentState";
 
 function BreedingPage() {
-  const accentColor = FEATURE_CONFIG.breeding.color;
+  const accentColor = FEATURE_CONFIG["breeding"].color;
   const [selectedIvCount, setSelectedIvCount] = usePersistentState<number>(
     "breeding_ivCount",
     3
@@ -24,7 +24,7 @@ function BreedingPage() {
   );
 
   return (
-    <PageLayout title="Breeding Planner" accentColor={accentColor}>
+    <PageLayout title="Breeding Planner">
       {/* Header Section */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">

@@ -128,10 +128,8 @@ export const calculateDefenses = (
   ALL_TYPES.forEach((attacker) => {
     let multiplier = 1;
     pokemonTypes.forEach((defender) => {
-      const effect =
-        TYPE_CHART[attacker][defender] !== undefined
-          ? TYPE_CHART[attacker][defender]
-          : 1;
+      const attackerChart = TYPE_CHART[attacker];
+      const effect = attackerChart?.[defender] ?? 1;
       multiplier *= effect;
     });
     defenses[attacker] = multiplier;

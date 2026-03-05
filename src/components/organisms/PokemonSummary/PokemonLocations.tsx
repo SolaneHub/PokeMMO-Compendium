@@ -1,4 +1,4 @@
-interface Location {
+export interface Location {
   region: string;
   area: string;
   rarity?: string;
