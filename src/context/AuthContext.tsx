@@ -40,28 +40,25 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+const googleSignIn = async () => {
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+  await signInWithPopup(auth, provider);
+};
+
+const logout = () => signOut(auth);
+
 export function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [adminLoading, setAdminLoading] = useState(false);
+  const [adminLoading, setAdminLoading] = useState(true);
 
-  // Set persistence once
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence).catch((err) =>
       console.error("Auth Persistence Error:", err)
     );
   }, []);
-
-  function logout() {
-    return signOut(auth);
-  }
-
-  async function googleSignIn() {
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: "select_account" });
-    await signInWithPopup(auth, provider);
-  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

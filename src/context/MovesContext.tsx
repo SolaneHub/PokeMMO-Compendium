@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -38,8 +39,13 @@ export const MovesProvider = ({ children }: { children: ReactNode }) => {
     fetchMoves();
   }, [fetchMoves]);
 
+  const value = useMemo(
+    () => ({ moves, isLoading, refetch: fetchMoves }),
+    [moves, isLoading, fetchMoves]
+  );
+
   return (
-    <MovesContext.Provider value={{ moves, isLoading, refetch: fetchMoves }}>
+    <MovesContext.Provider value={value}>
       {children}
     </MovesContext.Provider>
   );
