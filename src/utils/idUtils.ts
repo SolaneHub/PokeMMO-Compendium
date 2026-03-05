@@ -5,12 +5,13 @@
  */
 export function generateId(prefix = "id"): string {
   // Try to use the Web Crypto API (standard in modern browsers and Node.js)
-  const cryptoObj =
-    typeof crypto !== "undefined"
-      ? crypto
-      : typeof window !== "undefined"
-        ? window.crypto
-        : undefined;
+  let cryptoObj: Crypto | undefined;
+
+  if (typeof crypto !== "undefined") {
+    cryptoObj = crypto;
+  } else if (typeof globalThis !== "undefined") {
+    cryptoObj = globalThis.crypto;
+  }
 
   if (cryptoObj) {
     // 1. Try randomUUID (most modern and robust)

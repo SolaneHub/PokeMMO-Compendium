@@ -30,6 +30,6 @@ export async function getTrainerRerun(): Promise<TrainerRerunData | null> {
  */
 export async function updateTrainerRerun(data: TrainerRerunData) {
   const docRef = doc(db, TRAINER_RERUN_COLLECTION, "main");
-  const cleanData = JSON.parse(JSON.stringify(data));
+  const cleanData = structuredClone(data);
   await setDoc(docRef, cleanData);
 }

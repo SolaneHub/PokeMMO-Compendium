@@ -35,8 +35,8 @@ const MarqueeText = ({
     };
 
     checkOverflow();
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
+    globalThis.addEventListener("resize", checkOverflow);
+    return () => globalThis.removeEventListener("resize", checkOverflow);
   }, [children]);
 
   return (
@@ -57,12 +57,7 @@ const MarqueeText = ({
   );
 };
 
-const BuildDetails = ({
-  build,
-}: {
-  build: RaidBuild;
-  pokemonMap: Map<string, Pokemon>;
-}) => {
+const BuildDetails = ({ build }: { build: RaidBuild }) => {
   if (!build || !build.name) return null;
   const sprite = getSpriteUrlByName(build.name);
 
@@ -130,7 +125,7 @@ const BuildDetails = ({
         <div className="flex flex-wrap gap-1.5 border-t border-white/5 bg-[#0f1014] p-2.5">
           {build.moves.map((m: string, k: number) => (
             <span
-              key={k}
+              key={`${m}-${k}`}
               className="rounded border border-white/5 bg-white/5 px-1.5 py-0.5 text-xs font-medium text-slate-300"
             >
               {m}
@@ -142,7 +137,7 @@ const BuildDetails = ({
   );
 };
 
-const PlayerBuildCard = ({ build, pokemonMap }: PlayerBuildCardProps) => {
+const PlayerBuildCard = ({ build }: PlayerBuildCardProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   if (!build) return null;
@@ -163,7 +158,7 @@ const PlayerBuildCard = ({ build, pokemonMap }: PlayerBuildCardProps) => {
         <div className="flex flex-wrap gap-1 border-b border-white/5 bg-black/20 p-1.5">
           {options.map((opt: RaidBuild, idx: number) => (
             <button
-              key={idx}
+              key={`${opt.name}-${idx}`}
               onClick={() => setSelectedIndex(idx)}
               className={`flex-1 cursor-pointer rounded px-2 py-1 text-center text-[10px] font-bold uppercase transition-all ${
                 selectedIndex === idx
@@ -176,7 +171,7 @@ const PlayerBuildCard = ({ build, pokemonMap }: PlayerBuildCardProps) => {
           ))}
         </div>
       )}
-      <BuildDetails build={activeBuild} pokemonMap={pokemonMap} />
+      <BuildDetails build={activeBuild} />
     </div>
   );
 };

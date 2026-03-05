@@ -185,12 +185,10 @@ describe("VariationForm component", () => {
     expect(handleChange).toHaveBeenCalledTimes(1);
 
     const firstCall = handleChange.mock.calls[0];
-    if (firstCall && firstCall[0]) {
-      const updatedSteps = firstCall[0].steps;
-      if (updatedSteps) {
-        expect(updatedSteps[0].player).toBe("UpdatedNested");
-        expect(updatedSteps[1].id).toBe("nstep2"); // Unchanged
-      }
+    const updatedSteps = firstCall?.[0]?.steps;
+    if (updatedSteps) {
+      expect(updatedSteps[0].player).toBe("UpdatedNested");
+      expect(updatedSteps[1].id).toBe("nstep2"); // Unchanged
     }
   });
 
@@ -208,12 +206,10 @@ describe("VariationForm component", () => {
     expect(handleChange).toHaveBeenCalledTimes(1);
 
     const firstCall = handleChange.mock.calls[0];
-    if (firstCall && firstCall[0]) {
-      const updatedSteps = firstCall[0].steps;
-      if (updatedSteps) {
-        expect(updatedSteps.length).toBe(1);
-        expect(updatedSteps[0].id).toBe("nstep2");
-      }
+    const updatedSteps = firstCall?.[0]?.steps;
+    if (updatedSteps) {
+      expect(updatedSteps.length).toBe(1);
+      expect(updatedSteps[0].id).toBe("nstep2");
     }
   });
 

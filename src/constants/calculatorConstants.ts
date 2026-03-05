@@ -1,4 +1,25 @@
 import { typeBackgrounds } from "@/utils/pokemonColors";
+export const POKEMON_TYPES = [
+  "Normal",
+  "Fire",
+  "Water",
+  "Electric",
+  "Grass",
+  "Ice",
+  "Fighting",
+  "Poison",
+  "Ground",
+  "Flying",
+  "Psychic",
+  "Bug",
+  "Rock",
+  "Ghost",
+  "Dragon",
+  "Dark",
+  "Steel",
+  "Fairy",
+];
+
 export const STATUS_CONDITIONS = [
   { name: "None", gradient: typeBackgrounds[""], multiplier: 1 },
   { name: "Poisoned", gradient: typeBackgrounds["Poison"], multiplier: 1.5 },
