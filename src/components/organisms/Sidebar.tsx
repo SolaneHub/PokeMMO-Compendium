@@ -175,7 +175,9 @@ function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             {currentUser ? (
               <>
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold">
-                  {currentUser.email?.[0].toUpperCase() || "U"}
+                  {currentUser.email
+                    ? currentUser.email[0]?.toUpperCase()
+                    : "U"}
                 </div>
                 {!isCollapsed && (
                   <div className="flex flex-1 flex-col overflow-hidden">

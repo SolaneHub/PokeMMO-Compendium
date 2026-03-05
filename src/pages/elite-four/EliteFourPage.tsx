@@ -13,7 +13,6 @@ import { getAllApprovedTeams } from "@/firebase/services/teamsService";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import { getMembersByRegion } from "@/services/eliteFourService";
-import { Pokemon } from "@/types/pokemon";
 import { StrategyStep, Team, TeamMember } from "@/types/teams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
@@ -83,8 +82,8 @@ function EliteFourPage() {
           moves = m.moves;
         } else {
           moves = [m.move1, m.move2, m.move3, m.move4].filter(
-            Boolean
-          ) as string[];
+            (mv): mv is string => typeof mv === "string" && mv !== ""
+          );
         }
 
         return {
@@ -97,7 +96,7 @@ function EliteFourPage() {
           moves: moves,
         };
       })
-      .filter(Boolean) as TeamMember[];
+      .filter((m): m is TeamMember => m !== null);
   }, [currentTeamData]);
 
   const filteredEliteFour = getMembersByRegion(selectedRegion);
@@ -151,7 +150,7 @@ function EliteFourPage() {
 
     let strategy: StrategyStep[] = [];
     if (currentTeamData?.strategies?.[memberName]?.[pokemonName]) {
-      strategy = currentTeamData.strategies[memberName][pokemonName];
+      strategy = currentTeamData.strategies[memberName][pokemonName] || [];
     }
 
     initializeStrategy(strategy);
@@ -166,7 +165,7 @@ function EliteFourPage() {
   }
 
   return (
-    <PageLayout title="Elite Four" accentColor={accentColor}>
+    <PageLayout title="Elite Four">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">
@@ -239,7 +238,7 @@ function EliteFourPage() {
       {/* Strategy Modal */}
       {isPokemonDetailsVisible && currentPokemonObject && (
         <StrategyModal
-          currentPokemonObject={currentPokemonObject as Pokemon}
+          currentPokemonObject={currentPokemonObject}
           detailsTitleBackground={detailsTitleBackground}
           strategyHistory={strategyHistory}
           currentStrategyView={currentStrategyView}

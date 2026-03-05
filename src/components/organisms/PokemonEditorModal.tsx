@@ -1,5 +1,5 @@
 import { Save, Search, X } from "lucide-react";
-import React, { useActionState, useState } from "react";
+import { useActionState, useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import { useMoves } from "@/context/MovesContext";

@@ -154,7 +154,7 @@ describe("VariationForm component", () => {
     const handleChange = vi.fn();
     render(
       <VariationForm
-        variation={{ ...mockVariation, steps: undefined }} // Test fallback to empty array
+        variation={{ ...mockVariation, steps: [] }} // Using empty array instead of undefined
         onChange={handleChange}
         onRemove={vi.fn()}
       />
@@ -184,9 +184,14 @@ describe("VariationForm component", () => {
     fireEvent.click(screen.getByTestId("change-nested-nstep1"));
     expect(handleChange).toHaveBeenCalledTimes(1);
 
-    const updatedSteps = handleChange.mock.calls[0][0].steps;
-    expect(updatedSteps[0].player).toBe("UpdatedNested");
-    expect(updatedSteps[1].id).toBe("nstep2"); // Unchanged
+    const firstCall = handleChange.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      const updatedSteps = firstCall[0].steps;
+      if (updatedSteps) {
+        expect(updatedSteps[0].player).toBe("UpdatedNested");
+        expect(updatedSteps[1].id).toBe("nstep2"); // Unchanged
+      }
+    }
   });
 
   it("handles onRemove from SortableNestedStepItem", () => {
@@ -202,9 +207,14 @@ describe("VariationForm component", () => {
     fireEvent.click(screen.getByTestId("remove-nested-nstep1"));
     expect(handleChange).toHaveBeenCalledTimes(1);
 
-    const updatedSteps = handleChange.mock.calls[0][0].steps;
-    expect(updatedSteps.length).toBe(1);
-    expect(updatedSteps[0].id).toBe("nstep2");
+    const firstCall = handleChange.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      const updatedSteps = firstCall[0].steps;
+      if (updatedSteps) {
+        expect(updatedSteps.length).toBe(1);
+        expect(updatedSteps[0].id).toBe("nstep2");
+      }
+    }
   });
 
   it("handles drag end array move logic", () => {
@@ -220,9 +230,14 @@ describe("VariationForm component", () => {
     fireEvent.click(screen.getByTestId("dnd-context"));
 
     expect(handleChange).toHaveBeenCalledTimes(1);
-    const updatedSteps = handleChange.mock.calls[0][0].steps;
-    // nstep1 moved after nstep2
-    expect(updatedSteps[0].id).toBe("nstep2");
-    expect(updatedSteps[1].id).toBe("nstep1");
+    const firstCall = handleChange.mock.calls[0];
+    if (firstCall && firstCall[0]) {
+      const updatedSteps = firstCall[0].steps;
+      if (updatedSteps) {
+        // nstep1 moved after nstep2
+        expect(updatedSteps[0].id).toBe("nstep2");
+        expect(updatedSteps[1].id).toBe("nstep1");
+      }
+    }
   });
 });

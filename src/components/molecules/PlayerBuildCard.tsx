@@ -128,7 +128,7 @@ const BuildDetails = ({
 
       {build.moves && build.moves.length > 0 && (
         <div className="flex flex-wrap gap-1.5 border-t border-white/5 bg-[#0f1014] p-2.5">
-          {build.moves.map((m, k) => (
+          {build.moves.map((m: string, k: number) => (
             <span
               key={k}
               className="rounded border border-white/5 bg-white/5 px-1.5 py-0.5 text-xs font-medium text-slate-300"
@@ -147,19 +147,21 @@ const PlayerBuildCard = ({ build, pokemonMap }: PlayerBuildCardProps) => {
 
   if (!build) return null;
 
-  const options = [build, ...(build.variants || [])].filter(
-    (opt) => opt && opt.name
+  const options: RaidBuild[] = [build, ...(build.variants || [])].filter(
+    (opt): opt is RaidBuild => !!(opt && opt.name)
   );
 
   if (options.length === 0) return null;
 
   const activeBuild = options[selectedIndex] || options[0];
 
+  if (!activeBuild) return null;
+
   return (
     <div className="flex flex-col overflow-hidden rounded-lg border border-white/5 bg-[#0f1014] text-white shadow-sm transition-colors hover:border-white/20">
       {options.length > 1 && (
         <div className="flex flex-wrap gap-1 border-b border-white/5 bg-black/20 p-1.5">
-          {options.map((opt, idx) => (
+          {options.map((opt: RaidBuild, idx: number) => (
             <button
               key={idx}
               onClick={() => setSelectedIndex(idx)}

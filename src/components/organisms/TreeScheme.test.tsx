@@ -46,12 +46,16 @@ describe("TreeScheme component", () => {
     const resetBtn = screen.getByTitle("Reset Zoom");
 
     // Zoom out
-    fireEvent.click(minusBtn);
+    if (minusBtn) {
+      fireEvent.click(minusBtn);
+    }
     expect(screen.getByText("90%")).toBeInTheDocument();
 
     // Zoom in
-    fireEvent.click(plusBtn);
-    fireEvent.click(plusBtn);
+    if (plusBtn) {
+      fireEvent.click(plusBtn);
+      fireEvent.click(plusBtn);
+    }
     expect(screen.getByText("110%")).toBeInTheDocument();
 
     // Reset Zoom

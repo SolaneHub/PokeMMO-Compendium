@@ -178,7 +178,10 @@ describe("PokemonEditorModal component", () => {
 
     // Moves
     const moveInputs = screen.getAllByPlaceholderText("Select move...");
-    fireEvent.change(moveInputs[0], { target: { value: "Flamethrower" } });
+    if (moveInputs[0]) {
+      fireEvent.change(moveInputs[0], { target: { value: "Flamethrower" } });
+    }
+
     expect((moveInputs[0] as HTMLInputElement).value).toBe("Flamethrower");
   });
 

@@ -67,11 +67,14 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
     );
 
     Object.keys(groups).forEach((key) => {
-      groups[key].sort((a: RaidBuild, b: RaidBuild) => {
-        if (a.order !== undefined && b.order !== undefined)
-          return a.order - b.order;
-        return (a.name || "").localeCompare(b.name || "");
-      });
+      const group = groups[key];
+      if (group) {
+        group.sort((a: RaidBuild, b: RaidBuild) => {
+          if (a.order !== undefined && b.order !== undefined)
+            return a.order - b.order;
+          return (a.name || "").localeCompare(b.name || "");
+        });
+      }
     });
     return groups;
   })();
@@ -95,9 +98,9 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
   const effectiveSelectedRole = (() => {
     if (!rolesSource) return "";
     if (selectedRole && rolesSource[selectedRole]) return selectedRole;
-    if (rolesSource.player1) return "player1";
+    if (rolesSource["player1"]) return "player1";
     const keys = Object.keys(rolesSource);
-    return keys.length ? keys[0] : "";
+    return keys.length ? keys[0] || "" : "";
   })();
 
   const roleOptions = rolesSource
@@ -160,7 +163,7 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
             <RaidBuildsTab
               recommendedList={recommendedList}
               buildGroups={buildGroups}
-              effectiveBuildGroupKey={effectiveBuildGroupKey}
+              effectiveBuildGroupKey={effectiveBuildGroupKey || null}
               setSelectedBuildGroup={setSelectedBuildGroup}
               pokemonMap={pokemonMap}
             />

@@ -62,11 +62,10 @@ const UserTeamEditorPage = () => {
     pokemonName: string
   ) => {
     if (!team) return;
-    const newPools = { ...team.enemyPools };
-    if (newPools[memberName]) {
-      newPools[memberName] = newPools[memberName].filter(
-        (p) => p !== pokemonName
-      );
+    const newPools = { ...(team.enemyPools || {}) };
+    const currentPool = newPools[memberName];
+    if (currentPool) {
+      newPools[memberName] = currentPool.filter((p) => p !== pokemonName);
       setTeam({ ...team, enemyPools: newPools });
       if (
         activeView === "strategy" &&
@@ -101,7 +100,11 @@ const UserTeamEditorPage = () => {
     )
       return [];
     if (!team) return [];
-    return team.strategies?.[activeContext]?.[activeId] || [];
+    const memberStrats = team.strategies?.[activeContext];
+    if (memberStrats) {
+      return memberStrats[activeId] || [];
+    }
+    return [];
   };
 
   const updateStrategies = (newSteps: StrategyStep[]) => {
@@ -117,7 +120,10 @@ const UserTeamEditorPage = () => {
     const enemyName = activeId;
     const newStrategies = { ...(team.strategies || {}) };
     if (!newStrategies[memberName]) newStrategies[memberName] = {};
-    newStrategies[memberName][enemyName] = newSteps;
+    const memberMap = newStrategies[memberName];
+    if (memberMap) {
+      memberMap[enemyName] = newSteps;
+    }
     setTeam({ ...team, strategies: newStrategies });
   };
 
@@ -201,7 +207,7 @@ const UserTeamEditorPage = () => {
                     m.region === region &&
                     team.strategies &&
                     team.strategies[m.name] &&
-                    Object.keys(team.strategies[m.name]).length > 0
+                    Object.keys(team.strategies[m.name] || {}).length > 0
                 ).length;
                 const percent =
                   totalMembers > 0
@@ -227,7 +233,7 @@ const UserTeamEditorPage = () => {
       <div className="animate-fade-in custom-scrollbar h-full overflow-y-auto p-4 lg:p-8">
         <PokemonEditorView
           key={activeId}
-          data={memberData}
+          data={memberData || null}
           onSave={handleUpdateMember}
         />
       </div>

@@ -39,8 +39,7 @@ describe("useRaidsData", () => {
       { name: "Blastoise", stars: 4 },
       { name: "Venusaur", stars: 5 },
     ];
-    // @ts-expect-error - Mocking service
-    raidsService.getRaidsData.mockResolvedValue(mockData);
+    vi.mocked(raidsService.getRaidsData).mockResolvedValue(mockData as Raid[]);
 
     const { result } = renderHook(() => useRaidsData(), { wrapper });
 
@@ -53,9 +52,13 @@ describe("useRaidsData", () => {
     expect(result.current.raidsData.length).toBe(3);
 
     // Check sorting: stars ASC, then name ASC
-    expect(result.current.raidsData[0].name).toBe("Blastoise");
-    expect(result.current.raidsData[1].name).toBe("Charizard");
-    expect(result.current.raidsData[2].name).toBe("Venusaur");
+    const first = result.current.raidsData[0];
+    const second = result.current.raidsData[1];
+    const third = result.current.raidsData[2];
+
+    expect(first?.name).toBe("Blastoise");
+    expect(second?.name).toBe("Charizard");
+    expect(third?.name).toBe("Venusaur");
 
     // Check raidsMap
     expect(result.current.raidsMap.has("Charizard")).toBe(true);
@@ -68,8 +71,9 @@ describe("useRaidsData", () => {
   });
 
   it("handles fetch error", async () => {
-    // @ts-expect-error - Mocking service
-    raidsService.getRaidsData.mockRejectedValue(new Error("Fetch failed"));
+    vi.mocked(raidsService.getRaidsData).mockRejectedValue(
+      new Error("Fetch failed")
+    );
 
     const { result } = renderHook(() => useRaidsData(), { wrapper });
 

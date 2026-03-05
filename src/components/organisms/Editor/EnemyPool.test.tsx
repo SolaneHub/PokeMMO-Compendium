@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { StrategyStep } from "@/types/teams";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
 import EnemyPool from "./EnemyPool";
@@ -67,9 +68,9 @@ describe("EnemyPool component", () => {
     const handleSelect = vi.fn();
     const handleRemove = vi.fn();
 
-    const teamStrategies = {
+    const teamStrategies: Record<string, Record<string, StrategyStep[]>> = {
       Lorelei: {
-        Lapras: [{} as unknown], // Has strategy
+        Lapras: [{} as StrategyStep], // Has strategy
         Dewgong: [], // No strategy
       },
     };
@@ -101,7 +102,10 @@ describe("EnemyPool component", () => {
     // Click remove (it's the second button in the list item div)
     // We can find the buttons and click the one corresponding to Lapras
     const removeButtons = screen.getAllByRole("button", { name: "" }); // Trash icon has no text
-    fireEvent.click(removeButtons[0]);
+    const firstRemoveBtn = removeButtons[0];
+    if (firstRemoveBtn) {
+      fireEvent.click(firstRemoveBtn);
+    }
     expect(handleRemove).toHaveBeenCalledWith("Lapras", expect.any(Object));
   });
 

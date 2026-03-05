@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as TeamsService from "@/firebase/services/teamsService";
+import { Team, TeamMember } from "@/types/teams";
 
 import AdminTeamList from "./AdminTeamList";
 
@@ -27,36 +28,40 @@ vi.mock("@/firebase/services/teamsService", () => ({
 }));
 
 describe("AdminTeamList component", () => {
-  const mockTeamPending = {
+  const mockTeamPending: Team = {
     id: "1",
     name: "Pending Team",
     status: "pending",
     userId: "user123",
-    members: [{ name: "Pikachu" }],
+    members: [{ name: "Pikachu" } as unknown as TeamMember],
+    region: "Kanto",
   };
 
-  const mockTeamApproved = {
+  const mockTeamApproved: Team = {
     id: "2",
     name: "Approved Team",
     status: "approved",
     userId: "user456",
     members: [],
+    region: "Sinnoh",
   };
 
-  const mockTeamDraft = {
+  const mockTeamDraft: Team = {
     id: "3",
     name: "Draft Team",
     status: "draft",
     userId: "user789",
     members: [],
+    region: "Hoenn",
   };
 
-  const mockTeamRejected = {
+  const mockTeamRejected: Team = {
     id: "4",
     name: "Rejected Team",
     status: "rejected",
     userId: "user999",
     members: [],
+    region: "Unova",
   };
 
   beforeEach(() => {
@@ -72,7 +77,9 @@ describe("AdminTeamList component", () => {
     let resolvePromise: (value: {
       teams: never[];
       nextPageToken: null;
-    }) => void;
+    }) => void = () => {
+      /* noop */
+    };
     vi.spyOn(TeamsService, "getTeamsByStatus").mockImplementationOnce(
       () =>
         new Promise((resolve) => {
@@ -309,7 +316,9 @@ describe("AdminTeamList component", () => {
     const buttons = screen.getAllByRole("button");
     const deleteBtn = buttons[buttons.length - 1]; // Trash is the last one
 
-    await user.click(deleteBtn);
+    if (deleteBtn) {
+      await user.click(deleteBtn);
+    }
 
     expect(mockConfirm).toHaveBeenCalled();
     expect(TeamsService.deleteUserTeam).toHaveBeenCalledWith("user123", "1");
@@ -323,7 +332,9 @@ describe("AdminTeamList component", () => {
       new Error("Err")
     );
     mockConfirm.mockResolvedValueOnce(true);
-    await user.click(deleteBtn);
+    if (deleteBtn) {
+      await user.click(deleteBtn);
+    }
     expect(mockShowToast).toHaveBeenCalledWith(
       "Failed to delete team.",
       "error"

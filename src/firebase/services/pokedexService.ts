@@ -92,7 +92,9 @@ export async function getPokedexPaginated(
     data: pokedex,
     lastDoc:
       querySnapshot.docs.length > 0
-        ? querySnapshot.docs[querySnapshot.docs.length - 1]
+        ? (querySnapshot.docs[
+            querySnapshot.docs.length - 1
+          ] as QueryDocumentSnapshot<DocumentData>)
         : null,
   };
 }
@@ -105,10 +107,11 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
   const summaryDoc = await getDoc(summaryRef);
 
   if (summaryDoc.exists()) {
-    const data = summaryDoc.data().pokemonList;
-    if (Array.isArray(data)) {
+    const data = summaryDoc.data();
+    const pokemonList = data["pokemonList"];
+    if (Array.isArray(pokemonList)) {
       const pokedex: Pokemon[] = [];
-      data.forEach((p, index) => {
+      pokemonList.forEach((p, index) => {
         const result = PokemonSchema.safeParse(p);
         if (result.success) {
           pokedex.push(result.data);

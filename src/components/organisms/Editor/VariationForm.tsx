@@ -60,7 +60,7 @@ const VariationForm = ({
 
   const removeStep = (idToRemove: string) => {
     const newSteps = (variation.steps || []).filter(
-      (step) => step.id !== idToRemove
+      (step: StrategyStep) => step.id !== idToRemove
     );
     updateNestedSteps(newSteps);
   };
@@ -74,10 +74,10 @@ const VariationForm = ({
     const { active, over } = event;
     if (over && active.id !== over.id) {
       const oldIndex = (variation.steps || []).findIndex(
-        (step) => step.id === active.id
+        (step: StrategyStep) => step.id === active.id
       );
       const newIndex = (variation.steps || []).findIndex(
-        (step) => step.id === over.id
+        (step: StrategyStep) => step.id === over.id
       );
       const newSteps = arrayMove(variation.steps || [], oldIndex, newIndex);
       updateNestedSteps(newSteps);
@@ -148,15 +148,17 @@ const VariationForm = ({
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
           >
-            <SortableContext items={currentNestedSteps.map((s) => s.id)}>
+            <SortableContext
+              items={currentNestedSteps.map((s: StrategyStep) => s.id)}
+            >
               <div className="space-y-3">
-                {currentNestedSteps.map((step, i) => (
+                {currentNestedSteps.map((step: StrategyStep, i: number) => (
                   <SortableNestedStepItem
                     key={step.id}
                     id={step.id}
                     index={i}
                     step={step}
-                    onChange={(updated) => {
+                    onChange={(updated: StrategyStep) => {
                       const newSteps = [...currentNestedSteps];
                       newSteps[i] = updated;
                       updateNestedSteps(newSteps);
