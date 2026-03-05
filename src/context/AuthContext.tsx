@@ -70,8 +70,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (user) {
         setAdminLoading(true);
         try {
-          const tokenResult = await user.getIdTokenResult(true);
-          setIsAdmin(!!tokenResult.claims.admin);
+          const tokenResult = await user.getIdTokenResult();
+          setIsAdmin(!!tokenResult.claims["admin"]);
         } catch (error) {
           setIsAdmin(false);
         } finally {

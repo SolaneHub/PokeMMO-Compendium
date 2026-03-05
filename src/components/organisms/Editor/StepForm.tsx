@@ -142,7 +142,7 @@ const StepForm = ({ step, onChange }: StepFormProps) => {
                 Y&quot;.
               </p>
             )}
-            {step.variations?.map((variation, i) => (
+            {step.variations?.map((variation: StrategyVariation, i: number) => (
               <div key={i} className="relative pl-3">
                 <div className="absolute top-0 bottom-0 left-0 w-px bg-purple-500/20" />
                 <VariationForm
@@ -155,7 +155,9 @@ const StepForm = ({ step, onChange }: StepFormProps) => {
                   onRemove={() => {
                     update(
                       "variations",
-                      (step.variations || []).filter((_, idx) => idx !== i)
+                      (step.variations || []).filter(
+                        (_: StrategyVariation, idx: number) => idx !== i
+                      )
                     );
                   }}
                 />

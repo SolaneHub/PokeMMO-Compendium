@@ -13,6 +13,18 @@ import {
   Users,
 } from "lucide-react";
 
+export type FeatureKey =
+  | "pokedex"
+  | "breeding"
+  | "catch-calculator"
+  | "pickup"
+  | "elite-four"
+  | "trainer-rerun"
+  | "raids"
+  | "super-trainers"
+  | "boss-fights"
+  | "my-teams";
+
 export interface Feature {
   title: string;
   description: string;
@@ -23,7 +35,7 @@ export interface Feature {
   lockedColor?: string;
 }
 
-export const FEATURE_CONFIG: Record<string, Feature> = {
+export const FEATURE_CONFIG: Record<FeatureKey, Feature> = {
   pokedex: {
     title: "Pokédex",
     description:

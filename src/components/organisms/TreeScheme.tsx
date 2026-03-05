@@ -26,6 +26,12 @@ interface CustomCSSProperties extends CSSProperties {
   "--vertical-gap"?: string;
 }
 
+interface RowConfig {
+  size: number;
+  pairGap: number;
+  rowGap: number;
+}
+
 function TreeScheme({
   selectedIvCount,
   selectedIvStats,
@@ -120,24 +126,29 @@ function TreeScheme({
     updateActiveIds(newSet);
   };
 
-  const rowConfigs = Array.from({ length: totalRows }, () => ({
+  const rowConfigs: RowConfig[] = Array.from({ length: totalRows }, () => ({
     size: NODE_SIZE,
     pairGap: 0,
     rowGap: 0,
   }));
 
   if (rowConfigs.length > 0) {
-    rowConfigs[0].pairGap = BASE_PAIR_GAP;
-    rowConfigs[0].rowGap = BASE_ROW_GAP;
+    const firstConfig = rowConfigs[0];
+    if (firstConfig) {
+      firstConfig.pairGap = BASE_PAIR_GAP;
+      firstConfig.rowGap = BASE_ROW_GAP;
+    }
   }
 
   for (let i = 0; i < totalRows - 1; i++) {
     const current = rowConfigs[i];
     const next = rowConfigs[i + 1];
-    const dist = 2 * current.size + current.pairGap + current.rowGap;
-    const nextGap = dist - next.size;
-    next.pairGap = nextGap;
-    next.rowGap = nextGap;
+    if (current && next) {
+      const dist = 2 * current.size + current.pairGap + current.rowGap;
+      const nextGap = dist - next.size;
+      next.pairGap = nextGap;
+      next.rowGap = nextGap;
+    }
   }
 
   return (
@@ -152,7 +163,8 @@ function TreeScheme({
             >
               <StatCircle
                 ivColors={[
-                  (STAT_COLOR_MAP as Record<string, string>)[statName],
+                  (STAT_COLOR_MAP as Record<string, string>)[statName] ||
+                    "#ffffff",
                 ]}
                 size={12}
                 className="shadow-none"
@@ -213,7 +225,7 @@ function TreeScheme({
                 <div
                   key={`row-${rowIndex}`}
                   className="flex justify-center"
-                  style={{ gap: `${config.rowGap}px` }}
+                  style={{ gap: `${config?.rowGap || 0}px` }}
                 >
                   {rowItems.reduce((pairs: React.ReactElement[], colors, i) => {
                     if (i % 2 === 0) {
@@ -227,7 +239,7 @@ function TreeScheme({
                               ? "before:absolute before:top-1/2 before:right-0 before:left-0 before:-z-10 before:mx-[calc(var(--node-size)/2)] before:h-[1px] before:bg-white/20 before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-z-10 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:w-[1px] after:-translate-x-1/2 after:bg-white/20 after:content-['']"
                               : ""
                           } `}
-                          style={{ gap: `${config.pairGap}px` }}
+                          style={{ gap: `${config?.pairGap || 0}px` }}
                           key={`${rowIndex}-pair-${i / 2}`}
                         >
                           <div className="relative z-[2] flex items-center justify-center">

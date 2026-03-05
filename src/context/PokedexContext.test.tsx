@@ -50,8 +50,9 @@ describe("PokedexContext", () => {
     ];
 
     it("fetches data on mount and updates state correctly", async () => {
-      // @ts-expect-error - Mocking Pokedex service methods
-      pokedexService.getPokedexSummary.mockResolvedValue(mockSummary);
+      vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue(
+        mockSummary as Pokemon[]
+      );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
@@ -71,8 +72,7 @@ describe("PokedexContext", () => {
 
     it("handles error during initial fetch", async () => {
       const consoleSpy = vi.spyOn(console, "error").mockImplementation(vi.fn());
-      // @ts-expect-error - Mocking Pokedex service methods
-      pokedexService.getPokedexSummary.mockRejectedValue(
+      vi.mocked(pokedexService.getPokedexSummary).mockRejectedValue(
         new Error("Network error")
       );
 
@@ -88,10 +88,9 @@ describe("PokedexContext", () => {
     });
 
     it("getPokemonDetails fetches and caches detailed data", async () => {
-      // @ts-expect-error - Mocking Pokedex service methods
-      pokedexService.getPokedexSummary.mockResolvedValue([
+      vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue([
         { id: "1", name: "Bulbasaur", types: ["Grass"] },
-      ]);
+      ] as Pokemon[]);
 
       const fullDetails = {
         id: "1",
@@ -99,8 +98,9 @@ describe("PokedexContext", () => {
         types: ["Grass", "Poison"],
         _isFullData: true,
       };
-      // @ts-expect-error - Mocking Pokedex service methods
-      pokedexService.getPokemonById.mockResolvedValue(fullDetails);
+      vi.mocked(pokedexService.getPokemonById).mockResolvedValue(
+        fullDetails as unknown as Pokemon
+      );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
@@ -129,8 +129,9 @@ describe("PokedexContext", () => {
     });
 
     it("refetch re-triggers data fetching", async () => {
-      // @ts-expect-error - Mocking Pokedex service methods
-      pokedexService.getPokedexSummary.mockResolvedValue(mockSummary);
+      vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue(
+        mockSummary as Pokemon[]
+      );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
 

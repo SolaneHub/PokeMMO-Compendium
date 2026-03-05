@@ -11,7 +11,7 @@ import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 function RaidsPage() {
-  const accentColor = FEATURE_CONFIG.raids.color;
+  const accentColor = FEATURE_CONFIG["raids"].color;
   const [selectedStar, setSelectedStar] = useState<number | undefined>();
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
@@ -54,7 +54,7 @@ function RaidsPage() {
   }
 
   return (
-    <PageLayout title="Raids" accentColor={accentColor}>
+    <PageLayout title="Raids">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center space-y-2 text-center text-white">
         <h1 className="flex items-center gap-3 text-3xl font-bold">

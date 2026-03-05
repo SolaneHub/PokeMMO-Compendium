@@ -11,7 +11,7 @@ import { usePokedexData } from "@/hooks/usePokedexData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 function PickupPage() {
-  const accentColor = FEATURE_CONFIG.pickup.color;
+  const accentColor = FEATURE_CONFIG["pickup"].color;
   const [isPickupPokemonModalOpen, setIsPickupPokemonModalOpen] =
     useState(false);
 
@@ -48,7 +48,13 @@ function PickupPage() {
 
         <div className="space-y-8">
           {regions?.map((region, regionIndex) => (
-            <PickupRegionSection key={regionIndex} region={region} />
+            <PickupRegionSection
+              key={regionIndex}
+              region={{
+                ...region,
+                note: region.note || "",
+              }}
+            />
           ))}
         </div>
 

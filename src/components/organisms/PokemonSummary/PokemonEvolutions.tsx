@@ -47,7 +47,7 @@ const EvolutionItem = ({
         }`}
       >
         <img
-          src={sprite || ""}
+          src={sprite || undefined}
           alt={name}
           className="h-14 w-14 object-contain drop-shadow-md"
         />
@@ -90,7 +90,7 @@ const PokemonEvolutions = ({
               <Fragment key={evo.name}>
                 <EvolutionItem
                   name={evo.name}
-                  method={evo.level}
+                  method={evo.level || "Level Up"}
                   isCurrent={evo.name === pokemon.name}
                   allPokemon={allPokemon}
                   onSelectPokemon={onSelectPokemon}
@@ -129,7 +129,7 @@ const PokemonEvolutions = ({
                 >
                   <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 p-2 transition-all hover:border-purple-500 hover:bg-purple-500/10 hover:shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                     <img
-                      src={sprite || ""}
+                      src={sprite || undefined}
                       alt={variantName}
                       className="h-12 w-12 object-contain transition-transform group-hover:scale-110"
                     />

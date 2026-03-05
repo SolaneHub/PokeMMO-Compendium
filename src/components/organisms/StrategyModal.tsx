@@ -112,7 +112,6 @@ function StrategyModal({
                               />
                             </div>
                             {/* StrategyVariation might not have warning in schema but it was used here */}
-                            {/* @ts-expect-error - warning might exist in data but not strictly in schema */}
                             {renderWarning(v.warning)}
                           </button>
                         ))}

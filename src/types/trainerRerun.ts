@@ -20,7 +20,15 @@ export const TrainerSchema = z.object({
   money: z.union([z.string(), z.number()]),
 });
 
-export const RouteSchema = z.object({
+export interface Route {
+  name: string;
+  notes?: string[] | undefined;
+  trainers?: Trainer[] | undefined;
+  pp_cost?: string | number | undefined;
+  type?: string | undefined;
+}
+
+export const RouteSchema: z.ZodType<Route> = z.object({
   name: z.string(),
   notes: z.array(z.string()).optional(),
   trainers: z.array(TrainerSchema).optional(),
@@ -28,7 +36,12 @@ export const RouteSchema = z.object({
   type: z.string().optional(),
 });
 
-export const RegionSchema = z.object({
+export interface RegionRoute {
+  name: string;
+  routes: Route[];
+}
+
+export const RegionRouteSchema: z.ZodType<RegionRoute> = z.object({
   name: z.string(),
   routes: z.array(RouteSchema),
 });
@@ -37,7 +50,7 @@ export const TrainerRerunDataSchema = z.object({
   intro: IntroSchema,
   requirements: RequirementSchema,
   tips_tricks: TipsTricksSchema,
-  regions: z.array(RegionSchema),
+  regions: z.array(RegionRouteSchema),
   source: z.array(z.string()).optional(),
 });
 
@@ -45,6 +58,4 @@ export type Intro = z.infer<typeof IntroSchema>;
 export type Requirement = z.infer<typeof RequirementSchema>;
 export type TipsTricks = z.infer<typeof TipsTricksSchema>;
 export type Trainer = z.infer<typeof TrainerSchema>;
-export type Route = z.infer<typeof RouteSchema>;
-export type Region = z.infer<typeof RegionSchema>;
 export type TrainerRerunData = z.infer<typeof TrainerRerunDataSchema>;

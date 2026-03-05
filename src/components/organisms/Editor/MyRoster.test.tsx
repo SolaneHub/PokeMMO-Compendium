@@ -24,19 +24,31 @@ describe("MyRoster component", () => {
     const slots = screen.getAllByRole("button");
 
     // Click first slot
-    fireEvent.click(slots[0]);
+    const firstSlot = slots[0];
+    if (firstSlot) {
+      fireEvent.click(firstSlot);
+    }
     expect(handleEdit).toHaveBeenCalledWith(0);
 
     // Keyboard Enter on second slot
-    fireEvent.keyDown(slots[1], { key: "Enter", code: "Enter" });
+    const secondSlot = slots[1];
+    if (secondSlot) {
+      fireEvent.keyDown(secondSlot, { key: "Enter", code: "Enter" });
+    }
     expect(handleEdit).toHaveBeenCalledWith(1);
 
     // Keyboard Space on third slot
-    fireEvent.keyDown(slots[2], { key: " ", code: "Space" });
+    const thirdSlot = slots[2];
+    if (thirdSlot) {
+      fireEvent.keyDown(thirdSlot, { key: " ", code: "Space" });
+    }
     expect(handleEdit).toHaveBeenCalledWith(2);
 
     // Random key shouldn't trigger
-    fireEvent.keyDown(slots[3], { key: "A", code: "KeyA" });
+    const fourthSlot = slots[3];
+    if (fourthSlot) {
+      fireEvent.keyDown(fourthSlot, { key: "A", code: "KeyA" });
+    }
     expect(handleEdit).toHaveBeenCalledTimes(3); // Unchanged
   });
 

@@ -4,18 +4,9 @@ import { generateId } from "@/utils/idUtils";
 
 export interface StrategyVariation {
   type: string;
-  name?: string;
-  steps?: StrategyStep[];
-}
-
-export interface StrategyStep {
-  id: string;
-  type: string;
-  description?: string;
-  notes?: string;
-  player?: string;
-  warning?: string;
-  variations?: StrategyVariation[];
+  name?: string | undefined;
+  warning?: string | undefined;
+  steps?: StrategyStep[] | undefined;
 }
 
 export const StrategyVariationSchema: z.ZodType<StrategyVariation> = z.lazy(
@@ -23,9 +14,20 @@ export const StrategyVariationSchema: z.ZodType<StrategyVariation> = z.lazy(
     z.object({
       type: z.string(),
       name: z.string().optional(),
-      steps: z.array(StrategyStepSchema).optional(),
+      warning: z.string().optional(),
+      steps: z.array(z.lazy(() => StrategyStepSchema)).optional(),
     })
 );
+
+export interface StrategyStep {
+  id: string;
+  type: string;
+  description?: string | undefined;
+  notes?: string | undefined;
+  player?: string | undefined;
+  warning?: string | undefined;
+  variations?: StrategyVariation[] | undefined;
+}
 
 export const StrategyStepSchema: z.ZodType<StrategyStep> = z.lazy(() =>
   z.object({

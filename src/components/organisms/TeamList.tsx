@@ -19,20 +19,27 @@ const TeamList = ({
 }: TeamListProps) => {
   return (
     <div className="animate-fade-in grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {teams.map((team) => (
-        <TeamCard
-          key={team.id}
-          team={team}
-          onClick={
-            team.status === "pending"
-              ? undefined
-              : () => team.id && onTeamClick(team.id)
-          }
-          onDelete={onDeleteTeam}
-          onSubmit={onSubmitTeam}
-          onCancelSubmission={onCancelSubmission}
-        />
-      ))}
+      {teams.map((team) => {
+        const teamId = team.id;
+        const isClickable = team.status !== "pending" && teamId;
+
+        const handleClick = isClickable
+          ? () => onTeamClick(teamId)
+          : () => {
+              /* pending teams cannot be clicked */
+            };
+
+        return (
+          <TeamCard
+            key={teamId}
+            team={team}
+            onClick={handleClick}
+            onDelete={onDeleteTeam}
+            onSubmit={onSubmitTeam}
+            onCancelSubmission={onCancelSubmission}
+          />
+        );
+      })}
     </div>
   );
 };

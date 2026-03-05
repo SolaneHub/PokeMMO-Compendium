@@ -18,15 +18,15 @@ export const RaidRoleSchema = z.record(z.string(), z.string());
 
 export interface RaidBuild {
   name: string;
-  player?: string;
-  item?: string;
-  ability?: string;
-  nature?: string;
-  evs?: string;
-  ivs?: string;
-  moves?: string[];
-  order?: number;
-  variants?: RaidBuild[];
+  player?: string | undefined;
+  item?: string | undefined;
+  ability?: string | undefined;
+  nature?: string | undefined;
+  evs?: string | undefined;
+  ivs?: string | undefined;
+  moves?: string[] | undefined;
+  order?: number | undefined;
+  variants?: RaidBuild[] | undefined;
 }
 
 export const RaidBuildSchema: z.ZodType<RaidBuild> = z.lazy(() =>
@@ -43,7 +43,7 @@ export const RaidBuildSchema: z.ZodType<RaidBuild> = z.lazy(() =>
       (val) => (typeof val === "string" ? parseInt(val, 10) : val),
       z.number().optional()
     ),
-    variants: z.array(RaidBuildSchema).optional(),
+    variants: z.array(z.lazy(() => RaidBuildSchema)).optional(),
   })
 );
 

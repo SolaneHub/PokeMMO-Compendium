@@ -3,13 +3,13 @@ import HomeFooter from "@/components/organisms/HomeFooter";
 import HomeHero from "@/components/organisms/HomeHero";
 import PageLayout from "@/components/templates/PageLayout";
 import { useAuth } from "@/context/AuthContext";
-import { Feature, FEATURE_CONFIG } from "@/utils/featureConfig";
+import { Feature, FEATURE_CONFIG, FeatureKey } from "@/utils/featureConfig";
 
 function Home() {
   const { currentUser } = useAuth();
 
   // Escludiamo "my-teams" dall'array principale per gestirlo separatamente
-  const mainFeatures: Feature[] = Object.keys(FEATURE_CONFIG)
+  const mainFeatures: Feature[] = (Object.keys(FEATURE_CONFIG) as FeatureKey[])
     .filter((key) => key !== "my-teams")
     .map((key) => FEATURE_CONFIG[key]);
 
@@ -21,12 +21,14 @@ function Home() {
       ? teamsConfig.description
       : "Log in to create, save and manage your own custom strategic teams.",
     icon:
-      (currentUser ? teamsConfig.icon : teamsConfig.lockedIcon) ||
-      teamsConfig.icon,
+      (currentUser
+        ? teamsConfig.icon
+        : (teamsConfig.lockedIcon ?? teamsConfig.icon)) || teamsConfig.icon,
     link: currentUser ? teamsConfig.link : "/login",
     color:
-      (currentUser ? teamsConfig.color : teamsConfig.lockedColor) ||
-      teamsConfig.color,
+      (currentUser
+        ? teamsConfig.color
+        : (teamsConfig.lockedColor ?? teamsConfig.color)) || teamsConfig.color,
   };
 
   return (

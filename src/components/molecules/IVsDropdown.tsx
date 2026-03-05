@@ -28,7 +28,9 @@ function IVsDropdown({
     if (conflictIndex !== -1) {
       const oldStat = selectedIvStats[index];
       newSelectedIvStats[index] = newStat;
-      newSelectedIvStats[conflictIndex] = oldStat;
+      if (oldStat !== undefined) {
+        newSelectedIvStats[conflictIndex] = oldStat;
+      }
     } else {
       newSelectedIvStats[index] = newStat;
     }
@@ -57,7 +59,9 @@ function IVsDropdown({
                     : "border-white/5 bg-[#25272e] hover:border-white/20"
                 } `}
               >
-                <span className="truncate">{selectedIvStats[index]}</span>
+                <span className="truncate">
+                  {selectedIvStats[index] || "Select"}
+                </span>
                 <ChevronDown
                   size={14}
                   className={`transition-transform duration-200 ${openDropdownIndex === index ? "rotate-180 text-blue-400" : "text-slate-500"}`}
