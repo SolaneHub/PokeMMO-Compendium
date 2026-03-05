@@ -133,6 +133,53 @@ interface EditorSidebarProps {
   className?: string;
 }
 
+interface EnemyItemProps {
+  enemy: string;
+  memberName: string;
+  activeView: string;
+  activeId: string | number | null;
+  onNavigate: (view: any, id: any, context?: any) => void;
+  onRemoveEnemy: (member: string, enemy: string) => void;
+}
+
+const EnemyItem = ({
+  enemy,
+  memberName,
+  activeView,
+  activeId,
+  onNavigate,
+  onRemoveEnemy,
+}: EnemyItemProps) => {
+  const handleRemove = () => {
+    if (
+      globalThis.confirm(`Remove ${enemy} from ${memberName}'s plan?`)
+    ) {
+      onRemoveEnemy(memberName, enemy);
+    }
+  };
+
+  return (
+    <SidebarItem
+      key={enemy}
+      active={activeView === "strategy" && activeId === enemy}
+      onClick={() => onNavigate("strategy", enemy, memberName)}
+      actions={
+        <Button
+          variant="ghost"
+          size="xs"
+          className="text-slate-500 hover:text-red-400"
+          onClick={handleRemove}
+          icon={Trash2}
+        >
+          {""}
+        </Button>
+      }
+    >
+      {enemy}
+    </SidebarItem>
+  );
+};
+
 const EditorSidebar = ({
   team,
   activeView,
@@ -252,37 +299,15 @@ const EditorSidebar = ({
                             </button>
                             {/* List of Enemies in Pool */}
                             {(enemyPools[member.name] || []).map((enemy) => (
-                              <SidebarItem
+                              <EnemyItem
                                 key={enemy}
-                                active={
-                                  activeView === "strategy" &&
-                                  activeId === enemy
-                                }
-                                onClick={() =>
-                                  onNavigate("strategy", enemy, member.name)
-                                }
-                                actions={
-                                  <Button
-                                    variant="ghost"
-                                    size="xs"
-                                    className="text-slate-500 hover:text-red-400"
-                                    onClick={() => {
-                                      if (
-                                        window.confirm(
-                                          `Remove ${enemy} from ${member.name}'s plan?`
-                                        )
-                                      ) {
-                                        onRemoveEnemy(member.name, enemy);
-                                      }
-                                    }}
-                                    icon={Trash2}
-                                  >
-                                    {""}
-                                  </Button>
-                                }
-                              >
-                                {enemy}
-                              </SidebarItem>
+                                enemy={enemy}
+                                memberName={member.name}
+                                activeView={activeView}
+                                activeId={activeId}
+                                onNavigate={onNavigate}
+                                onRemoveEnemy={onRemoveEnemy}
+                              />
                             ))}
                           </div>
                         )}

@@ -46,6 +46,11 @@ export const setMockDocs = (docs: unknown[]) => {
   mockDocs = docs;
 };
 
+const mapMockDoc = (doc: unknown) => ({
+  id: (doc as { id?: string }).id || "1",
+  data: () => doc,
+});
+
 vi.mock("firebase/firestore", () => ({
   initializeFirestore: vi.fn(() => ({})),
   getFirestore: vi.fn(() => ({})),
@@ -57,14 +62,9 @@ vi.mock("firebase/firestore", () => ({
   })),
   getDocs: vi.fn(async () => ({
     empty: mockDocs.length === 0,
-    docs: mockDocs.map((doc) => ({
-      id: (doc as { id?: string }).id || "1",
-      data: () => doc,
-    })),
+    docs: mockDocs.map(mapMockDoc),
     forEach: (callback: (doc: { id: string; data: () => unknown }) => void) =>
-      mockDocs.forEach((doc: unknown) =>
-        callback({ id: (doc as { id?: string }).id || "1", data: () => doc })
-      ),
+      mockDocs.forEach((doc: unknown) => callback(mapMockDoc(doc))),
   })),
   query: vi.fn(),
   where: vi.fn(),
