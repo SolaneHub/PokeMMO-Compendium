@@ -42,10 +42,14 @@ describe("pokedexService", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      /* Suppress expected warning logs */
+    });
   });
 
   afterEach(() => {
     setMockDocs([]); // Reset firestore mock state
+    vi.restoreAllMocks();
   });
 
   describe("getPokedexData", () => {
@@ -60,6 +64,7 @@ describe("pokedexService", () => {
       expect(result.length).toBe(1);
       const first = result[0];
       expect(first?.name).toBe("Bulbasaur");
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("returns empty array if no docs exist", async () => {
@@ -110,6 +115,7 @@ describe("pokedexService", () => {
       expect(result.length).toBe(1);
       const first = result[0];
       expect(first?.name).toBe("Bulbasaur");
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("generates and saves summary if summary doc does not exist", async () => {
@@ -148,6 +154,7 @@ describe("pokedexService", () => {
       // Even if setDoc fails, we still get the generated summary
       const first = result[0];
       expect(first?.name).toBe("Bulbasaur");
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("falls back to full data if summary exists but pokemonList is not an array", async () => {
@@ -175,6 +182,7 @@ describe("pokedexService", () => {
       setMockDocs([invalidPokemonDoc]);
       const result = await getPokemonById("invalid-1");
       expect(result).toBeNull();
+      expect(console.warn).toHaveBeenCalled();
     });
 
     it("returns null if doc does not exist", async () => {

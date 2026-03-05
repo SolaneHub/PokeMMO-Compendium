@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import { Pokemon } from "@/types/pokemon";
 
-import { typeBackgrounds } from "./pokemonColors";
+import { PokemonType, typeBackgrounds } from "./pokemonColors";
 import {
   getMoveGradient,
   getPokemonGradient,
@@ -41,7 +41,7 @@ describe("pokemonMoveColors", () => {
 
     it("maps unknown types to default #999999", () => {
       const mockData: Partial<Pokemon>[] = [
-        { name: "Missingno", types: ["Unknown" as any] },
+        { name: "Missingno", types: ["Unknown" as unknown as PokemonType] },
       ];
       const result = initializePokemonColorMap(mockData as Pokemon[]);
       expect(result["Missingno"]).toBe("#999999");

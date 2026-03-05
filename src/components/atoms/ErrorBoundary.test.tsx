@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -11,11 +11,18 @@ const ProblemChild = ({ shouldThrow }: { shouldThrow?: boolean }) => {
 };
 
 describe("ErrorBoundary component", () => {
-  // Suppress console.error for the intentional errors
+  // Suppress console.error and console.warn for the intentional errors
   beforeEach(() => {
     vi.spyOn(console, "error").mockImplementation(() => {
       /* noop */
     });
+    vi.spyOn(console, "warn").mockImplementation(() => {
+      /* noop */
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("renders children when there is no error", () => {
