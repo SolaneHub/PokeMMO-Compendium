@@ -936,10 +936,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-types"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Types (comma separated)
                 </label>
                 <input
+                  id="pokedex-types"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.types.join(", ")}
                   onChange={(e) => handleArrayChange("types", e.target.value)}
@@ -1031,10 +1035,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="base-exp-input"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Base Exp
                 </label>
                 <input
+                  id="base-exp-input"
                   name="baseExp"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.baseExp || ""}
@@ -1042,10 +1050,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="growth-rate-input"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   Growth Rate
                 </label>
                 <input
+                  id="growth-rate-input"
                   name="growthRate"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.growthRate || ""}
@@ -1053,10 +1065,14 @@ const PokedexEditorPage = () => {
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="ev-yield-input"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   EV Yield
                 </label>
                 <input
+                  id="ev-yield-input"
                   name="evYield"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.evYield || ""}
@@ -1073,10 +1089,14 @@ const PokedexEditorPage = () => {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  <label
+                    htmlFor="main-abilities-input"
+                    className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                  >
                     Main Abilities (comma separated)
                   </label>
                   <input
+                    id="main-abilities-input"
                     className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                     value={formData.abilities?.main?.join(", ") || ""}
                     onChange={(e) =>
@@ -1089,10 +1109,14 @@ const PokedexEditorPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  <label
+                    htmlFor="hidden-ability-input"
+                    className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                  >
                     Hidden Ability
                   </label>
                   <input
+                    id="hidden-ability-input"
                     className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                     value={formData.abilities?.hidden || ""}
                     onChange={(e) =>
@@ -1103,10 +1127,14 @@ const PokedexEditorPage = () => {
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  <label
+                    htmlFor="egg-groups-input"
+                    className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                  >
                     Egg Groups (comma separated)
                   </label>
                   <input
+                    id="egg-groups-input"
                     className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                     value={
                       Array.isArray(formData.eggGroups)
@@ -1120,10 +1148,14 @@ const PokedexEditorPage = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                    <label
+                      htmlFor="gender-m-input"
+                      className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                    >
                       Gender Ratio M (%)
                     </label>
                     <input
+                      id="gender-m-input"
                       type="number"
                       className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                       value={formData.genderRatio?.m ?? 0}
@@ -1131,16 +1163,20 @@ const PokedexEditorPage = () => {
                         handleNestedChange(
                           "genderRatio",
                           "m",
-                          parseFloat(e.target.value) || 0
+                          Number.parseFloat(e.target.value) || 0
                         )
                       }
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                    <label
+                      htmlFor="gender-f-input"
+                      className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                    >
                       Gender Ratio F (%)
                     </label>
                     <input
+                      id="gender-f-input"
                       type="number"
                       className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                       value={formData.genderRatio?.f ?? 0}
@@ -1148,7 +1184,7 @@ const PokedexEditorPage = () => {
                         handleNestedChange(
                           "genderRatio",
                           "f",
-                          parseFloat(e.target.value) || 0
+                          Number.parseFloat(e.target.value) || 0
                         )
                       }
                     />
@@ -1167,10 +1203,14 @@ const PokedexEditorPage = () => {
                 ["hp", "atk", "def", "spa", "spd", "spe"] as (keyof BaseStats)[]
               ).map((stat) => (
                 <div key={stat}>
-                  <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                  <label
+                    htmlFor={`stat-${stat}-input`}
+                    className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                  >
                     {stat}
                   </label>
                   <input
+                    id={`stat-${stat}-input`}
                     type="number"
                     className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                     value={formData.baseStats[stat]}
@@ -1257,7 +1297,11 @@ const PokedexEditorPage = () => {
               <div className="space-y-2">
                 {formData.evolutions?.map((evo, idx) => (
                   <div key={idx} className="flex items-center gap-2">
+                    <label htmlFor={`evo-${idx}-name`} className="sr-only">
+                      Evolution Name {idx + 1}
+                    </label>
                     <input
+                      id={`evo-${idx}-name`}
                       className="flex-1 rounded bg-slate-700 p-2 text-sm text-white"
                       value={evo.name}
                       onChange={(e) => {

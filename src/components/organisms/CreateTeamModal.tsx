@@ -32,10 +32,14 @@ const CreateTeamModal = ({ onClose, onSubmit }: CreateTeamModalProps) => {
           <form action={formAction}>
             <div className="space-y-4">
               <div>
-                <label className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="team-name-input"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Team Name
                 </label>
                 <input
+                  id="team-name-input"
                   name="teamName"
                   type="text"
                   placeholder="e.g. My Kanto Farm Team"

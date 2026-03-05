@@ -165,7 +165,7 @@ const EditorSidebar = ({
       <div className="border-b border-white/5 p-4 text-white">
         <h2 className="truncate text-lg font-bold"> {team.name} </h2>
         <p className="text-xs text-slate-500">
-          {team.members.filter((m: TeamMember | null) => m && m.name).length} /
+          {team.members.filter((m: TeamMember | null) => m?.name).length} /
           6 Members
         </p>
       </div>
@@ -186,7 +186,7 @@ const EditorSidebar = ({
         <SidebarSection title="My Team" icon={Users}>
           {team.members.map((member: TeamMember | null, idx: number) => (
             <SidebarItem
-              key={idx}
+              key={member?.name || idx}
               active={activeView === "roster" && activeId === idx}
               onClick={() => onNavigate("roster", idx)}
               icon={

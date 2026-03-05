@@ -27,7 +27,7 @@ const TeamHeader = ({
         </button>
         <div>
           <h1 className="text-xl font-bold">{teamName}</h1>
-          {teamType && teamType.trim() && (
+          {teamType?.trim() && (
             <span className="rounded border border-blue-500/30 bg-blue-600/10 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-blue-400 uppercase">
               {teamType}
             </span>
