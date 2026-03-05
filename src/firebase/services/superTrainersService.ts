@@ -45,7 +45,7 @@ export async function updateSuperTrainersCollection(
     if (trainer.name) {
       const docId = trainer.name.toLowerCase();
       const docRef = doc(db, SUPER_TRAINERS_COLLECTION, docId);
-      const cleanData = JSON.parse(JSON.stringify(trainer));
+      const cleanData = structuredClone(trainer);
       batch.set(docRef, cleanData);
     }
   });

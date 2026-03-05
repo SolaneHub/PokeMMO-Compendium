@@ -27,16 +27,11 @@ export function useCatchProbability({
   isNightOrCave,
 }: CatchProbabilityProps) {
   return useMemo(() => {
-    if (
-      !selectedPokemon ||
-      selectedPokemon.catchRate === undefined ||
-      selectedPokemon.catchRate === null
-    )
-      return 0;
+    if (selectedPokemon?.catchRate == null) return 0;
 
     const baseCatchRate =
       typeof selectedPokemon.catchRate === "string"
-        ? parseInt(selectedPokemon.catchRate, 10)
+        ? Number.parseInt(selectedPokemon.catchRate, 10)
         : (selectedPokemon.catchRate as number);
 
     if (isNaN(baseCatchRate)) return 0;

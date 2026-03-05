@@ -31,7 +31,7 @@ const AdminDashboardPage = () => {
 
   const handleImportMoves = async () => {
     if (
-      !window.confirm(
+      !globalThis.confirm(
         "This will scan the Pokedex and add unique moves to the master list. Continue?"
       )
     )

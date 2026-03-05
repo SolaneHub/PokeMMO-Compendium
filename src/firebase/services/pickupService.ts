@@ -43,7 +43,7 @@ export async function updatePickupCollection(regionsArray: PickupRegion[]) {
     if (region.name) {
       const docId = region.name.toLowerCase();
       const docRef = doc(db, PICKUP_COLLECTION, docId);
-      const cleanData = JSON.parse(JSON.stringify(region));
+      const cleanData = structuredClone(region);
       batch.set(docRef, cleanData);
     }
   });

@@ -20,7 +20,7 @@ interface ActionResult {
 }
 
 const MyTeamsPage = () => {
-  const accentColor = FEATURE_CONFIG["my-teams"].color;
+  const accentColor = FEATURE_CONFIG["my-teams"]?.color;
   const navigate = useNavigate();
   const revalidator = useRevalidator();
   const { teams: initialTeams, user: currentUser } =

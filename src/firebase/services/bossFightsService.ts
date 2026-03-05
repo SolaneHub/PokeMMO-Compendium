@@ -43,7 +43,7 @@ export async function updateBossFightsCollection(bossFightsArray: BossFight[]) {
     if (bossFight.name && bossFight.region) {
       const docId = `${bossFight.region}-${bossFight.name}`.toLowerCase();
       const docRef = doc(db, BOSS_FIGHTS_COLLECTION, docId);
-      const cleanData = JSON.parse(JSON.stringify(bossFight));
+      const cleanData = structuredClone(bossFight);
       batch.set(docRef, cleanData);
     }
   });

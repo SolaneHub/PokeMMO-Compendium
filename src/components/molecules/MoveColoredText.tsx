@@ -53,14 +53,16 @@ const MoveColoredText = ({ text }: MoveColoredTextProps) => {
           const { component: Icon, color } = tokenMap[part];
           return (
             <Icon
-              key={index}
+              key={`${part}-${index}`}
               size={16}
               className={`mx-1 mb-0.5 inline-block ${color}`}
             />
           );
         } else if (part) {
           return (
-            <span key={index}>{renderColoredText(part, pokemonColorMap)}</span>
+            <span key={`${part.substring(0, 10)}-${index}`}>
+              {renderColoredText(part, pokemonColorMap)}
+            </span>
           );
         }
         return null;

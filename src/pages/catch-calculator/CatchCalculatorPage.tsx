@@ -100,7 +100,7 @@ const CatchCalculatorPage = () => {
   const baseCatchRateRaw = selectedPokemon ? selectedPokemon.catchRate : 0;
   const baseCatchRate =
     typeof baseCatchRateRaw === "string"
-      ? parseInt(baseCatchRateRaw, 10)
+      ? Number.parseInt(baseCatchRateRaw, 10)
       : baseCatchRateRaw || 0;
 
   const catchProbability = useCatchProbability({
@@ -486,7 +486,15 @@ const CatchCalculatorPage = () => {
                 Probability
               </span>
               <span
-                className={`text-6xl font-black transition-colors duration-300 ${catchProbability >= 100 ? "text-green-400" : catchProbability > 50 ? "text-blue-400" : catchProbability > 20 ? "text-yellow-400" : "text-red-400"}`}
+                className={`text-6xl font-black transition-colors duration-300 ${
+                  catchProbability >= 100
+                    ? "text-green-400"
+                    : catchProbability > 50
+                      ? "text-blue-400"
+                      : catchProbability > 20
+                        ? "text-yellow-400"
+                        : "text-red-400"
+                }`}
               >
                 {catchProbability.toFixed(1)}%
               </span>
