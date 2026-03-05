@@ -8,7 +8,8 @@ interface RegionCardProps {
 
 const RegionCard = ({ region, onRegionClick, isSelected }: RegionCardProps) => {
   return (
-    <div
+    <button
+      type="button"
       className={`group relative flex h-24 w-40 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl p-4 transition-all duration-300 ${
         isSelected
           ? "z-10 scale-105 shadow-lg ring-2 ring-white/50"
@@ -22,7 +23,7 @@ const RegionCard = ({ region, onRegionClick, isSelected }: RegionCardProps) => {
       <h2 className="relative z-10 m-0 text-center text-lg leading-tight font-bold break-words text-[#1a1b20] drop-shadow-sm">
         {region.name}
       </h2>
-    </div>
+    </button>
   );
 };
 

@@ -46,7 +46,7 @@ const PokemonGrid = ({
     };
   }, [pokemonList]);
 
-  if (!pokemonList || pokemonList.length === 0) {
+  if (pokemonList?.length === 0) {
     return (
       <p className="mt-10 text-center text-xl text-white">No Pokémon found.</p>
     );

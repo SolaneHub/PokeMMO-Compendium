@@ -15,9 +15,10 @@ interface RosterSlotCardProps {
 const RosterSlotCard = ({ idx, member, onClick }: RosterSlotCardProps) => {
   const isEmpty = !member?.name;
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
-      className={`group relative cursor-pointer overflow-hidden rounded-xl border p-5 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+      className={`group relative w-full cursor-pointer text-left overflow-hidden rounded-xl border p-5 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
         isEmpty
           ? "border-dashed border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10"
           : "border-white/5 bg-[#111216] hover:border-blue-400/50 hover:shadow-blue-400/10"
@@ -80,7 +81,7 @@ const RosterSlotCard = ({ idx, member, onClick }: RosterSlotCardProps) => {
           </div>
         )}
       </div>
-    </div>
+    </button>
   );
 };
 
