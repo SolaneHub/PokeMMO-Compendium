@@ -54,14 +54,15 @@ export default defineConfig(() => ({
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
     include: ["src/**/*.test.{ts,tsx}"],
-    reporters: ["default", "html", "json"],
+    reporters: ["default", "html", "json", "vitest-sonar-reporter"],
     outputFile: {
       json: "./test-results.json",
       html: "./test-report/index.html",
+      "vitest-sonar-reporter": "./test-report/sonar-report.xml",
     },
     coverage: {
       provider: "v8",
-      reporter: ["text", "json", "html"],
+      reporter: ["text", "json", "html", "lcov"],
       exclude: ["node_modules/", "src/test/", "src/vite-env.d.ts"],
     },
   },
