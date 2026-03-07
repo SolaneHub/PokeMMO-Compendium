@@ -83,7 +83,7 @@ describe("PokemonEvolutions component", () => {
     );
 
     // Click on Venusaur container
-    const venusaurBtn = screen.getByText("Venusaur").closest("div.group");
+    const venusaurBtn = screen.getByText("Venusaur").closest("button.group");
     if (venusaurBtn) {
       fireEvent.click(venusaurBtn);
     }

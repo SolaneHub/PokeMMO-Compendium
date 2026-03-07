@@ -7,12 +7,17 @@ node_modules/
 coverage/
 test-report/
 test-results.json
+public/
+docs/
 
 # Ignore IDE/tooling configs:
 .idea/
 .vscode/
+.github/
 
-# Ignore Gemini specific files
+# Ignore Agent specific folders
+.agents/
+.gemini/
 GEMINI.md
 AGENTS.md
 

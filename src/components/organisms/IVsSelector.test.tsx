@@ -39,7 +39,7 @@ describe("IVsSelector component", () => {
     );
 
     const toggleTitle = screen.getByText("Nature Breeding");
-    const container = toggleTitle.closest("div.cursor-pointer");
+    const container = toggleTitle.closest("button.cursor-pointer");
     if (container) {
       fireEvent.click(container);
     }

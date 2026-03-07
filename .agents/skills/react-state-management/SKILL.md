@@ -145,7 +145,7 @@ export const fetchUser = createAsyncThunk(
     } catch (error) {
       return rejectWithValue((error as Error).message);
     }
-  }
+  },
 );
 
 const userSlice = createSlice({
@@ -324,7 +324,7 @@ export function useUpdateUser() {
 
       // Snapshot previous value
       const previousUser = queryClient.getQueryData(
-        userKeys.detail(newUser.id)
+        userKeys.detail(newUser.id),
       );
 
       // Optimistically update
@@ -336,7 +336,7 @@ export function useUpdateUser() {
       // Rollback on error
       queryClient.setQueryData(
         userKeys.detail(newUser.id),
-        context?.previousUser
+        context?.previousUser,
       );
     },
     onSettled: (data, error, variables) => {
