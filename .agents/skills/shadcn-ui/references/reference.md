@@ -7,7 +7,6 @@ The library encompasses four major categories: composable UI components (termina
 ## Core Components
 
 ### Terminal Component
-
 Interactive terminal emulator with typing animations and command execution simulation for developer-focused interfaces.
 
 ```tsx
@@ -21,7 +20,6 @@ export default function DemoTerminal() {
 ```
 
 ### Dock Component
-
 macOS-style application dock with smooth magnification effects on hover, perfect for navigation menus.
 
 ```tsx
@@ -36,7 +34,6 @@ export default function AppDock() {
 ```
 
 ### Credit Card Component
-
 Interactive 3D credit card component with flip animations for payment forms and card displays.
 
 ```tsx
@@ -59,7 +56,6 @@ export default function PaymentForm() {
 ```
 
 ### Image Zoom Component
-
 Zoomable image component with smooth modal transitions for image galleries and product displays.
 
 ```tsx
@@ -74,7 +70,6 @@ export default function ProductGallery() {
 ```
 
 ### QR Code Component
-
 Generate and display customizable QR codes with styling options for links, contact information, and authentication.
 
 ```tsx
@@ -94,7 +89,6 @@ Scan to visit shadcn.io
 ```
 
 ### Color Picker Component
-
 Advanced color selection component supporting multiple color formats (HEX, RGB, HSL) with preview.
 
 ```tsx
@@ -116,7 +110,6 @@ Selected: {color}
 ## Chart Components
 
 ### Bar Chart Component
-
 Clean bar chart component for data comparison and categorical analysis using Recharts.
 
 ```tsx
@@ -141,7 +134,6 @@ yAxisWidth={60}
 ```
 
 ### Line Chart Component
-
 Smooth line chart for visualizing trends and time-series data with multiple data series support.
 
 ```tsx
@@ -163,7 +155,6 @@ return (
 ```
 
 ### Pie Chart Component
-
 Donut chart component for displaying proportional data and percentage distributions.
 
 ```tsx
@@ -185,7 +176,6 @@ return (
 ```
 
 ### Area Chart Component
-
 Stacked area chart for visualizing volume changes over time with multiple data series.
 
 ```tsx
@@ -207,7 +197,6 @@ return (
 ```
 
 ### Radar Chart Component
-
 Multi-axis chart for comparing multiple variables across different categories simultaneously.
 
 ```tsx
@@ -229,7 +218,6 @@ return (
 ```
 
 ### Mixed Chart Component
-
 Combined bar and line chart for displaying multiple data types with different visualization methods.
 
 ```tsx
@@ -253,7 +241,6 @@ return (
 ## Animation Components
 
 ### Magnetic Effect Component
-
 Magnetic hover effect that smoothly follows cursor movement for interactive buttons and cards.
 
 ```tsx
@@ -269,7 +256,6 @@ Hover me
 ```
 
 ### Animated Cursor Component
-
 Custom animated cursor with interactive effects and particle trails for immersive experiences.
 
 ```tsx
@@ -286,7 +272,6 @@ return (
 ```
 
 ### Apple Hello Effect Component
-
 Recreation of Apple's iconic "hello" animation with multi-language text transitions.
 
 ```tsx
@@ -308,7 +293,6 @@ return (
 ```
 
 ### Liquid Button Component
-
 Button with fluid liquid animation effect on hover for engaging call-to-action elements.
 
 ```tsx
@@ -325,7 +309,6 @@ Get Started
 ```
 
 ### Rolling Text Component
-
 Text animation that creates a rolling effect with smooth character transitions.
 
 ```tsx
@@ -339,7 +322,6 @@ return (
 ```
 
 ### Shimmering Text Component
-
 Text with animated shimmer effect for attention-grabbing headings and highlights.
 
 ```tsx
@@ -355,7 +337,6 @@ return (
 ## React Hooks
 
 ### useBoolean Hook
-
 Enhanced boolean state management with toggle, enable, and disable methods for cleaner component logic.
 
 ```tsx
@@ -393,7 +374,6 @@ Submit
 ```
 
 ### useCounter Hook
-
 Counter hook with increment, decrement, reset, and set functionality for numeric state management.
 
 ```tsx
@@ -417,7 +397,6 @@ Reset
 ```
 
 ### useLocalStorage Hook
-
 Persist state in browser localStorage with automatic serialization and deserialization.
 
 ```tsx
@@ -447,7 +426,6 @@ Enable Notifications
 ```
 
 ### useDebounceValue Hook
-
 Debounce values to prevent excessive updates and API calls during rapid user input.
 
 ```tsx
@@ -485,7 +463,6 @@ API calls: {apiCalls}
 ```
 
 ### useHover Hook
-
 Track hover state on elements with customizable enter and leave delays for tooltip and preview functionality.
 
 ```tsx
@@ -516,7 +493,6 @@ return (
 ```
 
 ### useCountdown Hook
-
 Countdown timer with play, pause, reset controls and completion callbacks for time-limited features.
 
 ```tsx
@@ -550,7 +526,6 @@ Status: {countdown.isComplete ? "Expired" : countdown.isRunning ? "Active" : "Pa
 ## Installation and Usage
 
 ### CLI Installation
-
 Install components directly into your project using the shadcn CLI for instant integration.
 
 ```bash
@@ -570,39 +545,38 @@ npx shadcn@latest add use-boolean use-counter use-local-storage
 ```
 
 ### Project Configuration
-
 Configure your project to work with shadcn.io components using TypeScript and Tailwind CSS.
 
 ```typescript
 // tailwind.config.ts
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
-  darkMode: ["class"],
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-      },
-    },
-  },
-  plugins: [require("tailwindcss-animate")],
-};
+darkMode: ["class"],
+content: [
+"./pages/**/*.{ts,tsx}",
+"./components/**/*.{ts,tsx}",
+"./app/**/*.{ts,tsx}",
+],
+theme: {
+extend: {
+colors: {
+border: "hsl(var(--border))",
+input: "hsl(var(--input))",
+ring: "hsl(var(--ring))",
+background: "hsl(var(--background))",
+foreground: "hsl(var(--foreground))",
+primary: {
+DEFAULT: "hsl(var(--primary))",
+foreground: "hsl(var(--primary-foreground))",
+},
+},
+},
+},
+plugins: [require("tailwindcss-animate")],
+}
 
-export default config;
+export default config
 ```
 
 ## Summary

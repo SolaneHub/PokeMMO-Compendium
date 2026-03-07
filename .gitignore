@@ -26,6 +26,7 @@ lerna-debug.log*
 .vite/
 vite.config.ts.timestamp-*
 .eslintcache
+.stylelintcache
 *.tsbuildinfo
 .next/
 .cache/

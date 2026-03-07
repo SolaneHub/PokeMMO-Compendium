@@ -14,6 +14,9 @@ export default defineConfig([
       ".gemini/**",
       "coverage/**",
       "test-report/**",
+      "public/**",
+      "docs/**",
+      ".github/**",
     ],
   },
   {

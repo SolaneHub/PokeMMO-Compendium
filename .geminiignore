@@ -19,7 +19,13 @@ make-admin.js
 *.log
 .vite/
 .eslintcache
+.stylelintcache
 .npmrc
+
+# Test coverage and reports
+coverage/
+test-report/
+test-results.json
 
 # Firebase Metadata
 .firebase/
