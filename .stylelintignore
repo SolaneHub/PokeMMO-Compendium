@@ -2,7 +2,7 @@ dist
 node_modules
 public
 docs
-.agents
-.gemini
+.agents/**
+.gemini/**
 coverage
 .github

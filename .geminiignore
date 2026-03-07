@@ -27,6 +27,12 @@ coverage/
 test-report/
 test-results.json
 
+# Agent specific folders
+**/.agents/**
+**/.gemini/**
+AGENTS.md
+GEMINI.md
+
 # Firebase Metadata
 .firebase/
 firebase-debug.log*
