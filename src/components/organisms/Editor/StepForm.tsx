@@ -143,7 +143,10 @@ const StepForm = ({ step, onChange }: StepFormProps) => {
               </p>
             )}
             {step.variations?.map((variation: StrategyVariation, i: number) => (
-              <div key={`variation-${variation.type}-${i}`} className="relative pl-3">
+              <div
+                key={`variation-${variation.type}-${i}`}
+                className="relative pl-3"
+              >
                 <div className="absolute top-0 bottom-0 left-0 w-px bg-purple-500/20" />
                 <VariationForm
                   variation={variation}

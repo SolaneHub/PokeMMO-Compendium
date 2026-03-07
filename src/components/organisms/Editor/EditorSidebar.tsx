@@ -116,29 +116,16 @@ const SidebarItem = ({
   </div>
 );
 
-interface EditorSidebarProps {
-  team: Team;
-  activeView: string;
-  activeId: string | number | null;
-  onNavigate: (
-    view: string,
-    id?: string | number | null,
-    context?: string | null
-  ) => void;
-  regions: string[];
-  availableMembers: EliteFourMember[];
-  enemyPools: Record<string, string[]>;
-  onAddEnemy: (member: EliteFourMember) => void;
-  onRemoveEnemy: (memberName: string, enemyName: string) => void;
-  className?: string;
-}
-
 interface EnemyItemProps {
   enemy: string;
   memberName: string;
   activeView: string;
   activeId: string | number | null;
-  onNavigate: (view: any, id: any, context?: any) => void;
+  onNavigate: (
+    view: string,
+    id: string | number | null,
+    context?: string | null
+  ) => void;
   onRemoveEnemy: (member: string, enemy: string) => void;
 }
 
@@ -151,9 +138,7 @@ const EnemyItem = ({
   onRemoveEnemy,
 }: EnemyItemProps) => {
   const handleRemove = () => {
-    if (
-      globalThis.confirm(`Remove ${enemy} from ${memberName}'s plan?`)
-    ) {
+    if (globalThis.confirm(`Remove ${enemy} from ${memberName}'s plan?`)) {
       onRemoveEnemy(memberName, enemy);
     }
   };
@@ -179,6 +164,23 @@ const EnemyItem = ({
     </SidebarItem>
   );
 };
+
+interface EditorSidebarProps {
+  team: Team;
+  activeView: string;
+  activeId: string | number | null;
+  onNavigate: (
+    view: string,
+    id?: string | number | null,
+    context?: string | null
+  ) => void;
+  regions: string[];
+  availableMembers: EliteFourMember[];
+  enemyPools: Record<string, string[]>;
+  onAddEnemy: (member: EliteFourMember) => void;
+  onRemoveEnemy: (memberName: string, enemyName: string) => void;
+  className?: string;
+}
 
 const EditorSidebar = ({
   team,
@@ -212,8 +214,8 @@ const EditorSidebar = ({
       <div className="border-b border-white/5 p-4 text-white">
         <h2 className="truncate text-lg font-bold"> {team.name} </h2>
         <p className="text-xs text-slate-500">
-          {team.members.filter((m: TeamMember | null) => m?.name).length} /
-          6 Members
+          {team.members.filter((m: TeamMember | null) => m?.name).length} / 6
+          Members
         </p>
       </div>
 

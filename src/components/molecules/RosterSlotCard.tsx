@@ -18,7 +18,7 @@ const RosterSlotCard = ({ idx, member, onClick }: RosterSlotCardProps) => {
     <button
       type="button"
       onClick={onClick}
-      className={`group relative w-full cursor-pointer text-left overflow-hidden rounded-xl border p-5 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+      className={`group relative w-full cursor-pointer overflow-hidden rounded-xl border p-5 text-left text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
         isEmpty
           ? "border-dashed border-white/5 bg-white/5 hover:border-white/20 hover:bg-white/10"
           : "border-white/5 bg-[#111216] hover:border-blue-400/50 hover:shadow-blue-400/10"
@@ -26,7 +26,7 @@ const RosterSlotCard = ({ idx, member, onClick }: RosterSlotCardProps) => {
     >
       {/* Background decoration */}
       {!isEmpty && (
-        <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br from-blue-400/10 to-transparent blur-2xl transition-all group-hover:from-blue-400/20" />
+        <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-linear-to-br from-blue-400/10 to-transparent blur-2xl transition-all group-hover:from-blue-400/20" />
       )}
       <div className="relative z-10 flex h-full flex-col justify-between gap-4">
         <div className="flex items-start justify-between">
@@ -46,7 +46,7 @@ const RosterSlotCard = ({ idx, member, onClick }: RosterSlotCardProps) => {
               <Save size={20} className="rotate-45" />
             </div>
           ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-gradient-to-br from-slate-800 to-slate-900 text-lg shadow-inner">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-linear-to-br from-slate-800 to-slate-900 text-lg shadow-inner">
               {member?.name?.charAt(0)}
             </div>
           )}
