@@ -46,7 +46,7 @@ const PokemonSummary = ({
     const fetchFullData = async () => {
       if (!initialPokemon || !initialPokemon.id) return;
 
-      if (initialPokemon.moves && initialPokemon.moves.length > 0) {
+      if (initialPokemon?.moves?.length) {
         setFullPokemon(initialPokemon);
         return;
       }
@@ -76,7 +76,7 @@ const PokemonSummary = ({
     : {};
 
   const formatPokedexId = (id: string | number | null) => {
-    if (id && (typeof id === "number" || !isNaN(Number(id)))) {
+    if (id && (typeof id === "number" || !Number.isNaN(Number(id)))) {
       return `#${String(id).padStart(3, "0")}`;
     }
     return "???";

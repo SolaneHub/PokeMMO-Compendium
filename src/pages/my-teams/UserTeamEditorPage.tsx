@@ -167,8 +167,7 @@ const UserTeamEditorPage = () => {
               </div>
               <span>•</span>
               <span>
-                {(team.members || []).filter((m) => m && m.name).length}/6
-                Members
+                {(team.members || []).filter((m) => m?.name).length}/6 Members
               </span>
             </div>
           </div>
@@ -182,7 +181,7 @@ const UserTeamEditorPage = () => {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {team.members.map((member, idx) => (
                 <RosterSlotCard
-                  key={idx}
+                  key={`roster-slot-${idx}-${member?.name || "empty"}`}
                   idx={idx}
                   member={member}
                   onClick={() => handleNavigate("roster", idx)}

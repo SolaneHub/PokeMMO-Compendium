@@ -332,7 +332,7 @@ const PokemonEditorModal = ({
               <span className="mb-2 block text-sm font-medium">Moveset</span>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 {formData.moves.map((move, idx) => (
-                  <div key={`move-field-${idx}`} className="relative">
+                  <div key={`move-slot-${idx}`} className="relative">
                     <label
                       htmlFor={`move-${idx}`}
                       className="absolute top-3.5 left-3 font-mono text-[10px] font-bold text-slate-500 uppercase"

@@ -86,7 +86,8 @@ export function useTeamEditor() {
           showToast("Team not found", "error");
           navigate(paramUserId ? "/admin/dashboard" : "/my-teams");
         }
-      } catch (err) {
+      } catch {
+        // Error is handled by showing a toast notification to the user
         showToast("Error loading team", "error");
       } finally {
         setLoading(false);
@@ -112,7 +113,8 @@ export function useTeamEditor() {
       });
       showToast("Team saved successfully!", "success");
       setTeam(sanitizedToSave);
-    } catch (error) {
+    } catch {
+      // Error is handled by showing a toast notification to the user
       showToast("Failed to save team. Data might be invalid.", "error");
     } finally {
       setSaving(false);

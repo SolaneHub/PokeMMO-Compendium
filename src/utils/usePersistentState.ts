@@ -20,11 +20,12 @@ export function usePersistentState<T>(
         if (decrypted) {
           return JSON.parse(decrypted);
         }
-      } catch (e) {
-        // Fallback if decryption fails
+      } catch {
+        // Fallback if decryption fails: try parsing the raw saved value
       }
       return JSON.parse(saved);
     } catch {
+      // Return initialValue if localStorage is unavailable or entry is corrupted
       return initialValue;
     }
   });

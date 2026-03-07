@@ -46,11 +46,11 @@ const RaidLocationsTab = ({ currentRaid }: RaidLocationsTabProps) => {
                           Requirements
                         </strong>
                         <div className="flex flex-wrap gap-1.5">
-                          {reqs.map((req: string | null, k: number) => {
+                          {reqs.map((req: string | null) => {
                             if (!req) return null;
                             return (
                               <span
-                                key={k}
+                                key={req}
                                 className="inline-flex items-center rounded border border-orange-500/40 bg-orange-500/10 px-2 py-1 text-xs font-semibold text-orange-500"
                               >
                                 {req}

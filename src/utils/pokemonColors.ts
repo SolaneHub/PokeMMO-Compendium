@@ -47,7 +47,7 @@ export const typeBackgrounds: Record<PokemonType, string> = {
 const extractGradientColors = (gradientString: string): string[] => {
   const regex = /linear-gradient\(to right, (.+)\)/;
   const match = gradientString.match(regex);
-  if (match && match[1]) {
+  if (match?.[1]) {
     return match[1].split(",").map((color) => color.trim());
   }
   if (gradientString && !gradientString.startsWith("linear-gradient")) {

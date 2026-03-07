@@ -20,20 +20,17 @@ const ConfirmationModal = ({
   return (
     <div
       className="fixed inset-0 z-[100] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 backdrop-blur-sm"
-      onClick={onCancel}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === "Escape") {
           onCancel();
         }
       }}
-      role="button"
-      tabIndex={0}
-      aria-label="Close modal"
     >
+      {/* Overlay invisibile per catturare il click di chiusura */}
+      <div className="absolute inset-0" onClick={onCancel} aria-hidden="true" />
+
       <div
-        className="relative flex max-h-[85vh] w-[400px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
+        className="relative z-10 flex max-h-[85vh] w-[400px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"

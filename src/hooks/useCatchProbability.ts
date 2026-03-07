@@ -15,6 +15,68 @@ interface CatchProbabilityProps {
   isNightOrCave: boolean;
 }
 
+/**
+ * Helper to calculate the specific multiplier for each Poke Ball type.
+ * Extracted to reduce cognitive complexity.
+ */
+const calculateBallMultiplier = (props: {
+  ballType: string;
+  isNightOrCave: boolean;
+  baseSpeed: number;
+  dreamBallTurns: number;
+  targetLevel: number;
+  turnsPassed: number;
+  repeatBallCaptures: number;
+  baseCatchRate: number;
+}): number => {
+  const {
+    ballType,
+    isNightOrCave,
+    baseSpeed,
+    dreamBallTurns,
+    targetLevel,
+    turnsPassed,
+    repeatBallCaptures,
+    baseCatchRate,
+  } = props;
+
+  // Base multiplier from constants
+  const baseMult = BALL_TYPES.find((b) => b.name === ballType)?.multiplier || 1;
+
+  switch (ballType) {
+    case "Dusk Ball":
+      return isNightOrCave ? 2.5 : 1;
+
+    case "Fast Ball":
+      return baseSpeed >= 100 ? 4 : 1;
+
+    case "Dream Ball":
+      if (dreamBallTurns >= 3) return 4;
+      if (dreamBallTurns === 2) return 2.5;
+      if (dreamBallTurns === 1) return 1.5;
+      return 1;
+
+    case "Nest Ball":
+      if (targetLevel <= 16) return 4;
+      return Math.max(1, 4 - (targetLevel - 16) * 0.2);
+
+    case "Timer Ball":
+      return Math.min(4, 1 + (turnsPassed - 1) * 0.3);
+
+    case "Repeat Ball":
+      return Math.min(2.5, 1 + repeatBallCaptures * 0.1);
+
+    case "Quick Ball":
+      if (turnsPassed === 1) {
+        return baseCatchRate >= 154 ? 255 : 5;
+      }
+      return 1;
+
+    default:
+      return baseMult;
+  }
+};
+
 export function useCatchProbability({
   selectedPokemon,
   targetHpPercentage,
@@ -34,65 +96,21 @@ export function useCatchProbability({
         ? Number.parseInt(selectedPokemon.catchRate, 10)
         : (selectedPokemon.catchRate as number);
 
-    if (isNaN(baseCatchRate)) return 0;
+    if (Number.isNaN(baseCatchRate)) return 0;
 
     const maxHp = 100;
     const currentHp = maxHp * (targetHpPercentage / 100);
-    const rate = baseCatchRate;
 
-    // Multipliers
-    let ballMult = BALL_TYPES.find((b) => b.name === ballType)?.multiplier || 1;
-
-    // Dusk Ball Custom Logic
-    if (ballType === "Dusk Ball") {
-      ballMult = isNightOrCave ? 2.5 : 1;
-    }
-    // Fast Ball Custom Logic
-    if (ballType === "Fast Ball") {
-      const baseSpeed = selectedPokemon.baseStats.spe || 0;
-      ballMult = baseSpeed >= 100 ? 4 : 1;
-    }
-
-    // Dream Ball Custom Logic
-    if (ballType === "Dream Ball") {
-      if (dreamBallTurns === 0) ballMult = 1;
-      else if (dreamBallTurns === 1) ballMult = 1.5;
-      else if (dreamBallTurns === 2) ballMult = 2.5;
-      else if (dreamBallTurns >= 3) ballMult = 4;
-    }
-
-    // Nest Ball Custom Logic
-    if (ballType === "Nest Ball") {
-      if (targetLevel <= 16) {
-        ballMult = 4;
-      } else {
-        const drop = (targetLevel - 16) * 0.2;
-        ballMult = Math.max(1, 4 - drop);
-      }
-    }
-
-    // Timer Ball Custom Logic
-    if (ballType === "Timer Ball") {
-      ballMult = Math.min(4, 1 + (turnsPassed - 1) * 0.3);
-    }
-
-    // Repeat Ball Custom Logic
-    if (ballType === "Repeat Ball") {
-      ballMult = Math.min(2.5, 1 + repeatBallCaptures * 0.1);
-    }
-
-    // Quick Ball Custom Logic
-    if (ballType === "Quick Ball") {
-      if (turnsPassed === 1) {
-        if (baseCatchRate >= 154) {
-          ballMult = 255;
-        } else {
-          ballMult = 5;
-        }
-      } else {
-        ballMult = 1;
-      }
-    }
+    const ballMult = calculateBallMultiplier({
+      ballType,
+      isNightOrCave,
+      baseSpeed: selectedPokemon.baseStats.spe || 0,
+      dreamBallTurns,
+      targetLevel,
+      turnsPassed,
+      repeatBallCaptures,
+      baseCatchRate,
+    });
 
     const statusMult =
       STATUS_CONDITIONS.find((s) => s.name === statusCondition)?.multiplier ||
@@ -103,12 +121,10 @@ export function useCatchProbability({
 
     // Formula
     const x =
-      (((maxHp * 3 - currentHp * 2) * rate * ballMult) / (maxHp * 3)) *
+      (((maxHp * 3 - currentHp * 2) * baseCatchRate * ballMult) / (maxHp * 3)) *
       statusMult;
 
-    if (x > 255) {
-      return 100;
-    }
+    if (x > 255) return 100;
     if (x <= 0) return 0;
 
     // Final Catch Rate logic

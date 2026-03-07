@@ -69,39 +69,40 @@ const TeamCard = ({
         </div>
 
         <div className="mt-auto flex justify-between gap-1 overflow-hidden rounded-lg bg-[#0f1014] p-2">
-          {team.members &&
-            team.members.slice(0, 6).map((member, idx) => (
-              <div
-                key={idx}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5"
-              >
-                {member?.name ? (
-                  <img
-                    src={
-                      getSpriteUrlByName(member.name) ||
-                      (member.dexId
-                        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`
-                        : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png")
+          {team.members?.slice(0, 6).map((member, idx) => (
+            <div
+              key={
+                member?.name ? `member-${member.name}-${idx}` : `empty-${idx}`
+              }
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5"
+            >
+              {member?.name ? (
+                <img
+                  src={
+                    getSpriteUrlByName(member.name) ||
+                    (member.dexId
+                      ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`
+                      : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png")
+                  }
+                  alt={member.name}
+                  className="h-full w-full object-contain p-0.5"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (
+                      member.dexId &&
+                      !target.src.includes(`/pokemon/${member.dexId}.png`)
+                    ) {
+                      target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
+                    } else if (!target.src.includes("/pokemon/0.png")) {
+                      target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
                     }
-                    alt={member.name}
-                    className="h-full w-full object-contain p-0.5"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      if (
-                        member.dexId &&
-                        !target.src.includes(`/pokemon/${member.dexId}.png`)
-                      ) {
-                        target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${member.dexId}.png`;
-                      } else if (!target.src.includes("/pokemon/0.png")) {
-                        target.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png`;
-                      }
-                    }}
-                  />
-                ) : (
-                  <span className="text-xs text-slate-600">?</span>
-                )}
-              </div>
-            ))}
+                  }}
+                />
+              ) : (
+                <span className="text-xs text-slate-600">?</span>
+              )}
+            </div>
+          ))}
           {[...Array(Math.max(0, 6 - (team.members?.length || 0)))].map(
             (_, idx) => (
               <div

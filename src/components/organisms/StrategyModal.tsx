@@ -74,7 +74,7 @@ function StrategyModal({
               currentStrategyView.map((item, index) => {
                 return (
                   <div
-                    key={index}
+                    key={`step-${index}-${item.type}`}
                     className="flex animate-[fade-in_0.3s_ease-out] flex-col"
                   >
                     {(item.type === "main" || item.type === "step") && (
@@ -100,7 +100,7 @@ function StrategyModal({
                       <div className="my-2 flex flex-col gap-2.5 border-l-2 border-white/5 pl-4">
                         {item.variations.map((v, vi) => (
                           <button
-                            key={vi}
+                            key={`variation-${vi}-${v.name}`}
                             className="group w-full rounded-xl border border-white/5 bg-[#25272e] p-3 text-left transition-all hover:border-blue-500/50 hover:bg-[#2d3038] hover:text-blue-200"
                             onClick={() => onStepClick(v)}
                           >

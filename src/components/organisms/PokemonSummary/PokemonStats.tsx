@@ -35,25 +35,28 @@ const PokemonStats = ({ stats, defenses }: PokemonStatsProps) => {
           statOrder.map((key) => {
             const val = stats[key];
             if (val === undefined) return null;
+            const barWidth = `${Math.min((val / 255) * 100, 100)}%`;
+            let barColor = "#f87171";
+            if (val > 100) {
+              barColor = "#00b894";
+            } else if (val > 60) {
+              barColor = "#2563EB";
+            }
+
             return (
-              <div key={key} className="mb-1 flex items-center">
-                <span className="w-10 text-xs font-bold text-slate-400 uppercase">
+              <div key={key} className="flex items-center gap-3">
+                <span className="w-8 text-[10px] font-bold text-slate-500 uppercase">
                   {key}
                 </span>
-                <span className="mr-2.5 w-9 text-right text-sm font-bold text-slate-100">
+                <span className="w-8 text-right font-mono text-sm font-bold">
                   {val}
                 </span>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#0f1014]">
                   <div
                     className="h-full rounded-full"
                     style={{
-                      width: `${Math.min((val / 255) * 100, 100)}%`,
-                      background:
-                        val > 100
-                          ? "#00b894"
-                          : val > 60
-                            ? "#2563EB"
-                            : "#f87171",
+                      width: barWidth,
+                      background: barColor,
                     }}
                   />
                 </div>
@@ -76,13 +79,15 @@ const PokemonStats = ({ stats, defenses }: PokemonStatsProps) => {
             {[4, 2, 0.5, 0.25, 0].map((mult) => {
               const types = getTypesByMultiplier(mult);
               if (types.length === 0) return null;
+
               const label = mult === 0.25 ? "¼x" : `${mult}x`;
-              const colorClass =
-                mult > 1
-                  ? "text-red-400"
-                  : mult === 0
-                    ? "text-purple-400"
-                    : "text-emerald-400";
+              let colorClass = "text-emerald-400";
+              if (mult > 1) {
+                colorClass = "text-red-400";
+              } else if (mult === 0) {
+                colorClass = "text-purple-400";
+              }
+
               return (
                 <div key={mult} className="flex items-center gap-3">
                   <span

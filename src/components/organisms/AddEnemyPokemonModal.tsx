@@ -38,20 +38,17 @@ const AddEnemyPokemonModal = ({
   return (
     <div
       className="animate-fade-in fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-      onClick={onClose}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === "Escape") {
           onClose();
         }
       }}
-      role="button"
-      tabIndex={0}
-      aria-label="Close modal"
     >
+      {/* Overlay invisibile per catturare il click di chiusura */}
+      <div className="absolute inset-0" onClick={onClose} aria-hidden="true" />
+
       <div
-        className="animate-fade-in relative flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] text-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
+        className="animate-fade-in relative z-10 flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] text-white shadow-2xl"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"

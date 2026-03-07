@@ -69,7 +69,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         try {
           const tokenResult = await user.getIdTokenResult();
           setIsAdmin(!!tokenResult.claims["admin"]);
-        } catch (error) {
+        } catch {
+          // Default to non-admin if token claim retrieval fails
           setIsAdmin(false);
         } finally {
           setAdminLoading(false);

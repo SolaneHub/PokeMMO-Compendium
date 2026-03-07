@@ -42,7 +42,8 @@ export const useSuperTrainersData = () => {
         if (isMounted) {
           setData(finalData);
         }
-      } catch (err) {
+      } catch {
+        // Fallback to initial state if fetching fails to maintain UI stability
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };

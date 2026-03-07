@@ -245,13 +245,11 @@ const CatchCalculatorPage = () => {
             onChange={setTargetHpPercentage}
             min={1}
             max={100}
-            colorClass={
-              targetHpPercentage > 50
-                ? "bg-green-500"
-                : targetHpPercentage > 20
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
-            }
+            colorClass={(() => {
+              if (targetHpPercentage > 50) return "bg-green-500";
+              if (targetHpPercentage > 20) return "bg-yellow-500";
+              return "bg-red-500";
+            })()}
           />
 
           {/* Status Conditions */}

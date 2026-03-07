@@ -29,7 +29,7 @@ const PokemonGrid = ({
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        if (entry && entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setVisibleCount((prev) =>
             Math.min(prev + PAGE_SIZE, pokemonList.length)
           );

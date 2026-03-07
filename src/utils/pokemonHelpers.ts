@@ -1,13 +1,13 @@
 import { Pokemon } from "../types/pokemon";
 import { Raid, RaidStrategy } from "../types/raids";
 
-const PREFIX_VARIANTS = [
+const PREFIX_VARIANTS = new Set([
   "Heat Rotom",
   "Wash Rotom",
   "Frost Rotom",
   "Fan Rotom",
   "Mow Rotom",
-];
+]);
 
 /**
  * Gets the active strategy for a given raid object.
@@ -25,7 +25,7 @@ export const getActiveStrategyFromRaid = (
  * Gets the base family name of a Pokemon (e.g., "Rotom" for "Heat Rotom").
  */
 export const getFamilyName = (name: string): string => {
-  if (PREFIX_VARIANTS.includes(name)) {
+  if (PREFIX_VARIANTS.has(name)) {
     return "Rotom";
   }
   if (name.includes(" (")) {

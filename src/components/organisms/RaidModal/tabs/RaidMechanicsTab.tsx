@@ -47,7 +47,7 @@ const RaidMechanicsTab = ({ currentRaid }: RaidMechanicsTabProps) => {
           </h3>
           <ul className="flex list-none flex-col gap-1 p-0">
             {Object.entries(currentRaid.mechanics.thresholds)
-              .sort((a, b) => parseFloat(b[0]) - parseFloat(a[0]))
+              .sort((a, b) => Number.parseFloat(b[0]) - Number.parseFloat(a[0]))
               .map(([hp, info]) => (
                 <li
                   key={hp}

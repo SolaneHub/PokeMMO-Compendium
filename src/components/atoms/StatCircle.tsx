@@ -61,7 +61,9 @@ const StatCircle = ({
       ? "scale-110 shadow-[0_0_20px_rgba(59,130,246,0.6)] ring-2 ring-white z-40"
       : "shadow-md"
   } ${isDimmed ? "opacity-20 grayscale scale-90 blur-[1px]" : "opacity-100"} ${
-    !size ? "w-[var(--node-size,40px)] h-[var(--node-size,40px)]" : ""
+    size === undefined
+      ? "w-[var(--node-size,40px)] h-[var(--node-size,40px)]"
+      : ""
   } ${className} `;
 
   return (

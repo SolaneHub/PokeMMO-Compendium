@@ -22,8 +22,7 @@ const Dropdown = ({
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isOpen =
-    controlledIsOpen !== undefined ? controlledIsOpen : internalIsOpen;
+  const isOpen = controlledIsOpen ?? internalIsOpen;
   const setIsOpen = onOpenChange || setInternalIsOpen;
 
   useEffect(() => {

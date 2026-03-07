@@ -35,7 +35,8 @@ export const usePickupData = () => {
         if (isMounted) {
           setData(finalData);
         }
-      } catch (err) {
+      } catch {
+        // Silent catch: UI will display using the initial empty state
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };

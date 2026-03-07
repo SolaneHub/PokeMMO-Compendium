@@ -28,8 +28,8 @@ const RegionRoutes = ({ regions }: RegionRoutesProps) => {
       <h2 className="flex items-center gap-2 text-2xl font-bold">
         <span className="h-8 w-1 rounded-full bg-green-500" /> Trainer Routes
       </h2>
-      {regions.map((region, regionIndex) => (
-        <div key={regionIndex} className="space-y-4">
+      {regions.map((region) => (
+        <div key={region.name} className="space-y-4">
           <h3 className="flex items-center gap-2 text-xl font-bold">
             <span className="rounded bg-blue-600/20 px-2 py-0.5 text-xs tracking-widest text-blue-400 uppercase">
               Region
@@ -37,8 +37,8 @@ const RegionRoutes = ({ regions }: RegionRoutesProps) => {
             {region.name}
           </h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {region.routes.map((route, routeIndex) => (
-              <RouteCard key={routeIndex} route={route} />
+            {region.routes.map((route) => (
+              <RouteCard key={route.name} route={route} />
             ))}
           </div>
         </div>

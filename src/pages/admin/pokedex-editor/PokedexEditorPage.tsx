@@ -1302,7 +1302,10 @@ const PokedexEditorPage = () => {
               <h2 className="mb-4 text-xl font-bold">Evolutions</h2>
               <div className="space-y-2">
                 {formData.evolutions?.map((evo, idx) => (
-                  <div key={idx} className="flex items-center gap-2">
+                  <div
+                    key={`evo-${evo.name}-${idx}`}
+                    className="flex items-center gap-2"
+                  >
                     <label htmlFor={`evo-${idx}-name`} className="sr-only">
                       Evolution Name {idx + 1}
                     </label>
@@ -1359,7 +1362,7 @@ const PokedexEditorPage = () => {
               <div className="space-y-4">
                 {formData.locations?.map((loc, idx) => (
                   <div
-                    key={idx}
+                    key={`loc-${loc.region}-${loc.area}-${idx}`}
                     className="relative rounded border border-white/5 bg-slate-700/50 p-3"
                   >
                     <button

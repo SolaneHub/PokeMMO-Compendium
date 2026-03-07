@@ -24,7 +24,8 @@ export function useUserTeams() {
     try {
       const userTeams = await getUserTeams(currentUser.uid);
       setTeams(userTeams);
-    } catch (error) {
+    } catch {
+      // Error handled by showing a toast notification to the user
       showToast("Failed to load teams", "error");
     } finally {
       setLoading(false);
@@ -50,10 +51,11 @@ export function useUserTeams() {
         const teamId = await createUserTeam(currentUser.uid, newTeam);
         showToast("Team created successfully!", "success");
         _fetchTeams().catch(() => {
-          /* ignore error */
+          // Ignore background fetch errors
         });
         return teamId;
-      } catch (error) {
+      } catch {
+        // Error handled by showing a toast notification to the user
         showToast("Failed to create team", "error");
         return null;
       }
@@ -69,7 +71,8 @@ export function useUserTeams() {
       try {
         await deleteUserTeam(currentUser.uid, teamId);
         showToast("Team deleted", "info");
-      } catch (error) {
+      } catch {
+        // Restore previous state if deletion fails
         setTeams(previousTeams);
         showToast("Failed to delete team", "error");
       }

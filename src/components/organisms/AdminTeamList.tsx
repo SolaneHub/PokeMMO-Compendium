@@ -85,12 +85,12 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
   const handleStatusChange = async (team: Team, newStatus: TeamStatus) => {
     if (!team.id || !team.userId) return;
 
-    const action =
-      newStatus === "approved"
-        ? "Approve"
-        : newStatus === "rejected"
-          ? "Reject"
-          : "Reset to Pending";
+    let action = "Reset to Pending";
+    if (newStatus === "approved") {
+      action = "Approve";
+    } else if (newStatus === "rejected") {
+      action = "Reject";
+    }
 
     const confirmed = await confirm({
       message: `${action} "${team.name}"?`,
@@ -109,7 +109,8 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
         `Team "${team.name}" ${action.toLowerCase()}ed successfully.`,
         "success"
       );
-    } catch (err) {
+    } catch {
+      // Error is handled by showing a toast notification to the user
       showToast(`Failed to ${action.toLowerCase()} team.`, "error");
     } finally {
       setProcessingId(null);

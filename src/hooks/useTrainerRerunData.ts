@@ -36,7 +36,8 @@ export const useTrainerRerunData = () => {
         if (isMounted) {
           setData(finalData);
         }
-      } catch (err) {
+      } catch {
+        // Handle error silently by providing the initial state fallback
         if (isMounted) setData({ ...initialEmptyState, isLoading: false });
       }
     };

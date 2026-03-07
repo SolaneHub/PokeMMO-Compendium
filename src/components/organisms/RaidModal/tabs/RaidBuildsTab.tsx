@@ -48,7 +48,7 @@ const RaidBuildsTab = ({
                   <div className="flex animate-[fade-in_0.3s_ease-out] flex-col gap-2.5">
                     {buildGroups[effectiveBuildGroupKey].map((build, i) => (
                       <PlayerBuildCard
-                        key={i}
+                        key={`${build.pokemon}-${i}`}
                         build={build}
                         pokemonMap={pokemonMap}
                       />
@@ -60,7 +60,7 @@ const RaidBuildsTab = ({
             <ul className="m-0 flex list-none flex-col gap-2 p-0">
               {recommendedList.map((rec, i) => (
                 <li
-                  key={i}
+                  key={`rec-${i}-${typeof rec === "string" ? rec : i}`}
                   className="rounded border border-white/5 bg-[#0f1014] p-2 text-sm"
                 >
                   {typeof rec === "string" ? rec : JSON.stringify(rec)}

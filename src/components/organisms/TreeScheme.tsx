@@ -156,9 +156,9 @@ function TreeScheme({
       {/* Legend / Key - Sticky inside the container */}
       <div className="sticky top-0 z-[20] flex w-full items-center justify-between border-b border-white/5 bg-[#1e2025]/95 px-6 py-4 shadow-md backdrop-blur-md">
         <div className="flex flex-wrap gap-2">
-          {selectedIvStats.slice(0, selectedIvCount).map((statName, index) => (
+          {selectedIvStats.slice(0, selectedIvCount).map((statName) => (
             <div
-              key={index}
+              key={`legend-stat-${statName}`}
               className="flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-2.5 py-1"
             >
               <StatCircle

@@ -143,7 +143,7 @@ const PlayerBuildCard = ({ build }: PlayerBuildCardProps) => {
   if (!build) return null;
 
   const options: RaidBuild[] = [build, ...(build.variants || [])].filter(
-    (opt): opt is RaidBuild => !!(opt && opt.name)
+    (opt): opt is RaidBuild => !!opt?.name
   );
 
   if (options.length === 0) return null;

@@ -47,7 +47,7 @@ const TeamBuildModal = ({
           <div className="flex animate-[fade-in_0.3s_ease-out_forwards] flex-col gap-3">
             {builds.map((build, idx) => (
               <PlayerBuildCard
-                key={idx}
+                key={`${build.name}-${idx}`}
                 build={build}
                 pokemonMap={pokemonMap}
               />

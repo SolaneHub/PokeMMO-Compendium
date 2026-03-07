@@ -46,7 +46,8 @@ const MyTeamsPage = () => {
       } else {
         return { error: "Failed to create team. Please try again." };
       }
-    } catch (error) {
+    } catch {
+      // Error handled by returning an error message to the component
       return { error: "An unexpected error occurred." };
     }
   };
@@ -64,7 +65,8 @@ const MyTeamsPage = () => {
         await updateTeamStatus(currentUser.uid, teamId, "pending");
         revalidator.revalidate();
         showToast("Team submitted for approval!", "success");
-      } catch (error) {
+      } catch {
+        // Error handled by showing a toast notification to the user
         showToast("Failed to submit team. Please try again.", "error");
       }
     }
@@ -82,7 +84,8 @@ const MyTeamsPage = () => {
         await updateTeamStatus(currentUser.uid, teamId, "draft");
         revalidator.revalidate();
         showToast("Team submission cancelled.", "info");
-      } catch (error) {
+      } catch {
+        // Error handled by showing a toast notification to the user
         showToast("Failed to cancel submission. Please try again.", "error");
       }
     }
@@ -101,7 +104,8 @@ const MyTeamsPage = () => {
         await deleteTeam(teamId);
         revalidator.revalidate();
         showToast("Team deleted successfully.", "success");
-      } catch (error) {
+      } catch {
+        // Error handled by showing a toast notification to the user
         showToast("Failed to delete team. Please try again.", "error");
       }
     }

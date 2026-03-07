@@ -49,7 +49,8 @@ function EliteFourPage() {
       try {
         const teams = await getAllApprovedTeams();
         setApprovedTeams(teams);
-      } catch (err) {
+      } catch {
+        // Error is handled by setting the error state for UI feedback
         setError(
           "Failed to load community strategies. Please try again later."
         );
@@ -177,22 +178,31 @@ function EliteFourPage() {
 
       {/* Team Selection */}
       <div className="text-white">
-        {loadingTeams ? (
-          <div className="text-center">Loading community teams...</div>
-        ) : error ? (
-          <div className="text-center text-red-500">{error}</div>
-        ) : approvedTeams.length === 0 ? (
-          <div className="text-center text-slate-400">
-            No approved strategies available yet. Go to &quot;My Teams&quot; to
-            create one!
-          </div>
-        ) : (
-          <TeamSelection
-            teams={approvedTeams}
-            selectedTeamId={selectedTeamId}
-            onTeamClick={handleTeamClick}
-          />
-        )}
+        {(() => {
+          if (loadingTeams) {
+            return (
+              <div className="text-center">Loading community teams...</div>
+            );
+          }
+          if (error) {
+            return <div className="text-center text-red-500">{error}</div>;
+          }
+          if (approvedTeams.length === 0) {
+            return (
+              <div className="text-center text-slate-400">
+                No approved strategies available yet. Go to &quot;My Teams&quot;
+                to create one!
+              </div>
+            );
+          }
+          return (
+            <TeamSelection
+              teams={approvedTeams}
+              selectedTeamId={selectedTeamId}
+              onTeamClick={handleTeamClick}
+            />
+          );
+        })()}
       </div>
 
       {selectedTeamId && currentTeamBuilds.length > 0 && (

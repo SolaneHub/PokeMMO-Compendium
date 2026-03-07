@@ -21,6 +21,7 @@
     "test:run": "vitest run",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
+    "sonar:issues": "node scripts/get-sonar-issues.js",
     "build": "npm run type-check && vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",
     "lint-staged": "lint-staged"
   },
