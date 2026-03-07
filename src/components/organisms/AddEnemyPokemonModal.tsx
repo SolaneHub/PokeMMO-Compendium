@@ -36,8 +36,7 @@ const AddEnemyPokemonModal = ({
     .slice(0, 2000);
 
   return (
-    <dialog
-      open
+    <div
       className="animate-fade-in fixed inset-0 z-2000 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center bg-transparent p-0 backdrop-blur-sm"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
@@ -49,12 +48,12 @@ const AddEnemyPokemonModal = ({
           onClose();
         }
       }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      tabIndex={-1}
     >
-      <div
-        className="animate-fade-in relative z-10 flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] text-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        role="document"
-      >
+      <div className="animate-fade-in relative z-10 flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] text-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
           <h3 id="modal-title" className="text-lg font-bold">
             {" "}
@@ -129,7 +128,7 @@ const AddEnemyPokemonModal = ({
           )}
         </div>
       </div>
-    </dialog>
+    </div>
   );
 };
 

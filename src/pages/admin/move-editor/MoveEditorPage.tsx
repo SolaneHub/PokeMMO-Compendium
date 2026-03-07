@@ -48,7 +48,7 @@ const MoveEditorPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.name) return;
 
@@ -66,7 +66,7 @@ const MoveEditorPage = () => {
   };
 
   const handleDelete = async () => {
-    if (!selectedMove || !selectedMove.id) return;
+    if (!selectedMove?.id) return;
     if (
       !globalThis.confirm(
         `Are you sure you want to delete ${selectedMove.name}?`

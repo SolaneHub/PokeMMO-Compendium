@@ -49,7 +49,7 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
       } =
         status === "all"
           ? await getAllUserTeams(options)
-          : await getTeamsByStatus(status as TeamStatus, options);
+          : await getTeamsByStatus(status, options);
       allTeams = allTeams.concat(result.teams);
       nextPageToken = result.nextPageToken;
     } while (nextPageToken);

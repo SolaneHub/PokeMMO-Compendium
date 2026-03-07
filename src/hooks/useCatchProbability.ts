@@ -95,7 +95,7 @@ export function useCatchProbability({
     const baseCatchRate =
       typeof selectedPokemon.catchRate === "string"
         ? Number.parseInt(selectedPokemon.catchRate, 10)
-        : (selectedPokemon.catchRate as number);
+        : selectedPokemon.catchRate;
 
     if (Number.isNaN(baseCatchRate)) return 0;
 

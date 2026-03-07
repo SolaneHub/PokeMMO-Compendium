@@ -47,11 +47,15 @@ const TargetSection = ({
 
       {/* Search */}
       <div className="h-22">
-        <label className="mb-3 block text-sm font-bold text-slate-500">
+        <label
+          htmlFor="pokemon-search"
+          className="mb-3 block text-sm font-bold text-slate-500"
+        >
           Search Pokémon
         </label>
         <div className="relative z-20" ref={searchRef}>
           <input
+            id="pokemon-search"
             type="text"
             placeholder="Search Pokémon..."
             value={searchTerm}

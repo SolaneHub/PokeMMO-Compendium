@@ -18,9 +18,8 @@ const ConfirmationModal = ({
   onCancel,
 }: ConfirmationModalProps) => {
   return (
-    <dialog
-      open
-      className="fixed inset-0 z-[100] m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center bg-transparent p-0 backdrop-blur-sm"
+    <div
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center bg-transparent p-0 backdrop-blur-sm"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           onCancel();
@@ -31,12 +30,12 @@ const ConfirmationModal = ({
           onCancel();
         }
       }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      tabIndex={-1}
     >
-      <div
-        className="relative z-10 flex max-h-[85vh] w-[400px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        role="document"
-      >
+      <div className="relative z-10 flex max-h-[85vh] w-100 max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl">
         {/* Modal Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/5 p-4 text-white">
           <h2 id="modal-title" className="text-xl font-bold">
@@ -66,7 +65,7 @@ const ConfirmationModal = ({
           </button>
         </div>
       </div>
-    </dialog>
+    </div>
   );
 };
 

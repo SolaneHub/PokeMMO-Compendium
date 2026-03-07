@@ -24,7 +24,7 @@ const PokemonCard = ({
   return (
     <button
       type="button"
-      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] p-0 text-left transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
+      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] p-0 text-left transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
         isSelected
           ? "z-10 scale-105"
           : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-white/5 hover:shadow-xl"

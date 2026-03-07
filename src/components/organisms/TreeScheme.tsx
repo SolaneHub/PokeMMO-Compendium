@@ -188,7 +188,7 @@ function TreeScheme({
             {Math.round(zoomLevel * 100)}%
           </span>
           <button
-            onClick={() => setZoomLevel((z) => Math.min(z + 0.1, 2.0))}
+            onClick={() => setZoomLevel((z) => Math.min(z + 0.1, 2))}
             className="rounded p-1.5 transition-colors hover:bg-white/10"
           >
             <Plus size={16} />

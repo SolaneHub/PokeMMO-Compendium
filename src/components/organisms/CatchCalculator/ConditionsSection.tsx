@@ -42,10 +42,17 @@ const ConditionsSection = ({
 
       {/* Status Conditions */}
       <div className="space-y-3">
-        <label className="text-sm font-bold text-slate-500">
+        <span
+          id="status-condition-label"
+          className="block text-sm font-bold text-slate-500"
+        >
           Status Condition
-        </label>
-        <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+        </span>
+        <div
+          role="group"
+          aria-labelledby="status-condition-label"
+          className="grid grid-cols-2 gap-3 xl:grid-cols-3"
+        >
           {STATUS_CONDITIONS.map((status) => (
             <button
               key={status.name}

@@ -184,36 +184,37 @@ const QuickBallOptions = ({
 }: Pick<
   BallOptionsProps,
   "turnsPassed" | "setTurnsPassed" | "baseCatchRate"
->) => (
-  <div className="animate-fade-in space-y-2 pt-2">
-    <div className="flex items-center justify-between text-xs font-bold text-slate-500">
-      <span>Combat Turn</span>
-      <span className="text-blue-400">
-        {turnsPassed === 1
-          ? baseCatchRate >= 154
-            ? "Guaranteed"
-            : "5x Rate"
-          : "1x Rate"}
-      </span>
+>) => {
+  const getQuickBallRateLabel = () => {
+    if (turnsPassed !== 1) return "1x Rate";
+    return baseCatchRate >= 154 ? "Guaranteed" : "5x Rate";
+  };
+
+  return (
+    <div className="animate-fade-in space-y-2 pt-2">
+      <div className="flex items-center justify-between text-xs font-bold text-slate-500">
+        <span>Combat Turn</span>
+        <span className="text-blue-400">{getQuickBallRateLabel()}</span>
+      </div>
+      <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-1">
+        {[1, 2].map((turn) => (
+          <button
+            key={turn}
+            type="button"
+            onClick={() => setTurnsPassed(turn)}
+            className={`rounded py-1.5 text-xs font-bold transition-all ${
+              turnsPassed === turn
+                ? "bg-blue-600 text-white shadow-sm"
+                : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
+            } `}
+          >
+            {turn === 1 ? "First Turn" : "Later Turns"}
+          </button>
+        ))}
+      </div>
     </div>
-    <div className="grid grid-cols-2 gap-1 rounded-lg border border-white/5 bg-[#0f1014] p-1">
-      {[1, 2].map((turn) => (
-        <button
-          key={turn}
-          type="button"
-          onClick={() => setTurnsPassed(turn)}
-          className={`rounded py-1.5 text-xs font-bold transition-all ${
-            turnsPassed === turn
-              ? "bg-blue-600 text-white shadow-sm"
-              : "text-slate-500 hover:bg-white/5 hover:text-slate-300"
-          } `}
-        >
-          {turn === 1 ? "First Turn" : "Later Turns"}
-        </button>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 const DuskBallOptions = ({
   isNightOrCave,

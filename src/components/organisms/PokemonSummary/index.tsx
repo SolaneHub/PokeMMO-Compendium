@@ -5,7 +5,7 @@ import Tabs from "@/components/molecules/Tabs";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { usePokemonUI } from "@/hooks/usePokemonUI";
 import { Pokemon } from "@/types/pokemon";
-import { getPokemonBackgroundStyle, PokemonType } from "@/utils/pokemonColors";
+import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 import { getPokemonVariants } from "@/utils/pokemonHelpers";
 import { calculateDefenses } from "@/utils/typeUtils";
 
@@ -44,7 +44,7 @@ const PokemonSummary = ({
 
   useEffect(() => {
     const fetchFullData = async () => {
-      if (!initialPokemon || !initialPokemon.id) return;
+      if (!initialPokemon?.id) return;
 
       if (initialPokemon?.moves?.length) {
         setFullPokemon(initialPokemon);
@@ -71,9 +71,7 @@ const PokemonSummary = ({
   const variants = getPokemonVariants(pokemon.name, allPokemon).filter(
     (v) => v !== pokemon.name
   );
-  const defenses = pokemon.types
-    ? calculateDefenses(pokemon.types as PokemonType[])
-    : {};
+  const defenses = pokemon.types ? calculateDefenses(pokemon.types) : {};
 
   const formatPokedexId = (id: string | number | null) => {
     if (id && (typeof id === "number" || !Number.isNaN(Number(id)))) {
@@ -92,6 +90,10 @@ const PokemonSummary = ({
           onClose();
         }
       }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      tabIndex={-1}
     >
       {/* Background Overlay to close */}
       <button
@@ -101,16 +103,16 @@ const PokemonSummary = ({
         onClick={onClose}
       />
 
-      <div
-        className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]">
         {/* Header - Fixed Width */}
         <div
           className="z-10 flex shrink-0 items-center justify-between p-4 shadow-md"
           style={{ background }}
         >
-          <h2 className="flex items-center gap-2 text-xl font-bold drop-shadow-md">
+          <h2
+            id="modal-title"
+            className="flex items-center gap-2 text-xl font-bold drop-shadow-md"
+          >
             <span className="rounded-md bg-black/30 px-2 py-1 font-mono text-sm text-white">
               {formatPokedexId(pokemon.id)}
             </span>
@@ -129,7 +131,10 @@ const PokemonSummary = ({
         <div className="scrollbar-hide flex flex-1 flex-col overflow-y-auto md:flex-row md:overflow-hidden">
           {/* Left Side: Sprite, Types, Category, Description */}
           <div className="relative flex w-full shrink-0 flex-col items-center justify-center border-b border-white/5 bg-[#0f1014] p-6 md:w-[320px] md:border-r md:border-b-0">
-            <button className="absolute top-4 right-4 rounded-md border border-white/10 bg-[#1a1b20] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:border-blue-600">
+            <button
+              type="button"
+              className="absolute top-4 right-4 rounded-md border border-white/10 bg-[#1a1b20] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:border-blue-600"
+            >
               🔊 Cry
             </button>
 

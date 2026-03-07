@@ -6,7 +6,6 @@ import { Pokemon } from "@/types/pokemon";
 import { SuperTrainer } from "@/types/superTrainers";
 import {
   getPokemonBackgroundStyle,
-  PokemonType,
   typeBackgrounds,
 } from "@/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
@@ -41,7 +40,7 @@ const SuperTrainerSection = ({
     : [];
 
   const trainerBackground =
-    typeBackgrounds[trainer.type as PokemonType] || typeBackgrounds[""];
+    typeBackgrounds[trainer.type] || typeBackgrounds[""];
 
   return (
     <div className="animate-[fade-in_0.4s_ease-out] rounded-2xl border border-white/5 bg-[#1a1b20] p-4 text-white shadow-lg md:p-6">

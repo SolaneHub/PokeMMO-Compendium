@@ -114,14 +114,14 @@ const TeamCard = ({
               )}
             </div>
           ))}
-          {[...new Array(Math.max(0, 6 - (team.members?.length || 0)))].map(
-            (_, idx) => (
-              <div
-                key={`empty-slot-${team.id}-${idx}`}
-                className="h-11 w-11 shrink-0 rounded-full border border-dashed border-white/10 bg-white/5 opacity-30"
-              ></div>
-            )
-          )}
+          {Array.from({
+            length: Math.max(0, 6 - (team.members?.length || 0)),
+          }).map((_, idx) => (
+            <div
+              key={`empty-slot-${team.id}-${idx}`}
+              className="h-11 w-11 shrink-0 rounded-full border border-dashed border-white/10 bg-white/5 opacity-30"
+            ></div>
+          ))}
         </div>
 
         <div className="mt-4 flex items-center justify-between border-t border-white/5 pt-4">

@@ -52,7 +52,7 @@ const sanitizeTeam = (teamData: Team | null): Team | null => {
     const pools = sanitized.enemyPools;
     Object.keys(pools).forEach((key) => {
       if (!Array.isArray(pools[key])) {
-        (pools as Record<string, string[]>)[key] = [];
+        pools[key] = [];
       }
     });
   }

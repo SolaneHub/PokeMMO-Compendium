@@ -117,14 +117,14 @@ const propagateMovesToEvolutions = (
           (m) => m.name.toLowerCase().trim() === bm.name.toLowerCase().trim()
         );
 
-        if (existingMoveInEvoIdx !== -1) {
+        if (existingMoveInEvoIdx === -1) {
+          // If it's a new move from base, add it with the base level
+          newMovesList.push({ ...bm });
+        } else {
           // Overwrite with base move data (including level) as requested
           newMovesList.push({ ...bm });
           // Remove from temporary list to track what's left
           evolutionExistingMoves.splice(existingMoveInEvoIdx, 1);
-        } else {
-          // If it's a new move from base, add it with the base level
-          newMovesList.push({ ...bm });
         }
       });
 
@@ -351,9 +351,9 @@ const PokedexEditorPage = () => {
         !Array.isArray(pokemonData.heldItems)
       ) {
         // Convert object { "Item": "5%" } to array ["Item (5%)"] for the editor input
-        pokemonData.heldItems = Object.entries(
-          pokemonData.heldItems as Record<string, string>
-        ).map(([item, rate]) => (rate ? `${item} (${rate})` : item));
+        pokemonData.heldItems = Object.entries(pokemonData.heldItems).map(
+          ([item, rate]) => (rate ? `${item} (${rate})` : (item as string))
+        );
       } else if (!Array.isArray(pokemonData.heldItems)) {
         pokemonData.heldItems = [];
       }
@@ -602,10 +602,10 @@ const PokedexEditorPage = () => {
       // Update summary metadata
       const newFullList = [...(fullList || [])];
       const idx = newFullList.findIndex((p) => p.id === dataToSave.id);
-      if (idx !== -1) {
-        newFullList[idx] = dataToSave;
-      } else {
+      if (idx === -1) {
         newFullList.push(dataToSave);
+      } else {
+        newFullList[idx] = dataToSave;
       }
       await updatePokedexSummary(newFullList);
 
@@ -733,7 +733,7 @@ const PokedexEditorPage = () => {
     });
 
   const handleDelete = async () => {
-    if (!selectedPokemon || !selectedPokemon.id) return;
+    if (!selectedPokemon?.id) return;
     if (
       !globalThis.confirm(
         `Are you sure you want to delete ${selectedPokemon.name}?`
@@ -877,10 +877,14 @@ const PokedexEditorPage = () => {
             </h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
               <div>
-                <label className="mb-1 block text-xs font-bold text-slate-400 uppercase">
+                <label
+                  htmlFor="pokedex-id"
+                  className="mb-1 block text-xs font-bold text-slate-400 uppercase"
+                >
                   ID (Doc ID)
                 </label>
                 <input
+                  id="pokedex-id"
                   name="id"
                   className="w-full rounded bg-slate-700 p-2 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none"
                   value={formData.id || ""}

@@ -62,7 +62,7 @@ const UserTeamEditorPage = () => {
     pokemonName: string
   ) => {
     if (!team) return;
-    const newPools = { ...(team.enemyPools || {}) };
+    const newPools = { ...team.enemyPools };
     const currentPool = newPools[memberName];
     if (currentPool) {
       newPools[memberName] = currentPool.filter((p) => p !== pokemonName);
@@ -80,7 +80,7 @@ const UserTeamEditorPage = () => {
   const handleAddEnemyPokemon = (pokemonName: string) => {
     if (!targetMemberForAdd || !team) return;
     const memberName = targetMemberForAdd.name;
-    const newPools = { ...(team.enemyPools || {}) };
+    const newPools = { ...team.enemyPools };
     const currentList = newPools[memberName] || [];
     if (currentList.includes(pokemonName)) {
       showToast("Pokemon already in list", "info");
@@ -118,8 +118,8 @@ const UserTeamEditorPage = () => {
     if (!team) return;
     const memberName = activeContext;
     const enemyName = activeId;
-    const newStrategies = { ...(team.strategies || {}) };
-    if (!newStrategies[memberName]) newStrategies[memberName] = {};
+    const newStrategies = { ...team.strategies };
+    newStrategies[memberName] ??= {};
     const memberMap = newStrategies[memberName];
     if (memberMap) {
       memberMap[enemyName] = newSteps;
@@ -204,9 +204,7 @@ const UserTeamEditorPage = () => {
                 const coveredMembers = availableMembers.filter(
                   (m) =>
                     m.region === region &&
-                    team.strategies &&
-                    team.strategies[m.name] &&
-                    Object.keys(team.strategies[m.name] || {}).length > 0
+                    Object.keys(team.strategies?.[m.name] || {}).length > 0
                 ).length;
                 const percent =
                   totalMembers > 0
