@@ -256,7 +256,14 @@ const UserTeamEditorPage = () => {
       {isSidebarOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+          role="button"
+          tabIndex={-1}
           onClick={() => setIsSidebarOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setIsSidebarOpen(false);
+            }
+          }}
         />
       )}
 

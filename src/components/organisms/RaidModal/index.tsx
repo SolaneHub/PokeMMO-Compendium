@@ -84,7 +84,7 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
       return selectedBuildGroup;
     }
     if (buildGroups) {
-      const keys = Object.keys(buildGroups).sort();
+      const keys = Object.keys(buildGroups).sort((a, b) => a.localeCompare(b));
       return keys.length > 0 ? keys[0] : null;
     }
     return null;
@@ -122,11 +122,19 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
   return (
     <div
       className="fixed inset-0 z-2000 flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
+      role="button"
+      tabIndex={-1}
       onClick={onClose}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      }}
     >
       <div
         className="relative flex max-h-[90vh] w-125 max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] text-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         <div
           className="z-10 flex shrink-0 flex-col p-4 shadow-md"

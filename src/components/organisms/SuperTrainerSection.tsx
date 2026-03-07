@@ -33,7 +33,9 @@ const SuperTrainerSection = ({
     Object.keys(trainer.teams || {})[0] || null
   );
 
-  const teamNames = Object.keys(trainer.teams || {}).sort();
+  const teamNames = Object.keys(trainer.teams || {}).sort((a, b) =>
+    a.localeCompare(b)
+  );
   const pokemonNamesForSelectedTeam = activeTeam
     ? trainer.teams?.[activeTeam]?.pokemonNames || []
     : [];
@@ -44,7 +46,7 @@ const SuperTrainerSection = ({
   return (
     <div className="animate-[fade-in_0.4s_ease-out] rounded-2xl border border-white/5 bg-[#1a1b20] p-4 text-white shadow-lg md:p-6">
       <div className="mb-6 flex flex-col items-center gap-4 md:flex-row">
-        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-full border-4 border-blue-500 shadow-md md:h-32 md:w-32">
+        <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-blue-500 shadow-md md:h-32 md:w-32">
           <img
             src={`${import.meta.env.BASE_URL}trainers/${trainer.image}`}
             alt={trainer.name}

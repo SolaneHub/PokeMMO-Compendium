@@ -78,9 +78,9 @@ export const extractPokedexData = (
   commonItems.forEach((item) => itemNames.add(item));
 
   return {
-    pokemonNames: Array.from(pokemonNames).sort(),
-    abilityNames: Array.from(abilityNames).sort(),
-    itemNames: Array.from(itemNames).sort(),
+    pokemonNames: Array.from(pokemonNames).sort((a, b) => a.localeCompare(b)),
+    abilityNames: Array.from(abilityNames).sort((a, b) => a.localeCompare(b)),
+    itemNames: Array.from(itemNames).sort((a, b) => a.localeCompare(b)),
     allPokemonData: pokemonCatchRates.sort((a, b) =>
       a.name.localeCompare(b.name)
     ),

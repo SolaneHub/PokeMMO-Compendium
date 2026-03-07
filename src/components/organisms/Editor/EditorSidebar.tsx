@@ -94,7 +94,15 @@ const SidebarItem = ({
         ? "border-blue-500/20 bg-blue-600/10 text-blue-400"
         : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"
     }`}
+    role="button"
+    tabIndex={0}
     onClick={onClick}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClick?.();
+      }
+    }}
   >
     <div className="flex items-center gap-3 overflow-hidden">
       {Icon && (
@@ -109,6 +117,7 @@ const SidebarItem = ({
       <div
         className="opacity-0 transition-opacity group-hover:opacity-100"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         {actions}
       </div>
@@ -263,7 +272,15 @@ const EditorSidebar = ({
             <div key={region} className="mb-1 text-white">
               <div
                 className="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm hover:bg-white/5"
+                role="button"
+                tabIndex={0}
                 onClick={() => toggleRegion(region)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleRegion(region);
+                  }
+                }}
               >
                 {expandedRegions[region] ? (
                   <ChevronDown size={14} />
@@ -280,7 +297,15 @@ const EditorSidebar = ({
                       <div key={member.name} className="mb-1">
                         <div
                           className="flex cursor-pointer items-center gap-2 rounded py-1 text-sm hover:bg-white/5"
+                          role="button"
+                          tabIndex={0}
                           onClick={() => toggleMember(member.name)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              toggleMember(member.name);
+                            }
+                          }}
                         >
                           {expandedMembers[member.name] ? (
                             <ChevronDown size={14} />

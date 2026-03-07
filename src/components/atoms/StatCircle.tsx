@@ -67,7 +67,23 @@ const StatCircle = ({
   } ${className} `;
 
   return (
-    <div className={containerClasses} style={baseStyle} onClick={onClick}>
+    <div
+      className={containerClasses}
+      style={baseStyle}
+      onClick={onClick}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
+    >
       <svg
         className="h-full w-full drop-shadow-sm"
         viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}

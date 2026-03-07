@@ -87,11 +87,19 @@ const PokemonSummary = ({
   return (
     <div
       className="fixed inset-0 z-[2000] flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 p-2 backdrop-blur-sm md:p-6"
+      role="button"
+      tabIndex={-1}
       onClick={onClose}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      }}
     >
       <div
         className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         {/* Header - Fixed Width */}
         <div

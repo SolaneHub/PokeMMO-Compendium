@@ -28,7 +28,7 @@ const RaidBuildsTab = ({
             <>
               <div className="mb-3 flex flex-wrap gap-2">
                 {Object.keys(buildGroups)
-                  .sort()
+                  .sort((a, b) => a.localeCompare(b))
                   .map((groupName) => (
                     <button
                       key={groupName}
@@ -48,7 +48,7 @@ const RaidBuildsTab = ({
                   <div className="flex animate-[fade-in_0.3s_ease-out] flex-col gap-2.5">
                     {buildGroups[effectiveBuildGroupKey].map((build, i) => (
                       <PlayerBuildCard
-                        key={`${build.pokemon}-${i}`}
+                        key={`${build.name}-${i}`}
                         build={build}
                         pokemonMap={pokemonMap}
                       />

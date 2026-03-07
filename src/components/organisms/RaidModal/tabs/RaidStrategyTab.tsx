@@ -144,7 +144,15 @@ const RaidStrategyTab = ({
                           ? "border border-blue-500/30 bg-blue-600/10"
                           : "hover:bg-white/5"
                       } `}
+                      role="button"
+                      tabIndex={0}
                       onClick={() => setSelectedTurnIndex(idx)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedTurnIndex(idx);
+                        }
+                      }}
                     >
                       <span
                         className={`mr-3 min-w-6.25 font-mono text-[10px] ${

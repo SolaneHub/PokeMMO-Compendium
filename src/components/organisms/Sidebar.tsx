@@ -79,7 +79,14 @@ function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        role="button"
+        tabIndex={-1}
         onClick={() => setIsOpen(false)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") {
+            setIsOpen(false);
+          }
+        }}
       />
 
       {/* Sidebar Container */}

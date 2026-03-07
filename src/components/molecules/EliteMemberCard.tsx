@@ -24,7 +24,15 @@ const EliteMemberCard = ({
           ? "z-10 scale-105 border-transparent"
           : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-[#25272e] hover:shadow-xl"
       } `}
+      role="button"
+      tabIndex={0}
       onClick={() => onMemberClick(member)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onMemberClick(member);
+        }
+      }}
       style={
         isSelected
           ? {
@@ -53,7 +61,7 @@ const EliteMemberCard = ({
             target.src = `https://placehold.co/180x120/cccccc/333333?text=${encodeURIComponent(member.name)}`;
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1e2025] to-transparent opacity-20" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#1e2025] to-transparent opacity-20" />
       </div>
     </div>
   );

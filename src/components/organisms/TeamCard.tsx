@@ -26,6 +26,14 @@ const TeamCard = ({
   return (
     <div
       onClick={isPending ? undefined : onClick}
+      role="button"
+      tabIndex={isPending ? -1 : 0}
+      onKeyDown={(e) => {
+        if (!isPending && (e.key === "Enter" || e.key === " ")) {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
       className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 text-white transition-all duration-300 ${
         isPending
           ? "cursor-not-allowed opacity-50"

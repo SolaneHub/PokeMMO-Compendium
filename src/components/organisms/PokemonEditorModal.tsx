@@ -173,11 +173,19 @@ const PokemonEditorModal = ({
   return (
     <div
       className="animate-fade-in fixed inset-0 z-2000 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      role="button"
+      tabIndex={-1}
       onClick={onClose}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          onClose();
+        }
+      }}
     >
       <div
         className="animate-fade-in relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] text-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
