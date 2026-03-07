@@ -18,22 +18,24 @@ const ConfirmationModal = ({
   onCancel,
 }: ConfirmationModalProps) => {
   return (
-    <div
-      className="fixed inset-0 z-[100] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 backdrop-blur-sm"
+    <dialog
+      open
+      className="fixed inset-0 z-[100] m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center bg-transparent p-0 backdrop-blur-sm"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
           onCancel();
         }
       }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onCancel();
+        }
+      }}
     >
-      {/* Overlay invisibile per catturare il click di chiusura */}
-      <div className="absolute inset-0" onClick={onCancel} aria-hidden="true" />
-
       <div
         className="relative z-10 flex max-h-[85vh] w-[400px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
+        onClick={(e) => e.stopPropagation()}
+        role="document"
       >
         {/* Modal Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/5 p-4 text-white">
@@ -64,7 +66,7 @@ const ConfirmationModal = ({
           </button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

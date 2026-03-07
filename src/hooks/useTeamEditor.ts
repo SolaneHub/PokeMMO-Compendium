@@ -28,9 +28,9 @@ const ensureStepIds = (steps: StrategyStep[]): StrategyStep[] => {
 const sanitizeTeam = (teamData: Team | null): Team | null => {
   if (!teamData) return null;
   const sanitized: Team = structuredClone(teamData);
-  if (!sanitized.strategies) sanitized.strategies = {};
-  if (!sanitized.enemyPools) sanitized.enemyPools = {};
-  if (!sanitized.members) sanitized.members = [];
+  sanitized.strategies ??= {};
+  sanitized.enemyPools ??= {};
+  sanitized.members ??= [];
   if (sanitized.region === undefined) sanitized.region = null;
 
   if (sanitized.strategies && typeof sanitized.strategies === "object") {

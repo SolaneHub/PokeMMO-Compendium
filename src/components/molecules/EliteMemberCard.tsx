@@ -18,21 +18,14 @@ const EliteMemberCard = ({
   shadowColor,
 }: EliteMemberCardProps) => {
   return (
-    <div
-      className={`group relative flex w-36 cursor-pointer flex-col overflow-hidden rounded-2xl border bg-[#1e2025] transition-all duration-300 ${
+    <button
+      type="button"
+      className={`group relative flex w-36 cursor-pointer flex-col overflow-hidden rounded-2xl border bg-[#1e2025] p-0 text-left transition-all duration-300 ${
         isSelected
           ? "z-10 scale-105 border-transparent"
           : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-[#25272e] hover:shadow-xl"
       } `}
-      role="button"
-      tabIndex={0}
       onClick={() => onMemberClick(member)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onMemberClick(member);
-        }
-      }}
       style={
         isSelected
           ? {
@@ -43,7 +36,7 @@ const EliteMemberCard = ({
       }
     >
       <div
-        className="px-2 py-1.5 text-center"
+        className="w-full px-2 py-1.5 text-center"
         style={{ background: background }}
       >
         <p className="m-0 truncate text-sm font-bold text-[#1a1b20]">
@@ -63,7 +56,7 @@ const EliteMemberCard = ({
         />
         <div className="absolute inset-0 bg-linear-to-t from-[#1e2025] to-transparent opacity-20" />
       </div>
-    </div>
+    </button>
   );
 };
 

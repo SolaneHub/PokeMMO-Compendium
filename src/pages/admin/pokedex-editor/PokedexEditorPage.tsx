@@ -370,15 +370,15 @@ const PokedexEditorPage = () => {
       // Ensure all required nested structures are properly initialized
       pokemonData.baseStats = {
         ...INITIAL_POKEMON_STATE.baseStats,
-        ...(pokemonData.baseStats || {}),
+        ...pokemonData.baseStats,
       };
       pokemonData.abilities = {
         ...INITIAL_POKEMON_STATE.abilities,
-        ...(pokemonData.abilities || {}),
+        ...pokemonData.abilities,
       };
       pokemonData.genderRatio = {
         ...INITIAL_POKEMON_STATE.genderRatio,
-        ...(pokemonData.genderRatio || {}),
+        ...pokemonData.genderRatio,
         m: pokemonData.genderRatio?.m ?? 0,
         f: pokemonData.genderRatio?.f ?? 0,
       };
@@ -1218,7 +1218,7 @@ const PokedexEditorPage = () => {
                       handleNestedChange(
                         "baseStats",
                         stat,
-                        parseInt(e.target.value) || 0
+                        Number.parseInt(e.target.value) || 0
                       )
                     }
                   />

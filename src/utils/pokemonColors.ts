@@ -46,7 +46,7 @@ export const typeBackgrounds: Record<PokemonType, string> = {
 
 const extractGradientColors = (gradientString: string): string[] => {
   const regex = /linear-gradient\(to right, (.+)\)/;
-  const match = gradientString.match(regex);
+  const match = regex.exec(gradientString);
   if (match?.[1]) {
     return match[1].split(",").map((color) => color.trim());
   }
@@ -94,8 +94,8 @@ export const getDualShadow = (
 };
 
 export const generateDualTypeGradient = (
-  type1: PokemonType | string,
-  type2: PokemonType | string
+  type1: string,
+  type2: string
 ): string => {
   const t1 = type1 as PokemonType;
   const t2 = type2 as PokemonType;

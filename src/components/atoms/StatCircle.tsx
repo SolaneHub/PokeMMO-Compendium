@@ -52,7 +52,7 @@ const StatCircle = ({
   if (numSectors === 0) return null;
   const sectorAngle = 360 / numSectors;
   const baseStyle = size ? { width: size, height: size } : {};
-  const containerClasses = ` relative rounded-full transition-all duration-300 ease-out ${
+  const containerClasses = ` relative rounded-full transition-all duration-300 ease-out overflow-hidden border-0 p-0 ${
     onClick
       ? "cursor-pointer hover:scale-110 hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:z-50"
       : ""
@@ -67,22 +67,12 @@ const StatCircle = ({
   } ${className} `;
 
   return (
-    <div
+    <button
+      type="button"
       className={containerClasses}
       style={baseStyle}
       onClick={onClick}
-      role={onClick ? "button" : undefined}
-      tabIndex={onClick ? 0 : undefined}
-      onKeyDown={
-        onClick
-          ? (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onClick();
-              }
-            }
-          : undefined
-      }
+      disabled={!onClick}
     >
       <svg
         className="h-full w-full drop-shadow-sm"
@@ -101,7 +91,7 @@ const StatCircle = ({
           );
           return (
             <path
-              key={idx}
+              key={`${color}-${idx}`}
               d={pathData}
               fill={color}
               stroke="rgba(0,0,0,0.2)"
@@ -118,7 +108,7 @@ const StatCircle = ({
           strokeWidth="1"
         />
       </svg>
-    </div>
+    </button>
   );
 };
 

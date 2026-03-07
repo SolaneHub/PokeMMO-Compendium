@@ -75,18 +75,13 @@ function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   return (
     <>
       {/* Mobile Overlay */}
-      <div
+      <button
+        type="button"
+        aria-label="Close sidebar"
         className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
-        role="button"
-        tabIndex={-1}
         onClick={() => setIsOpen(false)}
-        onKeyDown={(e) => {
-          if (e.key === "Escape") {
-            setIsOpen(false);
-          }
-        }}
       />
 
       {/* Sidebar Container */}
@@ -98,7 +93,7 @@ function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         {/* Header */}
         <div className="flex h-16 items-center justify-between border-b border-white/5 px-4">
           {!isCollapsed && (
-            <span className="truncate bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-lg font-bold text-transparent">
+            <span className="truncate bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-lg font-bold text-transparent">
               Compendium
             </span>
           )}

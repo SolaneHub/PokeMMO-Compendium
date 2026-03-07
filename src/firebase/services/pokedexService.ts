@@ -91,11 +91,8 @@ export async function getPokedexPaginated(
   return {
     data: pokedex,
     lastDoc:
-      querySnapshot.docs.length > 0
-        ? (querySnapshot.docs[
-            querySnapshot.docs.length - 1
-          ] as QueryDocumentSnapshot<DocumentData>)
-        : null,
+      (querySnapshot.docs.at(-1) as QueryDocumentSnapshot<DocumentData>) ||
+      null,
   };
 }
 

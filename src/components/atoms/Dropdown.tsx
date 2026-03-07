@@ -49,20 +49,13 @@ const Dropdown = ({
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            setIsOpen(!isOpen);
-          }
-        }}
-        className="cursor-pointer"
+        className="w-full cursor-pointer bg-transparent text-left"
       >
         {trigger}
-      </div>
+      </button>
       {isOpen && (
         <div
           className={`absolute top-full z-50 mt-2 animate-[fade-in_0.1s_ease-out] ${alignmentClasses[align]} ${contentClassName}`}

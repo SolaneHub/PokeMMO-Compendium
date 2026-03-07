@@ -291,7 +291,10 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {formData.moves.map((move, idx) => (
-                <div key={`move-slot-${idx}`} className="relative">
+                <div
+                  key={`move-slot-${move || "empty"}-${idx}`}
+                  className="relative"
+                >
                   <span className="absolute top-3.5 left-3 font-mono text-[10px] font-bold text-slate-500 uppercase">
                     #{idx + 1}
                   </span>

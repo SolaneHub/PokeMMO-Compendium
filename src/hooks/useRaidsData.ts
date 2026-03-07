@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getRaidsData } from "@/firebase/services/raidsService";
-import { Raid } from "@/types/raids";
 
-export type { Raid };
+export type { Raid } from "@/types/raids";
 
 export const useRaidsData = () => {
   const { data, isLoading } = useQuery({

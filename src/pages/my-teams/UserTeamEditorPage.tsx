@@ -144,7 +144,7 @@ const UserTeamEditorPage = () => {
   let mainContent;
   if (activeView === "settings") {
     mainContent = (
-      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-gradient-to-br from-[#1a1b20] to-[#25262b] p-4 text-white lg:p-8">
+      <div className="animate-fade-in custom-scrollbar flex h-full flex-col overflow-y-auto bg-linear-to-br from-[#1a1b20] to-[#25262b] p-4 text-white lg:p-8">
         <div className="mx-auto w-full max-w-6xl space-y-10">
           {/* Header Section */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -154,7 +154,7 @@ const UserTeamEditorPage = () => {
               </label>
               <input
                 type="text"
-                className="w-full min-w-[300px] border-b-2 border-white/5 bg-transparent px-0 py-2 text-4xl font-black text-white transition-colors focus:border-blue-400 focus:outline-none"
+                className="w-full min-w-75 border-b-2 border-white/5 bg-transparent px-0 py-2 text-4xl font-black text-white transition-colors focus:border-blue-400 focus:outline-none"
                 value={team.name}
                 onChange={(e) => handleNameChange(e.target.value)}
                 placeholder="Untitled Team"
@@ -254,16 +254,11 @@ const UserTeamEditorPage = () => {
     <div className="animate-fade-in flex h-full flex-1 overflow-hidden bg-[#1a1b20]">
       {/* Mobile Sidebar Overlay */}
       {isSidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-          role="button"
-          tabIndex={-1}
+        <button
+          type="button"
+          aria-label="Close Sidebar"
+          className="fixed inset-0 z-40 w-full cursor-default border-none bg-black/50 p-0 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
-              setIsSidebarOpen(false);
-            }
-          }}
         />
       )}
 

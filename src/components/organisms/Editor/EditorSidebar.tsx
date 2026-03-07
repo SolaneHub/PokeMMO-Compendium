@@ -88,21 +88,14 @@ const SidebarItem = ({
   icon: Icon,
   actions,
 }: SidebarItemProps) => (
-  <div
-    className={`group flex cursor-pointer items-center justify-between rounded-md border px-3 py-2 text-sm transition-colors duration-200 ${
+  <button
+    type="button"
+    className={`group flex w-full cursor-pointer items-center justify-between rounded-md border bg-transparent px-3 py-2 text-left text-sm transition-colors duration-200 ${
       active
         ? "border-blue-500/20 bg-blue-600/10 text-blue-400"
         : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"
     }`}
-    role="button"
-    tabIndex={0}
     onClick={onClick}
-    onKeyDown={(e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onClick?.();
-      }
-    }}
   >
     <div className="flex items-center gap-3 overflow-hidden">
       {Icon && (
@@ -122,7 +115,7 @@ const SidebarItem = ({
         {actions}
       </div>
     )}
-  </div>
+  </button>
 );
 
 interface EnemyItemProps {
@@ -270,17 +263,10 @@ const EditorSidebar = ({
         <SidebarSection title="Battle Plans" icon={Swords}>
           {regions.map((region) => (
             <div key={region} className="mb-1 text-white">
-              <div
-                className="flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm hover:bg-white/5"
-                role="button"
-                tabIndex={0}
+              <button
+                type="button"
+                className="flex w-full cursor-pointer items-center gap-2 rounded bg-transparent px-2 py-1 text-left text-sm hover:bg-white/5"
                 onClick={() => toggleRegion(region)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    toggleRegion(region);
-                  }
-                }}
               >
                 {expandedRegions[region] ? (
                   <ChevronDown size={14} />
@@ -288,24 +274,17 @@ const EditorSidebar = ({
                   <ChevronRight size={14} />
                 )}
                 <Map size={14} className="text-slate-500" /> {region}
-              </div>
+              </button>
               {expandedRegions[region] && (
                 <div className="ml-4 border-l border-white/5 pl-2">
                   {availableMembers
                     .filter((m) => m.region === region)
                     .map((member) => (
                       <div key={member.name} className="mb-1">
-                        <div
-                          className="flex cursor-pointer items-center gap-2 rounded py-1 text-sm hover:bg-white/5"
-                          role="button"
-                          tabIndex={0}
+                        <button
+                          type="button"
+                          className="flex w-full cursor-pointer items-center gap-2 rounded bg-transparent py-1 text-left text-sm hover:bg-white/5"
                           onClick={() => toggleMember(member.name)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                              e.preventDefault();
-                              toggleMember(member.name);
-                            }
-                          }}
                         >
                           {expandedMembers[member.name] ? (
                             <ChevronDown size={14} />
@@ -314,7 +293,7 @@ const EditorSidebar = ({
                           )}
                           <Shield size={14} className="text-slate-500" />
                           {member.name}
-                        </div>
+                        </button>
                         {expandedMembers[member.name] && (
                           <div className="ml-4 border-l border-white/5 pl-2">
                             {/* Button to Add Enemy */}

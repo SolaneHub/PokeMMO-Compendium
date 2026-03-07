@@ -43,7 +43,7 @@ export function useUserTeams() {
         const newTeam: Team = {
           name: teamName,
           region: null,
-          members: Array(6).fill(null),
+          members: new Array(6).fill(null),
           strategies: {},
           enemyPools: {},
           status: "draft",

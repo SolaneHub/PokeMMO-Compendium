@@ -4,10 +4,10 @@ import { useState } from "react";
 import Dropdown from "@/components/atoms/Dropdown";
 
 interface IVsDropdownProps {
-  ivStats: string[];
-  selectedIvCount: number;
-  selectedIvStats: string[];
-  setSelectedIvStats: (stats: string[]) => void;
+  readonly ivStats: string[];
+  readonly selectedIvCount: number;
+  readonly selectedIvStats: string[];
+  readonly setSelectedIvStats: (stats: string[]) => void;
 }
 
 function IVsDropdown({
@@ -22,17 +22,15 @@ function IVsDropdown({
 
   const handleSelect = (index: number, newStat: string) => {
     const newSelectedIvStats = [...selectedIvStats];
-    const conflictIndex = newSelectedIvStats.findIndex(
-      (stat) => stat === newStat
-    );
-    if (conflictIndex !== -1) {
+    const conflictIndex = newSelectedIvStats.indexOf(newStat);
+    if (conflictIndex === -1) {
+      newSelectedIvStats[index] = newStat;
+    } else {
       const oldStat = selectedIvStats[index];
       newSelectedIvStats[index] = newStat;
       if (oldStat !== undefined) {
         newSelectedIvStats[conflictIndex] = oldStat;
       }
-    } else {
-      newSelectedIvStats[index] = newStat;
     }
     setSelectedIvStats(newSelectedIvStats);
     setOpenDropdownIndex(null);

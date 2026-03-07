@@ -21,8 +21,8 @@ const RouteCard = ({ route }: RouteCardProps) => {
       <h4 className="mb-2 text-lg font-bold">{route.name}</h4>
       {route.notes && route.notes.length > 0 && (
         <ul className="mb-3 list-disc space-y-1 pl-5 text-sm">
-          {route.notes.map((note, noteIndex) => (
-            <li key={noteIndex}>{note}</li>
+          {route.notes.map((note) => (
+            <li key={note}>{note}</li>
           ))}
         </ul>
       )}
@@ -32,9 +32,9 @@ const RouteCard = ({ route }: RouteCardProps) => {
             Trainers
           </p>
           <ul className="list-disc space-y-1 pl-5 text-sm">
-            {route.trainers.map((trainer, trainerIndex) => (
-              <li key={trainerIndex}>
-                {trainer.name}
+            {route.trainers.map((trainer) => (
+              <li key={`${trainer.name}-${trainer.money}`}>
+                {trainer.name}{" "}
                 <span className="ml-1 font-mono text-green-500">
                   (${trainer.money})
                 </span>

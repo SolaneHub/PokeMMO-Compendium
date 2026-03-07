@@ -29,18 +29,17 @@ interface ToastProviderProps {
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  const removeToast = useCallback((id: number) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
   const showToast = useCallback(
     (message: string, type: ToastType = "info", duration = 3000) => {
       const id = Date.now();
       setToasts((prev) => [...prev, { id, message, type }]);
-
-      const removeToast = () => {
-        setToasts((prev) => prev.filter((t) => t.id !== id));
-      };
-
-      setTimeout(removeToast, duration);
+      setTimeout(() => removeToast(id), duration);
     },
-    []
+    [removeToast]
   );
 
   return (

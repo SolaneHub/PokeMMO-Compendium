@@ -27,11 +27,9 @@ export function useStrategyNavigation() {
   );
 
   const navigateBack = useCallback(() => {
-    if (strategyHistory.length > 0) {
-      const previousView = strategyHistory[strategyHistory.length - 1];
-      if (previousView) {
-        setCurrentStrategyView(previousView);
-      }
+    const previousView = strategyHistory.at(-1);
+    if (previousView) {
+      setCurrentStrategyView(previousView);
       setStrategyHistory((prev) => prev.slice(0, -1));
       setBreadcrumbs((prev) => prev.slice(0, -1));
     }

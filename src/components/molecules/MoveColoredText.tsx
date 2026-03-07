@@ -39,7 +39,7 @@ const MoveColoredText = ({ text }: MoveColoredTextProps) => {
 
   const pattern = new RegExp(
     `(${Object.keys(tokenMap)
-      .map((k) => k.replace(/[[\]]/g, "\\$&"))
+      .map((k) => k.replaceAll(/[[\]]/g, String.raw`\$&`))
       .join("|")})`,
     "g"
   );

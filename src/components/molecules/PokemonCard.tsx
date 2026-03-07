@@ -21,16 +21,10 @@ const PokemonCard = ({
     target.src = `https://placehold.co/80x80/cccccc/333333?text=?`;
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      if (e.key === " ") e.preventDefault();
-      if (onClick) onClick();
-    }
-  };
-
   return (
-    <div
-      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
+    <button
+      type="button"
+      className={`group relative w-40 cursor-pointer overflow-hidden rounded-2xl border bg-[#1a1b20] p-0 text-left transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 ${
         isSelected
           ? "z-10 scale-105"
           : "border-white/5 hover:-translate-y-1 hover:border-white/20 hover:bg-white/5 hover:shadow-xl"
@@ -44,9 +38,6 @@ const PokemonCard = ({
           : {}
       }
       onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
       aria-pressed={isSelected}
     >
       {pokemonName && (
@@ -71,7 +62,7 @@ const PokemonCard = ({
           <div className="text-4xl font-bold text-slate-600 opacity-30">?</div>
         )}
       </div>
-    </div>
+    </button>
   );
 };
 

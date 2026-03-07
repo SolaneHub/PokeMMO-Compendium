@@ -24,17 +24,11 @@ const TeamCard = ({
   const isPending = status === "pending";
 
   return (
-    <div
+    <button
+      type="button"
       onClick={isPending ? undefined : onClick}
-      role="button"
-      tabIndex={isPending ? -1 : 0}
-      onKeyDown={(e) => {
-        if (!isPending && (e.key === "Enter" || e.key === " ")) {
-          e.preventDefault();
-          onClick?.();
-        }
-      }}
-      className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 text-white transition-all duration-300 ${
+      disabled={isPending}
+      className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 text-left text-white transition-all duration-300 ${
         isPending
           ? "cursor-not-allowed opacity-50"
           : "cursor-pointer hover:-translate-y-1 hover:border-white/10 hover:shadow-xl"
@@ -42,16 +36,16 @@ const TeamCard = ({
     >
       {/* Hover Gradient Background */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-linear-to-br from-blue-500/10 to-cyan-500/10 transition-opacity duration-300 ${
           isPending ? "opacity-0" : "group-hover:opacity-100"
         }`}
       />
 
       <div className="relative z-10 flex h-full flex-col">
         <div className="mb-4 flex items-start justify-between">
-          <div>
+          <div className="flex-1 overflow-hidden">
             <h3
-              className={`text-xl font-bold ${isPending ? "" : "transition-colors group-hover:text-blue-400"}`}
+              className={`truncate text-xl font-bold ${isPending ? "" : "transition-colors group-hover:text-blue-400"}`}
             >
               {team.name}
             </h3>
@@ -80,7 +74,9 @@ const TeamCard = ({
           {team.members?.slice(0, 6).map((member, idx) => (
             <div
               key={
-                member?.name ? `member-${member.name}-${idx}` : `empty-${idx}`
+                member?.name
+                  ? `member-${team.id}-${member.name}-${idx}`
+                  : `empty-${team.id}-${idx}`
               }
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5"
             >
@@ -111,10 +107,10 @@ const TeamCard = ({
               )}
             </div>
           ))}
-          {[...Array(Math.max(0, 6 - (team.members?.length || 0)))].map(
+          {[...new Array(Math.max(0, 6 - (team.members?.length || 0)))].map(
             (_, idx) => (
               <div
-                key={`empty-${idx}`}
+                key={`empty-slot-${team.id}-${idx}`}
                 className="h-11 w-11 shrink-0 rounded-full border border-dashed border-white/10 bg-white/5 opacity-30"
               ></div>
             )
@@ -157,7 +153,7 @@ const TeamCard = ({
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 

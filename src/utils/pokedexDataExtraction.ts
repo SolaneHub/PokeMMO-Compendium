@@ -81,7 +81,7 @@ export const extractPokedexData = (
     pokemonNames: Array.from(pokemonNames).sort((a, b) => a.localeCompare(b)),
     abilityNames: Array.from(abilityNames).sort((a, b) => a.localeCompare(b)),
     itemNames: Array.from(itemNames).sort((a, b) => a.localeCompare(b)),
-    allPokemonData: pokemonCatchRates.sort((a, b) =>
+    allPokemonData: [...pokemonCatchRates].sort((a, b) =>
       a.name.localeCompare(b.name)
     ),
   };

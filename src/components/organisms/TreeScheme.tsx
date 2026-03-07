@@ -221,9 +221,10 @@ function TreeScheme({
             {dataByRow.map((rowItems, rowIndex) => {
               const config = rowConfigs[rowIndex];
               const isLastRow = rowIndex === totalRows - 1;
+              const rowKey = rowItems.map((item) => item.join("")).join("-");
               return (
                 <div
-                  key={`row-${rowIndex}`}
+                  key={`row-${rowKey}-${rowIndex}`}
                   className="flex justify-center"
                   style={{ gap: `${config?.rowGap || 0}px` }}
                 >
