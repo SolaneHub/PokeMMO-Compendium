@@ -70,7 +70,9 @@ const PokemonEditorModal = ({
     allPokemonData,
   } = usePokedexData();
   const { moves: masterMoves } = useMoves();
-  const allMoves = masterMoves.map((m) => m.name).sort();
+  const allMoves = masterMoves
+    .map((m) => m.name)
+    .sort((a, b) => a.localeCompare(b));
   const allNatures = NATURES;
 
   const getInitialFormData = (
@@ -170,7 +172,7 @@ const PokemonEditorModal = ({
 
   return (
     <div
-      className="animate-fade-in fixed inset-0 z-[2000] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      className="animate-fade-in fixed inset-0 z-2000 flex items-center justify-center bg-black/80 backdrop-blur-sm"
       onClick={onClose}
     >
       <div

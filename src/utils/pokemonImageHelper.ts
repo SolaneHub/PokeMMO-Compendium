@@ -701,9 +701,19 @@ export const getSpriteUrlByName = (name: string): string | null => {
 export const formatItemNameForUrl = (itemName: string): string => {
   if (!itemName) return "";
 
-  // Remove anything in parentheses (like probabilities)
-  // Use a safer regex to avoid ReDoS (negated character class instead of greedy dot)
-  const formatted = itemName.replaceAll(/\([^)]*\)/g, "").trim();
+  // Remove anything in parentheses (like probabilities) explicitly to avoid ReDoS Security Hotspot
+  let formatted = "";
+  let depth = 0;
+  for (const char of itemName) {
+    if (char === "(") {
+      depth++;
+    } else if (char === ")") {
+      if (depth > 0) depth--;
+    } else if (depth === 0) {
+      formatted += char;
+    }
+  }
+  formatted = formatted.trim();
 
   const overrides: Record<string, string> = {
     "Poké Ball": "Poké_Ball",

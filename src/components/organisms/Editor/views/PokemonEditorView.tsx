@@ -95,7 +95,9 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
     allPokemonData,
   } = usePokedexData();
   const { moves: masterMoves } = useMoves();
-  const allMoves = masterMoves.map((m) => m.name).sort();
+  const allMoves = masterMoves
+    .map((m) => m.name)
+    .sort((a, b) => a.localeCompare(b));
 
   const [formData, setFormData] = useState<PokemonFormData>(() =>
     getInitialFormData(data)

@@ -32,12 +32,13 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   const showToast = useCallback(
     (message: string, type: ToastType = "info", duration = 3000) => {
       const id = Date.now();
-      setToasts((prevToasts) => [...prevToasts, { id, message, type }]);
-      setTimeout(() => {
-        setToasts((prevToasts) =>
-          prevToasts.filter((toast) => toast.id !== id)
-        );
-      }, duration);
+      setToasts((prev) => [...prev, { id, message, type }]);
+
+      const removeToast = () => {
+        setToasts((prev) => prev.filter((t) => t.id !== id));
+      };
+
+      setTimeout(removeToast, duration);
     },
     []
   );

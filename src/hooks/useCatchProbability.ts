@@ -15,9 +15,21 @@ interface CatchProbabilityProps {
   isNightOrCave: boolean;
 }
 
+const getNestBallMultiplier = (level: number) => {
+  if (level <= 16) return 4;
+  return Math.max(1, 4 - (level - 16) * 0.2);
+};
+
+const getDreamBallMultiplier = (turns: number) => {
+  if (turns >= 3) return 4;
+  if (turns === 2) return 2.5;
+  if (turns === 1) return 1.5;
+  return 1;
+};
+
 /**
  * Helper to calculate the specific multiplier for each Poke Ball type.
- * Extracted to reduce cognitive complexity.
+ * Extracted and decomposed to reduce cognitive complexity.
  */
 const calculateBallMultiplier = (props: {
   ballType: string;
@@ -46,32 +58,21 @@ const calculateBallMultiplier = (props: {
   switch (ballType) {
     case "Dusk Ball":
       return isNightOrCave ? 2.5 : 1;
-
     case "Fast Ball":
       return baseSpeed >= 100 ? 4 : 1;
-
     case "Dream Ball":
-      if (dreamBallTurns >= 3) return 4;
-      if (dreamBallTurns === 2) return 2.5;
-      if (dreamBallTurns === 1) return 1.5;
-      return 1;
-
+      return getDreamBallMultiplier(dreamBallTurns);
     case "Nest Ball":
-      if (targetLevel <= 16) return 4;
-      return Math.max(1, 4 - (targetLevel - 16) * 0.2);
-
+      return getNestBallMultiplier(targetLevel);
     case "Timer Ball":
       return Math.min(4, 1 + (turnsPassed - 1) * 0.3);
-
     case "Repeat Ball":
       return Math.min(2.5, 1 + repeatBallCaptures * 0.1);
-
     case "Quick Ball":
       if (turnsPassed === 1) {
         return baseCatchRate >= 154 ? 255 : 5;
       }
       return 1;
-
     default:
       return baseMult;
   }
