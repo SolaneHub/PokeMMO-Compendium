@@ -86,7 +86,7 @@ describe("BossFightSection component", () => {
     );
 
     // Click on Rhydon card
-    const rhydonBtn = screen.getByText("Rhydon").closest("div[role='button']");
+    const rhydonBtn = screen.getByText("Rhydon").closest("button");
     if (rhydonBtn) {
       fireEvent.click(rhydonBtn);
     }

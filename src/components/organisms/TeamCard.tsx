@@ -24,10 +24,17 @@ const TeamCard = ({
   const isPending = status === "pending";
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={isPending ? -1 : 0}
       onClick={isPending ? undefined : onClick}
-      disabled={isPending}
+      onKeyDown={(e) => {
+        if (!isPending && (e.key === "Enter" || e.key === " ") && onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      aria-disabled={isPending}
       className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 text-left text-white transition-all duration-300 ${
         isPending
           ? "cursor-not-allowed opacity-50"
@@ -153,7 +160,7 @@ const TeamCard = ({
           )}
         </div>
       </div>
-    </button>
+    </div>
   );
 };
 

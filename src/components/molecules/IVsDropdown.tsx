@@ -50,7 +50,7 @@ function IVsDropdown({
             className="z-20"
             contentClassName="w-full"
             trigger={
-              <button
+              <div
                 className={`flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-sm font-semibold text-white transition-all ${
                   openDropdownIndex === index
                     ? "border-blue-500 bg-[#25272e] shadow-lg ring-1 ring-blue-500/20"
@@ -64,7 +64,7 @@ function IVsDropdown({
                   size={14}
                   className={`transition-transform duration-200 ${openDropdownIndex === index ? "rotate-180 text-blue-400" : "text-slate-500"}`}
                 />
-              </button>
+              </div>
             }
           >
             <div className="overflow-hidden rounded-lg border border-white/10 bg-[#1a1b20] py-1 text-white shadow-2xl">

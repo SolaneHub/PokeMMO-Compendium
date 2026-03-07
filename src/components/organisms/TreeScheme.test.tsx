@@ -32,7 +32,7 @@ describe("TreeScheme component", () => {
   });
 
   it("handles zoom controls including reset", () => {
-    render(
+    const { container } = render(
       <TreeScheme
         selectedIvCount={3}
         selectedIvStats={["HP", "Atk", "Def"]}
@@ -40,9 +40,10 @@ describe("TreeScheme component", () => {
       />
     );
 
-    const buttons = screen.getAllByRole("button");
-    const minusBtn = buttons[0];
-    const plusBtn = buttons[1];
+    const minusBtn = container
+      .querySelector(".lucide-minus")
+      ?.closest("button");
+    const plusBtn = container.querySelector(".lucide-plus")?.closest("button");
     const resetBtn = screen.getByTitle("Reset Zoom");
 
     // Zoom out

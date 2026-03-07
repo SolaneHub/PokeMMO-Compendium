@@ -65,9 +65,7 @@ describe("SuperTrainerSection component", () => {
       />
     );
 
-    const pikachuCard = screen
-      .getByText("Pikachu")
-      .closest("div[role='button']");
+    const pikachuCard = screen.getByText("Pikachu").closest("button");
     if (pikachuCard) {
       fireEvent.click(pikachuCard);
     }

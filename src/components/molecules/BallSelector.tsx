@@ -25,7 +25,7 @@ const BallSelector = ({ selectedBall, onSelect }: BallSelectorProps) => {
       className="z-30 w-full"
       contentClassName="w-full"
       trigger={
-        <button className="group flex w-full items-center justify-between rounded-xl border border-slate-700 bg-[#15161a] p-3 transition-all hover:border-slate-500">
+        <div className="group flex w-full items-center justify-between rounded-xl border border-slate-700 bg-[#15161a] p-3 transition-all hover:border-slate-500">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/5 bg-[#0f1013] transition-colors group-hover:border-white/10">
               <ItemImage
@@ -43,7 +43,7 @@ const BallSelector = ({ selectedBall, onSelect }: BallSelectorProps) => {
           <ChevronDown
             className={`text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           />
-        </button>
+        </div>
       }
     >
       <div className="animate-in fade-in zoom-in-95 overflow-hidden rounded-xl border border-slate-700 bg-[#1e2025] shadow-2xl duration-100">

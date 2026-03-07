@@ -6,7 +6,7 @@ import Dropdown from "./Dropdown";
 describe("Dropdown component", () => {
   it("renders trigger and hides content by default", () => {
     render(
-      <Dropdown trigger={<button>Open</button>}>
+      <Dropdown trigger={<span>Open</span>}>
         <div>Content</div>
       </Dropdown>
     );
@@ -16,7 +16,7 @@ describe("Dropdown component", () => {
 
   it("shows content when trigger is clicked", () => {
     render(
-      <Dropdown trigger={<button>Open</button>}>
+      <Dropdown trigger={<span>Open</span>}>
         <div>Content</div>
       </Dropdown>
     );
@@ -27,7 +27,7 @@ describe("Dropdown component", () => {
   it("closes content when clicking outside", () => {
     render(
       <div>
-        <Dropdown trigger={<button>Open</button>}>
+        <Dropdown trigger={<span>Open</span>}>
           <div>Content</div>
         </Dropdown>
         <div data-testid="outside">Outside</div>
@@ -47,7 +47,7 @@ describe("Dropdown component", () => {
     const handleOpenChange = vi.fn();
     render(
       <Dropdown
-        trigger={<button>Open</button>}
+        trigger={<span>Open</span>}
         isOpen={true}
         onOpenChange={handleOpenChange}
       >

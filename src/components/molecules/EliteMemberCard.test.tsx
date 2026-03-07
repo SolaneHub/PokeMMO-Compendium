@@ -60,7 +60,7 @@ describe("EliteMemberCard component", () => {
     );
 
     // Click the card div
-    const card = screen.getByText("Lorelei").closest("div.group");
+    const card = screen.getByText("Lorelei").closest("button.group");
     if (card) {
       fireEvent.click(card);
     }
@@ -78,7 +78,7 @@ describe("EliteMemberCard component", () => {
       />
     );
 
-    const card = screen.getByText("Lorelei").closest("div.group");
+    const card = screen.getByText("Lorelei").closest("button.group");
     expect(card).toHaveClass("scale-105");
     expect(card).toHaveStyle({ boxShadow: "0 0 15px red" });
   });
@@ -93,7 +93,7 @@ describe("EliteMemberCard component", () => {
       />
     );
 
-    const card = screen.getByText("Lorelei").closest("div.group");
+    const card = screen.getByText("Lorelei").closest("button.group");
     expect(card).toHaveStyle({ boxShadow: "0 0 15px rgba(255,255,255,0.2)" });
   });
 });

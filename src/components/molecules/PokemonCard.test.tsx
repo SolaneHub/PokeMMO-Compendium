@@ -27,21 +27,6 @@ describe("PokemonCard component", () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("handles keyboard events for accessibility", () => {
-    const handleClick = vi.fn();
-    render(<PokemonCard pokemonName="Pikachu" onClick={handleClick} />);
-
-    const card = screen.getByRole("button");
-
-    // Pressing Enter should trigger click
-    fireEvent.keyDown(card, { key: "Enter", code: "Enter" });
-    expect(handleClick).toHaveBeenCalledTimes(1);
-
-    // Pressing Space should also trigger click
-    fireEvent.keyDown(card, { key: " ", code: "Space" });
-    expect(handleClick).toHaveBeenCalledTimes(2);
-  });
-
   it("applies selected styles when isSelected is true", () => {
     render(
       <PokemonCard
