@@ -33,12 +33,6 @@ const StrategyModal = ({
     }
   }, []);
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   const renderWarning = (warningText: string | undefined) =>
     warningText ? (
       <div className="mb-3 flex w-full">
@@ -52,21 +46,16 @@ const StrategyModal = ({
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      onClick={handleBackdropClick}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") {
-          e.preventDefault();
-          onClose();
-        }
-      }}
-      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out_forwards] items-center justify-center border-none bg-black/80 p-4 backdrop-blur-sm backdrop:bg-transparent"
+      onCancel={onClose}
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-none bg-transparent p-4"
     >
-      <div
-        className="relative flex max-h-[85vh] w-[500px] max-w-[90vw] animate-[scale-in_0.3s_ease-out_forwards] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-        role="presentation"
-      >
+      <button
+        type="button"
+        className="fixed inset-0 h-full w-full animate-[fade-in_0.2s_ease-out_forwards] border-none bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+        aria-label="Close backdrop"
+      />
+      <div className="relative flex max-h-[85vh] w-[500px] max-w-[90vw] animate-[scale-in_0.3s_ease-out_forwards] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl">
         {/* Modal Header */}
         <div
           className="z-10 flex shrink-0 items-center justify-between p-4 shadow-md"

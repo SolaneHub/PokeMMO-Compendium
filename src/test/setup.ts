@@ -4,6 +4,10 @@ import { cleanup } from "@testing-library/react";
 import { setupServer } from "msw/node";
 import { afterAll, afterEach, beforeAll, vi } from "vitest";
 
+declare global {
+  var IS_REACT_ACT_ENVIRONMENT: boolean;
+}
+
 // Mock HTMLDialogElement methods for JSDOM
 if (typeof HTMLDialogElement !== "undefined") {
   HTMLDialogElement.prototype.showModal = vi.fn(function (
@@ -22,7 +26,6 @@ afterEach(() => {
 });
 
 // Set environment for React act()
-global.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 // Setup MSW Server for network interception

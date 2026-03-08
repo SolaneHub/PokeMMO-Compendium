@@ -130,21 +130,17 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
   return (
     <dialog
       ref={dialogRef}
-      className="fixed inset-0 z-2000 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center border-none bg-black/75 p-0 backdrop-blur-sm backdrop:bg-transparent"
+      className="fixed inset-0 z-2000 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-none bg-transparent p-0"
       onClose={onClose}
-      onClick={(e) => {
-        if (e.target === dialogRef.current) onClose();
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") onClose();
-      }}
+      onCancel={onClose}
     >
-      <div
-        className="relative flex max-h-[90vh] w-125 max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] text-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-        role="presentation"
-      >
+      <button
+        type="button"
+        className="fixed inset-0 h-full w-full animate-[fade-in_0.3s_ease-out_forwards] border-none bg-black/75 backdrop-blur-sm"
+        onClick={onClose}
+        aria-label="Close backdrop"
+      />
+      <div className="relative flex max-h-[90vh] w-125 max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] text-white shadow-2xl">
         <div
           className="z-10 flex shrink-0 flex-col p-4 shadow-md"
           style={{ background: detailsTitleBackground }}

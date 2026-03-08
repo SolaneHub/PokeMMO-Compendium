@@ -91,20 +91,16 @@ const PokemonSummary = ({
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="fixed inset-0 z-2000 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center border-none bg-black/75 p-2 backdrop-blur-sm backdrop:bg-transparent md:p-6"
-      onClick={(e) => {
-        if (e.target === dialogRef.current) onClose();
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") onClose();
-      }}
+      onCancel={onClose}
+      className="fixed inset-0 z-2000 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-none bg-transparent p-2 md:p-6"
     >
-      <div
-        className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-        role="presentation"
-      >
+      <button
+        type="button"
+        className="fixed inset-0 h-full w-full animate-[fade-in_0.3s_ease-out_forwards] border-none bg-black/75 backdrop-blur-sm"
+        onClick={onClose}
+        aria-label="Close backdrop"
+      />
+      <div className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]">
         {/* Header - Fixed Width */}
         <div
           className="z-10 flex shrink-0 items-center justify-between p-4 shadow-md"

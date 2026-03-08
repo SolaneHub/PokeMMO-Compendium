@@ -152,7 +152,7 @@ describe("RaidModal component", () => {
 
   it("calls onClose when the background overlay is clicked", () => {
     const handleClose = vi.fn();
-    const { container } = render(
+    render(
       <RaidModal
         onClose={handleClose}
         pokemonMap={mockPokemonMap}
@@ -160,12 +160,9 @@ describe("RaidModal component", () => {
       />
     );
 
-    // The outermost element is the dialog
-    const dialog = container.querySelector("dialog");
-    if (dialog) {
-      fireEvent.click(dialog);
-      expect(handleClose).toHaveBeenCalledTimes(1);
-    }
+    const backdrop = screen.getByLabelText("Close backdrop");
+    fireEvent.click(backdrop);
+    expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
   describe("Complex Strategy Logic", () => {

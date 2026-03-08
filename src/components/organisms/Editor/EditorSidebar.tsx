@@ -105,12 +105,7 @@ const SidebarItem = ({
       <span className="truncate">{children}</span>
     </div>
     {actions && (
-      <div
-        className="opacity-0 transition-opacity group-hover:opacity-100"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-        role="presentation"
-      >
+      <div className="opacity-0 transition-opacity group-hover:opacity-100">
         {actions}
       </div>
     )}

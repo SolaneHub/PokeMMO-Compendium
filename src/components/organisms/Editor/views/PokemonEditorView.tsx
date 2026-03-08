@@ -115,7 +115,7 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
     });
   };
 
-  const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e?: React.SyntheticEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     if (!formData.name.trim()) return;
     const cleanMoves = formData.moves.filter((m) => m.trim() !== "");

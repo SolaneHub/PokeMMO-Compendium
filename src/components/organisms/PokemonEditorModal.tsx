@@ -75,27 +75,21 @@ const PokemonEditorModal = ({
     onClose();
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      onClick={handleBackdropClick}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") {
-          e.preventDefault();
-          onClose();
-        }
-      }}
-      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center border-none bg-black/60 p-0 backdrop-blur-sm backdrop:bg-transparent"
+      onCancel={onClose}
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-none bg-transparent p-0"
     >
+      <button
+        type="button"
+        className="fixed inset-0 h-full w-full animate-[fade-in_0.2s_ease-out] border-none bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+        aria-label="Close backdrop"
+      />
       <div className="relative z-10 flex max-h-[90vh] w-full max-w-2xl animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl">
         {/* Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/5 bg-black/20 p-6">

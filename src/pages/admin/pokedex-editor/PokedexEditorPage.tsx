@@ -422,7 +422,7 @@ const PokedexEditorPage = () => {
     setFormData((prev) => ({
       ...prev,
       [parent]: {
-        ...(prev[parent] || {}),
+        ...(prev[parent] ?? {}),
         [key]: value,
       },
     }));

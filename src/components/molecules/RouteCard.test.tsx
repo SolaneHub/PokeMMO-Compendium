@@ -31,8 +31,7 @@ describe("RouteCard component", () => {
 
   it("renders pp_cost if present", () => {
     render(<RouteCard route={mockRoute} />);
-    expect(screen.getByText("PP Cost:")).toBeInTheDocument();
-    expect(screen.getByText("5")).toBeInTheDocument();
+    expect(screen.getByText(/PP Cost: 5/i)).toBeInTheDocument();
   });
 
   it("renders action required tag if type is action", () => {

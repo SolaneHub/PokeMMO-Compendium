@@ -48,7 +48,7 @@ const MoveEditorPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSave = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.name) return;
 

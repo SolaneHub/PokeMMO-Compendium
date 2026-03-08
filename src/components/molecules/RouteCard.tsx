@@ -47,7 +47,7 @@ const RouteCard = ({ route }: RouteCardProps) => {
         {route.pp_cost !== undefined && (
           <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
             <span className="h-1.5 w-1.5 rounded-full bg-orange-500" />
-            &nbsp;PP Cost: <span className="">{route.pp_cost}</span>
+            <span className="ml-1">PP Cost: {route.pp_cost}</span>
           </div>
         )}
         {route.type === "action" && (

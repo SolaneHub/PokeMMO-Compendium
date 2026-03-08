@@ -18,7 +18,7 @@ interface ActionResult {
 }
 
 const MyTeamsPage = () => {
-  const accentColor = FEATURE_CONFIG["my-teams"]?.color;
+  const accentColor = FEATURE_CONFIG?.["my-teams"]?.color;
   const navigate = useNavigate();
   const revalidator = useRevalidator();
   const { teams: initialTeams, user: currentUser } = useLoaderData();
@@ -32,8 +32,9 @@ const MyTeamsPage = () => {
     _prevState: ActionResult | null,
     formData: FormData
   ): Promise<ActionResult> => {
-    const name = formData.get("teamName")?.toString() || "";
-    if (!name || !name.trim()) return { error: "Team name is required" };
+    const nameValue = formData.get("teamName");
+    const name = nameValue ? String(nameValue).trim() : "";
+    if (!name) return { error: "Team name is required" };
 
     try {
       const teamId = await createTeam(name);
