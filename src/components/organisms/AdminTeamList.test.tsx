@@ -204,12 +204,16 @@ describe("AdminTeamList component", () => {
       new Error("Firebase err")
     );
     const rejectBtn = screen.getByText("Reject");
-    await user.click(rejectBtn);
+    await act(async () => {
+      await user.click(rejectBtn);
+    });
 
-    expect(mockShowToast).toHaveBeenCalledWith(
-      expect.stringContaining("Failed to reject"),
-      "error"
-    );
+    await waitFor(() => {
+      expect(mockShowToast).toHaveBeenCalledWith(
+        expect.stringContaining("Failed to reject"),
+        "error"
+      );
+    });
   });
 
   it("handles cancel in confirmation dialog", async () => {
