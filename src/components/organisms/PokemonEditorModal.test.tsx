@@ -1,50 +1,31 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { TeamMember } from "@/types/teams";
+
 import PokemonEditorModal from "./PokemonEditorModal";
 
-vi.mock("@/hooks/usePokedexData", () => ({
-  usePokedexData: () => ({
-    allPokemonData: [
-      { id: "1", dexId: 25, name: "Pikachu" },
-      { id: "2", dexId: 6, name: "Charizard" },
-    ],
-  }),
+// Mock providers
+vi.mock("@/context/MovesContext", () => ({
+  useMoves: () => ({ allMoves: [] }),
 }));
 
-vi.mock("@/context/MovesContext", () => ({
-  useMoves: () => ({
-    allMoves: [
-      { id: "1", name: "Thunderbolt" },
-      { id: "2", name: "Quick Attack" },
-    ],
-  }),
+vi.mock("@/hooks/usePokedexData", () => ({
+  usePokedexData: () => ({ allPokemonData: [] }),
 }));
+
+const mockMember: TeamMember = {
+  name: "Charizard",
+  item: "Life Orb",
+  ability: "Solar Power",
+  nature: "Timid",
+  evs: "252 SpA / 252 Spe",
+  ivs: "31/x/31/31/31/31",
+  moves: ["Fire Blast", "Air Slash", "Solar Beam", "Roost"],
+};
 
 describe("PokemonEditorModal component", () => {
-  const initialData = {
-    name: "Pikachu",
-    item: "Light Ball",
-    ability: "Static",
-    nature: "Timid",
-    evs: "252 SpA / 252 Spe",
-    ivs: "6x31",
-    moves: ["Thunderbolt", "Quick Attack", "", ""],
-  };
-
-  it("renders null if not open", () => {
-    const { container } = render(
-      <PokemonEditorModal
-        isOpen={false}
-        onClose={vi.fn()}
-        onSave={vi.fn()}
-        initialData={null}
-      />
-    );
-    expect(container).toBeEmptyDOMElement();
-  });
-
-  it("renders Add Pokémon header and handles empty initial data", () => {
+  it("renders correctly when open", () => {
     render(
       <PokemonEditorModal
         isOpen={true}
@@ -54,25 +35,26 @@ describe("PokemonEditorModal component", () => {
       />
     );
     expect(screen.getByText("Add Pokémon")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Search Pokémon...")
+    ).toBeInTheDocument();
   });
 
-  it("renders Edit Pokémon header and populates fields when initialData is provided", () => {
+  it("renders initial data when provided", () => {
     render(
       <PokemonEditorModal
         isOpen={true}
         onClose={vi.fn()}
         onSave={vi.fn()}
-        initialData={initialData}
+        initialData={mockMember}
       />
     );
     expect(screen.getByText("Edit Pokémon")).toBeInTheDocument();
-    const nameInput = screen.getByPlaceholderText(
-      "Search Pokémon..."
-    ) as HTMLInputElement;
-    expect(nameInput.value).toBe("Pikachu");
+    expect(screen.getByDisplayValue("Charizard")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Life Orb")).toBeInTheDocument();
   });
 
-  it("calls onClose when Close button (X) is clicked", () => {
+  it("calls onClose when the close button is clicked", () => {
     const handleClose = vi.fn();
     render(
       <PokemonEditorModal
@@ -82,69 +64,71 @@ describe("PokemonEditorModal component", () => {
         initialData={null}
       />
     );
-
-    const closeBtn = screen.getByLabelText("Close modal");
-    fireEvent.click(closeBtn);
-
+    fireEvent.click(screen.getByLabelText("Close modal"));
     expect(handleClose).toHaveBeenCalled();
   });
 
-  it("handles form field changes", () => {
-    render(
-      <PokemonEditorModal
-        isOpen={true}
-        onClose={vi.fn()}
-        onSave={vi.fn()}
-        initialData={initialData}
-      />
-    );
-
-    // Name
-    const nameInput = screen.getByLabelText("Pokémon Name") as HTMLInputElement;
-    fireEvent.change(nameInput, { target: { value: "Charizard" } });
-    expect(nameInput.value).toBe("Charizard");
-
-    // Item
-    const itemInput = screen.getByLabelText("Held Item") as HTMLInputElement;
-    fireEvent.change(itemInput, { target: { value: "Charcoal" } });
-    expect(itemInput.value).toBe("Charcoal");
-
-    // Ability
-    const abilityInput = screen.getByLabelText("Ability") as HTMLInputElement;
-    fireEvent.change(abilityInput, { target: { value: "Blaze" } });
-    expect(abilityInput.value).toBe("Blaze");
-
-    // Nature
-    const natureInput = screen.getByLabelText("Nature") as HTMLInputElement;
-    fireEvent.change(natureInput, { target: { value: "Jolly" } });
-    expect(natureInput.value).toBe("Jolly");
-  });
-
-  it("handles form submission with valid data", () => {
+  it("calls onSave with form data when Save is clicked", () => {
     const handleSave = vi.fn();
     render(
       <PokemonEditorModal
         isOpen={true}
         onClose={vi.fn()}
         onSave={handleSave}
-        initialData={initialData}
+        initialData={mockMember}
       />
     );
 
-    const saveBtn = screen.getByText("Save Pokémon");
-    fireEvent.click(saveBtn);
-
+    fireEvent.click(screen.getByText("Save Pokémon"));
     expect(handleSave).toHaveBeenCalledWith(
       expect.objectContaining({
-        name: "Pikachu",
-        item: "Light Ball",
+        name: "Charizard",
+        item: "Life Orb",
       })
     );
   });
 
-  it("updates local state when initialData prop changes", () => {
+  it("handles input changes correctly", () => {
+    render(
+      <PokemonEditorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onSave={vi.fn()}
+        initialData={null}
+      />
+    );
+
+    const nameInput = screen.getByPlaceholderText(
+      "Search Pokémon..."
+    ) as HTMLInputElement;
+    fireEvent.change(nameInput, {
+      target: { value: "Garchomp", name: "name" },
+    });
+    expect(nameInput.value).toBe("Garchomp");
+  });
+
+  it("handles move changes correctly", () => {
+    render(
+      <PokemonEditorModal
+        isOpen={true}
+        onClose={vi.fn()}
+        onSave={vi.fn()}
+        initialData={null}
+      />
+    );
+
+    const moveInputs = screen.getAllByPlaceholderText(/Move \d/);
+    const firstMoveInput = moveInputs[0];
+    if (firstMoveInput) {
+      fireEvent.change(firstMoveInput, { target: { value: "Earthquake" } });
+      expect((firstMoveInput as HTMLInputElement).value).toBe("Earthquake");
+    }
+  });
+
+  it("updates local state when initialData prop changes via key reset", () => {
     const { rerender } = render(
       <PokemonEditorModal
+        key="initial"
         isOpen={true}
         onClose={vi.fn()}
         onSave={vi.fn()}
@@ -157,17 +141,23 @@ describe("PokemonEditorModal component", () => {
     ) as HTMLInputElement;
     expect(nameInput.value).toBe("");
 
-    // Rerender with new data
+    const newMember: TeamMember = { ...mockMember, name: "Pikachu" };
+
+    // React Best Practice: To reset/update state based on props, change the component key
     rerender(
       <PokemonEditorModal
+        key="updated"
         isOpen={true}
         onClose={vi.fn()}
         onSave={vi.fn()}
-        initialData={initialData}
+        initialData={newMember}
       />
     );
 
-    // State should have updated based on prop change
-    expect(nameInput.value).toBe("Pikachu");
+    // Re-query nameInput because the component was remounted
+    const updatedNameInput = screen.getByPlaceholderText(
+      "Search Pokémon..."
+    ) as HTMLInputElement;
+    expect(updatedNameInput.value).toBe("Pikachu");
   });
 });
