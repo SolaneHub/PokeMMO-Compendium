@@ -238,7 +238,7 @@ function TreeScheme({
                           className={`relative flex items-center justify-center ${
                             isLastRow
                               ? ""
-                              : "before:absolute before:top-1/2 before:right-0 before:left-0 before:-z-10 before:mx-[calc(var(--node-size)/2)] before:h-px before:bg-white/20 before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-z-10 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:w-[1px] after:-translate-x-1/2 after:bg-white/20 after:content-['']"
+                              : "before:absolute before:top-1/2 before:right-0 before:left-0 before:-z-10 before:mx-[calc(var(--node-size)/2)] before:h-px before:bg-white/20 before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-z-10 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:w-px after:-translate-x-1/2 after:bg-white/20 after:content-['']"
                           } `}
                           style={{ gap: `${config?.pairGap || 0}px` }}
                           key={`${rowIndex}-pair-${i / 2}`}

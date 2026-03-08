@@ -46,7 +46,12 @@ const ConfirmationModal = ({
       onClick={handleBackdropClick}
       onClose={onCancel}
     >
-      <div className="relative z-10 flex max-h-[85vh] w-100 max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl">
+      <div
+        className="relative z-10 flex max-h-[85vh] w-100 max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        role="presentation"
+      >
         {/* Modal Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/5 p-4 text-white">
           <h2 id="modal-title" className="text-xl font-bold">

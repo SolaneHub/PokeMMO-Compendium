@@ -352,7 +352,7 @@ const PokedexEditorPage = () => {
       ) {
         // Convert object { "Item": "5%" } to array ["Item (5%)"] for the editor input
         pokemonData.heldItems = Object.entries(pokemonData.heldItems).map(
-          ([item, rate]) => (rate ? `${item} (${rate})` : (item as string))
+          ([item, rate]) => (rate ? `${item} (${rate})` : item)
         );
       } else if (!Array.isArray(pokemonData.heldItems)) {
         pokemonData.heldItems = [];

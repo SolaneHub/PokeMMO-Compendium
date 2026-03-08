@@ -137,7 +137,7 @@ const RaidStrategyTab = ({
                 </div>
                 <ul className="mt-0 flex list-none flex-col gap-1 rounded-b-lg border border-white/5 bg-[#0f1014] p-2.5">
                   {movesForSelectedRole.map((item, idx) => (
-                    <li key={`turn-${idx}`}>
+                    <li key={`${item}-${idx}`}>
                       <button
                         className={`relative flex w-full cursor-pointer items-center rounded-md px-3 py-2 text-left text-sm transition-colors ${
                           idx === selectedTurnIndex

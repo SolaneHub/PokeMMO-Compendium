@@ -136,6 +136,7 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
       setTeams(updatedData);
       showToast(`Team "${team.name}" deleted successfully.`, "success");
     } catch (err) {
+      console.error(err);
       showToast(`Failed to delete team.`, "error");
     } finally {
       setProcessingId(null);

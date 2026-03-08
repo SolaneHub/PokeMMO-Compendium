@@ -59,7 +59,12 @@ const TeamBuildModal = ({
       }}
       className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center border-none bg-black/60 p-0 backdrop-blur-sm backdrop:bg-transparent"
     >
-      <div className="relative z-10 flex max-h-[85vh] w-180 max-w-[95vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl">
+      <div
+        className="relative z-10 flex max-h-[85vh] w-180 max-w-[95vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        role="presentation"
+      >
         {/* Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-white/5 bg-black/20 p-4 text-white">
           <div>

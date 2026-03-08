@@ -245,11 +245,17 @@ const PokemonEditorModal = ({
 
             {/* Right Column: Moves */}
             <div className="space-y-4">
-              <label className="mb-1 block text-sm font-medium">Moveset</label>
+              <label
+                htmlFor="move-input-0"
+                className="mb-1 block text-sm font-medium"
+              >
+                Moveset
+              </label>
               <div className="grid grid-cols-1 gap-3">
                 {[0, 1, 2, 3].map((idx) => (
                   <div key={idx} className="relative">
                     <input
+                      id={`move-input-${idx}`}
                       list="moves-list"
                       value={formData.moves?.[idx] || ""}
                       onChange={(e) => handleMoveChange(idx, e.target.value)}

@@ -32,7 +32,7 @@ const MyTeamsPage = () => {
     _prevState: ActionResult | null,
     formData: FormData
   ): Promise<ActionResult> => {
-    const name = formData.get("teamName") as string;
+    const name = formData.get("teamName")?.toString() || "";
     if (!name || !name.trim()) return { error: "Team name is required" };
 
     try {

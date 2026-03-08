@@ -1,5 +1,5 @@
 import { Save, Search } from "lucide-react";
-import React, { FormEvent, memo, useState } from "react";
+import React, { memo, useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import { useMoves } from "@/context/MovesContext";
@@ -115,7 +115,7 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
     });
   };
 
-  const handleSubmit = (e?: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     if (!formData.name.trim()) return;
     const cleanMoves = formData.moves.filter((m) => m.trim() !== "");

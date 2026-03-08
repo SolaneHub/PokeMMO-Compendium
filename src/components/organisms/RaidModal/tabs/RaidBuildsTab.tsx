@@ -28,7 +28,7 @@ const RaidBuildsTab = ({
             <>
               <div className="mb-3 flex flex-wrap gap-2">
                 {Object.keys(buildGroups)
-                  .sort()
+                  .sort((a, b) => a.localeCompare(b))
                   .map((groupName) => (
                     <button
                       key={groupName}
@@ -60,7 +60,7 @@ const RaidBuildsTab = ({
             <ul className="m-0 flex list-none flex-col gap-2 p-0">
               {recommendedList.map((rec, i) => (
                 <li
-                  key={i}
+                  key={`${typeof rec === "string" ? rec : rec.name}-${i}`}
                   className="rounded border border-white/5 bg-[#0f1014] p-2 text-sm"
                 >
                   {typeof rec === "string" ? rec : JSON.stringify(rec)}

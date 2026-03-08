@@ -49,6 +49,50 @@ const AddEnemyPokemonModal = ({
     }
   };
 
+  const renderContent = () => {
+    if (isLoading) {
+      return <div className="py-12 text-center text-slate-400">Loading...</div>;
+    }
+
+    if (filteredPokemon.length > 0) {
+      return (
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {filteredPokemon.map((pokemon) => (
+            <button
+              key={pokemon.id}
+              onClick={() => {
+                onAdd(pokemon.name);
+                onClose();
+              }}
+              className="group flex flex-col items-center gap-2 rounded-xl border border-white/5 bg-[#0f1014] p-3 transition-all hover:border-blue-500 hover:bg-white/5"
+            >
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/5 p-1 transition-transform group-hover:scale-110">
+                <img
+                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.dexId}.png`}
+                  alt={pokemon.name}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <span className="text-xs font-bold text-slate-300 group-hover:text-blue-400">
+                {pokemon.name}
+              </span>
+              <Plus
+                size={14}
+                className="text-slate-600 transition-colors group-hover:text-blue-500"
+              />
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="py-12 text-center font-medium text-slate-500">
+        No Pokémon found.
+      </div>
+    );
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -96,41 +140,7 @@ const AddEnemyPokemonModal = ({
 
         {/* List */}
         <div className="custom-scrollbar flex-1 overflow-y-auto p-2">
-          {isLoading ? (
-            <div className="py-12 text-center text-slate-400">Loading...</div>
-          ) : filteredPokemon.length > 0 ? (
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-              {filteredPokemon.map((pokemon) => (
-                <button
-                  key={pokemon.id}
-                  onClick={() => {
-                    onAdd(pokemon.name);
-                    onClose();
-                  }}
-                  className="group flex flex-col items-center gap-2 rounded-xl border border-white/5 bg-[#0f1014] p-3 transition-all hover:border-blue-500 hover:bg-white/5"
-                >
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/5 p-1 transition-transform group-hover:scale-110">
-                    <img
-                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.dexId}.png`}
-                      alt={pokemon.name}
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                  <span className="text-xs font-bold text-slate-300 group-hover:text-blue-400">
-                    {pokemon.name}
-                  </span>
-                  <Plus
-                    size={14}
-                    className="text-slate-600 transition-colors group-hover:text-blue-500"
-                  />
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="py-12 text-center font-medium text-slate-500">
-              No Pokémon found.
-            </div>
-          )}
+          {renderContent()}
         </div>
       </div>
     </dialog>

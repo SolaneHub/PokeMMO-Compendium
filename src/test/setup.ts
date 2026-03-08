@@ -21,6 +21,10 @@ afterEach(() => {
   cleanup();
 });
 
+// Set environment for React act()
+global.IS_REACT_ACT_ENVIRONMENT = true;
+globalThis.IS_REACT_ACT_ENVIRONMENT = true;
+
 // Setup MSW Server for network interception
 export const server = setupServer();
 

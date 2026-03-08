@@ -109,6 +109,7 @@ const SidebarItem = ({
         className="opacity-0 transition-opacity group-hover:opacity-100"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={(e) => e.stopPropagation()}
+        role="presentation"
       >
         {actions}
       </div>

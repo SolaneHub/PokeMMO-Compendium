@@ -92,7 +92,7 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
       return selectedBuildGroup;
     }
     if (buildGroups) {
-      const keys = Object.keys(buildGroups).sort();
+      const keys = Object.keys(buildGroups).sort((a, b) => a.localeCompare(b));
       return keys.length > 0 ? keys[0] : null;
     }
     return null;
@@ -113,8 +113,8 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
 
   const roleOptions = rolesSource
     ? Object.keys(rolesSource).sort((a, b) => {
-        const numA = Number.parseInt(a.replace(/\D/g, ""), 10) || 0;
-        const numB = Number.parseInt(b.replace(/\D/g, ""), 10) || 0;
+        const numA = Number.parseInt(a.replaceAll(/\D/g, ""), 10) || 0;
+        const numB = Number.parseInt(b.replaceAll(/\D/g, ""), 10) || 0;
         if (numA !== numB) return numA - numB;
         return a.localeCompare(b);
       })
@@ -135,10 +135,15 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
       onClick={(e) => {
         if (e.target === dialogRef.current) onClose();
       }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onClose();
+      }}
     >
       <div
         className="relative flex max-h-[90vh] w-125 max-w-[95vw] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-lg bg-[#1a1b20] text-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+        role="presentation"
       >
         <div
           className="z-10 flex shrink-0 flex-col p-4 shadow-md"

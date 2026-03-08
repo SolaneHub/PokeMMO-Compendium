@@ -67,6 +67,10 @@ describe("AdminTeamList component", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockConfirm.mockResolvedValue(true);
+    // Suppress console.error in tests
+    vi.spyOn(console, "error").mockImplementation(() => {
+      /* noop */
+    });
   });
 
   afterEach(() => {
@@ -204,9 +208,7 @@ describe("AdminTeamList component", () => {
       new Error("Firebase err")
     );
     const rejectBtn = screen.getByText("Reject");
-    await act(async () => {
-      await user.click(rejectBtn);
-    });
+    await user.click(rejectBtn);
 
     await waitFor(() => {
       expect(mockShowToast).toHaveBeenCalledWith(
