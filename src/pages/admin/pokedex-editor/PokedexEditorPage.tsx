@@ -419,13 +419,16 @@ const PokedexEditorPage = () => {
     key: string,
     value: unknown
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [parent]: {
-        ...(prev[parent] ?? {}),
-        [key]: value,
-      },
-    }));
+    setFormData((prev) => {
+      const parentData = prev[parent];
+      return {
+        ...prev,
+        [parent]: {
+          ...(parentData as object),
+          [key]: value,
+        },
+      };
+    });
   };
 
   const handleArrayChange = (key: keyof Pokemon, value: string) => {
@@ -444,7 +447,7 @@ const PokedexEditorPage = () => {
       return {
         ...prev,
         [parent]: {
-          ...nested,
+          ...(nested as object),
           [key]: array,
         },
       };

@@ -33,7 +33,7 @@ const MyTeamsPage = () => {
     formData: FormData
   ): Promise<ActionResult> => {
     const nameValue = formData.get("teamName");
-    const name = nameValue ? String(nameValue).trim() : "";
+    const name = nameValue instanceof File ? "" : (nameValue || "").trim();
     if (!name) return { error: "Team name is required" };
 
     try {

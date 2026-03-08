@@ -63,7 +63,14 @@ export default defineConfig(() => ({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html", "lcov"],
-      exclude: ["node_modules/", "src/test/", "src/vite-env.d.ts"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "node_modules/",
+        "src/test/",
+        "src/vite-env.d.ts",
+        "src/main.tsx",
+      ],
+      all: true,
     },
   },
 }));

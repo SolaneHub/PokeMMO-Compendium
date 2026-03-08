@@ -78,22 +78,25 @@ const RaidModal = ({ onClose, pokemonMap, currentRaid }: RaidModalProps) => {
     );
 
     Object.keys(groups).forEach((key) => {
-      groups[key].sort((a: RaidBuild, b: RaidBuild) => {
-        if (a.order !== undefined && b.order !== undefined)
-          return a.order - b.order;
-        return (a.name || "").localeCompare(b.name || "");
-      });
+      const group = groups[key];
+      if (group) {
+        group.sort((a: RaidBuild, b: RaidBuild) => {
+          if (a.order !== undefined && b.order !== undefined)
+            return a.order - b.order;
+          return (a.name || "").localeCompare(b.name || "");
+        });
+      }
     });
     return groups;
   })();
 
   const effectiveBuildGroupKey = (() => {
-    if (selectedBuildGroup && buildGroups && buildGroups[selectedBuildGroup]) {
+    if (buildGroups?.[selectedBuildGroup || ""]) {
       return selectedBuildGroup;
     }
     if (buildGroups) {
       const keys = Object.keys(buildGroups).sort((a, b) => a.localeCompare(b));
-      return keys.length > 0 ? keys[0] : null;
+      return keys[0] ?? null;
     }
     return null;
   })();
