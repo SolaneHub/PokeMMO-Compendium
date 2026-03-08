@@ -422,7 +422,7 @@ const PokedexEditorPage = () => {
     setFormData((prev) => ({
       ...prev,
       [parent]: {
-        ...(prev[parent] as Record<string, unknown>),
+        ...(prev[parent] || {}),
         [key]: value,
       },
     }));
@@ -440,7 +440,7 @@ const PokedexEditorPage = () => {
   ) => {
     const array = value.split(",").map((item) => item.trim());
     setFormData((prev) => {
-      const nested = (prev[parent] || {}) as Record<string, unknown>;
+      const nested = prev[parent] || {};
       return {
         ...prev,
         [parent]: {

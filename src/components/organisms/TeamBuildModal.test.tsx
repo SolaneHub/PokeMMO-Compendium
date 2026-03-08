@@ -37,7 +37,7 @@ describe("TeamBuildModal component", () => {
         pokemonMap={mockPokemonMap}
       />
     );
-    expect(screen.getByText("Red Team Setup")).toBeInTheDocument();
+    expect(screen.getByText("Red Team Build")).toBeInTheDocument();
     expect(screen.getAllByText("Pikachu").length).toBeGreaterThan(0);
     expect(screen.getByText("Light Ball")).toBeInTheDocument();
     expect(screen.getByText("252 Atk / 252 Spe")).toBeInTheDocument();

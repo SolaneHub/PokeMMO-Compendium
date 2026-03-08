@@ -37,8 +37,7 @@ function Home() {
 
       <section>
         <h2 className="mb-6 flex items-center gap-2 text-2xl font-bold text-slate-200">
-          <span className="h-8 w-1 rounded-full bg-blue-500" />
-          Tools & Guides
+          <span className="h-8 w-1 rounded-full bg-blue-500" /> Tools & Guides
         </h2>
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {mainFeatures.map((section) => (

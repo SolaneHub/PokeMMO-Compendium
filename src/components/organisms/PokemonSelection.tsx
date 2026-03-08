@@ -4,10 +4,10 @@ import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 interface PokemonSelectionProps {
-  pokemonNames: string[];
-  selectedPokemon: string | null;
-  onPokemonClick: (pokemonName: string) => void;
-  pokemonMap: Map<string, Pokemon>;
+  readonly pokemonNames: string[];
+  readonly selectedPokemon: string | null;
+  readonly onPokemonClick: (pokemonName: string) => void;
+  readonly pokemonMap: Map<string, Pokemon>;
 }
 
 function PokemonSelection({

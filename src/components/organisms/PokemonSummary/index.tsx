@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import TypeBadge from "@/components/atoms/TypeBadge";
 import Tabs from "@/components/molecules/Tabs";
@@ -34,13 +34,18 @@ const PokemonSummary = ({
     initialPokemon
   );
   const [isFetchingFull, setIsFetchingFull] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
+    if (initialPokemon) {
+      const dialog = dialogRef.current;
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      }
+    } else {
+      dialogRef.current?.close();
+    }
+  }, [initialPokemon]);
 
   useEffect(() => {
     const fetchFullData = async () => {
@@ -83,47 +88,35 @@ const PokemonSummary = ({
   const tabs = ["OVERVIEW", "LOCATIONS", "STATS", "EVOLUTIONS", "MOVES"];
 
   return (
-    <div
-      className="fixed inset-0 z-2000 flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 p-2 backdrop-blur-sm md:p-6"
-      onKeyDown={(e) => {
-        if (e.key === "Escape") {
-          onClose();
-        }
+    <dialog
+      ref={dialogRef}
+      onClose={onClose}
+      className="fixed inset-0 z-2000 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center border-none bg-black/75 p-2 backdrop-blur-sm backdrop:bg-transparent md:p-6"
+      onClick={(e) => {
+        if (e.target === dialogRef.current) onClose();
       }}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-      tabIndex={-1}
     >
-      {/* Background Overlay to close */}
-      <button
-        type="button"
-        aria-label="Close"
-        className="absolute inset-0 cursor-default bg-transparent"
-        onClick={onClose}
-      />
-
-      <div className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]">
+      <div
+        className="relative flex h-full max-h-[95vh] w-full max-w-4xl animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl md:h-[85vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header - Fixed Width */}
         <div
           className="z-10 flex shrink-0 items-center justify-between p-4 shadow-md"
           style={{ background }}
         >
-          <h2
-            id="modal-title"
-            className="flex items-center gap-2 text-xl font-bold drop-shadow-md"
-          >
+          <h2 className="flex items-center gap-2 text-xl font-bold drop-shadow-md">
             <span className="rounded-md bg-black/30 px-2 py-1 font-mono text-sm text-white">
               {formatPokedexId(pokemon.id)}
             </span>
             {pokemon.name}
           </h2>
           <button
-            type="button"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-xl leading-none text-white transition-colors hover:bg-black/50"
             onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-black/10 text-xl leading-none font-bold text-slate-900 transition-colors hover:bg-black/20"
+            aria-label="Close summary"
           >
-            <span className="mb-0.5">×</span>
+            <span className="mb-1">×</span>
           </button>
         </div>
 
@@ -135,7 +128,7 @@ const PokemonSummary = ({
               type="button"
               className="absolute top-4 right-4 rounded-md border border-white/10 bg-[#1a1b20] px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:border-blue-600"
             >
-              🔊 Cry
+              🔈 Cry
             </button>
 
             <div className="flex w-full flex-col items-center gap-4 py-4 md:gap-6">
@@ -242,7 +235,7 @@ const PokemonSummary = ({
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

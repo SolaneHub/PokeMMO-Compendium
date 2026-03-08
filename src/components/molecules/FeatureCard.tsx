@@ -2,11 +2,11 @@ import { ExternalLink, LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface FeatureCardProps {
-  title: string;
-  link: string;
-  description: string;
-  icon: LucideIcon;
-  color: string;
+  readonly title: string;
+  readonly link: string;
+  readonly description: string;
+  readonly icon: LucideIcon;
+  readonly color: string;
 }
 
 function FeatureCard({

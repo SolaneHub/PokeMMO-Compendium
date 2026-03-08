@@ -90,15 +90,15 @@ const RaidStrategyTab = ({
                   <button
                     className="flex h-8 w-8 items-center justify-center rounded-md border border-white/10 bg-[#0f1014] transition-all hover:border-blue-500 hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-white/10 disabled:hover:bg-[#0f1014]"
                     disabled={selectedTurnIndex === 0}
+                    aria-label="Previous turn"
                     onClick={() =>
-                      setSelectedTurnIndex(
-                        (prev: number | ((p: number) => number)) =>
-                          Math.max(
-                            0,
-                            (typeof prev === "function"
-                              ? prev(selectedTurnIndex)
-                              : prev) - 1
-                          )
+                      setSelectedTurnIndex((prev) =>
+                        Math.max(
+                          0,
+                          (typeof prev === "number"
+                            ? prev
+                            : selectedTurnIndex) - 1
+                        )
                       )
                     }
                   >
@@ -120,15 +120,15 @@ const RaidStrategyTab = ({
                     disabled={
                       selectedTurnIndex >= movesForSelectedRole.length - 1
                     }
+                    aria-label="Next turn"
                     onClick={() =>
-                      setSelectedTurnIndex(
-                        (prev: number | ((p: number) => number)) =>
-                          Math.min(
-                            movesForSelectedRole.length - 1,
-                            (typeof prev === "function"
-                              ? prev(selectedTurnIndex)
-                              : prev) + 1
-                          )
+                      setSelectedTurnIndex((prev) =>
+                        Math.min(
+                          movesForSelectedRole.length - 1,
+                          (typeof prev === "number"
+                            ? prev
+                            : selectedTurnIndex) + 1
+                        )
                       )
                     }
                   >
@@ -137,33 +137,26 @@ const RaidStrategyTab = ({
                 </div>
                 <ul className="mt-0 flex list-none flex-col gap-1 rounded-b-lg border border-white/5 bg-[#0f1014] p-2.5">
                   {movesForSelectedRole.map((item, idx) => (
-                    <li
-                      key={`turn-${idx}-${item}`}
-                      className={`relative flex cursor-pointer items-center rounded-md px-3 py-2 text-sm transition-colors ${
-                        idx === selectedTurnIndex
-                          ? "border border-blue-500/30 bg-blue-600/10"
-                          : "hover:bg-white/5"
-                      } `}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => setSelectedTurnIndex(idx)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          setSelectedTurnIndex(idx);
-                        }
-                      }}
-                    >
-                      <span
-                        className={`mr-3 min-w-6.25 font-mono text-[10px] ${
+                    <li key={`turn-${idx}`}>
+                      <button
+                        className={`relative flex w-full cursor-pointer items-center rounded-md px-3 py-2 text-left text-sm transition-colors ${
                           idx === selectedTurnIndex
-                            ? "font-bold text-blue-400"
-                            : "text-slate-500"
-                        }`}
+                            ? "border border-blue-500/30 bg-blue-600/10"
+                            : "hover:bg-white/5"
+                        } `}
+                        onClick={() => setSelectedTurnIndex(idx)}
                       >
-                        T{idx + 1}:
-                      </span>
-                      <span className="flex-1">{item}</span>
+                        <span
+                          className={`mr-3 min-w-6.25 font-mono text-[10px] ${
+                            idx === selectedTurnIndex
+                              ? "font-bold text-blue-400"
+                              : "text-slate-500"
+                          }`}
+                        >
+                          T{idx + 1}:
+                        </span>
+                        <span className="flex-1">{item}</span>
+                      </button>
                     </li>
                   ))}
                 </ul>

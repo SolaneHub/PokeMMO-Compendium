@@ -4,11 +4,11 @@ import ButtonSelect from "@/components/molecules/ButtonSelect";
 import ToggleCard from "@/components/molecules/ToggleCard";
 
 interface IVsSelectorProps {
-  ivOptions: number[];
-  selectedIvCount: number;
-  setSelectedIvCount: (count: number) => void;
-  nature: boolean;
-  setNature: (nature: boolean) => void;
+  readonly ivOptions: number[];
+  readonly selectedIvCount: number;
+  readonly setSelectedIvCount: (count: number) => void;
+  readonly nature: boolean;
+  readonly setNature: (val: boolean) => void;
 }
 
 function IVsSelector({

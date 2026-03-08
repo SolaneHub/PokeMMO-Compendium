@@ -24,7 +24,9 @@ export interface PokedexContextType {
   getPokemonDetails: (id: string | number) => Promise<Pokemon | null>;
 }
 
-const PokedexContext = createContext<PokedexContextType | undefined>(undefined);
+export const PokedexContext = createContext<PokedexContextType | undefined>(
+  undefined
+);
 
 interface PokedexProviderProps {
   children: ReactNode;

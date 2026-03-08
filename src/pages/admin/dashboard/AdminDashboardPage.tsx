@@ -159,7 +159,7 @@ const AdminDashboardPage = () => {
             </div>
           </div>
         ) : (
-          <AdminTeamList status={activeTab as TeamStatus | "all"} />
+          <AdminTeamList status={activeTab} />
         )}
       </ErrorBoundary>
     </PageLayout>

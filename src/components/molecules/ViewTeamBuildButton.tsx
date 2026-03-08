@@ -1,8 +1,8 @@
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 interface ViewTeamBuildButtonProps {
-  selectedTeam: string | undefined;
-  onOpen: () => void;
+  readonly selectedTeam: string | undefined;
+  readonly onOpen: () => void;
 }
 
 function ViewTeamBuildButton({

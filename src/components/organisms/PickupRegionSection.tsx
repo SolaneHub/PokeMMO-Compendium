@@ -47,7 +47,7 @@ const CategoryGroup = ({ category, items }: CategoryGroupProps) => {
   return (
     <div key={category} className="rounded-md bg-white/5 p-3">
       <h6 className="text-md mb-2 font-bold text-blue-400 capitalize">
-        {category.replace(/([A-Z])/g, " $1").trim()}:
+        {category.replaceAll(/([A-Z])/g, " $1").trim()}:
       </h6>
       <ul className="list-inside list-disc space-y-1 text-sm text-slate-300">
         {items.map((item, itemIdx) => (
@@ -92,7 +92,7 @@ const PickupRegionSection = ({ region }: PickupRegionSectionProps) => {
                     <CategoryGroup
                       key={category}
                       category={category}
-                      items={items as string[]}
+                      items={items}
                     />
                   ))}
               </div>

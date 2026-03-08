@@ -8,10 +8,10 @@ import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 const PAGE_SIZE = 40;
 
 interface PokemonGridProps {
-  pokemonList: Pokemon[];
-  selectedPokemon: Pokemon | null;
-  onSelectPokemon: (pokemon: Pokemon) => void;
-  isPending?: boolean;
+  readonly pokemonList: Pokemon[];
+  readonly selectedPokemon: Pokemon | null;
+  readonly onSelectPokemon: (pokemon: Pokemon) => void;
+  readonly isPending?: boolean;
 }
 
 const PokemonGrid = ({

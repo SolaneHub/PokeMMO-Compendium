@@ -1,3 +1,6 @@
+import { X } from "lucide-react";
+import { useEffect, useRef } from "react";
+
 import PlayerBuildCard from "@/components/molecules/PlayerBuildCard";
 import { Pokemon } from "@/types/pokemon";
 
@@ -9,50 +12,74 @@ interface Build {
   evs?: string;
   ivs?: string;
   moves?: string[];
+  player?: string;
+  variants?: Build[];
 }
 
 interface TeamBuildModalProps {
-  teamName: string | undefined;
-  builds: Build[];
   onClose: () => void;
+  teamName: string;
+  builds: Build[];
   pokemonMap: Map<string, Pokemon>;
 }
 
 const TeamBuildModal = ({
+  onClose,
   teamName,
   builds,
-  onClose,
   pokemonMap,
 }: TeamBuildModalProps) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
+  }, []);
+
   if (!builds || builds.length === 0) return null;
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div
-      className="fixed inset-0 z-[2000] flex animate-[fade-in_0.3s_ease-out_forwards] items-center justify-center bg-black/75 backdrop-blur-sm"
-      role="button"
-      tabIndex={-1}
-      onClick={onClose}
+    <dialog
+      ref={dialogRef}
+      onClose={onClose}
+      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
+          e.preventDefault();
           onClose();
         }
       }}
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center border-none bg-black/60 p-0 backdrop-blur-sm backdrop:bg-transparent"
     >
-      <div
-        className="relative flex max-h-[85vh] w-full max-w-[480px] animate-[scale-in_0.4s_ease-out_forwards] flex-col overflow-hidden rounded-xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
-        {/* Modal Header */}
-        <div className="z-10 flex flex-col border-b border-white/5 bg-white/5 p-4 shadow-md">
-          <h2 className="m-0 text-xl font-bold drop-shadow-md">
-            {teamName} Setup
-          </h2>
-          <p className="m-0 text-sm opacity-80">Player Team Configuration</p>
+      <div className="relative z-10 flex max-h-[85vh] w-180 max-w-[95vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl">
+        {/* Header */}
+        <div className="flex shrink-0 items-center justify-between border-b border-white/5 bg-black/20 p-4 text-white">
+          <div>
+            <h2 className="text-xl font-bold">{teamName} Build</h2>
+            <p className="text-xs tracking-widest text-slate-500 uppercase">
+              Team Overview
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="rounded-full bg-white/5 p-2 text-slate-400 transition-all hover:bg-white/10 hover:text-white"
+            aria-label="Close modal"
+          >
+            <X size={20} />
+          </button>
         </div>
 
-        {/* Modal Content */}
-        <div className="flex-1 overflow-y-auto bg-[#1a1b20] p-4">
-          <div className="flex animate-[fade-in_0.3s_ease-out_forwards] flex-col gap-3">
+        {/* Content */}
+        <div className="custom-scrollbar flex-1 overflow-y-auto p-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {builds.map((build, idx) => (
               <PlayerBuildCard
                 key={`${build.name}-${idx}`}
@@ -63,7 +90,7 @@ const TeamBuildModal = ({
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

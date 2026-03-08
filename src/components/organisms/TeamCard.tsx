@@ -25,30 +25,30 @@ const TeamCard = ({
 
   return (
     <div
-      role="button"
-      tabIndex={isPending ? -1 : 0}
-      onClick={isPending ? undefined : onClick}
-      onKeyDown={(e) => {
-        if (!isPending && (e.key === "Enter" || e.key === " ") && onClick) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-      aria-disabled={isPending}
       className={`animate-fade-in group relative overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] p-5 text-left text-white transition-all duration-300 ${
         isPending
-          ? "cursor-not-allowed opacity-50"
-          : "cursor-pointer hover:-translate-y-1 hover:border-white/10 hover:shadow-xl"
+          ? "opacity-50"
+          : "hover:-translate-y-1 hover:border-white/10 hover:shadow-xl"
       }`}
     >
+      {/* Main Clickable Area (Overlay) */}
+      {!isPending && onClick && (
+        <button
+          type="button"
+          onClick={onClick}
+          className="absolute inset-0 z-0 cursor-pointer bg-transparent"
+          aria-label={`Edit strategies for ${team.name}`}
+        />
+      )}
+
       {/* Hover Gradient Background */}
       <div
-        className={`absolute inset-0 bg-linear-to-br from-blue-500/10 to-cyan-500/10 transition-opacity duration-300 ${
+        className={`pointer-events-none absolute inset-0 bg-linear-to-br from-blue-500/10 to-cyan-500/10 transition-opacity duration-300 ${
           isPending ? "opacity-0" : "group-hover:opacity-100"
         }`}
       />
 
-      <div className="relative z-10 flex h-full flex-col">
+      <div className="pointer-events-none relative z-10 flex h-full flex-col">
         <div className="mb-4 flex items-start justify-between">
           <div className="flex-1 overflow-hidden">
             <h3
@@ -63,18 +63,20 @@ const TeamCard = ({
               <span>•</span> <StatusBadge status={status} />
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="xs"
-            onClick={(e) => {
-              e.stopPropagation();
-              if (team.id) onDelete(team.id);
-            }}
-            className="text-slate-500 hover:text-red-500"
-            icon={Trash2}
-          >
-            {""}
-          </Button>
+          <div className="pointer-events-auto">
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (team.id) onDelete(team.id);
+              }}
+              className="text-slate-500 hover:text-red-500"
+              icon={Trash2}
+            >
+              {""}
+            </Button>
+          </div>
         </div>
 
         <div className="mt-auto flex justify-between gap-1 overflow-hidden rounded-lg bg-[#0f1014] p-2">
@@ -130,34 +132,36 @@ const TeamCard = ({
               <Edit size={14} /> Edit Strategies
             </span>
           )}
-          {onSubmit && status === "draft" && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (team.id) onSubmit(team.id);
-              }}
-              className="h-auto px-3 py-1.5 text-xs font-bold"
-              icon={Send}
-            >
-              Submit
-            </Button>
-          )}
-          {onCancelSubmission && status === "pending" && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (team.id) onCancelSubmission(team.id);
-              }}
-              className="h-auto border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 hover:border-red-500/20 hover:bg-red-500/20 hover:text-red-300"
-              icon={XCircle}
-            >
-              Cancel Submission
-            </Button>
-          )}
+          <div className="pointer-events-auto flex gap-2">
+            {onSubmit && status === "draft" && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (team.id) onSubmit(team.id);
+                }}
+                className="h-auto px-3 py-1.5 text-xs font-bold"
+                icon={Send}
+              >
+                Submit
+              </Button>
+            )}
+            {onCancelSubmission && status === "pending" && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (team.id) onCancelSubmission(team.id);
+                }}
+                className="h-auto border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-bold text-red-400 hover:border-red-500/20 hover:bg-red-500/20 hover:text-red-300"
+                icon={XCircle}
+              >
+                Cancel Submission
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

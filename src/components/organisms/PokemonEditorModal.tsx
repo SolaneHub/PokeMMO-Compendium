@@ -1,399 +1,281 @@
 import { Save, Search, X } from "lucide-react";
-import { useActionState, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import { useMoves } from "@/context/MovesContext";
 import { usePokedexData } from "@/hooks/usePokedexData";
-import { getPokemonIdByName } from "@/utils/pokedexDataExtraction";
-
-const NATURES = [
-  "Adamant",
-  "Bashful",
-  "Bold",
-  "Brave",
-  "Calm",
-  "Careful",
-  "Docile",
-  "Gentle",
-  "Hardy",
-  "Hasty",
-  "Impish",
-  "Jolly",
-  "Lax",
-  "Lonely",
-  "Mild",
-  "Modest",
-  "Naive",
-  "Naughty",
-  "Quiet",
-  "Quirky",
-  "Rash",
-  "Relaxed",
-  "Sassy",
-  "Serious",
-  "Timid",
-];
-
-interface PokemonEditorData {
-  name: string;
-  item: string;
-  ability: string;
-  nature: string;
-  evs: string;
-  ivs: string;
-  moves: string[];
-  dexId?: string | number | null;
-}
-
-interface ActionResult {
-  success?: boolean;
-  error?: string;
-}
+import { TeamMember } from "@/types/teams";
 
 interface PokemonEditorModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialData: PokemonEditorData | null;
-  onSave: (data: PokemonEditorData) => void;
+  onSave: (member: TeamMember) => void;
+  initialData?: TeamMember | null;
 }
+
+const DEFAULT_FORM_DATA: TeamMember = {
+  name: "",
+  item: "",
+  ability: "",
+  nature: "",
+  evs: "",
+  ivs: "",
+  moves: ["", "", "", ""],
+};
 
 const PokemonEditorModal = ({
   isOpen,
   onClose,
-  initialData,
   onSave,
+  initialData,
 }: PokemonEditorModalProps) => {
-  const {
-    pokemonNames: allPokemonNames = [],
-    itemNames: allItems = [],
-    abilityNames: allAbilities = [],
-    allPokemonData,
-  } = usePokedexData();
-  const { moves: masterMoves } = useMoves();
-  const allMoves = masterMoves
-    .map((m) => m.name)
-    .sort((a, b) => a.localeCompare(b));
-  const allNatures = NATURES;
+  const { allPokemonData } = usePokedexData();
+  const { allMoves } = useMoves();
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const getInitialFormData = (
-    data: PokemonEditorData | null
-  ): PokemonEditorData => {
-    if (data) {
+  // ✅ React Best Practice: Use lazy state initialization.
+  // To reset this form when initialData changes, the parent should use the 'key' prop.
+  // Example: <PokemonEditorModal key={initialData?.id || 'new'} ... />
+  const [formData, setFormData] = useState<TeamMember>(() => {
+    if (initialData) {
       return {
-        name: data.name || "",
-        item: data.item || "",
-        ability: data.ability || "",
-        nature: data.nature || "",
-        evs: data.evs || "",
-        ivs: data.ivs || "",
-        moves: [
-          data.moves?.[0] || "",
-          data.moves?.[1] || "",
-          data.moves?.[2] || "",
-          data.moves?.[3] || "",
-        ],
-        dexId: data.dexId || null,
+        ...initialData,
+        moves: initialData.moves || ["", "", "", ""],
       };
     }
-    return {
-      name: "",
-      item: "",
-      ability: "",
-      nature: "",
-      evs: "",
-      ivs: "",
-      moves: ["", "", "", ""],
-      dexId: null,
-    };
-  };
+    return DEFAULT_FORM_DATA;
+  });
 
-  const [prevInitialData, setPrevInitialData] = useState(initialData);
-  const [formData, setFormData] = useState<PokemonEditorData>(() =>
-    getInitialFormData(initialData)
-  );
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (isOpen) {
+      if (dialog && !dialog.open) {
+        dialog.showModal();
+      }
+    } else {
+      dialog?.close();
+    }
+  }, [isOpen]);
 
-  // Adjust state when initialData changes (React 19 pattern instead of useEffect)
-  if (initialData !== prevInitialData) {
-    setPrevInitialData(initialData);
-    setFormData(getInitialFormData(initialData));
-  }
-
-  const handleChange = (field: keyof PokemonEditorData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleMoveChange = (index: number, value: string) => {
-    setFormData((prev) => {
-      const newMoves = [...prev.moves];
-      newMoves[index] = value;
-      return { ...prev, moves: newMoves };
-    });
+    const newMoves = [...(formData.moves || ["", "", "", ""])];
+    newMoves[index] = value;
+    setFormData((prev) => ({ ...prev, moves: newMoves }));
   };
 
-  const handleSaveAction = async (
-    _prevState: ActionResult | null,
-    formData: FormData
-  ): Promise<ActionResult> => {
-    const name = formData.get("name") as string;
-    if (!name?.trim()) return { error: "Pokémon name is required" };
-
-    const item = formData.get("item") as string;
-    const ability = formData.get("ability") as string;
-    const nature = formData.get("nature") as string;
-    const evs = formData.get("evs") as string;
-    const ivs = formData.get("ivs") as string;
-
-    const moves: string[] = [];
-    for (let i = 0; i < 4; i++) {
-      const move = formData.get(`move${i}`) as string;
-      if (move?.trim()) moves.push(move);
-    }
-
-    const pokemonDexId = getPokemonIdByName(name, allPokemonData);
-
-    onSave({
-      name,
-      item,
-      ability,
-      nature,
-      evs,
-      ivs,
-      moves,
-      dexId: pokemonDexId,
-    });
-
+  const handleSave = () => {
+    onSave(formData);
     onClose();
-    return { success: true };
   };
 
-  const [state, formAction] = useActionState(handleSaveAction, null);
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
-    <div
-      className="animate-fade-in fixed inset-0 z-2000 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-      role="button"
-      tabIndex={-1}
-      onClick={onClose}
+    <dialog
+      ref={dialogRef}
+      onClose={onClose}
+      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
+          e.preventDefault();
           onClose();
         }
       }}
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center border-none bg-black/60 p-0 backdrop-blur-sm backdrop:bg-transparent"
     >
-      <div
-        className="animate-fade-in relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-xl border border-white/5 bg-[#1a1b20] text-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
-      >
+      <div className="relative z-10 flex max-h-[90vh] w-full max-w-2xl animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
-          <h2 className="flex items-center gap-2 text-xl font-bold">
-            {initialData ? "Edit Pokémon" : "Add Pokémon"}
-          </h2>
-          <Button
-            variant="ghost"
-            size="xs"
+        <div className="flex shrink-0 items-center justify-between border-b border-white/5 bg-black/20 p-6">
+          <div>
+            <h2 className="text-2xl font-bold">
+              {initialData ? "Edit Pokémon" : "Add Pokémon"}
+            </h2>
+            <p className="text-xs tracking-widest text-slate-500 uppercase">
+              Member Details
+            </p>
+          </div>
+          <button
             onClick={onClose}
-            icon={X}
-            type="button"
+            aria-label="Close modal"
+            className="rounded-full bg-white/5 p-2 text-slate-400 transition-all hover:bg-white/10 hover:text-white"
           >
-            {""}
-          </Button>
+            <X size={20} />
+          </button>
         </div>
 
-        {/* Body */}
+        {/* Content */}
         <div className="custom-scrollbar flex-1 overflow-y-auto p-6">
-          <form id="pokemon-form" action={formAction} className="space-y-6">
-            {/* Row 1: Name & Item */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* Left Column: Basic Info */}
+            <div className="space-y-4">
               <div className="group">
-                <label className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="pokemon-name-select"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Pokémon Name
                 </label>
                 <div className="relative">
                   <input
+                    id="pokemon-name-select"
                     list="pokemon-list"
                     name="name"
-                    type="text"
-                    required
-                    className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-3 pl-10 text-white transition-colors focus:border-blue-500 focus:outline-none"
-                    placeholder="e.g. Garchomp"
                     value={formData.name}
-                    onChange={(e) => handleChange("name", e.target.value)}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-white/5 bg-[#0f1014] py-2.5 pr-4 pl-10 text-white transition-all focus:border-blue-500 focus:outline-none"
+                    placeholder="Search Pokémon..."
                   />
                   <Search
-                    className="absolute top-3.5 left-3 text-slate-500"
+                    className="absolute top-1/2 left-3 -translate-y-1/2 text-slate-500"
                     size={18}
                   />
-                  <datalist id="pokemon-list">
-                    {allPokemonNames.map((p) => (
-                      <option key={p} value={p} />
-                    ))}
-                  </datalist>
                 </div>
+                <datalist id="pokemon-list">
+                  {allPokemonData.map((p) => (
+                    <option key={p.id} value={p.name} />
+                  ))}
+                </datalist>
               </div>
-              <div>
-                <label className="mb-1 block text-sm font-medium">
+
+              <div className="group">
+                <label
+                  htmlFor="item-select"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Held Item
                 </label>
                 <input
-                  list="items-list"
+                  id="item-select"
+                  type="text"
                   name="item"
-                  type="text"
-                  className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-3 text-white transition-colors focus:border-blue-500 focus:outline-none"
-                  placeholder="e.g. Choice Scarf"
                   value={formData.item}
-                  onChange={(e) => handleChange("item", e.target.value)}
+                  onChange={handleInputChange}
+                  className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-2.5 text-white transition-all focus:border-blue-500 focus:outline-none"
+                  placeholder="None"
                 />
-                <datalist id="items-list">
-                  {allItems.map((i) => (
-                    <option key={i} value={i} />
-                  ))}
-                </datalist>
               </div>
-            </div>
 
-            {/* Row 2: Ability, Nature, EVs, IVs */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label
-                  htmlFor="pokemon-ability"
-                  className="mb-1 block text-sm font-medium"
-                >
-                  Ability
-                </label>
-                <input
-                  id="pokemon-ability"
-                  list="abilities-list"
-                  name="ability"
-                  type="text"
-                  className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
-                  value={formData.ability}
-                  onChange={(e) => handleChange("ability", e.target.value)}
-                />
-                <datalist id="abilities-list">
-                  {allAbilities.map((a) => (
-                    <option key={a} value={a} />
-                  ))}
-                </datalist>
-              </div>
-              <div>
-                <label
-                  htmlFor="pokemon-nature"
-                  className="mb-1 block text-sm font-medium"
-                >
-                  Nature
-                </label>
-                <input
-                  id="pokemon-nature"
-                  list="natures-list"
-                  name="nature"
-                  type="text"
-                  className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
-                  value={formData.nature}
-                  onChange={(e) => handleChange("nature", e.target.value)}
-                />
-                <datalist id="natures-list">
-                  {allNatures.map((n) => (
-                    <option key={n} value={n} />
-                  ))}
-                </datalist>
-              </div>
-              <div>
-                <label
-                  htmlFor="pokemon-evs"
-                  className="mb-1 block text-sm font-medium"
-                >
-                  EVs
-                </label>
-                <input
-                  id="pokemon-evs"
-                  name="evs"
-                  type="text"
-                  className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
-                  placeholder="e.g. 6 HP / 252 Atk / 252 Spe"
-                  value={formData.evs}
-                  onChange={(e) => handleChange("evs", e.target.value)}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="pokemon-ivs"
-                  className="mb-1 block text-sm font-medium"
-                >
-                  IVs
-                </label>
-                <input
-                  id="pokemon-ivs"
-                  name="ivs"
-                  type="text"
-                  className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 text-white focus:border-blue-500 focus:outline-none"
-                  placeholder="e.g. 5x31/4x31/3x31/2x31/1x31/0"
-                  value={formData.ivs}
-                  onChange={(e) => handleChange("ivs", e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Row 3: Moves */}
-            <div>
-              <span className="mb-2 block text-sm font-medium">Moveset</span>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                {formData.moves.map((move, idx) => (
-                  <div
-                    key={`move-slot-${move || "empty"}-${idx}`}
-                    className="relative"
+              <div className="grid grid-cols-2 gap-4">
+                <div className="group">
+                  <label
+                    htmlFor="ability-input"
+                    className="mb-1 block text-sm font-medium"
                   >
-                    <label
-                      htmlFor={`move-${idx}`}
-                      className="absolute top-3.5 left-3 font-mono text-[10px] font-bold text-slate-500 uppercase"
-                    >
-                      #{idx + 1}
-                    </label>
+                    Ability
+                  </label>
+                  <input
+                    id="ability-input"
+                    type="text"
+                    name="ability"
+                    value={formData.ability}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-2.5 text-white transition-all focus:border-blue-500 focus:outline-none"
+                    placeholder="Standard"
+                  />
+                </div>
+                <div className="group">
+                  <label
+                    htmlFor="nature-input"
+                    className="mb-1 block text-sm font-medium"
+                  >
+                    Nature
+                  </label>
+                  <input
+                    id="nature-input"
+                    type="text"
+                    name="nature"
+                    value={formData.nature}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-2.5 text-white transition-all focus:border-blue-500 focus:outline-none"
+                    placeholder="Serious"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="group">
+                  <label
+                    htmlFor="evs-input"
+                    className="mb-1 block text-sm font-medium"
+                  >
+                    EVs
+                  </label>
+                  <input
+                    id="evs-input"
+                    type="text"
+                    name="evs"
+                    value={formData.evs}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-2.5 text-white transition-all focus:border-blue-500 focus:outline-none"
+                    placeholder="e.g. 252 Atk / 252 Spe"
+                  />
+                </div>
+                <div className="group">
+                  <label
+                    htmlFor="ivs-input"
+                    className="mb-1 block text-sm font-medium"
+                  >
+                    IVs
+                  </label>
+                  <input
+                    id="ivs-input"
+                    type="text"
+                    name="ivs"
+                    value={formData.ivs}
+                    onChange={handleInputChange}
+                    className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-2.5 text-white transition-all focus:border-blue-500 focus:outline-none"
+                    placeholder="e.g. 31/31/31/x/31/31"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Moves */}
+            <div className="space-y-4">
+              <label className="mb-1 block text-sm font-medium">Moveset</label>
+              <div className="grid grid-cols-1 gap-3">
+                {[0, 1, 2, 3].map((idx) => (
+                  <div key={idx} className="relative">
                     <input
-                      id={`move-${idx}`}
                       list="moves-list"
-                      name={`move${idx}`}
-                      type="text"
-                      className="w-full rounded-lg border border-white/10 bg-[#0f1014] p-2.5 pl-10 text-white focus:border-blue-500 focus:outline-none"
-                      placeholder="Select move..."
-                      value={move}
+                      value={formData.moves?.[idx] || ""}
                       onChange={(e) => handleMoveChange(idx, e.target.value)}
+                      className="w-full rounded-lg border border-white/5 bg-[#0f1014] px-4 py-2.5 text-sm text-white transition-all focus:border-blue-500 focus:outline-none"
+                      placeholder={`Move ${idx + 1}`}
                     />
                   </div>
                 ))}
+                <datalist id="moves-list">
+                  {allMoves.map((m) => (
+                    <option key={m.id} value={m.name} />
+                  ))}
+                </datalist>
               </div>
-              <datalist id="moves-list">
-                {allMoves.map((m) => (
-                  <option key={m} value={m} />
-                ))}
-              </datalist>
             </div>
-            {state?.error && (
-              <p className="text-sm text-red-500">{state.error}</p>
-            )}
-          </form>
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 border-t border-white/5 bg-black/20 p-4">
-          <Button variant="ghost" size="md" onClick={onClose} type="button">
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            form="pokemon-form"
-            variant="primary"
-            size="md"
-            icon={Save}
-          >
+        <div className="flex justify-end border-t border-white/5 bg-black/20 p-6">
+          <Button onClick={handleSave} variant="primary" size="md" icon={Save}>
             Save Pokémon
           </Button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

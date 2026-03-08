@@ -6,6 +6,13 @@ import AddEnemyPokemonModal from "./AddEnemyPokemonModal";
 vi.mock("@/hooks/usePokedexData", () => ({
   usePokedexData: () => ({
     pokemonNames: ["Pikachu", "Bulbasaur", "Charizard", "Sawsbuck (Spring)"],
+    allPokemonData: [
+      { id: "1", dexId: 25, name: "Pikachu" },
+      { id: "2", dexId: 1, name: "Bulbasaur" },
+      { id: "3", dexId: 6, name: "Charizard" },
+      { id: "4", dexId: 585, name: "Sawsbuck (Spring)" },
+    ],
+    isLoading: false,
   }),
 }));
 

@@ -3,9 +3,9 @@ import { EliteFourMember } from "@/utils/eliteFourMembers";
 import { getDualShadow, typeBackgrounds } from "@/utils/pokemonColors";
 
 interface MemberSelectionProps {
-  filteredEliteFour: EliteFourMember[];
-  selectedMember: string | null;
-  onMemberClick: (memberName: string) => void;
+  readonly filteredEliteFour: EliteFourMember[];
+  readonly selectedMember: string | null;
+  readonly onMemberClick: (memberName: string) => void;
 }
 
 function MemberSelection({

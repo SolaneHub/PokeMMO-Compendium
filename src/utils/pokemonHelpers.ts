@@ -71,9 +71,7 @@ export const getPokedexMainList = (pokedexData: Pokemon[]): Pokemon[] => {
     if (!variants || variants.length === 0) return;
 
     let mainEntry = variants.find((v) => v.name === family);
-    if (!mainEntry) {
-      mainEntry = variants[0];
-    }
+    mainEntry ??= variants[0];
     if (mainEntry) {
       mainList.push(mainEntry);
       processedFamilies.add(family);

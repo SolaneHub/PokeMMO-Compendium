@@ -16,17 +16,15 @@ import { Team, TeamMember } from "@/types/teams";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
-interface PokemonIconProps {
-  size?: number;
-  pokemonName: string;
-  className?: string;
-}
-
 const PokemonIcon = ({
   size = 16,
   pokemonName,
   className,
-}: PokemonIconProps) => {
+}: {
+  size?: number;
+  pokemonName: string;
+  className?: string;
+}) => {
   const src = getSpriteUrlByName(pokemonName);
   if (!src) return null;
   return (
@@ -167,20 +165,18 @@ const EnemyItem = ({
   );
 };
 
+type NavigationId = string | number | null;
+
 interface EditorSidebarProps {
   team: Team;
   activeView: string;
-  activeId: string | number | null;
-  onNavigate: (
-    view: string,
-    id?: string | number | null,
-    context?: string | null
-  ) => void;
+  activeId: NavigationId;
+  onNavigate: (view: string, id: NavigationId, context?: string | null) => void;
   regions: string[];
   availableMembers: EliteFourMember[];
   enemyPools: Record<string, string[]>;
   onAddEnemy: (member: EliteFourMember) => void;
-  onRemoveEnemy: (memberName: string, enemyName: string) => void;
+  onRemoveEnemy: (memberName: string, pokemonName: string) => void;
   className?: string;
 }
 
@@ -240,16 +236,18 @@ const EditorSidebar = ({
               key={member?.name || idx}
               active={activeView === "roster" && activeId === idx}
               onClick={() => onNavigate("roster", idx)}
-              icon={
-                member?.name
-                  ? (props: { size?: number; className?: string }) => (
-                      <PokemonIcon {...props} pokemonName={member.name} />
-                    )
-                  : null
-              }
             >
-              <div className="flex items-center gap-2">
-                <span className={member?.name ? "" : "text-slate-500 italic"}>
+              <div className="flex items-center gap-3 overflow-hidden">
+                {member?.name ? (
+                  <PokemonIcon size={16} pokemonName={member.name} />
+                ) : (
+                  <div className="flex h-4 w-4 items-center justify-center">
+                    <Users size={14} className="text-slate-600" />
+                  </div>
+                )}
+                <span
+                  className={`truncate ${member?.name ? "" : "text-slate-500 italic"}`}
+                >
                   {member?.name || "Empty Slot"}
                 </span>
               </div>

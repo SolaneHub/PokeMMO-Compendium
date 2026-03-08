@@ -24,8 +24,8 @@ import Button from "@/components/atoms/Button";
 import { useAuth } from "@/context/AuthContext";
 
 interface SidebarProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  readonly isOpen: boolean;
+  readonly setIsOpen: (isOpen: boolean) => void;
 }
 
 interface NavItem {

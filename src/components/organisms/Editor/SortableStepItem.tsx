@@ -7,11 +7,11 @@ import { StrategyStep } from "@/types/teams";
 import StepForm from "./StepForm";
 
 interface SortableStepItemProps {
-  step: StrategyStep;
-  id: string;
-  index: number;
-  onChange: (updatedStep: StrategyStep) => void;
-  onRemove: () => void;
+  readonly step: StrategyStep;
+  readonly id: string;
+  readonly index: number;
+  readonly onChange: (updatedStep: StrategyStep) => void;
+  readonly onRemove: () => void;
 }
 
 export function SortableStepItem({

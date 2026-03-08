@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { Raid } from "@/types/raids";
+import { Raid } from "@/hooks/useRaidsData";
 
 import RaidStrategyTab from "./RaidStrategyTab";
 
@@ -116,30 +116,6 @@ describe("RaidStrategyTab component", () => {
     // Click Next
     fireEvent.click(nextBtn);
     expect(setTurnIndex).toHaveBeenCalledTimes(2);
-
-    // Verify raw value fallback in setTurnIndex callback if not a function
-    const setTurnIndexRawFallback = vi.fn().mockImplementation((updater) => {
-      if (typeof updater === "function") {
-        updater(1);
-      }
-    });
-
-    render(
-      <RaidStrategyTab
-        currentRaid={mockRaid}
-        selectedStrategyIndex={0}
-        setSelectedStrategyIndex={vi.fn()}
-        setSelectedRole={vi.fn()}
-        setSelectedTurnIndex={setTurnIndexRawFallback}
-        setSelectedBuildGroup={vi.fn()}
-        rolesSource={{ "Player 1": ["Move A", "Move B", "Move C"] }}
-        roleOptions={["Player 1"]}
-        effectiveSelectedRole="Player 1"
-        handleRoleChange={vi.fn()}
-        movesForSelectedRole={["Move A", "Move B", "Move C"]}
-        selectedTurnIndex={1}
-      />
-    );
   });
 
   it("handles direct click on a specific turn", () => {

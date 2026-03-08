@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { StrategyStep } from "@/types/teams";
+import { StrategyStep, StrategyVariation } from "@/types/teams";
 
 import StrategyModal from "./StrategyModal";
 
@@ -17,13 +17,14 @@ vi.mock("@/context/PokedexContext", () => ({
 }));
 
 const mockHistory: StrategyStep[][] = [];
-const mockView = [
+const mockView: StrategyStep[] = [
   {
-    id: "step1",
     type: "main",
     player: "Use Thunderbolt",
     warning: "Watch out for Ground switch",
-    variations: [{ type: "switch", name: "Switch to Gyarados" }],
+    variations: [
+      { type: "switch", name: "Switch to Gyarados" } as StrategyVariation,
+    ],
   },
 ];
 
@@ -35,15 +36,9 @@ describe("StrategyModal component", () => {
         detailsTitleBackground="red"
         strategyHistory={mockHistory}
         currentStrategyView={mockView}
-        onClose={() => {
-          /* noop */
-        }}
-        onBack={() => {
-          /* noop */
-        }}
-        onStepClick={() => {
-          /* noop */
-        }}
+        onClose={vi.fn()}
+        onBack={vi.fn()}
+        onStepClick={vi.fn()}
       />
     );
     expect(screen.getByText("Pikachu")).toBeInTheDocument();
@@ -56,15 +51,9 @@ describe("StrategyModal component", () => {
         detailsTitleBackground="red"
         strategyHistory={mockHistory}
         currentStrategyView={mockView}
-        onClose={() => {
-          /* noop */
-        }}
-        onBack={() => {
-          /* noop */
-        }}
-        onStepClick={() => {
-          /* noop */
-        }}
+        onClose={vi.fn()}
+        onBack={vi.fn()}
+        onStepClick={vi.fn()}
       />
     );
     expect(screen.getByText("Use")).toBeInTheDocument();
@@ -82,15 +71,9 @@ describe("StrategyModal component", () => {
         detailsTitleBackground="red"
         strategyHistory={[]}
         currentStrategyView={[]}
-        onClose={() => {
-          /* noop */
-        }}
-        onBack={() => {
-          /* noop */
-        }}
-        onStepClick={() => {
-          /* noop */
-        }}
+        onClose={vi.fn()}
+        onBack={vi.fn()}
+        onStepClick={vi.fn()}
       />
     );
     expect(

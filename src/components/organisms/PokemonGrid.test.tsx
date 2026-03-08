@@ -58,4 +58,20 @@ describe("PokemonGrid component", () => {
 
     expect(screen.getByText("Loading more Pokémon...")).toBeInTheDocument();
   });
+
+  it("calls onSelectPokemon when a card is clicked", () => {
+    const handleSelect = vi.fn();
+    render(
+      <PokemonGrid
+        pokemonList={mockPokemonList}
+        selectedPokemon={null}
+        onSelectPokemon={handleSelect}
+      />
+    );
+
+    const firstPokemon = screen.getByText("Pokemon 1");
+    firstPokemon.click();
+
+    expect(handleSelect).toHaveBeenCalledWith(mockPokemonList[0]);
+  });
 });

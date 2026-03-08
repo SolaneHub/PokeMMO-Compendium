@@ -109,7 +109,8 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
         `Team "${team.name}" ${action.toLowerCase()}ed successfully.`,
         "success"
       );
-    } catch {
+    } catch (err) {
+      console.error(err);
       // Error is handled by showing a toast notification to the user
       showToast(`Failed to ${action.toLowerCase()} team.`, "error");
     } finally {

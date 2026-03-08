@@ -21,18 +21,10 @@ const MyRoster = ({ members, onEditSlot }: MyRosterProps) => {
       </h3>
       <div className="grid grid-cols-3 gap-2">
         {members.map((member, idx) => (
-          <div
+          <button
             key={member?.name ? `member-${member.name}` : `empty-slot-${idx}`}
             className="group relative flex aspect-square cursor-pointer items-center justify-center rounded-lg border border-white/10 bg-[#0f1014] transition-all hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10"
-            role="button"
-            tabIndex={0}
             onClick={() => onEditSlot(idx)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                if (e.key === " ") e.preventDefault();
-                onEditSlot(idx);
-              }
-            }}
             aria-label={
               member?.name ? `Edit ${member.name}` : "Add new Pokémon"
             }
@@ -72,7 +64,7 @@ const MyRoster = ({ members, onEditSlot }: MyRosterProps) => {
                 <Edit size={10} className="text-white" />
               </div>
             )}
-          </div>
+          </button>
         ))}
       </div>
     </div>

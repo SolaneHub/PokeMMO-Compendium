@@ -1,19 +1,21 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 import MoveColoredText from "@/components/molecules/MoveColoredText";
+import { Pokemon } from "@/types/pokemon";
 import { StrategyStep, StrategyVariation } from "@/types/teams";
 
 interface StrategyModalProps {
-  currentPokemonObject: { name: string };
-  detailsTitleBackground: string;
-  strategyHistory: StrategyStep[][];
-  currentStrategyView: StrategyStep[];
-  onClose: () => void;
-  onBack: () => void;
-  onStepClick: (variation: StrategyVariation) => void;
+  readonly currentPokemonObject: Pokemon | { name: string };
+  readonly detailsTitleBackground: string;
+  readonly strategyHistory: StrategyStep[][];
+  readonly currentStrategyView: StrategyStep[];
+  readonly onClose: () => void;
+  readonly onBack: () => void;
+  readonly onStepClick: (variation: StrategyVariation) => void;
 }
 
-function StrategyModal({
+const StrategyModal = ({
   currentPokemonObject,
   detailsTitleBackground,
   strategyHistory,
@@ -21,7 +23,22 @@ function StrategyModal({
   onClose,
   onBack,
   onStepClick,
-}: StrategyModalProps) {
+}: StrategyModalProps) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
+  }, []);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   const renderWarning = (warningText: string | undefined) =>
     warningText ? (
       <div className="mb-3 flex w-full">
@@ -32,37 +49,42 @@ function StrategyModal({
     ) : null;
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex animate-[fade-in_0.2s_ease-out] items-center justify-center bg-black/80 backdrop-blur-sm"
-      role="button"
-      tabIndex={-1}
-      onClick={onClose}
+    <dialog
+      ref={dialogRef}
+      onClose={onClose}
+      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
+          e.preventDefault();
           onClose();
         }
       }}
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out_forwards] items-center justify-center border-none bg-black/80 p-4 backdrop-blur-sm backdrop:bg-transparent"
     >
       <div
-        className="relative flex max-h-[85vh] w-[500px] max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl"
+        className="relative flex max-h-[85vh] w-[500px] max-w-[90vw] animate-[scale-in_0.3s_ease-out_forwards] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] text-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
         <div
-          className="z-10 flex shrink-0 justify-center p-4"
+          className="z-10 flex shrink-0 items-center justify-between p-4 shadow-md"
           style={{ background: detailsTitleBackground }}
         >
+          <div className="w-8" /> {/* Spacer to help center the title */}
           <h2 className="m-0 text-xl font-bold text-[#1a1b20] drop-shadow-sm">
             {currentPokemonObject.name}
           </h2>
+          <button
+            onClick={onClose}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-black/10 text-xl leading-none font-bold text-slate-900 transition-colors hover:bg-black/20"
+            aria-label="Close modal"
+          >
+            <span className="mb-1">×</span>
+          </button>
         </div>
 
         {/* Modal Content */}
-        <div
-          id="pokemon-details-content"
-          className="flex-1 overflow-y-auto bg-[#1a1b20] p-6"
-        >
+        <div className="custom-scrollbar flex-1 overflow-y-auto bg-[#1a1b20] p-6">
           <div className="flex flex-col gap-4">
             {strategyHistory.length > 0 && (
               <button
@@ -119,7 +141,6 @@ function StrategyModal({
                                 className="text-blue-400 opacity-0 transition-opacity group-hover:opacity-100"
                               />
                             </div>
-                            {/* StrategyVariation might not have warning in schema but it was used here */}
                             {renderWarning(v.warning)}
                           </button>
                         ))}
@@ -132,8 +153,8 @@ function StrategyModal({
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
-}
+};
 
 export default StrategyModal;

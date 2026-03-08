@@ -1,4 +1,5 @@
 import { X } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 interface ConfirmationModalProps {
   message: string;
@@ -17,23 +18,33 @@ const ConfirmationModal = ({
   onConfirm,
   onCancel,
 }: ConfirmationModalProps) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
+  }, []);
+
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onCancel();
+    }
+  };
+
   return (
-    <div
-      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center bg-transparent p-0 backdrop-blur-sm"
+    <dialog
+      ref={dialogRef}
+      className="fixed inset-0 z-100 m-0 flex h-full max-h-none w-full max-w-none animate-[fade-in_0.2s_ease-out] items-center justify-center border-none bg-black/60 p-0 backdrop-blur-sm backdrop:bg-transparent"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
+          e.preventDefault();
           onCancel();
         }
       }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onCancel();
-        }
-      }}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-      tabIndex={-1}
+      onClick={handleBackdropClick}
+      onClose={onCancel}
     >
       <div className="relative z-10 flex max-h-[85vh] w-100 max-w-[90vw] animate-[scale-in_0.3s_ease-out] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#1a1b20] shadow-2xl">
         {/* Modal Header */}
@@ -41,7 +52,10 @@ const ConfirmationModal = ({
           <h2 id="modal-title" className="text-xl font-bold">
             {title}
           </h2>
-          <button onClick={onCancel} className="hover: transition-colors">
+          <button
+            onClick={onCancel}
+            className="transition-colors hover:text-slate-300"
+          >
             <X size={24} />
           </button>
         </div>
@@ -65,7 +79,7 @@ const ConfirmationModal = ({
           </button>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

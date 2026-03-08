@@ -71,14 +71,14 @@ function BreedingPage() {
         </div>
 
         {/* Tree Visualization */}
-        <div className="flex min-h-[600px] flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] shadow-xl lg:col-span-2">
+        <div className="flex min-h-150 flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#1a1b20] shadow-xl lg:col-span-2">
           <div className="flex items-center justify-between border-b border-white/5 bg-black/20 p-4">
             <span className="text-sm font-medium tracking-wider text-slate-400 uppercase">
               Breeding Tree
             </span>
             <div className="flex gap-2 text-xs text-slate-500">
               <span className="flex items-center gap-1">
-                <span className="h-2 w-2 rounded-full bg-white/20"></span>
+                <span className="h-2 w-2 rounded-full bg-white/20"></span>{" "}
                 Select nodes to highlight path
               </span>
             </div>

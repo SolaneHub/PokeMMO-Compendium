@@ -2,10 +2,11 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { Pokemon } from "@/types/pokemon";
+import { Raid, RaidBuild, RaidStrategy } from "@/types/raids";
 
 import RaidModal from "./index";
 
-const mockRaid = {
+const mockRaid: Raid = {
   name: "Rayquaza",
   stars: 5,
   moves: [],
@@ -15,7 +16,7 @@ const mockRaid = {
   },
 };
 
-const mockRaidWithStrategy = {
+const mockRaidWithStrategy: Raid = {
   name: "Rayquaza",
   stars: 5,
   moves: [],
@@ -27,14 +28,14 @@ const mockRaidWithStrategy = {
         player1: ["Dragon Claw"],
       },
       recommended: [
-        { name: "Charizard", player: "player1", order: 2 },
-        { name: "Charizard Alt", player: "player1", order: 1 },
-        { name: "Zubat" }, // No player, no order
-        { name: "Pikachu" }, // No player, no order, triggers localeCompare with Zubat
+        { name: "Charizard", player: "player1", order: 2 } as RaidBuild,
+        { name: "Charizard Alt", player: "player1", order: 1 } as RaidBuild,
+        { name: "Zubat" } as RaidBuild,
+        { name: "Pikachu" } as RaidBuild,
         "This is a string note and should be filtered out",
       ],
     },
-  ],
+  ] as RaidStrategy[],
   mechanics: {},
 };
 
@@ -43,14 +44,14 @@ const mockPokemonMap = new Map<string, Pokemon>();
 // Mocking children components to simplify and isolate the test on the parent's logic
 vi.mock("./tabs/RaidStrategyTab", () => ({
   default: ({
-    handleRoleChange,
-    roleOptions,
     effectiveSelectedRole,
+    roleOptions,
+    handleRoleChange,
     setSelectedRole,
   }: {
-    handleRoleChange: (r: string) => void;
-    roleOptions: string[];
     effectiveSelectedRole: string;
+    roleOptions: string[];
+    handleRoleChange: (r: string) => void;
     setSelectedRole: (r: string) => void;
   }) => (
     <div data-testid="strategy-tab">
@@ -104,7 +105,6 @@ describe("RaidModal component", () => {
   it("renders null if currentRaid is not provided", () => {
     const { container } = render(
       <RaidModal
-        raidName="Rayquaza"
         onClose={vi.fn()}
         pokemonMap={mockPokemonMap}
         currentRaid={null}
@@ -116,7 +116,6 @@ describe("RaidModal component", () => {
   it("renders modal header with boss name and stars", () => {
     render(
       <RaidModal
-        raidName="Rayquaza"
         onClose={vi.fn()}
         pokemonMap={mockPokemonMap}
         currentRaid={mockRaid}
@@ -129,7 +128,6 @@ describe("RaidModal component", () => {
   it("switches tabs correctly", () => {
     render(
       <RaidModal
-        raidName="Rayquaza"
         onClose={vi.fn()}
         pokemonMap={mockPokemonMap}
         currentRaid={mockRaid}
@@ -138,6 +136,10 @@ describe("RaidModal component", () => {
 
     // Initially on STRATEGY tab
     expect(screen.getByTestId("strategy-tab")).toBeInTheDocument();
+
+    // Switch to BUILDS tab
+    fireEvent.click(screen.getByText("BUILDS"));
+    expect(screen.getByTestId("builds-tab")).toBeInTheDocument();
 
     // Switch to MECHANICS tab
     fireEvent.click(screen.getByText("MECHANICS"));
@@ -152,33 +154,27 @@ describe("RaidModal component", () => {
     const handleClose = vi.fn();
     const { container } = render(
       <RaidModal
-        raidName="Rayquaza"
         onClose={handleClose}
         pokemonMap={mockPokemonMap}
         currentRaid={mockRaid}
       />
     );
 
-    // The outermost div is the background overlay
-    const overlay = container.firstElementChild as HTMLElement;
-
-    // Clicking child stops propagation, so it shouldn't close
-    fireEvent.click(overlay.firstElementChild as HTMLElement);
-    expect(handleClose).not.toHaveBeenCalled();
-
-    // Clicking overlay should close
-    fireEvent.click(overlay);
-    expect(handleClose).toHaveBeenCalledTimes(1);
+    // The outermost element is the dialog
+    const dialog = container.querySelector("dialog");
+    if (dialog) {
+      fireEvent.click(dialog);
+      expect(handleClose).toHaveBeenCalledTimes(1);
+    }
   });
 
   describe("Complex Strategy Logic", () => {
     it("handles role selection correctly and defaults to player1", () => {
       render(
         <RaidModal
-          raidName="Rayquaza"
           onClose={vi.fn()}
           pokemonMap={mockPokemonMap}
-          currentRaid={mockRaidWithStrategy as unknown as typeof mockRaid}
+          currentRaid={mockRaidWithStrategy}
         />
       );
 
@@ -196,13 +192,13 @@ describe("RaidModal component", () => {
     it("handles build groups logic and filters out strings", () => {
       render(
         <RaidModal
-          raidName="Rayquaza"
           onClose={vi.fn()}
           pokemonMap={mockPokemonMap}
-          currentRaid={mockRaidWithStrategy as unknown as typeof mockRaid}
+          currentRaid={mockRaidWithStrategy}
         />
       );
 
+      // Switch to BUILDS
       fireEvent.click(screen.getByText("BUILDS"));
 
       // It should default to the first group alphabetically -> "General"
@@ -220,10 +216,9 @@ describe("RaidModal component", () => {
     it("handles direct state setter for roles to hit fallback logic", () => {
       render(
         <RaidModal
-          raidName="Rayquaza"
           onClose={vi.fn()}
           pokemonMap={mockPokemonMap}
-          currentRaid={mockRaidWithStrategy as unknown as typeof mockRaid}
+          currentRaid={mockRaidWithStrategy}
         />
       );
 

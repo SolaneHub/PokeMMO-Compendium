@@ -1,5 +1,5 @@
 import { Save, Search } from "lucide-react";
-import React, { memo, useState } from "react";
+import React, { FormEvent, memo, useState } from "react";
 
 import Button from "@/components/atoms/Button";
 import { useMoves } from "@/context/MovesContext";
@@ -115,7 +115,7 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
     });
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  const handleSubmit = (e?: FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
     if (!formData.name.trim()) return;
     const cleanMoves = formData.moves.filter((m) => m.trim() !== "");
@@ -137,7 +137,7 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
             </p>
           </div>
           <Button
-            onClick={handleSubmit}
+            onClick={handleSubmit as () => void}
             variant="primary"
             size="md"
             className="bg-green-600 hover:bg-green-500"
@@ -156,11 +156,15 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
             </h3>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="group">
-                <label className="mb-2 block text-sm font-medium">
+                <label
+                  htmlFor="editor-pokemon-name"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Pokémon Name
                 </label>
                 <div className="relative">
                   <input
+                    id="editor-pokemon-name"
                     list="pokemon-list"
                     type="text"
                     required
@@ -179,10 +183,14 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
                 </div>
               </div>
               <div>
-                <label className="mb-2 block text-sm font-medium">
+                <label
+                  htmlFor="editor-held-item"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Held Item
                 </label>
                 <input
+                  id="editor-held-item"
                   list="items-list"
                   type="text"
                   className="w-full rounded-lg border border-white/5 bg-[#0a0b0e] p-3 text-white transition-colors focus:border-blue-400 focus:outline-none"

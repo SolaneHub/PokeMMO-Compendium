@@ -36,7 +36,7 @@ const ToggleCard = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div
-            className={`rounded-lg p-2 transition-colors ${isActive ? `${activeColorClass} ` : "bg-white/10"}`}
+            className={`rounded-lg p-2 transition-colors ${isActive ? activeColorClass : "bg-white/10"}`}
           >
             {Icon && <Icon size={20} />}
           </div>

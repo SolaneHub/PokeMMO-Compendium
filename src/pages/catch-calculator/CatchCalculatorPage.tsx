@@ -8,7 +8,6 @@ import PageLayout from "@/components/templates/PageLayout";
 import { useCatchProbability } from "@/hooks/useCatchProbability";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { usePokemonUI } from "@/hooks/usePokemonUI";
-import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { usePersistentState } from "@/utils/usePersistentState";
 
@@ -53,8 +52,7 @@ const CatchCalculatorPage = () => {
     }
   }, [allPokemonData, selectedPokemonName, setSelectedPokemonName]);
 
-  const selectedPokemon = (pokemonMap.get(selectedPokemonName) ||
-    null) as Pokemon | null;
+  const selectedPokemon = pokemonMap.get(selectedPokemonName) || null;
 
   const { sprite, background } = usePokemonUI(selectedPokemon);
 

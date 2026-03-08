@@ -56,10 +56,10 @@ const PokemonOverview = ({ pokemon }: PokemonOverviewProps) => {
     return (
       <div className="mt-1 flex items-center rounded-md border border-white/5 bg-white/5 px-2 py-1 text-xs">
         <ItemImage
-          item={pokemon.heldItems as string}
+          item={pokemon.heldItems}
           className="mr-1.5 h-4 w-4 object-contain"
         />
-        <span>{pokemon.heldItems as string}</span>
+        <span>{pokemon.heldItems}</span>
       </div>
     );
   };

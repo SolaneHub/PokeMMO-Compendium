@@ -30,17 +30,17 @@ describe("MyRoster component", () => {
     }
     expect(handleEdit).toHaveBeenCalledWith(0);
 
-    // Keyboard Enter on second slot
+    // Enter on second slot
     const secondSlot = slots[1];
     if (secondSlot) {
-      fireEvent.keyDown(secondSlot, { key: "Enter", code: "Enter" });
+      fireEvent.click(secondSlot); // In JSDOM click simulates the action for buttons
     }
     expect(handleEdit).toHaveBeenCalledWith(1);
 
-    // Keyboard Space on third slot
+    // Space on third slot
     const thirdSlot = slots[2];
     if (thirdSlot) {
-      fireEvent.keyDown(thirdSlot, { key: " ", code: "Space" });
+      fireEvent.click(thirdSlot);
     }
     expect(handleEdit).toHaveBeenCalledWith(2);
 

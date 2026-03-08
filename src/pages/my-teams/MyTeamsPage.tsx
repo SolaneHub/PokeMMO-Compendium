@@ -12,8 +12,6 @@ import { updateTeamStatus } from "@/firebase/services/teamsService";
 import { useUserTeams } from "@/hooks/useUserTeams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
-import { MyTeamsLoaderData } from "./myTeamsLoader";
-
 interface ActionResult {
   success?: boolean;
   error?: string;
@@ -23,8 +21,7 @@ const MyTeamsPage = () => {
   const accentColor = FEATURE_CONFIG["my-teams"]?.color;
   const navigate = useNavigate();
   const revalidator = useRevalidator();
-  const { teams: initialTeams, user: currentUser } =
-    useLoaderData() as MyTeamsLoaderData;
+  const { teams: initialTeams, user: currentUser } = useLoaderData();
 
   const { createTeam, deleteTeam } = useUserTeams();
   const [showCreateModal, setShowCreateModal] = useState(false);

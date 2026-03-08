@@ -41,18 +41,14 @@ const ConditionsSection = ({
       />
 
       {/* Status Conditions */}
-      <div className="space-y-3">
-        <span
+      <fieldset className="space-y-3">
+        <legend
           id="status-condition-label"
           className="block text-sm font-bold text-slate-500"
         >
           Status Condition
-        </span>
-        <div
-          role="group"
-          aria-labelledby="status-condition-label"
-          className="grid grid-cols-2 gap-3 xl:grid-cols-3"
-        >
+        </legend>
+        <div className="grid grid-cols-2 gap-3 xl:grid-cols-3">
           {STATUS_CONDITIONS.map((status) => (
             <button
               key={status.name}
@@ -77,7 +73,7 @@ const ConditionsSection = ({
             </button>
           ))}
         </div>
-      </div>
+      </fieldset>
     </div>
   );
 };

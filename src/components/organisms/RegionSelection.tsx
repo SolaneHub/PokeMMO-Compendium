@@ -2,8 +2,8 @@ import RegionCard from "@/components/molecules/RegionCard";
 import { pokemonRegions } from "@/utils/regionData";
 
 interface RegionSelectionProps {
-  selectedRegion: string | null;
-  onRegionClick: (regionName: string) => void;
+  readonly selectedRegion: string | null;
+  readonly onRegionClick: (regionName: string) => void;
 }
 
 function RegionSelection({

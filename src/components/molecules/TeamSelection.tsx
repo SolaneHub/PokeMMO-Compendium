@@ -2,9 +2,9 @@ import { Team } from "@/types/teams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 interface TeamSelectionProps {
-  teams: Team[];
-  selectedTeamId: string | undefined;
-  onTeamClick: (teamId: string) => void;
+  readonly teams: Team[];
+  readonly selectedTeamId: string | undefined;
+  readonly onTeamClick: (teamId: string) => void;
 }
 
 function TeamSelection({

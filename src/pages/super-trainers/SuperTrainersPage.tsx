@@ -7,7 +7,6 @@ import PageLayout from "@/components/templates/PageLayout";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import { useSuperTrainersData } from "@/hooks/useSuperTrainersData";
-import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 
@@ -93,19 +92,17 @@ function SuperTrainersPage() {
       </div>
 
       {/* Strategy Modal */}
-      {isPokemonDetailsVisible &&
-        currentPokemonObject &&
-        currentPokemonObject.id !== null && (
-          <StrategyModal
-            currentPokemonObject={currentPokemonObject as Pokemon}
-            detailsTitleBackground={detailsTitleBackground}
-            strategyHistory={strategyHistory}
-            currentStrategyView={currentStrategyView}
-            onClose={() => setIsPokemonDetailsVisible(false)}
-            onBack={navigateBack}
-            onStepClick={navigateToStep}
-          />
-        )}
+      {isPokemonDetailsVisible && currentPokemonObject?.id !== null && (
+        <StrategyModal
+          currentPokemonObject={currentPokemonObject}
+          detailsTitleBackground={detailsTitleBackground}
+          strategyHistory={strategyHistory}
+          currentStrategyView={currentStrategyView}
+          onClose={() => setIsPokemonDetailsVisible(false)}
+          onBack={navigateBack}
+          onStepClick={navigateToStep}
+        />
+      )}
     </PageLayout>
   );
 }

@@ -16,9 +16,9 @@ const getColors = (stats: string[]) =>
   );
 
 interface TreeSchemeProps {
-  selectedIvCount: number;
-  selectedIvStats: string[];
-  nature: boolean;
+  readonly selectedIvCount: number;
+  readonly selectedIvStats: string[];
+  readonly nature: boolean;
 }
 
 interface CustomCSSProperties extends CSSProperties {
@@ -154,7 +154,7 @@ function TreeScheme({
   return (
     <div className="relative flex h-full w-full flex-col items-center text-white">
       {/* Legend / Key - Sticky inside the container */}
-      <div className="sticky top-0 z-[20] flex w-full items-center justify-between border-b border-white/5 bg-[#1e2025]/95 px-6 py-4 shadow-md backdrop-blur-md">
+      <div className="sticky top-0 z-20 flex w-full items-center justify-between border-b border-white/5 bg-[#1e2025]/95 px-6 py-4 shadow-md backdrop-blur-md">
         <div className="flex flex-wrap gap-2">
           {selectedIvStats.slice(0, selectedIvCount).map((statName) => (
             <div
@@ -236,14 +236,14 @@ function TreeScheme({
                       pairs.push(
                         <div
                           className={`relative flex items-center justify-center ${
-                            !isLastRow
-                              ? "before:absolute before:top-1/2 before:right-0 before:left-0 before:-z-10 before:mx-[calc(var(--node-size)/2)] before:h-[1px] before:bg-white/20 before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-z-10 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:w-[1px] after:-translate-x-1/2 after:bg-white/20 after:content-['']"
-                              : ""
+                            isLastRow
+                              ? ""
+                              : "before:absolute before:top-1/2 before:right-0 before:left-0 before:-z-10 before:mx-[calc(var(--node-size)/2)] before:h-px before:bg-white/20 before:content-[''] after:absolute after:top-1/2 after:left-1/2 after:-z-10 after:h-[calc(var(--vertical-gap)+var(--node-size)/2+10px)] after:w-[1px] after:-translate-x-1/2 after:bg-white/20 after:content-['']"
                           } `}
                           style={{ gap: `${config?.pairGap || 0}px` }}
                           key={`${rowIndex}-pair-${i / 2}`}
                         >
-                          <div className="relative z-[2] flex items-center justify-center">
+                          <div className="relative z-2 flex items-center justify-center">
                             <StatCircle
                               ivColors={colors}
                               size={NODE_SIZE}
@@ -255,7 +255,7 @@ function TreeScheme({
                             />
                           </div>
                           {next && (
-                            <div className="relative z-[2] flex items-center justify-center">
+                            <div className="relative z-2 flex items-center justify-center">
                               <StatCircle
                                 ivColors={next}
                                 size={NODE_SIZE}

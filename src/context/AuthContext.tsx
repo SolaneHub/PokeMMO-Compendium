@@ -37,7 +37,7 @@ export function useAuth() {
 }
 
 interface AuthProviderProps {
-  children: ReactNode;
+  readonly children: ReactNode;
 }
 
 const googleSignIn = async () => {

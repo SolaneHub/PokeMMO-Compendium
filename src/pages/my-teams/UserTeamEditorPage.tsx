@@ -149,10 +149,14 @@ const UserTeamEditorPage = () => {
           {/* Header Section */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="space-y-2">
-              <label className="text-xs font-bold tracking-wider text-blue-400 uppercase">
+              <label
+                htmlFor="team-name-input"
+                className="text-xs font-bold tracking-wider text-blue-400 uppercase"
+              >
                 Team Name
               </label>
               <input
+                id="team-name-input"
                 type="text"
                 className="w-full min-w-75 border-b-2 border-white/5 bg-transparent px-0 py-2 text-4xl font-black text-white transition-colors focus:border-blue-400 focus:outline-none"
                 value={team.name}

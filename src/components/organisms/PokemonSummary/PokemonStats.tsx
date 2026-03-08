@@ -70,11 +70,7 @@ const PokemonStats = ({ stats, defenses }: PokemonStatsProps) => {
         <h4 className="border-b border-white/5 pb-1 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
           Weakness & Resistance
         </h4>
-        {!defenses ? (
-          <p className="p-5 text-center text-slate-400 italic">
-            Type data not available.
-          </p>
-        ) : (
+        {defenses ? (
           <div className="flex flex-col gap-2 rounded-lg border border-white/10 bg-white/5 p-3">
             {[4, 2, 0.5, 0.25, 0].map((mult) => {
               const types = getTypesByMultiplier(mult);
@@ -104,6 +100,10 @@ const PokemonStats = ({ stats, defenses }: PokemonStatsProps) => {
               );
             })}
           </div>
+        ) : (
+          <p className="p-5 text-center text-slate-400 italic">
+            Type data not available.
+          </p>
         )}
       </div>
     </div>
