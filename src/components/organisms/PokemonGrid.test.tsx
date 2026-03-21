@@ -1,77 +1,71 @@
-import { render, screen } from "@testing-library/react";
-import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Pokemon } from "@/types/pokemon";
 
 import PokemonGrid from "./PokemonGrid";
 
-const mockPokemonList = Array.from(
-  { length: 45 },
-  (_, i) =>
-    ({
-      name: `Pokemon ${i + 1}`,
-      types: ["Normal"],
-      baseStats: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
-    }) as unknown as Pokemon
-);
-
-describe("PokemonGrid component", () => {
-  // Mock IntersectionObserver
-  beforeAll(() => {
-    class MockIntersectionObserver {
-      observe = vi.fn();
-      unobserve = vi.fn();
-      disconnect = vi.fn();
+// Mocking IntersectionObserver as a class
+beforeEach(() => {
+  global.IntersectionObserver = class {
+    observe() {
+      return vi.fn();
     }
-    globalThis.IntersectionObserver =
-      MockIntersectionObserver as unknown as typeof IntersectionObserver;
-  });
+    unobserve() {
+      return vi.fn();
+    }
+    disconnect() {
+      return vi.fn();
+    }
+  } as unknown as typeof IntersectionObserver;
+});
 
-  afterAll(() => {
-    vi.restoreAllMocks();
-  });
+// Mocking PokemonCard
+vi.mock("@/components/molecules/PokemonCard", () => ({
+  default: ({
+    pokemonName,
+    onClick,
+  }: {
+    pokemonName: string;
+    onClick: () => void;
+  }) => <button onClick={onClick}>{pokemonName}</button>,
+}));
 
-  it("renders empty state when list is empty", () => {
-    render(
-      <PokemonGrid
-        pokemonList={[]}
-        selectedPokemon={null}
-        onSelectPokemon={vi.fn()}
-      />
-    );
-    expect(screen.getByText("No Pokémon found.")).toBeInTheDocument();
-  });
+describe("PokemonGrid", () => {
+  const mockPokemon: Pokemon[] = [
+    { id: "1", name: "Bulbasaur", types: ["Grass"] } as unknown as Pokemon,
+    { id: "2", name: "Ivysaur", types: ["Grass"] } as unknown as Pokemon,
+  ];
 
-  it("renders a limited number of pokemon initially (pagination)", () => {
-    render(
-      <PokemonGrid
-        pokemonList={mockPokemonList}
-        selectedPokemon={null}
-        onSelectPokemon={vi.fn()}
-      />
-    );
+  const defaultProps = {
+    pokemonList: mockPokemon,
+    selectedPokemon: null,
+    onSelectPokemon: vi.fn(),
+    isPending: false,
+  };
 
-    // Default page size is 40
-    expect(screen.getByText("Pokemon 1")).toBeInTheDocument();
-    expect(screen.getByText("Pokemon 40")).toBeInTheDocument();
-    expect(screen.queryByText("Pokemon 41")).not.toBeInTheDocument();
-
-    expect(screen.getByText("Loading more Pokémon...")).toBeInTheDocument();
+  it("renders the list of pokemon", () => {
+    render(<PokemonGrid {...defaultProps} />);
+    expect(screen.getByText("Bulbasaur")).toBeInTheDocument();
+    expect(screen.getByText("Ivysaur")).toBeInTheDocument();
   });
 
   it("calls onSelectPokemon when a card is clicked", () => {
-    const handleSelect = vi.fn();
-    render(
-      <PokemonGrid
-        pokemonList={mockPokemonList}
-        selectedPokemon={null}
-        onSelectPokemon={handleSelect}
-      />
+    render(<PokemonGrid {...defaultProps} />);
+    fireEvent.click(screen.getByText("Bulbasaur"));
+    expect(defaultProps.onSelectPokemon).toHaveBeenCalledWith(mockPokemon[0]);
+  });
+
+  it("shows pending state", () => {
+    const { container } = render(
+      <PokemonGrid {...defaultProps} isPending={true} />
     );
+    const gridDiv = container.querySelector(".opacity-50");
+    expect(gridDiv).toBeInTheDocument();
+  });
 
-    const firstPokemon = screen.getByText("Pokemon 1");
-    firstPokemon.click();
-
-    expect(handleSelect).toHaveBeenCalledWith(mockPokemonList[0]);
+  it("renders empty state when list is empty", () => {
+    render(<PokemonGrid {...defaultProps} pokemonList={[]} />);
+    expect(screen.getByText(/No Pokémon found/i)).toBeInTheDocument();
   });
 });

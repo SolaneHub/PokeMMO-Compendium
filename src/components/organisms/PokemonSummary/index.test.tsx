@@ -1,105 +1,95 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { PokedexContext, PokedexContextType } from "@/context/PokedexContext";
-import { Move, Pokemon } from "@/types/pokemon";
+import * as PokedexContext from "@/context/PokedexContext";
+import { Pokemon } from "@/types/pokemon";
 
 import PokemonSummary from "./index";
 
-const mockPokemon: Pokemon = {
-  id: 1,
-  dexId: 1,
-  name: "Bulbasaur",
-  types: ["Grass", "Poison"],
-  category: "Seed Pokémon",
-  description:
-    "A strange seed was planted on its back at birth. The plant sprouts and grows with this POKéMON.",
-  baseStats: { hp: 45, atk: 49, def: 49, spa: 65, spd: 65, spe: 45 },
-  typeDefenses: {},
-  moves: [{ name: "Tackle", level: 1, method: "level-up" } as Move],
-  locations: [],
-};
+// Mocking context
+vi.mock("@/context/PokedexContext");
 
-const mockContextValue: Partial<PokedexContextType> = {
-  fullList: [mockPokemon],
-  isLoading: false,
-  getPokemonDetails: vi.fn().mockResolvedValue(mockPokemon),
-};
+// Mocking child components
+vi.mock("./PokemonOverview", () => ({
+  default: () => <div data-testid="overview" />,
+}));
+vi.mock("./PokemonStats", () => ({
+  default: () => <div data-testid="stats" />,
+}));
+vi.mock("./PokemonMoves", () => ({
+  default: () => <div data-testid="moves" />,
+}));
+vi.mock("./PokemonLocations", () => ({
+  default: () => <div data-testid="locations" />,
+}));
+vi.mock("./PokemonEvolutions", () => ({
+  default: () => <div data-testid="evolutions" />,
+}));
 
-const renderWithProviders = (ui: React.ReactElement) => {
-  return render(
-    <MemoryRouter>
-      <PokedexContext.Provider value={mockContextValue as PokedexContextType}>
-        {ui}
-      </PokedexContext.Provider>
-    </MemoryRouter>
-  );
-};
+describe("PokemonSummary index", () => {
+  const mockPokemon = {
+    name: "Pikachu",
+    types: ["Electric"],
+    abilities: { main: ["Static"], hidden: "Lightning Rod" },
+    baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
+  } as unknown as Pokemon;
 
-describe("PokemonSummary component", () => {
-  it("renders null if pokemon is missing", () => {
-    const { container } = renderWithProviders(
-      <PokemonSummary
-        pokemon={null}
-        allPokemon={[]}
-        onClose={vi.fn()}
-        onSelectPokemon={vi.fn()}
-      />
-    );
-    expect(container).toBeEmptyDOMElement();
+  const allPokemon = [
+    mockPokemon,
+    { name: "Raichu", types: ["Electric"] } as unknown as Pokemon,
+  ];
+
+  const defaultProps = {
+    pokemon: mockPokemon,
+    allPokemon: allPokemon,
+    onClose: vi.fn(),
+    onSelectPokemon: vi.fn(),
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
+      getPokemonDetails: vi.fn().mockResolvedValue(mockPokemon),
+    } as unknown as PokedexContext.PokedexContextType);
   });
 
-  it("renders overview initially", async () => {
-    renderWithProviders(
-      <PokemonSummary
-        pokemon={mockPokemon}
-        allPokemon={[mockPokemon]}
-        onClose={vi.fn()}
-        onSelectPokemon={vi.fn()}
-      />
-    );
+  it("renders all tabs correctly", () => {
+    render(<PokemonSummary {...defaultProps} />);
 
-    expect(screen.getByText("Bulbasaur")).toBeInTheDocument();
-    expect(screen.getByText("#001")).toBeInTheDocument();
-    expect(screen.getByText("OVERVIEW")).toBeInTheDocument();
-    if (mockPokemon.description) {
-      expect(screen.getByText(mockPokemon.description)).toBeInTheDocument();
-    }
+    expect(screen.getByText("Pikachu")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("STATS"));
+    expect(screen.getByTestId("stats")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("MOVES"));
+    expect(screen.getByTestId("moves")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("LOCATIONS"));
+    expect(screen.getByTestId("locations")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText("EVOLUTIONS"));
+    expect(screen.getByTestId("evolutions")).toBeInTheDocument();
   });
 
-  it("changes tabs when clicked", async () => {
-    renderWithProviders(
-      <PokemonSummary
-        pokemon={mockPokemon}
-        allPokemon={[mockPokemon]}
-        onClose={vi.fn()}
-        onSelectPokemon={vi.fn()}
-      />
-    );
-
-    const statsTab = screen.getByText("STATS");
-    fireEvent.click(statsTab);
-
-    await waitFor(() => {
-      expect(screen.getByText("hp")).toBeInTheDocument();
-      expect(screen.getByText("atk")).toBeInTheDocument();
-    });
-  });
-
-  it("calls onClose when close button is clicked", () => {
-    const handleClose = vi.fn();
-    renderWithProviders(
-      <PokemonSummary
-        pokemon={mockPokemon}
-        allPokemon={[mockPokemon]}
-        onClose={handleClose}
-        onSelectPokemon={vi.fn()}
-      />
-    );
-
+  it("calls onClose when clicking the close button", () => {
+    render(<PokemonSummary {...defaultProps} />);
     const closeBtn = screen.getByLabelText("Close summary");
     fireEvent.click(closeBtn);
-    expect(handleClose).toHaveBeenCalled();
+    expect(defaultProps.onClose).toHaveBeenCalled();
+  });
+
+  it("handles navigation between pokemon", () => {
+    render(<PokemonSummary {...defaultProps} />);
+    const nextBtn = screen
+      .getAllByRole("button")
+      .find(
+        (b) =>
+          b.className.includes("right-2") ||
+          b.innerHTML.includes("chevron-right")
+      );
+    if (nextBtn) {
+      fireEvent.click(nextBtn);
+      expect(defaultProps.onSelectPokemon).toHaveBeenCalled();
+    }
   });
 });

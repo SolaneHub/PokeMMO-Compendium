@@ -19,21 +19,28 @@ export default defineConfig([
       ".github/**",
     ],
   },
+  js.configs.recommended,
+  ...tseslint.configs.strict,
+  ...tseslint.configs.stylistic,
+  {
+    files: ["scripts/**/*.js"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
   {
     files: ["**/*.{ts,tsx}"],
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.strict,
-      ...tseslint.configs.stylistic,
-    ],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
+        ...globals.vitest,
       },
     },
     rules: {
-      "no-unused-vars": "off", // Handled by TS
+      "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         { args: "none", ignoreRestSiblings: true, caughtErrors: "none" },
@@ -56,6 +63,12 @@ export default defineConfig([
   {
     files: ["**/*.{ts,tsx}"],
     ...pluginReact.configs.flat.recommended,
+    languageOptions: {
+      ...pluginReact.configs.flat.recommended.languageOptions,
+      globals: {
+        ...globals.browser,
+      },
+    },
     settings: {
       react: {
         version: "detect",

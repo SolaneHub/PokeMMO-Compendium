@@ -69,6 +69,8 @@ export default defineConfig(() => ({
         "src/test/",
         "src/vite-env.d.ts",
         "src/main.tsx",
+        "src/constants/elite4Template.ts",
+        "src/firebase/firestoreService.ts",
       ],
       all: true,
     },

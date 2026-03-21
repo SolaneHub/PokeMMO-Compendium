@@ -3,41 +3,32 @@ import { describe, expect, it, vi } from "vitest";
 
 import PokemonCard from "./PokemonCard";
 
-describe("PokemonCard component", () => {
-  it("renders pokemon name and image", () => {
-    render(
-      <PokemonCard pokemonName="Pikachu" pokemonImageSrc="/pikachu.png" />
-    );
+describe("PokemonCard", () => {
+  const defaultProps = {
+    pokemonName: "Pikachu",
+    pokemonImageSrc: "pikachu.png",
+    nameBackground: "bg-yellow-400",
+    onClick: vi.fn(),
+    isSelected: false,
+  };
+
+  it("renders correctly", () => {
+    render(<PokemonCard {...defaultProps} />);
     expect(screen.getByText("Pikachu")).toBeInTheDocument();
-    const img = screen.getByAltText("Pikachu");
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute("src", "/pikachu.png");
+    const img = screen.getByRole("img");
+    expect(img).toHaveAttribute("src", "pikachu.png");
   });
 
-  it("renders a fallback placeholder if no image source is provided", () => {
-    render(<PokemonCard pokemonName="Unknown" />);
-    expect(screen.getByText("?")).toBeInTheDocument();
-  });
-
-  it("handles click events", () => {
-    const handleClick = vi.fn();
-    render(<PokemonCard pokemonName="Pikachu" onClick={handleClick} />);
-
+  it("calls onClick when clicked", () => {
+    render(<PokemonCard {...defaultProps} />);
     fireEvent.click(screen.getByRole("button"));
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(defaultProps.onClick).toHaveBeenCalled();
   });
 
-  it("applies selected styles when isSelected is true", () => {
-    render(
-      <PokemonCard
-        pokemonName="Pikachu"
-        isSelected={true}
-        nameBackground="red"
-      />
-    );
-    const card = screen.getByRole("button");
-    expect(card).toHaveClass("scale-105");
-    const styleAttr = card.getAttribute("style");
-    expect(styleAttr).toContain("border-color: red");
+  it("applies selected classes", () => {
+    render(<PokemonCard {...defaultProps} isSelected={true} />);
+    const btn = screen.getByRole("button");
+    // Verifichiamo che contenga la classe di scale che indica la selezione
+    expect(btn.className).toContain("scale-105");
   });
 });

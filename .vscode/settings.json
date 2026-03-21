@@ -1,0 +1,26 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.test.ts, ${capture}.test.tsx, ${capture}.spec.ts, ${capture}.spec.tsx, ${capture}.d.ts",
+    "*.tsx": "${capture}.test.tsx, ${capture}.test.ts, ${capture}.spec.tsx, ${capture}.spec.ts",
+    "*.js": "${capture}.test.js, ${capture}.spec.js",
+    "*.jsx": "${capture}.test.jsx, ${capture}.spec.jsx",
+    "package.json": "package-lock.json, pnpm-lock.yaml, yarn.lock, .npmrc, .nvmrc, .node-version",
+    "vite.config.ts": "tsconfig.app.json, tsconfig.json, tsconfig.node.json, .prettierrc, .prettierignore, eslint.config.js, .stylelintrc.json, .stylelintignore, .firebaserc, firebase.json, firestore.rules, firestore.indexes.json, cspell.json, sonar-project.properties"
+  },
+  "eslint.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.options": {
+    "overrideConfigFile": "eslint.config.js"
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}

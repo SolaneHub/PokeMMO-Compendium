@@ -44,3 +44,22 @@ export const eliteFourMembers: EliteFourMember[] = [
   },
   { name: "Alder", region: "Unova", type: "Various", image: "AlderNB.png" },
 ];
+
+const membersMap = new Map<string, EliteFourMember>(
+  eliteFourMembers.map((m) => [m.name, m])
+);
+
+export const getAllEliteFourMembers = (): EliteFourMember[] => {
+  return eliteFourMembers;
+};
+
+export const getMembersByRegion = (
+  regionName: string | null
+): EliteFourMember[] => {
+  if (!regionName) return [];
+  return eliteFourMembers.filter((m) => m.region === regionName);
+};
+
+export const getMemberByName = (memberName: string): EliteFourMember | null => {
+  return membersMap.get(memberName) || null;
+};

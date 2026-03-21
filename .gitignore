@@ -40,7 +40,6 @@ test-results.json
 src/docs/
 
 # Editor / IDE settings
-.vscode/
 .idea/
 
 # Microsoft IDE project files

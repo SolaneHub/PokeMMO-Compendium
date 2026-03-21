@@ -54,6 +54,28 @@ describe("idUtils", () => {
     expect(mockCrypto.getRandomValues).toHaveBeenCalled();
   });
 
+  it("uses globalThis.crypto if crypto is not directly defined", () => {
+    const mockUUID = "mock-uuid-456";
+    const mockCrypto = {
+      randomUUID: vi.fn().mockReturnValue(mockUUID),
+    };
+
+    // We need to temporarily hide the top-level 'crypto' variable
+    // In Vitest/Node environment, this can be tricky, but we can try to stub it
+    vi.stubGlobal("crypto", undefined);
+
+    Object.defineProperty(globalThis, "crypto", {
+      value: mockCrypto,
+      writable: true,
+      configurable: true,
+    });
+
+    const result = generateId("test");
+    expect(result).toBe(`test-${mockUUID}`);
+
+    vi.unstubAllGlobals();
+  });
+
   it("falls back to Math.random if crypto is missing", () => {
     Object.defineProperty(globalThis, "crypto", {
       value: undefined,
