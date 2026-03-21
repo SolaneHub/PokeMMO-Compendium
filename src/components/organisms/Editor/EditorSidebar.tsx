@@ -121,7 +121,7 @@ interface EnemyItemProps {
   activeId: string | number | null;
   onNavigate: (
     view: string,
-    id: string | number | null,
+    id?: string | number | null,
     context?: string | null
   ) => void;
   onRemoveEnemy: (member: string, enemy: string) => void;
@@ -169,7 +169,11 @@ interface EditorSidebarProps {
   team: Team;
   activeView: string;
   activeId: NavigationId;
-  onNavigate: (view: string, id: NavigationId, context?: string | null) => void;
+  onNavigate: (
+    view: string,
+    id?: NavigationId,
+    context?: string | null
+  ) => void;
   regions: string[];
   availableMembers: EliteFourMember[];
   enemyPools: Record<string, string[]>;

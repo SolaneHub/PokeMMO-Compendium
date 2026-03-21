@@ -20,6 +20,7 @@ vi.mock("react-router-dom", () => ({
 describe("myTeamsLoader", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.spyOn(console, "error").mockImplementation(vi.fn());
   });
 
   it("redirects to login if no user", async () => {

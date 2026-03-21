@@ -28,6 +28,7 @@ describe("AdminDashboardPage", () => {
       "confirm",
       vi.fn(() => true)
     );
+    vi.spyOn(console, "error").mockImplementation(vi.fn());
   });
 
   it("shows loading state", () => {
