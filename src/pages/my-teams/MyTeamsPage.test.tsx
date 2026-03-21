@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { User } from "firebase/auth";
 import { MemoryRouter, useLoaderData } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -60,9 +66,23 @@ vi.mock("@/components/organisms/TeamList", () => ({
 }));
 
 vi.mock("@/components/organisms/CreateTeamModal", () => ({
-  default: ({ onClose }: { onClose: () => void }) => (
+  default: ({
+    onClose,
+    onSubmit,
+  }: {
+    onClose: () => void;
+    onSubmit: (prevState: unknown, formData: FormData) => Promise<unknown>;
+  }) => (
     <div data-testid="create-modal">
       <button onClick={onClose}>Close</button>
+      <form
+        action={async (formData) => {
+          await onSubmit(null, formData);
+        }}
+      >
+        <input name="teamName" defaultValue="New Team" />
+        <button type="submit">Submit Form</button>
+      </form>
     </div>
   ),
 }));
@@ -78,7 +98,7 @@ describe("MyTeamsPage", () => {
     );
     vi.mocked(ToastContext.useToast).mockReturnValue(vi.fn());
     vi.mocked(UserTeamsHooks.useUserTeams).mockReturnValue({
-      createTeam: vi.fn(),
+      createTeam: vi.fn().mockResolvedValue("new-id"),
       deleteTeam: vi.fn(),
     } as unknown as UserTeamsHooks.UseUserTeamsReturn);
 
@@ -121,6 +141,28 @@ describe("MyTeamsPage", () => {
         "t1",
         "draft"
       );
+    });
+  });
+
+  it("handles team creation flow", async () => {
+    render(
+      <MemoryRouter>
+        <MyTeamsPage />
+      </MemoryRouter>
+    );
+
+    fireEvent.click(screen.getByText("Create New Team"));
+    expect(screen.getByTestId("create-modal")).toBeInTheDocument();
+
+    const submitBtn = screen.getByText("Submit Form");
+    await act(async () => {
+      fireEvent.click(submitBtn);
+    });
+
+    await waitFor(() => {
+      expect(
+        vi.mocked(UserTeamsHooks.useUserTeams)().createTeam
+      ).toHaveBeenCalledWith("New Team");
     });
   });
 });

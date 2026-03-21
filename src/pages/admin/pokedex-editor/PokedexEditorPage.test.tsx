@@ -51,11 +51,13 @@ describe("PokedexEditorPage", () => {
   });
 
   it("renders correctly and searches for pokemon", async () => {
-    render(
-      <MemoryRouter>
-        <PokedexEditorPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <PokedexEditorPage />
+        </MemoryRouter>
+      );
+    });
 
     expect(screen.getByText("Pokedex Editor")).toBeInTheDocument();
 

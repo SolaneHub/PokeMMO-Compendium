@@ -86,16 +86,18 @@ const SidebarItem = ({
   icon: Icon,
   actions,
 }: SidebarItemProps) => (
-  <button
-    type="button"
-    className={`group flex w-full cursor-pointer items-center justify-between rounded-md border bg-transparent px-3 py-2 text-left text-sm transition-colors duration-200 ${
+  <div
+    className={`group flex w-full items-center justify-between rounded-md border transition-colors duration-200 ${
       active
         ? "border-blue-500/20 bg-blue-600/10 text-blue-400"
         : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"
     }`}
-    onClick={onClick}
   >
-    <div className="flex items-center gap-3 overflow-hidden">
+    <button
+      type="button"
+      className="flex flex-1 cursor-pointer items-center gap-3 overflow-hidden bg-transparent px-3 py-2 text-left text-sm outline-none"
+      onClick={onClick}
+    >
       {Icon && (
         <Icon
           size={16}
@@ -103,13 +105,13 @@ const SidebarItem = ({
         />
       )}
       <span className="truncate">{children}</span>
-    </div>
+    </button>
     {actions && (
       <div className="opacity-0 transition-opacity group-hover:opacity-100">
         {actions}
       </div>
     )}
-  </button>
+  </div>
 );
 
 interface EnemyItemProps {

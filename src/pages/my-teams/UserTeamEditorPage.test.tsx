@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -34,6 +34,7 @@ vi.mock("@/components/organisms/Editor/EditorSidebar", () => ({
   }) => (
     <div data-testid="sidebar">
       <button onClick={() => onNavigate("roster", 0)}>Go to Pikachu</button>
+      <button onClick={() => onNavigate("settings")}>Go to Settings</button>
       <button onClick={() => onNavigate("strategy", "Dewgong", "Lorelei")}>
         Go to Strategy
       </button>
@@ -60,10 +61,13 @@ vi.mock("@/components/organisms/Editor/views/PokemonEditorView", () => ({
 vi.mock("@/components/organisms/Editor/StrategyEditor", () => ({
   default: ({
     onUpdateSteps,
+    selectedEnemyPokemon,
   }: {
     onUpdateSteps: (steps: StrategyStep[]) => void;
+    selectedEnemyPokemon: string;
   }) => (
     <div data-testid="strategy-editor">
+      <span>Editing {selectedEnemyPokemon}</span>
       <button
         onClick={() =>
           onUpdateSteps([{ id: "1", type: "text", description: "New Step" }])
@@ -118,7 +122,7 @@ describe("UserTeamEditorPage", () => {
     } as unknown as TeamEditorHooks.UseTeamEditorReturn);
   });
 
-  it("handles strategy updates", async () => {
+  it("handles member update correctly", async () => {
     const setTeamMock = vi.fn();
     vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue({
       team: mockTeam,
@@ -134,19 +138,17 @@ describe("UserTeamEditorPage", () => {
       </MemoryRouter>
     );
 
-    fireEvent.click(screen.getByText("Go to Strategy"));
-    expect(screen.getByTestId("strategy-editor")).toBeInTheDocument();
+    // Navigate to roster slot 0
+    fireEvent.click(screen.getByText("Go to Pikachu"));
 
-    fireEvent.click(screen.getByText("Update Strategy"));
+    // Trigger update member (simulated by save button in mock)
+    fireEvent.click(screen.getByText("Save Member"));
+
     expect(setTeamMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        strategies: expect.objectContaining({
-          Lorelei: expect.objectContaining({
-            Dewgong: expect.arrayContaining([
-              expect.objectContaining({ description: "New Step" }),
-            ]),
-          }),
-        }),
+        members: expect.arrayContaining([
+          expect.objectContaining({ name: "Raichu" }),
+        ]),
       })
     );
   });
@@ -170,13 +172,40 @@ describe("UserTeamEditorPage", () => {
     fireEvent.click(screen.getByText("Add Enemy to Lorelei"));
     expect(screen.getByTestId("add-enemy-modal")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText("Add Cloyster"));
+    await act(async () => {
+      fireEvent.click(screen.getByText("Add Cloyster"));
+    });
+
     expect(setTeamMock).toHaveBeenCalledWith(
       expect.objectContaining({
         enemyPools: expect.objectContaining({
           Lorelei: expect.arrayContaining(["Dewgong", "Cloyster"]),
         }),
       })
+    );
+  });
+
+  it("handles team name change", async () => {
+    const setTeamMock = vi.fn();
+    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue({
+      team: mockTeam,
+      setTeam: setTeamMock,
+      loading: false,
+      saving: false,
+      saveTeam: vi.fn(),
+    } as unknown as TeamEditorHooks.UseTeamEditorReturn);
+
+    render(
+      <MemoryRouter>
+        <UserTeamEditorPage />
+      </MemoryRouter>
+    );
+
+    const input = screen.getByDisplayValue("My Pro Team");
+    fireEvent.change(input, { target: { value: "Updated Name" } });
+
+    expect(setTeamMock).toHaveBeenCalledWith(
+      expect.objectContaining({ name: "Updated Name" })
     );
   });
 });

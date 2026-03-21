@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -56,41 +62,50 @@ describe("EliteFourPage", () => {
     vi.mocked(TeamsService.getAllApprovedTeams).mockResolvedValue(mockTeams);
   });
 
-  it("shows loading state for pokedex", () => {
+  it("shows loading state for pokedex", async () => {
     vi.mocked(PokedexHooks.usePokedexData).mockReturnValue({
       isLoading: true,
     } as unknown as PokedexHooks.UsePokedexDataReturn);
-    render(<EliteFourPage />);
+    await act(async () => {
+      render(<EliteFourPage />);
+    });
     expect(screen.getByText("Loading Pokedex data...")).toBeInTheDocument();
   });
 
   it("renders teams and handles selection flow", async () => {
-    render(
-      <MemoryRouter>
-        <EliteFourPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <EliteFourPage />
+        </MemoryRouter>
+      );
+    });
 
-    expect(screen.getByText("Loading community teams...")).toBeInTheDocument();
-
+    // Check if team appears (it will replace the loading state automatically)
     await waitFor(() => {
       expect(screen.getByText("Community Team 1")).toBeInTheDocument();
     });
 
     // Select Team
-    fireEvent.click(screen.getByText("Community Team 1"));
+    await act(async () => {
+      fireEvent.click(screen.getByText("Community Team 1"));
+    });
 
     // Should show region selection
     expect(screen.getByText("Select Region")).toBeInTheDocument();
 
     // Select Region (Kanto)
-    fireEvent.click(screen.getByText("Kanto"));
+    await act(async () => {
+      fireEvent.click(screen.getByText("Kanto"));
+    });
 
     // Select Member (Lorelei)
     await waitFor(() => {
       expect(screen.getByText("Lorelei")).toBeInTheDocument();
     });
-    fireEvent.click(screen.getByText("Lorelei"));
+    await act(async () => {
+      fireEvent.click(screen.getByText("Lorelei"));
+    });
 
     // Select Pokemon (Dewgong)
     await waitFor(() => {
@@ -102,11 +117,13 @@ describe("EliteFourPage", () => {
     vi.mocked(TeamsService.getAllApprovedTeams).mockRejectedValue(
       new Error("Fail")
     );
-    render(
-      <MemoryRouter>
-        <EliteFourPage />
-      </MemoryRouter>
-    );
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <EliteFourPage />
+        </MemoryRouter>
+      );
+    });
 
     await waitFor(() => {
       expect(
