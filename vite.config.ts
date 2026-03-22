@@ -22,12 +22,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
     icons: [
       {
         src: "master-ball.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        src: "master-ball.png",
-        sizes: "512x512",
+        sizes: "124x124",
         type: "image/png",
       },
     ],
@@ -48,6 +43,18 @@ export default defineConfig(() => ({
   build: {
     outDir: "dist",
     chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-firebase": [
+            "firebase/app",
+            "firebase/auth",
+            "firebase/firestore",
+          ],
+        },
+      },
+    },
   },
   test: {
     globals: true,
