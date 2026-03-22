@@ -1,0 +1,51 @@
+# Configurazione per il labeling automatico delle Pull Request
+# In base ai file modificati, vengono assegnate le label corrispondenti.
+
+"Type: UX/UI":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/components/**/*"
+          - "src/pages/**/*"
+          - "src/app/index.css"
+
+"Type: Bug":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.test.ts"
+          - "**/*.test.tsx"
+
+"Type: Docs":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "docs/**/*"
+
+"Type: Refactor":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/utils/**/*"
+          - "src/hooks/**/*"
+
+"Type: Chore":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "package.json"
+          - "package-lock.json"
+          - "tsconfig.json"
+          - "vite.config.ts"
+          - ".github/workflows/**/*"
+          - "firebase.json"
+          - ".firebaserc"
+          - "firestore.rules"
+          - "firestore.indexes.json"
+
+"Type: Security":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "firestore.rules"
+
+"Type: Test":
+  - changed-files:
+      - any-glob-to-any-file:
+          - "src/test/**/*"
+          - "**/*.test.*"
