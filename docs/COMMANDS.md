@@ -1,54 +1,54 @@
-# 🛠️ Comandi Utili per PokeMMO Compendium
+# 🛠️ Useful Commands for PokeMMO Compendium
 
-Questo file riassume i comandi principali per lo sviluppo, il testing e il deploy del progetto.
+This file summarizes the main commands for development, testing, and deployment of the project.
 
-## 🚀 Sviluppo Locale
+## 🚀 Local Development
 
-Questi comandi servono per lavorare sul progetto nel tuo computer.
+These commands are used to work on the project on your computer.
 
-| Comando           | Descrizione                                                                                                                    |
-| :---------------- | :----------------------------------------------------------------------------------------------------------------------------- |
-| **`npm run dev`** | **Avvia l'applicazione.** Lancia il frontend (Vite) in modalità sviluppo.                                                      |
-| `npm run preview` | Simula la build di produzione in locale. Utile per controllare che il sito funzioni come se fosse online prima di fare deploy. |
+| Command           | Description                                                                                                    |
+| :---------------- | :------------------------------------------------------------------------------------------------------------- |
+| **`npm run dev`** | **Start the application.** Launches the frontend (Vite) in development mode.                                   |
+| `npm run preview` | Simulates the production build locally. Useful for checking that the site works correctly before deployment.   |
 
-## ✨ Qualità del Codice
+## ✨ Code Quality
 
-Usa questi comandi per mantenere il codice pulito e ordinato.
+Use these commands to keep the code clean and organized.
 
-| Comando            | Descrizione                                                      |
-| :----------------- | :--------------------------------------------------------------- |
-| **`npm run lint`** | Cerca errori nel codice (regole ESLint).                         |
-| `npm run lint:fix` | Cerca errori e prova a **correggerli automaticamente**.          |
-| `npm run format`   | Formatta tutto il codice (spazi, virgole, ecc.) usando Prettier. |
+| Command            | Description                                                     |
+| :----------------- | :-------------------------------------------------------------- |
+| **`npm run lint`** | Checks for code errors (ESLint rules).                          |
+| `npm run lint:fix` | Checks for errors and tries to **fix them automatically**.      |
+| `npm run format`   | Formats all code (spaces, commas, etc.) using Prettier.         |
 
-## 🌐 Deploy del Sito (GitHub Pages)
+## 🌐 Site Deployment (GitHub Pages)
 
-Comandi per pubblicare la parte visibile del sito.
+Commands to publish the visible part of the site.
 
-| Comando              | Descrizione                                                                                                                   |
+| Command              | Description                                                                                                                   |
 | :------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| **`npm run deploy`** | **Pubblica il sito.** Costruisce il progetto (`npm run build`) e lo carica su GitHub Pages.                                   |
-| `npm run build`      | Compila solo il progetto nella cartella `dist/` senza pubblicarlo. Crea anche la pagina `404.html` necessaria per il routing. |
+| **`npm run deploy`** | **Publish the site.** Builds the project (`npm run build`) and uploads it to GitHub Pages.                                    |
+| `npm run build`      | Compiles the project into the `dist/` folder without publishing. Also creates the `404.html` page required for routing.        |
 
 ## 🔥 Database (Firebase)
 
-Comandi per gestire il database e le regole di sicurezza.
+Commands to manage the database and security rules.
 
-| Comando                                | Descrizione                                                                                                  |
-| :------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
-| **`firebase deploy --only firestore`** | Pubblica le **regole di sicurezza** (`firestore.rules`) e gli indici (`firestore.indexes.json`) su Firebase. |
+| Command                                | Description                                                                                    |
+| :------------------------------------- | :--------------------------------------------------------------------------------------------- |
+| **`firebase deploy --only firestore`** | Publishes **security rules** (`firestore.rules`) and indexes (`firestore.indexes.json`) to Firebase. |
 
-## 🔍 SonarCloud (Qualità del Codice)
+## 🔍 SonarCloud (Code Quality)
 
-Comandi e processi per monitorare la qualità del codice e il debito tecnico.
+Commands and processes to monitor code quality and technical debt.
 
-| Comando                    | Descrizione                                                                                                                   |
-| :------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| **`npm run sonar:report`** | **Genera report locale.** Scarica le issue aperte da SonarCloud e crea il file `sonar-full-report.md`.                        |
-| `CI (GitHub Actions)`      | **Analisi automatica.** Ogni Pull Request e push su `main` avvia un'analisi SonarCloud che verifica i Quality Gates. |
+| Command                    | Description                                                                                                   |
+| :------------------------- | :------------------------------------------------------------------------------------------------------------ |
+| **`npm run sonar:report`** | **Generate local report.** Downloads open issues from SonarCloud and creates the `sonar-full-report.md` file. |
+| `CI (GitHub Actions)`      | **Automatic analysis.** Every Pull Request and push to `main` starts a SonarCloud analysis to verify Quality Gates. |
 
 ---
 
-### 📝 Note Importanti
+### 📝 Important Notes
 
-- **Routing su GitHub Pages:** Il progetto è configurato per gestire il routing SPA su GitHub Pages tramite la creazione automatica di un file `404.html` durante la build.
+- **Routing on GitHub Pages:** The project is configured to handle SPA routing on GitHub Pages by automatically creating a `404.html` file during the build.

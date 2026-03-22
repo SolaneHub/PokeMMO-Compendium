@@ -57,3 +57,4 @@ Thumbs.db
 
 # Gemini secrets
 .gemini/.gemini.env
+sonar-full-report.md

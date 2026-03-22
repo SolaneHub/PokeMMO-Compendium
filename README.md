@@ -26,6 +26,7 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 - **📱 Mobile-First Design**: Clean, responsive interface that works perfectly on any device.
 - **🔐 User Data (Firebase)**: Features like "My Teams" allow authenticated users to create, save, and manage their own custom teams and strategies using Firebase Firestore. Data like Boss Fights and Pokédex are also managed via Firestore for easier updates.
 - **🌐 Dynamic Base URL Handling**: Supports different base URLs for local development and GitHub Pages deployment.
+- **🔄 Workflow & Versioning**: Structured use of GitHub Labels and Semantic Versioning (see [WORKFLOW.md](./docs/WORKFLOW.md)).
 
 ---
 
