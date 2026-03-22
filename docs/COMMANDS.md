@@ -38,6 +38,15 @@ Comandi per gestire il database e le regole di sicurezza.
 | :------------------------------------- | :----------------------------------------------------------------------------------------------------------- |
 | **`firebase deploy --only firestore`** | Pubblica le **regole di sicurezza** (`firestore.rules`) e gli indici (`firestore.indexes.json`) su Firebase. |
 
+## 🔍 SonarCloud (Qualità del Codice)
+
+Comandi e processi per monitorare la qualità del codice e il debito tecnico.
+
+| Comando                    | Descrizione                                                                                                                   |
+| :------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| **`npm run sonar:report`** | **Genera report locale.** Scarica le issue aperte da SonarCloud e crea il file `sonar-full-report.md`.                        |
+| `CI (GitHub Actions)`      | **Analisi automatica.** Ogni Pull Request e push su `main` avvia un'analisi SonarCloud che verifica i Quality Gates. |
+
 ---
 
 ### 📝 Note Importanti
