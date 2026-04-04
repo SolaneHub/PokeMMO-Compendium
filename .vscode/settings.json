@@ -6,8 +6,13 @@
     "*.tsx": "${capture}.test.tsx, ${capture}.test.ts, ${capture}.spec.tsx, ${capture}.spec.ts",
     "*.js": "${capture}.test.js, ${capture}.spec.js",
     "*.jsx": "${capture}.test.jsx, ${capture}.spec.jsx",
-    "package.json": "package-lock.json, pnpm-lock.yaml, yarn.lock, .npmrc, .nvmrc, .node-version",
-    "vite.config.ts": "tsconfig.app.json, tsconfig.json, tsconfig.node.json, .prettierrc, .prettierignore, eslint.config.js, .stylelintrc.json, .stylelintignore, .firebaserc, firebase.json, firestore.rules, firestore.indexes.json, cspell.json, sonar-project.properties"
+    "package.json": "package-lock.json",
+    ".prettierrc": ".prettierignore",
+    ".stylelintrc.json": ".stylelintignore, .stylelintcache",
+    "eslint.config.js": ".eslintcache",
+    "tsconfig.json": "tsconfig.app.json, tsconfig.node.json, tsconfig.app.tsbuildinfo, tsconfig.node.tsbuildinfo",
+    ".env.example": ".env",
+    ".firebaserc": "firebase.json"
   },
   "eslint.enable": true,
   "eslint.useFlatConfig": true,
