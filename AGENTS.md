@@ -39,20 +39,20 @@
 
 - **Development:**
   ```bash
-  npm run dev
+  pnpm dev
   ```
 
   - Starts the Vite frontend (localhost:5173).
 - **Production Build:**
   ```bash
-  npm run build
+  pnpm build
   ```
 
   - Builds the app to the `dist/` folder. Copies `index.html` to `404.html` for SPA routing on GitHub Pages.
 - **Linting & Formatting:**
   ```bash
-  npm run lint
-  npm run format
+  pnpm lint
+  pnpm format
   ```
 
 ## Development Conventions

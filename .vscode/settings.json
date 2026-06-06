@@ -6,7 +6,7 @@
     "*.tsx": "${capture}.test.tsx, ${capture}.test.ts, ${capture}.spec.tsx, ${capture}.spec.ts",
     "*.js": "${capture}.test.js, ${capture}.spec.js",
     "*.jsx": "${capture}.test.jsx, ${capture}.spec.jsx",
-    "package.json": "package-lock.json",
+    "package.json": "pnpm-lock.yaml",
     ".prettierrc": ".prettierignore",
     ".stylelintrc.json": ".stylelintignore, .stylelintcache",
     "eslint.config.js": ".eslintcache",

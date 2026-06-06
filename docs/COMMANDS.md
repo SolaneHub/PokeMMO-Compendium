@@ -6,29 +6,28 @@ This file summarizes the main commands for development, testing, and deployment 
 
 These commands are used to work on the project on your computer.
 
-| Command           | Description                                                                                                    |
-| :---------------- | :------------------------------------------------------------------------------------------------------------- |
-| **`npm run dev`** | **Start the application.** Launches the frontend (Vite) in development mode.                                   |
-| `npm run preview` | Simulates the production build locally. Useful for checking that the site works correctly before deployment.   |
+| Command       | Description                                                                                                    |
+| :------------ | :------------------------------------------------------------------------------------------------------------- |
+| **`pnpm dev`** | **Start the application.** Launches the frontend (Vite) in development mode.                                   |
+| `pnpm preview` | Simulates the production build locally. Useful for checking that the site works correctly before deployment.   |
 
 ## ✨ Code Quality
 
 Use these commands to keep the code clean and organized.
 
-| Command            | Description                                                     |
-| :----------------- | :-------------------------------------------------------------- |
-| **`npm run lint`** | Checks for code errors (ESLint rules).                          |
-| `npm run lint:fix` | Checks for errors and tries to **fix them automatically**.      |
-| `npm run format`   | Formats all code (spaces, commas, etc.) using Prettier.         |
+| Command        | Description                                                     |
+| :------------- | :-------------------------------------------------------------- |
+| **`pnpm lint`** | Checks for code errors (ESLint rules).                          |
+| `pnpm lint:fix` | Checks for errors and tries to **fix them automatically**.      |
+| `pnpm format`   | Formats all code (spaces, commas, etc.) using Prettier.         |
 
-## 🌐 Site Deployment (GitHub Pages)
+## 🌐 Site Deployment (Firebase Hosting)
 
-Commands to publish the visible part of the site.
+Deployment is automated via GitHub Actions on the `production` branch.
 
-| Command              | Description                                                                                                                   |
-| :------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| **`npm run deploy`** | **Publish the site.** Builds the project (`npm run build`) and uploads it to GitHub Pages.                                    |
-| `npm run build`      | Compiles the project into the `dist/` folder without publishing. Also creates the `404.html` page required for routing.        |
+| Command      | Description                                                                                                                   |
+| :----------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm build` | Compiles the project into the `dist/` folder without publishing. Also creates the `404.html` page required for routing.        |
 
 ## 🔥 Database (Firebase)
 
@@ -42,10 +41,10 @@ Commands to manage the database and security rules.
 
 Commands and processes to monitor code quality and technical debt.
 
-| Command                    | Description                                                                                                   |
-| :------------------------- | :------------------------------------------------------------------------------------------------------------ |
-| **`npm run sonar:report`** | **Generate local report.** Downloads open issues from SonarCloud and creates the `sonar-full-report.md` file. |
-| `CI (GitHub Actions)`      | **Automatic analysis.** Every Pull Request and push to `main` starts a SonarCloud analysis to verify Quality Gates. |
+| Command               | Description                                                                                                   |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------ |
+| **`pnpm sonar:report`** | **Generate local report.** Downloads open issues from SonarCloud and creates the `sonar-full-report.md` file. |
+| `CI (GitHub Actions)` | **Automatic analysis.** Every Pull Request and push to `main` starts a SonarCloud analysis to verify Quality Gates. |
 
 ---
 
