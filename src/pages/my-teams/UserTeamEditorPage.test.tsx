@@ -3,8 +3,8 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as ToastContext from "@/context/ToastContext";
-import * as TeamEditorHooks from "@/hooks/useTeamEditor";
-import { StrategyStep, Team, TeamMember } from "@/types/teams";
+import * as TeamEditorHooks from "@/pages/my-teams/hooks/useTeamEditor";
+import { StrategyStep, Team, TeamMember } from "@/pages/my-teams/types/teams";
 
 import UserTeamEditorPage from "./UserTeamEditorPage";
 
@@ -18,11 +18,11 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-vi.mock("@/hooks/useTeamEditor");
+vi.mock("@/pages/my-teams/hooks/useTeamEditor");
 vi.mock("@/context/ToastContext");
 
 // Mocking organisms/molecules
-vi.mock("@/components/organisms/Editor/EditorSidebar", () => ({
+vi.mock("@/pages/my-teams/components/Editor/EditorSidebar", () => ({
   default: ({
     onNavigate,
     onRemoveEnemy,
@@ -47,7 +47,7 @@ vi.mock("@/components/organisms/Editor/EditorSidebar", () => ({
     </div>
   ),
 }));
-vi.mock("@/components/organisms/Editor/views/PokemonEditorView", () => ({
+vi.mock("@/pages/my-teams/components/Editor/views/PokemonEditorView", () => ({
   default: ({ onSave }: { onSave: (data: TeamMember) => void }) => (
     <div data-testid="pokemon-editor">
       <button
@@ -58,7 +58,7 @@ vi.mock("@/components/organisms/Editor/views/PokemonEditorView", () => ({
     </div>
   ),
 }));
-vi.mock("@/components/organisms/Editor/StrategyEditor", () => ({
+vi.mock("@/pages/my-teams/components/Editor/StrategyEditor", () => ({
   default: ({
     onUpdateSteps,
     selectedEnemyPokemon,
@@ -78,7 +78,7 @@ vi.mock("@/components/organisms/Editor/StrategyEditor", () => ({
     </div>
   ),
 }));
-vi.mock("@/components/organisms/AddEnemyPokemonModal", () => ({
+vi.mock("@/pages/my-teams/components/AddEnemyPokemonModal", () => ({
   default: ({
     onAdd,
     isOpen,

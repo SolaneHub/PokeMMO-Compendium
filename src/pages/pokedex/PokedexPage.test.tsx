@@ -11,7 +11,7 @@ import PokedexPage from "./PokedexPage";
 vi.mock("@/hooks/usePokedexData");
 
 // Mocking organisms to simplify
-vi.mock("@/components/organisms/PokemonGrid", () => ({
+vi.mock("@/components/PokemonGrid", () => ({
   default: ({
     pokemonList,
     onSelectPokemon,
@@ -29,7 +29,7 @@ vi.mock("@/components/organisms/PokemonGrid", () => ({
   ),
 }));
 
-vi.mock("@/components/organisms/PokemonSummary", () => ({
+vi.mock("@/components/PokemonSummary", () => ({
   default: ({
     pokemon,
     onClose,

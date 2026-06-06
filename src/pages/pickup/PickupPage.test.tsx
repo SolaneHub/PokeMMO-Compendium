@@ -1,25 +1,25 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PickupHooks from "@/hooks/usePickupData";
 import * as PokedexHooks from "@/hooks/usePokedexData";
-import { PickupRegion } from "@/types/pickup";
+import * as PickupHooks from "@/pages/pickup/hooks/usePickupData";
+import { PickupRegion } from "@/pages/pickup/types/pickup";
 import { Pokemon } from "@/types/pokemon";
 
 import PickupPage from "./PickupPage";
 
 // Mocking hooks
 vi.mock("@/hooks/usePokedexData");
-vi.mock("@/hooks/usePickupData");
+vi.mock("@/pages/pickup/hooks/usePickupData");
 
 // Mocking components
-vi.mock("@/components/organisms/PickupRegionSection", () => ({
+vi.mock("@/pages/pickup/components/PickupRegionSection", () => ({
   default: ({ region }: { region: PickupRegion }) => (
     <div data-testid="region-section">{region.id}</div>
   ),
 }));
 
-vi.mock("@/components/organisms/TeamBuildModal", () => ({
+vi.mock("@/pages/my-teams/components/TeamBuildModal", () => ({
   default: ({ onClose }: { onClose: () => void }) => (
     <div data-testid="build-modal">
       <button onClick={onClose}>Close Modal</button>

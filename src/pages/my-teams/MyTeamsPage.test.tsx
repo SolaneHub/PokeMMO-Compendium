@@ -11,9 +11,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as ConfirmationContext from "@/context/ConfirmationContext";
 import * as ToastContext from "@/context/ToastContext";
-import * as TeamsService from "@/firebase/services/teamsService";
-import * as UserTeamsHooks from "@/hooks/useUserTeams";
-import { Team } from "@/types/teams";
+import * as UserTeamsHooks from "@/pages/my-teams/hooks/useUserTeams";
+import * as TeamsService from "@/pages/my-teams/services/teamsService";
+import { Team } from "@/pages/my-teams/types/teams";
 
 import MyTeamsPage from "./MyTeamsPage";
 
@@ -28,13 +28,13 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-vi.mock("@/hooks/useUserTeams");
+vi.mock("@/pages/my-teams/hooks/useUserTeams");
 vi.mock("@/context/ConfirmationContext");
 vi.mock("@/context/ToastContext");
-vi.mock("@/firebase/services/teamsService");
+vi.mock("@/pages/my-teams/services/teamsService");
 
 // Mocking organisms
-vi.mock("@/components/organisms/TeamList", () => ({
+vi.mock("@/pages/my-teams/components/TeamList", () => ({
   default: ({
     teams,
     onDeleteTeam,
@@ -65,7 +65,7 @@ vi.mock("@/components/organisms/TeamList", () => ({
   ),
 }));
 
-vi.mock("@/components/organisms/CreateTeamModal", () => ({
+vi.mock("@/pages/my-teams/components/CreateTeamModal", () => ({
   default: ({
     onClose,
     onSubmit,

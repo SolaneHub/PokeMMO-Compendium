@@ -14,7 +14,7 @@ vi.mock("@/context/AuthContext");
 vi.mock("@/context/ToastContext");
 vi.mock("@/firebase/services/movesService");
 vi.mock("@/utils/migrationUtils");
-vi.mock("@/components/organisms/AdminTeamList", () => ({
+vi.mock("@/pages/admin/components/AdminTeamList", () => ({
   default: () => <div data-testid="admin-team-list" />,
 }));
 

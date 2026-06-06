@@ -1,10 +1,10 @@
 import { RefreshCw } from "lucide-react";
 
-import BulletList from "@/components/molecules/BulletList";
-import RegionRoutes from "@/components/organisms/RegionRoutes";
-import PageLayout from "@/components/templates/PageLayout";
-import { useTrainerRerunData } from "@/hooks/useTrainerRerunData";
-import { RegionRoute } from "@/types/trainerRerun";
+import PageLayout from "@/components/PageLayout";
+import BulletList from "@/components/ui/BulletList";
+import RegionRoutes from "@/pages/trainer-rerun/components/RegionRoutes";
+import { useTrainerRerunData } from "@/pages/trainer-rerun/hooks/useTrainerRerunData";
+import { RegionRoute } from "@/pages/trainer-rerun/types/trainerRerun";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 const TrainerRerunPage = () => {

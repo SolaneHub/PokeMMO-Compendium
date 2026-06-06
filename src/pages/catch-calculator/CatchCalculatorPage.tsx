@@ -1,13 +1,13 @@
 import { Trophy } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-import CaptureSection from "@/components/organisms/CatchCalculator/CaptureSection";
-import ConditionsSection from "@/components/organisms/CatchCalculator/ConditionsSection";
-import TargetSection from "@/components/organisms/CatchCalculator/TargetSection";
-import PageLayout from "@/components/templates/PageLayout";
-import { useCatchProbability } from "@/hooks/useCatchProbability";
+import PageLayout from "@/components/PageLayout";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { usePokemonUI } from "@/hooks/usePokemonUI";
+import CaptureSection from "@/pages/catch-calculator/components/CatchCalculator/CaptureSection";
+import ConditionsSection from "@/pages/catch-calculator/components/CatchCalculator/ConditionsSection";
+import TargetSection from "@/pages/catch-calculator/components/CatchCalculator/TargetSection";
+import { useCatchProbability } from "@/pages/catch-calculator/hooks/useCatchProbability";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { usePersistentState } from "@/utils/usePersistentState";
 

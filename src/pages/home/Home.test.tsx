@@ -8,10 +8,10 @@ import Home from "./Home";
 
 // Mocking dependencies
 vi.mock("@/context/AuthContext");
-vi.mock("@/components/organisms/HomeHero", () => ({
+vi.mock("@/pages/home/components/HomeHero", () => ({
   default: () => <div>Hero</div>,
 }));
-vi.mock("@/components/organisms/HomeFooter", () => ({
+vi.mock("@/pages/home/components/HomeFooter", () => ({
   default: () => <div>Footer</div>,
 }));
 

@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import ConfirmationModal from "@/components/molecules/ConfirmationModal";
+import ConfirmationModal from "@/components/ui/ConfirmationModal";
 
 interface ConfirmOptions {
   title: string;

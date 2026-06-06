@@ -1,10 +1,10 @@
 import { BookOpen } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
 
-import SearchBar from "@/components/molecules/SearchBar";
-import PokemonGrid from "@/components/organisms/PokemonGrid";
-import PokemonSummary from "@/components/organisms/PokemonSummary";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import PokemonGrid from "@/components/PokemonGrid";
+import PokemonSummary from "@/components/PokemonSummary";
+import SearchBar from "@/components/ui/SearchBar";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";

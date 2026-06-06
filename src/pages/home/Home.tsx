@@ -1,8 +1,8 @@
-import FeatureCard from "@/components/molecules/FeatureCard";
-import HomeFooter from "@/components/organisms/HomeFooter";
-import HomeHero from "@/components/organisms/HomeHero";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import FeatureCard from "@/components/ui/FeatureCard";
 import { useAuth } from "@/context/AuthContext";
+import HomeFooter from "@/pages/home/components/HomeFooter";
+import HomeHero from "@/pages/home/components/HomeHero";
 import { Feature, FEATURE_CONFIG, FeatureKey } from "@/utils/featureConfig";
 
 function Home() {

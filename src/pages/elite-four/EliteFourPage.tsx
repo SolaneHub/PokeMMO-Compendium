@@ -1,18 +1,18 @@
 import { Crown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import TeamSelection from "@/components/molecules/TeamSelection";
-import ViewTeamBuildButton from "@/components/molecules/ViewTeamBuildButton";
-import MemberSelection from "@/components/organisms/MemberSelection";
-import PokemonSelection from "@/components/organisms/PokemonSelection";
-import RegionSelection from "@/components/organisms/RegionSelection";
-import StrategyModal from "@/components/organisms/StrategyModal";
-import TeamBuildModal from "@/components/organisms/TeamBuildModal";
-import PageLayout from "@/components/templates/PageLayout";
-import { getAllApprovedTeams } from "@/firebase/services/teamsService";
+import MemberSelection from "@/components/MemberSelection";
+import PageLayout from "@/components/PageLayout";
+import PokemonSelection from "@/components/PokemonSelection";
+import RegionSelection from "@/components/RegionSelection";
+import StrategyModal from "@/components/StrategyModal";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
-import { StrategyStep, Team, TeamMember } from "@/types/teams";
+import ViewTeamBuildButton from "@/pages/elite-four/components/ViewTeamBuildButton";
+import TeamBuildModal from "@/pages/my-teams/components/TeamBuildModal";
+import { getAllApprovedTeams } from "@/pages/my-teams/services/teamsService";
+import { StrategyStep, Team, TeamMember } from "@/pages/my-teams/types/teams";
+import TeamSelection from "@/pages/trainer-rerun/components/TeamSelection";
 import { getMembersByRegion } from "@/utils/eliteFourMembers";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";

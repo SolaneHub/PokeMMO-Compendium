@@ -1,0 +1,81 @@
+import PlayerBuildCard from "@/components/PlayerBuildCard";
+import { RaidBuild } from "@/pages/raids/types/raids";
+import { Pokemon } from "@/types/pokemon";
+
+interface RaidBuildsTabProps {
+  recommendedList: RaidBuild[];
+  buildGroups: Record<string, RaidBuild[]> | null;
+  effectiveBuildGroupKey: string | null;
+  setSelectedBuildGroup: (groupName: string) => void;
+  pokemonMap: Map<string, Pokemon>;
+}
+
+const RaidBuildsTab = ({
+  recommendedList,
+  buildGroups,
+  effectiveBuildGroupKey,
+  setSelectedBuildGroup,
+  pokemonMap,
+}: RaidBuildsTabProps) => {
+  return (
+    <section className="rounded-lg bg-white/5 p-3 text-white">
+      {recommendedList.length > 0 ? (
+        <>
+          <h3 className="mb-3 text-[10px] font-bold tracking-widest text-slate-400 uppercase">
+            Recommended Setup
+          </h3>
+          {buildGroups ? (
+            <>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {Object.keys(buildGroups)
+                  .sort((a, b) => a.localeCompare(b))
+                  .map((groupName) => (
+                    <button
+                      key={groupName}
+                      onClick={() => setSelectedBuildGroup(groupName)}
+                      className={`min-w-20 flex-1 cursor-pointer rounded-md border px-1.5 py-2.5 text-sm font-semibold transition-all ${
+                        effectiveBuildGroupKey === groupName
+                          ? "border-blue-500/50 bg-blue-600/20 text-blue-400 shadow-[0_0_0_1px_rgba(59,130,246,0.1)]"
+                          : "border-white/5 bg-[#0f1014] text-slate-400 hover:bg-white/10 hover:text-slate-200"
+                      }`}
+                    >
+                      {groupName.replace(/player(\d+)/i, "Player $1")}
+                    </button>
+                  ))}
+              </div>
+              {effectiveBuildGroupKey &&
+                buildGroups[effectiveBuildGroupKey] && (
+                  <div className="flex animate-[fade-in_0.3s_ease-out] flex-col gap-2.5">
+                    {buildGroups[effectiveBuildGroupKey].map((build, i) => (
+                      <PlayerBuildCard
+                        key={`${build.name}-${i}`}
+                        build={build}
+                        pokemonMap={pokemonMap}
+                      />
+                    ))}
+                  </div>
+                )}
+            </>
+          ) : (
+            <ul className="m-0 flex list-none flex-col gap-2 p-0">
+              {recommendedList.map((rec, i) => (
+                <li
+                  key={`${typeof rec === "string" ? rec : rec.name}-${i}`}
+                  className="rounded border border-white/5 bg-[#0f1014] p-2 text-sm"
+                >
+                  {typeof rec === "string" ? rec : JSON.stringify(rec)}
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      ) : (
+        <p className="p-4 text-center text-slate-500 italic">
+          No recommended builds available.
+        </p>
+      )}
+    </section>
+  );
+};
+
+export default RaidBuildsTab;

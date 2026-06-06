@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ConfirmationProvider, useConfirm } from "./ConfirmationContext";
 
 // Mock ConfirmationModal to simplify testing the context logic
-vi.mock("@/components/molecules/ConfirmationModal", () => ({
+vi.mock("@/components/ui/ConfirmationModal", () => ({
   default: ({
     title,
     message,

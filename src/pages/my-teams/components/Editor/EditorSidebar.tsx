@@ -1,0 +1,332 @@
+import {
+  ChevronDown,
+  ChevronRight,
+  LucideIcon,
+  Map,
+  Settings,
+  Shield,
+  Swords,
+  Trash2,
+  Users,
+} from "lucide-react";
+import React, { ReactNode, useState } from "react";
+
+import Button from "@/components/ui/Button";
+import { Team, TeamMember } from "@/pages/my-teams/types/teams";
+import { EliteFourMember } from "@/utils/eliteFourMembers";
+import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
+
+const PokemonIcon = ({
+  size = 16,
+  pokemonName,
+  className,
+}: {
+  size?: number;
+  pokemonName: string;
+  className?: string;
+}) => {
+  const src = getSpriteUrlByName(pokemonName);
+  if (!src) return null;
+  return (
+    <img
+      src={src}
+      alt={pokemonName}
+      className={className}
+      style={{ width: size, height: size }}
+      onError={(e) => {
+        const target = e.target as HTMLImageElement;
+        target.src = `${import.meta.env.BASE_URL}assets/placeholder-pokemon.png`;
+      }}
+    />
+  );
+};
+
+interface SidebarSectionProps {
+  title: string;
+  icon?: LucideIcon;
+  children: ReactNode;
+  defaultOpen?: boolean;
+}
+
+const SidebarSection = ({
+  title,
+  icon: Icon,
+  children,
+  defaultOpen = true,
+}: SidebarSectionProps) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  return (
+    <div className="mb-2">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex w-full items-center justify-between rounded-md px-2 py-1.5 text-xs font-semibold tracking-wider text-slate-500 uppercase hover:bg-white/5"
+      >
+        <div className="flex items-center gap-2">
+          {Icon && <Icon size={14} />} <span>{title}</span>
+        </div>
+        {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+      </button>
+      {isOpen && <div className="mt-1 space-y-0.5 pl-2">{children}</div>}
+    </div>
+  );
+};
+
+interface SidebarItemProps {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
+  icon?: LucideIcon | React.ElementType | null;
+  actions?: ReactNode;
+}
+
+const SidebarItem = ({
+  active,
+  onClick,
+  children,
+  icon: Icon,
+  actions,
+}: SidebarItemProps) => (
+  <div
+    className={`group flex w-full items-center justify-between rounded-md border transition-colors duration-200 ${
+      active
+        ? "border-blue-500/20 bg-blue-600/10 text-blue-400"
+        : "border-transparent text-slate-300 hover:bg-white/5 hover:text-white"
+    }`}
+  >
+    <button
+      type="button"
+      className="flex flex-1 cursor-pointer items-center gap-3 overflow-hidden bg-transparent px-3 py-2 text-left text-sm outline-none"
+      onClick={onClick}
+    >
+      {Icon && (
+        <Icon
+          size={16}
+          className={active ? "text-blue-500" : "text-slate-500"}
+        />
+      )}
+      <span className="truncate">{children}</span>
+    </button>
+    {actions && (
+      <div className="opacity-0 transition-opacity group-hover:opacity-100">
+        {actions}
+      </div>
+    )}
+  </div>
+);
+
+interface EnemyItemProps {
+  enemy: string;
+  memberName: string;
+  activeView: string;
+  activeId: string | number | null;
+  onNavigate: (
+    view: string,
+    id?: string | number | null,
+    context?: string | null
+  ) => void;
+  onRemoveEnemy: (member: string, enemy: string) => void;
+}
+
+const EnemyItem = ({
+  enemy,
+  memberName,
+  activeView,
+  activeId,
+  onNavigate,
+  onRemoveEnemy,
+}: EnemyItemProps) => {
+  const handleRemove = () => {
+    if (globalThis.confirm(`Remove ${enemy} from ${memberName}'s plan?`)) {
+      onRemoveEnemy(memberName, enemy);
+    }
+  };
+
+  return (
+    <SidebarItem
+      key={enemy}
+      active={activeView === "strategy" && activeId === enemy}
+      onClick={() => onNavigate("strategy", enemy, memberName)}
+      actions={
+        <Button
+          variant="ghost"
+          size="xs"
+          className="text-slate-500 hover:text-red-400"
+          onClick={handleRemove}
+          icon={Trash2}
+        >
+          {""}
+        </Button>
+      }
+    >
+      {enemy}
+    </SidebarItem>
+  );
+};
+
+type NavigationId = string | number | null;
+
+interface EditorSidebarProps {
+  team: Team;
+  activeView: string;
+  activeId: NavigationId;
+  onNavigate: (
+    view: string,
+    id?: NavigationId,
+    context?: string | null
+  ) => void;
+  regions: string[];
+  availableMembers: EliteFourMember[];
+  enemyPools: Record<string, string[]>;
+  onAddEnemy: (member: EliteFourMember) => void;
+  onRemoveEnemy: (memberName: string, pokemonName: string) => void;
+  className?: string;
+}
+
+const EditorSidebar = ({
+  team,
+  activeView,
+  activeId,
+  onNavigate,
+  regions,
+  availableMembers,
+  enemyPools,
+  onAddEnemy,
+  onRemoveEnemy,
+  className = "",
+}: EditorSidebarProps) => {
+  const [expandedRegions, setExpandedRegions] = useState<
+    Record<string, boolean>
+  >({});
+  const [expandedMembers, setExpandedMembers] = useState<
+    Record<string, boolean>
+  >({});
+
+  const toggleRegion = (r: string) =>
+    setExpandedRegions((prev) => ({ ...prev, [r]: !prev[r] }));
+  const toggleMember = (m: string) =>
+    setExpandedMembers((prev) => ({ ...prev, [m]: !prev[m] }));
+
+  return (
+    <div
+      className={`animate-fade-in flex h-full w-full flex-col border-r border-white/5 bg-[#1a1b20] ${className}`}
+    >
+      {/* Team Header Summary */}
+      <div className="border-b border-white/5 p-4 text-white">
+        <h2 className="truncate text-lg font-bold"> {team.name} </h2>
+        <p className="text-xs text-slate-500">
+          {team.members.filter((m: TeamMember | null) => m?.name).length} / 6
+          Members
+        </p>
+      </div>
+
+      <div className="custom-scrollbar flex-1 overflow-y-auto p-3">
+        {/* Navigation: Team Settings */}
+        <SidebarItem
+          active={activeView === "settings"}
+          onClick={() => onNavigate("settings")}
+          icon={Settings}
+        >
+          Team Settings
+        </SidebarItem>
+
+        <div className="h-4" />
+
+        {/* Section: Roster */}
+        <SidebarSection title="My Team" icon={Users}>
+          {team.members.map((member: TeamMember | null, idx: number) => (
+            <SidebarItem
+              key={member?.name || idx}
+              active={activeView === "roster" && activeId === idx}
+              onClick={() => onNavigate("roster", idx)}
+            >
+              <div className="flex items-center gap-3 overflow-hidden">
+                {member?.name ? (
+                  <PokemonIcon size={16} pokemonName={member.name} />
+                ) : (
+                  <div className="flex h-4 w-4 items-center justify-center">
+                    <Users size={14} className="text-slate-600" />
+                  </div>
+                )}
+                <span
+                  className={`truncate ${member?.name ? "" : "text-slate-500 italic"}`}
+                >
+                  {member?.name || "Empty Slot"}
+                </span>
+              </div>
+            </SidebarItem>
+          ))}
+        </SidebarSection>
+
+        <div className="h-4" />
+
+        {/* Section: Strategies */}
+        <SidebarSection title="Battle Plans" icon={Swords}>
+          {regions.map((region) => (
+            <div key={region} className="mb-1 text-white">
+              <button
+                type="button"
+                className="flex w-full cursor-pointer items-center gap-2 rounded bg-transparent px-2 py-1 text-left text-sm hover:bg-white/5"
+                onClick={() => toggleRegion(region)}
+              >
+                {expandedRegions[region] ? (
+                  <ChevronDown size={14} />
+                ) : (
+                  <ChevronRight size={14} />
+                )}
+                <Map size={14} className="text-slate-500" /> {region}
+              </button>
+              {expandedRegions[region] && (
+                <div className="ml-4 border-l border-white/5 pl-2">
+                  {availableMembers
+                    .filter((m) => m.region === region)
+                    .map((member) => (
+                      <div key={member.name} className="mb-1">
+                        <button
+                          type="button"
+                          className="flex w-full cursor-pointer items-center gap-2 rounded bg-transparent py-1 text-left text-sm hover:bg-white/5"
+                          onClick={() => toggleMember(member.name)}
+                        >
+                          {expandedMembers[member.name] ? (
+                            <ChevronDown size={14} />
+                          ) : (
+                            <ChevronRight size={14} />
+                          )}
+                          <Shield size={14} className="text-slate-500" />
+                          {member.name}
+                        </button>
+                        {expandedMembers[member.name] && (
+                          <div className="ml-4 border-l border-white/5 pl-2">
+                            {/* Button to Add Enemy */}
+                            <button
+                              onClick={() => onAddEnemy(member)}
+                              className="mb-1 flex w-full items-center gap-2 rounded px-2 py-1 text-xs text-slate-500 hover:bg-white/5 hover:text-blue-400"
+                            >
+                              + Add Enemy
+                            </button>
+                            {/* List of Enemies in Pool */}
+                            {(enemyPools[member.name] || []).map((enemy) => (
+                              <EnemyItem
+                                key={enemy}
+                                enemy={enemy}
+                                memberName={member.name}
+                                activeView={activeView}
+                                activeId={activeId}
+                                onNavigate={onNavigate}
+                                onRemoveEnemy={onRemoveEnemy}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </SidebarSection>
+      </div>
+    </div>
+  );
+};
+
+export default EditorSidebar;

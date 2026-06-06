@@ -1,12 +1,12 @@
 import { Skull } from "lucide-react";
 import { useState } from "react";
 
-import BossFightSection from "@/components/organisms/BossFightSection";
-import StrategyModal from "@/components/organisms/StrategyModal";
-import PageLayout from "@/components/templates/PageLayout";
-import { useBossFightsData } from "@/hooks/useBossFightsData";
+import PageLayout from "@/components/PageLayout";
+import StrategyModal from "@/components/StrategyModal";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
+import BossFightSection from "@/pages/boss-fights/components/BossFightSection";
+import { useBossFightsData } from "@/pages/boss-fights/hooks/useBossFightsData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 

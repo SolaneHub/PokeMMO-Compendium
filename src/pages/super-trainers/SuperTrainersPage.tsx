@@ -1,12 +1,12 @@
 import { Swords } from "lucide-react";
 import { useState } from "react";
 
-import StrategyModal from "@/components/organisms/StrategyModal";
-import SuperTrainerSection from "@/components/organisms/SuperTrainerSection";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import StrategyModal from "@/components/StrategyModal";
 import { usePokedexData } from "@/hooks/usePokedexData";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
-import { useSuperTrainersData } from "@/hooks/useSuperTrainersData";
+import SuperTrainerSection from "@/pages/super-trainers/components/SuperTrainerSection";
+import { useSuperTrainersData } from "@/pages/super-trainers/hooks/useSuperTrainersData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 

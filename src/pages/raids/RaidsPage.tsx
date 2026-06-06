@@ -1,11 +1,11 @@
 import { Users } from "lucide-react";
 import { useState } from "react";
 
-import PokemonCard from "@/components/molecules/PokemonCard";
-import RaidModal from "@/components/organisms/RaidModal";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import PokemonCard from "@/components/PokemonCard";
 import { usePokedexData } from "@/hooks/usePokedexData";
-import { useRaidsData } from "@/hooks/useRaidsData";
+import RaidModal from "@/pages/raids/components/RaidModal";
+import { useRaidsData } from "@/pages/raids/hooks/useRaidsData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";

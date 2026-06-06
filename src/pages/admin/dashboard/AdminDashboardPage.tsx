@@ -2,14 +2,14 @@ import { CheckCircle, Database, RefreshCw, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@/components/atoms/Button";
-import ErrorBoundary from "@/components/atoms/ErrorBoundary";
-import AdminTeamList from "@/components/organisms/AdminTeamList";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import Button from "@/components/ui/Button";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { importMovesFromPokedex } from "@/firebase/services/movesService";
-import { TeamStatus } from "@/types/teams";
+import AdminTeamList from "@/pages/admin/components/AdminTeamList";
+import { TeamStatus } from "@/pages/my-teams/types/teams";
 import { cleanupPokedexImages } from "@/utils/migrationUtils";
 
 const AdminDashboardPage = () => {

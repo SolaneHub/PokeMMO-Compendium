@@ -2,16 +2,16 @@ import { ArrowLeft, Menu, Save } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Button from "@/components/atoms/Button";
-import CoverageCard from "@/components/molecules/CoverageCard";
-import RosterSlotCard from "@/components/molecules/RosterSlotCard";
-import AddEnemyPokemonModal from "@/components/organisms/AddEnemyPokemonModal";
-import EditorSidebar from "@/components/organisms/Editor/EditorSidebar";
-import StrategyEditor from "@/components/organisms/Editor/StrategyEditor";
-import PokemonEditorView from "@/components/organisms/Editor/views/PokemonEditorView";
+import Button from "@/components/ui/Button";
 import { useToast } from "@/context/ToastContext";
-import { useTeamEditor } from "@/hooks/useTeamEditor";
-import { StrategyStep, TeamMember } from "@/types/teams";
+import AddEnemyPokemonModal from "@/pages/my-teams/components/AddEnemyPokemonModal";
+import CoverageCard from "@/pages/my-teams/components/CoverageCard";
+import EditorSidebar from "@/pages/my-teams/components/Editor/EditorSidebar";
+import StrategyEditor from "@/pages/my-teams/components/Editor/StrategyEditor";
+import PokemonEditorView from "@/pages/my-teams/components/Editor/views/PokemonEditorView";
+import RosterSlotCard from "@/pages/my-teams/components/RosterSlotCard";
+import { useTeamEditor } from "@/pages/my-teams/hooks/useTeamEditor";
+import { StrategyStep, TeamMember } from "@/pages/my-teams/types/teams";
 import { EliteFourMember, eliteFourMembers } from "@/utils/eliteFourMembers";
 
 const REGIONS = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova"];

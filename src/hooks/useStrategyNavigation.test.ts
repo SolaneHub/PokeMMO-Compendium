@@ -1,7 +1,7 @@
 import { act, renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { StrategyStep, StrategyVariation } from "@/types/teams";
+import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
 
 import { useStrategyNavigation } from "./useStrategyNavigation";
 

@@ -2,14 +2,14 @@ import { Plus, User } from "lucide-react";
 import { useState } from "react";
 import { useLoaderData, useNavigate, useRevalidator } from "react-router-dom";
 
-import Button from "@/components/atoms/Button";
-import CreateTeamModal from "@/components/organisms/CreateTeamModal";
-import TeamList from "@/components/organisms/TeamList";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import Button from "@/components/ui/Button";
 import { useConfirm } from "@/context/ConfirmationContext";
 import { useToast } from "@/context/ToastContext";
-import { updateTeamStatus } from "@/firebase/services/teamsService";
-import { useUserTeams } from "@/hooks/useUserTeams";
+import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
+import TeamList from "@/pages/my-teams/components/TeamList";
+import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
+import { updateTeamStatus } from "@/pages/my-teams/services/teamsService";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 interface ActionResult {

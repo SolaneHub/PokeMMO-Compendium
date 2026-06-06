@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import App from "@/app/App";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import Shell from "@/components/templates/Shell";
+import Shell from "@/components/Shell";
 import AdminDashboardPage from "@/pages/admin/dashboard/AdminDashboardPage";
 import MoveEditorPage from "@/pages/admin/move-editor/MoveEditorPage";
 import PokedexEditorPage from "@/pages/admin/pokedex-editor/PokedexEditorPage";

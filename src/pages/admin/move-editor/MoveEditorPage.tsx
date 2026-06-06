@@ -2,8 +2,8 @@ import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "@/components/atoms/Button";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
+import Button from "@/components/ui/Button";
 import { POKEMON_TYPES } from "@/constants/calculatorConstants";
 import { useMoves } from "@/context/MovesContext";
 import { deleteMove, saveMove } from "@/firebase/services/movesService";

@@ -9,11 +9,11 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/firebase/config";
-import { updateBossFightsCollection } from "@/firebase/services/bossFightsService";
-import { updateTrainerRerun } from "@/firebase/services/trainerRerunService";
-import { BossFight } from "@/types/bossFights";
+import { updateBossFightsCollection } from "@/pages/boss-fights/services/bossFightsService";
+import { BossFight } from "@/pages/boss-fights/types/bossFights";
+import { updateTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunService";
+import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 import { Pokemon } from "@/types/pokemon";
-import { TrainerRerunData } from "@/types/trainerRerun";
 
 /**
  * Verifies the number of Pokedex documents in Firestore.

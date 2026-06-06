@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { StrategyStep, StrategyVariation } from "@/types/teams";
+import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
 
 export function useStrategyNavigation() {
   const [currentStrategyView, setCurrentStrategyView] = useState<

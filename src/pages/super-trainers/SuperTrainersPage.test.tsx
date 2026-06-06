@@ -3,15 +3,15 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexHooks from "@/hooks/usePokedexData";
-import * as SuperTrainersHooks from "@/hooks/useSuperTrainersData";
+import * as SuperTrainersHooks from "@/pages/super-trainers/hooks/useSuperTrainersData";
+import { SuperTrainer } from "@/pages/super-trainers/types/superTrainers";
 import { Pokemon } from "@/types/pokemon";
-import { SuperTrainer } from "@/types/superTrainers";
 
 import SuperTrainersPage from "./SuperTrainersPage";
 
 // Mocking dependencies
 vi.mock("@/hooks/usePokedexData");
-vi.mock("@/hooks/useSuperTrainersData");
+vi.mock("@/pages/super-trainers/hooks/useSuperTrainersData");
 
 const mockInitializeStrategy = vi.fn();
 vi.mock("@/hooks/useStrategyNavigation", () => ({
@@ -25,7 +25,7 @@ vi.mock("@/hooks/useStrategyNavigation", () => ({
 }));
 
 // Mocking complex organisms
-vi.mock("@/components/organisms/SuperTrainerSection", () => ({
+vi.mock("@/pages/super-trainers/components/SuperTrainerSection", () => ({
   default: ({
     trainer,
     onPokemonCardClick,
@@ -51,7 +51,7 @@ vi.mock("@/components/organisms/SuperTrainerSection", () => ({
   ),
 }));
 
-vi.mock("@/components/organisms/StrategyModal", () => ({
+vi.mock("@/components/StrategyModal", () => ({
   default: () => <div data-testid="strategy-modal" />,
 }));
 

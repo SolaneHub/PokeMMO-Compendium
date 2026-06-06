@@ -3,17 +3,17 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexHooks from "@/hooks/usePokedexData";
-import * as TrainerRerunHooks from "@/hooks/useTrainerRerunData";
+import * as TrainerRerunHooks from "@/pages/trainer-rerun/hooks/useTrainerRerunData";
+import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 import { Pokemon } from "@/types/pokemon";
-import { TrainerRerunData } from "@/types/trainerRerun";
 
 import TrainerRerunPage from "./TrainerRerunPage";
 
 // Mocking dependencies
 vi.mock("@/hooks/usePokedexData");
-vi.mock("@/hooks/useTrainerRerunData");
+vi.mock("@/pages/trainer-rerun/hooks/useTrainerRerunData");
 
-vi.mock("@/components/organisms/RegionRoutes", () => ({
+vi.mock("@/pages/trainer-rerun/components/RegionRoutes", () => ({
   default: () => <div data-testid="region-routes" />,
 }));
 

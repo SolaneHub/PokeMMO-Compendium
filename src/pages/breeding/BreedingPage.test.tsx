@@ -10,13 +10,13 @@ vi.mock("@/utils/usePersistentState", () => ({
 }));
 
 // Mocking child components to simplify
-vi.mock("@/components/organisms/IVsSelector", () => ({
+vi.mock("@/pages/breeding/components/IVsSelector", () => ({
   default: () => <div data-testid="ivs-selector" />,
 }));
-vi.mock("@/components/molecules/IVsDropdown", () => ({
+vi.mock("@/pages/breeding/components/IVsDropdown", () => ({
   default: () => <div data-testid="ivs-dropdown" />,
 }));
-vi.mock("@/components/organisms/TreeScheme", () => ({
+vi.mock("@/pages/breeding/components/TreeScheme", () => ({
   default: () => <div data-testid="tree-scheme" />,
 }));
 

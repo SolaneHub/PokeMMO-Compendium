@@ -9,7 +9,7 @@ import CatchCalculatorPage from "./CatchCalculatorPage";
 
 // Mocking hooks
 vi.mock("@/hooks/usePokedexData");
-vi.mock("@/hooks/useCatchProbability", () => ({
+vi.mock("@/pages/catch-calculator/hooks/useCatchProbability", () => ({
   useCatchProbability: vi.fn(() => 50.5),
 }));
 vi.mock("@/hooks/usePokemonUI", () => ({
@@ -20,19 +20,28 @@ vi.mock("@/utils/usePersistentState", () => ({
 }));
 
 // Mocking child components to simplify
-vi.mock("@/components/organisms/CatchCalculator/TargetSection", () => ({
-  default: ({ selectedPokemonName }: { selectedPokemonName: string }) => (
-    <div data-testid="target-section">{selectedPokemonName}</div>
-  ),
-}));
-vi.mock("@/components/organisms/CatchCalculator/ConditionsSection", () => ({
-  default: () => <div data-testid="conditions-section" />,
-}));
-vi.mock("@/components/organisms/CatchCalculator/CaptureSection", () => ({
-  default: ({ catchProbability }: { catchProbability: number }) => (
-    <div data-testid="capture-section">{catchProbability}%</div>
-  ),
-}));
+vi.mock(
+  "@/pages/catch-calculator/components/CatchCalculator/TargetSection",
+  () => ({
+    default: ({ selectedPokemonName }: { selectedPokemonName: string }) => (
+      <div data-testid="target-section">{selectedPokemonName}</div>
+    ),
+  })
+);
+vi.mock(
+  "@/pages/catch-calculator/components/CatchCalculator/ConditionsSection",
+  () => ({
+    default: () => <div data-testid="conditions-section" />,
+  })
+);
+vi.mock(
+  "@/pages/catch-calculator/components/CatchCalculator/CaptureSection",
+  () => ({
+    default: ({ catchProbability }: { catchProbability: number }) => (
+      <div data-testid="capture-section">{catchProbability}%</div>
+    ),
+  })
+);
 
 describe("CatchCalculatorPage", () => {
   const mockPokedex = {

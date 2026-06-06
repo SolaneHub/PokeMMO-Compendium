@@ -25,8 +25,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import Button from "@/components/atoms/Button";
-import PageTitle from "@/components/atoms/PageTitle";
+import Button from "@/components/ui/Button";
+import PageTitle from "@/components/ui/PageTitle";
 import { useMoves } from "@/context/MovesContext";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { useToast } from "@/context/ToastContext";

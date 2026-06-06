@@ -3,14 +3,14 @@ import { redirect } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as authUtils from "@/firebase/authUtils";
-import * as teamsService from "@/firebase/services/teamsService";
-import { Team } from "@/types/teams";
+import * as teamsService from "@/pages/my-teams/services/teamsService";
+import { Team } from "@/pages/my-teams/types/teams";
 
 import { myTeamsLoader } from "./myTeamsLoader";
 
 // Mocking dependencies
 vi.mock("@/firebase/authUtils");
-vi.mock("@/firebase/services/teamsService");
+vi.mock("@/pages/my-teams/services/teamsService");
 vi.mock("react-router-dom", () => ({
   redirect: vi.fn(
     (url: string) => ({ status: 302, url }) as unknown as Response

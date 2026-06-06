@@ -2,10 +2,10 @@ import { FirebaseError } from "firebase/app";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import GoogleSignInButton from "@/components/molecules/GoogleSignInButton";
-import PageLayout from "@/components/templates/PageLayout";
+import PageLayout from "@/components/PageLayout";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
+import GoogleSignInButton from "@/pages/auth/components/GoogleSignInButton";
 interface AuthPageProps {
   isSignup?: boolean;
 }

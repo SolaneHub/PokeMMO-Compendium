@@ -2,16 +2,16 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as BossFightsHooks from "@/hooks/useBossFightsData";
 import * as PokedexHooks from "@/hooks/usePokedexData";
-import { BossFight } from "@/types/bossFights";
+import * as BossFightsHooks from "@/pages/boss-fights/hooks/useBossFightsData";
+import { BossFight } from "@/pages/boss-fights/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
 
 import BossFightsPage from "./BossFightsPage";
 
 // Mocking dependencies
 vi.mock("@/hooks/usePokedexData");
-vi.mock("@/hooks/useBossFightsData");
+vi.mock("@/pages/boss-fights/hooks/useBossFightsData");
 
 const mockInitializeStrategy = vi.fn();
 vi.mock("@/hooks/useStrategyNavigation", () => ({
@@ -24,7 +24,7 @@ vi.mock("@/hooks/useStrategyNavigation", () => ({
   }),
 }));
 
-vi.mock("@/components/organisms/BossFightSection", () => ({
+vi.mock("@/pages/boss-fights/components/BossFightSection", () => ({
   default: ({
     bossFight,
     onPokemonCardClick,
@@ -49,7 +49,7 @@ vi.mock("@/components/organisms/BossFightSection", () => ({
   ),
 }));
 
-vi.mock("@/components/organisms/StrategyModal", () => ({
+vi.mock("@/components/StrategyModal", () => ({
   default: () => <div data-testid="strategy-modal" />,
 }));
 

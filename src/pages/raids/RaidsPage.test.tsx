@@ -3,18 +3,18 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexHooks from "@/hooks/usePokedexData";
-import * as RaidsHooks from "@/hooks/useRaidsData";
+import * as RaidsHooks from "@/pages/raids/hooks/useRaidsData";
+import { Raid } from "@/pages/raids/types/raids";
 import { Pokemon } from "@/types/pokemon";
-import { Raid } from "@/types/raids";
 
 import RaidsPage from "./RaidsPage";
 
 // Mocking hooks
 vi.mock("@/hooks/usePokedexData");
-vi.mock("@/hooks/useRaidsData");
+vi.mock("@/pages/raids/hooks/useRaidsData");
 
 // Mocking components
-vi.mock("@/components/organisms/RaidModal", () => ({
+vi.mock("@/pages/raids/components/RaidModal", () => ({
   default: ({
     raidName,
     onClose,

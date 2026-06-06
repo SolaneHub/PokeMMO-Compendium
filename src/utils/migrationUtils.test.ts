@@ -9,11 +9,11 @@ import {
 } from "firebase/firestore";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { updateBossFightsCollection } from "@/firebase/services/bossFightsService";
-import { updateTrainerRerun } from "@/firebase/services/trainerRerunService";
-import { BossFight } from "@/types/bossFights";
+import { updateBossFightsCollection } from "@/pages/boss-fights/services/bossFightsService";
+import { BossFight } from "@/pages/boss-fights/types/bossFights";
+import { updateTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunService";
+import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 import { Pokemon } from "@/types/pokemon";
-import { TrainerRerunData } from "@/types/trainerRerun";
 
 import {
   cleanupPokedexImages,
@@ -40,11 +40,11 @@ vi.mock("@/firebase/config", () => ({
 }));
 
 // Mocking services
-vi.mock("@/firebase/services/bossFightsService", () => ({
+vi.mock("@/pages/boss-fights/services/bossFightsService", () => ({
   updateBossFightsCollection: vi.fn(),
 }));
 
-vi.mock("@/firebase/services/trainerRerunService", () => ({
+vi.mock("@/pages/trainer-rerun/services/trainerRerunService", () => ({
   updateTrainerRerun: vi.fn(),
 }));
 

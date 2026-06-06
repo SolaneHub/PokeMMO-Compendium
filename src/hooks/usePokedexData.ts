@@ -80,3 +80,5 @@ import { usePokedexContext } from "@/context/PokedexContext";
 export const usePokedexData = () => {
   return usePokedexContext();
 };
+
+export type UsePokedexDataReturn = ReturnType<typeof usePokedexData>;
