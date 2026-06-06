@@ -1,4 +1,4 @@
-import { FaGithub, FaYoutube } from "react-icons/fa6";
+import { Github, Youtube } from "lucide-react";
 
 function HomeFooter() {
   return (
@@ -18,7 +18,7 @@ function HomeFooter() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 transition-colors hover:text-blue-400"
             >
-              <FaGithub size={18} /> <span>GitHub</span>
+              <Github size={18} /> <span>GitHub</span>
             </a>
           </div>
         </div>
@@ -26,7 +26,7 @@ function HomeFooter() {
           <h3 className="mb-3 font-semibold text-slate-200">Credits</h3>
           <ul className="space-y-2 text-slate-500">
             <li className="flex items-center gap-2">
-              <FaYoutube size={14} className="text-red-500" />
+              <Youtube size={14} className="text-red-500" />
               <span>
                 Raids by{" "}
                 <a
