@@ -1,15 +1,4 @@
-interface Trainer {
-  name: string;
-  money: string | number;
-}
-
-interface Route {
-  name: string;
-  notes?: string[] | undefined;
-  trainers?: Trainer[] | undefined;
-  pp_cost?: number | string | undefined;
-  type?: string | undefined;
-}
+import { Route } from "@/pages/trainer-rerun/types/trainerRerun";
 
 interface RouteCardProps {
   route: Route;

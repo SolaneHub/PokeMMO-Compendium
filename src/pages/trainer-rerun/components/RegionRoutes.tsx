@@ -1,22 +1,5 @@
 import RouteCard from "@/pages/trainer-rerun/components/RouteCard";
-
-interface Trainer {
-  name: string;
-  money: string | number;
-}
-
-interface Route {
-  name: string;
-  notes?: string[] | undefined;
-  trainers?: Trainer[] | undefined;
-  pp_cost?: number | string | undefined;
-  type?: string | undefined;
-}
-
-interface RegionRoute {
-  name: string;
-  routes: Route[];
-}
+import { RegionRoute } from "@/pages/trainer-rerun/types/trainerRerun";
 
 interface RegionRoutesProps {
   regions: RegionRoute[];

@@ -4,7 +4,6 @@ import PageLayout from "@/components/PageLayout";
 import BulletList from "@/components/ui/BulletList";
 import RegionRoutes from "@/pages/trainer-rerun/components/RegionRoutes";
 import { useTrainerRerunData } from "@/pages/trainer-rerun/hooks/useTrainerRerunData";
-import { RegionRoute } from "@/pages/trainer-rerun/types/trainerRerun";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 const TrainerRerunPage = () => {
@@ -29,22 +28,7 @@ const TrainerRerunPage = () => {
     );
   }
 
-  const { intro, requirements, tips_tricks, regions } = trainerRerunData;
-
-  // Adapt regions to match RegionRoute interface if needed
-  const adaptedRegions: RegionRoute[] = regions.map((region) => ({
-    name: region.name,
-    routes: region.routes.map((route) => {
-      const r: Record<string, unknown> = {
-        name: route.name,
-      };
-      if (route.notes) r["notes"] = route.notes;
-      if (route.trainers) r["trainers"] = route.trainers;
-      if (route.pp_cost !== undefined) r["pp_cost"] = route.pp_cost;
-      if (route.type !== undefined) r["type"] = route.type;
-      return r as unknown as RegionRoute["routes"][0];
-    }),
-  }));
+  const { intro, requirements, tips_tricks } = trainerRerunData;
 
   return (
     <PageLayout title={intro.title}>
@@ -76,7 +60,7 @@ const TrainerRerunPage = () => {
 
       <BulletList title={tips_tricks.title} items={tips_tricks.items} />
 
-      <RegionRoutes regions={adaptedRegions} />
+      <RegionRoutes regions={trainerRerunData.regions} />
     </PageLayout>
   );
 };
