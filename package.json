@@ -19,6 +19,7 @@
     "validate": "NODE_OPTIONS='--pending-deprecation' pnpm run type-check && pnpm run lint && pnpm run lint:style && pnpm run format:check && pnpm run validate:data",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:domain": "vitest run --config vitest.config.domain.ts",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "build": "pnpm run type-check && vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",

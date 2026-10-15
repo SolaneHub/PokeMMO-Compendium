@@ -43,7 +43,7 @@ export default defineConfig(() => ({
       "vitest-sonar-reporter": "./test-report/sonar-report.xml",
     },
     coverage: {
-      provider: "v8",
+      provider: "v8" as const,
       reporter: ["text", "json", "html", "lcov"],
       include: ["src/**/*.{ts,tsx}"],
       exclude: [

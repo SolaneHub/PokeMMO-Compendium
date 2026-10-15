@@ -19,5 +19,5 @@
     "exactOptionalPropertyTypes": true,
     "useUnknownInCatchVariables": true
   },
-  "include": ["vite.config.ts", "eslint.config.js"]
+  "include": ["vite.config.ts", "vitest.config.domain.ts", "eslint.config.js"]
 }
