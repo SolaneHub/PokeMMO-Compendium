@@ -1,4 +1,4 @@
-import { CheckCircle, Database, RefreshCw, Trash2 } from "lucide-react";
+import { CheckCircle, Database, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,6 @@ import { useToast } from "@/context/ToastContext";
 import { importMovesFromPokedex } from "@/firebase/services/movesService";
 import AdminTeamList from "@/pages/admin/components/AdminTeamList";
 import { TeamStatus } from "@/pages/my-teams/types/teams";
-import { cleanupPokedexImages } from "@/utils/migrationUtils";
 
 const AdminDashboardPage = () => {
   const { loading: authLoading } = useAuth();
@@ -141,19 +140,17 @@ const AdminDashboardPage = () => {
 
                 <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
                   <div>
-                    <h4 className="font-bold text-white">Database Cleanup</h4>
+                    <h4 className="font-bold text-white">
+                      Database Migrations
+                    </h4>
                     <p className="text-sm text-slate-400">
-                      Remove legacy image URLs from Pokedex
+                      Run migration and cleanup scripts via CLI (
+                      <code className="text-xs text-blue-300">
+                        scripts/migrations/migrate.ts
+                      </code>
+                      )
                     </p>
                   </div>
-                  <Button
-                    onClick={cleanupPokedexImages}
-                    variant="danger"
-                    size="sm"
-                    icon={Trash2}
-                  >
-                    Clean Up
-                  </Button>
                 </div>
               </div>
             </div>

@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as AuthContext from "@/context/AuthContext";
 import * as ToastContext from "@/context/ToastContext";
 import * as MovesService from "@/firebase/services/movesService";
-import * as MigrationUtils from "@/utils/migrationUtils";
 
 import AdminDashboardPage from "./AdminDashboardPage";
 
@@ -13,7 +12,6 @@ import AdminDashboardPage from "./AdminDashboardPage";
 vi.mock("@/context/AuthContext");
 vi.mock("@/context/ToastContext");
 vi.mock("@/firebase/services/movesService");
-vi.mock("@/utils/migrationUtils");
 vi.mock("@/pages/admin/components/AdminTeamList", () => ({
   default: () => <div data-testid="admin-team-list" />,
 }));
@@ -68,7 +66,7 @@ describe("AdminDashboardPage", () => {
     });
   });
 
-  it("handles database cleanup button", async () => {
+  it("displays database migrations information", async () => {
     vi.mocked(AuthContext.useAuth).mockReturnValue({
       loading: false,
     } as unknown as AuthContext.AuthContextType);
@@ -80,8 +78,10 @@ describe("AdminDashboardPage", () => {
     );
 
     fireEvent.click(screen.getByText("System"));
-    fireEvent.click(screen.getByText("Clean Up"));
 
-    expect(MigrationUtils.cleanupPokedexImages).toHaveBeenCalled();
+    expect(screen.getByText("Database Migrations")).toBeInTheDocument();
+    expect(
+      screen.getByText(/scripts\/migrations\/migrate\.ts/)
+    ).toBeInTheDocument();
   });
 });

@@ -7,7 +7,7 @@ import PokemonGrid from "./PokemonGrid";
 
 // Mocking IntersectionObserver as a class
 beforeEach(() => {
-  global.IntersectionObserver = class {
+  globalThis.IntersectionObserver = class {
     observe() {
       return vi.fn();
     }

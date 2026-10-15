@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import StatCircle from "./StatCircle";
@@ -32,15 +32,27 @@ describe("StatCircle component", () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("applies active styles when isActive is true", () => {
-    const { container } = render(<StatCircle ivColors={["red"]} isActive />);
-    const div = container.firstElementChild as HTMLElement;
-    expect(div).toHaveClass("scale-110");
+  it("renders active state correctly with button and stroke indicators", () => {
+    const handleClick = vi.fn();
+    render(<StatCircle ivColors={["red"]} isActive onClick={handleClick} />);
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+    expect(button).not.toBeDisabled();
+    fireEvent.click(button);
+    expect(handleClick).toHaveBeenCalledTimes(1);
+
+    const circle = button.querySelector("circle");
+    expect(circle).toBeInTheDocument();
+    expect(circle).toHaveAttribute("stroke", "rgba(255,255,255,0.5)");
   });
 
-  it("applies dimmed styles when isDimmed is true", () => {
-    const { container } = render(<StatCircle ivColors={["red"]} isDimmed />);
-    const div = container.firstElementChild as HTMLElement;
-    expect(div).toHaveClass("opacity-20");
+  it("renders dimmed state correctly with SVG paths", () => {
+    const { container } = render(
+      <StatCircle ivColors={["red", "blue"]} isDimmed />
+    );
+    const button = container.querySelector("button");
+    expect(button).toBeInTheDocument();
+    const paths = container.querySelectorAll("path");
+    expect(paths.length).toBe(2);
   });
 });

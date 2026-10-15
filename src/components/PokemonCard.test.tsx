@@ -25,10 +25,9 @@ describe("PokemonCard", () => {
     expect(defaultProps.onClick).toHaveBeenCalled();
   });
 
-  it("applies selected classes", () => {
+  it("applies selected state", () => {
     render(<PokemonCard {...defaultProps} isSelected={true} />);
     const btn = screen.getByRole("button");
-    // Verifichiamo che contenga la classe di scale che indica la selezione
-    expect(btn.className).toContain("scale-105");
+    expect(btn).toHaveAttribute("aria-pressed", "true");
   });
 });

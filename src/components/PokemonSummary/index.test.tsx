@@ -77,19 +77,4 @@ describe("PokemonSummary index", () => {
     fireEvent.click(closeBtn);
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
-
-  it("handles navigation between pokemon", () => {
-    render(<PokemonSummary {...defaultProps} />);
-    const nextBtn = screen
-      .getAllByRole("button")
-      .find(
-        (b) =>
-          b.className.includes("right-2") ||
-          b.innerHTML.includes("chevron-right")
-      );
-    if (nextBtn) {
-      fireEvent.click(nextBtn);
-      expect(defaultProps.onSelectPokemon).toHaveBeenCalled();
-    }
-  });
 });

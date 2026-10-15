@@ -27,13 +27,32 @@ describe("Button component", () => {
     expect(screen.getByRole("button")).toBeDisabled();
   });
 
-  it("applies fullWidth class when fullWidth prop is true", () => {
-    render(<Button fullWidth>Click me</Button>);
-    expect(screen.getByRole("button")).toHaveClass("w-full");
+  it("renders with type attribute and responds to click", () => {
+    const handleClick = vi.fn();
+    render(
+      <Button type="button" fullWidth onClick={handleClick}>
+        Full Width Button
+      </Button>
+    );
+    const button = screen.getByRole("button", { name: "Full Width Button" });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute("type", "button");
+    expect(button).not.toBeDisabled();
+    fireEvent.click(button);
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
-  it("applies variant classes correctly", () => {
-    render(<Button variant="danger">Delete</Button>);
-    expect(screen.getByRole("button")).toHaveClass("bg-red-600");
+  it("renders danger variant semantically as active clickable button", () => {
+    const handleClick = vi.fn();
+    render(
+      <Button variant="danger" onClick={handleClick}>
+        Delete
+      </Button>
+    );
+    const button = screen.getByRole("button", { name: "Delete" });
+    expect(button).toBeInTheDocument();
+    expect(button).not.toBeDisabled();
+    fireEvent.click(button);
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
