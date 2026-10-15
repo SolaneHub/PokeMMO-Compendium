@@ -17,7 +17,6 @@ import { StrategyStep } from "@/types/strategy";
 import { getMembersByRegion } from "@/utils/eliteFourMembers";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
-import { initializePokemonColorMap } from "@/utils/pokemonMoveColors";
 
 function EliteFourPage() {
   const accentColor = FEATURE_CONFIG["elite-four"].color;
@@ -61,12 +60,6 @@ function EliteFourPage() {
     };
     fetchTeams();
   }, []);
-
-  useEffect(() => {
-    if (pokemonMap && pokemonMap.size > 0) {
-      initializePokemonColorMap(Array.from(pokemonMap.values()));
-    }
-  }, [pokemonMap]);
 
   const currentTeamData = useMemo(
     () => approvedTeams.find((t) => t.id === selectedTeamId),
