@@ -9,8 +9,10 @@ import {
 } from "firebase/firestore/lite";
 
 import { db } from "../../src/firebase/config";
-import { commitBatchInChunks } from "../../src/firebase/services/common";
-import { updateBossFightsCollection } from "../../src/pages/boss-fights/services/bossFightsService";
+import {
+  BOSS_FIGHTS_COLLECTION,
+  commitBatchInChunks,
+} from "../../src/firebase/services/common";
 import { BossFight } from "../../src/pages/boss-fights/types/bossFights";
 import { updateTrainerRerun } from "../../src/pages/trainer-rerun/services/trainerRerunService";
 import { TrainerRerunData } from "../../src/pages/trainer-rerun/types/trainerRerun";
@@ -73,11 +75,26 @@ export async function migrateBossFightsToFirestore(
     return;
   }
 
+  const batchSize = 450;
+  let totalMigrated = 0;
+
   try {
-    await updateBossFightsCollection(bossFightsData);
-    console.log("Boss Fights migrati con successo!");
+    await commitBatchInChunks(bossFightsData, batchSize, (batch, bossFight) => {
+      if (bossFight.name && bossFight.region) {
+        const docId = `${bossFight.region}-${bossFight.name}`.toLowerCase();
+        const docRef = doc(db, BOSS_FIGHTS_COLLECTION, docId);
+        const cleanBossFight = structuredClone(bossFight);
+        batch.set(docRef, cleanBossFight);
+        totalMigrated++;
+      }
+    });
+
+    console.log(
+      `Boss Fights migrati con successo! ${totalMigrated} boss fight aggiunti al database.`
+    );
   } catch (error: unknown) {
-    console.error(`Errore migrazione Boss Fights: ${error}`);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Errore migrazione Boss Fights: ${message}`);
   }
 }
 

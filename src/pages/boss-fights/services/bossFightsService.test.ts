@@ -1,10 +1,9 @@
-import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { BossFight } from "@/pages/boss-fights/types/bossFights";
 import { setMockDocs } from "@/test/setup";
 
-import { getBossFights, updateBossFightsCollection } from "./bossFightsService";
+import { getBossFights } from "./bossFightsService";
 
 vi.mock("@/firebase/services/common", async (importOriginal) => {
   const actual =
@@ -65,36 +64,6 @@ describe("bossFightsService", () => {
 
       expect(result.length).toBe(1);
       expect(console.warn).toHaveBeenCalled();
-    });
-  });
-
-  describe("updateBossFightsCollection", () => {
-    it("calls writeBatch and commit with correct data", async () => {
-      await updateBossFightsCollection([mockBoss]);
-
-      expect(firestore.writeBatch).toHaveBeenCalled();
-      const results = vi.mocked(firestore.writeBatch).mock.results;
-      const mockBatch = results[0]?.value;
-      if (!mockBatch) throw new Error("Batch not found");
-      expect(mockBatch.set).toHaveBeenCalled();
-      expect(mockBatch.commit).toHaveBeenCalled();
-    });
-
-    it("does nothing if array is empty", async () => {
-      await updateBossFightsCollection([]);
-
-      expect(firestore.writeBatch).not.toHaveBeenCalled();
-    });
-
-    it("skips boss fights without a name or region", async () => {
-      const invalidBoss1 = { ...mockBoss, name: "" };
-      const invalidBoss2 = { ...mockBoss, region: "" };
-      await updateBossFightsCollection([invalidBoss1, invalidBoss2]);
-
-      const results = vi.mocked(firestore.writeBatch).mock.results;
-      const mockBatch = results[0]?.value;
-      if (!mockBatch) throw new Error("Batch not found");
-      expect(mockBatch.set).not.toHaveBeenCalled();
     });
   });
 });
