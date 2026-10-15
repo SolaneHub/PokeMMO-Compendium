@@ -5,7 +5,6 @@ import {
   setPersistence,
   signInWithPopup,
   signOut,
-  User,
 } from "firebase/auth";
 import {
   createContext,
@@ -17,9 +16,10 @@ import {
 } from "react";
 
 import { auth } from "@/firebase/config";
+import { AppUser } from "@/types/auth";
 
-interface AuthContextType {
-  currentUser: User | null;
+export interface AuthContextType {
+  currentUser: AppUser | null;
   isAdmin: boolean;
   loading: boolean;
   logout: () => Promise<void>;
@@ -49,7 +49,7 @@ const googleSignIn = async () => {
 const logout = () => signOut(auth);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<AppUser | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [adminLoading, setAdminLoading] = useState(true);
@@ -62,7 +62,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
+      const appUser: AppUser | null = user
+        ? {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+          }
+        : null;
+      setCurrentUser(appUser);
 
       if (user) {
         setAdminLoading(true);

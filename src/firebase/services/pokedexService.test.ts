@@ -1,4 +1,4 @@
-import * as firestore from "firebase/firestore";
+import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 
 import { setMockDocs } from "@/test/setup";
@@ -7,7 +7,6 @@ import { Pokemon } from "@/types/pokemon";
 import {
   deletePokedexEntry,
   getPokedexData,
-  getPokedexPaginated,
   getPokedexSummary,
   getPokemonById,
   savePokedexEntry,
@@ -17,10 +16,14 @@ import {
 } from "./pokedexService";
 
 // Mock global common dependencies
-vi.mock("./common", () => ({
-  POKEDEX_COLLECTION: "pokedex",
-  getPokemonDocId: (id: string | number) => id.toString(),
-}));
+vi.mock("./common", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./common")>();
+  return {
+    ...actual,
+    POKEDEX_COLLECTION: "pokedex",
+    getPokemonDocId: (id: string | number) => id.toString(),
+  };
+});
 
 describe("pokedexService", () => {
   const validPokemonDoc = {
@@ -71,33 +74,6 @@ describe("pokedexService", () => {
       setMockDocs([]);
       const result = await getPokedexData();
       expect(result).toEqual([]);
-    });
-  });
-
-  describe("getPokedexPaginated", () => {
-    it("returns valid pokemon and a last doc reference", async () => {
-      setMockDocs([validPokemonDoc]);
-      const result = await getPokedexPaginated(10);
-      expect(result.data.length).toBe(1);
-      expect(result.lastDoc).toBeDefined();
-    });
-
-    it("handles pagination with lastDoc", async () => {
-      setMockDocs([validPokemonDoc]);
-      const lastDoc = {
-        id: "1",
-        data: () => validPokemonDoc,
-      } as unknown as firestore.QueryDocumentSnapshot;
-      const result = await getPokedexPaginated(10, lastDoc);
-      expect(firestore.startAfter).toHaveBeenCalledWith(lastDoc);
-      expect(result.data.length).toBe(1);
-    });
-
-    it("returns null lastDoc if no results", async () => {
-      setMockDocs([]);
-      const result = await getPokedexPaginated(10);
-      expect(result.data.length).toBe(0);
-      expect(result.lastDoc).toBeNull();
     });
   });
 

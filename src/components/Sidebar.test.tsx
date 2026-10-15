@@ -1,9 +1,9 @@
 import { act, fireEvent, render, screen } from "@testing-library/react";
-import { User } from "firebase/auth";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
 import * as AuthContext from "@/context/AuthContext";
+import { AppUser } from "@/types/auth";
 
 import Sidebar from "./Sidebar";
 
@@ -30,7 +30,7 @@ describe("Sidebar component", () => {
 
   it("renders user-specific links when logged in", () => {
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { email: "test@example.com" } as unknown as User,
+      currentUser: { uid: "test-uid", email: "test@example.com" } as AppUser,
       isAdmin: false,
       logout: vi.fn(),
     } as unknown as ReturnType<typeof AuthContext.useAuth>);
@@ -48,7 +48,7 @@ describe("Sidebar component", () => {
 
   it("renders admin links when user is admin", () => {
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { email: "admin@example.com" } as unknown as User,
+      currentUser: { uid: "admin-uid", email: "admin@example.com" } as AppUser,
       isAdmin: true,
       logout: vi.fn(),
     } as unknown as ReturnType<typeof AuthContext.useAuth>);
@@ -65,7 +65,7 @@ describe("Sidebar component", () => {
   it("calls logout when logout button is clicked", async () => {
     const mockLogout = vi.fn().mockResolvedValue(undefined);
     vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { email: "test@example.com" } as unknown as User,
+      currentUser: { uid: "test-uid", email: "test@example.com" } as AppUser,
       isAdmin: false,
       logout: mockLogout,
     } as unknown as ReturnType<typeof AuthContext.useAuth>);

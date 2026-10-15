@@ -1,8 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 
 import { cleanup } from "@testing-library/react";
-import { setupServer } from "msw/node";
-import { afterAll, afterEach, beforeAll, vi } from "vitest";
+import { afterEach, vi } from "vitest";
 
 declare global {
   var IS_REACT_ACT_ENVIRONMENT: boolean;
@@ -27,13 +26,6 @@ afterEach(() => {
 
 // Set environment for React act()
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
-
-// Setup MSW Server for network interception
-export const server = setupServer();
-
-beforeAll(() => server.listen({ onUnhandledRequest: "warn" }));
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 // Global Firebase Mocks
 vi.mock("firebase/app", () => ({
@@ -70,7 +62,7 @@ const mapMockDoc = (doc: unknown) => ({
   data: () => doc,
 });
 
-vi.mock("firebase/firestore", () => ({
+const firestoreMock = {
   initializeFirestore: vi.fn(() => ({})),
   getFirestore: vi.fn(() => ({})),
   collection: vi.fn(() => ({ id: "mock-collection" })),
@@ -108,4 +100,7 @@ vi.mock("firebase/firestore", () => ({
   FieldValue: {
     serverTimestamp: vi.fn(),
   },
-}));
+};
+
+vi.mock("firebase/firestore/lite", () => firestoreMock);
+vi.mock("firebase/firestore", () => firestoreMock);

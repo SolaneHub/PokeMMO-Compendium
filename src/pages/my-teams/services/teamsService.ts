@@ -4,6 +4,7 @@ import {
   collectionGroup,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   limit as firestoreLimit,
   orderBy,
@@ -11,7 +12,7 @@ import {
   startAfter as firestoreStartAfter,
   updateDoc,
   where,
-} from "firebase/firestore";
+} from "firebase/firestore/lite";
 
 import { db } from "@/firebase/config";
 import { TEAMS_COLLECTION, USERS_COLLECTION } from "@/firebase/services/common";
@@ -20,6 +21,17 @@ import { Team, TeamSchema, TeamStatus } from "@/pages/my-teams/types/teams";
 const getUserTeamsRef = (userId: string) => {
   return collection(db, USERS_COLLECTION, userId, TEAMS_COLLECTION);
 };
+
+export async function getUserTeam(
+  userId: string,
+  teamId: string
+): Promise<Team | null> {
+  const teamRef = doc(db, USERS_COLLECTION, userId, TEAMS_COLLECTION, teamId);
+  const snap = await getDoc(teamRef);
+  if (!snap.exists()) return null;
+  const parsed = TeamSchema.safeParse({ id: snap.id, ...snap.data() });
+  return parsed.success ? parsed.data : null;
+}
 
 export async function createUserTeam(userId: string, teamData: Partial<Team>) {
   const validatedData = TeamSchema.parse(teamData);

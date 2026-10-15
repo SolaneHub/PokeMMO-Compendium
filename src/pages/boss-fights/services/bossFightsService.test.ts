@@ -1,4 +1,4 @@
-import * as firestore from "firebase/firestore";
+import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { BossFight } from "@/pages/boss-fights/types/bossFights";
@@ -6,8 +6,9 @@ import { setMockDocs } from "@/test/setup";
 
 import { getBossFights, updateBossFightsCollection } from "./bossFightsService";
 
-vi.mock("./common", async (importOriginal) => {
-  const actual = await importOriginal<typeof import("./common")>();
+vi.mock("@/firebase/services/common", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("@/firebase/services/common")>();
   return {
     ...actual,
     BOSS_FIGHTS_COLLECTION: "bossFights",

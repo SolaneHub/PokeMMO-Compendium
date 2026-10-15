@@ -6,11 +6,13 @@ import {
   orderBy,
   query,
   setDoc,
-  writeBatch,
-} from "firebase/firestore";
+} from "firebase/firestore/lite";
 
 import { db } from "@/firebase/config";
-import { MOVES_COLLECTION } from "@/firebase/services/common";
+import {
+  commitBatchInChunks,
+  MOVES_COLLECTION,
+} from "@/firebase/services/common";
 import { getPokedexData } from "@/firebase/services/pokedexService";
 import {
   MoveMaster,
@@ -88,20 +90,13 @@ export async function importMovesFromPokedex() {
     }
   });
 
-  const batch = writeBatch(db);
-  let count = 0;
-
-  movesMap.forEach((move) => {
+  const movesList = Array.from(movesMap.values());
+  await commitBatchInChunks(movesList, 400, (batch, move) => {
     const docId = move.name.toLowerCase().replaceAll(/\s+/g, "-");
     const docRef = doc(db, MOVES_COLLECTION, docId);
     const { id: _, ...dataToSave } = move;
     batch.set(docRef, dataToSave, { merge: true });
-    count++;
   });
 
-  if (count > 0) {
-    await batch.commit();
-  }
-
-  return count;
+  return movesList.length;
 }

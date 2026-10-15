@@ -39,8 +39,10 @@ describe("AuthContext", () => {
     });
 
     it("handles authenticated regular user", async () => {
-      const mockUser = {
+      const mockFirebaseUser = {
         uid: "user-123",
+        email: "user@example.com",
+        displayName: "User",
         getIdTokenResult: vi
           .fn()
           .mockResolvedValue({ claims: { admin: false } }),
@@ -48,7 +50,7 @@ describe("AuthContext", () => {
 
       vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
         (_auth, callback) => {
-          (callback as (user: unknown) => void)(mockUser);
+          (callback as (user: unknown) => void)(mockFirebaseUser);
           return vi.fn();
         }
       );
@@ -59,13 +61,19 @@ describe("AuthContext", () => {
         expect(result.current.loading).toBe(false);
       });
 
-      expect(result.current.currentUser).toEqual(mockUser);
+      expect(result.current.currentUser).toEqual({
+        uid: "user-123",
+        email: "user@example.com",
+        displayName: "User",
+      });
       expect(result.current.isAdmin).toBe(false);
     });
 
     it("handles authenticated admin user", async () => {
-      const mockUser = {
+      const mockFirebaseUser = {
         uid: "admin-123",
+        email: "admin@example.com",
+        displayName: "Admin",
         getIdTokenResult: vi
           .fn()
           .mockResolvedValue({ claims: { admin: true } }),
@@ -73,7 +81,7 @@ describe("AuthContext", () => {
 
       vi.mocked(firebaseAuth.onAuthStateChanged).mockImplementation(
         (_auth, callback) => {
-          (callback as (user: unknown) => void)(mockUser);
+          (callback as (user: unknown) => void)(mockFirebaseUser);
           return vi.fn();
         }
       );
@@ -84,7 +92,11 @@ describe("AuthContext", () => {
         expect(result.current.loading).toBe(false);
       });
 
-      expect(result.current.currentUser).toEqual(mockUser);
+      expect(result.current.currentUser).toEqual({
+        uid: "admin-123",
+        email: "admin@example.com",
+        displayName: "Admin",
+      });
       expect(result.current.isAdmin).toBe(true);
     });
 

@@ -5,18 +5,14 @@ import {
   DocumentData,
   getDoc,
   getDocs,
-  limit,
-  orderBy,
   query,
-  QueryDocumentSnapshot,
   setDoc,
-  startAfter,
   updateDoc,
-  writeBatch,
-} from "firebase/firestore";
+} from "firebase/firestore/lite";
 
 import { db } from "@/firebase/config";
 import {
+  commitBatchInChunks,
   getPokemonDocId,
   POKEDEX_COLLECTION,
 } from "@/firebase/services/common";
@@ -47,53 +43,6 @@ export async function getPokedexData(): Promise<Pokemon[]> {
     }
   });
   return pokedex;
-}
-
-/**
- * Fetches Pokemon data with pagination.
- */
-export async function getPokedexPaginated(
-  pageSize: number,
-  lastDoc?: QueryDocumentSnapshot<DocumentData>
-): Promise<{
-  data: Pokemon[];
-  lastDoc: QueryDocumentSnapshot<DocumentData> | null;
-}> {
-  const pokedexRef = collection(db, POKEDEX_COLLECTION);
-  let q = query(pokedexRef, orderBy("dexId"), limit(pageSize));
-
-  if (lastDoc) {
-    q = query(
-      pokedexRef,
-      orderBy("dexId"),
-      startAfter(lastDoc),
-      limit(pageSize)
-    );
-  }
-
-  const querySnapshot = await getDocs(q);
-  const pokedex: Pokemon[] = [];
-  querySnapshot.forEach((doc) => {
-    // Ignore internal metadata documents
-    if (doc.id.startsWith("_")) return;
-    const data = { id: doc.id, ...doc.data() };
-    const result = PokemonSchema.safeParse(data);
-    if (result.success) {
-      pokedex.push(result.data);
-    } else {
-      console.warn(
-        `[Zod Validation] Invalid Pokemon data for doc ID: ${doc.id}`,
-        result.error
-      );
-    }
-  });
-
-  return {
-    data: pokedex,
-    lastDoc:
-      (querySnapshot.docs.at(-1) as QueryDocumentSnapshot<DocumentData>) ||
-      null,
-  };
 }
 
 /**
@@ -231,16 +180,16 @@ export async function updatePokedexData(pokedexArray: Pokemon[]) {
   if (!pokedexArray || pokedexArray.length === 0) {
     return;
   }
-  const batch = writeBatch(db);
-  pokedexArray.forEach((pokemon) => {
-    if (pokemon.id) {
-      const docId = getPokemonDocId(pokemon.id);
-      const docRef = doc(db, POKEDEX_COLLECTION, docId);
-      const cleanPokemon = structuredClone(pokemon);
-      batch.set(docRef, cleanPokemon, { merge: true });
-    }
+  const validPokemon = pokedexArray.filter(
+    (pokemon): pokemon is Pokemon & { id: NonNullable<Pokemon["id"]> } =>
+      Boolean(pokemon.id)
+  );
+  await commitBatchInChunks(validPokemon, 400, (batch, pokemon) => {
+    const docId = getPokemonDocId(pokemon.id);
+    const docRef = doc(db, POKEDEX_COLLECTION, docId);
+    const cleanPokemon = structuredClone(pokemon);
+    batch.set(docRef, cleanPokemon, { merge: true });
   });
-  await batch.commit();
 }
 
 /**

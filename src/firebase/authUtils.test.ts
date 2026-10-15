@@ -1,5 +1,7 @@
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { describe, expect, it, vi } from "vitest";
+
+import { AppUser } from "@/types/auth";
 
 import { getCurrentUser } from "./authUtils";
 
@@ -15,28 +17,38 @@ vi.mock("@/firebase/config", () => ({
 
 describe("authUtils", () => {
   describe("getCurrentUser", () => {
-    it("should resolve with user when authenticated", async () => {
-      const mockUser = {
+    it("should resolve with mapped AppUser when authenticated", async () => {
+      const mockFirebaseUser = {
         uid: "user123",
         email: "test@example.com",
-      } as unknown as User;
+        displayName: "Test User",
+        photoURL: "https://example.com/avatar.png",
+      };
 
       vi.mocked(onAuthStateChanged).mockImplementation((_auth, callback) => {
         // Simulate async behavior so unsubscribe is initialized
         setTimeout(
-          () => (callback as (user: User | null) => void)(mockUser),
+          () =>
+            (callback as (user: typeof mockFirebaseUser | null) => void)(
+              mockFirebaseUser
+            ),
           0
         );
         return vi.fn() as unknown as import("firebase/auth").Unsubscribe;
       });
 
       const user = await getCurrentUser();
-      expect(user).toEqual(mockUser);
+      expect(user).toEqual<AppUser>({
+        uid: "user123",
+        email: "test@example.com",
+        displayName: "Test User",
+      });
+      expect(user).not.toHaveProperty("photoURL");
     });
 
     it("should resolve with null when not authenticated", async () => {
       vi.mocked(onAuthStateChanged).mockImplementation((_auth, callback) => {
-        setTimeout(() => (callback as (user: User | null) => void)(null), 0);
+        setTimeout(() => (callback as (user: null) => void)(null), 0);
         return vi.fn() as unknown as import("firebase/auth").Unsubscribe;
       });
 

@@ -1,4 +1,4 @@
-import * as firestore from "firebase/firestore";
+import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { TeamStatus } from "@/pages/my-teams/types/teams";
@@ -12,6 +12,7 @@ import {
   getAllUserTeams,
   getPublicApprovedTeams,
   getTeamsByStatus,
+  getUserTeam,
   getUserTeams,
   updateTeamStatus,
   updateUserTeam,
@@ -98,6 +99,22 @@ describe("teamsService", () => {
 
       expect(result.length).toBe(1);
       expect(console.warn).toHaveBeenCalled();
+    });
+  });
+
+  describe("getUserTeam", () => {
+    it("returns parsed team if document exists and is valid", async () => {
+      setMockDocs([mockTeam]);
+      const result = await getUserTeam(userId, teamId);
+      expect(result).not.toBeNull();
+      expect(result?.id).toBe(teamId);
+      expect(result?.name).toBe("Test Team");
+    });
+
+    it("returns null if document does not exist", async () => {
+      setMockDocs([]);
+      const result = await getUserTeam(userId, "nonexistent");
+      expect(result).toBeNull();
     });
   });
 

@@ -1,4 +1,4 @@
-import * as firestore from "firebase/firestore";
+import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { setMockDocs } from "@/test/setup";
@@ -12,9 +12,13 @@ import {
 } from "./movesService";
 import { getPokedexData } from "./pokedexService";
 
-vi.mock("./common", () => ({
-  MOVES_COLLECTION: "moves",
-}));
+vi.mock("./common", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("./common")>();
+  return {
+    ...actual,
+    MOVES_COLLECTION: "moves",
+  };
+});
 
 vi.mock("./pokedexService", () => ({
   getPokedexData: vi.fn(),
@@ -172,7 +176,7 @@ describe("movesService", () => {
       const count = await importMovesFromPokedex();
 
       expect(count).toBe(0);
-      expect(firestore.writeBatch).toHaveBeenCalled(); // Always called in this implementation
+      expect(firestore.writeBatch).not.toHaveBeenCalled();
     });
   });
 });

@@ -4,8 +4,9 @@ import {
   getDoc,
   getDocs,
   query,
+  WriteBatch,
   writeBatch,
-} from "firebase/firestore";
+} from "firebase/firestore/lite";
 import { z } from "zod";
 
 import { db } from "@/firebase/config";
@@ -19,6 +20,22 @@ export const PICKUP_COLLECTION = "pickup";
 export const BOSS_FIGHTS_COLLECTION = "boss_fights";
 export const TRAINER_RERUN_COLLECTION = "trainer_rerun";
 export const MOVES_COLLECTION = "moves";
+
+/**
+ * Executes Firestore batch operations in chunks (default 400) to respect Firestore's 500 writes limit.
+ */
+export async function commitBatchInChunks<T>(
+  items: T[],
+  chunkSize = 400,
+  operation: (batch: WriteBatch, item: T) => void
+): Promise<void> {
+  for (let i = 0; i < items.length; i += chunkSize) {
+    const batch = writeBatch(db);
+    const chunk = items.slice(i, i + chunkSize);
+    chunk.forEach((item) => operation(batch, item));
+    await batch.commit();
+  }
+}
 
 /**
  * Helper function to normalize doc IDs for Pokedex entries
@@ -91,23 +108,19 @@ export async function fetchDocumentData<T>(
 }
 
 /**
- * Updates a batch of documents in a Firestore collection using writeBatch.
+ * Updates a batch of documents in a Firestore collection using writeBatch in chunks.
  */
-export async function updateCollectionBatch<T>(
+export async function updateCollectionBatch<T extends Record<string, unknown>>(
   collectionName: string,
   items: T[],
   getDocId: (item: T) => string | null | undefined
 ): Promise<void> {
   if (!items || items.length === 0) return;
-  const batch = writeBatch(db);
-
-  items.forEach((item) => {
+  await commitBatchInChunks(items, 400, (batch, item) => {
     const docId = getDocId(item);
     if (!docId) return; // Skip invalid or empty document IDs
     const docRef = doc(db, collectionName, docId);
     const cleanData = structuredClone(item);
     batch.set(docRef, cleanData);
   });
-
-  await batch.commit();
 }
