@@ -98,19 +98,6 @@ export async function getPokedexSummary(): Promise<Pokemon[]> {
     locations: [], // Empty for summary
   })) as Pokemon[];
 
-  // Try to save summary for next time (might fail if not admin, but that's okay)
-  try {
-    await setDoc(summaryRef, {
-      pokemonList: summary,
-      lastUpdated: new Date().toISOString(),
-    });
-  } catch (e) {
-    console.warn(
-      "Failed to save pokedex summary metadata (ignore if not admin):",
-      e
-    );
-  }
-
   return summary;
 }
 

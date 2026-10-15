@@ -94,7 +94,7 @@ describe("pokedexService", () => {
       expect(console.warn).toHaveBeenCalled();
     });
 
-    it("generates and saves summary if summary doc does not exist", async () => {
+    it("generates summary in-memory without saving if summary doc does not exist", async () => {
       // First call to getDoc (summary) returns empty array (meaning exists() is false)
       setMockDocs([validPokemonDoc]);
 
@@ -109,28 +109,7 @@ describe("pokedexService", () => {
       expect(result.length).toBe(1);
       const first = result[0];
       expect(first?.name).toBe("Bulbasaur");
-      expect(firestore.setDoc).toHaveBeenCalled();
-    });
-
-    it("handles setDoc failure in summary generation", async () => {
-      setMockDocs([validPokemonDoc]);
-
-      vi.mocked(firestore.getDoc).mockImplementationOnce(
-        async () =>
-          ({
-            exists: () => false,
-          }) as unknown as firestore.DocumentSnapshot
-      );
-      vi.mocked(firestore.setDoc).mockRejectedValueOnce(
-        new Error("Permission denied")
-      );
-
-      const result = await getPokedexSummary();
-      expect(result.length).toBe(1);
-      // Even if setDoc fails, we still get the generated summary
-      const first = result[0];
-      expect(first?.name).toBe("Bulbasaur");
-      expect(console.warn).toHaveBeenCalled();
+      expect(firestore.setDoc).not.toHaveBeenCalled();
     });
 
     it("falls back to full data if summary exists but pokemonList is not an array", async () => {
