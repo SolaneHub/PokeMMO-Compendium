@@ -1,6 +1,28 @@
 import { z } from "zod";
 
-import { PokemonType } from "../utils/pokemonColors";
+export const PokemonTypeSchema = z.enum([
+  "Normal",
+  "Fighting",
+  "Flying",
+  "Poison",
+  "Ground",
+  "Rock",
+  "Bug",
+  "Ghost",
+  "Steel",
+  "Fire",
+  "Water",
+  "Grass",
+  "Electric",
+  "Psychic",
+  "Ice",
+  "Dragon",
+  "Dark",
+  "Fairy",
+  "Various",
+  "",
+]);
+export type PokemonType = z.infer<typeof PokemonTypeSchema>;
 
 export const BaseStatsSchema = z.object({
   hp: z.number(),
@@ -57,10 +79,7 @@ export const PokemonSchema = z.object({
   id: z.union([z.string(), z.number()]).nullable(),
   name: z.string(),
   category: z.string().optional().nullable(),
-  types: z.preprocess(
-    (val) => val || [],
-    z.array(z.custom<PokemonType>((val) => typeof val === "string"))
-  ),
+  types: z.preprocess((val) => val || [], z.array(PokemonTypeSchema)),
   description: z.string().optional().nullable(),
   height: z.string().optional().nullable(),
   weight: z.string().optional().nullable(),

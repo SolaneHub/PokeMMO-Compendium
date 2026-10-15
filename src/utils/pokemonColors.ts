@@ -1,24 +1,6 @@
-export type PokemonType =
-  | "Normal"
-  | "Fighting"
-  | "Flying"
-  | "Poison"
-  | "Ground"
-  | "Rock"
-  | "Bug"
-  | "Ghost"
-  | "Steel"
-  | "Fire"
-  | "Water"
-  | "Grass"
-  | "Electric"
-  | "Psychic"
-  | "Ice"
-  | "Dragon"
-  | "Dark"
-  | "Fairy"
-  | "Various"
-  | "";
+import type { PokemonType } from "@/types/pokemon";
+
+export type { PokemonType };
 
 export const typeBackgrounds: Record<PokemonType, string> = {
   Normal: "linear-gradient(to right, #D8D8D8, #9FA19F)",
