@@ -12,8 +12,8 @@ import {
   getAllUserTeams,
   getTeamsByStatus,
   updateTeamStatus,
-} from "@/pages/my-teams/services/teamsService";
-import { Team, TeamStatus } from "@/pages/my-teams/types/teams";
+} from "@/firebase/services/teamsService";
+import { Team, TeamStatus } from "@/types/teams";
 
 interface AdminTeamListProps {
   status: TeamStatus | "all";

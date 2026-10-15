@@ -3,8 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as TeamsService from "@/pages/my-teams/services/teamsService";
-import { Team, TeamMember } from "@/pages/my-teams/types/teams";
+import * as TeamsService from "@/firebase/services/teamsService";
+import { Team, TeamMember } from "@/types/teams";
 
 import AdminTeamList from "./AdminTeamList";
 
@@ -20,7 +20,7 @@ vi.mock("@/context/ToastContext", () => ({
 }));
 
 // Mock Firebase service
-vi.mock("@/pages/my-teams/services/teamsService", () => ({
+vi.mock("@/firebase/services/teamsService", () => ({
   getAllUserTeams: vi.fn(),
   getTeamsByStatus: vi.fn(),
   updateTeamStatus: vi.fn(),

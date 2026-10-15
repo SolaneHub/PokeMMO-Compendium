@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { Team } from "@/pages/my-teams/types/teams";
+import { Team } from "@/types/teams";
 
 import TeamSelection from "./TeamSelection";
 

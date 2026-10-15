@@ -18,11 +18,6 @@ import {
   updateUserTeam,
 } from "./teamsService";
 
-vi.mock("./common", () => ({
-  TEAMS_COLLECTION: "teams",
-  USERS_COLLECTION: "users",
-}));
-
 describe("teamsService", () => {
   const userId = "user123";
   const teamId = "team456";

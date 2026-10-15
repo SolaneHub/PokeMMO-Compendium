@@ -9,15 +9,15 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
-import * as TeamsService from "@/pages/my-teams/services/teamsService";
-import { Team, TeamMember } from "@/pages/my-teams/types/teams";
+import * as TeamsService from "@/firebase/services/teamsService";
 import { Pokemon } from "@/types/pokemon";
+import { Team, TeamMember } from "@/types/teams";
 
 import EliteFourPage from "./EliteFourPage";
 
 // Mocking dependencies
 vi.mock("@/context/PokedexContext");
-vi.mock("@/pages/my-teams/services/teamsService");
+vi.mock("@/firebase/services/teamsService");
 vi.mock("@/hooks/useStrategyNavigation", () => ({
   useStrategyNavigation: () => ({
     currentStrategyView: [],

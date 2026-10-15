@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { importMovesFromPokedex } from "@/firebase/services/movesService";
 import AdminTeamList from "@/pages/admin/components/AdminTeamList";
-import { TeamStatus } from "@/pages/my-teams/types/teams";
+import { TeamStatus } from "@/types/teams";
 
 const AdminDashboardPage = () => {
   const { loading: authLoading } = useAuth();

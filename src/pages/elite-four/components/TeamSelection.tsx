@@ -1,4 +1,4 @@
-import { Team } from "@/pages/my-teams/types/teams";
+import { Team } from "@/types/teams";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 interface TeamSelectionProps {
