@@ -1,4 +1,4 @@
-import EliteMemberCard from "@/pages/elite-four/components/EliteMemberCard";
+import EliteMemberCard from "@/components/EliteMemberCard";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 import { getDualShadow, typeBackgrounds } from "@/utils/pokemonColors";
 

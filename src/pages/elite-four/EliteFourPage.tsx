@@ -6,13 +6,14 @@ import PageLayout from "@/components/PageLayout";
 import PokemonSelection from "@/components/PokemonSelection";
 import RegionSelection from "@/components/RegionSelection";
 import StrategyModal from "@/components/StrategyModal";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import TeamBuildModal from "@/components/TeamBuildModal";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
+import TeamSelection from "@/pages/elite-four/components/TeamSelection";
 import ViewTeamBuildButton from "@/pages/elite-four/components/ViewTeamBuildButton";
-import TeamBuildModal from "@/pages/my-teams/components/TeamBuildModal";
 import { getAllApprovedTeams } from "@/pages/my-teams/services/teamsService";
-import { StrategyStep, Team, TeamMember } from "@/pages/my-teams/types/teams";
-import TeamSelection from "@/pages/trainer-rerun/components/TeamSelection";
+import { Team, TeamMember } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
 import { getMembersByRegion } from "@/utils/eliteFourMembers";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
@@ -32,7 +33,7 @@ function EliteFourPage() {
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
   const [isTeamBuildVisible, setIsTeamBuildVisible] = useState(false);
 
-  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData();
+  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexContext();
   const {
     currentStrategyView,
     strategyHistory,

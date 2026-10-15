@@ -8,7 +8,7 @@ import {
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import * as TeamsService from "@/pages/my-teams/services/teamsService";
 import { Team, TeamMember } from "@/pages/my-teams/types/teams";
 import { Pokemon } from "@/types/pokemon";
@@ -16,7 +16,7 @@ import { Pokemon } from "@/types/pokemon";
 import EliteFourPage from "./EliteFourPage";
 
 // Mocking dependencies
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/pages/my-teams/services/teamsService");
 vi.mock("@/hooks/useStrategyNavigation", () => ({
   useStrategyNavigation: () => ({
@@ -56,16 +56,16 @@ describe("EliteFourPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokedex as unknown as PokedexHooks.UsePokedexDataReturn
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokedex as unknown as PokedexContext.PokedexContextType
     );
     vi.mocked(TeamsService.getAllApprovedTeams).mockResolvedValue(mockTeams);
   });
 
   it("shows loading state for pokedex", async () => {
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue({
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
       isLoading: true,
-    } as unknown as PokedexHooks.UsePokedexDataReturn);
+    } as unknown as PokedexContext.PokedexContextType);
     await act(async () => {
       render(<EliteFourPage />);
     });

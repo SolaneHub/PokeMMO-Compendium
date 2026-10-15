@@ -1,10 +1,10 @@
 import { Package } from "lucide-react";
 import { useState } from "react";
 
+import TeamBuildModal from "@/components/TeamBuildModal";
 import PageTitle from "@/components/ui/PageTitle";
 import { pickupPokemonBuilds } from "@/constants/pickupBuilds";
-import { usePokedexData } from "@/hooks/usePokedexData";
-import TeamBuildModal from "@/pages/my-teams/components/TeamBuildModal";
+import { usePokedexContext } from "@/context/PokedexContext";
 import PickupInfoSection from "@/pages/pickup/components/PickupInfoSection";
 import PickupRegionSection from "@/pages/pickup/components/PickupRegionSection";
 import { usePickupData } from "@/pages/pickup/hooks/usePickupData";
@@ -15,7 +15,7 @@ function PickupPage() {
   const [isPickupPokemonModalOpen, setIsPickupPokemonModalOpen] =
     useState(false);
 
-  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexData();
+  const { pokemonMap, isLoading: isLoadingPokedex } = usePokedexContext();
   const { regions, isLoading: isLoadingPickup } = usePickupData();
 
   if (isLoadingPokedex || isLoadingPickup) {

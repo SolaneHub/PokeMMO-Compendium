@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import * as PickupHooks from "@/pages/pickup/hooks/usePickupData";
 import { PickupRegion } from "@/pages/pickup/types/pickup";
 import { Pokemon } from "@/types/pokemon";
@@ -9,7 +9,7 @@ import { Pokemon } from "@/types/pokemon";
 import PickupPage from "./PickupPage";
 
 // Mocking hooks
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/pages/pickup/hooks/usePickupData");
 
 // Mocking components
@@ -19,7 +19,7 @@ vi.mock("@/pages/pickup/components/PickupRegionSection", () => ({
   ),
 }));
 
-vi.mock("@/pages/my-teams/components/TeamBuildModal", () => ({
+vi.mock("@/components/TeamBuildModal", () => ({
   default: ({ onClose }: { onClose: () => void }) => (
     <div data-testid="build-modal">
       <button onClick={onClose}>Close Modal</button>
@@ -43,8 +43,8 @@ describe("PickupPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokedex as unknown as PokedexHooks.UsePokedexDataReturn
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokedex as unknown as PokedexContext.PokedexContextType
     );
     vi.mocked(PickupHooks.usePickupData).mockReturnValue(
       mockPickup as unknown as PickupHooks.UsePickupDataReturn
