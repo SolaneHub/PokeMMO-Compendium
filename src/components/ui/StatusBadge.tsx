@@ -1,6 +1,6 @@
 import { Check, Clock, LucideIcon, XCircle } from "lucide-react";
 
-import { TeamStatus } from "@/pages/my-teams/types/teams";
+import { TeamStatus } from "@/types/teams";
 
 interface StatusBadgeProps {
   status: TeamStatus;

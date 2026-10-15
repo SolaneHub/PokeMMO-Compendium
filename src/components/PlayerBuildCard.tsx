@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
 import ItemImage from "@/components/ui/ItemImage";
-import { RaidBuild } from "@/pages/raids/types/raids";
+import { RaidBuild } from "@/types/raids";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 
 interface PlayerBuildCardProps {
   build: RaidBuild;
+  pokemonMap?: Map<string, unknown>;
 }
 
 const MarqueeText = ({

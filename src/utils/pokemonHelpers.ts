@@ -1,5 +1,5 @@
+import { Raid, RaidStrategy } from "../pages/raids/types/raids";
 import { Pokemon } from "../types/pokemon";
-import { Raid, RaidStrategy } from "../types/raids";
 
 const PREFIX_VARIANTS = new Set([
   "Heat Rotom",

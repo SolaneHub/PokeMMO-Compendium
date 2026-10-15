@@ -1,24 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
+import { StrategyStep, StrategyVariation } from "@/types/strategy";
 
 import StrategyModal from "./StrategyModal";
 
-vi.mock("@/hooks/usePokedexData", () => ({
-  usePokedexData: () => ({
+vi.mock("@/context/PokedexContext", () => ({
+  usePokedexContext: () => ({
     pokemonColorMap: {},
     pokemonNames: [],
   }),
 }));
 
-vi.mock("@/context/PokedexContext", () => ({
-  usePokedexContext: () => ({}),
-}));
-
 const mockHistory: StrategyStep[][] = [];
 const mockView: StrategyStep[] = [
   {
+    id: "mock-step",
     type: "main",
     player: "Use Thunderbolt",
     warning: "Watch out for Ground switch",

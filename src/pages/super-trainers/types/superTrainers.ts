@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { StrategyStepSchema } from "@/pages/my-teams/types/teams";
+import { StrategyStepSchema } from "@/types/strategy";
 import { PokemonType } from "@/utils/pokemonColors";
 
 export const SuperTrainerTeamSchema = z.object({

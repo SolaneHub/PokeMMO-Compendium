@@ -2,8 +2,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 import MoveColoredText from "@/components/MoveColoredText";
-import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
 import { Pokemon } from "@/types/pokemon";
+import { StrategyStep, StrategyVariation } from "@/types/strategy";
 
 interface StrategyModalProps {
   readonly currentPokemonObject: Pokemon | { name: string };
