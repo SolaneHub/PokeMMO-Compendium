@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { BossFight } from "@/pages/boss-fights/types/bossFights";
 
 import { useBossFightsData } from "./useBossFightsData";
@@ -17,25 +16,10 @@ vi.mock("@/firebase/services/common", async (importOriginal) => {
   };
 });
 
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const queryClient = createTestQueryClient();
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
-
 describe("useBossFightsData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("fetches and sorts boss fights correctly", async () => {
@@ -46,7 +30,7 @@ describe("useBossFightsData", () => {
     ];
     vi.mocked(fetchCollectionData).mockResolvedValue(mockData as BossFight[]);
 
-    const { result } = renderHook(() => useBossFightsData(), { wrapper });
+    const { result } = renderHook(() => useBossFightsData());
 
     expect(result.current.isLoading).toBe(true);
 
@@ -68,7 +52,7 @@ describe("useBossFightsData", () => {
   it("handles fetch error", async () => {
     vi.mocked(fetchCollectionData).mockRejectedValue(new Error("Fetch failed"));
 
-    const { result } = renderHook(() => useBossFightsData(), { wrapper });
+    const { result } = renderHook(() => useBossFightsData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);

@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import React, { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { PickupRegion } from "@/pages/pickup/types/pickup";
 
 import { usePickupData } from "./usePickupData";
@@ -17,24 +16,6 @@ vi.mock("@/firebase/services/common", async (importOriginal) => {
   };
 });
 
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const queryClient = createTestQueryClient();
-  return React.createElement(
-    QueryClientProvider,
-    { client: queryClient },
-    children
-  );
-};
-
 describe("usePickupData", () => {
   const mockRegions = [
     { id: "kanto", name: "Kanto", locations: [] },
@@ -43,6 +24,7 @@ describe("usePickupData", () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("fetches pickup data on mount", async () => {
@@ -50,7 +32,7 @@ describe("usePickupData", () => {
       mockRegions as PickupRegion[]
     );
 
-    const { result } = renderHook(() => usePickupData(), { wrapper });
+    const { result } = renderHook(() => usePickupData());
 
     expect(result.current.isLoading).toBe(true);
 
@@ -71,7 +53,7 @@ describe("usePickupData", () => {
       unsortedRegions as PickupRegion[]
     );
 
-    const { result } = renderHook(() => usePickupData(), { wrapper });
+    const { result } = renderHook(() => usePickupData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -86,7 +68,7 @@ describe("usePickupData", () => {
       new Error("Fetch failed")
     );
 
-    const { result } = renderHook(() => usePickupData(), { wrapper });
+    const { result } = renderHook(() => usePickupData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);

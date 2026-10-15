@@ -1,13 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-
+import { useDataQuery } from "@/hooks/useDataQuery";
 import { getTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunService";
 import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 
 export const useTrainerRerunData = () => {
-  const { data, isLoading } = useQuery<TrainerRerunData | null>({
-    queryKey: ["trainer_rerun"],
-    queryFn: getTrainerRerun,
-  });
+  const { data, isLoading } = useDataQuery<TrainerRerunData | null>(
+    "trainer_rerun",
+    getTrainerRerun
+  );
 
   return {
     trainerRerunData: data || null,

@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import React, { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { getTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunService";
 
 import { useTrainerRerunData } from "./useTrainerRerunData";
@@ -10,24 +9,6 @@ import { useTrainerRerunData } from "./useTrainerRerunData";
 vi.mock("@/pages/trainer-rerun/services/trainerRerunService", () => ({
   getTrainerRerun: vi.fn(),
 }));
-
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const queryClient = createTestQueryClient();
-  return React.createElement(
-    QueryClientProvider,
-    { client: queryClient },
-    children
-  );
-};
 
 describe("useTrainerRerunData", () => {
   const mockData = {
@@ -39,12 +20,13 @@ describe("useTrainerRerunData", () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("fetches trainer rerun data on mount", async () => {
     vi.mocked(getTrainerRerun).mockResolvedValueOnce(mockData);
 
-    const { result } = renderHook(() => useTrainerRerunData(), { wrapper });
+    const { result } = renderHook(() => useTrainerRerunData());
 
     expect(result.current.isLoading).toBe(true);
 
@@ -59,7 +41,7 @@ describe("useTrainerRerunData", () => {
   it("handles fetch error gracefully", async () => {
     vi.mocked(getTrainerRerun).mockRejectedValueOnce(new Error("Fetch failed"));
 
-    const { result } = renderHook(() => useTrainerRerunData(), { wrapper });
+    const { result } = renderHook(() => useTrainerRerunData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);

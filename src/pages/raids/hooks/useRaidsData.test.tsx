@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { Raid } from "@/pages/raids/types/raids";
 
 import { useRaidsData } from "./useRaidsData";
@@ -17,25 +16,10 @@ vi.mock("@/firebase/services/common", async (importOriginal) => {
   };
 });
 
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const queryClient = createTestQueryClient();
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
-
 describe("useRaidsData", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("fetches, sorts and processes raids correctly", async () => {
@@ -46,7 +30,7 @@ describe("useRaidsData", () => {
     ];
     vi.mocked(fetchCollectionData).mockResolvedValue(mockData as Raid[]);
 
-    const { result } = renderHook(() => useRaidsData(), { wrapper });
+    const { result } = renderHook(() => useRaidsData());
 
     expect(result.current.isLoading).toBe(true);
 
@@ -78,7 +62,7 @@ describe("useRaidsData", () => {
   it("handles fetch error", async () => {
     vi.mocked(fetchCollectionData).mockRejectedValue(new Error("Fetch failed"));
 
-    const { result } = renderHook(() => useRaidsData(), { wrapper });
+    const { result } = renderHook(() => useRaidsData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);

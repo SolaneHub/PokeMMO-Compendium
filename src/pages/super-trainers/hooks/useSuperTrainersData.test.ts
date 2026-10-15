@@ -1,9 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { renderHook, waitFor } from "@testing-library/react";
-import React, { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { SuperTrainer } from "@/pages/super-trainers/types/superTrainers";
 
 import { useSuperTrainersData } from "./useSuperTrainersData";
@@ -17,24 +16,6 @@ vi.mock("@/firebase/services/common", async (importOriginal) => {
   };
 });
 
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
-const wrapper = ({ children }: { children: ReactNode }) => {
-  const queryClient = createTestQueryClient();
-  return React.createElement(
-    QueryClientProvider,
-    { client: queryClient },
-    children
-  );
-};
-
 describe("useSuperTrainersData", () => {
   const mockTrainers: SuperTrainer[] = [
     { name: "Blue", region: "Kanto", type: "Normal", image: "", teams: {} },
@@ -43,12 +24,13 @@ describe("useSuperTrainersData", () => {
 
   beforeEach(async () => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("fetches super trainers data on mount", async () => {
     vi.mocked(fetchCollectionData).mockResolvedValueOnce(mockTrainers);
 
-    const { result } = renderHook(() => useSuperTrainersData(), { wrapper });
+    const { result } = renderHook(() => useSuperTrainersData());
 
     expect(result.current.isLoading).toBe(true);
 
@@ -79,7 +61,7 @@ describe("useSuperTrainersData", () => {
     ];
     vi.mocked(fetchCollectionData).mockResolvedValueOnce(unsortedTrainers);
 
-    const { result } = renderHook(() => useSuperTrainersData(), { wrapper });
+    const { result } = renderHook(() => useSuperTrainersData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
@@ -94,7 +76,7 @@ describe("useSuperTrainersData", () => {
       new Error("Fetch failed")
     );
 
-    const { result } = renderHook(() => useSuperTrainersData(), { wrapper });
+    const { result } = renderHook(() => useSuperTrainersData());
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);

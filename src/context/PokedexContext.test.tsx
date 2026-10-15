@@ -1,9 +1,9 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as pokedexService from "@/firebase/services/pokedexService";
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { Pokemon } from "@/types/pokemon";
 
 import { PokedexProvider, usePokedexContext } from "./PokedexContext";
@@ -14,27 +14,14 @@ vi.mock("@/firebase/services/pokedexService", () => ({
   getPokemonById: vi.fn(),
 }));
 
-const createTestQueryClient = () =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-      },
-    },
-  });
-
 const wrapper = ({ children }: { children: ReactNode }) => {
-  const queryClient = createTestQueryClient();
-  return (
-    <QueryClientProvider client={queryClient}>
-      <PokedexProvider>{children}</PokedexProvider>
-    </QueryClientProvider>
-  );
+  return <PokedexProvider>{children}</PokedexProvider>;
 };
 
 describe("PokedexContext", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("throws error if used outside provider", () => {

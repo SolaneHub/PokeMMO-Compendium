@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
 import { fetchCollectionData } from "@/firebase/services/common";
+import { useDataQuery } from "@/hooks/useDataQuery";
 
 interface UseCollectionOptions<T> {
   sortFn?: (a: T, b: T) => number;
@@ -11,7 +11,7 @@ interface UseCollectionOptions<T> {
 }
 
 /**
- * Generic custom hook to fetch a Firestore collection using TanStack Query.
+ * Generic custom hook to fetch a Firestore collection using lightweight in-memory useDataQuery.
  * Supports schema-based validation (Zod), sorting, and inclusion of document IDs.
  */
 export function useCollectionData<T>(
@@ -19,18 +19,22 @@ export function useCollectionData<T>(
   schema: z.ZodSchema<T>,
   options: UseCollectionOptions<T> = {}
 ) {
-  return useQuery({
-    queryKey: [collectionName],
-    queryFn: async () => {
+  return useDataQuery(
+    collectionName,
+    async () => {
       const data = await fetchCollectionData<T>(collectionName, schema, {
-        includeId: options.includeId,
+        ...(options?.includeId !== undefined && {
+          includeId: options.includeId,
+        }),
       });
       if (options.sortFn) {
         data.sort(options.sortFn);
       }
       return data;
     },
-    enabled: options.enabled,
-    staleTime: options.staleTime,
-  });
+    {
+      enabled: options.enabled,
+      ttl: options.staleTime,
+    }
+  );
 }

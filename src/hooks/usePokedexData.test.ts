@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -6,6 +5,7 @@ import {
   getPokedexSummary,
   getPokemonById,
 } from "@/firebase/services/pokedexService";
+import * as dataQueryModule from "@/hooks/useDataQuery";
 import { Pokemon } from "@/types/pokemon";
 
 import {
@@ -13,8 +13,8 @@ import {
   usePokemonDetailsQuery,
 } from "./usePokedexData";
 
-vi.mock("@tanstack/react-query", () => ({
-  useQuery: vi.fn(),
+vi.mock("@/hooks/useDataQuery", () => ({
+  useDataQuery: vi.fn(),
 }));
 
 vi.mock("@/firebase/services/pokedexService", () => ({
@@ -33,27 +33,25 @@ describe("usePokedexData hooks", () => {
   });
 
   describe("usePokedexSummaryQuery", () => {
-    it("calls useQuery with correct options and sorting", async () => {
-      vi.mocked(useQuery).mockImplementation(((options: unknown) => {
-        const opt = options as { queryKey: string[] };
-        if (opt.queryKey[1] === "summary") {
-          return { data: null, isLoading: true };
-        }
-        return {};
-      }) as unknown as typeof useQuery);
+    it("calls useDataQuery with correct options and sorting", async () => {
+      vi.mocked(dataQueryModule.useDataQuery).mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        error: null,
+        refetch: vi.fn(),
+      });
 
       renderHook(() => usePokedexSummaryQuery());
 
-      expect(useQuery).toHaveBeenCalledWith(
-        expect.objectContaining({
-          queryKey: ["pokedex", "summary"],
-        })
+      expect(dataQueryModule.useDataQuery).toHaveBeenCalledWith(
+        "pokedex:summary",
+        expect.any(Function)
       );
 
       // Test the query function logic
-      const call = vi.mocked(useQuery).mock.calls[0];
-      if (!call) throw new Error("useQuery not called");
-      const queryFn = call[0].queryFn as () => Promise<{
+      const call = vi.mocked(dataQueryModule.useDataQuery).mock.calls[0];
+      if (!call) throw new Error("useDataQuery not called");
+      const queryFn = call[1] as () => Promise<{
         allPokemonData: Pokemon[];
         pokemonMap: Map<string, Pokemon>;
       }>;
@@ -72,28 +70,29 @@ describe("usePokedexData hooks", () => {
   });
 
   describe("usePokemonDetailsQuery", () => {
-    it("calls useQuery for specific pokemon", async () => {
-      vi.mocked(useQuery).mockImplementation(((options: unknown) => {
-        const opt = options as { queryKey: string[] };
-        if (opt.queryKey[0] === "pokemon") {
-          return { data: null, isLoading: true };
-        }
-        return {};
-      }) as unknown as typeof useQuery);
+    it("calls useDataQuery for specific pokemon", async () => {
+      vi.mocked(dataQueryModule.useDataQuery).mockReturnValue({
+        data: undefined,
+        isLoading: true,
+        error: null,
+        refetch: vi.fn(),
+      });
 
       renderHook(() => usePokemonDetailsQuery("1"));
 
-      expect(useQuery).toHaveBeenCalledWith(
+      expect(dataQueryModule.useDataQuery).toHaveBeenCalledWith(
+        "pokemon:1",
+        expect.any(Function),
         expect.objectContaining({
-          queryKey: ["pokemon", "1"],
           enabled: true,
+          ttl: Infinity,
         })
       );
 
       // Test query function
-      const call = vi.mocked(useQuery).mock.calls[0];
-      if (!call) throw new Error("useQuery not called");
-      const queryFn = call[0].queryFn as () => Promise<Pokemon>;
+      const call = vi.mocked(dataQueryModule.useDataQuery).mock.calls[0];
+      if (!call) throw new Error("useDataQuery not called");
+      const queryFn = call[1] as () => Promise<Pokemon>;
       vi.mocked(getPokemonById).mockResolvedValueOnce({
         id: "1",
         name: "Bulbasaur",
@@ -110,15 +109,17 @@ describe("usePokedexData hooks", () => {
     it("returns null if id is not provided", async () => {
       renderHook(() => usePokemonDetailsQuery(undefined));
 
-      expect(useQuery).toHaveBeenCalledWith(
+      expect(dataQueryModule.useDataQuery).toHaveBeenCalledWith(
+        "pokemon:undefined",
+        expect.any(Function),
         expect.objectContaining({
           enabled: false,
         })
       );
 
-      const call = vi.mocked(useQuery).mock.calls[0];
-      if (!call) throw new Error("useQuery not called");
-      const queryFn = call[0].queryFn as () => Promise<unknown>;
+      const call = vi.mocked(dataQueryModule.useDataQuery).mock.calls[0];
+      if (!call) throw new Error("useDataQuery not called");
+      const queryFn = call[1] as () => Promise<unknown>;
       const result = await queryFn();
       expect(result).toBeNull();
     });

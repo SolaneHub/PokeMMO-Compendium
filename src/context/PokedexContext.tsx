@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
   ReactNode,
@@ -8,6 +7,7 @@ import {
 } from "react";
 
 import { getPokemonById } from "@/firebase/services/pokedexService";
+import { fetchDataQuery } from "@/hooks/useDataQuery";
 import { usePokedexSummaryQuery } from "@/hooks/usePokedexData";
 import { Pokemon } from "@/types/pokemon";
 
@@ -43,36 +43,29 @@ const emptyData = {
 };
 
 export const PokedexProvider = ({ children }: PokedexProviderProps) => {
-  const queryClient = useQueryClient();
   const { data, isLoading, refetch } = usePokedexSummaryQuery();
 
-  const getPokemonDetails = useCallback(
-    async (id: string | number) => {
-      const idStr = id.toString();
+  const getPokemonDetails = useCallback(async (id: string | number) => {
+    const idStr = id.toString();
 
-      // Use queryClient to fetch or get from cache
-      return queryClient.fetchQuery({
-        queryKey: ["pokemon", idStr],
-        queryFn: async () => {
-          const fullData = await getPokemonById(idStr);
-          if (fullData) {
-            return { ...fullData, _isFullData: true };
-          }
-          return null;
-        },
-        staleTime: Infinity,
-      });
-    },
-    [queryClient]
-  );
+    return fetchDataQuery(
+      `pokemon:${idStr}`,
+      async () => {
+        const fullData = await getPokemonById(idStr);
+        if (fullData) {
+          return { ...fullData, _isFullData: true };
+        }
+        return null;
+      },
+      { ttl: Infinity }
+    );
+  }, []);
 
   const value = useMemo(
     () => ({
       ...(data || emptyData),
       isLoading,
       refetch: async (_shouldSetLoading?: boolean) => {
-        // TanStack Query handles loading state automatically,
-        // but we keep the signature for compatibility
         await refetch();
       },
       getPokemonDetails,
