@@ -9,7 +9,17 @@ import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 const TrainerRerunPage = () => {
   const accentColor = FEATURE_CONFIG["trainer-rerun"].color;
-  const { trainerRerunData, isLoading } = useTrainerRerunData();
+  const { trainerRerunData, isLoading, error } = useTrainerRerunData();
+
+  if (error || (!isLoading && !trainerRerunData)) {
+    return (
+      <div className="flex h-screen items-center justify-center p-4 text-center text-red-400">
+        <p>
+          Failed to load Trainer Rerun data: {error?.message || "Unknown error"}
+        </p>
+      </div>
+    );
+  }
 
   if (isLoading || !trainerRerunData) {
     return (

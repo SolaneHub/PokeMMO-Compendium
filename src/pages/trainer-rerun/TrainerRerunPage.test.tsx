@@ -38,4 +38,55 @@ describe("TrainerRerunPage", () => {
     expect(screen.getByText("Rerun Guide")).toBeInTheDocument();
     expect(screen.getByTestId("region-routes")).toBeInTheDocument();
   });
+
+  it("renders loading state when isLoading is true", () => {
+    vi.mocked(TrainerRerunHooks.useTrainerRerunData).mockReturnValue({
+      trainerRerunData: null,
+      isLoading: true,
+      error: null,
+    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+
+    render(
+      <MemoryRouter>
+        <TrainerRerunPage />
+      </MemoryRouter>
+    );
+    expect(
+      screen.getByText("Loading Trainer Rerun data...")
+    ).toBeInTheDocument();
+  });
+
+  it("renders error state when error is present", () => {
+    vi.mocked(TrainerRerunHooks.useTrainerRerunData).mockReturnValue({
+      trainerRerunData: null,
+      isLoading: false,
+      error: new Error("Network timeout"),
+    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+
+    render(
+      <MemoryRouter>
+        <TrainerRerunPage />
+      </MemoryRouter>
+    );
+    expect(
+      screen.getByText("Failed to load Trainer Rerun data: Network timeout")
+    ).toBeInTheDocument();
+  });
+
+  it("renders error state when not loading but data is null", () => {
+    vi.mocked(TrainerRerunHooks.useTrainerRerunData).mockReturnValue({
+      trainerRerunData: null,
+      isLoading: false,
+      error: null,
+    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+
+    render(
+      <MemoryRouter>
+        <TrainerRerunPage />
+      </MemoryRouter>
+    );
+    expect(
+      screen.getByText("Failed to load Trainer Rerun data: Unknown error")
+    ).toBeInTheDocument();
+  });
 });
