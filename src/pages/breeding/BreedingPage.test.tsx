@@ -6,7 +6,7 @@ import BreedingPage from "./BreedingPage";
 
 // Mocking dependencies
 vi.mock("@/utils/usePersistentState", () => ({
-  usePersistentState: vi.fn((key, initial) => [initial, vi.fn()]),
+  usePersistentState: vi.fn((_key, initial) => [initial, vi.fn()]),
 }));
 
 // Mocking child components to simplify

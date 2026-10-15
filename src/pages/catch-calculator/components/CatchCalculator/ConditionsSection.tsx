@@ -1,5 +1,4 @@
 import { Zap } from "lucide-react";
-import React from "react";
 
 import Slider from "@/components/ui/Slider";
 import { STATUS_CONDITIONS } from "@/constants/calculatorConstants";

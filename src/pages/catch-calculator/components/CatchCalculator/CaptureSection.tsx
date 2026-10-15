@@ -1,5 +1,4 @@
 import { Trophy } from "lucide-react";
-import React from "react";
 
 import Slider from "@/components/ui/Slider";
 import BallSelector from "@/pages/catch-calculator/components/BallSelector";

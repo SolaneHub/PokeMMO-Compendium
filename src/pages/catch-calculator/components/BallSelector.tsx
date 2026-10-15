@@ -6,6 +6,7 @@ import ItemImage from "@/components/ui/ItemImage";
 import { BALL_TYPES } from "@/constants/calculatorConstants";
 
 interface BallSelectorProps {
+  id?: string;
   selectedBall: string;
   onSelect: (ballName: string) => void;
 }

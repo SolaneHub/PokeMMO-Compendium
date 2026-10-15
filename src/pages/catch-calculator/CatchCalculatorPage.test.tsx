@@ -2,13 +2,13 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import { Pokemon } from "@/types/pokemon";
 
 import CatchCalculatorPage from "./CatchCalculatorPage";
 
 // Mocking hooks
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/pages/catch-calculator/hooks/useCatchProbability", () => ({
   useCatchProbability: vi.fn(() => 50.5),
 }));
@@ -54,17 +54,17 @@ describe("CatchCalculatorPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokedex as unknown as PokedexHooks.UsePokedexDataReturn
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokedex as unknown as PokedexContext.PokedexContextType
     );
   });
 
   it("shows loading state", () => {
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue({
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
       isLoading: true,
       allPokemonData: [],
       pokemonMap: new Map(),
-    } as unknown as PokedexHooks.UsePokedexDataReturn);
+    } as unknown as PokedexContext.PokedexContextType);
     render(<CatchCalculatorPage />);
     expect(screen.getByText("Loading Pokémon data...")).toBeInTheDocument();
   });

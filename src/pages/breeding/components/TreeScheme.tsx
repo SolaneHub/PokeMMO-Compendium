@@ -1,19 +1,16 @@
 import { Minus, Plus, RefreshCcw } from "lucide-react";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
 
 import StatCircle from "@/components/ui/StatCircle";
 import { STAT_COLOR_MAP } from "@/constants/breedingConstants";
+import {
+  calculateRowConfigs,
+  generateBreedingTree,
+  NODE_SIZE,
+  toggleTreeNode,
+  VERTICAL_GAP,
+} from "@/pages/breeding/utils/breedingTree";
 import { usePersistentState } from "@/utils/usePersistentState";
-
-const NODE_SIZE = 48;
-const BASE_PAIR_GAP = 40;
-const BASE_ROW_GAP = 90;
-const VERTICAL_GAP = 60;
-
-const getColors = (stats: string[]) =>
-  stats.map(
-    (stat) => (STAT_COLOR_MAP as Record<string, string>)[stat] || "#ffffff"
-  );
 
 interface TreeSchemeProps {
   readonly selectedIvCount: number;
@@ -24,12 +21,6 @@ interface TreeSchemeProps {
 interface CustomCSSProperties extends CSSProperties {
   "--node-size"?: string;
   "--vertical-gap"?: string;
-}
-
-interface RowConfig {
-  size: number;
-  pairGap: number;
-  rowGap: number;
 }
 
 function TreeScheme({
@@ -43,113 +34,24 @@ function TreeScheme({
   );
   const [zoomLevel, setZoomLevel] = useState(1);
 
-  const activeIds = new Set(activeIdsArray);
+  const activeIds = useMemo(() => new Set(activeIdsArray), [activeIdsArray]);
 
   const updateActiveIds = (newSet: Set<string>) => {
     setActiveIdsArray(Array.from(newSet));
   };
 
-  const generateTree = () => {
-    const clampedCount = Math.min(selectedIvCount ?? 0, 6);
-    const baseStats = selectedIvStats.slice(0, clampedCount);
-    const stats = nature ? ["Nature", ...baseStats] : baseStats;
-    if (stats.length === 0) return [];
-
-    const levels: string[][][] = [];
-    let currentLevel: string[][] = [stats];
-
-    while (currentLevel.length > 0) {
-      levels.push(currentLevel);
-      const nextLevel: string[][] = [];
-      currentLevel.forEach((nodeStats) => {
-        if (nodeStats.length > 1) {
-          nextLevel.push(nodeStats.slice(0, -1), nodeStats.slice(1));
-        }
-      });
-      currentLevel = nextLevel;
-    }
-
-    return levels
-      .map((level) => level.map((nodeStats) => getColors(nodeStats)))
-      .reverse();
-  };
-
-  const dataByRow = generateTree();
+  const dataByRow = useMemo(
+    () => generateBreedingTree(selectedIvCount, selectedIvStats, nature),
+    [selectedIvCount, selectedIvStats, nature]
+  );
   const totalRows = dataByRow.length;
 
   const handleNodeClick = (rowIndex: number, colIndex: number) => {
-    const clickedId = `${rowIndex}-${colIndex}`;
-    const newSet = new Set(activeIds);
-    const isTurningOn = !newSet.has(clickedId);
-
-    if (isTurningOn) {
-      newSet.add(clickedId);
-      const activateAncestors = (r: number, c: number) => {
-        if (r === 0) return;
-        const parentRow = r - 1;
-        newSet.add(`${parentRow}-${c * 2}`);
-        newSet.add(`${parentRow}-${c * 2 + 1}`);
-        activateAncestors(parentRow, c * 2);
-        activateAncestors(parentRow, c * 2 + 1);
-      };
-      activateAncestors(rowIndex, colIndex);
-    } else {
-      newSet.delete(clickedId);
-      const deactivateDescendants = (r: number, c: number) => {
-        const childRow = r + 1;
-        if (childRow >= totalRows) return;
-        const childCol = Math.floor(c / 2);
-        const childId = `${childRow}-${childCol}`;
-        if (newSet.has(childId)) {
-          newSet.delete(childId);
-          deactivateDescendants(childRow, childCol);
-        }
-      };
-      deactivateDescendants(rowIndex, colIndex);
-
-      const deactivateAncestors = (r: number, c: number) => {
-        if (r === 0) return;
-        const parentRow = r - 1;
-        const leftP = `${parentRow}-${c * 2}`;
-        const rightP = `${parentRow}-${c * 2 + 1}`;
-        if (newSet.has(leftP)) {
-          newSet.delete(leftP);
-          deactivateAncestors(parentRow, c * 2);
-        }
-        if (newSet.has(rightP)) {
-          newSet.delete(rightP);
-          deactivateAncestors(parentRow, c * 2 + 1);
-        }
-      };
-      deactivateAncestors(rowIndex, colIndex);
-    }
+    const newSet = toggleTreeNode(activeIds, rowIndex, colIndex, totalRows);
     updateActiveIds(newSet);
   };
 
-  const rowConfigs: RowConfig[] = Array.from({ length: totalRows }, () => ({
-    size: NODE_SIZE,
-    pairGap: 0,
-    rowGap: 0,
-  }));
-
-  if (rowConfigs.length > 0) {
-    const firstConfig = rowConfigs[0];
-    if (firstConfig) {
-      firstConfig.pairGap = BASE_PAIR_GAP;
-      firstConfig.rowGap = BASE_ROW_GAP;
-    }
-  }
-
-  for (let i = 0; i < totalRows - 1; i++) {
-    const current = rowConfigs[i];
-    const next = rowConfigs[i + 1];
-    if (current && next) {
-      const dist = 2 * current.size + current.pairGap + current.rowGap;
-      const nextGap = dist - next.size;
-      next.pairGap = nextGap;
-      next.rowGap = nextGap;
-    }
-  }
+  const rowConfigs = useMemo(() => calculateRowConfigs(totalRows), [totalRows]);
 
   return (
     <div className="relative flex h-full w-full flex-col items-center text-white">

@@ -2,7 +2,7 @@ import { Trophy } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 
 import PageLayout from "@/components/PageLayout";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { usePokemonUI } from "@/hooks/usePokemonUI";
 import CaptureSection from "@/pages/catch-calculator/components/CatchCalculator/CaptureSection";
 import ConditionsSection from "@/pages/catch-calculator/components/CatchCalculator/ConditionsSection";
@@ -13,7 +13,7 @@ import { usePersistentState } from "@/utils/usePersistentState";
 
 const CatchCalculatorPage = () => {
   const accentColor = FEATURE_CONFIG["catch-calculator"].color;
-  const { allPokemonData, pokemonMap, isLoading } = usePokedexData();
+  const { allPokemonData, pokemonMap, isLoading } = usePokedexContext();
 
   const [targetHpPercentage, setTargetHpPercentage] = usePersistentState(
     "calc_hp",
