@@ -5,13 +5,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as MovesContext from "@/context/MovesContext";
 import * as PokedexContext from "@/context/PokedexContext";
 import * as ToastContext from "@/context/ToastContext";
-import * as PokedexHooks from "@/hooks/usePokedexData";
 import { Pokemon } from "@/types/pokemon";
 
 import PokedexEditorPage from "./PokedexEditorPage";
 
 // Mocking dependencies
-vi.mock("@/hooks/usePokedexData");
 vi.mock("@/context/MovesContext");
 vi.mock("@/context/PokedexContext");
 vi.mock("@/context/ToastContext");
@@ -34,20 +32,16 @@ describe("PokedexEditorPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(ToastContext.useToast).mockReturnValue(vi.fn());
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue({
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
       fullList: [mockPokemon],
       isLoading: false,
       refetch: vi.fn(),
-    } as unknown as PokedexHooks.UsePokedexDataReturn);
+      getPokemonDetails: vi.fn().mockResolvedValue(mockPokemon),
+    } as unknown as PokedexContext.PokedexContextType);
     vi.mocked(MovesContext.useMoves).mockReturnValue({
       moves: [],
       isLoading: false,
     } as unknown as MovesContext.MovesContextType);
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
-      pokedexData: [mockPokemon],
-      loading: false,
-      getPokemonDetails: vi.fn().mockResolvedValue(mockPokemon),
-    } as unknown as PokedexContext.PokedexContextType);
   });
 
   it("renders correctly and searches for pokemon", async () => {

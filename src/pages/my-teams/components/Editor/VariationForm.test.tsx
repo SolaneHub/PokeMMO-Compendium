@@ -6,74 +6,9 @@ import { StrategyVariation } from "@/pages/my-teams/types/teams";
 import VariationForm from "./VariationForm";
 
 // Mock the hook so it doesn't try to fetch data during test
-vi.mock("@/hooks/usePokedexData", () => ({
-  usePokedexData: () => ({}),
+vi.mock("@/context/PokedexContext", () => ({
+  usePokedexContext: () => ({}),
 }));
-
-// Mock the nested step component to trigger its callbacks easily
-vi.mock("./SortableNestedStepItem", () => ({
-  SortableNestedStepItem: ({
-    id,
-    step,
-    onChange,
-    onRemove,
-  }: {
-    id: string;
-    step: { player: string };
-    onChange: (s: unknown) => void;
-    onRemove: () => void;
-  }) => (
-    <div data-testid={`nested-step-${id}`}>
-      <button
-        data-testid={`change-nested-${id}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onChange({ ...step, player: "UpdatedNested" });
-        }}
-      >
-        Change
-      </button>
-      <button
-        data-testid={`remove-nested-${id}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove();
-        }}
-      >
-        Remove
-      </button>
-    </div>
-  ),
-}));
-
-// Mock DnD Context to test dragging
-vi.mock("@dnd-kit/core", async (importOriginal) => {
-  const actual = (await importOriginal()) as object;
-  return {
-    ...actual,
-    DndContext: ({
-      children,
-      onDragEnd,
-    }: {
-      children: React.ReactNode;
-      onDragEnd: (event: unknown) => void;
-    }) => (
-      <div
-        data-testid="dnd-context"
-        onClick={() => {
-          onDragEnd({
-            active: { id: "nstep1" },
-            over: { id: "nstep2" },
-          });
-        }}
-      >
-        {children}
-      </div>
-    ),
-    useSensor: vi.fn(),
-    useSensors: vi.fn(),
-  };
-});
 
 describe("VariationForm component", () => {
   const mockVariation: StrategyVariation = {
@@ -154,7 +89,7 @@ describe("VariationForm component", () => {
     const handleChange = vi.fn();
     render(
       <VariationForm
-        variation={{ ...mockVariation, steps: [] }} // Using empty array instead of undefined
+        variation={{ ...mockVariation, steps: [] }}
         onChange={handleChange}
         onRemove={vi.fn()}
       />
@@ -171,7 +106,7 @@ describe("VariationForm component", () => {
     );
   });
 
-  it("handles onChange from SortableNestedStepItem", () => {
+  it("handles onRemove for nested step", () => {
     const handleChange = vi.fn();
     render(
       <VariationForm
@@ -181,28 +116,14 @@ describe("VariationForm component", () => {
       />
     );
 
-    fireEvent.click(screen.getByTestId("change-nested-nstep1"));
-    expect(handleChange).toHaveBeenCalledTimes(1);
+    const removeButtons = screen.getAllByRole("button", {
+      name: "Remove Nested",
+    });
+    const firstRemoveButton = removeButtons[0];
+    expect(firstRemoveButton).toBeDefined();
+    if (!firstRemoveButton) throw new Error("Button not found");
 
-    const firstCall = handleChange.mock.calls[0];
-    const updatedSteps = firstCall?.[0]?.steps;
-    if (updatedSteps) {
-      expect(updatedSteps[0].player).toBe("UpdatedNested");
-      expect(updatedSteps[1].id).toBe("nstep2"); // Unchanged
-    }
-  });
-
-  it("handles onRemove from SortableNestedStepItem", () => {
-    const handleChange = vi.fn();
-    render(
-      <VariationForm
-        variation={mockVariation}
-        onChange={handleChange}
-        onRemove={vi.fn()}
-      />
-    );
-
-    fireEvent.click(screen.getByTestId("remove-nested-nstep1"));
+    fireEvent.click(firstRemoveButton);
     expect(handleChange).toHaveBeenCalledTimes(1);
 
     const firstCall = handleChange.mock.calls[0];
@@ -213,7 +134,7 @@ describe("VariationForm component", () => {
     }
   });
 
-  it("handles drag end array move logic", () => {
+  it("reorders nested steps when clicking Move step down button on first step", () => {
     const handleChange = vi.fn();
     render(
       <VariationForm
@@ -223,17 +144,55 @@ describe("VariationForm component", () => {
       />
     );
 
-    fireEvent.click(screen.getByTestId("dnd-context"));
+    const moveDownButtons = screen.getAllByRole("button", {
+      name: "Move step down",
+    });
+    const firstMoveDownButton = moveDownButtons[0];
+    expect(firstMoveDownButton).toBeDefined();
+    if (!firstMoveDownButton) throw new Error("Button not found");
+
+    expect(firstMoveDownButton).toBeEnabled();
+    expect(moveDownButtons[1]).toBeDisabled();
+
+    fireEvent.click(firstMoveDownButton);
 
     expect(handleChange).toHaveBeenCalledTimes(1);
     const firstCall = handleChange.mock.calls[0];
-    if (firstCall && firstCall[0]) {
-      const updatedSteps = firstCall[0].steps;
-      if (updatedSteps) {
-        // nstep1 moved after nstep2
-        expect(updatedSteps[0].id).toBe("nstep2");
-        expect(updatedSteps[1].id).toBe("nstep1");
-      }
+    const updatedSteps = firstCall?.[0]?.steps;
+    if (updatedSteps) {
+      expect(updatedSteps[0].id).toBe("nstep2");
+      expect(updatedSteps[1].id).toBe("nstep1");
+    }
+  });
+
+  it("reorders nested steps when clicking Move step up button on second step", () => {
+    const handleChange = vi.fn();
+    render(
+      <VariationForm
+        variation={mockVariation}
+        onChange={handleChange}
+        onRemove={vi.fn()}
+      />
+    );
+
+    const moveUpButtons = screen.getAllByRole("button", {
+      name: "Move step up",
+    });
+    const secondMoveUpButton = moveUpButtons[1];
+    expect(secondMoveUpButton).toBeDefined();
+    if (!secondMoveUpButton) throw new Error("Button not found");
+
+    expect(moveUpButtons[0]).toBeDisabled();
+    expect(secondMoveUpButton).toBeEnabled();
+
+    fireEvent.click(secondMoveUpButton);
+
+    expect(handleChange).toHaveBeenCalledTimes(1);
+    const firstCall = handleChange.mock.calls[0];
+    const updatedSteps = firstCall?.[0]?.steps;
+    if (updatedSteps) {
+      expect(updatedSteps[0].id).toBe("nstep2");
+      expect(updatedSteps[1].id).toBe("nstep1");
     }
   });
 });

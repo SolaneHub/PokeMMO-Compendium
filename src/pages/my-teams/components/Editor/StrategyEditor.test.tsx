@@ -3,71 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import StrategyEditor from "./StrategyEditor";
 
-// Mock child component to easily trigger callbacks
-vi.mock("./SortableStepItem", () => ({
-  SortableStepItem: ({
-    id,
-    step,
-    onChange,
-    onRemove,
-  }: {
-    id: string;
-    step: { player: string };
-    onChange: (s: unknown) => void;
-    onRemove: () => void;
-  }) => (
-    <div data-testid={`step-${id}`}>
-      <button
-        data-testid={`change-${id}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onChange({ ...step, player: "UpdatedPlayer" });
-        }}
-      >
-        Change
-      </button>
-      <button
-        data-testid={`remove-${id}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove();
-        }}
-      >
-        Remove
-      </button>
-    </div>
-  ),
+// Mock PokedexContext so child StepForm renders safely without PokedexProvider
+vi.mock("@/context/PokedexContext", () => ({
+  usePokedexContext: () => ({}),
 }));
-
-// Mock DnD Context to expose its onDragEnd handler for testing
-vi.mock("@dnd-kit/core", async (importOriginal) => {
-  const actual = (await importOriginal()) as object;
-  return {
-    ...actual,
-    DndContext: ({
-      children,
-      onDragEnd,
-    }: {
-      children: React.ReactNode;
-      onDragEnd: (event: unknown) => void;
-    }) => (
-      <div
-        data-testid="dnd-context"
-        onClick={() => {
-          // Simulate drag end event
-          onDragEnd({
-            active: { id: "step1" },
-            over: { id: "step2" },
-          });
-        }}
-      >
-        {children}
-      </div>
-    ),
-    useSensor: vi.fn(),
-    useSensors: vi.fn(),
-  };
-});
 
 describe("StrategyEditor component", () => {
   const mockSteps = [
@@ -137,8 +76,8 @@ describe("StrategyEditor component", () => {
       />
     );
 
-    expect(screen.getByTestId("step-step1")).toBeInTheDocument();
-    expect(screen.getByTestId("step-step2")).toBeInTheDocument();
+    expect(screen.getByText("Step 1")).toBeInTheDocument();
+    expect(screen.getByText("Step 2")).toBeInTheDocument();
 
     const addButtons = screen.getAllByText(/Add.*Step/i);
     expect(addButtons.length).toBeGreaterThan(0);
@@ -153,28 +92,6 @@ describe("StrategyEditor component", () => {
     }
   });
 
-  it("handles onChange from SortableStepItem", () => {
-    const handleUpdate = vi.fn();
-    render(
-      <StrategyEditor
-        selectedEnemyPokemon="Charizard"
-        steps={mockSteps}
-        onUpdateSteps={handleUpdate}
-      />
-    );
-
-    fireEvent.click(screen.getByTestId("change-step1"));
-    expect(handleUpdate).toHaveBeenCalledTimes(1);
-
-    // Verify first step was updated
-    const firstCall = handleUpdate.mock.calls[0];
-    const newSteps = firstCall?.[0];
-    if (newSteps) {
-      expect(newSteps[0].player).toBe("UpdatedPlayer");
-      expect(newSteps[1]).toEqual(mockSteps[1]); // second untouched
-    }
-  });
-
   it("handles onRemove from SortableStepItem", () => {
     const handleUpdate = vi.fn();
     render(
@@ -185,7 +102,7 @@ describe("StrategyEditor component", () => {
       />
     );
 
-    fireEvent.click(screen.getByTestId("remove-step1"));
+    fireEvent.click(screen.getByRole("button", { name: "Remove step 1" }));
     expect(handleUpdate).toHaveBeenCalledTimes(1);
 
     // Verify first step was removed
@@ -197,7 +114,7 @@ describe("StrategyEditor component", () => {
     }
   });
 
-  it("handles handleDragEnd array move logic", () => {
+  it("reorders items when clicking Move step down button on the first step", () => {
     const handleUpdate = vi.fn();
     render(
       <StrategyEditor
@@ -207,14 +124,57 @@ describe("StrategyEditor component", () => {
       />
     );
 
-    // Clicking the mocked DndContext container triggers the onDragEnd with simulated payload
-    fireEvent.click(screen.getByTestId("dnd-context"));
+    const moveDownButtons = screen.getAllByRole("button", {
+      name: "Move step down",
+    });
+    const firstButton = moveDownButtons[0];
+    expect(firstButton).toBeDefined();
+    if (!firstButton) throw new Error("Button not found");
+
+    // First step's move down button should be active
+    expect(firstButton).toBeEnabled();
+    // Last step's move down button should be disabled
+    expect(moveDownButtons[1]).toBeDisabled();
+
+    fireEvent.click(firstButton);
 
     expect(handleUpdate).toHaveBeenCalledTimes(1);
     const firstCall = handleUpdate.mock.calls[0];
     const newSteps = firstCall?.[0];
     if (newSteps) {
-      // Due to active id step1 and over id step2, arrayMove should swap them
+      expect(newSteps[0].id).toBe("step2");
+      expect(newSteps[1].id).toBe("step1");
+    }
+  });
+
+  it("reorders items when clicking Move step up button on the second step", () => {
+    const handleUpdate = vi.fn();
+    render(
+      <StrategyEditor
+        selectedEnemyPokemon="Charizard"
+        steps={mockSteps}
+        onUpdateSteps={handleUpdate}
+      />
+    );
+
+    const moveUpButtons = screen.getAllByRole("button", {
+      name: "Move step up",
+    });
+    const secondButton = moveUpButtons[1];
+    expect(secondButton).toBeDefined();
+    if (!secondButton) throw new Error("Button not found");
+
+    // First step's move up button should be disabled
+    expect(moveUpButtons[0]).toBeDisabled();
+    // Second step's move up button should be active
+    expect(secondButton).toBeEnabled();
+
+    fireEvent.click(secondButton);
+
+    expect(handleUpdate).toHaveBeenCalledTimes(1);
+    const firstCall = handleUpdate.mock.calls[0];
+    const newSteps = firstCall?.[0];
+    if (newSteps) {
       expect(newSteps[0].id).toBe("step2");
       expect(newSteps[1].id).toBe("step1");
     }

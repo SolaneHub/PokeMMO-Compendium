@@ -1,19 +1,6 @@
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
+import React, { useState } from "react";
 
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
 import { generateId } from "@/utils/idUtils";
 
@@ -38,7 +25,8 @@ const VariationForm = ({
   onChange,
   onRemove,
 }: VariationFormProps) => {
-  usePokedexData();
+  usePokedexContext();
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
   const handleFieldChange = (
     field: keyof StrategyVariation,
@@ -51,40 +39,60 @@ const VariationForm = ({
     onChange({ ...variation, steps: newSteps });
   };
 
+  const currentNestedSteps = variation.steps || [];
+
+  const moveItem = (index: number, direction: "up" | "down") => {
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= currentNestedSteps.length) return;
+
+    const newSteps = [...currentNestedSteps];
+    const [movedStep] = newSteps.splice(index, 1);
+    if (movedStep) {
+      newSteps.splice(targetIndex, 0, movedStep);
+      updateNestedSteps(newSteps);
+    }
+  };
+
+  const handleDragStart = (
+    index: number,
+    e: React.DragEvent<HTMLDivElement>
+  ) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", `${index}`);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (
+    targetIndex: number,
+    e: React.DragEvent<HTMLDivElement>
+  ) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) return;
+
+    const newSteps = [...currentNestedSteps];
+    const [movedStep] = newSteps.splice(draggedIndex, 1);
+    if (movedStep) {
+      newSteps.splice(targetIndex, 0, movedStep);
+      updateNestedSteps(newSteps);
+    }
+    setDraggedIndex(null);
+  };
+
   const addStep = () => {
-    updateNestedSteps([
-      ...(variation.steps || []),
-      createNewNestedStepTemplate(),
-    ]);
+    updateNestedSteps([...currentNestedSteps, createNewNestedStepTemplate()]);
   };
 
   const removeStep = (idToRemove: string) => {
-    const newSteps = (variation.steps || []).filter(
+    const newSteps = currentNestedSteps.filter(
       (step: StrategyStep) => step.id !== idToRemove
     );
     updateNestedSteps(newSteps);
   };
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-  );
-
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (over && active.id !== over.id) {
-      const oldIndex = (variation.steps || []).findIndex(
-        (step: StrategyStep) => step.id === active.id
-      );
-      const newIndex = (variation.steps || []).findIndex(
-        (step: StrategyStep) => step.id === over.id
-      );
-      const newSteps = arrayMove(variation.steps || [], oldIndex, newIndex);
-      updateNestedSteps(newSteps);
-    }
-  }
-
-  const currentNestedSteps = variation.steps || [];
 
   return (
     <div className="relative my-4 rounded-xl border border-l-[5px] border-white/5 border-l-purple-500 bg-[#1a1b20] p-5 text-white shadow-lg">
@@ -143,32 +151,30 @@ const VariationForm = ({
         </div>
 
         {currentNestedSteps.length > 0 ? (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={currentNestedSteps.map((s: StrategyStep) => s.id)}
-            >
-              <div className="space-y-3">
-                {currentNestedSteps.map((step: StrategyStep, i: number) => (
-                  <SortableNestedStepItem
-                    key={step.id}
-                    id={step.id}
-                    index={i}
-                    step={step}
-                    onChange={(updated: StrategyStep) => {
-                      const newSteps = [...currentNestedSteps];
-                      newSteps[i] = updated;
-                      updateNestedSteps(newSteps);
-                    }}
-                    onRemove={() => removeStep(step.id)}
-                  />
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
+          <div className="space-y-3">
+            {currentNestedSteps.map((step: StrategyStep, i: number) => (
+              <SortableNestedStepItem
+                key={step.id}
+                id={step.id}
+                index={i}
+                step={step}
+                isFirst={i === 0}
+                isLast={i === currentNestedSteps.length - 1}
+                onMoveUp={() => moveItem(i, "up")}
+                onMoveDown={() => moveItem(i, "down")}
+                draggable
+                onDragStart={(e) => handleDragStart(i, e)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(i, e)}
+                onChange={(updated: StrategyStep) => {
+                  const newSteps = [...currentNestedSteps];
+                  newSteps[i] = updated;
+                  updateNestedSteps(newSteps);
+                }}
+                onRemove={() => removeStep(step.id)}
+              />
+            ))}
+          </div>
         ) : (
           <div className="rounded-xl border-2 border-dashed border-white/10 bg-black/10 py-8 text-center">
             <p className="text-xs font-medium text-slate-500 italic">

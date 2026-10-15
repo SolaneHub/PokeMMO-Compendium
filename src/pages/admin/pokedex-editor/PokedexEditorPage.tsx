@@ -1,22 +1,6 @@
 import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import {
-  GripVertical,
+  ChevronDown,
+  ChevronUp,
   Plus,
   RefreshCw,
   Save,
@@ -36,7 +20,6 @@ import {
   updatePokedexData,
   updatePokedexSummary,
 } from "@/firebase/services/pokedexService";
-import { usePokedexData } from "@/hooks/usePokedexData";
 import {
   BaseStats,
   Evolution,
@@ -159,45 +142,42 @@ const propagateMovesToEvolutions = (
 const SortableMoveItem = ({
   move,
   idx,
+  totalMoves,
   handleMoveNameChange,
   removeMove,
+  moveMove,
   setFormData,
 }: {
   move: EditorMove;
   idx: number;
+  totalMoves: number;
   handleMoveNameChange: (idx: number, name: string) => void;
   removeMove: (idx: number) => void;
+  moveMove: (idx: number, direction: "up" | "down") => void;
   setFormData: React.Dispatch<React.SetStateAction<Pokemon>>;
   masterMoves: MoveMaster[];
 }) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: move.tempId });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 50 : 0,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="flex items-center gap-2 rounded bg-slate-700/30 p-2"
-    >
-      <div
-        {...attributes}
-        {...listeners}
-        className="cursor-grab p-1 text-slate-500 hover:text-slate-300"
-      >
-        <GripVertical size={16} />
+    <div className="flex items-center gap-2 rounded bg-slate-700/30 p-2">
+      <div className="flex items-center">
+        <button
+          type="button"
+          onClick={() => moveMove(idx, "up")}
+          disabled={idx === 0}
+          aria-label="Move move up"
+          className="rounded p-1 text-slate-500 transition-colors hover:text-blue-400 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-slate-500"
+        >
+          <ChevronUp size={16} />
+        </button>
+        <button
+          type="button"
+          onClick={() => moveMove(idx, "down")}
+          disabled={idx === totalMoves - 1}
+          aria-label="Move move down"
+          className="rounded p-1 text-slate-500 transition-colors hover:text-blue-400 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-slate-500"
+        >
+          <ChevronDown size={16} />
+        </button>
       </div>
       <input
         placeholder="Lvl"
@@ -311,8 +291,12 @@ const SortableMoveItem = ({
 };
 
 const PokedexEditorPage = () => {
-  const { fullList, isLoading: pokedexLoading, refetch } = usePokedexData();
-  const { getPokemonDetails } = usePokedexContext();
+  const {
+    fullList,
+    isLoading: pokedexLoading,
+    refetch,
+    getPokemonDetails,
+  } = usePokedexContext();
   const { moves: masterMoves, isLoading: movesLoading } = useMoves();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
@@ -320,17 +304,6 @@ const PokedexEditorPage = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isFetchingFull, setIsFetchingFull] = useState(false);
   const showToast = useToast();
-
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
 
   useEffect(() => {
     if (selectedPokemon) {
@@ -513,21 +486,18 @@ const PokedexEditorPage = () => {
     setFormData((prev) => ({ ...prev, moves: newMoves }));
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+  const moveMove = (idx: number, direction: "up" | "down") => {
+    setFormData((prev) => {
+      const moves = [...prev.moves];
+      const targetIndex = direction === "up" ? idx - 1 : idx + 1;
+      if (targetIndex < 0 || targetIndex >= moves.length) return prev;
 
-    if (over && active.id !== over.id) {
-      setFormData((prev) => {
-        const moves = prev.moves as EditorMove[];
-        const oldIndex = moves.findIndex((m) => m.tempId === active.id);
-        const newIndex = moves.findIndex((m) => m.tempId === over.id);
-
-        return {
-          ...prev,
-          moves: arrayMove(moves, oldIndex, newIndex),
-        };
-      });
-    }
+      const [movedMove] = moves.splice(idx, 1);
+      if (movedMove) {
+        moves.splice(targetIndex, 0, movedMove);
+      }
+      return { ...prev, moves };
+    });
   };
 
   const addLocation = () => {
@@ -1271,30 +1241,21 @@ const PokedexEditorPage = () => {
                 ))}
               </datalist>
 
-              <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext
-                  items={(formData.moves as EditorMove[]).map((m) => m.tempId)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <div className="flex flex-col gap-2">
-                    {(formData.moves as EditorMove[]).map((move, idx) => (
-                      <SortableMoveItem
-                        key={move.tempId}
-                        move={move}
-                        idx={idx}
-                        handleMoveNameChange={handleMoveNameChange}
-                        removeMove={removeMove}
-                        setFormData={setFormData}
-                        masterMoves={masterMoves}
-                      />
-                    ))}
-                  </div>
-                </SortableContext>
-              </DndContext>
+              <div className="flex flex-col gap-2">
+                {(formData.moves as EditorMove[]).map((move, idx) => (
+                  <SortableMoveItem
+                    key={move.tempId}
+                    move={move}
+                    idx={idx}
+                    totalMoves={formData.moves.length}
+                    handleMoveNameChange={handleMoveNameChange}
+                    removeMove={removeMove}
+                    moveMove={moveMove}
+                    setFormData={setFormData}
+                    masterMoves={masterMoves}
+                  />
+                ))}
+              </div>
             </div>
             <button
               onClick={addMove}
