@@ -2,11 +2,11 @@ import { Calculator, Dna, Settings2 } from "lucide-react";
 
 import PageLayout from "@/components/PageLayout";
 import { IV_OPTIONS, IV_STATS } from "@/constants/breedingConstants";
+import { usePersistentState } from "@/hooks/usePersistentState";
 import IVsDropdown from "@/pages/breeding/components/IVsDropdown";
 import IVsSelector from "@/pages/breeding/components/IVsSelector";
 import TreeScheme from "@/pages/breeding/components/TreeScheme";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
-import { usePersistentState } from "@/utils/usePersistentState";
 
 function BreedingPage() {
   const accentColor = FEATURE_CONFIG["breeding"].color;

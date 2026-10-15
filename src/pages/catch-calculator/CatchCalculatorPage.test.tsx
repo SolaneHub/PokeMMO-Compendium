@@ -15,7 +15,7 @@ vi.mock("@/pages/catch-calculator/hooks/useCatchProbability", () => ({
 vi.mock("@/hooks/usePokemonUI", () => ({
   usePokemonUI: vi.fn(() => ({ sprite: "mock.png", background: "#fff" })),
 }));
-vi.mock("@/utils/usePersistentState", () => ({
+vi.mock("@/hooks/usePersistentState", () => ({
   usePersistentState: vi.fn((_key, initial) => [initial, vi.fn()]),
 }));
 

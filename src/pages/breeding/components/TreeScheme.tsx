@@ -3,6 +3,7 @@ import { CSSProperties, useMemo, useState } from "react";
 
 import StatCircle from "@/components/ui/StatCircle";
 import { STAT_COLOR_MAP } from "@/constants/breedingConstants";
+import { usePersistentState } from "@/hooks/usePersistentState";
 import {
   calculateRowConfigs,
   generateBreedingTree,
@@ -10,7 +11,6 @@ import {
   toggleTreeNode,
   VERTICAL_GAP,
 } from "@/pages/breeding/utils/breedingTree";
-import { usePersistentState } from "@/utils/usePersistentState";
 
 interface TreeSchemeProps {
   readonly selectedIvCount: number;

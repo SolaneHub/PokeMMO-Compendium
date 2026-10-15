@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import BreedingPage from "./BreedingPage";
 
 // Mocking dependencies
-vi.mock("@/utils/usePersistentState", () => ({
+vi.mock("@/hooks/usePersistentState", () => ({
   usePersistentState: vi.fn((_key, initial) => [initial, vi.fn()]),
 }));
 

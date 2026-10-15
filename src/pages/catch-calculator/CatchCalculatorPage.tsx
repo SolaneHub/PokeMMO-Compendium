@@ -3,13 +3,13 @@ import { useEffect, useRef, useState, useTransition } from "react";
 
 import PageLayout from "@/components/PageLayout";
 import { usePokedexContext } from "@/context/PokedexContext";
+import { usePersistentState } from "@/hooks/usePersistentState";
 import { usePokemonUI } from "@/hooks/usePokemonUI";
 import CaptureSection from "@/pages/catch-calculator/components/CatchCalculator/CaptureSection";
 import ConditionsSection from "@/pages/catch-calculator/components/CatchCalculator/ConditionsSection";
 import TargetSection from "@/pages/catch-calculator/components/CatchCalculator/TargetSection";
 import { useCatchProbability } from "@/pages/catch-calculator/hooks/useCatchProbability";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
-import { usePersistentState } from "@/utils/usePersistentState";
 
 const CatchCalculatorPage = () => {
   const accentColor = FEATURE_CONFIG["catch-calculator"].color;
