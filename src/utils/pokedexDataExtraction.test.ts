@@ -15,7 +15,6 @@ describe("pokedexDataExtraction", () => {
         pokemonNames: [],
         abilityNames: [],
         itemNames: [],
-        allPokemonData: [],
       });
     });
 
@@ -73,14 +72,6 @@ describe("pokedexDataExtraction", () => {
       expect(result.itemNames).toContain("Mystic Water");
       expect(result.itemNames).toContain("Choice Band"); // A default item
       expect(result.itemNames).not.toContain("None");
-
-      // Check Catch Rates
-      expect(result.allPokemonData).toEqual([
-        { name: "Bulbasaur", catchRate: 45 },
-        { name: "Bulbasaur", catchRate: 45 },
-        { name: "Charmander", catchRate: 45 },
-        { name: "Squirtle", catchRate: "45" },
-      ]);
     });
   });
 

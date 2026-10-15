@@ -4,7 +4,6 @@ interface PokedexSummary {
   pokemonNames: string[];
   abilityNames: string[];
   itemNames: string[];
-  allPokemonData: { name: string; catchRate: string | number }[];
 }
 
 export const extractPokedexData = (
@@ -15,27 +14,15 @@ export const extractPokedexData = (
       pokemonNames: [],
       abilityNames: [],
       itemNames: [],
-      allPokemonData: [],
     };
 
   const pokemonNames = new Set<string>();
   const abilityNames = new Set<string>();
   const itemNames = new Set<string>();
-  const pokemonCatchRates: { name: string; catchRate: string | number }[] = [];
 
   pokedexData.forEach((pokemon) => {
     if (pokemon.name) {
       pokemonNames.add(pokemon.name);
-    }
-    if (
-      pokemon.name &&
-      pokemon.catchRate !== undefined &&
-      pokemon.catchRate !== null
-    ) {
-      pokemonCatchRates.push({
-        name: pokemon.name,
-        catchRate: pokemon.catchRate,
-      });
     }
     if (pokemon.abilities) {
       if (pokemon.abilities.main) {
@@ -81,9 +68,6 @@ export const extractPokedexData = (
     pokemonNames: Array.from(pokemonNames).sort((a, b) => a.localeCompare(b)),
     abilityNames: Array.from(abilityNames).sort((a, b) => a.localeCompare(b)),
     itemNames: Array.from(itemNames).sort((a, b) => a.localeCompare(b)),
-    allPokemonData: [...pokemonCatchRates].sort((a, b) =>
-      a.name.localeCompare(b.name)
-    ),
   };
 };
 
