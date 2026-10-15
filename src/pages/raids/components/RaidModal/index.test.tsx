@@ -22,7 +22,7 @@ const mockRaidWithStrategy: Raid = {
   moves: [],
   teamStrategies: [
     {
-      name: "Main Strat",
+      label: "Main Strat",
       roles: {
         player2: ["Helping Hand"],
         player1: ["Dragon Claw"],

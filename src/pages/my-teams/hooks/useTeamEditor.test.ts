@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import {
-  getUserTeams,
+  getUserTeam,
   updateUserTeam,
 } from "@/pages/my-teams/services/teamsService";
 import { Team } from "@/pages/my-teams/types/teams";
@@ -26,7 +26,7 @@ vi.mock("@/context/ToastContext", () => ({
 }));
 
 vi.mock("@/pages/my-teams/services/teamsService", () => ({
-  getUserTeams: vi.fn(),
+  getUserTeam: vi.fn(),
   updateUserTeam: vi.fn(),
 }));
 
@@ -55,7 +55,7 @@ describe("useTeamEditor", () => {
   });
 
   it("loads team successfully on mount", async () => {
-    vi.mocked(getUserTeams).mockResolvedValueOnce([mockTeam] as Team[]);
+    vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam as Team);
 
     const { result } = renderHook(() => useTeamEditor());
 
@@ -68,11 +68,11 @@ describe("useTeamEditor", () => {
     expect(result.current.team).toEqual(
       expect.objectContaining({ name: "Test Team" })
     );
-    expect(getUserTeams).toHaveBeenCalledWith(mockUserId);
+    expect(getUserTeam).toHaveBeenCalledWith(mockUserId, mockTeamId);
   });
 
   it("navigates back and shows toast if team not found", async () => {
-    vi.mocked(getUserTeams).mockResolvedValueOnce([] as Team[]);
+    vi.mocked(getUserTeam).mockResolvedValueOnce(null);
 
     renderHook(() => useTeamEditor());
 
@@ -83,7 +83,7 @@ describe("useTeamEditor", () => {
   });
 
   it("handles load error gracefully", async () => {
-    vi.mocked(getUserTeams).mockRejectedValueOnce(new Error("Load failed"));
+    vi.mocked(getUserTeam).mockRejectedValueOnce(new Error("Load failed"));
 
     const { result } = renderHook(() => useTeamEditor());
 
@@ -95,7 +95,7 @@ describe("useTeamEditor", () => {
 
   describe("saveTeam", () => {
     it("successfully saves the team", async () => {
-      vi.mocked(getUserTeams).mockResolvedValueOnce([mockTeam] as Team[]);
+      vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam as Team);
       vi.mocked(updateUserTeam).mockResolvedValueOnce(undefined);
 
       const { result } = renderHook(() => useTeamEditor());
@@ -121,7 +121,7 @@ describe("useTeamEditor", () => {
     });
 
     it("shows error toast if save fails", async () => {
-      vi.mocked(getUserTeams).mockResolvedValueOnce([mockTeam] as Team[]);
+      vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam as Team);
       vi.mocked(updateUserTeam).mockRejectedValueOnce(new Error("Save failed"));
 
       const { result } = renderHook(() => useTeamEditor());
@@ -151,7 +151,7 @@ describe("useTeamEditor", () => {
           },
         },
       } as unknown as Team;
-      vi.mocked(getUserTeams).mockResolvedValueOnce([teamWithNoIds]);
+      vi.mocked(getUserTeam).mockResolvedValueOnce(teamWithNoIds);
 
       const { result } = renderHook(() => useTeamEditor());
 

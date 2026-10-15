@@ -1,10 +1,10 @@
-import { User } from "firebase/auth";
 import { redirect } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as authUtils from "@/firebase/authUtils";
 import * as teamsService from "@/pages/my-teams/services/teamsService";
 import { Team } from "@/pages/my-teams/types/teams";
+import { AppUser } from "@/types/auth";
 
 import { myTeamsLoader } from "./myTeamsLoader";
 
@@ -32,7 +32,7 @@ describe("myTeamsLoader", () => {
   });
 
   it("returns teams and user if authenticated", async () => {
-    const mockUser = { uid: "123" } as User;
+    const mockUser: AppUser = { uid: "123", email: "test@example.com" };
     const mockTeams: Team[] = [
       {
         id: "t1",
@@ -50,7 +50,7 @@ describe("myTeamsLoader", () => {
   });
 
   it("returns empty teams on error", async () => {
-    const mockUser = { uid: "123" } as User;
+    const mockUser: AppUser = { uid: "123", email: "test@example.com" };
     vi.mocked(authUtils.getCurrentUser).mockResolvedValue(mockUser);
     vi.mocked(teamsService.getUserTeams).mockRejectedValue(new Error("Fail"));
 

@@ -5,7 +5,6 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react";
-import { User } from "firebase/auth";
 import { MemoryRouter, useLoaderData } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -14,6 +13,7 @@ import * as ToastContext from "@/context/ToastContext";
 import * as UserTeamsHooks from "@/pages/my-teams/hooks/useUserTeams";
 import * as TeamsService from "@/pages/my-teams/services/teamsService";
 import { Team } from "@/pages/my-teams/types/teams";
+import { AppUser } from "@/types/auth";
 
 import MyTeamsPage from "./MyTeamsPage";
 
@@ -88,7 +88,7 @@ vi.mock("@/pages/my-teams/components/CreateTeamModal", () => ({
 }));
 
 describe("MyTeamsPage", () => {
-  const mockUser = { uid: "user123" } as User;
+  const mockUser: AppUser = { uid: "user123", email: "user@example.com" };
   const mockTeam = { id: "t1", name: "Team 1" } as Team;
 
   beforeEach(() => {

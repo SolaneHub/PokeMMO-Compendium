@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import PageLayout from "@/components/PageLayout";
 import StrategyModal from "@/components/StrategyModal";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import BossFightSection from "@/pages/boss-fights/components/BossFightSection";
 import { useBossFightsData } from "@/pages/boss-fights/hooks/useBossFightsData";
@@ -15,7 +15,7 @@ function BossFightsPage() {
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
 
-  const { pokemonMap, isLoading: isPokedexLoading } = usePokedexData();
+  const { pokemonMap, isLoading: isPokedexLoading } = usePokedexContext();
   const { bossFightsData, isLoading: isBossFightsLoading } =
     useBossFightsData();
 

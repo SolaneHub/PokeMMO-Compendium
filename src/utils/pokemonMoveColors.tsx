@@ -53,6 +53,88 @@ export const moveTypeMap: Record<string, string> = {
   "X Speed": "Ice",
 };
 
+// Pre-computed lowercase map for O(1) move gradient lookups
+const LOWERCASE_MOVE_GRADIENT_MAP = new Map<string, string>();
+for (const [moveName, moveType] of Object.entries(moveTypeMap)) {
+  const gradient =
+    moveType && moveType in typeBackgrounds
+      ? (typeBackgrounds as Record<string, string>)[moveType] ||
+        typeBackgrounds[""]
+      : typeBackgrounds[""];
+  LOWERCASE_MOVE_GRADIENT_MAP.set(moveName.toLowerCase(), gradient);
+}
+
+// Pre-sorted move names (longest first)
+const SORTED_MOVE_NAMES = Object.keys(moveTypeMap).sort(
+  (a, b) => b.length - a.length
+);
+
+// Cache for compiled pattern and color lookup map based on pokemonColorMap
+interface CachedColorData {
+  pattern: RegExp;
+  colorLookupMap: Map<string, string>;
+}
+
+const colorDataCache = new WeakMap<Record<string, string>, CachedColorData>();
+// Fallback cache for empty or non-object references if needed
+let lastEmptyMapCache: CachedColorData | null = null;
+
+function getColorData(
+  pokemonColorMap: Record<string, string>
+): CachedColorData {
+  const isObject = pokemonColorMap && typeof pokemonColorMap === "object";
+  const isEmpty = isObject && Object.keys(pokemonColorMap).length === 0;
+
+  if (isEmpty && lastEmptyMapCache) {
+    return lastEmptyMapCache;
+  }
+
+  if (isObject) {
+    const cached = colorDataCache.get(pokemonColorMap);
+    if (cached) {
+      return cached;
+    }
+  }
+
+  const pokemonNames = Object.keys(pokemonColorMap || {}).sort(
+    (a, b) => b.length - a.length
+  );
+
+  const allNames = [...SORTED_MOVE_NAMES, ...pokemonNames];
+  // Sort all names by length descending to match longest tokens first
+  allNames.sort((a, b) => b.length - a.length);
+
+  const escapedNames = allNames
+    .map((name) => name.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`))
+    .join("|");
+
+  const pattern = new RegExp(String.raw`\b(${escapedNames})\b`, "gi");
+
+  // Create unified O(1) lookup map (lowercase name -> gradient)
+  // Moves take priority, followed by Pokémon
+  const colorLookupMap = new Map<string, string>();
+  for (const [name, gradient] of Object.entries(pokemonColorMap || {})) {
+    colorLookupMap.set(name.toLowerCase(), gradient);
+  }
+  for (const [
+    lowerMoveName,
+    gradient,
+  ] of LOWERCASE_MOVE_GRADIENT_MAP.entries()) {
+    colorLookupMap.set(lowerMoveName, gradient);
+  }
+
+  const result: CachedColorData = { pattern, colorLookupMap };
+
+  if (isObject) {
+    colorDataCache.set(pokemonColorMap, result);
+    if (isEmpty) {
+      lastEmptyMapCache = result;
+    }
+  }
+
+  return result;
+}
+
 export function initializePokemonColorMap(pokedexData: Pokemon[]) {
   const newPokemonColorMap: Record<string, string> = {};
   if (!pokedexData || pokedexData.length === 0) {
@@ -109,22 +191,7 @@ export const renderColoredText = (
 ): React.ReactNode => {
   if (!text) return text;
 
-  const moveNames = Object.keys(moveTypeMap).sort(
-    (a, b) => b.length - a.length
-  );
-  const pokemonNames = Object.keys(pokemonColorMap).sort(
-    (a, b) => b.length - a.length
-  );
-
-  // Combine all names into one regex with word boundaries
-  const allNames = [...moveNames, ...pokemonNames];
-  if (allNames.length === 0) return text;
-
-  const escapedNames = allNames
-    .map((name) => name.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`))
-    .join("|");
-
-  const pattern = new RegExp(String.raw`\b(${escapedNames})\b`, "gi");
+  const { pattern, colorLookupMap } = getColorData(pokemonColorMap);
 
   const parts = text.split(pattern);
   if (parts.length <= 1) return text;
@@ -135,23 +202,7 @@ export const renderColoredText = (
         // If it's a match (even indices are non-matches, odd indices are matches because of the capturing group in split)
         // Actually, split with capturing group returns [non-match, match, non-match, match, ...]
         if (i % 2 === 1) {
-          // Find if it's a move or a pokemon
-          let gradient = "";
-          // Check moveNames first (case-insensitive)
-          const matchedMove = moveNames.find(
-            (m) => m.toLowerCase() === part.toLowerCase()
-          );
-          if (matchedMove) {
-            gradient = getMoveGradient(matchedMove);
-          } else {
-            // Check pokemonNames
-            const matchedPokemon = pokemonNames.find(
-              (p) => p.toLowerCase() === part.toLowerCase()
-            );
-            if (matchedPokemon) {
-              gradient = pokemonColorMap[matchedPokemon] || "";
-            }
-          }
+          const gradient = colorLookupMap.get(part.toLowerCase());
 
           if (gradient) {
             const isGradient = gradient.startsWith("linear-gradient");

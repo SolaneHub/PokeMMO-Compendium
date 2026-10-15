@@ -56,6 +56,36 @@ describe("useUserTeams", () => {
     expect(getUserTeams).toHaveBeenCalledWith(mockUser.uid);
   });
 
+  it("initializes with initialTeams synchronously without fetching", () => {
+    const { result } = renderHook(() => useUserTeams(mockTeams));
+
+    expect(result.current.loading).toBe(false);
+    expect(result.current.teams).toEqual(mockTeams);
+    expect(getUserTeams).not.toHaveBeenCalled();
+  });
+
+  it("updates teams state when initialTeams prop changes on revalidate", () => {
+    const initial = [
+      { id: "team1", name: "Team 1", region: null, members: [] },
+    ] as unknown as Team[];
+    const updated = [
+      { id: "team1", name: "Team 1", region: null, members: [] },
+      { id: "team2", name: "Team 2", region: null, members: [] },
+    ] as unknown as Team[];
+
+    const { result, rerender } = renderHook(
+      ({ teams }) => useUserTeams(teams),
+      { initialProps: { teams: initial } }
+    );
+
+    expect(result.current.teams).toEqual(initial);
+
+    rerender({ teams: updated });
+
+    expect(result.current.teams).toEqual(updated);
+    expect(getUserTeams).not.toHaveBeenCalled();
+  });
+
   it("does not fetch teams if user is not logged in", async () => {
     vi.mocked(useAuth).mockReturnValue({
       currentUser: null,

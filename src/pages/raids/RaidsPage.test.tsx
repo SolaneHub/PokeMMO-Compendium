@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import * as RaidsHooks from "@/pages/raids/hooks/useRaidsData";
 import { Raid } from "@/pages/raids/types/raids";
 import { Pokemon } from "@/types/pokemon";
@@ -10,7 +10,7 @@ import { Pokemon } from "@/types/pokemon";
 import RaidsPage from "./RaidsPage";
 
 // Mocking hooks
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/pages/raids/hooks/useRaidsData");
 
 // Mocking components
@@ -48,8 +48,8 @@ describe("RaidsPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokedex as unknown as PokedexHooks.UsePokedexDataReturn
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokedex as unknown as PokedexContext.PokedexContextType
     );
     vi.mocked(RaidsHooks.useRaidsData).mockReturnValue(
       mockRaids as unknown as RaidsHooks.UseRaidsDataReturn

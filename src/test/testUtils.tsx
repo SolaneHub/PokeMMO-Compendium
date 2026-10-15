@@ -1,23 +1,30 @@
-import { render, RenderOptions } from "@testing-library/react";
+import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import React, { ReactElement } from "react";
 import { MemoryRouter } from "react-router-dom";
 
 import { AuthProvider } from "@/context/AuthContext";
+import { ConfirmationProvider } from "@/context/ConfirmationContext";
+import { MovesProvider } from "@/context/MovesContext";
 import { PokedexProvider } from "@/context/PokedexContext";
 import { ToastProvider } from "@/context/ToastContext";
 
 /**
  * Custom render function that wraps components in necessary providers.
- * This makes it easier to test components that depend on context.
+ * Aligned with AppProviders to provide Toast, Auth, Confirmation,
+ * Pokedex, and Moves context.
  */
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <MemoryRouter>
-      <ToastProvider>
-        <AuthProvider>
-          <PokedexProvider>{children}</PokedexProvider>
-        </AuthProvider>
-      </ToastProvider>
+      <PokedexProvider>
+        <MovesProvider>
+          <ConfirmationProvider>
+            <AuthProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </AuthProvider>
+          </ConfirmationProvider>
+        </MovesProvider>
+      </PokedexProvider>
     </MemoryRouter>
   );
 };
@@ -25,7 +32,7 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
 const customRender = (
   ui: ReactElement,
   options?: Omit<RenderOptions, "wrapper">
-) => render(ui, { wrapper: AllTheProviders, ...options });
+): RenderResult => render(ui, { wrapper: AllTheProviders, ...options });
 
 // re-export everything
 export * from "@testing-library/react";

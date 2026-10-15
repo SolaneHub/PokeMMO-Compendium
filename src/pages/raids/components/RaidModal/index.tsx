@@ -16,6 +16,7 @@ import RaidMechanicsTab from "./tabs/RaidMechanicsTab";
 import RaidStrategyTab from "./tabs/RaidStrategyTab";
 
 interface RaidModalProps {
+  raidName?: string;
   onClose: () => void;
   pokemonMap: Map<string, Pokemon>;
   currentRaid: Raid | null;

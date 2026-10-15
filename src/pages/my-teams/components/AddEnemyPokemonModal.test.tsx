@@ -3,8 +3,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import AddEnemyPokemonModal from "./AddEnemyPokemonModal";
 
-vi.mock("@/hooks/usePokedexData", () => ({
-  usePokedexData: () => ({
+vi.mock("@/context/PokedexContext", () => ({
+  usePokedexContext: () => ({
     pokemonNames: ["Pikachu", "Bulbasaur", "Charizard", "Sawsbuck (Spring)"],
     allPokemonData: [
       { id: "1", dexId: 25, name: "Pikachu" },

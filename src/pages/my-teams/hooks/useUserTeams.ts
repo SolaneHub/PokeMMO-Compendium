@@ -9,11 +9,11 @@ import {
 } from "@/pages/my-teams/services/teamsService";
 import { Team } from "@/pages/my-teams/types/teams";
 
-export function useUserTeams() {
+export function useUserTeams(initialTeams?: Team[]) {
   const { currentUser, loading: authLoading } = useAuth();
   const showToast = useToast();
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [teams, setTeams] = useState<Team[]>(initialTeams ?? []);
+  const [loading, setLoading] = useState(initialTeams ? false : true);
 
   const _fetchTeams = useCallback(async () => {
     if (!currentUser) {
@@ -33,8 +33,16 @@ export function useUserTeams() {
   }, [currentUser, authLoading, showToast]);
 
   useEffect(() => {
+    if (initialTeams !== undefined) {
+      setTeams(initialTeams);
+      setLoading(false);
+    }
+  }, [initialTeams]);
+
+  useEffect(() => {
+    if (initialTeams !== undefined) return;
     _fetchTeams();
-  }, [_fetchTeams]);
+  }, [_fetchTeams, initialTeams]);
 
   const createTeam = useCallback(
     async (teamName: string) => {

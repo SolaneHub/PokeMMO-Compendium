@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import {
-  getUserTeams,
+  getUserTeam,
   updateUserTeam,
 } from "@/pages/my-teams/services/teamsService";
 import {
@@ -84,8 +84,7 @@ export function useTeamEditor() {
     async function load() {
       if (!targetUserId || !teamId) return;
       try {
-        const teams = await getUserTeams(targetUserId);
-        const found = teams.find((t) => t.id === teamId);
+        const found = await getUserTeam(targetUserId, teamId);
         if (found) {
           const sanitized = sanitizeTeam(found);
           setTeam(sanitized);

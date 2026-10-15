@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import * as BossFightsHooks from "@/pages/boss-fights/hooks/useBossFightsData";
 import { BossFight } from "@/pages/boss-fights/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
@@ -10,7 +10,7 @@ import { Pokemon } from "@/types/pokemon";
 import BossFightsPage from "./BossFightsPage";
 
 // Mocking dependencies
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/pages/boss-fights/hooks/useBossFightsData");
 
 const mockInitializeStrategy = vi.fn();
@@ -77,8 +77,8 @@ describe("BossFightsPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokedex as unknown as PokedexHooks.UsePokedexDataReturn
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokedex as unknown as PokedexContext.PokedexContextType
     );
     vi.mocked(BossFightsHooks.useBossFightsData).mockReturnValue({
       bossFightsData: mockBossData,

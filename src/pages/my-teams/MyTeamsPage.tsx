@@ -23,7 +23,7 @@ const MyTeamsPage = () => {
   const revalidator = useRevalidator();
   const { teams: initialTeams, user: currentUser } = useLoaderData();
 
-  const { createTeam, deleteTeam } = useUserTeams();
+  const { createTeam, deleteTeam } = useUserTeams(initialTeams);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const confirm = useConfirm();
   const showToast = useToast();

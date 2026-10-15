@@ -1,13 +1,13 @@
-import { User } from "firebase/auth";
 import { redirect } from "react-router-dom";
 
 import { getCurrentUser } from "@/firebase/authUtils";
 import { getUserTeams } from "@/pages/my-teams/services/teamsService";
 import { Team } from "@/pages/my-teams/types/teams";
+import { AppUser } from "@/types/auth";
 
 export interface MyTeamsLoaderData {
   teams: Team[];
-  user: User;
+  user: AppUser;
 }
 
 export async function myTeamsLoader(): Promise<MyTeamsLoaderData | Response> {

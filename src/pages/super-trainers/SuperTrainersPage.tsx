@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import PageLayout from "@/components/PageLayout";
 import StrategyModal from "@/components/StrategyModal";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import SuperTrainerSection from "@/pages/super-trainers/components/SuperTrainerSection";
 import { useSuperTrainersData } from "@/pages/super-trainers/hooks/useSuperTrainersData";
@@ -15,7 +15,7 @@ function SuperTrainersPage() {
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
 
-  const { pokemonMap, isLoading: pokedexLoading } = usePokedexData();
+  const { pokemonMap, isLoading: pokedexLoading } = usePokedexContext();
   const { superTrainersData, isLoading: trainersLoading } =
     useSuperTrainersData();
 
@@ -92,17 +92,19 @@ function SuperTrainersPage() {
       </div>
 
       {/* Strategy Modal */}
-      {isPokemonDetailsVisible && currentPokemonObject?.id !== null && (
-        <StrategyModal
-          currentPokemonObject={currentPokemonObject}
-          detailsTitleBackground={detailsTitleBackground}
-          strategyHistory={strategyHistory}
-          currentStrategyView={currentStrategyView}
-          onClose={() => setIsPokemonDetailsVisible(false)}
-          onBack={navigateBack}
-          onStepClick={navigateToStep}
-        />
-      )}
+      {isPokemonDetailsVisible &&
+        currentPokemonObject &&
+        currentPokemonObject.id !== null && (
+          <StrategyModal
+            currentPokemonObject={currentPokemonObject}
+            detailsTitleBackground={detailsTitleBackground}
+            strategyHistory={strategyHistory}
+            currentStrategyView={currentStrategyView}
+            onClose={() => setIsPokemonDetailsVisible(false)}
+            onBack={navigateBack}
+            onStepClick={navigateToStep}
+          />
+        )}
     </PageLayout>
   );
 }

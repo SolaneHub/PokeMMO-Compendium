@@ -3,7 +3,7 @@ import React, { memo, useState } from "react";
 
 import Button from "@/components/ui/Button";
 import { useMoves } from "@/context/MovesContext";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { TeamMember } from "@/pages/my-teams/types/teams";
 import { getPokemonIdByName } from "@/utils/pokedexDataExtraction";
 
@@ -93,7 +93,7 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
     itemNames: allItems = [],
     abilityNames: allAbilities = [],
     allPokemonData,
-  } = usePokedexData();
+  } = usePokedexContext();
   const { moves: masterMoves } = useMoves();
   const allMoves = masterMoves
     .map((m) => m.name)

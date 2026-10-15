@@ -2,14 +2,13 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as MovesContext from "@/context/MovesContext";
-import { PokedexContextType } from "@/context/PokedexContext";
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import { TeamMember } from "@/pages/my-teams/types/teams";
 
 import PokemonEditorView from "./PokemonEditorView";
 
 // Mocking hooks and context
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/context/MovesContext");
 
 describe("PokemonEditorView", () => {
@@ -25,8 +24,8 @@ describe("PokemonEditorView", () => {
   };
 
   beforeEach(() => {
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokemonData as unknown as PokedexContextType
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokemonData as unknown as PokedexContext.PokedexContextType
     );
     vi.mocked(MovesContext.useMoves).mockReturnValue(
       mockMoves as unknown as ReturnType<typeof MovesContext.useMoves>

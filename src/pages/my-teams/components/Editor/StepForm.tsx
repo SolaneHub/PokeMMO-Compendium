@@ -1,7 +1,7 @@
 import { AlertTriangle, GitBranch, X } from "lucide-react";
 import { useState } from "react";
 
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
 
 import VariationForm from "./VariationForm";
@@ -14,7 +14,7 @@ interface StepFormProps {
 }
 
 const StepForm = ({ step, onChange }: StepFormProps) => {
-  usePokedexData();
+  usePokedexContext();
   const [showWarning, setShowWarning] = useState(!!step.warning);
   const [showAdvanced, setShowAdvanced] = useState(
     !!(step.variations && step.variations.length > 0)

@@ -1,7 +1,7 @@
 import { Plus, Search, X } from "lucide-react";
 import { useEffect, useRef, useState, useTransition } from "react";
 
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 
 interface AddEnemyPokemonModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ const AddEnemyPokemonModal = ({
   onClose,
   onAdd,
 }: AddEnemyPokemonModalProps) => {
-  const { allPokemonData, isLoading } = usePokedexData();
+  const { allPokemonData, isLoading } = usePokedexContext();
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");
   const [, startTransition] = useTransition();

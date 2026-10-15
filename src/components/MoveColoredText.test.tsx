@@ -4,8 +4,8 @@ import { describe, expect, it, vi } from "vitest";
 import MoveColoredText from "./MoveColoredText";
 
 // Mock the hook to avoid fetching data and to return controlled loading state
-vi.mock("@/hooks/usePokedexData", () => ({
-  usePokedexData: () => ({
+vi.mock("@/context/PokedexContext", () => ({
+  usePokedexContext: () => ({
     pokemonColorMap: {},
     isLoading: false,
   }),

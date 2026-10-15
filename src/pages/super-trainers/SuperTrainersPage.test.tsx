@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import * as PokedexHooks from "@/hooks/usePokedexData";
+import * as PokedexContext from "@/context/PokedexContext";
 import * as SuperTrainersHooks from "@/pages/super-trainers/hooks/useSuperTrainersData";
 import { SuperTrainer } from "@/pages/super-trainers/types/superTrainers";
 import { Pokemon } from "@/types/pokemon";
@@ -10,7 +10,7 @@ import { Pokemon } from "@/types/pokemon";
 import SuperTrainersPage from "./SuperTrainersPage";
 
 // Mocking dependencies
-vi.mock("@/hooks/usePokedexData");
+vi.mock("@/context/PokedexContext");
 vi.mock("@/pages/super-trainers/hooks/useSuperTrainersData");
 
 const mockInitializeStrategy = vi.fn();
@@ -85,8 +85,8 @@ describe("SuperTrainersPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexHooks.usePokedexData).mockReturnValue(
-      mockPokedex as unknown as PokedexHooks.UsePokedexDataReturn
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      mockPokedex as unknown as PokedexContext.PokedexContextType
     );
     vi.mocked(SuperTrainersHooks.useSuperTrainersData).mockReturnValue({
       superTrainersData: mockTrainersData,

@@ -25,8 +25,8 @@ vi.mock("./VariationForm", () => ({
 }));
 
 // Mock hook
-vi.mock("@/hooks/usePokedexData", () => ({
-  usePokedexData: vi.fn(),
+vi.mock("@/context/PokedexContext", () => ({
+  usePokedexContext: vi.fn(),
 }));
 
 describe("StepForm component", () => {

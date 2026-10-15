@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import PageLayout from "@/components/PageLayout";
 import PokemonCard from "@/components/PokemonCard";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import RaidModal from "@/pages/raids/components/RaidModal";
 import { useRaidsData } from "@/pages/raids/hooks/useRaidsData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
@@ -16,7 +16,7 @@ function RaidsPage() {
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null);
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
 
-  const { pokemonMap, isLoading: isPokedexLoading } = usePokedexData();
+  const { pokemonMap, isLoading: isPokedexLoading } = usePokedexContext();
   const {
     raidsData,
     raidsMap,

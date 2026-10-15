@@ -11,7 +11,7 @@ import {
 import { getMoves } from "@/firebase/services/movesService";
 import { MoveMaster } from "@/types/pokemon";
 
-interface MovesContextType {
+export interface MovesContextType {
   moves: MoveMaster[];
   isLoading: boolean;
   refetch: () => Promise<void>;
@@ -52,7 +52,14 @@ export const MovesProvider = ({ children }: { children: ReactNode }) => {
 export const useMoves = () => {
   const context = useContext(MovesContext);
   if (!context) {
-    throw new Error("useMoves must be used within a MovesProvider");
+    console.warn(
+      "useMoves was called outside of a MovesProvider. Returning empty fallback state."
+    );
+    return {
+      moves: [],
+      isLoading: false,
+      refetch: () => Promise.resolve(),
+    };
   }
   return context;
 };

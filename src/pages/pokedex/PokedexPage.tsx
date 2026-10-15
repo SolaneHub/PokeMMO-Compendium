@@ -5,13 +5,13 @@ import PageLayout from "@/components/PageLayout";
 import PokemonGrid from "@/components/PokemonGrid";
 import PokemonSummary from "@/components/PokemonSummary";
 import SearchBar from "@/components/ui/SearchBar";
-import { usePokedexData } from "@/hooks/usePokedexData";
+import { usePokedexContext } from "@/context/PokedexContext";
 import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getFamilyName } from "@/utils/pokemonHelpers";
 
 function PokedexPage() {
-  const { fullList, isLoading } = usePokedexData();
+  const { fullList, isLoading } = usePokedexContext();
   const accentColor = FEATURE_CONFIG["pokedex"].color;
   const [searchTerm, setSearchTerm] = useState("");
   const [deferredSearchTerm, setDeferredSearchTerm] = useState("");

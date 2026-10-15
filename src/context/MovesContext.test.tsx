@@ -36,14 +36,17 @@ describe("MovesContext", () => {
     vi.clearAllMocks();
   });
 
-  it("throws error if useMoves is used outside of MovesProvider", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {
-      // Mock console.error
+  it("returns fallback and warns if useMoves is used outside of MovesProvider", () => {
+    const consoleWarn = vi.spyOn(console, "warn").mockImplementation(() => {
+      // Mock console.warn
     });
-    expect(() => renderHook(() => useMoves())).toThrow(
-      "useMoves must be used within a MovesProvider"
+    const { result } = renderHook(() => useMoves());
+    expect(consoleWarn).toHaveBeenCalledWith(
+      "useMoves was called outside of a MovesProvider. Returning empty fallback state."
     );
-    consoleError.mockRestore();
+    expect(result.current.moves).toEqual([]);
+    expect(result.current.isLoading).toBe(false);
+    consoleWarn.mockRestore();
   });
 
   it("fetches moves on mount", async () => {
