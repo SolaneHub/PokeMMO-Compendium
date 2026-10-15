@@ -3,7 +3,7 @@ import { useCollectionData } from "@/hooks/useCollectionData";
 import { SuperTrainerSchema } from "@/pages/super-trainers/types/superTrainers";
 
 export const useSuperTrainersData = () => {
-  const { data, isLoading } = useCollectionData(
+  const { data, isLoading, error } = useCollectionData(
     SUPER_TRAINERS_COLLECTION,
     SuperTrainerSchema,
     {
@@ -14,6 +14,7 @@ export const useSuperTrainersData = () => {
   return {
     superTrainersData: data || [],
     isLoading,
+    error,
   };
 };
 

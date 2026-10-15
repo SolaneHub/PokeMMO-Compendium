@@ -75,5 +75,6 @@ describe("usePickupData", () => {
     });
 
     expect(result.current.regions).toEqual([]);
+    expect(result.current.error).toEqual(new Error("Fetch failed"));
   });
 });

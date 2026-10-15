@@ -71,5 +71,6 @@ describe("useRaidsData", () => {
     expect(result.current.raidsData).toEqual([]);
     expect(result.current.raidsMap.size).toBe(0);
     expect(result.current.starLevels).toEqual([]);
+    expect(result.current.error).toEqual(new Error("Fetch failed"));
   });
 });

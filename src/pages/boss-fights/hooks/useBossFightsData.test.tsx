@@ -59,5 +59,6 @@ describe("useBossFightsData", () => {
     });
 
     expect(result.current.bossFightsData).toEqual([]);
+    expect(result.current.error).toEqual(new Error("Fetch failed"));
   });
 });

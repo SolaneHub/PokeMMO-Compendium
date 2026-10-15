@@ -83,5 +83,6 @@ describe("useSuperTrainersData", () => {
     });
 
     expect(result.current.superTrainersData).toEqual([]);
+    expect(result.current.error).toEqual(new Error("Fetch failed"));
   });
 });

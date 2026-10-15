@@ -3,7 +3,7 @@ import { useCollectionData } from "@/hooks/useCollectionData";
 import { BossFightSchema } from "@/pages/boss-fights/types/bossFights";
 
 export const useBossFightsData = () => {
-  const { data, isLoading } = useCollectionData(
+  const { data, isLoading, error } = useCollectionData(
     BOSS_FIGHTS_COLLECTION,
     BossFightSchema,
     {
@@ -14,6 +14,7 @@ export const useBossFightsData = () => {
   return {
     bossFightsData: data || [],
     isLoading,
+    error,
   };
 };
 

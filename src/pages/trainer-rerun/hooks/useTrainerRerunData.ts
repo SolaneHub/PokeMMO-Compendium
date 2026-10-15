@@ -3,7 +3,7 @@ import { getTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunServ
 import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 
 export const useTrainerRerunData = () => {
-  const { data, isLoading } = useDataQuery<TrainerRerunData | null>(
+  const { data, isLoading, error } = useDataQuery<TrainerRerunData | null>(
     "trainer_rerun",
     getTrainerRerun
   );
@@ -11,6 +11,7 @@ export const useTrainerRerunData = () => {
   return {
     trainerRerunData: data || null,
     isLoading,
+    error,
   };
 };
 

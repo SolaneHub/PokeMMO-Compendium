@@ -4,7 +4,7 @@ import { RaidSchema } from "@/pages/raids/types/raids";
 export type { Raid } from "@/pages/raids/types/raids";
 
 export const useRaidsData = () => {
-  const { data, isLoading } = useCollectionData("raids", RaidSchema, {
+  const { data, isLoading, error } = useCollectionData("raids", RaidSchema, {
     sortFn: (a, b) => {
       if (a.stars !== b.stars) return a.stars - b.stars;
       return a.name.localeCompare(b.name);
@@ -22,6 +22,7 @@ export const useRaidsData = () => {
     raidsMap,
     starLevels,
     isLoading,
+    error,
   };
 };
 

@@ -48,5 +48,6 @@ describe("useTrainerRerunData", () => {
     });
 
     expect(result.current.trainerRerunData).toBeNull();
+    expect(result.current.error).toEqual(new Error("Fetch failed"));
   });
 });

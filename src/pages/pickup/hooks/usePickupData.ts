@@ -3,7 +3,7 @@ import { useCollectionData } from "@/hooks/useCollectionData";
 import { PickupRegionSchema } from "@/pages/pickup/types/pickup";
 
 export const usePickupData = () => {
-  const { data, isLoading } = useCollectionData(
+  const { data, isLoading, error } = useCollectionData(
     PICKUP_COLLECTION,
     PickupRegionSchema,
     {
@@ -15,6 +15,7 @@ export const usePickupData = () => {
   return {
     regions: data || [],
     isLoading,
+    error,
   };
 };
 
