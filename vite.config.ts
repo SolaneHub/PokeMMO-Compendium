@@ -18,7 +18,6 @@ export default defineConfig(() => ({
   },
   build: {
     outDir: "dist",
-    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -26,7 +25,7 @@ export default defineConfig(() => ({
           "vendor-firebase": [
             "firebase/app",
             "firebase/auth",
-            "firebase/firestore",
+            "firebase/firestore/lite",
           ],
         },
       },
@@ -51,9 +50,7 @@ export default defineConfig(() => ({
         "node_modules/",
         "src/test/",
         "src/vite-env.d.ts",
-        "src/main.tsx",
-        "src/constants/elite4Template.ts",
-        "src/firebase/firestoreService.ts",
+        "src/app/main.tsx",
       ],
       all: true,
     },

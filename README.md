@@ -36,7 +36,6 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 ![Vite](https://img.shields.io/badge/Vite-6.2.0-646CFF?logo=vite&logoColor=white&style=flat)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
 ![React Router](https://img.shields.io/badge/React_Router-7.11.0-CA4245?logo=react-router&logoColor=white&style=flat)
-![dnd-kit](https://img.shields.io/badge/dnd--kit-6.3.1-007bff?style=flat)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black&style=flat)
 ![License](https://img.shields.io/badge/License-Unlicense-blue)
 
@@ -124,7 +123,7 @@ _Advanced editor for building and refining user teams._
 │   │   ├── main.tsx    # Entry point and Router configuration
 │   ├── firebase/       # Firebase configuration and service layer
 │   │   ├── config.ts   # App initialization
-│   │   └── firestoreService.ts # CRUD operations for My Teams and Game Data
+│   │   └── services/   # Domain-specific services (teams, pokedex, moves, etc.)
 │   ├── pages/          # Feature-specific pages
 │   │   ├── auth/       # Authentication (Login/Signup)
 │   │   ├── boss-fights/      # Strategies for Bosses
