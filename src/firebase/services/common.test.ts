@@ -4,17 +4,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   commitBatchInChunks,
   getPokemonDocId,
-  POKEDEX_COLLECTION,
   updateCollectionBatch,
 } from "./common";
 
 describe("firebase/common", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  it("exports POKEDEX_COLLECTION correctly", () => {
-    expect(POKEDEX_COLLECTION).toBe("pokedex");
   });
 
   describe("getPokemonDocId", () => {
