@@ -11,8 +11,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import * as PokedexContext from "@/context/PokedexContext";
 import * as TeamsService from "@/firebase/services/teamsService";
 import { clearQueryCache } from "@/hooks/useDataQuery";
-import { Pokemon } from "@/types/pokemon";
-import { Team, TeamMember } from "@/types/teams";
+import {
+  createMockPokedexContext,
+  createMockPokemon,
+  createMockTeam,
+  createMockTeamMember,
+} from "@/test/factories";
+import { Team } from "@/types/teams";
 
 import EliteFourPage from "./EliteFourPage";
 
@@ -31,43 +36,43 @@ vi.mock("@/hooks/useStrategyNavigation", () => ({
 }));
 
 describe("EliteFourPage", () => {
-  const mockPokedex = {
-    pokemonMap: new Map([
-      ["Pikachu", { name: "Pikachu", types: ["Electric"] } as Pokemon],
-    ]),
-    isLoading: false,
-  };
-
   const mockTeams: Team[] = [
-    {
+    createMockTeam({
       id: "t1",
       name: "Community Team 1",
+      region: "Kanto",
       members: [
-        {
+        createMockTeamMember({
           name: "Pikachu",
           item: "Light Ball",
           moves: ["Thunderbolt"],
-        } as unknown as TeamMember,
+        }),
       ],
-      regions: ["Kanto"],
       enemyPools: { Lorelei: ["Dewgong"] },
       strategies: { Lorelei: { Dewgong: [] } },
-    } as unknown as Team,
+    }),
   ];
 
   beforeEach(() => {
     vi.clearAllMocks();
     clearQueryCache();
     vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokedex as unknown as PokedexContext.PokedexContextType
+      createMockPokedexContext({
+        pokemonMap: new Map([
+          [
+            "Pikachu",
+            createMockPokemon({ name: "Pikachu", types: ["Electric"] }),
+          ],
+        ]),
+      })
     );
     vi.mocked(TeamsService.getAllApprovedTeams).mockResolvedValue(mockTeams);
   });
 
   it("shows loading state for pokedex", async () => {
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
-      isLoading: true,
-    } as unknown as PokedexContext.PokedexContextType);
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      createMockPokedexContext({ isLoading: true })
+    );
     await act(async () => {
       render(<EliteFourPage />);
     });
