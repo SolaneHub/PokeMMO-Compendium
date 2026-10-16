@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
 import { clearQueryCache } from "@/hooks/useDataQuery";
-import { BossFight } from "@/pages/boss-fights/types/bossFights";
+import { BossFight } from "@/types/bossFights";
 
 import { useBossFightsData } from "./useBossFightsData";
 

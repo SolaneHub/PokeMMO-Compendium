@@ -1,6 +1,6 @@
 import PlayerBuildCard from "@/components/PlayerBuildCard";
-import { RaidBuild } from "@/pages/raids/types/raids";
 import { Pokemon } from "@/types/pokemon";
+import { RaidBuild } from "@/types/raids";
 
 interface RaidBuildsTabProps {
   recommendedList: RaidBuild[];

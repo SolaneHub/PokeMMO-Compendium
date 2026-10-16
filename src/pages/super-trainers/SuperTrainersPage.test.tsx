@@ -4,8 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as SuperTrainersHooks from "@/pages/super-trainers/hooks/useSuperTrainersData";
-import { SuperTrainer } from "@/pages/super-trainers/types/superTrainers";
 import { Pokemon } from "@/types/pokemon";
+import { SuperTrainer } from "@/types/superTrainers";
 
 import SuperTrainersPage from "./SuperTrainersPage";
 

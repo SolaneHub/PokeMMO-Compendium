@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { Raid } from "../pages/raids/types/raids";
+import { Raid } from "@/types/raids";
+
 import { Pokemon } from "../types/pokemon";
 import {
   getActiveStrategyFromRaid,

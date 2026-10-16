@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as PickupHooks from "@/pages/pickup/hooks/usePickupData";
-import { PickupRegion } from "@/pages/pickup/types/pickup";
+import { PickupRegion } from "@/types/pickup";
 import { Pokemon } from "@/types/pokemon";
 
 import PickupPage from "./PickupPage";

@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { SuperTrainer } from "@/pages/super-trainers/types/superTrainers";
 import { Pokemon } from "@/types/pokemon";
+import { SuperTrainer } from "@/types/superTrainers";
 
 import SuperTrainerSection from "./SuperTrainerSection";
 

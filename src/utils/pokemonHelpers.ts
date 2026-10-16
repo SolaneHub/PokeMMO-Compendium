@@ -1,4 +1,5 @@
-import { Raid, RaidStrategy } from "../pages/raids/types/raids";
+import { Raid, RaidStrategy } from "@/types/raids";
+
 import { Pokemon } from "../types/pokemon";
 
 const PREFIX_VARIANTS = new Set([

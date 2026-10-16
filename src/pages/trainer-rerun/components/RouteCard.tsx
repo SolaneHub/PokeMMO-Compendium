@@ -1,4 +1,4 @@
-import { Route } from "@/pages/trainer-rerun/types/trainerRerun";
+import { Route } from "@/types/trainerRerun";
 
 interface RouteCardProps {
   route: Route;

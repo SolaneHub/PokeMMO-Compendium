@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as TrainerRerunHooks from "@/pages/trainer-rerun/hooks/useTrainerRerunData";
-import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
+import { TrainerRerunData } from "@/types/trainerRerun";
 
 import TrainerRerunPage from "./TrainerRerunPage";
 

@@ -1,6 +1,6 @@
 import { PICKUP_COLLECTION } from "@/firebase/services/common";
 import { useCollectionData } from "@/hooks/useCollectionData";
-import { PickupRegionSchema } from "@/pages/pickup/types/pickup";
+import { PickupRegionSchema } from "@/types/pickup";
 
 export const usePickupData = () => {
   const { data, isLoading, error } = useCollectionData(

@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
 import { clearQueryCache } from "@/hooks/useDataQuery";
-import { SuperTrainer } from "@/pages/super-trainers/types/superTrainers";
+import { SuperTrainer } from "@/types/superTrainers";
 
 import { useSuperTrainersData } from "./useSuperTrainersData";
 

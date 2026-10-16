@@ -1,5 +1,5 @@
 import { Raid } from "@/pages/raids/hooks/useRaidsData";
-import { RaidStrategy } from "@/pages/raids/types/raids";
+import { RaidStrategy } from "@/types/raids";
 
 interface RaidStrategyTabProps {
   currentRaid: Raid;

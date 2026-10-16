@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { RaidBuild } from "@/pages/raids/types/raids";
 import { Pokemon } from "@/types/pokemon";
+import { RaidBuild } from "@/types/raids";
 
 import RaidBuildsTab from "./RaidBuildsTab";
 

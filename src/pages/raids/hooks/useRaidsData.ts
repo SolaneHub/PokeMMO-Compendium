@@ -1,8 +1,8 @@
 import { RAIDS_COLLECTION } from "@/firebase/services/common";
 import { useCollectionData } from "@/hooks/useCollectionData";
-import { RaidSchema } from "@/pages/raids/types/raids";
+import { RaidSchema } from "@/types/raids";
 
-export type { Raid } from "@/pages/raids/types/raids";
+export type { Raid } from "@/types/raids";
 
 export const useRaidsData = () => {
   const { data, isLoading, error } = useCollectionData(

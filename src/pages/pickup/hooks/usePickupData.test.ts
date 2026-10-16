@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
 import { clearQueryCache } from "@/hooks/useDataQuery";
-import { PickupRegion } from "@/pages/pickup/types/pickup";
+import { PickupRegion } from "@/types/pickup";
 
 import { usePickupData } from "./usePickupData";
 

@@ -1,6 +1,6 @@
 import { SUPER_TRAINERS_COLLECTION } from "@/firebase/services/common";
 import { useCollectionData } from "@/hooks/useCollectionData";
-import { SuperTrainerSchema } from "@/pages/super-trainers/types/superTrainers";
+import { SuperTrainerSchema } from "@/types/superTrainers";
 
 export const useSuperTrainersData = () => {
   const { data, isLoading, error } = useCollectionData(

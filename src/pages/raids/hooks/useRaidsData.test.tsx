@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
 import { clearQueryCache } from "@/hooks/useDataQuery";
-import { Raid } from "@/pages/raids/types/raids";
+import { Raid } from "@/types/raids";
 
 import { useRaidsData } from "./useRaidsData";
 

@@ -1,5 +1,5 @@
 import RouteCard from "@/pages/trainer-rerun/components/RouteCard";
-import { RegionRoute } from "@/pages/trainer-rerun/types/trainerRerun";
+import { RegionRoute } from "@/types/trainerRerun";
 
 interface RegionRoutesProps {
   regions: RegionRoute[];

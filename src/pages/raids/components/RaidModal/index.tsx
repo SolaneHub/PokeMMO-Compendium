@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 import Tabs from "@/components/ui/Tabs";
 import { Raid } from "@/pages/raids/hooks/useRaidsData";
-import { RaidBuild } from "@/pages/raids/types/raids";
 import { Pokemon } from "@/types/pokemon";
+import { RaidBuild } from "@/types/raids";
 import {
   getPokemonBackgroundStyle,
   typeBackgrounds,

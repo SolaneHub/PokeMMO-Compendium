@@ -4,8 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as RaidsHooks from "@/pages/raids/hooks/useRaidsData";
-import { Raid } from "@/pages/raids/types/raids";
 import { Pokemon } from "@/types/pokemon";
+import { Raid } from "@/types/raids";
 
 import RaidsPage from "./RaidsPage";
 

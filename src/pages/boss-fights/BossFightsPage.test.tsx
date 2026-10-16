@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as BossFightsHooks from "@/pages/boss-fights/hooks/useBossFightsData";
-import { BossFight } from "@/pages/boss-fights/types/bossFights";
+import { BossFight } from "@/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
 
 import BossFightsPage from "./BossFightsPage";

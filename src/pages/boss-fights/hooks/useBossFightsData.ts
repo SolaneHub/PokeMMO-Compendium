@@ -1,6 +1,6 @@
 import { BOSS_FIGHTS_COLLECTION } from "@/firebase/services/common";
 import { useCollectionData } from "@/hooks/useCollectionData";
-import { BossFightSchema } from "@/pages/boss-fights/types/bossFights";
+import { BossFightSchema } from "@/types/bossFights";
 
 export const useBossFightsData = () => {
   const { data, isLoading, error } = useCollectionData(

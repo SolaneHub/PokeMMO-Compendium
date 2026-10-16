@@ -1,6 +1,6 @@
 import { getTrainerRerun } from "@/firebase/services/trainerRerunService";
 import { useDataQuery } from "@/hooks/useDataQuery";
-import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
+import { TrainerRerunData } from "@/types/trainerRerun";
 
 export const useTrainerRerunData = () => {
   const { data, isLoading, error } = useDataQuery<TrainerRerunData | null>(
