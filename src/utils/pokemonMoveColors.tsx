@@ -15,7 +15,6 @@ export const moveTypeMap: Record<string, string> = {
   Flamethrower: "Fire",
   "Sunny Day": "Fire",
   "Energy Ball": "Grass",
-  "Energy Root": "Grass",
   "Hidden Power Grass": "Grass",
   Scald: "Water",
   Surf: "Water",
@@ -50,7 +49,6 @@ export const moveTypeMap: Record<string, string> = {
   "Hone Claws": "Dark",
   "Sucker Punch": "Dark",
   "Iron Head": "Steel",
-  "X Speed": "Ice",
 };
 
 // Pre-computed lowercase map for O(1) move gradient lookups

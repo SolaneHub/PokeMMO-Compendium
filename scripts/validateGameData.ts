@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { pickupPokemonBuilds } from "../src/constants/pickupBuilds";
+import { PokemonTypeSchema } from "../src/types/pokemon";
 import { eliteFourMembers } from "../src/utils/eliteFourMembers";
 import { getSpriteUrlByName } from "../src/utils/pokemonImageHelper";
 import { moveTypeMap } from "../src/utils/pokemonMoveColors";
@@ -90,6 +91,14 @@ for (const [moveName, moveType] of Object.entries(moveTypeMap)) {
   const src = `moveTypeMap[${moveName}]`;
   validateStringField(moveName, "moveName", src);
   validateStringField(moveType, "moveType", src);
+
+  const typeResult = PokemonTypeSchema.safeParse(moveType);
+  if (!typeResult.success || moveType === "" || moveType === "Various") {
+    addError(
+      src,
+      `Move type '${moveType}' for move '${moveName}' is not a valid PokemonType.`
+    );
+  }
 }
 
 // 4. Validazione pickupPokemonBuilds
