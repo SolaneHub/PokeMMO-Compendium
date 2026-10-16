@@ -179,8 +179,25 @@ export function useDataQuery<T>(
   };
 }
 
+interface PokemmoCacheDevtools {
+  getCache: () => Map<string, CacheEntry<unknown>>;
+  getInflight: () => Map<string, Promise<unknown>>;
+  clear: () => void;
+  getStats: () => {
+    cachedQueries: number;
+    keys: string[];
+    inflightCount: number;
+  };
+}
+
+declare global {
+  interface Window {
+    __POKEMMO_CACHE__?: PokemmoCacheDevtools;
+  }
+}
+
 if (import.meta.env.DEV && typeof window !== "undefined") {
-  (window as unknown as Record<string, unknown>)["__POKEMMO_CACHE__"] = {
+  window.__POKEMMO_CACHE__ = {
     getCache: () => cache,
     getInflight: () => inflight,
     clear: clearQueryCache,
