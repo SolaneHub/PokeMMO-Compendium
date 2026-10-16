@@ -22,7 +22,7 @@
     "test:domain": "vitest run --config vitest.config.domain.ts",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "build": "pnpm run type-check && vite build && node -e \"require('fs').copyFileSync('dist/index.html', 'dist/404.html')\"",
+    "build": "pnpm run type-check && vite build",
     "sonar:report": "node scripts/update-sonar-report.js",
     "validate:data": "tsx --tsconfig ./tsconfig.app.json scripts/validateGameData.ts",
     "lint-staged": "lint-staged"
