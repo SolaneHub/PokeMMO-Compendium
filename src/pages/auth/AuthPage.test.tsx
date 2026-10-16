@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as AuthContext from "@/context/AuthContext";
 import * as ToastContext from "@/context/ToastContext";
+import { createMockAppUser, createMockAuthContext } from "@/test/factories";
 
 import AuthPage from "./AuthPage";
 
@@ -45,9 +46,9 @@ describe("AuthPage", () => {
   });
 
   it("shows loading state", async () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: true,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({ loading: true })
+    );
     await act(async () => {
       render(
         <MemoryRouter>
@@ -59,10 +60,12 @@ describe("AuthPage", () => {
   });
 
   it("renders sign in state correctly", async () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: null,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: null,
+      })
+    );
 
     await act(async () => {
       render(
@@ -78,11 +81,13 @@ describe("AuthPage", () => {
 
   it("calls googleSignIn when button clicked", async () => {
     const signInMock = vi.fn().mockResolvedValue(undefined);
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: null,
-      googleSignIn: signInMock,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: null,
+        googleSignIn: signInMock,
+      })
+    );
 
     await act(async () => {
       render(
@@ -99,11 +104,16 @@ describe("AuthPage", () => {
   });
 
   it("redirects if already logged in as admin", async () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: { uid: "admin123" },
-      isAdmin: true,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: createMockAppUser({
+          uid: "admin123",
+          email: "test@example.com",
+        }),
+        isAdmin: true,
+      })
+    );
 
     await act(async () => {
       render(
@@ -117,11 +127,16 @@ describe("AuthPage", () => {
   });
 
   it("redirects if already logged in as user", async () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: { uid: "user123" },
-      isAdmin: false,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: createMockAppUser({
+          uid: "user123",
+          email: "test@example.com",
+        }),
+        isAdmin: false,
+      })
+    );
 
     await act(async () => {
       render(

@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as MovesContext from "@/context/MovesContext";
+import { createMockMovesContext } from "@/test/factories";
 import { MoveMaster } from "@/types/pokemon";
 
 import MoveEditorPage from "./MoveEditorPage";
@@ -32,12 +33,11 @@ describe("MoveEditorPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(MovesContext.useMoves).mockReturnValue({
-      moves: mockMoves,
-      loading: false,
-      isLoading: false,
-      refetch: vi.fn(),
-    } as unknown as MovesContext.MovesContextType);
+    vi.mocked(MovesContext.useMoves).mockReturnValue(
+      createMockMovesContext({
+        moves: mockMoves,
+      })
+    );
   });
 
   it("renders correctly and selects a move", () => {

@@ -2,10 +2,11 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { Raid } from "@/pages/raids/hooks/useRaidsData";
+import { createMockRaid } from "@/test/factories";
 
 import RaidStrategyTab from "./RaidStrategyTab";
 
-const mockRaid = {
+const mockRaid: Raid = createMockRaid({
   name: "Test Raid",
   stars: 5,
   moves: [],
@@ -15,7 +16,7 @@ const mockRaid = {
     // A strategy without label to hit the fallback
     { id: "3", roles: {}, recommended: [] },
   ],
-} as unknown as Raid;
+});
 
 describe("RaidStrategyTab component", () => {
   it("renders strategy selection buttons and handles selection", () => {
@@ -143,7 +144,7 @@ describe("RaidStrategyTab component", () => {
   });
 
   it("handles fallback message when no roles are available", () => {
-    const emptyRaid = { teamStrategies: [] } as unknown as Raid;
+    const emptyRaid = createMockRaid({ teamStrategies: [] });
     render(
       <RaidStrategyTab
         currentRaid={emptyRaid}

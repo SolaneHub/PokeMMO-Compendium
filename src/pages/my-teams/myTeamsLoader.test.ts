@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as authUtils from "@/firebase/authUtils";
 import * as teamsService from "@/firebase/services/teamsService";
+import { createMockTeam } from "@/test/factories";
 import { AppUser } from "@/types/auth";
 import { Team } from "@/types/teams";
 
@@ -13,7 +14,8 @@ vi.mock("@/firebase/authUtils");
 vi.mock("@/firebase/services/teamsService");
 vi.mock("react-router-dom", () => ({
   redirect: vi.fn(
-    (url: string) => ({ status: 302, url }) as unknown as Response
+    (url: string) =>
+      new Response(null, { status: 302, headers: { Location: url } })
   ),
 }));
 
@@ -34,12 +36,12 @@ describe("myTeamsLoader", () => {
   it("returns teams and user if authenticated", async () => {
     const mockUser: AppUser = { uid: "123", email: "test@example.com" };
     const mockTeams: Team[] = [
-      {
+      createMockTeam({
         id: "t1",
         name: "Team 1",
         region: "Kanto",
         members: [],
-      } as unknown as Team,
+      }),
     ];
     vi.mocked(authUtils.getCurrentUser).mockResolvedValue(mockUser);
     vi.mocked(teamsService.getUserTeams).mockResolvedValue(mockTeams);

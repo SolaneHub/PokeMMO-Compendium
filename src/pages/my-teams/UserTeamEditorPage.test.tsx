@@ -4,7 +4,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as ToastContext from "@/context/ToastContext";
 import * as TeamEditorHooks from "@/pages/my-teams/hooks/useTeamEditor";
-import { createMockTeam, createMockTeamMember } from "@/test/factories";
+import {
+  createMockTeam,
+  createMockTeamMember,
+  createMockUseTeamEditorReturn,
+} from "@/test/factories";
 import { StrategyStep } from "@/types/strategy";
 import { Team, TeamMember } from "@/types/teams";
 
@@ -113,24 +117,16 @@ describe("UserTeamEditorPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(ToastContext.useToast).mockReturnValue(showToastMock);
-    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue({
-      team: mockTeam,
-      setTeam: vi.fn(),
-      loading: false,
-      saving: false,
-      saveTeam: vi.fn(),
-    } as unknown as TeamEditorHooks.UseTeamEditorReturn);
+    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue(
+      createMockUseTeamEditorReturn({ team: mockTeam })
+    );
   });
 
   it("handles member update correctly", async () => {
     const setTeamMock = vi.fn();
-    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue({
-      team: mockTeam,
-      setTeam: setTeamMock,
-      loading: false,
-      saving: false,
-      saveTeam: vi.fn(),
-    } as unknown as TeamEditorHooks.UseTeamEditorReturn);
+    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue(
+      createMockUseTeamEditorReturn({ team: mockTeam, setTeam: setTeamMock })
+    );
 
     render(
       <MemoryRouter>
@@ -155,13 +151,9 @@ describe("UserTeamEditorPage", () => {
 
   it("handles adding new enemy pokemon via modal", async () => {
     const setTeamMock = vi.fn();
-    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue({
-      team: mockTeam,
-      setTeam: setTeamMock,
-      loading: false,
-      saving: false,
-      saveTeam: vi.fn(),
-    } as unknown as TeamEditorHooks.UseTeamEditorReturn);
+    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue(
+      createMockUseTeamEditorReturn({ team: mockTeam, setTeam: setTeamMock })
+    );
 
     render(
       <MemoryRouter>
@@ -187,13 +179,9 @@ describe("UserTeamEditorPage", () => {
 
   it("handles team name change", async () => {
     const setTeamMock = vi.fn();
-    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue({
-      team: mockTeam,
-      setTeam: setTeamMock,
-      loading: false,
-      saving: false,
-      saveTeam: vi.fn(),
-    } as unknown as TeamEditorHooks.UseTeamEditorReturn);
+    vi.mocked(TeamEditorHooks.useTeamEditor).mockReturnValue(
+      createMockUseTeamEditorReturn({ team: mockTeam, setTeam: setTeamMock })
+    );
 
     render(
       <MemoryRouter>

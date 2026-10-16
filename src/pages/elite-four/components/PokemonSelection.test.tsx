@@ -1,20 +1,24 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createMockPokemon } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 
 import PokemonSelection from "./PokemonSelection";
 
 const mockMap = new Map<string, Pokemon>();
-mockMap.set("Pikachu", {
-  name: "Pikachu",
-  types: ["Electric"],
-  baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
-  abilities: { main: ["Static"], hidden: null },
-  moves: [],
-  evolutions: [],
-  locations: [],
-} as unknown as Pokemon);
+mockMap.set(
+  "Pikachu",
+  createMockPokemon({
+    name: "Pikachu",
+    types: ["Electric"],
+    baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
+    abilities: { main: ["Static"], hidden: null },
+    moves: [],
+    evolutions: [],
+    locations: [],
+  })
+);
 
 describe("PokemonSelection component", () => {
   it("renders the title", () => {

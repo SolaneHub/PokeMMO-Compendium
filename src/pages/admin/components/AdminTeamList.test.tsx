@@ -4,7 +4,8 @@ import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as TeamsService from "@/firebase/services/teamsService";
-import { Team, TeamMember } from "@/types/teams";
+import { createMockTeamMember } from "@/test/factories";
+import { Team } from "@/types/teams";
 
 import AdminTeamList from "./AdminTeamList";
 
@@ -33,7 +34,7 @@ describe("AdminTeamList component", () => {
     name: "Pending Team",
     status: "pending",
     userId: "user123",
-    members: [{ name: "Pikachu" } as unknown as TeamMember],
+    members: [createMockTeamMember({ name: "Pikachu" })],
     region: "Kanto",
   };
 

@@ -8,6 +8,11 @@ import {
   deleteUserTeam,
   getUserTeams,
 } from "@/firebase/services/teamsService";
+import {
+  createMockAppUser,
+  createMockAuthContext,
+  createMockTeam,
+} from "@/test/factories";
 import { Team } from "@/types/teams";
 
 import { useUserTeams } from "./useUserTeams";
@@ -35,10 +40,11 @@ describe("useUserTeams", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(useAuth).mockReturnValue({
-      currentUser: mockUser,
-      loading: false,
-    } as unknown as ReturnType<typeof useAuth>);
+    vi.mocked(useAuth).mockReturnValue(
+      createMockAuthContext({
+        currentUser: createMockAppUser({ uid: "user123" }),
+      })
+    );
     vi.mocked(useToast).mockReturnValue(mockShowToast);
   });
 
@@ -66,12 +72,27 @@ describe("useUserTeams", () => {
 
   it("updates teams state when initialTeams prop changes on revalidate", () => {
     const initial = [
-      { id: "team1", name: "Team 1", region: null, members: [] },
-    ] as unknown as Team[];
+      createMockTeam({
+        id: "team1",
+        name: "Team 1",
+        region: null,
+        members: [],
+      }),
+    ];
     const updated = [
-      { id: "team1", name: "Team 1", region: null, members: [] },
-      { id: "team2", name: "Team 2", region: null, members: [] },
-    ] as unknown as Team[];
+      createMockTeam({
+        id: "team1",
+        name: "Team 1",
+        region: null,
+        members: [],
+      }),
+      createMockTeam({
+        id: "team2",
+        name: "Team 2",
+        region: null,
+        members: [],
+      }),
+    ];
 
     const { result, rerender } = renderHook(
       ({ teams }) => useUserTeams(teams),
@@ -87,10 +108,9 @@ describe("useUserTeams", () => {
   });
 
   it("does not fetch teams if user is not logged in", async () => {
-    vi.mocked(useAuth).mockReturnValue({
-      currentUser: null,
-      loading: false,
-    } as unknown as ReturnType<typeof useAuth>);
+    vi.mocked(useAuth).mockReturnValue(
+      createMockAuthContext({ currentUser: null })
+    );
 
     const { result } = renderHook(() => useUserTeams());
 

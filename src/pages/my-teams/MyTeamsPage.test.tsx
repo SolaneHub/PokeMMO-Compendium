@@ -12,8 +12,9 @@ import * as ConfirmationContext from "@/context/ConfirmationContext";
 import * as ToastContext from "@/context/ToastContext";
 import * as TeamsService from "@/firebase/services/teamsService";
 import * as UserTeamsHooks from "@/pages/my-teams/hooks/useUserTeams";
+import { createMockTeam, createMockUseUserTeamsReturn } from "@/test/factories";
 import { AppUser } from "@/types/auth";
-import { Team } from "@/types/teams";
+import type { Team } from "@/types/teams";
 
 import MyTeamsPage from "./MyTeamsPage";
 
@@ -89,7 +90,7 @@ vi.mock("@/pages/my-teams/components/CreateTeamModal", () => ({
 
 describe("MyTeamsPage", () => {
   const mockUser: AppUser = { uid: "user123", email: "user@example.com" };
-  const mockTeam = { id: "t1", name: "Team 1" } as Team;
+  const mockTeam = createMockTeam({ id: "t1", name: "Team 1" });
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -97,10 +98,12 @@ describe("MyTeamsPage", () => {
       vi.fn(() => Promise.resolve(true))
     );
     vi.mocked(ToastContext.useToast).mockReturnValue(vi.fn());
-    vi.mocked(UserTeamsHooks.useUserTeams).mockReturnValue({
-      createTeam: vi.fn().mockResolvedValue("new-id"),
-      deleteTeam: vi.fn(),
-    } as unknown as UserTeamsHooks.UseUserTeamsReturn);
+    vi.mocked(UserTeamsHooks.useUserTeams).mockReturnValue(
+      createMockUseUserTeamsReturn({
+        createTeam: vi.fn().mockResolvedValue("new-id"),
+        deleteTeam: vi.fn(),
+      })
+    );
 
     vi.mocked(useLoaderData).mockReturnValue({
       teams: [mockTeam],

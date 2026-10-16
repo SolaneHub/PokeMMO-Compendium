@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as AuthContext from "@/context/AuthContext";
+import { createMockAppUser, createMockAuthContext } from "@/test/factories";
 
 import Home from "./Home";
 
@@ -21,9 +22,9 @@ describe("Home Page", () => {
   });
 
   it("renders features when user is not logged in", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      currentUser: null,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({ currentUser: null, isAdmin: false })
+    );
 
     render(
       <MemoryRouter>
@@ -40,9 +41,11 @@ describe("Home Page", () => {
   });
 
   it("renders features when user is logged in", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      currentUser: { uid: "123" },
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        currentUser: createMockAppUser({ email: "user@test.com" }),
+      })
+    );
 
     render(
       <MemoryRouter>

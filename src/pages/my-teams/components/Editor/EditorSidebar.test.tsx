@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { Team } from "@/types/teams";
+import { createMockTeam, createMockTeamMember } from "@/test/factories";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
 import EditorSidebar from "./EditorSidebar";
@@ -15,18 +15,13 @@ vi.mock("@/context/ConfirmationContext", () => ({
 }));
 
 describe("EditorSidebar", () => {
-  const mockTeam = {
+  const mockTeam = createMockTeam({
     name: "Test Team",
     members: [
-      { id: "m1", name: "Pikachu", region: "Kanto", types: ["Electric"] },
-      {
-        id: "m2",
-        name: "Charizard",
-        region: "Kanto",
-        types: ["Fire", "Flying"],
-      },
+      createMockTeamMember({ name: "Pikachu" }),
+      createMockTeamMember({ name: "Charizard" }),
     ],
-  } as unknown as Team;
+  });
 
   const defaultProps = {
     team: mockTeam,
@@ -35,8 +30,8 @@ describe("EditorSidebar", () => {
     onNavigate: vi.fn(),
     regions: ["Kanto"],
     availableMembers: [
-      { name: "Lorelei", region: "Kanto", type: "Ice" },
-    ] as unknown as EliteFourMember[],
+      { name: "Lorelei", region: "Kanto", type: "Ice", image: "lorelei.png" },
+    ] as EliteFourMember[],
     enemyPools: {
       Lorelei: ["Dewgong"],
     },

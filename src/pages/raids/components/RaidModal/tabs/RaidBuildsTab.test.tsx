@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createMockRaidBuild } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 import { RaidBuild } from "@/types/raids";
 
@@ -27,7 +28,7 @@ describe("RaidBuildsTab component", () => {
   });
 
   it("renders recommended list as raw strings if no groups are provided", () => {
-    const mockBuild = { name: "Test Build" } as unknown as RaidBuild;
+    const mockBuild = createMockRaidBuild({ name: "Test Build" });
     render(
       <RaidBuildsTab
         recommendedList={[mockBuild]}
@@ -46,10 +47,10 @@ describe("RaidBuildsTab component", () => {
   it("renders group buttons and active group builds", () => {
     const buildGroups: Record<string, RaidBuild[]> = {
       "Player 1": [
-        { name: "Pikachu", item: "Light Ball" } as unknown as RaidBuild,
+        createMockRaidBuild({ name: "Pikachu", item: "Light Ball" }),
       ],
       "Player 2": [
-        { name: "Raichu", item: "Choice Specs" } as unknown as RaidBuild,
+        createMockRaidBuild({ name: "Raichu", item: "Choice Specs" }),
       ],
     };
 
@@ -57,7 +58,7 @@ describe("RaidBuildsTab component", () => {
 
     render(
       <RaidBuildsTab
-        recommendedList={[{ name: "Pikachu" } as unknown as RaidBuild]}
+        recommendedList={[createMockRaidBuild({ name: "Pikachu" })]}
         buildGroups={buildGroups}
         effectiveBuildGroupKey="Player 1"
         setSelectedBuildGroup={handleSelect}

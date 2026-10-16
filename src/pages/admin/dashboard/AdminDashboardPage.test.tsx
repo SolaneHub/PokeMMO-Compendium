@@ -6,6 +6,7 @@ import * as AuthContext from "@/context/AuthContext";
 import * as ConfirmationContext from "@/context/ConfirmationContext";
 import * as ToastContext from "@/context/ToastContext";
 import * as MovesService from "@/firebase/services/movesService";
+import { createMockAppUser, createMockAuthContext } from "@/test/factories";
 
 import AdminDashboardPage from "./AdminDashboardPage";
 
@@ -34,9 +35,9 @@ describe("AdminDashboardPage", () => {
   });
 
   it("shows loading state", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: true,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({ loading: true })
+    );
     render(
       <MemoryRouter>
         <AdminDashboardPage />
@@ -46,9 +47,13 @@ describe("AdminDashboardPage", () => {
   });
 
   it("handles move synchronization and errors", async () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: createMockAppUser({ email: "admin@test.com" }),
+        isAdmin: true,
+      })
+    );
     vi.mocked(MovesService.importMovesFromPokedex).mockRejectedValue(
       new Error("Sync Error")
     );
@@ -71,9 +76,13 @@ describe("AdminDashboardPage", () => {
   });
 
   it("displays database migrations information", async () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-    } as unknown as AuthContext.AuthContextType);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: createMockAppUser({ email: "admin@test.com" }),
+        isAdmin: true,
+      })
+    );
 
     render(
       <MemoryRouter>

@@ -5,7 +5,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { getUserTeam, updateUserTeam } from "@/firebase/services/teamsService";
-import { Team } from "@/types/teams";
+import {
+  createMockAppUser,
+  createMockAuthContext,
+  createMockTeam,
+} from "@/test/factories";
 
 import { useTeamEditor } from "./useTeamEditor";
 
@@ -32,27 +36,29 @@ describe("useTeamEditor", () => {
   const mockTeamId = "team456";
   const mockNavigate = vi.fn();
   const mockShowToast = vi.fn();
-  const mockTeam = {
+  const mockTeam = createMockTeam({
     id: mockTeamId,
     name: "Test Team",
     region: "Kanto",
     members: [],
     strategies: {},
     enemyPools: {},
-  };
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(useParams).mockReturnValue({ id: mockTeamId });
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
-    vi.mocked(useAuth).mockReturnValue({
-      currentUser: { uid: mockUserId },
-    } as unknown as ReturnType<typeof useAuth>);
+    vi.mocked(useAuth).mockReturnValue(
+      createMockAuthContext({
+        currentUser: createMockAppUser({ uid: mockUserId }),
+      })
+    );
     vi.mocked(useToast).mockReturnValue(mockShowToast);
   });
 
   it("loads team successfully on mount", async () => {
-    vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam as Team);
+    vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam);
 
     const { result } = renderHook(() => useTeamEditor());
 
@@ -92,7 +98,7 @@ describe("useTeamEditor", () => {
 
   describe("saveTeam", () => {
     it("successfully saves the team", async () => {
-      vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam as Team);
+      vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam);
       vi.mocked(updateUserTeam).mockResolvedValueOnce(undefined);
 
       const { result } = renderHook(() => useTeamEditor());
@@ -118,7 +124,7 @@ describe("useTeamEditor", () => {
     });
 
     it("shows error toast if save fails", async () => {
-      vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam as Team);
+      vi.mocked(getUserTeam).mockResolvedValueOnce(mockTeam);
       vi.mocked(updateUserTeam).mockRejectedValueOnce(new Error("Save failed"));
 
       const { result } = renderHook(() => useTeamEditor());
@@ -140,14 +146,18 @@ describe("useTeamEditor", () => {
 
   describe("sanitizeTeam", () => {
     it("ensures step IDs are generated", async () => {
-      const teamWithNoIds = {
-        ...mockTeam,
+      const teamWithNoIds = createMockTeam({
+        id: mockTeamId,
+        name: "Test Team",
+        region: "Kanto",
+        members: [],
         strategies: {
           Pikachu: {
-            Gengar: [{ description: "Thunderbolt", type: "main" }],
+            Gengar: [{ id: "", description: "Thunderbolt", type: "main" }],
           },
         },
-      } as unknown as Team;
+        enemyPools: {},
+      });
       vi.mocked(getUserTeam).mockResolvedValueOnce(teamWithNoIds);
 
       const { result } = renderHook(() => useTeamEditor());

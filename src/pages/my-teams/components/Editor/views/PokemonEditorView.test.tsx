@@ -3,7 +3,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as MovesContext from "@/context/MovesContext";
 import * as PokedexContext from "@/context/PokedexContext";
-import { TeamMember } from "@/types/teams";
+import {
+  createMockMoveMaster,
+  createMockMovesContext,
+  createMockPokedexContext,
+  createMockTeamMember,
+} from "@/test/factories";
 
 import PokemonEditorView from "./PokemonEditorView";
 
@@ -12,28 +17,26 @@ vi.mock("@/context/PokedexContext");
 vi.mock("@/context/MovesContext");
 
 describe("PokemonEditorView", () => {
-  const mockPokemonData = {
-    pokemonNames: ["Pikachu", "Charizard"],
-    itemNames: ["Light Ball", "Charizardite X"],
-    abilityNames: ["Static", "Blaze"],
-    allPokemonData: [],
-  };
-
-  const mockMoves = {
-    moves: [{ name: "Thunderbolt" }, { name: "Flamethrower" }],
-  };
-
   beforeEach(() => {
     vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokemonData as unknown as PokedexContext.PokedexContextType
+      createMockPokedexContext({
+        pokemonNames: ["Pikachu", "Charizard"],
+        itemNames: ["Light Ball", "Charizardite X"],
+        abilityNames: ["Static", "Blaze"],
+      })
     );
     vi.mocked(MovesContext.useMoves).mockReturnValue(
-      mockMoves as unknown as ReturnType<typeof MovesContext.useMoves>
+      createMockMovesContext({
+        moves: [
+          createMockMoveMaster({ name: "Thunderbolt" }),
+          createMockMoveMaster({ name: "Flamethrower" }),
+        ],
+      })
     );
   });
 
   const defaultProps = {
-    data: {
+    data: createMockTeamMember({
       name: "Pikachu",
       item: "Light Ball",
       ability: "Static",
@@ -41,7 +44,7 @@ describe("PokemonEditorView", () => {
       evs: "252 Atk / 4 SpD / 252 Spe",
       ivs: "6x31",
       moves: ["Thunderbolt", "", "", ""],
-    } as unknown as TeamMember,
+    }),
     onSave: vi.fn(),
   };
 
