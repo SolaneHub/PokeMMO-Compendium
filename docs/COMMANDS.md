@@ -27,7 +27,7 @@ Deployment is automated via GitHub Actions on the `production` branch.
 
 | Command      | Description                                                                                                                   |
 | :----------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `pnpm build` | Compiles the project into the `dist/` folder without publishing. Also creates the `404.html` page required for routing.        |
+| `pnpm build` | Compila il progetto nella cartella `dist/` per la distribuzione su Firebase Hosting.                                         |
 
 ## 🔥 Database (Firebase)
 
@@ -50,4 +50,4 @@ Commands and processes to monitor code quality and technical debt.
 
 ### 📝 Important Notes
 
-- **Routing on GitHub Pages:** The project is configured to handle SPA routing on GitHub Pages by automatically creating a `404.html` file during the build.
+- **Routing SPA su Firebase Hosting:** Il routing delle Single Page Application viene gestito nativamente tramite Firebase Hosting attraverso le regole di riscrittura in `firebase.json` (`rewrites` verso `/index.html`).
