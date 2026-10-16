@@ -20,13 +20,21 @@ export default defineConfig(() => ({
     outDir: "dist",
     rollupOptions: {
       output: {
-        manualChunks: {
-          "vendor-react": ["react", "react-dom", "react-router-dom"],
-          "vendor-firebase": [
-            "firebase/app",
-            "firebase/auth",
-            "firebase/firestore/lite",
-          ],
+        manualChunks(id) {
+          if (
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/react-router-dom/")
+          ) {
+            return "vendor-react";
+          }
+          if (
+            id.includes("node_modules/@firebase/") ||
+            id.includes("node_modules/firebase/")
+          ) {
+            return "vendor-firebase";
+          }
+          return undefined;
         },
       },
     },
