@@ -52,7 +52,7 @@ service cloud.firestore {
         request.resource.data.status in ['draft', 'pending'] &&
         request.resource.data.isPublic == false;
       
-    allow update: if (isAdmin() && 
+      allow update: if (isAdmin() && 
         request.resource.data.status in ['draft', 'pending', 'approved', 'rejected']) || (
         isOwner(userId) && 
         resource.data.status != 'approved' &&
@@ -95,16 +95,14 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
-
-        match /trainer_rerun/{document=**} {
-          allow read: if true;
-          allow write: if isAdmin();
-        }
-    
-        match /moves/{document=**} {
-          allow read: if true;
-          allow write: if isAdmin();
-        }
-      }
+    match /trainer_rerun/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
-    
+
+    match /moves/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
