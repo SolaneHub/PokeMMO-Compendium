@@ -1,6 +1,7 @@
 import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { createMockDocumentSnapshot } from "@/test/factories";
 import { setMockDocs } from "@/test/setup";
 import { TrainerRerunData } from "@/types/trainerRerun";
 
@@ -66,9 +67,9 @@ describe("trainerRerunService", () => {
 
     it("returns null if document does not exist", async () => {
       setMockDocs([]);
-      vi.mocked(firestore.getDoc).mockResolvedValueOnce({
-        exists: () => false,
-      } as unknown as firestore.DocumentSnapshot);
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce(
+        createMockDocumentSnapshot("summary", null)
+      );
 
       const result = await getTrainerRerun();
 

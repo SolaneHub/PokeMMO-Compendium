@@ -1,6 +1,7 @@
 import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { createMockQuerySnapshot } from "@/test/factories";
 import { setMockDocs } from "@/test/setup";
 import { TeamStatus } from "@/types/teams";
 
@@ -46,10 +47,8 @@ describe("teamsService", () => {
 
   describe("createUserTeam", () => {
     it("successfully creates a team and returns the ID", async () => {
-      const mockDocRef = { id: "new-team-id" };
-      vi.mocked(firestore.addDoc).mockResolvedValueOnce(
-        mockDocRef as unknown as firestore.DocumentReference
-      );
+      const mockDocRef = { id: "new-team-id" } as firestore.DocumentReference;
+      vi.mocked(firestore.addDoc).mockResolvedValueOnce(mockDocRef);
 
       const result = await createUserTeam(userId, {
         name: "New Team",
@@ -85,10 +84,7 @@ describe("teamsService", () => {
     });
 
     it("filters out invalid teams and warns", async () => {
-      setMockDocs([
-        mockTeam,
-        { id: "invalid", name: 123 } as unknown as unknown,
-      ]); // Invalid name type
+      setMockDocs([mockTeam, { id: "invalid", name: 123 }]); // Invalid name type
 
       const result = await getUserTeams(userId);
 
@@ -138,16 +134,9 @@ describe("teamsService", () => {
   describe("getTeamsByStatus", () => {
     it("returns teams with specific status", async () => {
       setMockDocs([mockTeam]);
-      // Mocking doc reference for parent access in getTeamsByStatus
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (data: unknown) => void) =>
-          cb({
-            id: teamId,
-            data: () => mockTeam,
-            ref: { parent: { parent: { id: userId } } },
-          }),
-        docs: [],
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([{ id: teamId, data: mockTeam, userId }])
+      );
 
       const result = await getTeamsByStatus("draft");
 
@@ -163,17 +152,11 @@ describe("teamsService", () => {
         id: `team${i}`,
       }));
 
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (data: unknown) => void) =>
-          manyTeams.forEach((t) =>
-            cb({
-              id: t.id,
-              data: () => t,
-              ref: { parent: { parent: { id: userId } } },
-            })
-          ),
-        docs: manyTeams.map((t) => ({ id: t.id, data: () => t })),
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot(
+          manyTeams.map((t) => ({ id: t.id, data: t, userId }))
+        )
+      );
 
       const result = await getTeamsByStatus("draft", { limit: 2 });
 
@@ -185,15 +168,9 @@ describe("teamsService", () => {
   describe("getAllUserTeams", () => {
     it("returns all teams across all users", async () => {
       setMockDocs([mockTeam]);
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (data: unknown) => void) =>
-          cb({
-            id: teamId,
-            data: () => mockTeam,
-            ref: { parent: { parent: { id: userId } } },
-          }),
-        docs: [],
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([{ id: teamId, data: mockTeam, userId }])
+      );
 
       const result = await getAllUserTeams();
 
@@ -203,16 +180,10 @@ describe("teamsService", () => {
 
   describe("getAllPendingTeams", () => {
     it("returns teams with pending status", async () => {
-      const pendingTeam = { ...mockTeam, status: "pending" };
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (data: unknown) => void) =>
-          cb({
-            id: teamId,
-            data: () => pendingTeam,
-            ref: { parent: { parent: { id: userId } } },
-          }),
-        docs: [],
-      } as unknown as firestore.QuerySnapshot);
+      const pendingTeam = { ...mockTeam, status: "pending" as TeamStatus };
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([{ id: teamId, data: pendingTeam, userId }])
+      );
 
       const result = await getAllPendingTeams();
 
@@ -252,15 +223,9 @@ describe("teamsService", () => {
   describe("getPublicApprovedTeams", () => {
     it("returns only approved and public teams", async () => {
       const approvedTeam = { ...mockTeam, status: "approved", isPublic: true };
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (data: unknown) => void) =>
-          cb({
-            id: teamId,
-            data: () => approvedTeam,
-            ref: { parent: { parent: { id: userId } } },
-          }),
-        docs: [],
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([{ id: teamId, data: approvedTeam, userId }])
+      );
 
       const result = await getPublicApprovedTeams();
 
@@ -275,15 +240,9 @@ describe("teamsService", () => {
   describe("getAllApprovedTeams", () => {
     it("calls getPublicApprovedTeams and returns the teams array", async () => {
       const approvedTeam = { ...mockTeam, status: "approved", isPublic: true };
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (data: unknown) => void) =>
-          cb({
-            id: teamId,
-            data: () => approvedTeam,
-            ref: { parent: { parent: { id: userId } } },
-          }),
-        docs: [],
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([{ id: teamId, data: approvedTeam, userId }])
+      );
 
       const result = await getAllApprovedTeams();
 

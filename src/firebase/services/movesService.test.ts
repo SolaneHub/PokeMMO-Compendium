@@ -1,8 +1,9 @@
 import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+import { createMockPokemon } from "@/test/factories";
 import { setMockDocs } from "@/test/setup";
-import { MoveMaster, Pokemon } from "@/types/pokemon";
+import { MoveMaster } from "@/types/pokemon";
 
 import {
   deleteMove,
@@ -60,10 +61,7 @@ describe("movesService", () => {
     });
 
     it("filters out invalid moves and warns", async () => {
-      setMockDocs([
-        mockMove,
-        { id: "invalid", name: 123 } as unknown as MoveMaster,
-      ]); // Invalid name type
+      setMockDocs([mockMove, { id: "invalid", name: 123 }]); // Invalid name type
 
       const result = await getMoves();
 
@@ -115,7 +113,7 @@ describe("movesService", () => {
   describe("importMovesFromPokedex", () => {
     it("extracts unique moves from pokedex and commits batch", async () => {
       const mockPokedex = [
-        {
+        createMockPokemon({
           name: "Bulbasaur",
           moves: [
             {
@@ -135,8 +133,8 @@ describe("movesService", () => {
               pp: "40",
             },
           ],
-        },
-        {
+        }),
+        createMockPokemon({
           name: "Squirtle",
           moves: [
             {
@@ -148,21 +146,17 @@ describe("movesService", () => {
               pp: "35",
             },
           ],
-        },
-        {
+        }),
+        createMockPokemon({
           name: "NoMovesPokemon",
-          moves: null, // Test branch where pokemon.moves is missing
-        },
-        {
+          moves: [],
+        }),
+        createMockPokemon({
           name: "InvalidMovePokemon",
-          moves: [
-            { name: "", type: "Normal" }, // Test branch where move.name is missing
-          ],
-        },
+          moves: [{ name: "", type: "Normal" }],
+        }),
       ];
-      vi.mocked(getPokedexData).mockResolvedValueOnce(
-        mockPokedex as unknown as Pokemon[]
-      );
+      vi.mocked(getPokedexData).mockResolvedValueOnce(mockPokedex);
 
       const count = await importMovesFromPokedex();
 

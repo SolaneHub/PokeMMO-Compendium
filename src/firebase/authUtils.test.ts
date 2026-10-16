@@ -34,7 +34,7 @@ describe("authUtils", () => {
             ),
           0
         );
-        return vi.fn() as unknown as import("firebase/auth").Unsubscribe;
+        return vi.fn<() => void>();
       });
 
       const user = await getCurrentUser();
@@ -49,7 +49,7 @@ describe("authUtils", () => {
     it("should resolve with null when not authenticated", async () => {
       vi.mocked(onAuthStateChanged).mockImplementation((_auth, callback) => {
         setTimeout(() => (callback as (user: null) => void)(null), 0);
-        return vi.fn() as unknown as import("firebase/auth").Unsubscribe;
+        return vi.fn<() => void>();
       });
 
       const user = await getCurrentUser();
@@ -62,7 +62,7 @@ describe("authUtils", () => {
           if (errorCallback) {
             setTimeout(() => errorCallback(new Error("Auth error")), 0);
           }
-          return vi.fn() as unknown as import("firebase/auth").Unsubscribe;
+          return vi.fn<() => void>();
         }
       );
 

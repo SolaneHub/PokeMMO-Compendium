@@ -1,8 +1,11 @@
 import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 
+import {
+  createMockDocumentSnapshot,
+  createMockPokemon,
+} from "@/test/factories";
 import { setMockDocs } from "@/test/setup";
-import { Pokemon } from "@/types/pokemon";
 
 import {
   deletePokedexEntry,
@@ -26,16 +29,13 @@ vi.mock("./common", async (importOriginal) => {
 });
 
 describe("pokedexService", () => {
-  const validPokemonDoc = {
+  const validPokemonDoc = createMockPokemon({
     id: "1",
     name: "Bulbasaur",
     types: ["Grass", "Poison"],
     baseStats: { hp: 45, atk: 49, def: 49, spa: 65, spd: 65, spe: 45 },
     abilities: { main: ["Overgrow"], hidden: "Chlorophyll" },
-    moves: [],
-    evolutions: [],
-    locations: [],
-  };
+  });
 
   const invalidPokemonDoc = {
     id: "invalid-1",
@@ -98,11 +98,8 @@ describe("pokedexService", () => {
       // First call to getDoc (summary) returns empty array (meaning exists() is false)
       setMockDocs([validPokemonDoc]);
 
-      vi.mocked(firestore.getDoc).mockImplementationOnce(
-        async () =>
-          ({
-            exists: () => false,
-          }) as unknown as firestore.DocumentSnapshot
+      vi.mocked(firestore.getDoc).mockResolvedValueOnce(
+        createMockDocumentSnapshot("summary", null)
       );
 
       const result = await getPokedexSummary();
@@ -149,13 +146,13 @@ describe("pokedexService", () => {
 
   describe("Write Operations", () => {
     it("savePokedexEntry calls setDoc", async () => {
-      await savePokedexEntry(validPokemonDoc as unknown as Pokemon);
+      await savePokedexEntry(validPokemonDoc);
       expect(firestore.setDoc).toHaveBeenCalled();
     });
 
     it("savePokedexEntry uses name as fallback ID if no id provided", async () => {
       const pokemonNoId = { ...validPokemonDoc, id: null };
-      await savePokedexEntry(pokemonNoId as unknown as Pokemon);
+      await savePokedexEntry(pokemonNoId);
       // getPokemonDocId should have been called with "bulbasaur" (mock implementation just stringifies)
       expect(firestore.doc).toHaveBeenCalledWith(
         expect.anything(),
@@ -176,10 +173,7 @@ describe("pokedexService", () => {
 
     it("updatePokedexData skips pokemon without id", async () => {
       const pokemonNoId = { ...validPokemonDoc, id: null };
-      await updatePokedexData([
-        pokemonNoId as unknown as Pokemon,
-        validPokemonDoc as unknown as Pokemon,
-      ]);
+      await updatePokedexData([pokemonNoId, validPokemonDoc]);
 
       const mockBatch = (
         firestore.writeBatch as unknown as {
@@ -194,7 +188,7 @@ describe("pokedexService", () => {
     });
 
     it("savePokedexEntry uses provided id if available", async () => {
-      await savePokedexEntry(validPokemonDoc as unknown as Pokemon);
+      await savePokedexEntry(validPokemonDoc);
       expect(firestore.doc).toHaveBeenCalledWith(
         expect.anything(),
         "pokedex",
@@ -204,13 +198,13 @@ describe("pokedexService", () => {
 
     it("savePokedexEntry throws if name is missing", async () => {
       const noName = { ...validPokemonDoc, name: "" };
-      await expect(
-        savePokedexEntry(noName as unknown as Pokemon)
-      ).rejects.toThrow("Pokemon name is required");
+      await expect(savePokedexEntry(noName)).rejects.toThrow(
+        "Pokemon name is required"
+      );
     });
 
     it("updatePokedexSummary calls setDoc with summary document", async () => {
-      await updatePokedexSummary([validPokemonDoc as unknown as Pokemon]);
+      await updatePokedexSummary([validPokemonDoc]);
       expect(firestore.setDoc).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({

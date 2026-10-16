@@ -2,6 +2,8 @@ import * as firestore from "firebase/firestore/lite";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 
+import { createMockQuerySnapshot } from "@/test/factories";
+
 import {
   commitBatchInChunks,
   fetchQueryDocuments,
@@ -109,13 +111,12 @@ describe("firebase/common", () => {
     });
 
     it("parses and validates valid documents with safeParse", async () => {
-      const mockDocs = [
-        { id: "doc-1", data: () => ({ title: "First", count: 10 }) },
-        { id: "doc-2", data: () => ({ title: "Second" }) },
-      ];
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (doc: unknown) => void) => mockDocs.forEach(cb),
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([
+          { id: "doc-1", data: { title: "First", count: 10 } },
+          { id: "doc-2", data: { title: "Second" } },
+        ])
+      );
 
       const result = await fetchQueryDocuments(
         {} as firestore.Query,
@@ -128,16 +129,15 @@ describe("firebase/common", () => {
     });
 
     it("correctly applies custom transformDoc parameter", async () => {
-      const mockDocs = [
-        {
-          id: "doc-custom",
-          data: () => ({ title: "Custom Title" }),
-          ref: { parent: { parent: { id: "user-123" } } },
-        },
-      ];
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (doc: unknown) => void) => mockDocs.forEach(cb),
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([
+          {
+            id: "doc-custom",
+            data: { title: "Custom Title" },
+            userId: "user-123",
+          },
+        ])
+      );
 
       const ExtendedSchema = z.object({
         id: z.string(),
@@ -148,18 +148,11 @@ describe("firebase/common", () => {
       const result = await fetchQueryDocuments(
         {} as firestore.Query,
         ExtendedSchema,
-        (doc) => {
-          const customDoc = doc as unknown as {
-            id: string;
-            data: () => Record<string, unknown>;
-            ref: { parent: { parent?: { id: string } } };
-          };
-          return {
-            id: customDoc.id,
-            ownerId: customDoc.ref.parent.parent?.id ?? "unknown",
-            ...customDoc.data(),
-          };
-        }
+        (doc: firestore.QueryDocumentSnapshot) => ({
+          id: doc.id,
+          ownerId: doc.ref.parent.parent?.id ?? "unknown",
+          ...doc.data(),
+        })
       );
 
       expect(result).toEqual([
@@ -175,13 +168,12 @@ describe("firebase/common", () => {
       const warnSpy = vi
         .spyOn(console, "warn")
         .mockImplementation(() => undefined);
-      const mockDocs = [
-        { id: "valid-doc", data: () => ({ title: "Valid" }) },
-        { id: "invalid-doc", data: () => ({ invalidField: 123 }) },
-      ];
-      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
-        forEach: (cb: (doc: unknown) => void) => mockDocs.forEach(cb),
-      } as unknown as firestore.QuerySnapshot);
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce(
+        createMockQuerySnapshot([
+          { id: "valid-doc", data: { title: "Valid" } },
+          { id: "invalid-doc", data: { invalidField: 123 } },
+        ])
+      );
 
       const result = await fetchQueryDocuments(
         {} as firestore.Query,
