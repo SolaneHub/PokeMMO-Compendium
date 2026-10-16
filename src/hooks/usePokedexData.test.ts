@@ -45,7 +45,10 @@ describe("usePokedexData hooks", () => {
 
       expect(dataQueryModule.useDataQuery).toHaveBeenCalledWith(
         "pokedex:summary",
-        expect.any(Function)
+        expect.any(Function),
+        {
+          ttl: 1000 * 60 * 60 * 24,
+        }
       );
 
       // Test the query function logic

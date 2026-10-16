@@ -678,6 +678,10 @@ const standardPokemonList = [
   "Genesect",
 ];
 
+const STANDARD_POKEMON_MAP = new Map<string, number>(
+  standardPokemonList.map((name, index) => [name, index + 1])
+);
+
 export const getSpriteUrlByName = (name: string): string | null => {
   const baseUrl =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world";
@@ -690,9 +694,9 @@ export const getSpriteUrlByName = (name: string): string | null => {
   if (name === "Basculin (Red-Striped)") cleanName = "Basculin";
 
   if (cleanName) {
-    const index = standardPokemonList.indexOf(cleanName);
-    if (index !== -1) {
-      return `${baseUrl}/${index + 1}.svg`;
+    const dexNum = STANDARD_POKEMON_MAP.get(cleanName);
+    if (dexNum !== undefined) {
+      return `${baseUrl}/${dexNum}.svg`;
     }
   }
   return null;
