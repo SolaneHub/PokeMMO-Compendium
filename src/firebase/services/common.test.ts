@@ -1,8 +1,10 @@
 import * as firestore from "firebase/firestore/lite";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { z } from "zod";
 
 import {
   commitBatchInChunks,
+  fetchQueryDocuments,
   getPokemonDocId,
   updateCollectionBatch,
 } from "./common";
@@ -96,6 +98,104 @@ describe("firebase/common", () => {
         "test-col",
         ""
       );
+    });
+  });
+
+  describe("fetchQueryDocuments", () => {
+    const TestSchema = z.object({
+      id: z.string(),
+      title: z.string(),
+      count: z.number().optional(),
+    });
+
+    it("parses and validates valid documents with safeParse", async () => {
+      const mockDocs = [
+        { id: "doc-1", data: () => ({ title: "First", count: 10 }) },
+        { id: "doc-2", data: () => ({ title: "Second" }) },
+      ];
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
+        forEach: (cb: (doc: unknown) => void) => mockDocs.forEach(cb),
+      } as unknown as firestore.QuerySnapshot);
+
+      const result = await fetchQueryDocuments(
+        {} as firestore.Query,
+        TestSchema
+      );
+      expect(result).toEqual([
+        { id: "doc-1", title: "First", count: 10 },
+        { id: "doc-2", title: "Second" },
+      ]);
+    });
+
+    it("correctly applies custom transformDoc parameter", async () => {
+      const mockDocs = [
+        {
+          id: "doc-custom",
+          data: () => ({ title: "Custom Title" }),
+          ref: { parent: { parent: { id: "user-123" } } },
+        },
+      ];
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
+        forEach: (cb: (doc: unknown) => void) => mockDocs.forEach(cb),
+      } as unknown as firestore.QuerySnapshot);
+
+      const ExtendedSchema = z.object({
+        id: z.string(),
+        title: z.string(),
+        ownerId: z.string(),
+      });
+
+      const result = await fetchQueryDocuments(
+        {} as firestore.Query,
+        ExtendedSchema,
+        (doc) => {
+          const customDoc = doc as unknown as {
+            id: string;
+            data: () => Record<string, unknown>;
+            ref: { parent: { parent?: { id: string } } };
+          };
+          return {
+            id: customDoc.id,
+            ownerId: customDoc.ref.parent.parent?.id ?? "unknown",
+            ...customDoc.data(),
+          };
+        }
+      );
+
+      expect(result).toEqual([
+        {
+          id: "doc-custom",
+          title: "Custom Title",
+          ownerId: "user-123",
+        },
+      ]);
+    });
+
+    it("discards invalid documents and logs a console.warn", async () => {
+      const warnSpy = vi
+        .spyOn(console, "warn")
+        .mockImplementation(() => undefined);
+      const mockDocs = [
+        { id: "valid-doc", data: () => ({ title: "Valid" }) },
+        { id: "invalid-doc", data: () => ({ invalidField: 123 }) },
+      ];
+      vi.mocked(firestore.getDocs).mockResolvedValueOnce({
+        forEach: (cb: (doc: unknown) => void) => mockDocs.forEach(cb),
+      } as unknown as firestore.QuerySnapshot);
+
+      const result = await fetchQueryDocuments(
+        {} as firestore.Query,
+        TestSchema
+      );
+
+      expect(result).toEqual([{ id: "valid-doc", title: "Valid" }]);
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          "[Zod Validation] Invalid document ID: invalid-doc"
+        ),
+        expect.anything()
+      );
+      warnSpy.mockRestore();
     });
   });
 });

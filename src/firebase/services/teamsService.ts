@@ -5,7 +5,6 @@ import {
   deleteDoc,
   doc,
   getDoc,
-  getDocs,
   limit as firestoreLimit,
   orderBy,
   query,
@@ -15,7 +14,11 @@ import {
 } from "firebase/firestore/lite";
 
 import { db } from "@/firebase/config";
-import { TEAMS_COLLECTION, USERS_COLLECTION } from "@/firebase/services/common";
+import {
+  fetchQueryDocuments,
+  TEAMS_COLLECTION,
+  USERS_COLLECTION,
+} from "@/firebase/services/common";
 import { Team, TeamSchema, TeamStatus } from "@/types/teams";
 
 const getUserTeamsRef = (userId: string) => {
@@ -49,21 +52,7 @@ export async function createUserTeam(userId: string, teamData: Partial<Team>) {
 export async function getUserTeams(userId: string): Promise<Team[]> {
   const teamsRef = getUserTeamsRef(userId);
   const q = query(teamsRef);
-  const querySnapshot = await getDocs(q);
-  const teams: Team[] = [];
-  querySnapshot.forEach((doc) => {
-    const data = { id: doc.id, ...doc.data() };
-    const result = TeamSchema.safeParse(data);
-    if (result.success) {
-      teams.push(result.data);
-    } else {
-      console.warn(
-        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
-        result.error
-      );
-    }
-  });
-  return teams;
+  return fetchQueryDocuments(q, TeamSchema);
 }
 
 export async function updateUserTeam(
@@ -111,25 +100,11 @@ export async function getTeamsByStatus(
     teamsQuery = query(teamsQuery, firestoreStartAfter(startDocRef));
   }
   teamsQuery = query(teamsQuery, firestoreLimit(limit + 1));
-  const querySnapshot = await getDocs(teamsQuery);
-  const teams: Team[] = [];
-  querySnapshot.forEach((doc) => {
-    const parentUser = doc.ref.parent.parent;
-    const data = {
-      id: doc.id,
-      userId: parentUser ? parentUser.id : "unknown",
-      ...doc.data(),
-    };
-    const result = TeamSchema.safeParse(data);
-    if (result.success) {
-      teams.push(result.data);
-    } else {
-      console.warn(
-        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
-        result.error
-      );
-    }
-  });
+  const teams = await fetchQueryDocuments(teamsQuery, TeamSchema, (doc) => ({
+    id: doc.id,
+    userId: doc.ref.parent.parent?.id ?? "unknown",
+    ...doc.data(),
+  }));
   let nextPageToken = null;
   if (teams.length > limit) {
     teams.pop();
@@ -159,25 +134,11 @@ export async function getAllUserTeams(options: PaginationOptions = {}) {
     teamsQuery = query(teamsQuery, firestoreStartAfter(startDocRef));
   }
   teamsQuery = query(teamsQuery, firestoreLimit(limit + 1));
-  const querySnapshot = await getDocs(teamsQuery);
-  const teams: Team[] = [];
-  querySnapshot.forEach((doc) => {
-    const parentUser = doc.ref.parent.parent;
-    const data = {
-      id: doc.id,
-      userId: parentUser ? parentUser.id : "unknown",
-      ...doc.data(),
-    };
-    const result = TeamSchema.safeParse(data);
-    if (result.success) {
-      teams.push(result.data);
-    } else {
-      console.warn(
-        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
-        result.error
-      );
-    }
-  });
+  const teams = await fetchQueryDocuments(teamsQuery, TeamSchema, (doc) => ({
+    id: doc.id,
+    userId: doc.ref.parent.parent?.id ?? "unknown",
+    ...doc.data(),
+  }));
   let nextPageToken = null;
   if (teams.length > limit) {
     teams.pop();
@@ -226,25 +187,11 @@ export async function getPublicApprovedTeams(options: PaginationOptions = {}) {
   if (limit) {
     teamsQuery = query(teamsQuery, firestoreLimit(limit + 1));
   }
-  const querySnapshot = await getDocs(teamsQuery);
-  const teams: Team[] = [];
-  querySnapshot.forEach((doc) => {
-    const parentUser = doc.ref.parent.parent;
-    const data = {
-      id: doc.id,
-      userId: parentUser ? parentUser.id : "unknown",
-      ...doc.data(),
-    };
-    const result = TeamSchema.safeParse(data);
-    if (result.success) {
-      teams.push(result.data);
-    } else {
-      console.warn(
-        `[Zod Validation] Invalid Team data for doc ID: ${doc.id}`,
-        result.error
-      );
-    }
-  });
+  const teams = await fetchQueryDocuments(teamsQuery, TeamSchema, (doc) => ({
+    id: doc.id,
+    userId: doc.ref.parent.parent?.id ?? "unknown",
+    ...doc.data(),
+  }));
   let nextPageToken = null;
   if (limit && teams.length > limit) {
     teams.pop();

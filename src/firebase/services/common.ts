@@ -3,7 +3,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  type Query,
   query,
+  type QueryDocumentSnapshot,
   WriteBatch,
   writeBatch,
 } from "firebase/firestore/lite";
@@ -80,6 +82,33 @@ export async function fetchCollectionData<T>(
     }
   });
 
+  return items;
+}
+
+/**
+ * Fetches documents matching a Firestore Query and validates them using a Zod schema.
+ */
+export async function fetchQueryDocuments<T>(
+  q: Query,
+  schema: z.ZodSchema<T>,
+  transformDoc?: (doc: QueryDocumentSnapshot) => Record<string, unknown>
+): Promise<T[]> {
+  const querySnapshot = await getDocs(q);
+  const items: T[] = [];
+  querySnapshot.forEach((doc) => {
+    const rawData = transformDoc
+      ? transformDoc(doc)
+      : { id: doc.id, ...doc.data() };
+    const result = schema.safeParse(rawData);
+    if (result.success) {
+      items.push(result.data);
+    } else {
+      console.warn(
+        `[Zod Validation] Invalid document ID: ${doc.id}`,
+        result.error
+      );
+    }
+  });
   return items;
 }
 
