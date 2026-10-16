@@ -30,4 +30,11 @@ describe("PokemonCard", () => {
     const btn = screen.getByRole("button");
     expect(btn).toHaveAttribute("aria-pressed", "true");
   });
+
+  it("falls back to '?' placeholder when image fails to load", () => {
+    render(<PokemonCard {...defaultProps} />);
+    fireEvent.error(screen.getByRole("img"));
+    expect(screen.getByText("?")).toBeInTheDocument();
+    expect(screen.queryByRole("img")).not.toBeInTheDocument();
+  });
 });

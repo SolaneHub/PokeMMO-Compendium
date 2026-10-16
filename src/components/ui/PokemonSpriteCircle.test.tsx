@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import PokemonSpriteCircle from "./PokemonSpriteCircle";
@@ -23,5 +23,16 @@ describe("PokemonSpriteCircle component", () => {
     const img = screen.getByRole("img", { name: "Bulbasaur" });
     expect(img).toBeInTheDocument();
     expect(img.getAttribute("src")).toContain("1.svg");
+  });
+
+  it("shows '?' fallback on image error", () => {
+    render(
+      <PokemonSpriteCircle
+        spriteUrl="https://example.com/broken.png"
+        pokemonName="Pikachu"
+      />
+    );
+    fireEvent.error(screen.getByRole("img"));
+    expect(screen.getByText("?")).toBeInTheDocument();
   });
 });

@@ -26,4 +26,12 @@ describe("ItemImage component", () => {
     const img = screen.getByAltText("Choice Band");
     expect(img).toHaveClass("custom-class-123");
   });
+
+  it("does not attempt to load malformed url when item is empty string", () => {
+    const { container } = render(<ItemImage item="" />);
+    const img = container.querySelector("img");
+    expect(img).toBeInTheDocument();
+    expect(img).toHaveStyle({ display: "none" });
+    expect(img?.getAttribute("src") || "").not.toContain("Dream__Sprite.png");
+  });
 });

@@ -12,7 +12,10 @@ const ItemImage = ({
   className = "w-5 h-5 mr-2 object-contain",
 }: ItemImageProps) => {
   const formattedName = formatItemNameForUrl(item);
-  const dreamUrl = `https://archives.bulbagarden.net/wiki/Special:FilePath/Dream_${formattedName}_Sprite.png`;
+  const dreamUrl =
+    !item || !item.trim()
+      ? null
+      : `https://archives.bulbagarden.net/wiki/Special:FilePath/Dream_${formattedName}_Sprite.png`;
 
   const [imgSrc, setImgSrc] = useState<string | null>(dreamUrl);
 

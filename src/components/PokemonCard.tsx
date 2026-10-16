@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 interface PokemonCardProps {
   pokemonName?: string;
   pokemonImageSrc?: string | null;
@@ -13,13 +15,12 @@ const PokemonCard = ({
   onClick,
   isSelected,
 }: PokemonCardProps) => {
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
-    const target = e.target as HTMLImageElement;
-    target.onerror = null;
-    target.src = `https://placehold.co/80x80/cccccc/333333?text=?`;
-  };
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setHasError(false);
+  }, [pokemonImageSrc]);
 
   return (
     <button
@@ -51,12 +52,12 @@ const PokemonCard = ({
         </div>
       )}
       <div className="flex h-32 w-full items-center justify-center p-4">
-        {pokemonImageSrc ? (
+        {pokemonImageSrc && !hasError ? (
           <img
             src={pokemonImageSrc}
             alt={pokemonName || "Pokemon"}
             className="h-full w-full object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-110"
-            onError={handleImageError}
+            onError={() => setHasError(true)}
           />
         ) : (
           <div className="text-4xl font-bold text-slate-600 opacity-30">?</div>
