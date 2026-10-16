@@ -1,19 +1,13 @@
 import { useState } from "react";
 
+import { PokemonMove } from "@/types/pokemon";
 import { PokemonType, typeBackgrounds } from "@/utils/pokemonColors";
 
-export interface Move {
-  level?: string | number;
-  name: string;
-  type?: string;
-  category?: string;
+export type Move = PokemonMove & {
   cat?: string;
-  power?: string | number;
   pwr?: string | number;
-  accuracy?: string | number;
   acc?: string | number;
-  pp?: string | number;
-}
+};
 
 interface PokemonMovesProps {
   moves: Move[];

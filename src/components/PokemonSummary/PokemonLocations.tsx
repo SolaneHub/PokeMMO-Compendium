@@ -1,11 +1,6 @@
-export interface Location {
-  region: string;
-  area: string;
-  rarity?: string;
-  method?: string;
-  type?: string;
-  levels?: string | number;
-}
+import { Location } from "@/types/pokemon";
+
+export type { Location };
 
 interface PokemonLocationsProps {
   locations: Location[];
