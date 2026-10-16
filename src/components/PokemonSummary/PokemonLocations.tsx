@@ -1,7 +1,5 @@
 import { Location } from "@/types/pokemon";
 
-export type { Location };
-
 interface PokemonLocationsProps {
   locations: Location[];
 }

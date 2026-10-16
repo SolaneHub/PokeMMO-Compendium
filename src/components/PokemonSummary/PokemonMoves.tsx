@@ -68,19 +68,9 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
                   const moveType = (move.type || "") as PokemonType;
                   const typeBg =
                     typeBackgrounds[moveType] || typeBackgrounds[""];
-                  const rawMove = move as Record<string, unknown>;
-                  const moveCat =
-                    (move.category as string | undefined) ||
-                    (rawMove["cat"] as string | undefined) ||
-                    "";
-                  const movePwr =
-                    move.power ??
-                    (rawMove["pwr"] as string | number | undefined) ??
-                    "---";
-                  const moveAcc =
-                    move.accuracy ??
-                    (rawMove["acc"] as string | number | undefined) ??
-                    "---";
+                  const moveCat = move.category || "";
+                  const movePwr = move.power ?? "---";
+                  const moveAcc = move.accuracy ?? "---";
                   const moveLvl = move.level ?? 0;
 
                   return (
