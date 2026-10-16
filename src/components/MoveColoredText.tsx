@@ -41,7 +41,7 @@ const MoveColoredText = ({ text }: MoveColoredTextProps) => {
 
   if (!text) return null;
   if (isLoading) {
-    return null;
+    return <span>{text}</span>;
   }
 
   const parts = text.split(TOKEN_PATTERN);

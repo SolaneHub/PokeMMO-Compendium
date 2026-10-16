@@ -1,14 +1,19 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import {
+  PokedexContextType,
+  usePokedexContext,
+} from "@/context/PokedexContext";
+
 import MoveColoredText from "./MoveColoredText";
 
 // Mock the hook to avoid fetching data and to return controlled loading state
 vi.mock("@/context/PokedexContext", () => ({
-  usePokedexContext: () => ({
+  usePokedexContext: vi.fn(() => ({
     pokemonColorMap: {},
     isLoading: false,
-  }),
+  })),
 }));
 
 describe("MoveColoredText component", () => {
@@ -20,6 +25,25 @@ describe("MoveColoredText component", () => {
   it("renders normal text without tokens", () => {
     render(<MoveColoredText text="Just a normal sentence." />);
     expect(screen.getByText("Just a normal sentence.")).toBeInTheDocument();
+  });
+
+  it("renders raw text inside a span when isLoading is true", () => {
+    vi.mocked(usePokedexContext).mockReturnValueOnce({
+      pokemonColorMap: {},
+      isLoading: true,
+    } as unknown as PokedexContextType);
+
+    const { container } = render(
+      <MoveColoredText text="Raw text while loading [SWITCH]" />
+    );
+
+    expect(
+      screen.getByText("Raw text while loading [SWITCH]")
+    ).toBeInTheDocument();
+    expect(container.querySelector("svg")).not.toBeInTheDocument();
+    expect(container.innerHTML).toBe(
+      "<span>Raw text while loading [SWITCH]</span>"
+    );
   });
 
   it("renders SVG icons for tokens", () => {

@@ -4,9 +4,9 @@ import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import App from "@/app/App";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import Shell from "@/components/Shell";
-import { MovesProvider } from "@/context/MovesContext";
-import { myTeamsLoader } from "@/pages/my-teams/myTeamsLoader";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
+const MovesLayout = lazy(() => import("@/components/layouts/MovesLayout"));
 const AdminDashboardPage = lazy(
   () => import("@/pages/admin/dashboard/AdminDashboardPage")
 );
@@ -42,6 +42,24 @@ export const router = createBrowserRouter(
   [
     {
       element: <App />,
+      errorElement: (
+        <div className="flex min-h-screen items-center justify-center bg-slate-900 p-4 text-center">
+          <div className="max-w-md rounded-xl border border-red-500/50 bg-red-900/20 p-6 text-white">
+            <h2 className="mb-2 text-xl font-bold">
+              Si è verificato un errore
+            </h2>
+            <p className="mb-4 text-sm text-slate-300">
+              Non è stato possibile caricare la pagina richiesta.
+            </p>
+            <button
+              onClick={() => window.location.assign("/")}
+              className="rounded bg-red-600 px-4 py-2 font-bold hover:bg-red-700"
+            >
+              Torna alla Home
+            </button>
+          </div>
+        </div>
+      ),
       children: [
         {
           element: <Shell />,
@@ -55,7 +73,9 @@ export const router = createBrowserRouter(
                     </div>
                   }
                 >
-                  <Outlet />
+                  <ErrorBoundary>
+                    <Outlet />
+                  </ErrorBoundary>
                 </Suspense>
               ),
               children: [
@@ -109,7 +129,11 @@ export const router = createBrowserRouter(
                 },
                 {
                   path: "/my-teams",
-                  loader: myTeamsLoader,
+                  loader: async () => {
+                    const { myTeamsLoader } =
+                      await import("@/pages/my-teams/myTeamsLoader");
+                    return myTeamsLoader();
+                  },
                   element: (
                     <ProtectedRoute>
                       <MyTeamsPage />
@@ -120,18 +144,28 @@ export const router = createBrowserRouter(
                   path: "/my-teams/:id",
                   element: (
                     <ProtectedRoute>
-                      <MovesProvider>
-                        <UserTeamEditorPage />
-                      </MovesProvider>
+                      <Suspense
+                        fallback={
+                          <div className="p-8 text-center text-slate-400">
+                            Loading...
+                          </div>
+                        }
+                      >
+                        <MovesLayout />
+                      </Suspense>
                     </ProtectedRoute>
                   ),
+                  children: [
+                    {
+                      index: true,
+                      element: <UserTeamEditorPage />,
+                    },
+                  ],
                 },
                 {
                   element: (
                     <ProtectedRoute adminOnly={true}>
-                      <MovesProvider>
-                        <Outlet />
-                      </MovesProvider>
+                      <MovesLayout />
                     </ProtectedRoute>
                   ),
                   children: [
