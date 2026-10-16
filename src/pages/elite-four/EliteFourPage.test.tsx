@@ -10,6 +10,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as TeamsService from "@/firebase/services/teamsService";
+import { clearQueryCache } from "@/hooks/useDataQuery";
 import { Pokemon } from "@/types/pokemon";
 import { Team, TeamMember } from "@/types/teams";
 
@@ -56,6 +57,7 @@ describe("EliteFourPage", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    clearQueryCache();
     vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
       mockPokedex as unknown as PokedexContext.PokedexContextType
     );

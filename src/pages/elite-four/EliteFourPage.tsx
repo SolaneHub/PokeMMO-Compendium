@@ -1,5 +1,5 @@
 import { Crown } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import MemberSelection from "@/components/MemberSelection";
 import PageLayout from "@/components/PageLayout";
@@ -9,6 +9,7 @@ import StrategyModal from "@/components/StrategyModal";
 import TeamBuildModal from "@/components/TeamBuildModal";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { getAllApprovedTeams } from "@/firebase/services/teamsService";
+import { useDataQuery } from "@/hooks/useDataQuery";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
 import TeamSelection from "@/pages/elite-four/components/TeamSelection";
 import ViewTeamBuildButton from "@/pages/elite-four/components/ViewTeamBuildButton";
@@ -20,9 +21,16 @@ import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
 
 function EliteFourPage() {
   const accentColor = FEATURE_CONFIG["elite-four"].color;
-  const [approvedTeams, setApprovedTeams] = useState<Team[]>([]);
-  const [loadingTeams, setLoadingTeams] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: approvedTeams = [],
+    isLoading: loadingTeams,
+    error: teamsError,
+  } = useDataQuery<Team[]>("teams:approved", getAllApprovedTeams, {
+    ttl: 1000 * 60 * 10, // 10 minuti di cache per le strategie approvate
+  });
+  const error = teamsError
+    ? "Failed to load community strategies. Please try again later."
+    : null;
   const [selectedTeamId, setSelectedTeamId] = useState<string | undefined>(
     undefined
   );
@@ -41,25 +49,6 @@ function EliteFourPage() {
     navigateBack,
     resetStrategy,
   } = useStrategyNavigation();
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      setLoadingTeams(true);
-      setError(null);
-      try {
-        const teams = await getAllApprovedTeams();
-        setApprovedTeams(teams);
-      } catch {
-        // Error is handled by setting the error state for UI feedback
-        setError(
-          "Failed to load community strategies. Please try again later."
-        );
-      } finally {
-        setLoadingTeams(false);
-      }
-    };
-    fetchTeams();
-  }, []);
 
   const currentTeamData = useMemo(
     () => approvedTeams.find((t) => t.id === selectedTeamId),
