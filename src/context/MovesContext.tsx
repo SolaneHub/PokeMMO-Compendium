@@ -3,12 +3,11 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
 } from "react";
 
 import { getMoves } from "@/firebase/services/movesService";
+import { useDataQuery } from "@/hooks/useDataQuery";
 import { MoveMaster } from "@/types/pokemon";
 
 export interface MovesContextType {
@@ -20,28 +19,32 @@ export interface MovesContextType {
 const MovesContext = createContext<MovesContextType | undefined>(undefined);
 
 export const MovesProvider = ({ children }: { children: ReactNode }) => {
-  const [moves, setMoves] = useState<MoveMaster[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchMoves = useCallback(async () => {
-    setIsLoading(true);
+  const fetcher = useCallback(async () => {
     try {
-      const movesData = await getMoves();
-      setMoves(movesData);
+      return await getMoves();
     } catch (error) {
       console.error("Error fetching moves:", error);
-    } finally {
-      setIsLoading(false);
+      throw error;
     }
   }, []);
 
-  useEffect(() => {
-    fetchMoves();
-  }, [fetchMoves]);
+  const {
+    data: moves = [],
+    isLoading,
+    refetch,
+  } = useDataQuery<MoveMaster[]>("moves:master", fetcher, {
+    ttl: 1000 * 60 * 60 * 24,
+  });
 
   const value = useMemo(
-    () => ({ moves, isLoading, refetch: fetchMoves }),
-    [moves, isLoading, fetchMoves]
+    () => ({
+      moves,
+      isLoading,
+      refetch: async () => {
+        await refetch();
+      },
+    }),
+    [moves, isLoading, refetch]
   );
 
   return (

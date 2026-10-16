@@ -178,3 +178,16 @@ export function useDataQuery<T>(
     refetch,
   };
 }
+
+if (import.meta.env.DEV && typeof window !== "undefined") {
+  (window as unknown as Record<string, unknown>)["__POKEMMO_CACHE__"] = {
+    getCache: () => cache,
+    getInflight: () => inflight,
+    clear: clearQueryCache,
+    getStats: () => ({
+      cachedQueries: cache.size,
+      keys: Array.from(cache.keys()),
+      inflightCount: inflight.size,
+    }),
+  };
+}

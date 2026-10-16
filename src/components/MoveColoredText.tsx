@@ -7,6 +7,7 @@ import {
   RefreshCw,
   Swords,
 } from "lucide-react";
+import { memo } from "react";
 
 import { usePokedexContext } from "@/context/PokedexContext";
 import { renderColoredText } from "@/utils/pokemonMoveColors";
@@ -71,4 +72,4 @@ const MoveColoredText = ({ text }: MoveColoredTextProps) => {
   );
 };
 
-export default MoveColoredText;
+export default memo(MoveColoredText);

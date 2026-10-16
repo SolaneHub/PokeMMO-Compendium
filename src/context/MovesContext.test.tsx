@@ -10,6 +10,8 @@ vi.mock("@/firebase/services/movesService", () => ({
   getMoves: vi.fn(),
 }));
 
+import { clearQueryCache } from "@/hooks/useDataQuery";
+
 describe("MovesContext", () => {
   const mockMoves: MoveMaster[] = [
     {
@@ -34,6 +36,7 @@ describe("MovesContext", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    clearQueryCache();
   });
 
   it("returns fallback and warns if useMoves is used outside of MovesProvider", () => {
