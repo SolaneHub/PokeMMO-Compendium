@@ -10,8 +10,8 @@ import { getPokemonVariants } from "@/utils/pokemonHelpers";
 import { calculateDefenses } from "@/utils/typeUtils";
 
 import PokemonEvolutions from "./PokemonEvolutions";
-import PokemonLocations, { Location } from "./PokemonLocations";
-import PokemonMoves, { Move } from "./PokemonMoves";
+import PokemonLocations from "./PokemonLocations";
+import PokemonMoves from "./PokemonMoves";
 import PokemonOverview from "./PokemonOverview";
 import PokemonStats from "./PokemonStats";
 
@@ -199,28 +199,10 @@ const PokemonSummary = ({
                     />
                   )}
                   {activeTab === "MOVES" && (
-                    <PokemonMoves
-                      moves={
-                        (pokemon.moves || []).map((m) => {
-                          const moveObj: Record<string, unknown> = { ...m };
-                          if (moveObj["level"] === undefined)
-                            moveObj["level"] = 0;
-                          return moveObj;
-                        }) as unknown as Move[]
-                      }
-                    />
+                    <PokemonMoves moves={pokemon.moves || []} />
                   )}
                   {activeTab === "LOCATIONS" && (
-                    <PokemonLocations
-                      locations={
-                        (pokemon.locations || []).map((l) => {
-                          const locObj: Record<string, unknown> = { ...l };
-                          if (locObj["rarity"] === undefined)
-                            locObj["rarity"] = "";
-                          return locObj;
-                        }) as unknown as Location[]
-                      }
-                    />
+                    <PokemonLocations locations={pokemon.locations || []} />
                   )}
                   {activeTab === "EVOLUTIONS" && (
                     <PokemonEvolutions

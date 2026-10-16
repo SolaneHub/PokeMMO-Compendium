@@ -3,14 +3,8 @@ import { useState } from "react";
 import { PokemonMove } from "@/types/pokemon";
 import { PokemonType, typeBackgrounds } from "@/utils/pokemonColors";
 
-export type Move = PokemonMove & {
-  cat?: string;
-  pwr?: string | number;
-  acc?: string | number;
-};
-
 interface PokemonMovesProps {
-  moves: Move[];
+  moves: PokemonMove[];
 }
 
 const getCategoryStyles = (cat: string) => {
@@ -74,7 +68,20 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
                   const moveType = (move.type || "") as PokemonType;
                   const typeBg =
                     typeBackgrounds[moveType] || typeBackgrounds[""];
-                  const moveCat = move.cat || move.category || "";
+                  const rawMove = move as Record<string, unknown>;
+                  const moveCat =
+                    (move.category as string | undefined) ||
+                    (rawMove["cat"] as string | undefined) ||
+                    "";
+                  const movePwr =
+                    move.power ??
+                    (rawMove["pwr"] as string | number | undefined) ??
+                    "---";
+                  const moveAcc =
+                    move.accuracy ??
+                    (rawMove["acc"] as string | number | undefined) ??
+                    "---";
+                  const moveLvl = move.level ?? 0;
 
                   return (
                     <div
@@ -83,7 +90,7 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
                     >
                       {/* LVL */}
                       <div className="font-mono text-[10px] font-bold text-slate-400 uppercase">
-                        {move.level}
+                        {moveLvl}
                       </div>
 
                       {/* MOVE */}
@@ -114,7 +121,7 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
 
                       {/* PWR */}
                       <div className="text-center font-mono text-xs whitespace-nowrap text-slate-300">
-                        {move.pwr || move.power || "---"}
+                        {movePwr}
                       </div>
 
                       {/* PP */}
@@ -124,7 +131,7 @@ const PokemonMoves = ({ moves }: PokemonMovesProps) => {
 
                       {/* ACC */}
                       <div className="text-center font-mono text-xs text-slate-300">
-                        {move.acc || move.accuracy || "-"}
+                        {moveAcc}
                       </div>
                     </div>
                   );
