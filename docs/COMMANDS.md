@@ -15,11 +15,26 @@ These commands are used to work on the project on your computer.
 
 Use these commands to keep the code clean and organized.
 
-| Command        | Description                                                     |
-| :------------- | :-------------------------------------------------------------- |
-| **`pnpm lint`** | Checks for code errors (ESLint rules).                          |
-| `pnpm lint:fix` | Checks for errors and tries to **fix them automatically**.      |
-| `pnpm format`   | Formats all code (spaces, commas, etc.) using Prettier.         |
+| Command        | Description                                                |
+| :------------- | :--------------------------------------------------------- |
+| **`pnpm lint`** | Checks for code errors (ESLint rules).                     |
+| `pnpm lint:fix` | Checks for errors and tries to **fix them automatically**. |
+| `pnpm format`   | Formats all code (spaces, commas, etc.) using Prettier.    |
+
+## 🧪 Testing & Verification
+
+Commands for unit, integration, and security/data verification.
+
+| Command               | Description                                                                                                                   |
+| :-------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| **`pnpm validate`**       | Pipeline unificata pre-commit e CI (type-check, ESLint, Stylelint, Prettier check, validazione dati statici e regole Firestore). |
+| `pnpm type-check`     | Verifica statica del type-checker TypeScript senza emissione (`tsc -b --noEmit`).                                             |
+| `pnpm test:run`       | Esecuzione headless dell'intera suite di test con Vitest.                                                                     |
+| `pnpm test:domain`    | Esecuzione ultra-rapida dei test algoritmici di dominio su runtime Node puro.                                                 |
+| `pnpm test:coverage`  | Generazione report di copertura del codice.                                                                                   |
+| `pnpm test:ui`        | Interfaccia grafica interattiva di Vitest.                                                                                    |
+| `pnpm validate:data`  | Verifica dell'integrità referenziale dei dati statici di gioco.                                                               |
+| `pnpm validate:rules` | Valida sintassi, collezioni e sicurezza delle regole Firestore.                                                               |
 
 ## 🌐 Site Deployment (Firebase Hosting)
 
