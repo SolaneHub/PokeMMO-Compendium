@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as pokedexService from "@/firebase/services/pokedexService";
 import { clearQueryCache } from "@/hooks/useDataQuery";
+import { createMockPokemon } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 
 import { PokedexProvider, usePokedexContext } from "./PokedexContext";
@@ -31,14 +32,14 @@ describe("PokedexContext", () => {
   });
 
   describe("with PokedexProvider", () => {
-    const mockSummary: Partial<Pokemon>[] = [
-      { id: "1", name: "Bulbasaur", types: ["Grass"] },
-      { id: 2, name: "Ivysaur", types: ["Grass"] },
+    const mockSummary: Pokemon[] = [
+      createMockPokemon({ id: "1", name: "Bulbasaur", types: ["Grass"] }),
+      createMockPokemon({ id: "2", name: "Ivysaur", types: ["Grass"] }),
     ];
 
     it("fetches data on mount and updates state correctly", async () => {
       vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue(
-        mockSummary as unknown as Pokemon[]
+        mockSummary
       );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
@@ -76,18 +77,16 @@ describe("PokedexContext", () => {
 
     it("getPokemonDetails fetches and caches detailed data", async () => {
       vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue([
-        { id: "1", name: "Bulbasaur", types: ["Grass"] },
-      ] as unknown as Pokemon[]);
+        createMockPokemon({ id: "1", name: "Bulbasaur", types: ["Grass"] }),
+      ]);
 
-      const fullDetails = {
+      const fullDetails = createMockPokemon({
         id: "1",
         name: "Bulbasaur",
         types: ["Grass", "Poison"],
         _isFullData: true,
-      };
-      vi.mocked(pokedexService.getPokemonById).mockResolvedValue(
-        fullDetails as unknown as Pokemon
-      );
+      });
+      vi.mocked(pokedexService.getPokemonById).mockResolvedValue(fullDetails);
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });
 
@@ -117,7 +116,7 @@ describe("PokedexContext", () => {
 
     it("refetch re-triggers data fetching", async () => {
       vi.mocked(pokedexService.getPokedexSummary).mockResolvedValue(
-        mockSummary as unknown as Pokemon[]
+        mockSummary
       );
 
       const { result } = renderHook(() => usePokedexContext(), { wrapper });

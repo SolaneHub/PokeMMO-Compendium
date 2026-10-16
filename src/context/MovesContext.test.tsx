@@ -2,6 +2,8 @@ import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { getMoves } from "@/firebase/services/movesService";
+import { clearQueryCache } from "@/hooks/useDataQuery";
+import { createMockMoveMaster } from "@/test/factories";
 import { MoveMaster } from "@/types/pokemon";
 
 import { MovesProvider, useMoves } from "./MovesContext";
@@ -10,11 +12,9 @@ vi.mock("@/firebase/services/movesService", () => ({
   getMoves: vi.fn(),
 }));
 
-import { clearQueryCache } from "@/hooks/useDataQuery";
-
 describe("MovesContext", () => {
   const mockMoves: MoveMaster[] = [
-    {
+    createMockMoveMaster({
       id: "tackle",
       name: "Tackle",
       type: "Normal",
@@ -22,8 +22,8 @@ describe("MovesContext", () => {
       power: "40",
       accuracy: "100",
       pp: "35",
-    },
-    {
+    }),
+    createMockMoveMaster({
       id: "growl",
       name: "Growl",
       type: "Normal",
@@ -31,7 +31,7 @@ describe("MovesContext", () => {
       power: "-",
       accuracy: "100",
       pp: "40",
-    },
+    }),
   ];
 
   beforeEach(() => {
@@ -53,9 +53,7 @@ describe("MovesContext", () => {
   });
 
   it("fetches moves on mount", async () => {
-    vi.mocked(getMoves).mockResolvedValueOnce(
-      mockMoves as unknown as MoveMaster[]
-    );
+    vi.mocked(getMoves).mockResolvedValueOnce(mockMoves);
 
     const TestComponent = () => {
       const { moves, isLoading } = useMoves();

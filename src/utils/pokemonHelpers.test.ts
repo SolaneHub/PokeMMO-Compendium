@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Raid } from "@/types/raids";
+import { createMockPokemon, createMockRaid } from "@/test/factories";
 
 import { Pokemon } from "../types/pokemon";
 import {
@@ -17,33 +17,32 @@ describe("pokemonHelpers", () => {
     });
 
     it("returns null if teamStrategies is empty", () => {
-      const raid = { teamStrategies: [] } as unknown as Raid;
+      const raid = createMockRaid({ teamStrategies: [] });
       expect(getActiveStrategyFromRaid(raid)).toBeNull();
     });
 
+    const strat1 = { id: "1", label: "Strategy 1", roles: {}, recommended: [] };
+    const strat2 = { id: "2", label: "Strategy 2", roles: {}, recommended: [] };
+
     it("returns the first strategy by default", () => {
-      const raid = {
-        teamStrategies: [{ name: "Strategy 1" }, { name: "Strategy 2" }],
-      } as unknown as Raid;
-      expect(getActiveStrategyFromRaid(raid)).toEqual({ name: "Strategy 1" });
+      const raid = createMockRaid({
+        teamStrategies: [strat1, strat2],
+      });
+      expect(getActiveStrategyFromRaid(raid)).toEqual(strat1);
     });
 
     it("returns the strategy at index if valid", () => {
-      const raid = {
-        teamStrategies: [{ name: "Strategy 1" }, { name: "Strategy 2" }],
-      } as unknown as Raid;
-      expect(getActiveStrategyFromRaid(raid, 1)).toEqual({
-        name: "Strategy 2",
+      const raid = createMockRaid({
+        teamStrategies: [strat1, strat2],
       });
+      expect(getActiveStrategyFromRaid(raid, 1)).toEqual(strat2);
     });
 
     it("returns the first strategy if index is out of bounds", () => {
-      const raid = {
-        teamStrategies: [{ name: "Strategy 1" }],
-      } as unknown as Raid;
-      expect(getActiveStrategyFromRaid(raid, 5)).toEqual({
-        name: "Strategy 1",
+      const raid = createMockRaid({
+        teamStrategies: [strat1],
       });
+      expect(getActiveStrategyFromRaid(raid, 5)).toEqual(strat1);
     });
   });
 
@@ -65,11 +64,11 @@ describe("pokemonHelpers", () => {
 
   describe("getPokemonVariants", () => {
     const allPokemon = [
-      { name: "Rotom" },
-      { name: "Heat Rotom" },
-      { name: "Pikachu" },
-      { name: "Charizard" },
-    ] as Pokemon[];
+      createMockPokemon({ name: "Rotom" }),
+      createMockPokemon({ name: "Heat Rotom" }),
+      createMockPokemon({ name: "Pikachu" }),
+      createMockPokemon({ name: "Charizard" }),
+    ];
 
     it("returns all members of the same family", () => {
       const result = getPokemonVariants("Wash Rotom", allPokemon);
@@ -88,12 +87,12 @@ describe("pokemonHelpers", () => {
   describe("getPokedexMainList", () => {
     it("filters and groups pokemon by family correctly", () => {
       const pokedexData = [
-        { name: "Pikachu" },
-        { name: "Raichu" },
-        { name: "Heat Rotom" },
-        { name: "Rotom" },
-        { name: "Wash Rotom" },
-      ] as Pokemon[];
+        createMockPokemon({ name: "Pikachu" }),
+        createMockPokemon({ name: "Raichu" }),
+        createMockPokemon({ name: "Heat Rotom" }),
+        createMockPokemon({ name: "Rotom" }),
+        createMockPokemon({ name: "Wash Rotom" }),
+      ];
 
       const result = getPokedexMainList(pokedexData);
       expect(result.map((p) => p.name)).toEqual([
@@ -105,9 +104,9 @@ describe("pokemonHelpers", () => {
 
     it("picks the first variant if the family entry itself is missing", () => {
       const pokedexData = [
-        { name: "Heat Rotom" },
-        { name: "Wash Rotom" },
-      ] as Pokemon[];
+        createMockPokemon({ name: "Heat Rotom" }),
+        createMockPokemon({ name: "Wash Rotom" }),
+      ];
 
       const result = getPokedexMainList(pokedexData);
       expect(result.map((p) => p.name)).toEqual(["Heat Rotom"]);

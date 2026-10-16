@@ -6,6 +6,7 @@ import {
   getPokemonById,
 } from "@/firebase/services/pokedexService";
 import * as dataQueryModule from "@/hooks/useDataQuery";
+import { createMockPokemon } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 
 import {
@@ -24,8 +25,8 @@ vi.mock("@/firebase/services/pokedexService", () => ({
 
 describe("usePokedexData hooks", () => {
   const mockPokemonList = [
-    { id: "2", name: "Ivysaur", catchRate: 45 },
-    { id: "1", name: "Bulbasaur", catchRate: 45 },
+    createMockPokemon({ id: "2", name: "Ivysaur", catchRate: 45 }),
+    createMockPokemon({ id: "1", name: "Bulbasaur", catchRate: 45 }),
   ];
 
   beforeEach(() => {
@@ -58,9 +59,7 @@ describe("usePokedexData hooks", () => {
         allPokemonData: Pokemon[];
         pokemonMap: Map<string, Pokemon>;
       }>;
-      vi.mocked(getPokedexSummary).mockResolvedValueOnce(
-        mockPokemonList as unknown as Pokemon[]
-      );
+      vi.mocked(getPokedexSummary).mockResolvedValueOnce(mockPokemonList);
 
       const result = await queryFn();
 
@@ -96,10 +95,12 @@ describe("usePokedexData hooks", () => {
       const call = vi.mocked(dataQueryModule.useDataQuery).mock.calls[0];
       if (!call) throw new Error("useDataQuery not called");
       const queryFn = call[1] as () => Promise<Pokemon>;
-      vi.mocked(getPokemonById).mockResolvedValueOnce({
-        id: "1",
-        name: "Bulbasaur",
-      } as unknown as Pokemon);
+      vi.mocked(getPokemonById).mockResolvedValueOnce(
+        createMockPokemon({
+          id: "1",
+          name: "Bulbasaur",
+        })
+      );
 
       const result = (await queryFn()) as {
         name: string;
