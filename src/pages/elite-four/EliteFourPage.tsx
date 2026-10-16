@@ -1,16 +1,16 @@
 import { Crown } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import MemberSelection from "@/components/MemberSelection";
 import PageLayout from "@/components/PageLayout";
-import PokemonSelection from "@/components/PokemonSelection";
-import RegionSelection from "@/components/RegionSelection";
 import StrategyModal from "@/components/StrategyModal";
 import TeamBuildModal from "@/components/TeamBuildModal";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { getAllApprovedTeams } from "@/firebase/services/teamsService";
 import { useDataQuery } from "@/hooks/useDataQuery";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
+import MemberSelection from "@/pages/elite-four/components/MemberSelection";
+import PokemonSelection from "@/pages/elite-four/components/PokemonSelection";
+import RegionSelection from "@/pages/elite-four/components/RegionSelection";
 import TeamSelection from "@/pages/elite-four/components/TeamSelection";
 import ViewTeamBuildButton from "@/pages/elite-four/components/ViewTeamBuildButton";
 import { StrategyStep } from "@/types/strategy";

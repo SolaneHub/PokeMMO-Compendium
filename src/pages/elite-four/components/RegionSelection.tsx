@@ -1,5 +1,6 @@
-import RegionCard from "@/components/RegionCard";
 import { pokemonRegions } from "@/utils/regionData";
+
+import RegionCard from "./RegionCard";
 
 interface RegionSelectionProps {
   readonly selectedRegion: string | null;

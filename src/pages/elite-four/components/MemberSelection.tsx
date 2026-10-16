@@ -1,6 +1,7 @@
-import EliteMemberCard from "@/components/EliteMemberCard";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 import { getDualShadow, typeBackgrounds } from "@/utils/pokemonColors";
+
+import EliteMemberCard from "./EliteMemberCard";
 
 interface MemberSelectionProps {
   readonly filteredEliteFour: EliteFourMember[];
