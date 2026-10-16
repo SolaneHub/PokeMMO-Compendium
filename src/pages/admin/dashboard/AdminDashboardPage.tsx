@@ -6,6 +6,7 @@ import PageLayout from "@/components/PageLayout";
 import Button from "@/components/ui/Button";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
 import { useAuth } from "@/context/AuthContext";
+import { useConfirm } from "@/context/ConfirmationContext";
 import { useToast } from "@/context/ToastContext";
 import { importMovesFromPokedex } from "@/firebase/services/movesService";
 import AdminTeamList from "@/pages/admin/components/AdminTeamList";
@@ -19,6 +20,7 @@ const AdminDashboardPage = () => {
   const [isImporting, setIsImporting] = useState(false);
   const navigate = useNavigate();
   const showToast = useToast();
+  const confirm = useConfirm();
 
   const tabs: { id: TeamStatus | "all" | "system"; label: string }[] = [
     { id: "all", label: "All Teams" },
@@ -29,12 +31,14 @@ const AdminDashboardPage = () => {
   ];
 
   const handleImportMoves = async () => {
-    if (
-      !globalThis.confirm(
-        "This will scan the Pokedex and add unique moves to the master list. Continue?"
-      )
-    )
-      return;
+    const confirmed = await confirm({
+      title: "Import Moves",
+      message:
+        "This will scan the Pokedex and add unique moves to the master list. Continue?",
+      confirmText: "Import",
+      cancelText: "Cancel",
+    });
+    if (!confirmed) return;
 
     setIsImporting(true);
     try {

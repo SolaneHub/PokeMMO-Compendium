@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 
 import Button from "@/components/ui/Button";
 import PageTitle from "@/components/ui/PageTitle";
+import { useConfirm } from "@/context/ConfirmationContext";
 import { useMoves } from "@/context/MovesContext";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { useToast } from "@/context/ToastContext";
@@ -304,6 +305,7 @@ const PokedexEditorPage = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isFetchingFull, setIsFetchingFull] = useState(false);
   const showToast = useToast();
+  const confirm = useConfirm();
 
   useEffect(() => {
     if (selectedPokemon) {
@@ -642,12 +644,14 @@ const PokedexEditorPage = () => {
 
   const handleAlignAllEvolutions = async () => {
     if (!fullList) return;
-    if (
-      !globalThis.confirm(
-        "Are you sure you want to align moves for ALL evolutions in the Pokedex? This may take a while."
-      )
-    )
-      return;
+    const confirmed = await confirm({
+      title: "Align Evolutions",
+      message:
+        "Are you sure you want to align moves for ALL evolutions in the Pokedex? This may take a while.",
+      confirmText: "Align All",
+      cancelText: "Cancel",
+    });
+    if (!confirmed) return;
 
     setIsSaving(true);
     try {
@@ -707,12 +711,13 @@ const PokedexEditorPage = () => {
 
   const handleDelete = async () => {
     if (!selectedPokemon?.id) return;
-    if (
-      !globalThis.confirm(
-        `Are you sure you want to delete ${selectedPokemon.name}?`
-      )
-    )
-      return;
+    const confirmed = await confirm({
+      title: "Delete Pokemon",
+      message: `Are you sure you want to delete ${selectedPokemon.name}?`,
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
+    if (!confirmed) return;
 
     setIsSaving(true);
     try {

@@ -12,6 +12,7 @@ import {
 import React, { ReactNode, useState } from "react";
 
 import Button from "@/components/ui/Button";
+import { useConfirm } from "@/context/ConfirmationContext";
 import { Team, TeamMember } from "@/types/teams";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
@@ -135,8 +136,16 @@ const EnemyItem = ({
   onNavigate,
   onRemoveEnemy,
 }: EnemyItemProps) => {
-  const handleRemove = () => {
-    if (globalThis.confirm(`Remove ${enemy} from ${memberName}'s plan?`)) {
+  const confirm = useConfirm();
+
+  const handleRemove = async () => {
+    const confirmed = await confirm({
+      title: "Remove Enemy",
+      message: `Remove ${enemy} from ${memberName}'s plan?`,
+      confirmText: "Remove",
+      cancelText: "Cancel",
+    });
+    if (confirmed) {
       onRemoveEnemy(memberName, enemy);
     }
   };

@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as AuthContext from "@/context/AuthContext";
+import * as ConfirmationContext from "@/context/ConfirmationContext";
 import * as ToastContext from "@/context/ToastContext";
 import * as MovesService from "@/firebase/services/movesService";
 
@@ -10,6 +11,7 @@ import AdminDashboardPage from "./AdminDashboardPage";
 
 // Mocking dependencies
 vi.mock("@/context/AuthContext");
+vi.mock("@/context/ConfirmationContext");
 vi.mock("@/context/ToastContext");
 vi.mock("@/firebase/services/movesService");
 vi.mock("@/pages/admin/components/AdminTeamList", () => ({
@@ -18,10 +20,12 @@ vi.mock("@/pages/admin/components/AdminTeamList", () => ({
 
 describe("AdminDashboardPage", () => {
   const showToastMock = vi.fn();
+  const confirmMock = vi.fn().mockResolvedValue(true);
 
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(ToastContext.useToast).mockReturnValue(showToastMock);
+    vi.mocked(ConfirmationContext.useConfirm).mockReturnValue(confirmMock);
     vi.stubGlobal(
       "confirm",
       vi.fn(() => true)

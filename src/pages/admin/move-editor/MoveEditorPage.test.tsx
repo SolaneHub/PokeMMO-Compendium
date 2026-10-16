@@ -9,6 +9,12 @@ import MoveEditorPage from "./MoveEditorPage";
 
 // Mocking dependencies
 vi.mock("@/context/MovesContext");
+vi.mock("@/context/ToastContext", () => ({
+  useToast: () => vi.fn(),
+}));
+vi.mock("@/context/ConfirmationContext", () => ({
+  useConfirm: () => vi.fn().mockResolvedValue(true),
+}));
 vi.mock("@/firebase/services/movesService");
 
 describe("MoveEditorPage", () => {

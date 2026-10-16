@@ -5,13 +5,17 @@ import { useNavigate } from "react-router-dom";
 import PageLayout from "@/components/PageLayout";
 import Button from "@/components/ui/Button";
 import { POKEMON_TYPES } from "@/constants/calculatorConstants";
+import { useConfirm } from "@/context/ConfirmationContext";
 import { useMoves } from "@/context/MovesContext";
+import { useToast } from "@/context/ToastContext";
 import { deleteMove, saveMove } from "@/firebase/services/movesService";
 import { MoveMaster } from "@/types/pokemon";
 
 const MoveEditorPage = () => {
   const { moves } = useMoves();
   const navigate = useNavigate();
+  const showToast = useToast();
+  const confirm = useConfirm();
 
   const [selectedMoveId, setSelectedMoveId] = useState<string>("");
   const [formData, setFormData] = useState<MoveMaster>({
@@ -55,11 +59,11 @@ const MoveEditorPage = () => {
     setIsSaving(true);
     try {
       await saveMove(formData);
-      alert("Move saved successfully!");
+      showToast("Move saved successfully!", "success");
       navigate("/admin/dashboard");
     } catch (error) {
       console.error("Error saving move:", error);
-      alert("Failed to save move.");
+      showToast("Failed to save move.", "error");
     } finally {
       setIsSaving(false);
     }
@@ -67,21 +71,22 @@ const MoveEditorPage = () => {
 
   const handleDelete = async () => {
     if (!selectedMove?.id) return;
-    if (
-      !globalThis.confirm(
-        `Are you sure you want to delete ${selectedMove.name}?`
-      )
-    )
-      return;
+    const confirmed = await confirm({
+      title: "Delete Move",
+      message: `Are you sure you want to delete ${selectedMove.name}?`,
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
+    if (!confirmed) return;
 
     setIsSaving(true);
     try {
       await deleteMove(selectedMove.id);
-      alert("Move deleted successfully!");
+      showToast("Move deleted successfully!", "success");
       navigate("/admin/dashboard");
     } catch (error) {
       console.error("Error deleting move:", error);
-      alert("Failed to delete move.");
+      showToast("Failed to delete move.", "error");
     } finally {
       setIsSaving(false);
     }

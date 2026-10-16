@@ -10,6 +10,9 @@ import EditorSidebar from "./EditorSidebar";
 vi.mock("@/utils/pokemonImageHelper", () => ({
   getSpriteUrlByName: vi.fn(() => "mock-sprite.png"),
 }));
+vi.mock("@/context/ConfirmationContext", () => ({
+  useConfirm: () => vi.fn().mockResolvedValue(true),
+}));
 
 describe("EditorSidebar", () => {
   const mockTeam = {

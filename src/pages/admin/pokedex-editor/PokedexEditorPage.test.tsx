@@ -13,6 +13,9 @@ import PokedexEditorPage from "./PokedexEditorPage";
 vi.mock("@/context/MovesContext");
 vi.mock("@/context/PokedexContext");
 vi.mock("@/context/ToastContext");
+vi.mock("@/context/ConfirmationContext", () => ({
+  useConfirm: () => vi.fn().mockResolvedValue(true),
+}));
 vi.mock("@/firebase/services/pokedexService");
 
 describe("PokedexEditorPage", () => {
