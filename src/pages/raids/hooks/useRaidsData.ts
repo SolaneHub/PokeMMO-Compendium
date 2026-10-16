@@ -1,15 +1,20 @@
+import { RAIDS_COLLECTION } from "@/firebase/services/common";
 import { useCollectionData } from "@/hooks/useCollectionData";
 import { RaidSchema } from "@/pages/raids/types/raids";
 
 export type { Raid } from "@/pages/raids/types/raids";
 
 export const useRaidsData = () => {
-  const { data, isLoading, error } = useCollectionData("raids", RaidSchema, {
-    sortFn: (a, b) => {
-      if (a.stars !== b.stars) return a.stars - b.stars;
-      return a.name.localeCompare(b.name);
-    },
-  });
+  const { data, isLoading, error } = useCollectionData(
+    RAIDS_COLLECTION,
+    RaidSchema,
+    {
+      sortFn: (a, b) => {
+        if (a.stars !== b.stars) return a.stars - b.stars;
+        return a.name.localeCompare(b.name);
+      },
+    }
+  );
 
   const raidsData = data || [];
   const raidsMap = new Map(raidsData.map((r) => [r.name, r]));

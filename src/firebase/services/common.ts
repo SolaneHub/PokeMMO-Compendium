@@ -20,6 +20,7 @@ export const PICKUP_COLLECTION = "pickup";
 export const BOSS_FIGHTS_COLLECTION = "boss_fights";
 export const TRAINER_RERUN_COLLECTION = "trainer_rerun";
 export const MOVES_COLLECTION = "moves";
+export const RAIDS_COLLECTION = "raids";
 
 /**
  * Executes Firestore batch operations in chunks (default 400) to respect Firestore's 500 writes limit.
