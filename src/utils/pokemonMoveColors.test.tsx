@@ -125,5 +125,20 @@ describe("pokemonMoveColors", () => {
       const span = container.querySelector("span");
       expect(span?.textContent).toBe("flamethrower");
     });
+
+    it("evidenzia correttamente Pokémon con simboli Unicode e mosse con slash", () => {
+      const text = "Use Nidoran♀ or Nidoran♂ with Flamethrower/Ice Beam!";
+      const mockMap = {
+        "Nidoran♀": "purple-gradient",
+        "Nidoran♂": "blue-gradient",
+      };
+      const { container } = render(<>{renderColoredText(text, mockMap)}</>);
+      const spans = container.querySelectorAll("span");
+      expect(spans.length).toBe(4);
+      expect(spans[0]?.textContent).toBe("Nidoran♀");
+      expect(spans[1]?.textContent).toBe("Nidoran♂");
+      expect(spans[2]?.textContent).toBe("Flamethrower");
+      expect(spans[3]?.textContent).toBe("Ice Beam");
+    });
   });
 });

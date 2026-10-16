@@ -108,7 +108,10 @@ function getColorData(
     .map((name) => name.replaceAll(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`))
     .join("|");
 
-  const pattern = new RegExp(String.raw`\b(${escapedNames})\b`, "gi");
+  const pattern = new RegExp(
+    String.raw`(?<![a-zA-Z0-9♀♂])(${escapedNames})(?![a-zA-Z0-9♀♂])`,
+    "gi"
+  );
 
   // Create unified O(1) lookup map (lowercase name -> gradient)
   // Moves take priority, followed by Pokémon
