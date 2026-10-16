@@ -15,9 +15,9 @@ import {
   POKEDEX_COLLECTION,
 } from "../../src/firebase/services/common";
 import { updateTrainerRerun } from "../../src/firebase/services/trainerRerunService";
-import { BossFight } from "../../src/pages/boss-fights/types/bossFights";
-import { TrainerRerunData } from "../../src/pages/trainer-rerun/types/trainerRerun";
+import { BossFight } from "../../src/types/bossFights";
 import { Pokemon } from "../../src/types/pokemon";
+import { TrainerRerunData } from "../../src/types/trainerRerun";
 
 /**
  * Verifies the number of Pokedex documents in Firestore.

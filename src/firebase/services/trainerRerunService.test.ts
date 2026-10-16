@@ -1,8 +1,8 @@
 import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 import { setMockDocs } from "@/test/setup";
+import { TrainerRerunData } from "@/types/trainerRerun";
 
 import { getTrainerRerun, updateTrainerRerun } from "./trainerRerunService";
 

@@ -1,10 +1,7 @@
 import { doc, setDoc } from "firebase/firestore/lite";
 
 import { db } from "@/firebase/config";
-import {
-  TrainerRerunData,
-  TrainerRerunDataSchema,
-} from "@/pages/trainer-rerun/types/trainerRerun";
+import { TrainerRerunData, TrainerRerunDataSchema } from "@/types/trainerRerun";
 
 import { fetchDocumentData, TRAINER_RERUN_COLLECTION } from "./common";
 
