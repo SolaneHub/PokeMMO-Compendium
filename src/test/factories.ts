@@ -1,8 +1,31 @@
 import { vi } from "vitest";
 
 import { PokedexContextType } from "@/context/PokedexContext";
+import { BossFight, BossFightTeam } from "@/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
 import { Team, TeamMember } from "@/types/teams";
+
+export function createMockBossFightTeam(
+  overrides?: Partial<BossFightTeam>
+): BossFightTeam {
+  return {
+    pokemonNames: ["Nidoking"],
+    pokemonStrategies: { Nidoking: ["Use Earthquake"] },
+    ...overrides,
+  };
+}
+
+export function createMockBossFight(overrides?: Partial<BossFight>): BossFight {
+  return {
+    name: "Giovanni",
+    region: "Kanto",
+    type: "Ground",
+    teams: {
+      "Hard Team": createMockBossFightTeam(),
+    },
+    ...overrides,
+  };
+}
 
 export function createMockPokemon(overrides?: Partial<Pokemon>): Pokemon {
   return {

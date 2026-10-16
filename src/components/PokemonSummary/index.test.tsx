@@ -1,8 +1,8 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
-import { Pokemon } from "@/types/pokemon";
+import { createMockPokedexContext, createMockPokemon } from "@/test/factories";
 
 import PokemonSummary from "./index";
 
@@ -27,16 +27,16 @@ vi.mock("./PokemonEvolutions", () => ({
 }));
 
 describe("PokemonSummary index", () => {
-  const mockPokemon = {
+  const mockPokemon = createMockPokemon({
     name: "Pikachu",
     types: ["Electric"],
     abilities: { main: ["Static"], hidden: "Lightning Rod" },
     baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
-  } as unknown as Pokemon;
+  });
 
   const allPokemon = [
     mockPokemon,
-    { name: "Raichu", types: ["Electric"] } as unknown as Pokemon,
+    createMockPokemon({ name: "Raichu", types: ["Electric"] }),
   ];
 
   const defaultProps = {
@@ -48,18 +48,22 @@ describe("PokemonSummary index", () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
-      getPokemonDetails: vi.fn().mockResolvedValue(mockPokemon),
-    } as unknown as PokedexContext.PokedexContextType);
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      createMockPokedexContext({
+        getPokemonDetails: vi.fn().mockResolvedValue(mockPokemon),
+      })
+    );
   });
 
-  it("renders all tabs correctly", () => {
+  it("renders all tabs correctly", async () => {
     render(<PokemonSummary {...defaultProps} />);
 
     expect(screen.getByText("Pikachu")).toBeInTheDocument();
 
     fireEvent.click(screen.getByText("STATS"));
-    expect(screen.getByTestId("stats")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("stats")).toBeInTheDocument();
+    });
 
     fireEvent.click(screen.getByText("MOVES"));
     expect(screen.getByTestId("moves")).toBeInTheDocument();

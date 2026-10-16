@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchCollectionData } from "@/firebase/services/common";
 import { clearQueryCache } from "@/hooks/useDataQuery";
+import { createMockBossFight } from "@/test/factories";
 import { BossFight } from "@/types/bossFights";
 
 import { useBossFightsData } from "./useBossFightsData";
@@ -23,12 +24,12 @@ describe("useBossFightsData", () => {
   });
 
   it("fetches and sorts boss fights correctly", async () => {
-    const mockData: Partial<BossFight>[] = [
-      { name: "Cynthia" },
-      { name: "Blue" },
-      { name: "Alder" },
+    const mockData: BossFight[] = [
+      createMockBossFight({ name: "Cynthia" }),
+      createMockBossFight({ name: "Blue" }),
+      createMockBossFight({ name: "Alder" }),
     ];
-    vi.mocked(fetchCollectionData).mockResolvedValue(mockData as BossFight[]);
+    vi.mocked(fetchCollectionData).mockResolvedValue(mockData);
 
     const { result } = renderHook(() => useBossFightsData());
 

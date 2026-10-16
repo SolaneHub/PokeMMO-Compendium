@@ -4,8 +4,12 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as BossFightsHooks from "@/pages/boss-fights/hooks/useBossFightsData";
+import {
+  createMockBossFight,
+  createMockPokedexContext,
+  createMockPokemon,
+} from "@/test/factories";
 import { BossFight } from "@/types/bossFights";
-import { Pokemon } from "@/types/pokemon";
 
 import BossFightsPage from "./BossFightsPage";
 
@@ -54,36 +58,22 @@ vi.mock("@/components/StrategyModal", () => ({
 }));
 
 describe("BossFightsPage", () => {
-  const mockPokedex = {
+  const mockPokedex = createMockPokedexContext({
     pokemonMap: new Map([
-      ["Nidoking", { name: "Nidoking", types: ["Ground"] } as Pokemon],
+      ["Nidoking", createMockPokemon({ name: "Nidoking", types: ["Ground"] })],
     ]),
-    isLoading: false,
-  };
+  });
 
-  const mockBossData: BossFight[] = [
-    {
-      name: "Giovanni",
-      region: "Kanto",
-      type: "Ground",
-      teams: {
-        "Hard Team": {
-          pokemonNames: ["Nidoking"],
-          pokemonStrategies: { Nidoking: ["Use Earthquake"] },
-        },
-      },
-    } as unknown as BossFight,
-  ];
+  const mockBossData: BossFight[] = [createMockBossFight()];
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokedex as unknown as PokedexContext.PokedexContextType
-    );
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(mockPokedex);
     vi.mocked(BossFightsHooks.useBossFightsData).mockReturnValue({
       bossFightsData: mockBossData,
       isLoading: false,
-    } as unknown as BossFightsHooks.UseBossFightsDataReturn);
+      error: null,
+    });
   });
 
   it("renders and opens strategy modal on card click", () => {

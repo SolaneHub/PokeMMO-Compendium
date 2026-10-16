@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as ToastContext from "@/context/ToastContext";
 import * as TeamEditorHooks from "@/pages/my-teams/hooks/useTeamEditor";
+import { createMockTeam, createMockTeamMember } from "@/test/factories";
 import { StrategyStep } from "@/types/strategy";
 import { Team, TeamMember } from "@/types/teams";
 
@@ -51,9 +52,7 @@ vi.mock("@/pages/my-teams/components/Editor/EditorSidebar", () => ({
 vi.mock("@/pages/my-teams/components/Editor/views/PokemonEditorView", () => ({
   default: ({ onSave }: { onSave: (data: TeamMember) => void }) => (
     <div data-testid="pokemon-editor">
-      <button
-        onClick={() => onSave({ name: "Raichu" } as unknown as TeamMember)}
-      >
+      <button onClick={() => onSave(createMockTeamMember({ name: "Raichu" }))}>
         Save Member
       </button>
     </div>
@@ -95,10 +94,10 @@ vi.mock("@/pages/my-teams/components/AddEnemyPokemonModal", () => ({
 }));
 
 describe("UserTeamEditorPage", () => {
-  const mockTeam: Team = {
+  const mockTeam: Team = createMockTeam({
     name: "My Pro Team",
     members: [
-      { name: "Pikachu" } as unknown as TeamMember,
+      createMockTeamMember({ name: "Pikachu" }),
       null,
       null,
       null,
@@ -107,7 +106,7 @@ describe("UserTeamEditorPage", () => {
     ],
     enemyPools: { Lorelei: ["Dewgong"] },
     strategies: { Lorelei: { Dewgong: [] } },
-  } as unknown as Team;
+  });
 
   const showToastMock = vi.fn();
 

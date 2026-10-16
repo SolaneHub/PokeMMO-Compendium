@@ -1,27 +1,28 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createMockBossFight, createMockBossFightTeam } from "@/test/factories";
 import { BossFight } from "@/types/bossFights";
 import { Pokemon } from "@/types/pokemon";
 
 import BossFightSection from "./BossFightSection";
 
-const mockBossFight: BossFight = {
+const mockBossFight: BossFight = createMockBossFight({
   name: "Giovanni",
   region: "Kanto",
   type: "Ground",
   image: "Giovanni.png",
   teams: {
-    "First Battle": {
+    "First Battle": createMockBossFightTeam({
       pokemonNames: ["Rhydon", "Nidoqueen"],
       pokemonStrategies: {},
-    },
-    Rematch: {
+    }),
+    Rematch: createMockBossFightTeam({
       pokemonNames: ["Garchomp", "Hippowdon"],
       pokemonStrategies: {},
-    },
+    }),
   },
-};
+});
 
 const mockPokemonMap = new Map<string, Pokemon>();
 
