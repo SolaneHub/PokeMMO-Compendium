@@ -23,64 +23,60 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
   const [teams, setTeams] = useState<Team[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [nextToken, setNextToken] = useState<{
+    userId: string;
+    teamId: string;
+  } | null>(null);
+  const [hasMore, setHasMore] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const confirm = useConfirm();
   const showToast = useToast();
   const [retryTrigger, setRetryTrigger] = useState(0);
   const navigate = useNavigate();
 
-  const fetchAllTeams = useCallback(async () => {
-    let allTeams: Team[] = [];
-    let nextPageToken: { userId: string; teamId: string } | null = null;
-    do {
-      const options: {
-        limit: number;
-        startAfter?: { userId: string; teamId: string };
-      } = {
-        limit: 100,
-      };
-      if (nextPageToken) {
-        options.startAfter = nextPageToken;
-      }
-
-      const result: {
-        teams: Team[];
-        nextPageToken: { userId: string; teamId: string } | null;
-      } =
+  const fetchInitialTeams = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result =
         status === "all"
-          ? await getAllUserTeams(options)
-          : await getTeamsByStatus(status, options);
-      allTeams = allTeams.concat(result.teams);
-      nextPageToken = result.nextPageToken;
-    } while (nextPageToken);
-    return allTeams;
+          ? await getAllUserTeams({ limit: 50 })
+          : await getTeamsByStatus(status, { limit: 50 });
+      setTeams(result.teams);
+      setNextToken(result.nextPageToken);
+      setHasMore(Boolean(result.nextPageToken));
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setLoading(false);
+    }
   }, [status]);
 
+  const handleLoadMore = async () => {
+    if (!nextToken || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const result =
+        status === "all"
+          ? await getAllUserTeams({ limit: 50, startAfter: nextToken })
+          : await getTeamsByStatus(status, {
+              limit: 50,
+              startAfter: nextToken,
+            });
+      setTeams((prev) => [...prev, ...result.teams]);
+      setNextToken(result.nextPageToken);
+      setHasMore(Boolean(result.nextPageToken));
+    } catch {
+      showToast("Failed to load more teams", "error");
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
   useEffect(() => {
-    let mounted = true;
-    const fetchTeams = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchAllTeams();
-        if (mounted) {
-          setTeams(data);
-        }
-      } catch (err) {
-        if (mounted) {
-          setError(err as Error);
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-    fetchTeams();
-    return () => {
-      mounted = false;
-    };
-  }, [fetchAllTeams, retryTrigger]);
+    fetchInitialTeams();
+  }, [fetchInitialTeams, retryTrigger]);
 
   const handleStatusChange = async (team: Team, newStatus: TeamStatus) => {
     if (!team.id || !team.userId) return;
@@ -103,8 +99,7 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
     setProcessingId(team.id);
     try {
       await updateTeamStatus(team.userId, team.id, newStatus);
-      const updatedData = await fetchAllTeams();
-      setTeams(updatedData);
+      await fetchInitialTeams();
       showToast(
         `Team "${team.name}" ${action.toLowerCase()}ed successfully.`,
         "success"
@@ -132,8 +127,7 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
     setProcessingId(team.id);
     try {
       await deleteUserTeam(team.userId, team.id);
-      const updatedData = await fetchAllTeams();
-      setTeams(updatedData);
+      await fetchInitialTeams();
       showToast(`Team "${team.name}" deleted successfully.`, "success");
     } catch (err) {
       console.error(err);
@@ -280,6 +274,18 @@ const AdminTeamList = ({ status }: AdminTeamListProps) => {
           </div>
         </div>
       ))}
+      {hasMore && (
+        <div className="col-span-full mt-4 flex justify-center">
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={handleLoadMore}
+            disabled={loadingMore}
+          >
+            {loadingMore ? "Loading more..." : "Load More Teams"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
