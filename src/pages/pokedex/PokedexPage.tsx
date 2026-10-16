@@ -8,7 +8,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { Pokemon } from "@/types/pokemon";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
-import { getFamilyName } from "@/utils/pokemonHelpers";
+import { getPokedexMainList } from "@/utils/pokemonHelpers";
 
 function PokedexPage() {
   const { fullList, isLoading } = usePokedexContext();
@@ -26,36 +26,7 @@ function PokedexPage() {
   };
 
   const mainPokemonList = useMemo(() => {
-    if (!fullList || fullList.length === 0) return [];
-
-    const processedFamilies = new Set<string>();
-    const result: Pokemon[] = [];
-    const familyGroups = new Map<string, Pokemon[]>();
-
-    fullList.forEach((p) => {
-      const family = getFamilyName(p.name);
-      if (!familyGroups.has(family)) {
-        familyGroups.set(family, []);
-      }
-      familyGroups.get(family)?.push(p);
-    });
-
-    fullList.forEach((p) => {
-      const family = getFamilyName(p.name);
-      if (processedFamilies.has(family)) return;
-
-      const variants = familyGroups.get(family);
-      if (!variants || variants.length === 0) return;
-
-      const mainEntry = variants.find((v) => v.name === family) ?? variants[0];
-
-      if (mainEntry) {
-        result.push(mainEntry);
-        processedFamilies.add(family);
-      }
-    });
-
-    return result;
+    return getPokedexMainList(fullList || []);
   }, [fullList]);
 
   const filteredPokemon = useMemo(() => {
