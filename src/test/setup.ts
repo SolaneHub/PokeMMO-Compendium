@@ -19,6 +19,20 @@ if (typeof HTMLDialogElement !== "undefined") {
   });
 }
 
+if (typeof window !== "undefined") {
+  class MockIntersectionObserver implements IntersectionObserver {
+    readonly root: Element | Document | null = null;
+    readonly rootMargin: string = "";
+    readonly thresholds: readonly number[] = [];
+    observe = vi.fn();
+    unobserve = vi.fn();
+    disconnect = vi.fn();
+    takeRecords = vi.fn(() => []);
+  }
+  window.IntersectionObserver = MockIntersectionObserver;
+  globalThis.IntersectionObserver = MockIntersectionObserver;
+}
+
 // Automatically cleanup after each test
 afterEach(() => {
   cleanup();
@@ -57,10 +71,27 @@ export const setMockDocs = (docs: unknown[]) => {
   mockDocs = docs;
 };
 
-const mapMockDoc = (doc: unknown) => ({
-  id: (doc as { id?: string }).id || "1",
-  data: () => doc,
-});
+const mapMockDoc = (doc: unknown) => {
+  const d = (doc && typeof doc === "object" ? doc : {}) as {
+    id?: string;
+    userId?: string;
+  };
+  const docId = d.id || "1";
+  const userId = d.userId || "mock-user-id";
+  return {
+    id: docId,
+    data: () => doc,
+    ref: {
+      id: docId,
+      parent: {
+        id: "teams",
+        parent: {
+          id: userId,
+        },
+      },
+    },
+  };
+};
 
 const firestoreMock = {
   initializeFirestore: vi.fn(() => ({})),

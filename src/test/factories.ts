@@ -1,9 +1,15 @@
+import type { DocumentSnapshot, QuerySnapshot } from "firebase/firestore/lite";
 import { vi } from "vitest";
 
+import { AuthContextType } from "@/context/AuthContext";
+import { MovesContextType } from "@/context/MovesContext";
 import { PokedexContextType } from "@/context/PokedexContext";
+import { UseTeamEditorReturn } from "@/pages/my-teams/hooks/useTeamEditor";
+import { UseUserTeamsReturn } from "@/pages/my-teams/hooks/useUserTeams";
+import { AppUser } from "@/types/auth";
 import { BossFight, BossFightTeam } from "@/types/bossFights";
 import { PickupLocation, PickupRegion } from "@/types/pickup";
-import { Pokemon } from "@/types/pokemon";
+import { MoveMaster, Pokemon } from "@/types/pokemon";
 import { Raid, RaidBuild, RaidStrategy } from "@/types/raids";
 import { SuperTrainer, SuperTrainerTeam } from "@/types/superTrainers";
 import { Team, TeamMember } from "@/types/teams";
@@ -198,4 +204,118 @@ export function createMockTrainerRerunData(
     ],
     ...overrides,
   };
+}
+
+export function createMockAppUser(overrides?: Partial<AppUser>): AppUser {
+  return {
+    uid: "user123",
+    email: "user@test.com",
+    displayName: "Test User",
+    ...overrides,
+  };
+}
+
+export function createMockAuthContext(
+  overrides?: Partial<AuthContextType>
+): AuthContextType {
+  return {
+    currentUser: createMockAppUser(),
+    isAdmin: false,
+    loading: false,
+    logout: vi.fn(async () => undefined),
+    googleSignIn: vi.fn(async () => undefined),
+    ...overrides,
+  };
+}
+
+export function createMockMoveMaster(
+  overrides?: Partial<MoveMaster>
+): MoveMaster {
+  return {
+    id: "tackle",
+    name: "Tackle",
+    type: "Normal",
+    category: "Physical",
+    power: 40,
+    accuracy: 100,
+    pp: 35,
+    ...overrides,
+  };
+}
+
+export function createMockMovesContext(
+  overrides?: Partial<MovesContextType>
+): MovesContextType {
+  return {
+    moves: [createMockMoveMaster()],
+    isLoading: false,
+    refetch: vi.fn(async () => undefined),
+    ...overrides,
+  };
+}
+
+export function createMockUseUserTeamsReturn(
+  overrides?: Partial<UseUserTeamsReturn>
+): UseUserTeamsReturn {
+  return {
+    teams: [],
+    loading: false,
+    createTeam: vi.fn(async () => "new-id"),
+    deleteTeam: vi.fn(async () => undefined),
+    authLoading: false,
+    currentUser: createMockAppUser(),
+    refreshTeams: vi.fn(async () => undefined),
+    ...overrides,
+  };
+}
+
+export function createMockUseTeamEditorReturn(
+  overrides?: Partial<UseTeamEditorReturn>
+): UseTeamEditorReturn {
+  return {
+    team: createMockTeam(),
+    setTeam: vi.fn(),
+    loading: false,
+    saving: false,
+    saveTeam: vi.fn(async () => undefined),
+    ...overrides,
+  };
+}
+
+export function createMockDocumentSnapshot<T = unknown>(
+  id: string,
+  data: T | null
+): DocumentSnapshot {
+  return {
+    id,
+    exists: () => data !== null,
+    data: () => data,
+    ref: { id },
+  } as unknown as DocumentSnapshot;
+}
+
+export function createMockQuerySnapshot<T = unknown>(
+  docs: { id: string; data: T; userId?: string }[]
+): QuerySnapshot {
+  const mappedDocs = docs.map((doc) => ({
+    id: doc.id,
+    data: () => doc.data,
+    ref: {
+      id: doc.id,
+      parent: {
+        id: "teams",
+        parent: {
+          id: doc.userId || "user123",
+        },
+      },
+    },
+  }));
+
+  return {
+    empty: docs.length === 0,
+    docs: mappedDocs,
+    forEach: (cb: (doc: (typeof mappedDocs)[number]) => void) => {
+      mappedDocs.forEach(cb);
+    },
+  } as unknown as QuerySnapshot;
 }
