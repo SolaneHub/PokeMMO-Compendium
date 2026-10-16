@@ -85,19 +85,82 @@ if (openWriteRegex.test(rulesContent)) {
 }
 
 // 6. Verifica protezione campi sensibili utenti
-if (
-  !rulesContent.includes(
-    "['admin', 'role', 'permissions', 'createdAt', 'banned']"
-  )
-) {
+const notUpdatingMatch = rulesContent.match(
+  /notUpdating\(\s*\[([^\]]+)\]\s*\)/
+);
+if (notUpdatingMatch) {
+  const fields = notUpdatingMatch[1]
+    .split(",")
+    .map((f) => f.trim().replace(/['"]/g, ""));
+  const requiredFields = [
+    "admin",
+    "role",
+    "permissions",
+    "createdAt",
+    "banned",
+  ];
+  const missingFields = requiredFields.filter((f) => !fields.includes(f));
+  if (missingFields.length > 0) {
+    addError(
+      "Campi protetti incompleti in notUpdating: richiesti admin, role, permissions, createdAt, banned"
+    );
+  }
+} else {
   addError(
-    "Regola match /users/{userId} non contiene la lista completa di campi protetti notUpdating(...)"
+    "Campi protetti incompleti in notUpdating: richiesti admin, role, permissions, createdAt, banned"
   );
 }
+
 if (!rulesContent.includes("!('admin' in request.resource.data)")) {
   addError(
     "Regola create in /users/{userId} non vieta esplicitamente il campo 'admin'"
   );
+}
+
+// 7. Verifica isolamento in lettura di /users/{userId}
+const usersBlockMatch = rulesContent.match(
+  /match\s+\/users\/\{userId\}\s*\{([\s\S]*?)\n\s*\}/
+);
+if (!usersBlockMatch) {
+  addError("Blocco match /users/{userId} non trovato");
+} else {
+  const usersBlock = usersBlockMatch[1];
+  if (/allow\s+read\s*:\s*if\s+true\s*;/.test(usersBlock)) {
+    addError("Rilevata lettura pubblica non protetta su /users/{userId}");
+  }
+  if (!usersBlock.includes("allow read: if isOwner(userId) || isAdmin();")) {
+    addError(
+      "Regola match /users/{userId} non contiene 'allow read: if isOwner(userId) || isAdmin();'"
+    );
+  }
+}
+
+// 8. Verifica protezione in scrittura delle collezioni di gioco statiche
+const staticCollections = [
+  "pokedex",
+  "raids",
+  "super_trainers",
+  "pickup",
+  "boss_fights",
+  "trainer_rerun",
+  "moves",
+];
+
+for (const col of staticCollections) {
+  const staticBlockRegex = new RegExp(
+    `match\\s+\\/${col}\\/\\{document=\\*\\*\\}\\s*\\{([\\s\\S]*?)\\}`
+  );
+  const staticMatch = rulesContent.match(staticBlockRegex);
+  if (!staticMatch) {
+    addError(`Blocco match /${col}/{document=**} non trovato`);
+  } else {
+    const blockContent = staticMatch[1];
+    if (!blockContent.includes("allow write: if isAdmin();")) {
+      addError(
+        `Collezione statica '${col}' non protetta in scrittura con 'allow write: if isAdmin();'`
+      );
+    }
+  }
 }
 
 // Report Finale
