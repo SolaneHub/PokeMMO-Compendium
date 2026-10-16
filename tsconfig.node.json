@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "composite": true,
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client"],
 
     /* Max Strictness Rules */
     "strict": true,
@@ -19,5 +25,11 @@
     "exactOptionalPropertyTypes": true,
     "useUnknownInCatchVariables": true
   },
-  "include": ["vite.config.ts", "vitest.config.domain.ts", "eslint.config.js"]
+  "include": [
+    "vite.config.ts",
+    "vitest.config.domain.ts",
+    "eslint.config.js",
+    "scripts/**/*.ts"
+  ],
+  "exclude": ["scripts/migrations/**"]
 }
