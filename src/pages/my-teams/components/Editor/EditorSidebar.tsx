@@ -12,7 +12,7 @@ import {
 import React, { ReactNode, useState } from "react";
 
 import Button from "@/components/ui/Button";
-import { Team, TeamMember } from "@/pages/my-teams/types/teams";
+import { Team, TeamMember } from "@/types/teams";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 import { getSpriteUrlByName } from "@/utils/pokemonImageHelper";
 

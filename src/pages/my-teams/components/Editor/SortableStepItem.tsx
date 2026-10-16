@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronUp, GripVertical } from "lucide-react";
 import React from "react";
 
-import { StrategyStep } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
 
 import StepForm from "./StepForm";
 

@@ -2,7 +2,7 @@ import { AlertTriangle, GitBranch, X } from "lucide-react";
 import { useState } from "react";
 
 import { usePokedexContext } from "@/context/PokedexContext";
-import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
+import { StrategyStep, StrategyVariation } from "@/types/strategy";
 
 import VariationForm from "./VariationForm";
 

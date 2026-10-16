@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as MovesContext from "@/context/MovesContext";
 import * as PokedexContext from "@/context/PokedexContext";
-import { TeamMember } from "@/pages/my-teams/types/teams";
+import { TeamMember } from "@/types/teams";
 
 import PokemonEditorView from "./PokemonEditorView";
 

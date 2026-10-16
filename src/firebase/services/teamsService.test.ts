@@ -1,8 +1,8 @@
 import * as firestore from "firebase/firestore/lite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { TeamStatus } from "@/pages/my-teams/types/teams";
 import { setMockDocs } from "@/test/setup";
+import { TeamStatus } from "@/types/teams";
 
 import {
   createUserTeam,

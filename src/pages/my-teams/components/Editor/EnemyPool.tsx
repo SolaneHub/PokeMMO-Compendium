@@ -1,7 +1,7 @@
 import { Plus, Sword, Trash2 } from "lucide-react";
 
 import Button from "@/components/ui/Button";
-import { StrategyStep } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
 interface EnemyPoolProps {

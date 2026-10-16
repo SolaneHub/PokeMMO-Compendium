@@ -7,8 +7,8 @@ import {
   createUserTeam,
   deleteUserTeam,
   getUserTeams,
-} from "@/pages/my-teams/services/teamsService";
-import { Team } from "@/pages/my-teams/types/teams";
+} from "@/firebase/services/teamsService";
+import { Team } from "@/types/teams";
 
 import { useUserTeams } from "./useUserTeams";
 
@@ -20,7 +20,7 @@ vi.mock("@/context/ToastContext", () => ({
   useToast: vi.fn(),
 }));
 
-vi.mock("@/pages/my-teams/services/teamsService", () => ({
+vi.mock("@/firebase/services/teamsService", () => ({
   createUserTeam: vi.fn(),
   deleteUserTeam: vi.fn(),
   getUserTeams: vi.fn(),

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { StrategyVariation } from "@/pages/my-teams/types/teams";
+import { StrategyVariation } from "@/types/strategy";
 
 import VariationForm from "./VariationForm";
 

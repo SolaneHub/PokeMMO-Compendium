@@ -10,10 +10,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as ConfirmationContext from "@/context/ConfirmationContext";
 import * as ToastContext from "@/context/ToastContext";
+import * as TeamsService from "@/firebase/services/teamsService";
 import * as UserTeamsHooks from "@/pages/my-teams/hooks/useUserTeams";
-import * as TeamsService from "@/pages/my-teams/services/teamsService";
-import { Team } from "@/pages/my-teams/types/teams";
 import { AppUser } from "@/types/auth";
+import { Team } from "@/types/teams";
 
 import MyTeamsPage from "./MyTeamsPage";
 
@@ -31,7 +31,7 @@ vi.mock("react-router-dom", async () => {
 vi.mock("@/pages/my-teams/hooks/useUserTeams");
 vi.mock("@/context/ConfirmationContext");
 vi.mock("@/context/ToastContext");
-vi.mock("@/pages/my-teams/services/teamsService");
+vi.mock("@/firebase/services/teamsService");
 
 // Mocking organisms
 vi.mock("@/pages/my-teams/components/TeamList", () => ({

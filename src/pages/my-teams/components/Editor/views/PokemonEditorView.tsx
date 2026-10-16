@@ -4,7 +4,7 @@ import React, { memo, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useMoves } from "@/context/MovesContext";
 import { usePokedexContext } from "@/context/PokedexContext";
-import { TeamMember } from "@/pages/my-teams/types/teams";
+import { TeamMember } from "@/types/teams";
 import { getPokemonIdByName } from "@/utils/pokedexDataExtraction";
 
 const NATURES = [

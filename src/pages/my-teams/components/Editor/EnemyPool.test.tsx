@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { StrategyStep } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
 import { EliteFourMember } from "@/utils/eliteFourMembers";
 
 import EnemyPool from "./EnemyPool";

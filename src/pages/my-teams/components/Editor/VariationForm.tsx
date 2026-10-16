@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { usePokedexContext } from "@/context/PokedexContext";
-import { StrategyStep, StrategyVariation } from "@/pages/my-teams/types/teams";
+import { StrategyStep, StrategyVariation } from "@/types/strategy";
 import { generateId } from "@/utils/idUtils";
 
 import { SortableNestedStepItem } from "./SortableNestedStepItem";

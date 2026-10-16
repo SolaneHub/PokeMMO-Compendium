@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as ToastContext from "@/context/ToastContext";
 import * as TeamEditorHooks from "@/pages/my-teams/hooks/useTeamEditor";
-import { StrategyStep, Team, TeamMember } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
+import { Team, TeamMember } from "@/types/teams";
 
 import UserTeamEditorPage from "./UserTeamEditorPage";
 

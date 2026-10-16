@@ -11,7 +11,8 @@ import StrategyEditor from "@/pages/my-teams/components/Editor/StrategyEditor";
 import PokemonEditorView from "@/pages/my-teams/components/Editor/views/PokemonEditorView";
 import RosterSlotCard from "@/pages/my-teams/components/RosterSlotCard";
 import { useTeamEditor } from "@/pages/my-teams/hooks/useTeamEditor";
-import { StrategyStep, TeamMember } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
+import { TeamMember } from "@/types/teams";
 import { EliteFourMember, eliteFourMembers } from "@/utils/eliteFourMembers";
 
 const REGIONS = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova"];

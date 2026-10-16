@@ -2,7 +2,7 @@ import { Plus, Sword } from "lucide-react";
 import React, { useState } from "react";
 
 import Button from "@/components/ui/Button";
-import { StrategyStep } from "@/pages/my-teams/types/teams";
+import { StrategyStep } from "@/types/strategy";
 
 import { SortableStepItem } from "./SortableStepItem";
 

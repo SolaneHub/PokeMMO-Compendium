@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 
-import { Team } from "@/pages/my-teams/types/teams";
+import { Team } from "@/types/teams";
 
 import TeamList from "./TeamList";
 

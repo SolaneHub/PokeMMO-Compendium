@@ -4,11 +4,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
-import {
-  getUserTeam,
-  updateUserTeam,
-} from "@/pages/my-teams/services/teamsService";
-import { Team } from "@/pages/my-teams/types/teams";
+import { getUserTeam, updateUserTeam } from "@/firebase/services/teamsService";
+import { Team } from "@/types/teams";
 
 import { useTeamEditor } from "./useTeamEditor";
 
@@ -25,7 +22,7 @@ vi.mock("@/context/ToastContext", () => ({
   useToast: vi.fn(),
 }));
 
-vi.mock("@/pages/my-teams/services/teamsService", () => ({
+vi.mock("@/firebase/services/teamsService", () => ({
   getUserTeam: vi.fn(),
   updateUserTeam: vi.fn(),
 }));

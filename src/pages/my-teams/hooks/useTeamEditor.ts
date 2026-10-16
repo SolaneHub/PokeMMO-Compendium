@@ -3,15 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
-import {
-  getUserTeam,
-  updateUserTeam,
-} from "@/pages/my-teams/services/teamsService";
-import {
-  StrategyStep,
-  StrategyVariation,
-  Team,
-} from "@/pages/my-teams/types/teams";
+import { getUserTeam, updateUserTeam } from "@/firebase/services/teamsService";
+import { StrategyStep, StrategyVariation } from "@/types/strategy";
+import { Team } from "@/types/teams";
 
 const ensureStepIds = (steps: StrategyStep[]): StrategyStep[] => {
   if (!Array.isArray(steps)) return [];
