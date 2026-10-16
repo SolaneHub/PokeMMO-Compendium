@@ -3,6 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as AuthContext from "@/context/AuthContext";
+import { createMockAppUser, createMockAuthContext } from "@/test/factories";
 
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -24,19 +25,23 @@ describe("ProtectedRoute", () => {
   });
 
   it("shows loading state", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: true,
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: true,
+      })
+    );
 
     render(<ProtectedRoute>Content</ProtectedRoute>);
     expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 
   it("redirects to login if not authenticated", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: null,
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: null,
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -48,11 +53,13 @@ describe("ProtectedRoute", () => {
   });
 
   it("redirects to home if adminOnly and user is not admin", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: { uid: "123" },
-      isAdmin: false,
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: createMockAppUser({ uid: "123" }),
+        isAdmin: false,
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -64,11 +71,13 @@ describe("ProtectedRoute", () => {
   });
 
   it("renders children if authenticated and (not adminOnly or user is admin)", () => {
-    vi.mocked(AuthContext.useAuth).mockReturnValue({
-      loading: false,
-      currentUser: { uid: "123" },
-      isAdmin: true,
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.mocked(AuthContext.useAuth).mockReturnValue(
+      createMockAuthContext({
+        loading: false,
+        currentUser: createMockAppUser({ uid: "123" }),
+        isAdmin: true,
+      })
+    );
 
     render(
       <MemoryRouter>

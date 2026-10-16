@@ -2,42 +2,27 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import TrainerStrategySection from "@/components/TrainerStrategySection";
+import { createMockPokemon } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 
 const mockPokemonMap = new Map<string, Pokemon>([
   [
     "Pikachu",
-    {
+    createMockPokemon({
       id: "025",
       name: "Pikachu",
       types: ["Electric"],
-      baseStats: {
-        hp: 35,
-        attack: 55,
-        defense: 40,
-        spAtk: 50,
-        spDef: 50,
-        speed: 90,
-      },
       moves: [],
-    } as unknown as Pokemon,
+    }),
   ],
   [
     "Charizard",
-    {
+    createMockPokemon({
       id: "006",
       name: "Charizard",
       types: ["Fire", "Flying"],
-      baseStats: {
-        hp: 78,
-        attack: 84,
-        defense: 78,
-        spAtk: 109,
-        spDef: 85,
-        speed: 100,
-      },
       moves: [],
-    } as unknown as Pokemon,
+    }),
   ],
 ]);
 

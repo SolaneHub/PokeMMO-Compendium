@@ -1,10 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import {
-  PokedexContextType,
-  usePokedexContext,
-} from "@/context/PokedexContext";
+import { usePokedexContext } from "@/context/PokedexContext";
+import { createMockPokedexContext } from "@/test/factories";
 
 import MoveColoredText from "./MoveColoredText";
 
@@ -28,10 +26,12 @@ describe("MoveColoredText component", () => {
   });
 
   it("renders raw text inside a span when isLoading is true", () => {
-    vi.mocked(usePokedexContext).mockReturnValueOnce({
-      pokemonColorMap: {},
-      isLoading: true,
-    } as unknown as PokedexContextType);
+    vi.mocked(usePokedexContext).mockReturnValueOnce(
+      createMockPokedexContext({
+        pokemonColorMap: {},
+        isLoading: true,
+      })
+    );
 
     const { container } = render(
       <MoveColoredText text="Raw text while loading [SWITCH]" />

@@ -3,17 +3,19 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
 import * as AuthContext from "@/context/AuthContext";
-import { AppUser } from "@/types/auth";
+import { createMockAppUser, createMockAuthContext } from "@/test/factories";
 
 import Sidebar from "./Sidebar";
 
 describe("Sidebar component", () => {
   it("renders navigation links for a guest user", () => {
-    vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: null,
-      isAdmin: false,
-      logout: vi.fn(),
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.spyOn(AuthContext, "useAuth").mockReturnValue(
+      createMockAuthContext({
+        currentUser: null,
+        isAdmin: false,
+        logout: vi.fn(),
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -29,11 +31,16 @@ describe("Sidebar component", () => {
   });
 
   it("renders user-specific links when logged in", () => {
-    vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { uid: "test-uid", email: "test@example.com" } as AppUser,
-      isAdmin: false,
-      logout: vi.fn(),
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.spyOn(AuthContext, "useAuth").mockReturnValue(
+      createMockAuthContext({
+        currentUser: createMockAppUser({
+          uid: "test-uid",
+          email: "test@example.com",
+        }),
+        isAdmin: false,
+        logout: vi.fn(),
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -47,11 +54,16 @@ describe("Sidebar component", () => {
   });
 
   it("renders admin links when user is admin", () => {
-    vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { uid: "admin-uid", email: "admin@example.com" } as AppUser,
-      isAdmin: true,
-      logout: vi.fn(),
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.spyOn(AuthContext, "useAuth").mockReturnValue(
+      createMockAuthContext({
+        currentUser: createMockAppUser({
+          uid: "admin-uid",
+          email: "admin@example.com",
+        }),
+        isAdmin: true,
+        logout: vi.fn(),
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -64,11 +76,16 @@ describe("Sidebar component", () => {
 
   it("calls logout when logout button is clicked", async () => {
     const mockLogout = vi.fn().mockResolvedValue(undefined);
-    vi.spyOn(AuthContext, "useAuth").mockReturnValue({
-      currentUser: { uid: "test-uid", email: "test@example.com" } as AppUser,
-      isAdmin: false,
-      logout: mockLogout,
-    } as unknown as ReturnType<typeof AuthContext.useAuth>);
+    vi.spyOn(AuthContext, "useAuth").mockReturnValue(
+      createMockAuthContext({
+        currentUser: createMockAppUser({
+          uid: "test-uid",
+          email: "test@example.com",
+        }),
+        isAdmin: false,
+        logout: mockLogout,
+      })
+    );
 
     render(
       <MemoryRouter>

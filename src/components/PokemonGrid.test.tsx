@@ -1,24 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
+import { createMockPokemon } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 
 import PokemonGrid from "./PokemonGrid";
-
-// Mocking IntersectionObserver as a class
-beforeEach(() => {
-  globalThis.IntersectionObserver = class {
-    observe() {
-      return vi.fn();
-    }
-    unobserve() {
-      return vi.fn();
-    }
-    disconnect() {
-      return vi.fn();
-    }
-  } as unknown as typeof IntersectionObserver;
-});
 
 // Mocking PokemonCard
 vi.mock("@/components/PokemonCard", () => ({
@@ -33,8 +19,8 @@ vi.mock("@/components/PokemonCard", () => ({
 
 describe("PokemonGrid", () => {
   const mockPokemon: Pokemon[] = [
-    { id: "1", name: "Bulbasaur", types: ["Grass"] } as unknown as Pokemon,
-    { id: "2", name: "Ivysaur", types: ["Grass"] } as unknown as Pokemon,
+    createMockPokemon({ id: "1", name: "Bulbasaur", types: ["Grass"] }),
+    createMockPokemon({ id: "2", name: "Ivysaur", types: ["Grass"] }),
   ];
 
   const defaultProps = {
