@@ -12,9 +12,10 @@ import { db } from "../../src/firebase/config";
 import {
   BOSS_FIGHTS_COLLECTION,
   commitBatchInChunks,
+  POKEDEX_COLLECTION,
 } from "../../src/firebase/services/common";
+import { updateTrainerRerun } from "../../src/firebase/services/trainerRerunService";
 import { BossFight } from "../../src/pages/boss-fights/types/bossFights";
-import { updateTrainerRerun } from "../../src/pages/trainer-rerun/services/trainerRerunService";
 import { TrainerRerunData } from "../../src/pages/trainer-rerun/types/trainerRerun";
 import { Pokemon } from "../../src/types/pokemon";
 
@@ -23,7 +24,7 @@ import { Pokemon } from "../../src/types/pokemon";
  */
 export async function verifyPokedexMigration() {
   try {
-    const coll = collection(db, "pokedex");
+    const coll = collection(db, POKEDEX_COLLECTION);
     const snapshot = await getCountFromServer(coll);
     const serverCount = snapshot.data().count;
     console.log(`✅ Verifica completata! Firestore: ${serverCount} documenti.`);
@@ -38,7 +39,7 @@ export async function verifyPokedexMigration() {
  */
 export async function cleanupPokedexImages() {
   try {
-    const pokedexRef = collection(db, "pokedex");
+    const pokedexRef = collection(db, POKEDEX_COLLECTION);
     const q = query(pokedexRef);
     const querySnapshot = await getDocs(q);
 
@@ -47,7 +48,7 @@ export async function cleanupPokedexImages() {
     let totalCleaned = 0;
 
     await commitBatchInChunks(docs, batchSize, (batch, document) => {
-      const docRef = doc(db, "pokedex", document.id);
+      const docRef = doc(db, POKEDEX_COLLECTION, document.id);
       batch.update(docRef, {
         sprite: deleteField(),
         background: deleteField(),
@@ -132,7 +133,7 @@ export async function migratePokedexToFirestore(sourcePokedexData: Pokemon[]) {
       batchSize,
       (batch, pokemon) => {
         if (pokemon.id) {
-          const docRef = doc(db, "pokedex", pokemon.id.toString());
+          const docRef = doc(db, POKEDEX_COLLECTION, pokemon.id.toString());
           const cleanPokemon = structuredClone(pokemon);
           batch.set(docRef, cleanPokemon);
           totalMigrated++;

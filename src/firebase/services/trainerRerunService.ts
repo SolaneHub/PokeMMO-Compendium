@@ -2,13 +2,11 @@ import { doc, setDoc } from "firebase/firestore/lite";
 
 import { db } from "@/firebase/config";
 import {
-  fetchDocumentData,
-  TRAINER_RERUN_COLLECTION,
-} from "@/firebase/services/common";
-import {
   TrainerRerunData,
   TrainerRerunDataSchema,
 } from "@/pages/trainer-rerun/types/trainerRerun";
+
+import { fetchDocumentData, TRAINER_RERUN_COLLECTION } from "./common";
 
 /**
  * Fetches Trainer Rerun data from Firestore.

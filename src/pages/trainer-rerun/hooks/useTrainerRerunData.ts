@@ -1,5 +1,5 @@
+import { getTrainerRerun } from "@/firebase/services/trainerRerunService";
 import { useDataQuery } from "@/hooks/useDataQuery";
-import { getTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunService";
 import { TrainerRerunData } from "@/pages/trainer-rerun/types/trainerRerun";
 
 export const useTrainerRerunData = () => {

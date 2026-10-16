@@ -1,12 +1,12 @@
 import { renderHook, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { getTrainerRerun } from "@/firebase/services/trainerRerunService";
 import { clearQueryCache } from "@/hooks/useDataQuery";
-import { getTrainerRerun } from "@/pages/trainer-rerun/services/trainerRerunService";
 
 import { useTrainerRerunData } from "./useTrainerRerunData";
 
-vi.mock("@/pages/trainer-rerun/services/trainerRerunService", () => ({
+vi.mock("@/firebase/services/trainerRerunService", () => ({
   getTrainerRerun: vi.fn(),
 }));
 
