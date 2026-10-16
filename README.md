@@ -25,17 +25,17 @@ Welcome to the **PokéMMO Compendium** — your comprehensive, step-by-step comp
 
 - **📱 Mobile-First Design**: Clean, responsive interface that works perfectly on any device.
 - **🔐 User Data (Firebase)**: Features like "My Teams" allow authenticated users to create, save, and manage their own custom teams and strategies using Firebase Firestore. Data like Boss Fights and Pokédex are also managed via Firestore for easier updates.
-- **🌐 Dynamic Base URL Handling**: Supports different base URLs for local development and GitHub Pages deployment.
+- **🌐 Dynamic Base URL Handling**: Supports different base URLs for local development and Firebase Hosting deployment.
 - **🔄 Workflow & Versioning**: Structured use of GitHub Labels and Semantic Versioning (see [WORKFLOW.md](./docs/WORKFLOW.md)).
 
 ---
 
 ## ⚡ Status
 
-![React](https://img.shields.io/badge/React-18.3.1-00d8ff?logo=react&logoColor=white&style=flat)
-![Vite](https://img.shields.io/badge/Vite-6.2.0-646CFF?logo=vite&logoColor=white&style=flat)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.18-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
-![React Router](https://img.shields.io/badge/React_Router-7.11.0-CA4245?logo=react-router&logoColor=white&style=flat)
+![React](https://img.shields.io/badge/React-19.2.4-00d8ff?logo=react&logoColor=white&style=flat)
+![Vite](https://img.shields.io/badge/Vite-7.3.1-646CFF?logo=vite&logoColor=white&style=flat)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.2.2-06B6D4?logo=tailwindcss&logoColor=white&style=flat)
+![React Router](https://img.shields.io/badge/React_Router-7.14.0-CA4245?logo=react-router&logoColor=white&style=flat)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=black&style=flat)
 ![License](https://img.shields.io/badge/License-Unlicense-blue)
 
@@ -118,9 +118,11 @@ _Advanced editor for building and refining user teams._
 ├── public/             # Static assets (images, icons)
 ├── src/
 │   ├── app/            # Core app logic
-│   │   ├── App.tsx     # Main component & routing logic
+│   │   ├── App.tsx     # Root provider shell & Outlet container
+│   │   ├── Providers.tsx # Composition of app context providers
+│   │   ├── router.tsx  # Central routing logic & lazy loading
 │   │   ├── index.css   # Global styles & Tailwind directives
-│   │   ├── main.tsx    # Entry point and Router configuration
+│   │   └── main.tsx    # Application DOM entry point
 │   ├── firebase/       # Firebase configuration and service layer
 │   │   ├── config.ts   # App initialization
 │   │   └── services/   # Domain-specific services (teams, pokedex, moves, etc.)
@@ -139,10 +141,9 @@ _Advanced editor for building and refining user teams._
 │   ├── components/     # UI components (Atomic Design)
 │   ├── context/        # Global state and providers
 │   ├── hooks/          # Custom React hooks
-│   ├── services/       # API and data services
+│   ├── types/          # Domain models & Zod schemas
 │   ├── constants/      # App constants
 │   └── utils/          # Helper functions
-├── .prettierrc         # Prettier configuration
 ├── eslint.config.js    # ESLint configuration
 ├── package.json        # Dependencies and scripts
 └── vite.config.ts      # Vite configuration
@@ -154,8 +155,8 @@ _Advanced editor for building and refining user teams._
 
 ### Prerequisites
 
-- **Node.js** (v18+ recommended)
-- **npm** (v9+) or Yarn
+- **Node.js** (>=22.22.2)
+- **pnpm** (>=10.33.0)
 
 ### Installation
 
@@ -166,13 +167,13 @@ _Advanced editor for building and refining user teams._
     ```
 2.  **Install dependencies:**
     ```bash
-    npm install
+    pnpm install
     ```
 
 ### Running Development Environment
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 - **Frontend**: `http://localhost:5173`
@@ -180,7 +181,7 @@ npm run dev
 ### Building for Production
 
 ```bash
-npm run build
+pnpm build
 ```
 
 This compiles the application into the `dist/` directory, ready for deployment.
@@ -188,9 +189,10 @@ This compiles the application into the `dist/` directory, ready for deployment.
 ### Linting & Formatting
 
 ```bash
-npm run lint         # Check for code quality issues
-npm run lint:fix     # Auto-fix issues
-npm run format       # Format code with Prettier
+pnpm lint         # Check for code quality issues
+pnpm lint:fix     # Auto-fix issues
+pnpm format       # Format code with Prettier
+pnpm validate     # Run full validation check
 ```
 
 ---

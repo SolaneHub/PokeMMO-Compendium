@@ -1,4 +1,4 @@
-# GEMINI.md - Project Context for AI Agents
+# AGENTS.md - Project Context for AI Agents
 
 ## Project Overview
 
@@ -9,20 +9,20 @@
 ## Technology Stack
 
 - **Frontend Framework:** React 19
-- **Build Tool:** Vite 6
+- **Build Tool:** Vite 7
 - **Styling:** Tailwind CSS 4
 - **Routing:** React Router 7
 - **Backend (Cloud):** Firebase (Firestore, Authentication) for user and public game data.
-- **Deployment:** GitHub Pages.
+- **Deployment:** Firebase Hosting (https://pokemmo-compendium.web.app/)
 
 ## Project Structure
 
-- **`src/app/`**: Application entry point and global styles.
+- **`src/app/`**: Application entry point, global styles, central routing and providers.
 - **`src/pages/`**: Feature-specific page components.
 - **`src/components/`**: Atomic components (atoms, molecules, organisms, templates).
 - **`src/context/`**: React contexts and providers (Auth, Toast, Confirmation).
 - **`src/hooks/`**: Custom hooks.
-- **`src/services/`**: API and data services.
+- **`src/types/`**: Domain schemas and TypeScript types (Pokemon, Strategy, TrainerRerun, BossFights, etc.).
 - **`src/utils/`**: Helper functions and utilities.
 - **`src/constants/`**: Application constants.
 - **`src/firebase/`**: Firebase configuration and domain-specific services.
@@ -30,7 +30,8 @@
 
 ## Key Files
 
-- **`src/app/App.tsx`**: Main application component containing the Routing logic.
+- **`src/app/App.tsx`**: Root providers shell and Outlet container.
+- **`src/app/router.tsx`**: Central router configuration, code-splitting (lazy loading) and route tree.
 - **`src/firebase/services/`**: Collection of domain-specific Firestore services.
 - **`package.json`**: Dependencies and scripts.
 - **`vite.config.ts`**: Vite configuration (includes path aliases and base URL handling).
@@ -48,7 +49,7 @@
   pnpm build
   ```
 
-  - Builds the app to the `dist/` folder. Copies `index.html` to `404.html` for SPA routing on GitHub Pages.
+  - Builds the app to the `dist/` folder.
 - **Linting & Formatting:**
   ```bash
   pnpm lint
@@ -61,5 +62,5 @@
 - **Styling:** Use Tailwind CSS utility classes.
 - **Data Handling:**
   - **Game & User Data:** Stored in Firebase Firestore. Accessed via domain-specific services in `src/firebase/services/`.
-- **Routing:** All routes are defined in `App.tsx`. Protected routes are wrapped in `<ProtectedRoute>`.
+- **Routing:** All routes are defined in `src/app/router.tsx`. Protected routes are wrapped in `<ProtectedRoute>`.
 - **Component Structure:** Feature-based folder structure is preferred (`src/pages/<feature>/components`).
