@@ -4,8 +4,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as RaidsHooks from "@/pages/raids/hooks/useRaidsData";
-import { Pokemon } from "@/types/pokemon";
-import { Raid } from "@/types/raids";
+import {
+  createMockPokedexContext,
+  createMockPokemon,
+  createMockRaid,
+} from "@/test/factories";
 
 import RaidsPage from "./RaidsPage";
 
@@ -30,30 +33,26 @@ vi.mock("@/pages/raids/components/RaidModal", () => ({
 }));
 
 describe("RaidsPage", () => {
-  const mockPokedex = {
-    pokemonMap: new Map<string, Pokemon>([
-      ["Pikachu", { name: "Pikachu", types: ["Electric"] } as Pokemon],
+  const mockRaid = createMockRaid({ name: "Pikachu", stars: 5 });
+  const mockPokedex = createMockPokedexContext({
+    pokemonMap: new Map([
+      ["Pikachu", createMockPokemon({ name: "Pikachu", types: ["Electric"] })],
     ]),
     isLoading: false,
-  };
+  });
 
   const mockRaids = {
-    raidsData: [{ name: "Pikachu", stars: 5 } as Raid],
-    raidsMap: new Map<string, Raid>([
-      ["Pikachu", { name: "Pikachu", stars: 5 } as Raid],
-    ]),
+    raidsData: [mockRaid],
+    raidsMap: new Map([["Pikachu", mockRaid]]),
     starLevels: [1, 2, 3, 4, 5],
     isLoading: false,
+    error: null,
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokedex as unknown as PokedexContext.PokedexContextType
-    );
-    vi.mocked(RaidsHooks.useRaidsData).mockReturnValue(
-      mockRaids as unknown as RaidsHooks.UseRaidsDataReturn
-    );
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(mockPokedex);
+    vi.mocked(RaidsHooks.useRaidsData).mockReturnValue(mockRaids);
   });
 
   it("shows loading state", () => {
@@ -62,7 +61,8 @@ describe("RaidsPage", () => {
       raidsData: [],
       raidsMap: new Map(),
       starLevels: [],
-    } as unknown as RaidsHooks.UseRaidsDataReturn);
+      error: null,
+    });
     render(<RaidsPage />);
     expect(screen.getByText("Loading Raids data...")).toBeInTheDocument();
   });

@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as TrainerRerunHooks from "@/pages/trainer-rerun/hooks/useTrainerRerunData";
-import { TrainerRerunData } from "@/types/trainerRerun";
+import { createMockTrainerRerunData } from "@/test/factories";
 
 import TrainerRerunPage from "./TrainerRerunPage";
 
@@ -21,14 +21,10 @@ describe("TrainerRerunPage", () => {
 
   it("renders rerun data", () => {
     vi.mocked(TrainerRerunHooks.useTrainerRerunData).mockReturnValue({
-      trainerRerunData: {
-        intro: { title: "Rerun Guide", description: ["Desc 1"] },
-        requirements: { title: "Reqs", items: [] },
-        tips_tricks: { title: "Tips", items: [] },
-        regions: [],
-      } as TrainerRerunData,
+      trainerRerunData: createMockTrainerRerunData(),
       isLoading: false,
-    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+      error: null,
+    });
 
     render(
       <MemoryRouter>
@@ -44,7 +40,7 @@ describe("TrainerRerunPage", () => {
       trainerRerunData: null,
       isLoading: true,
       error: null,
-    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+    });
 
     render(
       <MemoryRouter>
@@ -61,7 +57,7 @@ describe("TrainerRerunPage", () => {
       trainerRerunData: null,
       isLoading: false,
       error: new Error("Network timeout"),
-    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+    });
 
     render(
       <MemoryRouter>
@@ -78,7 +74,7 @@ describe("TrainerRerunPage", () => {
       trainerRerunData: null,
       isLoading: false,
       error: null,
-    } as unknown as TrainerRerunHooks.UseTrainerRerunDataReturn);
+    });
 
     render(
       <MemoryRouter>

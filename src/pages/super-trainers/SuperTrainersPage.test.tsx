@@ -4,7 +4,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as SuperTrainersHooks from "@/pages/super-trainers/hooks/useSuperTrainersData";
-import { Pokemon } from "@/types/pokemon";
+import {
+  createMockPokedexContext,
+  createMockPokemon,
+  createMockSuperTrainer,
+} from "@/test/factories";
 import { SuperTrainer } from "@/types/superTrainers";
 
 import SuperTrainersPage from "./SuperTrainersPage";
@@ -56,42 +60,25 @@ vi.mock("@/components/StrategyModal", () => ({
 }));
 
 describe("SuperTrainersPage", () => {
-  const mockPokedex = {
-    pokemonMap: new Map<string, Pokemon>([
-      [
-        "Pikachu",
-        { id: "25", name: "Pikachu", types: ["Electric"] } as Pokemon,
-      ],
+  const mockPokedex = createMockPokedexContext({
+    pokemonMap: new Map([
+      ["Pikachu", createMockPokemon({ name: "Pikachu", types: ["Electric"] })],
     ]),
     isLoading: false,
-  };
+  });
 
   const mockTrainersData: SuperTrainer[] = [
-    {
-      name: "Trainer 1",
-      region: "Kanto",
-      type: "Various",
-      image: "img.png",
-      teams: {
-        Hard: {
-          pokemonNames: ["Pikachu"],
-          pokemonStrategies: {
-            Pikachu: [{ id: "1", type: "text", description: "Step 1" }],
-          },
-        },
-      },
-    } as unknown as SuperTrainer,
+    createMockSuperTrainer({ name: "Trainer 1", region: "Kanto" }),
   ];
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokedex as unknown as PokedexContext.PokedexContextType
-    );
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(mockPokedex);
     vi.mocked(SuperTrainersHooks.useSuperTrainersData).mockReturnValue({
       superTrainersData: mockTrainersData,
       isLoading: false,
-    } as unknown as SuperTrainersHooks.UseSuperTrainersDataReturn);
+      error: null,
+    });
   });
 
   it("renders and opens strategy modal on card click", async () => {

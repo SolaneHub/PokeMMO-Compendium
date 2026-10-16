@@ -3,8 +3,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
 import * as PickupHooks from "@/pages/pickup/hooks/usePickupData";
+import {
+  createMockPickupRegion,
+  createMockPokedexContext,
+} from "@/test/factories";
 import { PickupRegion } from "@/types/pickup";
-import { Pokemon } from "@/types/pokemon";
 
 import PickupPage from "./PickupPage";
 
@@ -28,34 +31,32 @@ vi.mock("@/components/TeamBuildModal", () => ({
 }));
 
 describe("PickupPage", () => {
-  const mockPokedex = {
-    pokemonMap: new Map<string, Pokemon>(),
+  const mockPokedex = createMockPokedexContext({
+    pokemonMap: new Map(),
     isLoading: false,
-  };
+  });
 
   const mockPickup = {
     regions: [
-      { id: "kanto", name: "Kanto", locations: [] } as PickupRegion,
-      { id: "johto", name: "Johto", locations: [] } as PickupRegion,
+      createMockPickupRegion({ id: "kanto", name: "Kanto" }),
+      createMockPickupRegion({ id: "johto", name: "Johto" }),
     ],
     isLoading: false,
+    error: null,
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokedex as unknown as PokedexContext.PokedexContextType
-    );
-    vi.mocked(PickupHooks.usePickupData).mockReturnValue(
-      mockPickup as unknown as PickupHooks.UsePickupDataReturn
-    );
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(mockPokedex);
+    vi.mocked(PickupHooks.usePickupData).mockReturnValue(mockPickup);
   });
 
   it("shows loading state", () => {
     vi.mocked(PickupHooks.usePickupData).mockReturnValue({
       isLoading: true,
       regions: [],
-    } as unknown as PickupHooks.UsePickupDataReturn);
+      error: null,
+    });
     render(<PickupPage />);
     expect(screen.getByText("Loading data...")).toBeInTheDocument();
   });

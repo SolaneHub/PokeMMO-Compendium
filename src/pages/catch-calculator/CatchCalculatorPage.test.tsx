@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import * as PokedexContext from "@/context/PokedexContext";
-import { Pokemon } from "@/types/pokemon";
+import { createMockPokedexContext, createMockPokemon } from "@/test/factories";
 
 import CatchCalculatorPage from "./CatchCalculatorPage";
 
@@ -44,27 +44,26 @@ vi.mock(
 );
 
 describe("CatchCalculatorPage", () => {
-  const mockPokedex = {
-    allPokemonData: [{ name: "Bulbasaur", catchRate: 45 } as Pokemon],
-    pokemonMap: new Map([
-      ["Bulbasaur", { name: "Bulbasaur", catchRate: 45 } as Pokemon],
-    ]),
+  const bulba = createMockPokemon({ name: "Bulbasaur", catchRate: 45 });
+  const mockPokedex = createMockPokedexContext({
+    allPokemonData: [bulba],
+    pokemonMap: new Map([["Bulbasaur", bulba]]),
     isLoading: false,
-  };
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
-      mockPokedex as unknown as PokedexContext.PokedexContextType
-    );
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(mockPokedex);
   });
 
   it("shows loading state", () => {
-    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue({
-      isLoading: true,
-      allPokemonData: [],
-      pokemonMap: new Map(),
-    } as unknown as PokedexContext.PokedexContextType);
+    vi.mocked(PokedexContext.usePokedexContext).mockReturnValue(
+      createMockPokedexContext({
+        isLoading: true,
+        allPokemonData: [],
+        pokemonMap: new Map(),
+      })
+    );
     render(<CatchCalculatorPage />);
     expect(screen.getByText("Loading Pokémon data...")).toBeInTheDocument();
   });
