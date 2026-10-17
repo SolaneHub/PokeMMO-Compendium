@@ -10,6 +10,7 @@ import { updateTeamStatus } from "@/firebase/services/teamsService";
 import CreateTeamModal from "@/pages/my-teams/components/CreateTeamModal";
 import TeamList from "@/pages/my-teams/components/TeamList";
 import { useUserTeams } from "@/pages/my-teams/hooks/useUserTeams";
+import { MyTeamsLoaderData } from "@/pages/my-teams/myTeamsLoader";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 
 interface ActionResult {
@@ -21,7 +22,11 @@ const MyTeamsPage = () => {
   const accentColor = FEATURE_CONFIG?.["my-teams"]?.color;
   const navigate = useNavigate();
   const revalidator = useRevalidator();
-  const { teams: initialTeams, user: currentUser } = useLoaderData();
+  const {
+    teams: initialTeams,
+    user: currentUser,
+    error: loadError,
+  } = useLoaderData() as MyTeamsLoaderData;
 
   const { createTeam, deleteTeam } = useUserTeams(initialTeams);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -130,6 +135,18 @@ const MyTeamsPage = () => {
           Create New Team
         </Button>
       </div>
+
+      {loadError && (
+        <div className="mb-6 rounded-xl border border-red-500/50 bg-red-900/20 p-4 text-center text-red-300">
+          <p className="font-semibold">{loadError}</p>
+          <button
+            onClick={() => revalidator.revalidate()}
+            className="mt-2 text-sm text-red-200 underline hover:text-white"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {initialTeams.length === 0 ? (
         <div className="animate-fade-in flex flex-col items-center justify-center rounded-2xl border border-white/5 bg-[#1a1b20] py-20 text-center text-white">

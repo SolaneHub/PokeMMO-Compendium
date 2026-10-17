@@ -8,6 +8,7 @@ import { Team } from "@/types/teams";
 export interface MyTeamsLoaderData {
   teams: Team[];
   user: AppUser;
+  error?: string | null;
 }
 
 export async function myTeamsLoader(): Promise<MyTeamsLoaderData | Response> {
@@ -22,7 +23,11 @@ export async function myTeamsLoader(): Promise<MyTeamsLoaderData | Response> {
     return { teams, user };
   } catch (error) {
     console.error("Failed to fetch user teams:", error);
-    // You could throw an error or return an empty list
-    return { teams: [], user };
+    return {
+      teams: [],
+      user,
+      error:
+        "Failed to load your teams. Please check your network connection and refresh.",
+    };
   }
 }

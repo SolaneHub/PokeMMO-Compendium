@@ -51,13 +51,18 @@ describe("myTeamsLoader", () => {
     expect(result).toEqual({ teams: mockTeams, user: mockUser });
   });
 
-  it("returns empty teams on error", async () => {
+  it("returns empty teams and error message on failure", async () => {
     const mockUser: AppUser = { uid: "123", email: "test@example.com" };
     vi.mocked(authUtils.getCurrentUser).mockResolvedValue(mockUser);
     vi.mocked(teamsService.getUserTeams).mockRejectedValue(new Error("Fail"));
 
     const result = await myTeamsLoader();
 
-    expect(result).toEqual({ teams: [], user: mockUser });
+    expect(result).toEqual({
+      teams: [],
+      user: mockUser,
+      error:
+        "Failed to load your teams. Please check your network connection and refresh.",
+    });
   });
 });
