@@ -24,6 +24,7 @@ export default defineConfig({
       "src/utils/pokemonImageHelper.test.ts",
       "src/utils/pokedexDataExtraction.test.ts",
       "src/utils/eliteFourMembers.test.ts",
+      "src/utils/pokemonEvolutionHelpers.test.ts",
     ],
   },
 });

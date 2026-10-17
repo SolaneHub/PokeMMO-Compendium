@@ -30,6 +30,7 @@ import {
   PokemonMove,
 } from "@/types/pokemon";
 import { generateId } from "@/utils/idUtils";
+import { propagateMovesToEvolutions } from "@/utils/pokemonEvolutionHelpers";
 
 // Extended interface for editor with temp IDs
 interface EditorMove extends PokemonMove {
@@ -59,85 +60,6 @@ const INITIAL_POKEMON_STATE: Pokemon = {
   locations: [],
   variants: [],
   dexId: "",
-};
-
-// Helper function to propagate moves from a base pokemon to its evolutions
-const propagateMovesToEvolutions = (
-  basePokemon: Pokemon,
-  allPokemon: Pokemon[],
-  visited: Set<string> = new Set()
-): Pokemon[] => {
-  const baseName = basePokemon.name.toLowerCase().trim();
-  if (!baseName || visited.has(baseName)) return [];
-  visited.add(baseName);
-
-  if (!basePokemon.evolutions || basePokemon.evolutions.length === 0) return [];
-
-  // Copy all move properties including level
-  const baseMoves = basePokemon.moves.map(({ name, ...rest }) => ({
-    name,
-    ...rest,
-  }));
-
-  const updates: Pokemon[] = [];
-
-  basePokemon.evolutions.forEach((evo) => {
-    // Find evolution in allPokemon list
-    const evoPokemon = allPokemon.find(
-      (p) => p.name.toLowerCase().trim() === evo.name.toLowerCase().trim()
-    );
-
-    if (evoPokemon) {
-      const evoName = evoPokemon.name.toLowerCase().trim();
-      // Avoid infinite loop if an evolution points back to a parent or itself
-      if (visited.has(evoName)) return;
-
-      const newMovesList: PokemonMove[] = [];
-      const evolutionExistingMoves = [...(evoPokemon.moves || [])];
-
-      // For each move in base pokemon, add to evolution's move list
-      baseMoves.forEach((bm) => {
-        const existingMoveInEvoIdx = evolutionExistingMoves.findIndex(
-          (m) => m.name.toLowerCase().trim() === bm.name.toLowerCase().trim()
-        );
-
-        if (existingMoveInEvoIdx === -1) {
-          // If it's a new move from base, add it with the base level
-          newMovesList.push({ ...bm });
-        } else {
-          // Overwrite with base move data (including level) as requested
-          newMovesList.push({ ...bm });
-          // Remove from temporary list to track what's left
-          evolutionExistingMoves.splice(existingMoveInEvoIdx, 1);
-        }
-      });
-
-      // Add remaining moves that are unique to the evolution
-      newMovesList.push(...evolutionExistingMoves);
-
-      // Check if there was an actual change to avoid unnecessary updates
-      const isDifferent =
-        JSON.stringify(evoPokemon.moves) !== JSON.stringify(newMovesList);
-
-      const updatedEvo: Pokemon = { ...evoPokemon, moves: newMovesList };
-      if (isDifferent) {
-        updates.push(updatedEvo);
-      }
-
-      // Recursively propagate to the next levels of evolution
-      updates.push(
-        ...propagateMovesToEvolutions(updatedEvo, allPokemon, visited)
-      );
-    }
-  });
-
-  // Filter unique updates by ID
-  const uniqueUpdates: Record<string, Pokemon> = {};
-  updates.forEach((p) => {
-    if (p.id) uniqueUpdates[p.id.toString()] = p;
-  });
-
-  return Object.values(uniqueUpdates);
 };
 
 const SortableMoveItem = ({
