@@ -23,7 +23,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "build": "pnpm run type-check && vite build",
-    "sonar:report": "node scripts/update-sonar-report.js",
+    "sonar:report": "tsx --tsconfig ./tsconfig.node.json scripts/update-sonar-report.ts",
     "validate:data": "tsx --tsconfig ./tsconfig.app.json scripts/validateGameData.ts",
     "validate:rules": "tsx --tsconfig ./tsconfig.app.json scripts/validateFirestoreRules.ts",
     "lint-staged": "lint-staged"
