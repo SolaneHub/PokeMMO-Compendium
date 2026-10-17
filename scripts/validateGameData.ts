@@ -3,9 +3,15 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  BALL_TYPES,
+  STATUS_CONDITIONS,
+} from "../src/constants/calculatorConstants";
 import { pickupPokemonBuilds } from "../src/constants/pickupBuilds";
+import { standardPokemonList } from "../src/constants/standardPokemonList";
 import { PokemonTypeSchema } from "../src/types/pokemon";
 import { eliteFourMembers } from "../src/utils/eliteFourMembers";
+import { Feature, FEATURE_CONFIG } from "../src/utils/featureConfig";
 import { getSpriteUrlByName } from "../src/utils/pokemonImageHelper";
 import { moveTypeMap } from "../src/utils/pokemonMoveColors";
 import { pokemonRegions } from "../src/utils/regionData";
@@ -19,9 +25,19 @@ export interface ValidationError {
   message: string;
 }
 
-export function validateGameDataRecords(options?: {
+export interface ValidateGameDataOptions {
   checkFileExists?: (relPath: string) => boolean;
-}): { source: string; message: string }[] {
+  featureConfig?: Record<string, Feature>;
+  ballTypes?: { name: string; multiplier: number }[];
+  statusConditions?: { name: string; multiplier: number; gradient: string }[];
+  pokemonList?: string[];
+}
+
+const HEX_COLOR_REGEX = /^#[0-9a-fA-F]{6}$/;
+
+export function validateGameDataRecords(
+  options?: ValidateGameDataOptions
+): ValidationError[] {
   const errors: ValidationError[] = [];
 
   function addError(source: string, message: string) {
@@ -130,15 +146,111 @@ export function validateGameDataRecords(options?: {
     }
   }
 
+  // 5. Validazione FEATURE_CONFIG
+  const targetFeatureConfig = options?.featureConfig ?? FEATURE_CONFIG;
+  for (const [key, feature] of Object.entries(targetFeatureConfig)) {
+    const src = `FEATURE_CONFIG[${key}]`;
+    validateStringField(feature.title, "title", src);
+    validateStringField(feature.description, "description", src);
+
+    if (validateStringField(feature.link, "link", src)) {
+      if (!feature.link.startsWith("/")) {
+        addError(
+          src,
+          `Field 'link' must start with '/', got: '${feature.link}'`
+        );
+      }
+    }
+
+    if (validateStringField(feature.color, "color", src)) {
+      if (!HEX_COLOR_REGEX.test(feature.color)) {
+        addError(
+          src,
+          `Field 'color' must be a valid 6-character hex string (#RRGGBB), got: '${feature.color}'`
+        );
+      }
+    }
+
+    if (feature.icon === null || feature.icon === undefined) {
+      addError(
+        src,
+        `Field 'icon' must be defined, got: ${String(feature.icon)}`
+      );
+    }
+  }
+
+  // 6. Validazione BALL_TYPES & STATUS_CONDITIONS
+  const targetBallTypes = options?.ballTypes ?? BALL_TYPES;
+  for (const ball of targetBallTypes) {
+    const src = `BALL_TYPES[${ball.name || "unknown"}]`;
+    validateStringField(ball.name, "name", src);
+    if (
+      typeof ball.multiplier !== "number" ||
+      Number.isNaN(ball.multiplier) ||
+      ball.multiplier < 1
+    ) {
+      addError(
+        src,
+        `Field 'multiplier' must be a number >= 1, got: ${ball.multiplier}`
+      );
+    }
+  }
+
+  const targetStatusConditions = options?.statusConditions ?? STATUS_CONDITIONS;
+  for (const status of targetStatusConditions) {
+    const src = `STATUS_CONDITIONS[${status.name || "unknown"}]`;
+    validateStringField(status.name, "name", src);
+    if (
+      typeof status.multiplier !== "number" ||
+      Number.isNaN(status.multiplier) ||
+      status.multiplier < 1
+    ) {
+      addError(
+        src,
+        `Field 'multiplier' must be a number >= 1, got: ${status.multiplier}`
+      );
+    }
+    validateStringField(status.gradient, "gradient", src);
+  }
+
+  // 7. Validazione standardPokemonList
+  const targetPokemonList = options?.pokemonList ?? standardPokemonList;
+  const listSrc = "standardPokemonList";
+  if (!Array.isArray(targetPokemonList) || targetPokemonList.length < 600) {
+    addError(
+      listSrc,
+      `standardPokemonList must be an array with at least 600 elements, got: ${
+        Array.isArray(targetPokemonList)
+          ? targetPokemonList.length
+          : typeof targetPokemonList
+      }`
+    );
+  } else {
+    const uniquePokemon = new Set(targetPokemonList);
+    if (uniquePokemon.size !== targetPokemonList.length) {
+      addError(
+        listSrc,
+        `standardPokemonList contains duplicate entries (total: ${targetPokemonList.length}, unique: ${uniquePokemon.size})`
+      );
+    }
+
+    for (const name of targetPokemonList) {
+      validateStringField(name, "pokemon", listSrc);
+    }
+  }
+
   return errors;
 }
 
-if (process.argv[1]?.endsWith("validateGameData.ts")) {
+if (process.argv[1]?.replace(/\\/g, "/").endsWith("validateGameData.ts")) {
   console.log("🔍 Avvio validazione programmaticità dati di gioco...\n");
   console.log("➡️ Validazione pokemonRegions...");
   console.log("➡️ Validazione eliteFourMembers...");
   console.log("➡️ Validazione moveTypeMap...");
   console.log("➡️ Validazione pickupPokemonBuilds...");
+  console.log("➡️ Validazione FEATURE_CONFIG...");
+  console.log("➡️ Validazione BALL_TYPES & STATUS_CONDITIONS...");
+  console.log("➡️ Validazione standardPokemonList...");
 
   const errors = validateGameDataRecords();
 
