@@ -28,23 +28,20 @@ vi.mock("@/hooks/useStrategyNavigation", () => ({
   }),
 }));
 
-vi.mock("@/pages/boss-fights/components/BossFightSection", () => ({
+vi.mock("@/components/TrainerStrategySection", () => ({
   default: ({
-    bossFight,
+    name,
+    region,
     onPokemonCardClick,
   }: {
-    bossFight: BossFight;
+    name: string;
+    region: string;
     onPokemonCardClick: (p: string, b: string, r: string, t: string) => void;
   }) => (
     <div data-testid="boss-section">
       <button
         onClick={() =>
-          onPokemonCardClick(
-            "Nidoking",
-            bossFight.name,
-            bossFight.region,
-            "Hard Team"
-          )
+          onPokemonCardClick("Nidoking", name, region, "Hard Team")
         }
       >
         Click Nidoking

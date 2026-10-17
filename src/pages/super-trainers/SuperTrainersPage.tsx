@@ -3,9 +3,9 @@ import { useState } from "react";
 
 import PageLayout from "@/components/PageLayout";
 import StrategyModal from "@/components/StrategyModal";
+import TrainerStrategySection from "@/components/TrainerStrategySection";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
-import SuperTrainerSection from "@/pages/super-trainers/components/SuperTrainerSection";
 import { useSuperTrainersData } from "@/pages/super-trainers/hooks/useSuperTrainersData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
@@ -16,8 +16,11 @@ function SuperTrainersPage() {
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
 
   const { pokemonMap, isLoading: pokedexLoading } = usePokedexContext();
-  const { superTrainersData, isLoading: trainersLoading } =
-    useSuperTrainersData();
+  const {
+    superTrainersData,
+    isLoading: trainersLoading,
+    error: trainersError,
+  } = useSuperTrainersData();
 
   const {
     currentStrategyView,
@@ -66,6 +69,19 @@ function SuperTrainersPage() {
     );
   }
 
+  if (trainersError) {
+    return (
+      <PageLayout title="Super Trainers">
+        <div className="flex h-64 flex-col items-center justify-center text-center text-red-400">
+          <p className="text-lg font-semibold">
+            Failed to load Super Trainers data.
+          </p>
+          <p className="mt-1 text-sm text-slate-400">{trainersError.message}</p>
+        </div>
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout title="Super Trainers">
       {/* Header */}
@@ -81,12 +97,17 @@ function SuperTrainersPage() {
 
       <div className="flex flex-col gap-8">
         {superTrainersData.map((trainer) => (
-          <SuperTrainerSection
+          <TrainerStrategySection
             key={trainer.name}
-            trainer={trainer}
-            onPokemonCardClick={handlePokemonCardClick}
+            name={trainer.name}
+            subtitle={`${trainer.region} Trainer`}
+            type={trainer.type}
+            image={trainer.image}
+            teams={trainer.teams}
+            region={trainer.region}
             selectedPokemon={selectedPokemon}
             pokemonMap={pokemonMap}
+            onPokemonCardClick={handlePokemonCardClick}
           />
         ))}
       </div>

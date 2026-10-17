@@ -3,9 +3,9 @@ import { useState } from "react";
 
 import PageLayout from "@/components/PageLayout";
 import StrategyModal from "@/components/StrategyModal";
+import TrainerStrategySection from "@/components/TrainerStrategySection";
 import { usePokedexContext } from "@/context/PokedexContext";
 import { useStrategyNavigation } from "@/hooks/useStrategyNavigation";
-import BossFightSection from "@/pages/boss-fights/components/BossFightSection";
 import { useBossFightsData } from "@/pages/boss-fights/hooks/useBossFightsData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
 import { getPokemonBackgroundStyle } from "@/utils/pokemonColors";
@@ -16,8 +16,11 @@ function BossFightsPage() {
   const [isPokemonDetailsVisible, setIsPokemonDetailsVisible] = useState(false);
 
   const { pokemonMap, isLoading: isPokedexLoading } = usePokedexContext();
-  const { bossFightsData, isLoading: isBossFightsLoading } =
-    useBossFightsData();
+  const {
+    bossFightsData,
+    isLoading: isBossFightsLoading,
+    error: bossFightsError,
+  } = useBossFightsData();
 
   const {
     currentStrategyView,
@@ -72,6 +75,21 @@ function BossFightsPage() {
     );
   }
 
+  if (bossFightsError) {
+    return (
+      <PageLayout title="Boss Fights">
+        <div className="flex h-64 flex-col items-center justify-center text-center text-red-400">
+          <p className="text-lg font-semibold">
+            Failed to load Boss Fights data.
+          </p>
+          <p className="mt-1 text-sm text-slate-400">
+            {bossFightsError.message}
+          </p>
+        </div>
+      </PageLayout>
+    );
+  }
+
   return (
     <PageLayout title="Boss Fights">
       {/* Header */}
@@ -87,12 +105,17 @@ function BossFightsPage() {
 
       <div className="flex flex-col gap-8">
         {bossFightsData.map((bossFight) => (
-          <BossFightSection
+          <TrainerStrategySection
             key={`${bossFight.region}-${bossFight.name}`}
-            bossFight={bossFight}
-            onPokemonCardClick={handlePokemonCardClick}
+            name={bossFight.name}
+            subtitle={bossFight.region}
+            type={bossFight.type}
+            image={bossFight.image}
+            teams={bossFight.teams}
+            region={bossFight.region}
             selectedPokemon={selectedPokemon}
             pokemonMap={pokemonMap}
+            onPokemonCardClick={handlePokemonCardClick}
           />
         ))}
       </div>

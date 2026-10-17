@@ -29,12 +29,14 @@ vi.mock("@/hooks/useStrategyNavigation", () => ({
 }));
 
 // Mocking complex organisms
-vi.mock("@/pages/super-trainers/components/SuperTrainerSection", () => ({
+vi.mock("@/components/TrainerStrategySection", () => ({
   default: ({
-    trainer,
+    name,
+    region,
     onPokemonCardClick,
   }: {
-    trainer: SuperTrainer;
+    name: string;
+    region: string;
     onPokemonCardClick: (
       pokemonName: string,
       trainerName: string,
@@ -43,11 +45,8 @@ vi.mock("@/pages/super-trainers/components/SuperTrainerSection", () => ({
     ) => void;
   }) => (
     <div data-testid="trainer-section">
-      <span>{trainer.name}</span>
       <button
-        onClick={() =>
-          onPokemonCardClick("Pikachu", trainer.name, trainer.region, "Hard")
-        }
+        onClick={() => onPokemonCardClick("Pikachu", name, region, "Hard")}
       >
         Click Pikachu
       </button>
