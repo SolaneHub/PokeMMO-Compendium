@@ -30,6 +30,5 @@
     "vitest.config.domain.ts",
     "eslint.config.js",
     "scripts/**/*.ts"
-  ],
-  "exclude": ["scripts/migrations/**"]
+  ]
 }

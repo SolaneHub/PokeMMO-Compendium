@@ -75,7 +75,7 @@ describe("AdminDashboardPage", () => {
     });
   });
 
-  it("displays database migrations information", async () => {
+  it("displays database status information", async () => {
     vi.mocked(AuthContext.useAuth).mockReturnValue(
       createMockAuthContext({
         loading: false,
@@ -92,9 +92,9 @@ describe("AdminDashboardPage", () => {
 
     fireEvent.click(screen.getByText("System"));
 
-    expect(screen.getByText("Database Migrations")).toBeInTheDocument();
+    expect(screen.getByText("Database Status")).toBeInTheDocument();
     expect(
-      screen.getByText(/scripts\/migrations\/migrate\.ts/)
+      screen.getByText(/Data schemas validated via automated CI rules\./)
     ).toBeInTheDocument();
   });
 });

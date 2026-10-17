@@ -144,15 +144,9 @@ const AdminDashboardPage = () => {
 
                 <div className="flex items-center justify-between rounded-lg bg-slate-700/50 p-4">
                   <div>
-                    <h4 className="font-bold text-white">
-                      Database Migrations
-                    </h4>
+                    <h4 className="font-bold text-white">Database Status</h4>
                     <p className="text-sm text-slate-400">
-                      Run migration and cleanup scripts via CLI (
-                      <code className="text-xs text-blue-300">
-                        scripts/migrations/migrate.ts
-                      </code>
-                      )
+                      Data schemas validated via automated CI rules.
                     </p>
                   </div>
                 </div>
