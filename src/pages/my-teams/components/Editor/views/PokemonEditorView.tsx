@@ -137,7 +137,7 @@ const PokemonEditorView = ({ data, onSave }: PokemonEditorViewProps) => {
             </p>
           </div>
           <Button
-            onClick={handleSubmit as () => void}
+            onClick={() => handleSubmit()}
             variant="primary"
             size="md"
             className="bg-green-600 hover:bg-green-500"
