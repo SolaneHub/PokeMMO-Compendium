@@ -1,21 +1,18 @@
 import { renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { Pokemon } from "@/types/pokemon";
+import { createMockPokemon } from "@/test/factories";
 
 import { useCatchProbability } from "./useCatchProbability";
 
-const mockPokemon = {
+const mockPokemon = createMockPokemon({
   id: 1,
   name: "Bulbasaur",
   types: ["Grass", "Poison"],
   baseStats: { hp: 45, atk: 49, def: 49, spa: 65, spd: 65, spe: 45 },
   catchRate: 45,
   abilities: { main: ["Overgrow"], hidden: "Chlorophyll" },
-  moves: [],
-  evolutions: [],
-  locations: [],
-} as Pokemon;
+});
 
 const defaultProps = {
   selectedPokemon: mockPokemon,
@@ -39,10 +36,10 @@ describe("useCatchProbability", () => {
     result = renderHook(() =>
       useCatchProbability({
         ...defaultProps,
-        selectedPokemon: {
+        selectedPokemon: createMockPokemon({
           ...mockPokemon,
           catchRate: undefined,
-        } as unknown as Pokemon,
+        }),
       })
     ).result;
     expect(result.current).toBe(0);

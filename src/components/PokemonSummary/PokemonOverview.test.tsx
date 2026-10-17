@@ -1,11 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { Pokemon } from "@/types/pokemon";
+import { createMockPokemon } from "@/test/factories";
 
 import PokemonOverview from "./PokemonOverview";
 
-const mockPokemon: Pokemon = {
+const mockPokemon = createMockPokemon({
   id: 1,
   name: "Snorlax",
   description: "It sleeps constantly.",
@@ -17,10 +17,7 @@ const mockPokemon: Pokemon = {
   catchRate: 25,
   eggGroups: ["Monster"],
   heldItems: ["Leftovers"],
-  moves: [],
-  locations: [],
-  evolutions: [],
-};
+});
 
 describe("PokemonOverview component", () => {
   it("renders basic info like abilities", () => {
@@ -45,32 +42,33 @@ describe("PokemonOverview component", () => {
 
   describe("renderHeldItems logic", () => {
     it("handles heldItems as 'None' or null", () => {
-      const p = { ...mockPokemon, heldItems: "None" };
-      const { rerender } = render(<PokemonOverview pokemon={p as Pokemon} />);
+      const p = createMockPokemon({ ...mockPokemon, heldItems: "None" });
+      const { rerender } = render(<PokemonOverview pokemon={p} />);
       expect(screen.getAllByText("None").length).toBeGreaterThan(0);
 
       rerender(
         <PokemonOverview
-          pokemon={
-            { ...mockPokemon, heldItems: undefined } as unknown as Pokemon
-          }
+          pokemon={createMockPokemon({
+            ...mockPokemon,
+            heldItems: undefined,
+          })}
         />
       );
       expect(screen.getAllByText("None").length).toBeGreaterThan(0);
     });
 
     it("handles heldItems as empty array", () => {
-      const p = { ...mockPokemon, heldItems: [] };
-      render(<PokemonOverview pokemon={p as Pokemon} />);
+      const p = createMockPokemon({ ...mockPokemon, heldItems: [] });
+      render(<PokemonOverview pokemon={p} />);
       expect(screen.getAllByText("None").length).toBeGreaterThan(0);
     });
 
     it("handles heldItems as an object/record", () => {
-      const p = {
+      const p = createMockPokemon({
         ...mockPokemon,
         heldItems: { "Choice Scarf": "5%", Leftovers: "1%" },
-      };
-      render(<PokemonOverview pokemon={p as Pokemon} />);
+      });
+      render(<PokemonOverview pokemon={p} />);
       expect(screen.getByText(/Choice Scarf/)).toBeInTheDocument();
       expect(screen.getByText("(5%)")).toBeInTheDocument();
       expect(screen.getByText(/Leftovers/)).toBeInTheDocument();
@@ -78,27 +76,27 @@ describe("PokemonOverview component", () => {
     });
 
     it("handles heldItems as an empty object", () => {
-      const p = { ...mockPokemon, heldItems: {} };
-      render(<PokemonOverview pokemon={p as Pokemon} />);
+      const p = createMockPokemon({ ...mockPokemon, heldItems: {} });
+      render(<PokemonOverview pokemon={p} />);
       expect(screen.getAllByText("None").length).toBeGreaterThan(0);
     });
 
     it("handles heldItems as a plain string", () => {
-      const p = { ...mockPokemon, heldItems: "Choice Band" };
-      render(<PokemonOverview pokemon={p as Pokemon} />);
+      const p = createMockPokemon({ ...mockPokemon, heldItems: "Choice Band" });
+      render(<PokemonOverview pokemon={p} />);
       expect(screen.getByText("Choice Band")).toBeInTheDocument();
     });
   });
 
   it("handles eggGroups as a plain string", () => {
-    const p = { ...mockPokemon, eggGroups: "Undiscovered" };
-    render(<PokemonOverview pokemon={p as Pokemon} />);
+    const p = createMockPokemon({ ...mockPokemon, eggGroups: "Undiscovered" });
+    render(<PokemonOverview pokemon={p} />);
     expect(screen.getByText("Undiscovered")).toBeInTheDocument();
   });
 
   it("handles gender ratio defaults", () => {
-    const p = { ...mockPokemon, genderRatio: undefined };
-    render(<PokemonOverview pokemon={p as Pokemon} />);
+    const p = createMockPokemon({ ...mockPokemon, genderRatio: undefined });
+    render(<PokemonOverview pokemon={p} />);
     expect(screen.getByText("0% ♂")).toBeInTheDocument();
     expect(screen.getByText("0% ♀")).toBeInTheDocument();
   });

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { Pokemon } from "@/types/pokemon";
+import { createMockPokemon } from "@/test/factories";
 
 import CaptureSection from "./CaptureSection";
 
@@ -47,11 +47,11 @@ describe("CaptureSection", () => {
   const defaultProps = {
     ballType: "Poke Ball",
     setBallType: vi.fn(),
-    selectedPokemon: {
+    selectedPokemon: createMockPokemon({
       name: "Pikachu",
-      baseStats: { spe: 90 },
+      baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 },
       types: ["Electric"],
-    } as unknown as Pokemon,
+    }),
     dreamBallTurns: 0,
     setDreamBallTurns: vi.fn(),
     targetLevel: 50,

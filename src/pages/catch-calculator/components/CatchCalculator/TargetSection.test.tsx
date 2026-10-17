@@ -2,14 +2,15 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import { describe, expect, it, vi } from "vitest";
 
+import { createMockPokemon } from "@/test/factories";
 import { Pokemon } from "@/types/pokemon";
 
 import TargetSection from "./TargetSection";
 
 describe("TargetSection", () => {
   const mockPokemon: Pokemon[] = [
-    { name: "Pikachu", catchRate: 190 } as Pokemon,
-    { name: "Bulbasaur", catchRate: 45 } as Pokemon,
+    createMockPokemon({ name: "Pikachu", catchRate: 190 }),
+    createMockPokemon({ name: "Bulbasaur", catchRate: 45 }),
   ];
 
   const mockProps = {
@@ -24,7 +25,7 @@ describe("TargetSection", () => {
     setDeferredSearchTerm: vi.fn(),
     startTransition: (cb: () => void) => cb(),
     searchRef: { current: null } as React.RefObject<HTMLDivElement | null>,
-    selectedPokemon: null as Pokemon | null,
+    selectedPokemon: null,
     sprite: null,
     background: "transparent",
     baseCatchRate: 0,
@@ -67,7 +68,10 @@ describe("TargetSection", () => {
   });
 
   it("renders selected pokemon preview when selectedPokemon is provided", () => {
-    const selectedPokemon = { name: "Pikachu", catchRate: 190 } as Pokemon;
+    const selectedPokemon = createMockPokemon({
+      name: "Pikachu",
+      catchRate: 190,
+    });
     render(
       <TargetSection
         {...mockProps}

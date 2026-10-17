@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Pokemon } from "@/types/pokemon";
+import { createMockPokemon } from "@/test/factories";
 
 import {
   calculateBallMultiplier,
@@ -9,17 +9,14 @@ import {
   getNestBallMultiplier,
 } from "./catchRateCalculation";
 
-const mockPokemon = {
+const mockPokemon = createMockPokemon({
   id: 1,
   name: "Bulbasaur",
   types: ["Grass", "Poison"],
   baseStats: { hp: 45, atk: 49, def: 49, spa: 65, spd: 65, spe: 45 },
   catchRate: 45,
   abilities: { main: ["Overgrow"], hidden: "Chlorophyll" },
-  moves: [],
-  evolutions: [],
-  locations: [],
-} as Pokemon;
+});
 
 const defaultProps = {
   selectedPokemon: mockPokemon,
@@ -121,10 +118,10 @@ describe("catchRateCalculation pure functions", () => {
       expect(
         calculateCatchRate({
           ...defaultProps,
-          selectedPokemon: {
+          selectedPokemon: createMockPokemon({
             ...mockPokemon,
             catchRate: undefined,
-          } as unknown as Pokemon,
+          }),
         })
       ).toBe(0);
     });
