@@ -23,7 +23,6 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "build": "pnpm run type-check && vite build",
-    "sonar:report": "tsx --tsconfig ./tsconfig.node.json scripts/update-sonar-report.ts",
     "validate:data": "tsx --tsconfig ./tsconfig.app.json scripts/validateGameData.ts",
     "validate:rules": "tsx --tsconfig ./tsconfig.app.json scripts/validateFirestoreRules.ts",
     "lint-staged": "lint-staged"
@@ -86,7 +85,6 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.58.0",
     "vite": "7.3.1",
-    "vitest": "4.1.2",
-    "vitest-sonar-reporter": "3.0.0"
+    "vitest": "4.1.2"
   }
 }

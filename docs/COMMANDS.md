@@ -52,15 +52,6 @@ Commands to manage the database and security rules.
 | :------------------------------------- | :--------------------------------------------------------------------------------------------- |
 | **`firebase deploy --only firestore`** | Publishes **security rules** (`firestore.rules`) and indexes (`firestore.indexes.json`) to Firebase. |
 
-## 🔍 SonarCloud (Code Quality)
-
-Commands and processes to monitor code quality and technical debt.
-
-| Command               | Description                                                                                                   |
-| :-------------------- | :------------------------------------------------------------------------------------------------------------ |
-| **`pnpm sonar:report`** | **Generate local report.** Downloads open issues from SonarCloud and creates the `sonar-full-report.md` file. |
-| `CI (GitHub Actions)` | **Automatic analysis.** Every Pull Request and push to `main` starts a SonarCloud analysis to verify Quality Gates. |
-
 ---
 
 ### 📝 Important Notes

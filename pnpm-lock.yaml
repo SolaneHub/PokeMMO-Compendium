@@ -117,9 +117,6 @@ importers:
       vitest:
         specifier: 4.1.2
         version: 4.1.2(@types/node@22.19.17)(@vitest/ui@4.1.2)(jsdom@28.1.0(supports-color@10.2.2))(msw@2.12.14(@types/node@22.19.17)(typescript@5.9.3))(vite@7.3.1(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.8.3))
-      vitest-sonar-reporter:
-        specifier: 3.0.0
-        version: 3.0.0(vitest@4.1.2)
 
 packages:
 
@@ -3272,12 +3269,6 @@ packages:
         optional: true
       yaml:
         optional: true
-
-  vitest-sonar-reporter@3.0.0:
-    resolution: {integrity: sha512-QRT5m9Z/3Kt0WVDVcFHm5LC9Ba89yDP4twlX2QUAJ9PdqfJBkLAh/kXj7m6U3i0k6GxnIEiwCc295bmAYokmZg==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    peerDependencies:
-      vitest: '>=3'
 
   vitest@4.1.2:
     resolution: {integrity: sha512-xjR1dMTVHlFLh98JE3i/f/WePqJsah4A0FK9cc8Ehp9Udk0AZk6ccpIZhh1qJ/yxVWRZ+Q54ocnD8TXmkhspGg==}
@@ -6770,10 +6761,6 @@ snapshots:
       terser: 5.46.1
       tsx: 4.23.15
       yaml: 2.8.3
-
-  vitest-sonar-reporter@3.0.0(vitest@4.1.2):
-    dependencies:
-      vitest: 4.1.2(@types/node@22.19.17)(@vitest/ui@4.1.2)(jsdom@28.1.0(supports-color@10.2.2))(msw@2.12.14(@types/node@22.19.17)(typescript@5.9.3))(vite@7.3.1(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.8.3))
 
   vitest@4.1.2(@types/node@22.19.17)(@vitest/ui@4.1.2)(jsdom@28.1.0(supports-color@10.2.2))(msw@2.12.14(@types/node@22.19.17)(typescript@5.9.3))(vite@7.3.1(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(tsx@4.23.15)(yaml@2.8.3)):
     dependencies:
