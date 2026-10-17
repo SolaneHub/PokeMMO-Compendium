@@ -16,10 +16,7 @@ docs/
 .github/
 
 # Ignore Agent specific folders
-**/.agents/**
-**/.gemini/**
 AGENTS.md
-GEMINI.md
 
 # Ignore screenshots
 screenshots/

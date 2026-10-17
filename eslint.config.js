@@ -10,8 +10,6 @@ export default defineConfig([
   {
     ignores: [
       "dist/**",
-      ".agents/**",
-      ".gemini/**",
       "coverage/**",
       "test-report/**",
       "public/**",
