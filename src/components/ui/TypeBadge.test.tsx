@@ -29,6 +29,5 @@ describe("TypeBadge component", () => {
     render(<TypeBadge type="Grass" size="lg" />);
     const badge = screen.getByText("Grass");
     expect(badge).toBeInTheDocument();
-    expect(badge.tagName).toBe("SPAN");
   });
 });

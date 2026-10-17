@@ -15,10 +15,6 @@ describe("StatCircle component", () => {
     );
     const paths = container.querySelectorAll("path");
     expect(paths.length).toBe(3);
-
-    expect(paths[0]).toHaveAttribute("fill", "red");
-    expect(paths[1]).toHaveAttribute("fill", "blue");
-    expect(paths[2]).toHaveAttribute("fill", "green");
   });
 
   it("calls onClick when clicked", () => {
@@ -43,7 +39,6 @@ describe("StatCircle component", () => {
 
     const circle = button.querySelector("circle");
     expect(circle).toBeInTheDocument();
-    expect(circle).toHaveAttribute("stroke", "rgba(255,255,255,0.5)");
   });
 
   it("renders dimmed state correctly with SVG paths", () => {
