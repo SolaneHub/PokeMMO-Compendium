@@ -16,7 +16,7 @@
     "lint:style": "stylelint \"src/**/*.css\" --cache",
     "lint:style:fix": "stylelint \"src/**/*.css\" --cache --fix",
     "fix:all": "pnpm run format && pnpm run lint:fix && pnpm run lint:style:fix",
-    "validate": "NODE_OPTIONS='--pending-deprecation' pnpm run type-check && pnpm run lint && pnpm run lint:style && pnpm run format:check && pnpm run validate:data && pnpm run validate:rules",
+    "validate": "NODE_OPTIONS='--pending-deprecation' pnpm run type-check && pnpm run lint && pnpm run lint:style && pnpm run format:check && pnpm run validate:data && pnpm run validate:rules && pnpm run check:summary-size && pnpm run test:domain",
     "test": "vitest",
     "test:run": "vitest run",
     "test:domain": "vitest run --config vitest.config.domain.ts",
@@ -25,6 +25,7 @@
     "build": "pnpm run type-check && vite build",
     "validate:data": "tsx --tsconfig ./tsconfig.app.json scripts/validateGameData.ts",
     "validate:rules": "tsx --tsconfig ./tsconfig.app.json scripts/validateFirestoreRules.ts",
+    "check:summary-size": "tsx --tsconfig ./tsconfig.app.json scripts/checkPokedexSummarySize.ts",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
