@@ -27,7 +27,25 @@ export const TeamMemberSchema = z.object({
 
 export type TeamMember = z.infer<typeof TeamMemberSchema>;
 
-// Firebase Timestamp/FieldValue mapping can be any at runtime
+export const FirestoreTimestampSchema = z.union([
+  z.date(),
+  z.number(),
+  z.string(),
+  z.custom<{ toDate: () => Date }>(
+    (val) =>
+      typeof val === "object" &&
+      val !== null &&
+      "toDate" in val &&
+      typeof (val as { toDate: unknown }).toDate === "function"
+  ),
+  z.object({
+    seconds: z.number(),
+    nanoseconds: z.number().optional(),
+  }),
+]);
+
+export type FirestoreTimestamp = z.infer<typeof FirestoreTimestampSchema>;
+
 export const TeamSchema = z.object({
   id: z.string().optional(),
   userId: z.string().optional(),
@@ -40,8 +58,8 @@ export const TeamSchema = z.object({
   enemyPools: z.record(z.string(), z.array(z.string())).optional(),
   status: TeamStatusSchema.optional(),
   isPublic: z.boolean().optional(),
-  createdAt: z.any().optional(),
-  updatedAt: z.any().optional(),
+  createdAt: FirestoreTimestampSchema.optional(),
+  updatedAt: FirestoreTimestampSchema.optional(),
 });
 
 export type Team = z.infer<typeof TeamSchema>;
