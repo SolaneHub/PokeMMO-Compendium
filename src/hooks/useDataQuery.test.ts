@@ -218,4 +218,60 @@ describe("useDataQuery", () => {
     // Invalidate all cache
     clearQueryCache();
   });
+
+  it("updates multiple hook instances with the same queryKey when one refetches", async () => {
+    const queryFn = vi
+      .fn()
+      .mockResolvedValueOnce("initial-data")
+      .mockResolvedValueOnce("updated-data");
+
+    const { result: hookA } = renderHook(() =>
+      useDataQuery("shared-key", queryFn)
+    );
+    const { result: hookB } = renderHook(() =>
+      useDataQuery("shared-key", queryFn)
+    );
+
+    await waitFor(() => {
+      expect(hookA.current.data).toBe("initial-data");
+      expect(hookB.current.data).toBe("initial-data");
+    });
+    expect(queryFn).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      await hookA.current.refetch();
+    });
+
+    expect(hookA.current.data).toBe("updated-data");
+    expect(hookB.current.data).toBe("updated-data");
+    expect(queryFn).toHaveBeenCalledTimes(2);
+  });
+
+  it("evicts oldest entries when cache size exceeds limit", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    let currentTime = 1000;
+    vi.spyOn(Date, "now").mockImplementation(() => currentTime);
+
+    // Populate 200 entries
+    for (let i = 0; i < 200; i++) {
+      currentTime += 10;
+      await fetchDataQuery(`key-${i}`, async () => `val-${i}`);
+    }
+
+    // Key 0 was fetched at time 1010, Key 199 at 3000
+    // Fetching 201st entry should evict key-0
+    currentTime += 10;
+    await fetchDataQuery("key-200", async () => "val-200");
+
+    const reFetchKey0 = vi.fn().mockResolvedValue("new-val-0");
+    await fetchDataQuery("key-0", reFetchKey0);
+    // Since key-0 was evicted, reFetchKey0 should have been called
+    expect(reFetchKey0).toHaveBeenCalledTimes(1);
+
+    // key-200 should still be cached
+    const reFetchKey200 = vi.fn().mockResolvedValue("new-val-200");
+    const val200 = await fetchDataQuery("key-200", reFetchKey200);
+    expect(val200).toBe("val-200");
+    expect(reFetchKey200).not.toHaveBeenCalled();
+  });
 });

@@ -5,8 +5,46 @@ interface CacheEntry<T> {
   timestamp: number;
 }
 
+const MAX_CACHE_SIZE = 200;
 const cache = new Map<string, CacheEntry<unknown>>();
 const inflight = new Map<string, Promise<unknown>>();
+const listeners = new Map<string, Set<(data: unknown) => void>>();
+
+function notifyListeners(queryKey: string, data: unknown) {
+  const keyListeners = listeners.get(queryKey);
+  if (keyListeners) {
+    keyListeners.forEach((listener) => {
+      try {
+        listener(data);
+      } catch (err) {
+        console.error(
+          `Error in useDataQuery listener for key "${queryKey}":`,
+          err
+        );
+      }
+    });
+  }
+}
+
+function setCacheEntry<T>(queryKey: string, data: T): void {
+  // If cache exceeds limit, remove oldest entries based on timestamp
+  if (cache.size >= MAX_CACHE_SIZE && !cache.has(queryKey)) {
+    let oldestKey: string | null = null;
+    let oldestTimestamp = Infinity;
+    for (const [key, entry] of cache.entries()) {
+      if (entry.timestamp < oldestTimestamp) {
+        oldestTimestamp = entry.timestamp;
+        oldestKey = key;
+      }
+    }
+    if (oldestKey) {
+      cache.delete(oldestKey);
+    }
+  }
+
+  cache.set(queryKey, { data, timestamp: Date.now() });
+  notifyListeners(queryKey, data);
+}
 
 export interface DataQueryOptions {
   ttl?: number | undefined;
@@ -45,7 +83,7 @@ export async function fetchDataQuery<T>(
 
   const promise = queryFn()
     .then((result) => {
-      cache.set(queryKey, { data: result, timestamp: Date.now() });
+      setCacheEntry(queryKey, result);
       return result;
     })
     .finally(() => {
@@ -63,9 +101,11 @@ export function clearQueryCache(queryKey?: string) {
   if (queryKey) {
     cache.delete(queryKey);
     inflight.delete(queryKey);
+    listeners.delete(queryKey);
   } else {
     cache.clear();
     inflight.clear();
+    listeners.clear();
   }
 }
 
@@ -134,6 +174,36 @@ export function useDataQuery<T>(
     },
     [queryKey, ttl]
   );
+
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
+    let keyListeners = listeners.get(queryKey);
+    if (!keyListeners) {
+      keyListeners = new Set();
+      listeners.set(queryKey, keyListeners);
+    }
+
+    const onDataUpdated = (newData: unknown) => {
+      setState((prev) => ({
+        ...prev,
+        data: newData as T,
+        isLoading: false,
+        error: null,
+      }));
+    };
+
+    keyListeners.add(onDataUpdated);
+
+    return () => {
+      keyListeners?.delete(onDataUpdated);
+      if (keyListeners && keyListeners.size === 0) {
+        listeners.delete(queryKey);
+      }
+    };
+  }, [queryKey, enabled]);
 
   useEffect(() => {
     if (!enabled) {
