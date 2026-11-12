@@ -1,7 +1,6 @@
 import { RefreshCw } from "lucide-react";
 
 import PageLayout from "@/components/PageLayout";
-import BulletList from "@/components/ui/BulletList";
 import RegionRoutes from "@/pages/trainer-rerun/components/RegionRoutes";
 import { useTrainerRerunData } from "@/pages/trainer-rerun/hooks/useTrainerRerunData";
 import { FEATURE_CONFIG } from "@/utils/featureConfig";
@@ -56,9 +55,49 @@ const TrainerRerunPage = () => {
         </section>
       )}
 
-      <BulletList title={requirements.title} items={requirements.items} />
+      {requirements.items && requirements.items.length > 0 && (
+        <section className="mb-8">
+          {requirements.title && (
+            <h2 className="mb-3 text-2xl font-bold">{requirements.title}</h2>
+          )}
+          <ul className="list-disc space-y-2 pl-5">
+            {requirements.items.map((item, index) => (
+              <li
+                key={
+                  typeof item === "string"
+                    ? `${index}-${item.substring(0, 10)}`
+                    : index
+                }
+                className="leading-relaxed"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-      <BulletList title={tips_tricks.title} items={tips_tricks.items} />
+      {tips_tricks.items && tips_tricks.items.length > 0 && (
+        <section className="mb-8">
+          {tips_tricks.title && (
+            <h2 className="mb-3 text-2xl font-bold">{tips_tricks.title}</h2>
+          )}
+          <ul className="list-disc space-y-2 pl-5">
+            {tips_tricks.items.map((item, index) => (
+              <li
+                key={
+                  typeof item === "string"
+                    ? `${index}-${item.substring(0, 10)}`
+                    : index
+                }
+                className="leading-relaxed"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <RegionRoutes regions={trainerRerunData.regions} />
     </PageLayout>
