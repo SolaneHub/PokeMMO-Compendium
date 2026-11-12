@@ -54,4 +54,29 @@ describe("PokemonGrid", () => {
     render(<PokemonGrid {...defaultProps} pokemonList={[]} />);
     expect(screen.getByText(/No Pokémon found/i)).toBeInTheDocument();
   });
+
+  it("resets visibleCount and scrolls to top when pokemonList changes", () => {
+    const scrollToMock = vi.fn();
+    window.scrollTo = scrollToMock;
+
+    const manyPokemon: Pokemon[] = Array.from({ length: 60 }, (_, i) =>
+      createMockPokemon({
+        id: `${i + 1}`,
+        name: `Pokemon ${i + 1}`,
+        types: ["Normal"],
+      })
+    );
+
+    const { rerender } = render(
+      <PokemonGrid {...defaultProps} pokemonList={manyPokemon} />
+    );
+    expect(screen.getAllByRole("button")).toHaveLength(40);
+    expect(scrollToMock).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
+
+    // Update list to 10 pokemon
+    const fewPokemon = manyPokemon.slice(0, 10);
+    rerender(<PokemonGrid {...defaultProps} pokemonList={fewPokemon} />);
+    expect(screen.getAllByRole("button")).toHaveLength(10);
+    expect(scrollToMock).toHaveBeenCalledTimes(2);
+  });
 });

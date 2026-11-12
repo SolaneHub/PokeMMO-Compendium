@@ -66,7 +66,7 @@ function PokedexPage() {
       ) : (
         <div className="w-full">
           <PokemonGrid
-            key={`${filteredPokemon.length}-${deferredSearchTerm}`}
+            key="pokedex-main-grid"
             pokemonList={filteredPokemon}
             selectedPokemon={selectedPokemon}
             onSelectPokemon={setSelectedPokemon}

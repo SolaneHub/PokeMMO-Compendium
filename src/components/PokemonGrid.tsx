@@ -21,7 +21,22 @@ const PokemonGrid = ({
   isPending = false,
 }: PokemonGridProps) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [prevPokemonList, setPrevPokemonList] = useState(pokemonList);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  if (prevPokemonList !== pokemonList) {
+    setPrevPokemonList(pokemonList);
+    setVisibleCount(PAGE_SIZE);
+  }
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      typeof window.scrollTo === "function"
+    ) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [pokemonList]);
 
   useEffect(() => {
     if (!pokemonList || pokemonList.length === 0) return;
