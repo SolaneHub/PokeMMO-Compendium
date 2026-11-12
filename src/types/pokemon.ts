@@ -84,8 +84,30 @@ export const PokemonSchema = z.object({
   height: z.string().optional().nullable(),
   weight: z.string().optional().nullable(),
   genderRatio: z.object({ m: z.number(), f: z.number() }).optional().nullable(),
-  catchRate: z.union([z.string(), z.number()]).optional().nullable(),
-  baseExp: z.union([z.string(), z.number()]).optional().nullable(),
+  catchRate: z.preprocess(
+    (val) => {
+      if (val == null || val === "") return null;
+      if (typeof val === "number") return Number.isNaN(val) ? null : val;
+      if (typeof val === "string") {
+        const parsed = Number.parseInt(val, 10);
+        return Number.isNaN(parsed) ? null : parsed;
+      }
+      return null;
+    },
+    z.union([z.string(), z.number()]).optional().nullable()
+  ),
+  baseExp: z.preprocess(
+    (val) => {
+      if (val == null || val === "") return null;
+      if (typeof val === "number") return Number.isNaN(val) ? null : val;
+      if (typeof val === "string") {
+        const parsed = Number.parseInt(val, 10);
+        return Number.isNaN(parsed) ? null : parsed;
+      }
+      return null;
+    },
+    z.union([z.string(), z.number()]).optional().nullable()
+  ),
   growthRate: z.string().optional().nullable(),
   evYield: z.string().optional().nullable(),
   heldItems: z
@@ -126,4 +148,4 @@ export type PokemonMove = z.infer<typeof PokemonMoveSchema>;
 export type MoveMaster = z.infer<typeof MoveMasterSchema>;
 export type Evolution = z.infer<typeof EvolutionSchema>;
 export type Location = z.infer<typeof LocationSchema>;
-export type Pokemon = z.infer<typeof PokemonSchema>;
+export type Pokemon = z.output<typeof PokemonSchema>;
